@@ -26,6 +26,9 @@ void DateTimeTest()
 	cout << month << endl;
 	cout << day << endl;
 	cout << year << endl;
+	FDateTime now = FDateTime::Now();
+	FDateTime nowHighRes = FDateTime::NowHighRes();
+	cout << FDateTime::GetMinute(nowHighRes) << endl;
 }
 
 FDateTime::FDateTime()
@@ -294,4 +297,27 @@ FDateTime FDateTime::NowHighRes()
 #endif
 }
 
-//7017
+string FDateTime::ToString(const FDateTime & dateTime)
+{
+	return string();
+}
+
+string FDateTime::ToString(const FDateTime & dateTime, const string format)
+{
+	return string();
+}
+
+string FDateTime::DateToString(const FDateTime & dateTime)
+{
+	return string();
+}
+
+string FDateTime::SecondsToString(const FDateTime & dateTime)
+{
+	return to_string((dateTime.ticks / (float)TICKSPERSECOND));
+}
+
+string FDateTime::TimeToString(const FDateTime & dateTime)
+{
+	return string();
+}

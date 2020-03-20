@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+using namespace std;
 
 enum EDayOfWeek
 {
@@ -69,5 +71,11 @@ public:
 
 	static FDateTime Now();
 	static FDateTime NowHighRes();
+
+	static string ToString(const FDateTime& dateTime);
+	static string ToString(const FDateTime& dateTime, const string format);
+	static string DateToString(const FDateTime& dateTime);
+	static string SecondsToString(const FDateTime& dateTime);
+	static string TimeToString(const FDateTime& dateTime);
 };
 
