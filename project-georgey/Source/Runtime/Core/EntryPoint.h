@@ -9,7 +9,6 @@ extern GApplication* CreateApplication();
 
 int main(int argc, char** argv)
 {
-	printf("AMBER");
 	GApplication* app = CreateApplication();
 	app->Run();
 	delete app;

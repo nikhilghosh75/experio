@@ -1,4 +1,5 @@
 #include "GWindow.h"
+#include "../Debug/GDebug.h"
 
 #ifdef PLATFORM_WINDOWS
 LRESULT CALLBACK WindowsProcedure(HWND window, int wm, WPARAM wParam, LPARAM lParam);
@@ -9,8 +10,9 @@ void GWindow::InstantiateWindow()
 #ifdef PLATFORM_WINDOWS
 	WNDCLASSEX wc{};
 
-	MSG mesg;
+	//MSG mesg;
 	HWND hwnd;
+	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.lpfnWndProc = (WNDPROC)WindowsProcedure;
 	wc.hInstance = GetModuleHandle(nullptr);
 	wc.lpszClassName = "Sample Window Class";
