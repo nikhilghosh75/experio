@@ -58,6 +58,7 @@ public:
 	static bool IsLeapYear(const FDateTime& dateTime);
 	static bool IsLeapYear(int year);
 
+	static int GetMillisecond(const FDateTime& dateTime);
 	static int GetSecond(const FDateTime& dateTime);
 	static int GetMinute(const FDateTime& dateTime);
 	static int GetHour(const FDateTime& dateTime);

@@ -189,6 +189,11 @@ bool FDateTime::IsLeapYear(int year)
 	return false;
 }
 
+int FDateTime::GetMillisecond(const FDateTime & dateTime)
+{
+	return (dateTime.ticks/TICKSPERMILLISECOND) % 1000;
+}
+
 int FDateTime::GetSecond(const FDateTime & dateTime)
 {
 	return (dateTime.ticks/TICKSPERSECOND) % 60;
@@ -299,6 +304,22 @@ FDateTime FDateTime::NowHighRes()
 
 string FDateTime::ToString(const FDateTime & dateTime)
 {
+	int month, day, year;
+	GetDate(dateTime, day, month, year);
+	string s = to_string(month);
+	s += "/" + to_string(day);
+	s += "/" + to_string(year);
+
+	if (year < 0)
+	{
+		s += " BC";
+	}
+
+	s += " " + to_string(GetHour(dateTime));
+	s += ":" + to_string(GetMinute(dateTime));
+	s += ":" + to_string(GetSecond(dateTime));
+	s += ":" + to_string(GetMillisecond(dateTime));
+
 	return string();
 }
 
@@ -309,7 +330,16 @@ string FDateTime::ToString(const FDateTime & dateTime, const string format)
 
 string FDateTime::DateToString(const FDateTime & dateTime)
 {
-	return string();
+	int month, day, year;
+	GetDate(dateTime, day, month, year);
+	string s = to_string(month);
+	s += "/" + to_string(day);
+	s += "/" + to_string(year);
+
+	if (year < 0)
+	{
+		s += " BC";
+	}
 }
 
 string FDateTime::SecondsToString(const FDateTime & dateTime)
@@ -319,5 +349,9 @@ string FDateTime::SecondsToString(const FDateTime & dateTime)
 
 string FDateTime::TimeToString(const FDateTime & dateTime)
 {
-	return string();
+	string s = to_string(GetHour(dateTime));
+	s += ":" + to_string(GetMinute(dateTime));
+	s += ":" + to_string(GetSecond(dateTime));
+	s += ":" + to_string(GetMillisecond(dateTime));
+	return s;
 }
