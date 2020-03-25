@@ -22,4 +22,8 @@ class GWindow
 {
 public:
 	void InstantiateWindow();
+	void OnUpdate();
+	void CloseWindow();
+
+	bool isActive;
 };
