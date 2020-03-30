@@ -86,10 +86,58 @@ struct TFunctionPointerFour
 class TEvent
 {
 	vector<TFunctionPointer> listeners;
-
-	void CallListeners();
 public:
 	void AddListener(void(*function)());
+
+	void CallListeners();
+
+	void Invoke();
+};
+
+template <class InOne>
+class TEventOne
+{
+	vector<TFunctionPointerOne<InOne>> listeners;
+public:
+	void AddListener(void(*function)(InOne a));
+
+	void CallListeners();
+
+	void Invoke();
+};
+
+template <class InOne, class InTwo>
+class TEventTwo
+{
+	vector<TFunctionPointerTwo<InOne, InTwo>> listeners;
+public:
+	void AddListener(void(*function)(InOne a, InTwo b));
+
+	void CallListeners();
+
+	void Invoke();
+};
+
+template <class InOne, class InTwo, class InThree>
+class TEventThree
+{
+	vector<TFunctionPointerThree<InOne, InTwo, InThree>> listeners;
+public:
+	void AddListener(void(*function)(InOne a, InTwo b, InThree c));
+
+	void CallListeners();
+
+	void Invoke();
+};
+
+template <class InOne, class InTwo, class InThree, class InFour>
+class TEventFour
+{
+	vector<TFunctionPointerFour<InOne, InTwo, InThree, InFour>> listeners;
+public:
+	void AddListener(void(*function)(InOne a, InTwo b, InThree c, InFour d));
+
+	void CallListeners();
 
 	void Invoke();
 };
