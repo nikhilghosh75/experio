@@ -1,6 +1,7 @@
 #include "GWindow.h"
 #include "../Debug/GDebug.h"
 #include "../Debug/TempProfiler.h"
+#include <GL/glew.h>
 #include <GL/GL.h>
 
 #pragma comment (lib, "opengl32.lib")
@@ -14,7 +15,6 @@ void GWindow::InstantiateWindow()
 #ifdef PLATFORM_WINDOWS
 	WNDCLASSEX wc{};
 
-	//MSG mesg;
 	HWND hwnd;
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.lpfnWndProc = (WNDPROC)WindowsProcedure;
@@ -53,7 +53,9 @@ void GWindow::OnUpdate()
 
 void GWindow::CloseWindow()
 {
+#ifdef PLATFORM_WINDOWS
 	PostQuitMessage(0);
+#endif
 }
 
 #ifdef PLATFORM_WINDOWS

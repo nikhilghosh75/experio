@@ -2,6 +2,7 @@
 #include "GWindow.h"
 #include <iostream>
 #include "../Debug/TempProfiler.h"
+#include "../Rendering/Renderer.h"
 using namespace std;
 
 GApplication::GApplication()
