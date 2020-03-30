@@ -78,5 +78,7 @@ public:
 	static string DateToString(const FDateTime& dateTime);
 	static string SecondsToString(const FDateTime& dateTime);
 	static string TimeToString(const FDateTime& dateTime);
+
+	static FDateTime TimeSinceUnixEpoch(const FDateTime& dateTime);
 };
 

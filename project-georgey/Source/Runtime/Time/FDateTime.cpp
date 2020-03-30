@@ -15,7 +15,7 @@ const int TICKSPERSECOND = 10000000;
 const int TICKSPERMILLISECOND = 10000;
 const int TICKSPERMICROSECOND = 10;
 const long long TICKSSINCE1601 = 504912960000000000;
-
+const long long TICSSINCEUNIXEPOCH = 621672192000000000;
 
 void DateTimeTest()
 {
@@ -325,7 +325,20 @@ string FDateTime::ToString(const FDateTime & dateTime)
 
 string FDateTime::ToString(const FDateTime & dateTime, const string format)
 {
-	return string();
+/*
+	string s;
+	s.resize(format.length);
+	int n = format.length();
+	for (int i = 0; i < n; i++)
+	{
+		if (format[i] == '%')
+		{
+			// TO-DO: Add stuff;
+		}
+	}
+	return s;
+*/
+	return "ENAM";
 }
 
 string FDateTime::DateToString(const FDateTime & dateTime)
@@ -340,6 +353,7 @@ string FDateTime::DateToString(const FDateTime & dateTime)
 	{
 		s += " BC";
 	}
+	return s;
 }
 
 string FDateTime::SecondsToString(const FDateTime & dateTime)
@@ -354,4 +368,9 @@ string FDateTime::TimeToString(const FDateTime & dateTime)
 	s += ":" + to_string(GetSecond(dateTime));
 	s += ":" + to_string(GetMillisecond(dateTime));
 	return s;
+}
+
+FDateTime FDateTime::TimeSinceUnixEpoch(const FDateTime & dateTime)
+{
+	return FDateTime(dateTime.ticks - TICSSINCEUNIXEPOCH);
 }
