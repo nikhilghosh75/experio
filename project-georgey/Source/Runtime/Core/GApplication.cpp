@@ -20,9 +20,11 @@ void GApplication::Run()
 	GWindow newWindow;
 	newWindow.InstantiateWindow();
 	delete windowProfiler;
+	Renderer tempRenderer;
 	while (newWindow.isActive)
 	{
 		newWindow.OnUpdate();
+		tempRenderer.TempRenderer();
 	}
 	cin.get();
 }

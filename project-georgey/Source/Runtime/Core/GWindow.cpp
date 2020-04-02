@@ -4,8 +4,6 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 
-#pragma comment (lib, "opengl32.lib")
-
 #ifdef PLATFORM_WINDOWS
 LRESULT CALLBACK WindowsProcedure(HWND window, int wm, WPARAM wParam, LPARAM lParam);
 #endif
@@ -92,6 +90,7 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 
 		HGLRC openGLRenderingContext = wglCreateContext(deviceContextHandle);
 		wglMakeCurrent(deviceContextHandle, openGLRenderingContext);
+		GLenum error = glewInit();
 	}
 		break;
 	default:
