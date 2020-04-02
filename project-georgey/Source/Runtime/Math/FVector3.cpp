@@ -4,7 +4,7 @@
 #include <stdio.h>
 using namespace std;
 
-int main()
+void TestVector()
 {
     FVector3 testVector(3.0f, 4.0f);
 

@@ -7,13 +7,6 @@
 
 extern GApplication* CreateApplication();
 
-int main(int argc, char** argv)
-{
-	GApplication* app = CreateApplication();
-	app->Run();
-	delete app;
-}
-
 GApplication* CreateApplication();
 
 #endif
