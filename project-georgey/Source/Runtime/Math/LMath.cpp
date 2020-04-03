@@ -32,6 +32,11 @@ float LMath::Cos(float angle)
 	return 1 - Pow(angle, 2) / 2.f + Pow(angle, 4) / 24.f - Pow(angle, 6) / 720.f + Pow(angle, 8) / 40320.f - Pow(angle, 10) / 3628800.f + Pow(angle, 12) / 479001600.f;
 }
 
+float LMath::DegreesToRadians(float Degrees)
+{
+	return Degrees * PI / 180.f;
+}
+
 float LMath::Pow(float base, int exponent)
 {
 	if (exponent == 0)
@@ -50,6 +55,23 @@ float LMath::Pow(float base, int exponent)
 	for (int i = 0; i < exponent; i++)
 	{
 		result *= base;
+	}
+	return result;
+}
+
+float LMath::RadiansToDegrees(float radians)
+{
+	return radians * 180.f / PI;
+}
+
+float LMath::PowE(float exponent)
+{
+	float result = 1;
+	int factorial = 1;
+	for (int i = 1; i < 25; i++)
+	{
+		factorial *= i;
+		result += exponent / factorial;
 	}
 	return result;
 }

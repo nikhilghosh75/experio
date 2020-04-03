@@ -1,5 +1,7 @@
 #pragma once
 
+const static float PI = 3.141592f;
+
 class LMath
 {
 public:
@@ -7,13 +9,15 @@ public:
 
 	static float Cos(float angle);
 
-	static float DegreesToRadians(float Degrees);
+	static float DegreesToRadians(float degrees);
 
 	static float Ln(float x);
 
 	static float PowE(float exponent);
 
 	static float Pow(float base, int exponent);
+
+	static float RadiansToDegrees(float radians);
 
 	static float Sin(float angle);
 
