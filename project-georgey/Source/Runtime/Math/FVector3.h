@@ -31,6 +31,7 @@ public:
     static float GetMin(const FVector3& V);
     static FVector3 Abs(const FVector3& V);
     static FVector3 Reciprocal(const FVector3& V);
+	static FVector3 GetSignVector(const FVector3& V);
 
     static string ToString(const FVector3& V, const int numDigits = 5);
 

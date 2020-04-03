@@ -136,6 +136,24 @@ FVector3 FVector3::Reciprocal(const FVector3& V)
     return FVector3(1.f/V.x, 1.f/V.y, 1.f/V.z);
 }
 
+FVector3 FVector3::GetSignVector(const FVector3 & V)
+{
+	FVector3 tempVector(1, 1, 1);
+	if (V.x < 0)
+	{
+		tempVector.x = -1;
+	}
+	if (V.y < 0)
+	{
+		tempVector.y = -1;
+	}
+	if (V.z < 0)
+	{
+		tempVector.z = -1;
+	}
+	return tempVector;
+}
+
 string FVector3::ToString(const FVector3& V, const int numDigits)
 {
 	string xString = to_string(V.x);
