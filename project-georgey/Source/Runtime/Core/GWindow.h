@@ -20,6 +20,7 @@ struct FWindowData
 
 class GWindow
 {
+	HWND hwnd;
 public:
 	void InstantiateWindow();
 	void OnUpdate();

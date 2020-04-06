@@ -3,10 +3,13 @@
 #include "../Debug/TempProfiler.h"
 #include <GL/glew.h>
 #include <GL/GL.h>
+#include <GL/GLU.h>
 
 #ifdef PLATFORM_WINDOWS
 LRESULT CALLBACK WindowsProcedure(HWND window, int wm, WPARAM wParam, LPARAM lParam);
 #endif
+
+HDC deviceContext;
 
 void GWindow::InstantiateWindow()
 {
@@ -36,16 +39,19 @@ void GWindow::InstantiateWindow()
 	}
 
 	ShowWindow(hwnd, SW_SHOW);
+	this->hwnd = hwnd;
 #endif
 }
 
 void GWindow::OnUpdate()
 {
 #ifdef PLATFORM_WINDOWS
+	ShowWindow(this->hwnd, SW_SHOW);
 	MSG msg;
 	isActive = GetMessage(&msg, NULL, 0, 0); // Change null to hwnd
 	TranslateMessage(&msg);
 	DispatchMessage(&msg);
+	SwapBuffers(deviceContext);
 #endif
 }
 
@@ -59,12 +65,14 @@ void GWindow::CloseWindow()
 #ifdef PLATFORM_WINDOWS
 LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 {
-	GDebug::Log(to_string(message));
+	//GDebug::Log(to_string(message));
 	switch (message)
 	{
 	case WM_CREATE:
 	{
 		TempProfiler profiler("Creating");
+		RECT rect;
+		GetWindowRect(window, &rect);
 		PIXELFORMATDESCRIPTOR pfd =
 		{
 			sizeof(PIXELFORMATDESCRIPTOR),
@@ -85,11 +93,21 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 			0, 0, 0
 		};
 		HDC deviceContextHandle = GetDC(window);
+		deviceContext = deviceContextHandle;
 		int pixelFormat = ChoosePixelFormat(deviceContextHandle, &pfd);
-		SetPixelFormat(deviceContextHandle, pixelFormat, &pfd);
-
+		if (pixelFormat == 0)
+		{
+			GDebug::LogError("PIXEL FORMAT FAILED");
+		}
+		bool setFormat = SetPixelFormat(deviceContextHandle, pixelFormat, &pfd);
+		if (!setFormat)
+		{
+			GDebug::LogError("SET PIXEL FORMAT FAILED");
+		}
 		HGLRC openGLRenderingContext = wglCreateContext(deviceContextHandle);
 		wglMakeCurrent(deviceContextHandle, openGLRenderingContext);
+		GetClientRect(window, &rect);
+		glViewport(0, 0, rect.right - rect.left, rect.bottom - rect.top);
 		GLenum error = glewInit();
 	}
 		break;
