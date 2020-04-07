@@ -101,9 +101,9 @@ class TEventOne
 public:
 	void AddListener(void(*function)(InOne a));
 
-	void CallListeners();
+	void CallListeners(InOne a);
 
-	void Invoke();
+	void Invoke(InOne a);
 };
 
 template <class InOne, class InTwo>
@@ -113,9 +113,9 @@ class TEventTwo
 public:
 	void AddListener(void(*function)(InOne a, InTwo b));
 
-	void CallListeners();
+	void CallListeners(InOne a, InTwo b);
 
-	void Invoke();
+	void Invoke(InOne a, InTwo b);
 };
 
 template <class InOne, class InTwo, class InThree>
@@ -125,9 +125,9 @@ class TEventThree
 public:
 	void AddListener(void(*function)(InOne a, InTwo b, InThree c));
 
-	void CallListeners();
+	void CallListeners(InOne a, InTwo b, InThree c);
 
-	void Invoke();
+	void Invoke(InOne a, InTwo b, InThree c);
 };
 
 template <class InOne, class InTwo, class InThree, class InFour>
@@ -137,7 +137,7 @@ class TEventFour
 public:
 	void AddListener(void(*function)(InOne a, InTwo b, InThree c, InFour d));
 
-	void CallListeners();
+	void CallListeners(InOne a, InTwo b, InThree c, InFour d);
 
-	void Invoke();
+	void Invoke(InOne a, InTwo b, InThree c, InFour d);
 };

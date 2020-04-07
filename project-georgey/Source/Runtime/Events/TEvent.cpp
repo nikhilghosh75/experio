@@ -32,18 +32,18 @@ inline void TEventOne<InOne>::AddListener(void(*function)(InOne a))
 }
 
 template<class InOne>
-void TEventOne<InOne>::CallListeners()
+void TEventOne<InOne>::CallListeners(InOne a)
 {
 	for (int i = 0; i < listeners.size(); i++)
 	{
-		listeners[i].Call();
+		listeners[i].Call(a);
 	}
 }
 
 template<class InOne>
-void TEventOne<InOne>::Invoke()
+void TEventOne<InOne>::Invoke(InOne a)
 {
-	thread listenerThread(&TEventOne::CallListeners, this);
+	thread listenerThread(&TEventOne::CallListeners, this, a);
 	listenerThread.detach();
 	return;
 }
@@ -57,18 +57,18 @@ inline void TEventTwo<InOne, InTwo>::AddListener(void(*function)(InOne a, InTwo 
 }
 
 template<class InOne, class InTwo>
-void TEventTwo<InOne, InTwo>::CallListeners()
+void TEventTwo<InOne, InTwo>::CallListeners(InOne a, InTwo b)
 {
 	for (int i = 0; i < listeners.size(); i++)
 	{
-		listeners[i].Call();
+		listeners[i].Call(a, b);
 	}
 }
 
 template<class InOne, class InTwo>
-void TEventTwo<InOne, InTwo>::Invoke()
+void TEventTwo<InOne, InTwo>::Invoke(InOne a, InTwo b)
 {
-	thread listenerThread(&TEventTwo::CallListeners, this);
+	thread listenerThread(&TEventTwo::CallListeners, this, a, b);
 	listenerThread.detach();
 	return;
 }
@@ -82,18 +82,18 @@ inline void TEventThree<InOne, InTwo, InThree>::AddListener(void(*function)(InOn
 }
 
 template<class InOne, class InTwo, class InThree>
-void TEventThree<InOne, InTwo, InThree>::CallListeners()
+void TEventThree<InOne, InTwo, InThree>::CallListeners(InOne a, InTwo b, InThree c)
 {
 	for (int i = 0; i < listeners.size(); i++)
 	{
-		listeners[i].Call();
+		listeners[i].Call(a, b, c);
 	}
 }
 
 template<class InOne, class InTwo, class InThree>
-void TEventThree<InOne, InTwo, InThree>::Invoke()
+void TEventThree<InOne, InTwo, InThree>::Invoke(InOne a, InTwo b, InThree c)
 {
-	thread listenerThread(&TEventThree::CallListeners, this);
+	thread listenerThread(&TEventThree::CallListeners, this, a, b, c);
 	listenerThread.detach();
 	return;
 }
@@ -107,18 +107,18 @@ inline void TEventFour<InOne, InTwo, InThree, InFour>::AddListener(void(*functio
 }
 
 template<class InOne, class InTwo, class InThree, class InFour>
-void TEventFour<InOne, InTwo, InThree, InFour>::CallListeners()
+void TEventFour<InOne, InTwo, InThree, InFour>::CallListeners(InOne a, InTwo b, InThree c, InFour d)
 {
 	for (int i = 0; i < listeners.size(); i++)
 	{
-		listeners[i].Call();
+		listeners[i].Call(a, b, c, d);
 	}
 }
 
 template<class InOne, class InTwo, class InThree, class InFour>
-void TEventFour<InOne, InTwo, InThree, InFour>::Invoke()
+void TEventFour<InOne, InTwo, InThree, InFour>::Invoke(InOne a, InTwo b, InThree c, InFour d)
 {
-	thread listenerThread(&TEventFour::CallListeners, this);
+	thread listenerThread(&TEventFour::CallListeners, this, a, b, c, d);
 	listenerThread.detach();
 	return;
 }
