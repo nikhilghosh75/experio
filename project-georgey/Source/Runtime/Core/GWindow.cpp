@@ -1,15 +1,22 @@
 #include "GWindow.h"
 #include "../Debug/GDebug.h"
 #include "../Debug/TempProfiler.h"
+#include "../Math/LMath.h"
 #include <GL/glew.h>
 #include <GL/GL.h>
 #include <GL/GLU.h>
+#include <thread>
 
 #ifdef PLATFORM_WINDOWS
 LRESULT CALLBACK WindowsProcedure(HWND window, int wm, WPARAM wParam, LPARAM lParam);
 #endif
 
 HDC deviceContext;
+
+GWindow::GWindow()
+{
+	
+}
 
 void GWindow::InstantiateWindow()
 {
@@ -62,10 +69,28 @@ void GWindow::CloseWindow()
 #endif
 }
 
+void GWindow::ReceiveInput(EInputType inputType, unsigned int param1, unsigned int param2, unsigned int param3)
+{
+	switch (inputType)
+	{
+	case EInputType::Keyboard:
+
+		break;
+	}
+}
+
+void GWindow::ResizeWindow(EWindowResizeType resizeType, int width, int height)
+{
+	glViewport(0, 0, width, height);
+#ifdef PLATFORM_WINDOWS
+
+#endif
+}
+
 #ifdef PLATFORM_WINDOWS
 LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 {
-	//GDebug::Log(to_string(message));
+	GDebug::Log(to_string(message));
 	switch (message)
 	{
 	case WM_CREATE:
@@ -110,6 +135,17 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 		glViewport(0, 0, rect.right - rect.left, rect.bottom - rect.top);
 		GLenum error = glewInit();
 	}
+		break;
+	case WM_SIZE:
+	{
+		std::thread worker(GWindow::ResizeWindow, (EWindowResizeType)wParam , lParam % LMath::PowOfTwo(16), lParam / LMath::PowOfTwo(16));
+		worker.detach();
+		break;
+	}
+	case WM_KEYDOWN:
+		//GDebug::Log(to_string((int)GInput::SystemToKeycode(wParam)));
+		break;
+	case WM_KEYUP:
 		break;
 	default:
 		return DefWindowProc(window, message, wParam, lParam);
