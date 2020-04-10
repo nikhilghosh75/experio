@@ -34,14 +34,33 @@ float LMath::Abs(float x)
 	return x;
 }
 
+float LMath::Asin(float x)
+{
+	return x + Pow(x, 3)/6.f + Pow(x, 5) * 3.f/ 40.f + Pow(x, 7) * 15.f / 336.f + Pow(x, 9) * 105.f / 3456.f + Pow(x, 11) * 945.f / 42240.f + Pow(x, 13) * 10395.f / 599040.f + Pow(x, 15) * 135135.f / 9676800.f + Pow(x, 17) * 2027025.f / 175472640.f + Pow(x, 19) * 34459425.f / 3530096640.f + Pow(x, 21) * 654729075.f / 78033715200.f;
+}
+
 float LMath::Cos(float angle)
 {
-	return 1 - Pow(angle, 2) / 2.f + Pow(angle, 4) / 24.f - Pow(angle, 6) / 720.f + Pow(angle, 8) / 40320.f - Pow(angle, 10) / 3628800.f + Pow(angle, 12) / 479001600.f;
+	return 1 - Pow(angle, 2) / 2.f + Pow(angle, 4) / 24.f - Pow(angle, 6) / 720.f + Pow(angle, 8) / 40320.f - Pow(angle, 10) / 3628800.f + Pow(angle, 12) / 479001600.f - Pow(angle, 14) * 87178291200.f;
 }
 
 float LMath::DegreesToRadians(float Degrees)
 {
 	return Degrees * PI / 180.f;
+}
+
+float LMath::Lerp(float a, float b, float t)
+{
+	return ((b - a) * t) + a;
+}
+
+float LMath::Ln(float x)
+{
+	if (x < 0)
+	{
+		return std::numeric_limits<float>().infinity();
+	}
+	return log(x);
 }
 
 float LMath::Pow(float base, int exponent)
@@ -66,11 +85,6 @@ float LMath::Pow(float base, int exponent)
 	return result;
 }
 
-float LMath::RadiansToDegrees(float radians)
-{
-	return radians * 180.f / PI;
-}
-
 float LMath::PowE(float exponent)
 {
 	float result = 1;
@@ -92,13 +106,9 @@ long long LMath::PowOfTwo(int e)
 	return 0;
 }
 
-float LMath::Ln(float x)
+float LMath::RadiansToDegrees(float radians)
 {
-	if(x < 0)
-	{
-		return std::numeric_limits<float>().infinity();
-	}
-	return log(x);
+	return radians * 180.f / PI;
 }
 
 float LMath::Sin(float angle)
