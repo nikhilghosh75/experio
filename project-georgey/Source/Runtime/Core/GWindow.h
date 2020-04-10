@@ -8,6 +8,9 @@
 #include "WindowEnums.h"
 using namespace std;
 
+#define PB_KEYPRESSED		0x9675
+#define PB_KEYRELEASED		0x9676
+
 struct FWindowData
 {
 	string title;

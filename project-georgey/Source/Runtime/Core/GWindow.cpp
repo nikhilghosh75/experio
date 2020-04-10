@@ -48,12 +48,14 @@ void GWindow::InstantiateWindow()
 	ShowWindow(hwnd, SW_SHOW);
 	this->hwnd = hwnd;
 #endif
+
+	this->isActive = true;
 }
 
 void GWindow::OnUpdate()
 {
 #ifdef PLATFORM_WINDOWS
-	ShowWindow(this->hwnd, SW_SHOW);
+	//ShowWindow(this->hwnd, SW_SHOW);
 	MSG msg;
 	isActive = GetMessage(&msg, NULL, 0, 0); // Change null to hwnd
 	TranslateMessage(&msg);
@@ -74,7 +76,15 @@ void GWindow::ReceiveInput(EInputType inputType, unsigned int param1, unsigned i
 	switch (inputType)
 	{
 	case EInputType::Keyboard:
-
+		switch (param1)
+		{
+		case PB_KEYPRESSED:
+			GInput::OnKeyPressed(param2);
+			break;
+		case PB_KEYRELEASED:
+			GInput::OnKeyReleased(param2);
+			break;
+		}
 		break;
 	}
 }
@@ -143,10 +153,17 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	case WM_KEYDOWN:
-		//GDebug::Log(to_string((int)GInput::SystemToKeycode(wParam)));
+	{
+		std::thread worker(GWindow::ReceiveInput, EInputType::Keyboard, PB_KEYPRESSED, wParam, 0);
+		worker.detach();
 		break;
+	}
 	case WM_KEYUP:
+	{
+		std::thread worker(GWindow::ReceiveInput, EInputType::Keyboard, PB_KEYRELEASED, wParam, 0);
+		worker.detach();
 		break;
+	}
 	default:
 		return DefWindowProc(window, message, wParam, lParam);
 	}

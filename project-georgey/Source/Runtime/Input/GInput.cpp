@@ -25,6 +25,16 @@ const int SYSTEMTOKEYCODE[145] = {
 }; // 48 (0x30)
 #endif
 
+EKeyStatus GInput::keyStatuses[116];
+
+GInput::GInput()
+{
+	for (int i = 0; i < 116; i++)
+	{
+		keyStatuses[i] = EKeyStatus::Released;
+	}
+}
+
 EKeyCode GInput::SystemToKeycode(unsigned int keycode)
 {
 	if (keycode > 145)
@@ -33,4 +43,16 @@ EKeyCode GInput::SystemToKeycode(unsigned int keycode)
 	}
 	int convertedKeyCode = SYSTEMTOKEYCODE[keycode];
 	return *(EKeyCode*)&convertedKeyCode;
+}
+
+void GInput::OnKeyPressed(unsigned int keycode)
+{
+	EKeyCode convertedKeyCode = SystemToKeycode(keycode);
+	keyStatuses[(unsigned int)convertedKeyCode] = EKeyStatus::PressedThisFrame;
+}
+
+void GInput::OnKeyReleased(unsigned int keycode)
+{
+	EKeyCode convertedKeyCode = SystemToKeycode(keycode);
+	keyStatuses[(unsigned int)convertedKeyCode] = EKeyStatus::ReleasedThisFrame;
 }

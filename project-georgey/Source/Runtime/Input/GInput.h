@@ -127,8 +127,24 @@ enum class EKeyCode
 	Help
 };
 
+enum class EKeyStatus
+{
+	Pressed,
+	PressedThisFrame,
+	Released,
+	ReleasedThisFrame
+};
+
 class GInput
 {
+private:
+	static EKeyStatus keyStatuses[116];
+
 public:
+	GInput();
+
 	static EKeyCode SystemToKeycode(unsigned int keycode);
+
+	static void OnKeyPressed(unsigned int keycode);
+	static void OnKeyReleased(unsigned int keycode);
 };
