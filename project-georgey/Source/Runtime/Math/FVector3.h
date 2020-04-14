@@ -22,6 +22,8 @@ public:
 
     static float Dot(const FVector3& V1, const FVector3& V2);
     static FVector3 Cross(const FVector3& V1, const FVector3& V2);
+	static FVector3 Reflect(const FVector3& Incident, const FVector3& Normal);
+	static FVector3 Refract(const FVector3& Incident, const FVector3& Normal, float indexOfRefraction);
 
     static bool Coincident(const FVector3& V1, const FVector3& V2, float Threshold=0.001f);
     static bool IsZero(const FVector3& V, float threshold=0.001f);
@@ -37,12 +39,12 @@ public:
 
     operator string() { return FVector3::ToString(*this); }
 
-    const FVector3 operator+(const FVector3& V);
+    FVector3 operator+(const FVector3& V) const;
     FVector3 operator+=(const FVector3& V);
-    const FVector3 operator-(const FVector3& V);
+    FVector3 operator-(const FVector3& V) const;
     FVector3 operator-=(const FVector3& V);
-    const FVector3 operator*(float f);
+    FVector3 operator*(const float f) const;
     FVector3 operator*=(float f);
-    const FVector3 operator/(const float f);
+    FVector3 operator/(const float f) const;
     FVector3 operator/=(float f);
 };

@@ -70,6 +70,11 @@ FVector3 FVector3::Cross(const FVector3& V1, const FVector3& V2)
     return FVector3(V1.y * V2.z - V1.z * V2.y, V1.z * V2.x - V1.x * V2.z, V1.x * V2.y - V1.y * V2.x);
 }
 
+FVector3 FVector3::Reflect(const FVector3 & Incident, const FVector3 & Normal)
+{
+	return Incident - (Normal * 2.f * Dot(Incident, Normal));
+}
+
 bool FVector3::Coincident(const FVector3& V1, const FVector3& V2, float threshold)
 {
     if(Dot(V1, V2) < threshold)
@@ -162,7 +167,7 @@ string FVector3::ToString(const FVector3& V, const int numDigits)
     return "[" + xString + ", " + yString + ", " + zString + "]";
 }
 
-const FVector3 FVector3::operator+(const FVector3& V)
+FVector3 FVector3::operator+(const FVector3& V) const
 {
     return FVector3(V.x + this->x, V.y + this->y, V.z + this->z);
 }
@@ -172,7 +177,7 @@ FVector3 FVector3::operator+=(const FVector3& V)
     return *this + V;
 }
 
-const FVector3 FVector3::operator-(const FVector3& V)
+FVector3 FVector3::operator-(const FVector3& V) const
 {
     return FVector3(this->x - V.x, this->y - V.y, this->z - V.z);
 }
@@ -182,7 +187,7 @@ FVector3 FVector3::operator-=(const FVector3 & V)
 	return *this - V;
 }
 
-const FVector3 FVector3::operator*(float f)
+FVector3 FVector3::operator*(const float f) const
 {
     return FVector3(this->x * f, this->y * f, this->z * f);
 }
@@ -192,7 +197,7 @@ FVector3 FVector3::operator*=(float f)
 	return *this * f;
 }
 
-const FVector3 FVector3::operator/(const float f)
+FVector3 FVector3::operator/(const float f) const
 {
 	return FVector3();
 }
