@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 #include "../Debug/GDebug.h"
+#include "../Debug/TempProfiler.h"
 #include "glm/glm.hpp"
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -46,6 +47,15 @@ unsigned int Renderer::CreateShader(const std::string & vertexShader, const std:
 	return program;
 }
 
+void Renderer::LogRenderingError()
+{
+	GLenum currentError = glGetError();
+	if (currentError != GL_NO_ERROR)
+	{
+		GDebug::LogError("OPENGL Error " + to_string(currentError));
+	}
+}
+
 Renderer::Renderer()
 {
 }
@@ -81,6 +91,7 @@ std::string fragmentShader =
 
 void Renderer::TempRenderer()
 {
+	TempProfiler profiler("Rendering");
 	GLuint buffer;
 
 	GLuint vertexArrayID;
@@ -90,42 +101,30 @@ void Renderer::TempRenderer()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	float positions[] = {
-	 -1.0f,-1.0f,-1.0f, // triangle 1 : begin
-	-1.0f,-1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f, // triangle 1 : end
-	1.0f, 1.0f,-1.0f, // triangle 2 : begin
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f,-1.0f, // triangle 2 : end
-	1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
-	1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f, 1.0f,
-	-1.0f,-1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f,-1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f,-1.0f,
-	1.0f, 1.0f,-1.0f,
-	1.0f,-1.0f,-1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f,-1.0f,
-	-1.0f, 1.0f,-1.0f,
-	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f,-1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f,
-	1.0f,-1.0f, 1.0f
+	-1.0f,-1.0f,-1.0f, // 0
+	-1.0f,-1.0f, 1.0f, // 1
+	-1.0f, 1.0f, 1.0f, // 2
+	1.0f, 1.0f,-1.0f, // 3
+	-1.0f, 1.0f,-1.0f, // 4
+	1.0f,-1.0f, 1.0f, // 5
+	1.0f,-1.0f,-1.0f, // 6
+	1.0f, 1.0f, 1.0f, // 7
+	};
+
+	unsigned int indices[] =
+	{
+		0, 1, 2,
+		3, 0, 4,
+		5, 0, 6,
+		3, 6, 0,
+		0, 2, 4,
+		5, 1, 0,
+		2, 1, 5,
+		7, 6, 3,
+		6, 7, 5,
+		7, 3, 4,
+		7, 4, 1,
+		7, 2, 5
 	};
 
 	glEnable(GL_DEPTH_TEST);
@@ -140,8 +139,15 @@ void Renderer::TempRenderer()
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
 	glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
 
+	glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 0.3875f, glm::vec3(0, 0, 1)); // GLM is down columns
+
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+
+	unsigned int indexBuffer;
+	glGenBuffers(1, &indexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	std::string vertexShader =
 		"#version 330 core\n"
@@ -220,14 +226,9 @@ void Renderer::TempRenderer()
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDeleteVertexArrays(1, &vertexArrayID);
 
 }
-
-
-/*
-
-*/
