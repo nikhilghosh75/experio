@@ -1,6 +1,7 @@
 #pragma once
 
-const static float PI = 3.141592f;
+const static float PI = 3.1415926536f;
+const static float HALFPI = 1.570796327;
 
 class LMath
 {
@@ -19,7 +20,7 @@ public:
 
 	static float Clamp(float f, float min, float max);
 
-	static float ClampAngleDef(float f);
+	static float ClampAngleDeg(float f);
 
 	static float ClampAngleRad(float f);
 

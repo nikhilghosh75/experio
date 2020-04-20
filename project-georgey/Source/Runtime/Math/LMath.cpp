@@ -34,9 +34,41 @@ float LMath::Abs(float x)
 	return x;
 }
 
+float LMath::Acos(float x)
+{
+	return HALFPI - Asin(x);
+}
+
 float LMath::Asin(float x)
 {
 	return x + Pow(x, 3)/6.f + Pow(x, 5) * 3.f/ 40.f + Pow(x, 7) * 15.f / 336.f + Pow(x, 9) * 105.f / 3456.f + Pow(x, 11) * 945.f / 42240.f + Pow(x, 13) * 10395.f / 599040.f + Pow(x, 15) * 135135.f / 9676800.f + Pow(x, 17) * 2027025.f / 175472640.f + Pow(x, 19) * 34459425.f / 3530096640.f + Pow(x, 21) * 654729075.f / 78033715200.f;
+}
+
+float LMath::Atan(float x)
+{
+	float result = 0;
+	float power = x;
+	short sign = 1;
+	for (int i = 1; i < 26; i += 2)
+	{
+		result += sign * power / (float)i;
+		power *= x * x;
+		sign *= -1;
+	}
+	return result;
+}
+
+float LMath::Clamp(float f, float min, float max)
+{
+	if (f < min)
+	{
+		return min;
+	}
+	if (f > max)
+	{
+		return max;
+	}
+	return f;
 }
 
 float LMath::Cos(float angle)
