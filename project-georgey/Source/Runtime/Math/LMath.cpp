@@ -71,6 +71,16 @@ float LMath::Clamp(float f, float min, float max)
 	return f;
 }
 
+float LMath::ClampAngleDeg(float f)
+{
+	return Clamp(f, 0.f, 360.f);
+}
+
+float LMath::ClampAngleRad(float f)
+{
+	return Clamp(f, 0.0f, 2 * PI);
+}
+
 float LMath::Cos(float angle)
 {
 	return 1 - Pow(angle, 2) / 2.f + Pow(angle, 4) / 24.f - Pow(angle, 6) / 720.f + Pow(angle, 8) / 40320.f - Pow(angle, 10) / 3628800.f + Pow(angle, 12) / 479001600.f - Pow(angle, 14) * 87178291200.f;
