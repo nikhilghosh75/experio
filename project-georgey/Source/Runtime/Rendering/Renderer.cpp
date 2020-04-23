@@ -8,6 +8,10 @@
 #include "glm/glm.hpp"
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "VertexArray.h"
+#include "VertexBufferLayout.h"
 
 unsigned int Renderer::CompileShader(const std::string & source, unsigned int type)
 {
@@ -92,7 +96,6 @@ std::string fragmentShader =
 void Renderer::TempRenderer()
 {
 	TempProfiler profiler("Rendering");
-	GLuint buffer;
 
 	GLuint vertexArrayID;
 	glGenVertexArrays(1, &vertexArrayID);
@@ -130,24 +133,20 @@ void Renderer::TempRenderer()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+	VertexArray va;
+	VertexBuffer vertexBuffer(positions, sizeof(positions));
+	VertexBufferLayout layout;
+	layout.PushFloat(3);
+	va.AddBuffer(vertexBuffer, layout);
 
 	glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), 4.f / 3.f, 0.1f, 100.0f); // Projection Matrix
 	glm::mat4 viewMatrix = glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
 	glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
 
-	glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 0.3875f, glm::vec3(0, 0, 1)); // GLM is down columns
+	glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 0.785398f, glm::vec3(0, 0, 1)); // GLM is down columns
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
-
-	unsigned int indexBuffer;
-	glGenBuffers(1, &indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	IndexBuffer indexBuffer(indices, 36);
 
 	std::string vertexShader =
 		"#version 330 core\n"
@@ -217,18 +216,15 @@ void Renderer::TempRenderer()
 	0.982f,  0.099f,  0.879f
 	};
 
-	GLuint colorBuffer;
-	glGenBuffers(1, &colorBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
+	VertexBuffer colorBuffer(g_color_buffer_data, 108);
 
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	va.Bind();
+	indexBuffer.Bind();
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDeleteVertexArrays(1, &vertexArrayID);
-
 }
