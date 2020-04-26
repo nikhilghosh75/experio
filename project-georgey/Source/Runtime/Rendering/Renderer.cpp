@@ -12,6 +12,7 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "VertexBufferLayout.h"
+#include "Shader.h"
 
 unsigned int Renderer::CompileShader(const std::string & source, unsigned int type)
 {
@@ -69,30 +70,6 @@ Renderer::~Renderer()
 {
 }
 
-std::string vertexShader =
-	"#version 330 core\n"
-	"\n"
-	"layout(location = 0) in vec4 position; \n"
-	"layout(location = 1) in vec3 vertexColor; \n"
-	"uniform mat4 MVP; \n"
-	"out vec3 fragmentColor; \n"
-	"\n"
-	"void main()\n"
-	"{ \n"
-	"    gl_Position = MVP * position; \n"
-	"	 fragmentColor = vertexColor; \n"
-	"}\n";
-std::string fragmentShader =
-	"#version 330 core\n"
-	"\n"
-	"out vec3 color; \n"
-	"in vec3 fragmentColor; \n"
-	"\n"
-	"void main()\n"
-	"{ \n"
-	"    color = fragmentColor; \n"
-	"}\n";
-
 void Renderer::TempRenderer()
 {
 	TempProfiler profiler("Rendering");
@@ -148,34 +125,10 @@ void Renderer::TempRenderer()
 
 	IndexBuffer indexBuffer(indices, 36);
 
-	std::string vertexShader =
-		"#version 330 core\n"
-		"\n"
-		"layout(location = 0) in vec4 position; \n"
-		"layout(location = 1) in vec3 vertexColor; \n"
-		"uniform mat4 MVP; \n"
-		"out vec3 fragmentColor; \n"
-		"\n"
-		"void main()\n"
-		"{ \n"
-		"    gl_Position = MVP * position; \n"
-		"	 fragmentColor = vertexColor; \n"
-		"}\n";
-	std::string fragmentShader =
-		"#version 330 core\n"
-		"\n"
-		"out vec3 color; \n"
-		"in vec3 fragmentColor; \n"
-		"\n"
-		"void main()\n"
-		"{ \n"
-		"    color = fragmentColor; \n"
-		"}\n";
-	unsigned int shader = CreateShader(vertexShader, fragmentShader);
-	glUseProgram(shader);
-
-	GLuint matrixID = glGetUniformLocation(shader, "MVP");
-	glUniformMatrix4fv(matrixID, 1, GL_FALSE, &mvp[0][0]);
+	Shader basicShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicFragment.shader");
+	basicShader.Bind();
+	basicShader.SetUniformMatrix4("MVP", mvp);
+	
 
 	GLfloat g_color_buffer_data[] = {
 	0.583f,  0.771f,  0.014f,
