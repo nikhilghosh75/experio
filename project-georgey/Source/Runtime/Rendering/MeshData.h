@@ -25,5 +25,5 @@ struct FMeshData
 
 	void SetTransform(const FTransform& transform);
 
-	glm::mat4 GetModelMatrix();
+	glm::mat4 GetModelMatrix() const;
 };

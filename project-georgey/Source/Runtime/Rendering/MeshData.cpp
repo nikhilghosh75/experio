@@ -1,5 +1,8 @@
 #include "MeshData.h"
 #include "glm/gtx/transform.hpp"
+#include "glm/gtc/quaternion.hpp"
+#include "glm/gtx/quaternion.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 FMeshData::FMeshData()
 {
@@ -27,8 +30,10 @@ void FMeshData::SetTransform(const FTransform & transform)
 	this->transform = transform;
 }
 
-glm::mat4 FMeshData::GetModelMatrix()
+glm::mat4 FMeshData::GetModelMatrix() const
 {
-	glm::mat4 translationMatrix = glm::translate(glm::mat4(), (glm::vec3)this->transform.position);
-	return glm::mat4();
+	glm::mat4 translationMatrix = glm::translate(glm::mat4(), (glm::vec3)(this->transform.position));
+	glm::mat4 rotationMatrix = glm::toMat4((glm::quat) this->transform.rotation);
+	glm::mat4 scaleMatrix = glm::scale((glm::vec3)this->transform.scale);
+	return translationMatrix * rotationMatrix * scaleMatrix;
 }
