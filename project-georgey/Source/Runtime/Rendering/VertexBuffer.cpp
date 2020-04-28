@@ -2,6 +2,11 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 
+VertexBuffer::VertexBuffer()
+{
+	this->rendererID = 4294967294;
+}
+
 VertexBuffer::VertexBuffer(const void * data, unsigned int size)
 {
 	glGenBuffers(1, &rendererID);

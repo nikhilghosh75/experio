@@ -2,6 +2,12 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 
+IndexBuffer::IndexBuffer()
+{
+	this->rendererID = 4294967294;
+	this->count = 0;
+}
+
 IndexBuffer::IndexBuffer(const unsigned int * data, unsigned int count)
 {
 	glGenBuffers(1, &rendererID);
