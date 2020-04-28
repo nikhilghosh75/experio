@@ -39,6 +39,7 @@ void GWindow::InstantiateWindow()
 	}
 
 	hwnd = CreateWindowEx(0, "Sample Window Class", "Test", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, NULL, NULL);
+	windowData.title = "Test";
 
 	if (!hwnd)
 	{
@@ -92,9 +93,16 @@ void GWindow::ReceiveInput(EInputType inputType, unsigned int param1, unsigned i
 void GWindow::ResizeWindow(EWindowResizeType resizeType, int width, int height)
 {
 	glViewport(0, 0, width, height);
+	windowData.width = width;
+	windowData.height = height;
 #ifdef PLATFORM_WINDOWS
 
 #endif
+}
+
+FWindowData GWindow::GetWindowData()
+{
+	return windowData;
 }
 
 #ifdef PLATFORM_WINDOWS
@@ -144,6 +152,7 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 		GetClientRect(window, &rect);
 		glViewport(0, 0, rect.right - rect.left, rect.bottom - rect.top);
 		GLenum error = glewInit();
+		GWindow::ResizeWindow(EWindowResizeType::Create, rect.right - rect.left, rect.bottom - rect.top);
 	}
 		break;
 	case WM_SIZE:

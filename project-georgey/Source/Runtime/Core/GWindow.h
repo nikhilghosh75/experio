@@ -17,7 +17,14 @@ struct FWindowData
 	int width;
 	int height;
 
-	FWindowData(const string& newTitle = "Project Bloo", int newWidth = 1280, int newHeight = 720)
+	FWindowData()
+	{
+		title = "";
+		width = 0;
+		height = 0;
+	}
+
+	FWindowData(int newWidth, int newHeight, const string& newTitle = "Project Bloo")
 	{
 		title = newTitle;
 		width = newWidth;
@@ -30,7 +37,7 @@ class GWindow
 #ifdef PLATFORM_WINDOWS
 	HWND hwnd;
 #endif
-
+	static FWindowData windowData;
 public:
 	GWindow();
 
@@ -43,6 +50,10 @@ public:
 	static void ReceiveInput(EInputType inputType, unsigned int param1, unsigned int param2=0, unsigned int param3=0);
 	static void ResizeWindow(EWindowResizeType resizeType, int width, int height);
 
+	static FWindowData GetWindowData();
+
 private:
 	GInput input;
 };
+
+FWindowData GWindow::windowData;
