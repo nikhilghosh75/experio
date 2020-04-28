@@ -25,7 +25,7 @@ void VertexBufferLayout::PushUnsignedChar(int count)
 
 unsigned int VertexBufferLayout::GetStride() const
 {
-	return 0;
+	return stride;
 }
 
 std::vector<FVertexBufferElement> VertexBufferLayout::GetElements() const

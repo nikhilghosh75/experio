@@ -3,6 +3,7 @@
 VertexArray::VertexArray()
 {
 	rendererID = 0;
+	bufferCount = 0;
 	glGenVertexArrays(1, &rendererID);
 }
 
@@ -17,15 +18,15 @@ void VertexArray::AddBuffer(const VertexBuffer & buffer, const VertexBufferLayou
 	Bind();
 	buffer.Bind();
 	unsigned int offset = 0;
+	glEnableVertexAttribArray(bufferCount);
 	for (unsigned int i = 0; i < elements.size(); i++)
 	{
 		FVertexBufferElement element = elements[i];
-		glEnableVertexAttribArray(i);
-		glVertexAttribPointer(i, element.count, element.type, (GLboolean)element.isNormalized, layout.GetStride(), (const void*)offset);
+		//glEnableVertexAttribArray(i);
+		glVertexAttribPointer(bufferCount, element.count, element.type, (GLboolean)element.isNormalized, layout.GetStride(), (const void*)offset);
 		offset += element.count;
 	}
-
-	GLboolean testBool = GL_TRUE;
+	bufferCount++;
 }
 
 void VertexArray::Bind() const
