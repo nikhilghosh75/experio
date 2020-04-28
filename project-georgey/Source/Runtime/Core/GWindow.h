@@ -25,14 +25,6 @@ struct FWindowData
 	}
 };
 
-//Used to transmit window data specific to the platform
-struct FPlatformWindowData
-{
-#ifdef PLATFORM_WINDOWS
-	HWND hwnd;
-#endif
-};
-
 class GWindow
 {
 #ifdef PLATFORM_WINDOWS
