@@ -3,6 +3,7 @@
 #include <string>
 #include "TMatrix.h"
 #include "FVector3.h"
+#include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/ext.hpp"
 
 struct FQuaternion
 {
@@ -18,6 +19,12 @@ struct FQuaternion
 	FQuaternion operator+=(const FQuaternion Q);
 	FQuaternion operator-(const FQuaternion Q) const;
 	FQuaternion operator-=(const FQuaternion Q);
+
+	static std::string ToString(const FQuaternion& Q);
+	static glm::quat ToGLMQuat(const FQuaternion& Q);
+
+	operator string() const { return ToString(*this); };
+	operator glm::quat() const { return ToGLMQuat(*this); };
 
 	static bool Equals(const FQuaternion Q1, const FQuaternion Q2, float tolerance = 0.000001f);
 	static bool IsIdentity(const FQuaternion Q, float tolerance = 0.000001f);

@@ -167,6 +167,13 @@ string FVector3::ToString(const FVector3& V, const int numDigits)
     return "[" + xString + ", " + yString + ", " + zString + "]";
 }
 
+glm::vec3 FVector3::ToGLMVector(const FVector3 & V)
+{
+	// Directly cast the current vector into a glm::vec3 type
+	glm::vec3 tempVector = *(glm::vec3*)&V;
+	return tempVector;
+}
+
 FVector3 FVector3::operator+(const FVector3& V) const
 {
     return FVector3(V.x + this->x, V.y + this->y, V.z + this->z);

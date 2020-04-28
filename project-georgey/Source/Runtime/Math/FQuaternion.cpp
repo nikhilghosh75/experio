@@ -1,4 +1,5 @@
 #include "FQuaternion.h"
+#include "LMath.h"
 
 FQuaternion::FQuaternion()
 {
@@ -14,4 +15,10 @@ FQuaternion::FQuaternion(float x, float y, float z, float w)
 	this->x = x;
 	this->y = y;
 	this->z = z;
+}
+
+glm::quat FQuaternion::ToGLMQuat(const FQuaternion & Q)
+{
+	glm::quat tempQuat = *(glm::quat*)&Q;
+	return tempQuat;
 }
