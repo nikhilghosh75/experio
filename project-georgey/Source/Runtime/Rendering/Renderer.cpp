@@ -8,11 +8,6 @@
 #include "glm/glm.hpp"
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexArray.h"
-#include "VertexBufferLayout.h"
-#include "Shader.h"
 
 void Renderer::LogRenderingError()
 {
@@ -32,15 +27,38 @@ Renderer::~Renderer()
 {
 }
 
+void Renderer::Clear()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Renderer::OnNewFrame()
+{
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+}
+
+void Renderer::DrawMesh(const FMeshData & mesh)
+{
+	if (!mesh.isVisible)
+	{
+		return;
+	}
+}
+
+void Renderer::TempDraw(const VertexArray & va, const IndexBuffer & ib, const Shader & shader) const
+{
+	shader.Bind();
+	va.Bind();
+	ib.Bind();
+	glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
+}
+
 void Renderer::TempRenderer()
 {
 	TempProfiler profiler("Rendering");
 
-	GLuint vertexArrayID;
-	glGenVertexArrays(1, &vertexArrayID);
-	glBindVertexArray(vertexArrayID);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	OnNewFrame();
 
 	float positions[] = {
 	-1.0f,-1.0f,-1.0f, // 0
@@ -69,9 +87,6 @@ void Renderer::TempRenderer()
 		7, 2, 5
 	};
 
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-
 	VertexArray va;
 	VertexBuffer vertexBuffer(positions, sizeof(positions));
 	VertexBufferLayout layout;
@@ -83,14 +98,11 @@ void Renderer::TempRenderer()
 	glm::mat4 modelMatrix = glm::mat4(1.0f);
 	glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
 
-	glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 0.785398f, glm::vec3(0, 0, 1)); // GLM is down columns
-
 	IndexBuffer indexBuffer(indices, 36);
 
 	Shader basicShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicFragment.shader");
 	basicShader.Bind();
 	basicShader.SetUniformMatrix4("MVP", mvp);
-	
 
 	GLfloat g_color_buffer_data[] = {
 	0.583f,  0.771f,  0.014f,
@@ -131,15 +143,11 @@ void Renderer::TempRenderer()
 	0.982f,  0.099f,  0.879f
 	};
 
-	VertexBuffer colorBuffer(g_color_buffer_data, 108);
+	VertexBuffer colorBuffer(g_color_buffer_data, sizeof(g_color_buffer_data));
+	VertexBufferLayout colorLayout;
+	colorLayout.PushFloat(3);
+	va.AddBuffer(colorBuffer, colorLayout);
 
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-	va.Bind();
-	indexBuffer.Bind();
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDeleteVertexArrays(1, &vertexArrayID);
+	TempDraw(va, indexBuffer, basicShader);
+	Clear();
 }
