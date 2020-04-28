@@ -20,12 +20,12 @@ Shader::~Shader()
 	glDeleteProgram(this->rendererID);
 }
 
-void Shader::Bind()
+void Shader::Bind() const
 {
 	glUseProgram(this->rendererID);
 }
 
-void Shader::Unbind()
+void Shader::Unbind() const
 {
 	glUseProgram(0);
 }

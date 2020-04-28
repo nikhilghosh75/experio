@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include "glm/glm.hpp"
-#include "glm/mat4x4.hpp"
+#include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/glm.hpp"
+#include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/mat4x4.hpp"
 
 enum EShaderType
 {
@@ -19,8 +19,8 @@ public:
 	Shader(const std::string& vertexShaderFilepath, const std::string& fragmentShaderFilepath);
 	~Shader();
 
-	void Bind();
-	void Unbind();
+	void Bind() const;
+	void Unbind() const;
 
 	void SetUniformVec4(const std::string& name, glm::vec4 vec);
 	void SetUniformMatrix4(const std::string& name, glm::mat4 mat);
