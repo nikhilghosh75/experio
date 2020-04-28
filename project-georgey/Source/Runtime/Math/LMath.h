@@ -34,6 +34,10 @@ public:
 
 	static float Ln(float x);
 
+	static float Max(float a, float b);
+
+	static float Min(float a, float b);
+
 	static float Pow(float base, int exponent);
 
 	static float PowE(float exponent);

@@ -105,6 +105,24 @@ float LMath::Ln(float x)
 	return log(x);
 }
 
+float LMath::Max(float a, float b)
+{
+	if (a > b)
+	{
+		return a;
+	}
+	return b;
+}
+
+float LMath::Min(float a, float b)
+{
+	if (a < b)
+	{
+		return a;
+	}
+	return b;
+}
+
 float LMath::Pow(float base, int exponent)
 {
 	if (exponent == 0)
