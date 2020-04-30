@@ -174,6 +174,11 @@ glm::vec3 FVector3::ToGLMVector(const FVector3 & V)
 	return tempVector;
 }
 
+glm::vec4 FVector3::ToGLMVector4(const FVector3 & V)
+{
+	return glm::vec4(V.x, V.y, V.z, 0.f);
+}
+
 FVector3 FVector3::operator+(const FVector3& V) const
 {
     return FVector3(V.x + this->x, V.y + this->y, V.z + this->z);

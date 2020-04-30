@@ -41,9 +41,11 @@ public:
 
     static string ToString (const FVector3& V, const int numDigits = 5);
 	static glm::vec3 ToGLMVector(const FVector3& V);
+	static glm::vec4 ToGLMVector4(const FVector3& V);
 
     operator string() const { return FVector3::ToString(*this); }
 	operator glm::vec3() const { return ToGLMVector(*this); }
+	operator glm::vec4() const { return ToGLMVector4(*this); }
 
     FVector3 operator+(const FVector3& V) const;
     FVector3 operator+=(const FVector3& V);
