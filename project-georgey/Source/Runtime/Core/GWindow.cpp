@@ -13,6 +13,8 @@ LRESULT CALLBACK WindowsProcedure(HWND window, int wm, WPARAM wParam, LPARAM lPa
 
 HDC deviceContext;
 
+FWindowData GWindow::windowData;
+
 GWindow::GWindow()
 {
 	

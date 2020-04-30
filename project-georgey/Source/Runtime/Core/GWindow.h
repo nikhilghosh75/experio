@@ -55,5 +55,3 @@ public:
 private:
 	GInput input;
 };
-
-FWindowData GWindow::windowData;
