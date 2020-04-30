@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include "TMatrix.h"
 #include "FVector3.h"
 #include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/ext.hpp"
 
@@ -11,7 +10,7 @@ struct FQuaternion
 
 	FQuaternion();
 	FQuaternion(float x, float y, float z, float w);
-	FQuaternion(TMatrix<4, 4, float> mat);
+	//FQuaternion(TMatrix<4, 4, float> mat);
 	FQuaternion(FVector3 axis, float angleInRadians);
 
 	// Operators
@@ -20,14 +19,24 @@ struct FQuaternion
 	FQuaternion operator-(const FQuaternion Q) const;
 	FQuaternion operator-=(const FQuaternion Q);
 
+	static float Magnitude(const FQuaternion& Q);
+	static float SqrMagnitude(const FQuaternion& Q);
+
 	static std::string ToString(const FQuaternion& Q);
 	static glm::quat ToGLMQuat(const FQuaternion& Q);
+	//static mat4 ToMat4(const FQuaternion& Q);
+	static glm::mat4 ToGLMMat4(const FQuaternion& Q);
 
 	operator string() const { return ToString(*this); };
 	operator glm::quat() const { return ToGLMQuat(*this); };
+	//operator mat4() const { return ToMat4(*this); }
+	operator glm::mat4() const { return ToGLMMat4(*this); }
 
-	static bool Equals(const FQuaternion Q1, const FQuaternion Q2, float tolerance = 0.000001f);
-	static bool IsIdentity(const FQuaternion Q, float tolerance = 0.000001f);
+	static FQuaternion GetConjugate(const FQuaternion& Q);
+
+	static bool Equals(const FQuaternion& Q1, const FQuaternion Q2, float tolerance = 0.000001f);
+	static bool IsIdentity(const FQuaternion& Q, float tolerance = 0.000001f);
+	static bool IsUnit(const FQuaternion& Q, float tolerance = 0.0000001f);
 
 	static FQuaternion MakeFromEuler(const FVector3& Euler);
 	static FVector3 ToEuler(const FQuaternion& Q);
