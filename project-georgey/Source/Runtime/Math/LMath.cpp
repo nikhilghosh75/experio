@@ -39,6 +39,15 @@ float LMath::Acos(float x)
 	return HALFPI - Asin(x);
 }
 
+bool LMath::ApproxEquals(float a, float b, float tolerance)
+{
+	if (Abs(a - b) < tolerance)
+	{
+		return true;
+	}
+	return false;
+}
+
 float LMath::Asin(float x)
 {
 	return x + Pow(x, 3)/6.f + Pow(x, 5) * 3.f/ 40.f + Pow(x, 7) * 15.f / 336.f + Pow(x, 9) * 105.f / 3456.f + Pow(x, 11) * 945.f / 42240.f + Pow(x, 13) * 10395.f / 599040.f + Pow(x, 15) * 135135.f / 9676800.f + Pow(x, 17) * 2027025.f / 175472640.f + Pow(x, 19) * 34459425.f / 3530096640.f + Pow(x, 21) * 654729075.f / 78033715200.f;

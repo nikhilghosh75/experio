@@ -10,6 +10,8 @@ public:
 
 	static float Acos(float x);
 
+	static bool ApproxEquals(float a, float b, float tolerance = 0.0000001);
+
 	static float Asin(float x);
 
 	static float Atan(float x);
