@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "GL/glew.h"
+#include "LOpenGL.h"
 
 struct FVertexBufferElement
 {
@@ -13,6 +14,11 @@ struct FVertexBufferElement
 		count = newCount;
 		type = newType;
 		isNormalized = normalized;
+	}
+
+	size_t GetSize() const
+	{
+		return count * LOpenGL::GetSizeOfType(type);
 	}
 };
 
@@ -31,7 +37,4 @@ public:
 
 	unsigned int GetStride() const;
 	std::vector<FVertexBufferElement> GetElements() const;
-
-private:
-	static size_t GetSizeOfType(unsigned int type);
 };
