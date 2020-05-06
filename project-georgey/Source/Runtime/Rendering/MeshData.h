@@ -14,14 +14,16 @@
 
 struct FMeshData
 {
-	VertexBuffer vertices;
-	IndexBuffer indices;
+	VertexBuffer* vertices;
+	IndexBuffer* indices;
 	FTransform transform;
 	bool isVisible;
 
 	FMeshData();
-	FMeshData(const VertexBuffer& vertices, const IndexBuffer& indices);
-	FMeshData(const VertexBuffer& vertices, const IndexBuffer& indices, const FTransform& transform);
+	FMeshData(VertexBuffer* vertices, IndexBuffer* indices);
+	FMeshData(VertexBuffer* vertices, IndexBuffer* indices, const FTransform& transform);
+
+	~FMeshData();
 
 	void SetTransform(const FTransform& transform);
 

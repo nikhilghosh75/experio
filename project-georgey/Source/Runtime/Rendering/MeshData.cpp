@@ -9,7 +9,7 @@ FMeshData::FMeshData()
 	this->isVisible = true;
 }
 
-FMeshData::FMeshData(const VertexBuffer & vertices, const IndexBuffer & indices)
+FMeshData::FMeshData(VertexBuffer*vertices, IndexBuffer* indices)
 {
 	this->vertices = vertices;
 	this->indices = indices;
@@ -17,12 +17,18 @@ FMeshData::FMeshData(const VertexBuffer & vertices, const IndexBuffer & indices)
 	this->isVisible = true;
 }
 
-FMeshData::FMeshData(const VertexBuffer & vertices, const IndexBuffer & indices, const FTransform & transform)
+FMeshData::FMeshData(VertexBuffer* vertices, IndexBuffer* indices, const FTransform & transform)
 {
 	this->vertices = vertices;
 	this->indices = indices;
 	this->transform = transform;
 	this->isVisible = true;
+}
+
+FMeshData::~FMeshData()
+{
+	delete this->vertices;
+	delete this->indices;
 }
 
 void FMeshData::SetTransform(const FTransform & transform)

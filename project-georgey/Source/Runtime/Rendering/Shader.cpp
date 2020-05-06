@@ -6,6 +6,7 @@
 #include <fstream>
 #include "../Debug/GDebug.h"
 
+
 Shader::Shader(const std::string & vertexShaderFilepath, const std::string & fragmentShaderFilepath)
 {
 	this->vertexShaderFilepath = vertexShaderFilepath;
@@ -30,12 +31,12 @@ void Shader::Unbind() const
 	glUseProgram(0);
 }
 
-void Shader::SetUniformVec4(const std::string & name, glm::vec4 vec)
+void Shader::SetUniformVec4(const std::string & name, glm::vec4 vec) const
 {
 	//glUniform4fv(GetUniformLocation(name), 1, vec.);
 }
 
-void Shader::SetUniformMatrix4(const std::string & name, glm::mat4 mat)
+void Shader::SetUniformMatrix4(const std::string & name, glm::mat4 mat) const
 {
 	glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
 }
@@ -90,7 +91,7 @@ std::string Shader::ParseShader(const std::string& filepath)
 	return stringStream.str();
 }
 
-unsigned int Shader::GetUniformLocation(const std::string & name)
+unsigned int Shader::GetUniformLocation(const std::string & name) const
 {
 	return glGetUniformLocation(rendererID, name.c_str());
 }

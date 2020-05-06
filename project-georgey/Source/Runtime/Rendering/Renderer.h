@@ -7,11 +7,13 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "MeshData.h"
+#include "FCameraData.h"
 
 class Renderer
 {
 private:
 	void LogRenderingError();
+	VertexBufferLayout defaultVertexLayout;
 public:
 	Renderer();
 	~Renderer();
@@ -20,9 +22,11 @@ public:
 
 	void OnNewFrame();
 
-	void DrawMesh(const FMeshData& mesh);
+	void DrawMesh(const FMeshData& mesh, const FCameraData& cameraData);
 
-	void TempDraw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
+	void TempDraw(const VertexArray* va, const IndexBuffer* ib, const Shader* shader) const;
+
+	FMeshData* TempSetup();
 
 	void TempRenderer();
 };

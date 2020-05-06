@@ -1,4 +1,5 @@
 #include "VertexArray.h"
+#include "../Debug/GDebug.h"
 
 VertexArray::VertexArray()
 {
@@ -12,19 +13,18 @@ VertexArray::~VertexArray()
 	glDeleteVertexArrays(1, &rendererID);
 }
 
-void VertexArray::AddBuffer(const VertexBuffer & buffer, const VertexBufferLayout & layout)
+void VertexArray::AddBuffer(const VertexBuffer* buffer, const VertexBufferLayout & layout)
 {
 	const std::vector<FVertexBufferElement> elements = layout.GetElements();
 	Bind();
-	buffer.Bind();
+	buffer->Bind();
 	unsigned int offset = 0;
 	glEnableVertexAttribArray(bufferCount);
 	for (unsigned int i = 0; i < elements.size(); i++)
 	{
 		FVertexBufferElement element = elements[i];
-		//glEnableVertexAttribArray(i);
 		glVertexAttribPointer(bufferCount, element.count, element.type, (GLboolean)element.isNormalized, layout.GetStride(), (const void*)offset);
-		offset += element.count;
+		offset += element.GetSize();
 	}
 	bufferCount++;
 }
