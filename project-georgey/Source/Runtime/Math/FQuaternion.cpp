@@ -4,7 +4,7 @@
 
 FQuaternion::FQuaternion()
 {
-	this->w = 0;
+	this->w = 1;
 	this->x = 0;
 	this->y = 0;
 	this->z = 0;
@@ -16,6 +16,24 @@ FQuaternion::FQuaternion(float x, float y, float z, float w)
 	this->x = x;
 	this->y = y;
 	this->z = z;
+}
+
+FQuaternion::FQuaternion(glm::mat4 mat)
+{
+	this->w = LMath::Sqrt(1 + mat[0][0] + mat[1][1] + mat[2][2]) / 2;
+	float w4 = this->w * 4;
+	this->x = (mat[1][2] - mat[2][1]) / w4;
+	this->y = (mat[2][0] - mat[0][2]) / w4;
+	this->z = (mat[0][1] - mat[1][0]) / w4;
+}
+
+FQuaternion::FQuaternion(FVector3 axis, float angleInRadians)
+{
+	this->w = LMath::Cos(angleInRadians);
+	float sinOfAngle = LMath::Sin(angleInRadians);
+	this->x = sinOfAngle * axis.x;
+	this->y = sinOfAngle * axis.y;
+	this->z = sinOfAngle * axis.z;
 }
 
 float FQuaternion::Magnitude(const FQuaternion & Q)
