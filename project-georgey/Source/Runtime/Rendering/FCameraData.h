@@ -5,7 +5,8 @@ struct FCameraData
 {
 	FTransform cameraTransform;
 	float fieldOfView;
-	FVector3 upVector;
+	float nearClipPlane = 0.1f;
+	float farClipPlane = 100.f;
 
 	FCameraData();
 	FCameraData(float fieldOfView);
