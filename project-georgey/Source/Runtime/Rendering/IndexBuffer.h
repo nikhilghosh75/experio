@@ -4,6 +4,7 @@ class IndexBuffer
 {
 private:
 	unsigned int rendererID;
+	void* data;
 	unsigned int count;
 public:
 	IndexBuffer();
