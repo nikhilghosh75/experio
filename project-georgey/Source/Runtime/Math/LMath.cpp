@@ -67,6 +67,30 @@ float LMath::Atan(float x)
 	return result;
 }
 
+float LMath::Atan2(float x, float y)
+{
+	if (x == 0.f)
+	{
+		if (y > 0)
+		{
+			return HALFPI;
+		}
+		return -HALFPI;
+	}
+
+	float ratio = y / x;
+	
+	if (x > 0)
+	{
+		return Atan(ratio);
+	}
+	if (y > 0)
+	{
+		return Atan(ratio) + PI;
+	}
+	return Atan(ratio) - PI;
+}
+
 float LMath::Clamp(float f, float min, float max)
 {
 	if (f < min)

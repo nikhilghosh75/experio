@@ -16,7 +16,7 @@ public:
 
 	static float Atan(float x);
 
-	static float Atan2(float x);
+	static float Atan2(float x, float y);
 	
 	static int Ceil(float f);
 
@@ -31,6 +31,8 @@ public:
 	static float DegreesToRadians(float degrees);
 
 	static int Floor(float f);
+
+	static float FMod(float f);
 
 	static float Lerp(float a, float b, float t);
 
