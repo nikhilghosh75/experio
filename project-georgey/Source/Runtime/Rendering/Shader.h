@@ -22,11 +22,13 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
+	void SetUniformInt(const std::string& name, int i) const;
+	void SetUniformFloat(const std::string& name, float f) const;
 	void SetUniformVec4(const std::string& name, glm::vec4 vec) const;
 	void SetUniformMatrix4(const std::string& name, glm::mat4 mat) const;
 
 	static unsigned int CompileShader(const std::string & source, unsigned int type);
 	static unsigned int CreateShader(const std::string & vertexShader, const std::string & fragmentShader);
-	std::string ParseShader(const std::string& filepath);
+	static std::string ParseShader(const std::string& filepath);
 	unsigned int GetUniformLocation(const std::string& name) const;
 };
