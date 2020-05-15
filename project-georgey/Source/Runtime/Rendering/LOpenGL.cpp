@@ -21,3 +21,39 @@ size_t LOpenGL::GetSizeOfType(unsigned int type)
 	}
 	return 0;
 }
+
+size_t LOpenGL::GetImageFormat(EImageEncoding encoding, EImageFileType fileType)
+{
+	switch (fileType)
+	{
+	case EImageFileType::BMP:
+		if (encoding == EImageEncoding::Truecolor)
+		{
+			return GL_BGR;
+		}
+		if (encoding == EImageEncoding::TruecolorAlpha)
+		{
+			return GL_BGRA;
+		}
+		return GL_RGB;
+	}
+
+	return GL_RGB;
+}
+
+size_t LOpenGL::GetInternalFormat(EImageEncoding encoding, EImageFileType fileType)
+{
+	switch (fileType)
+	{
+	case EImageFileType::BMP:
+		if (encoding == EImageEncoding::Truecolor)
+		{
+			return GL_RGB8;
+		}
+		if (encoding == EImageEncoding::TruecolorAlpha)
+		{
+			return GL_RGBA8;
+		}
+	}
+	return 0;;
+}
