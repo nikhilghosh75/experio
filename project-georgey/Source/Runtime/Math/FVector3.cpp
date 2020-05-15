@@ -103,6 +103,11 @@ bool FVector3::IsNormalized(const FVector3& V)
     return false;
 }
 
+bool FVector3::IsUnit(const FVector3 & V)
+{
+	return LMath::ApproxEquals(SqrMagnitude(V), 1.f);
+}
+
 float FVector3::GetMax(const FVector3& V)
 {
     float max = V.x;

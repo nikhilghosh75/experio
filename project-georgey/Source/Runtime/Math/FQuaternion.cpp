@@ -36,6 +36,26 @@ FQuaternion::FQuaternion(FVector3 axis, float angleInRadians)
 	this->z = sinOfAngle * axis.z;
 }
 
+FQuaternion FQuaternion::operator+(const FQuaternion Q) const
+{
+	return FQuaternion(this->x + Q.x, this->y + Q.y, this->z + Q.z, this->w + Q.w);
+}
+
+FQuaternion FQuaternion::operator+=(const FQuaternion Q)
+{
+	return *this + Q;
+}
+
+FQuaternion FQuaternion::operator-(const FQuaternion Q) const
+{
+	return FQuaternion(this->x - Q.x, this->y - Q.y, this->z - Q.z, this->w - Q.w);
+}
+
+FQuaternion FQuaternion::operator-=(const FQuaternion Q)
+{
+	return *this - Q;
+}
+
 float FQuaternion::Magnitude(const FQuaternion & Q)
 {
 	return LMath::Sqrt(Q.w * Q.w + Q.x * Q.x + Q.y * Q.y + Q.z * Q.z);
@@ -94,4 +114,26 @@ FQuaternion FQuaternion::GetConjugate(const FQuaternion & Q)
 bool FQuaternion::IsUnit(const FQuaternion & Q, float tolerance)
 {
 	return LMath::ApproxEquals(SqrMagnitude(Q), 1.f);
+}
+
+FQuaternion FQuaternion::MakeFromEuler(const FVector3 & Euler)
+{
+	float roll = Euler.x;
+	float pitch = Euler.y;
+	float yaw = Euler.z;
+
+	float cy = cos(yaw * 0.5);
+	float sy = sin(yaw * 0.5);
+	float cp = cos(pitch * 0.5);
+	float sp = sin(pitch * 0.5);
+	float cr = cos(roll * 0.5);
+	float sr = sin(roll * 0.5);
+
+	FQuaternion q;
+	q.w = cr * cp * cy + sr * sp * sy;
+	q.x = sr * cp * cy - cr * sp * sy;
+	q.y = cr * sp * cy + sr * cp * sy;
+	q.z = cr * cp * sy - sr * sp * cy;
+
+	return q;
 }

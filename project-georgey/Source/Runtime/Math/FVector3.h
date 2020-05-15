@@ -28,10 +28,15 @@ public:
     static FVector3 Cross(const FVector3& V1, const FVector3& V2);
 	static FVector3 Reflect(const FVector3& Incident, const FVector3& Normal);
 	static FVector3 Refract(const FVector3& Incident, const FVector3& Normal, float indexOfRefraction);
+	static FVector3 BoundToBox(const FVector3& Min, const FVector3& Max);
+	static FVector3 BoundToCube(const FVector3& Center, float radius);
+	static FVector3 Clamp(const FVector3& V, float minLength, float maxLength);
+	static FVector3 ClampValues(const FVector3& V, float minEntry, float maxEntry);
 
     static bool Coincident(const FVector3& V1, const FVector3& V2, float Threshold=0.001f);
     static bool IsZero(const FVector3& V, float threshold=0.001f);
     static bool IsNormalized(const FVector3& V);
+	static bool IsUnit(const FVector3& V);
 
     static float GetMax(const FVector3& V);
     static float GetMin(const FVector3& V);

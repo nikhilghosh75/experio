@@ -39,7 +39,7 @@ struct FQuaternion
 	static bool IsIdentity(const FQuaternion& Q, float tolerance = 0.000001f);
 	static bool IsUnit(const FQuaternion& Q, float tolerance = 0.0000001f);
 
-	static FQuaternion MakeFromEuler(const FVector3& Euler);
+	static FQuaternion MakeFromEuler(const FVector3& Euler); // x - roll, y - pitch, z - yaw
 	static FVector3 ToEuler(const FQuaternion& Q);
 	static float GetAngle(const FQuaternion& Q);
 
@@ -48,5 +48,12 @@ struct FQuaternion
 	static FQuaternion BiLerp(const FQuaternion& Q00, const FQuaternion& Q10, const FQuaternion& Q01, const FQuaternion& Q11, float t1, float t2);
 	static FQuaternion Slerp(const FQuaternion& Q1, const FQuaternion& Q2, float t);
 	static FQuaternion FindBetweenNormals(const FVector3& N1, const FVector3& N2);
+
 	static FVector3 GetRotationAxis(const FQuaternion& Q);
+	static FVector3 GetForwardVector(const FQuaternion& Q);
+	static FVector3 GetBackwardVector(const FQuaternion& Q);
+	static FVector3 GetLeftVector(const FQuaternion& Q);
+	static FVector3 GetRightVector(const FQuaternion& Q);
+	static FVector3 GetUpVector(const FQuaternion& Q);
+	static FVector3 GetDownVector(const FQuaternion& Q);
 };
