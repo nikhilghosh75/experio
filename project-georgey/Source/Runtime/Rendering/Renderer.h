@@ -6,7 +6,7 @@
 #include "VertexArray.h"
 #include "VertexBufferLayout.h"
 #include "Shader.h"
-#include "MeshData.h"
+#include "MeshComponent.h"
 #include "../Camera/FCameraData.h"
 
 class Renderer
@@ -22,13 +22,15 @@ public:
 
 	void OnNewFrame();
 
-	void DrawMesh(const FMeshData& mesh, const FCameraData& cameraData);
+	void DrawMesh(const MeshComponent& mesh, const FCameraData& cameraData);
 
 	void TempDraw(const VertexArray* va, const IndexBuffer* ib, const Shader* shader) const;
 	void TempDraw(const VertexArray* va, const Shader* shader, int count) const;
 
-	FMeshData* TempSetup();
+	MeshComponent* TempSetup();
 
 	void TempRenderer();
+
+	void TempModelRenderer();
 };
 

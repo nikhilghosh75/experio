@@ -14,6 +14,7 @@
 #include <fstream>
 #include "../Files/Images/ImageReader.h"
 #include "../Files/Images/BMPReader.h"
+#include "../Files/Mesh/OBJReader.h"
 #include "Texture.h"
 
 void Renderer::LogRenderingError()
@@ -46,11 +47,9 @@ void Renderer::OnNewFrame()
 	glDepthFunc(GL_LESS);
 }
 
-void Renderer::DrawMesh(const FMeshData & mesh, const FCameraData& cameraData)
+void Renderer::DrawMesh(const MeshComponent & mesh, const FCameraData & cameraData)
 {
-	TempProfiler("Rendering Cube");
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	TempProfiler("Rendering Mesh");
 
 	if (!mesh.isVisible)
 	{
@@ -58,11 +57,7 @@ void Renderer::DrawMesh(const FMeshData & mesh, const FCameraData& cameraData)
 	}
 
 	glm::mat4 modelMatrix = mesh.GetModelMatrix();
-
-	//glm::mat4 viewMatrix = glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-	glm::mat4 viewMatrix = (glm::mat4)cameraData.cameraTransform.rotation * glm::translate(glm::mat4(), (glm::vec3)(cameraData.cameraTransform.position * -1.f));
-
-	mesh.vertices->Bind();
+	glm::mat4 viewMatrix = cameraData.GetViewMatrix();
 
 	FWindowData data = GWindow::GetWindowData();
 	float aspectRatio = LWindowOperations::GetAspectRatio(data);
@@ -70,18 +65,23 @@ void Renderer::DrawMesh(const FMeshData & mesh, const FCameraData& cameraData)
 
 	glm::mat4 MVP = projectionMatrix * viewMatrix * modelMatrix;
 
-	Shader basicShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicFragment.shader");
-	basicShader.Bind();
-	basicShader.SetUniformMatrix4("MVP", MVP);
+	mesh.meshShader->Bind();
+	mesh.meshShader->SetUniformMatrix4("MVP", MVP);
+
+	VertexArray va;
 
 	VertexBufferLayout positionLayout;
 	positionLayout.PushFloat(3);
-	VertexArray va;
-	va.AddBuffer(mesh.vertices, positionLayout);
+	VertexBufferLayout uvLayout;
+	uvLayout.PushFloat(2);
+	VertexBufferLayout normalLayout;
+	normalLayout.PushFloat(3);
 
-	TempDraw(&va, mesh.indices, &basicShader);
+	va.AddBuffer(mesh.meshData->verticies, positionLayout);
+	va.AddBuffer(mesh.meshData->uv, uvLayout);
+	va.AddBuffer(mesh.meshData->normals, normalLayout);
 
-	LogRenderingError();
+	glDrawArrays(GL_TRIANGLES, 0, mesh.meshData->GetTriangleCount());
 }
 
 void Renderer::TempDraw(const VertexArray* va, const IndexBuffer* ib, const Shader* shader) const
@@ -99,43 +99,6 @@ void Renderer::TempDraw(const VertexArray * va, const Shader * shader, int count
 	glDrawArrays(GL_TRIANGLES, 0, (unsigned int)count);
 }
 
-FMeshData* Renderer::TempSetup()
-{
-	float positions[] = {
-	-1.0f,-1.0f,-1.0f, // 0
-	-1.0f,-1.0f, 1.0f, // 1
-	-1.0f, 1.0f, 1.0f, // 2
-	1.0f, 1.0f,-1.0f, // 3
-	-1.0f, 1.0f,-1.0f, // 4
-	1.0f,-1.0f, 1.0f, // 5
-	1.0f,-1.0f,-1.0f, // 6
-	1.0f, 1.0f, 1.0f, // 7
-	};
-
-	unsigned int indices[] =
-	{
-		0, 1, 2,
-		3, 0, 4,
-		5, 0, 6,
-		3, 6, 0,
-		0, 2, 4,
-		5, 1, 0,
-		2, 1, 5,
-		7, 6, 3,
-		6, 7, 5,
-		7, 3, 4,
-		7, 4, 1,
-		7, 2, 5
-	};
-
-	VertexBuffer* vertexBuffer = new VertexBuffer(positions, 96);
-	IndexBuffer* indexBuffer = new IndexBuffer(indices, 36);
-
-	FMeshData* returnData = new FMeshData(vertexBuffer, indexBuffer);
-
-	return returnData;
-}
-
 
 void Renderer::TempRenderer()
 {
@@ -151,14 +114,6 @@ void Renderer::TempRenderer()
 	Shader basicShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicFragment.shader");
 	basicShader.Bind();
 
-	// Create and compile our GLSL program from the shaders
-	std::string vertexShader = Shader::ParseShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicVertex.shader");
-	std::string fragmentShader = Shader::ParseShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicFragment.shader");
-	GLuint programID = Shader::CreateShader(vertexShader, fragmentShader);
-
-	// Get a handle for our "MVP" uniform
-	GLuint MatrixID = glGetUniformLocation(programID, "MVP");
-
 	// Projection matrix : 45� Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 2.f, 0.1f, 100.0f);
 	// Camera matrix
@@ -171,9 +126,6 @@ void Renderer::TempRenderer()
 	glm::mat4 Model = glm::mat4(1.0f);
 	// Our ModelViewProjection : multiplication of our 3 matrices
 	glm::mat4 MVP = Projection * View * Model; // Remember, matrix multiplication is the other way around
-
-	// Get a handle for our "myTextureSampler" uniform
-	GLuint TextureID = glGetUniformLocation(programID, "myTextureSampler");
 
 	// Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
 	// A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
@@ -275,6 +227,8 @@ void Renderer::TempRenderer()
 	va.AddBuffer(&vb, vbLayout);
 	va.AddBuffer(&uvb, uvbLayout);
 
+	OBJReader reader;
+	MeshData* tempData = reader.ReadFile("C:/Users/debgh/Documents/Meshes/airplane.obj");
 
 	// Draw the triangle !
 	glDrawArrays(GL_TRIANGLES, 0, 12 * 3); // 12*3 indices starting at 0 -> 12 triangles
@@ -283,4 +237,25 @@ void Renderer::TempRenderer()
 	glDisableVertexAttribArray(1);
 	LogRenderingError();
 
+}
+
+void Renderer::TempModelRenderer()
+{
+	OBJReader reader;
+	MeshData* planeData = reader.ReadFile("C:/Users/debgh/Documents/Meshes/airplane.obj");
+
+	Shader basicShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicFragment.shader");
+	
+	MeshComponent planeMesh(planeData, &basicShader);
+	planeMesh.SetTransform(FTransform());
+	planeMesh.transform.SetScale(FVector3(1.f, 1.f, 1.f));
+	planeMesh.RecalculateModelMatrix();
+	
+	Texture testTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/NumberedCube.bmp");
+	testTexture.Bind(0);
+	basicShader.SetUniformInt("textureSampler", 0);
+
+	FCameraData camera(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);
+	
+	this->DrawMesh(planeMesh, camera);
 }
