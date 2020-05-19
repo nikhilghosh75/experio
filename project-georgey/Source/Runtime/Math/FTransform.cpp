@@ -20,3 +20,18 @@ FTransform::FTransform(FVector3 position, FQuaternion rotation, FVector3 scale)
 	this->rotation = rotation;
 	this->scale = scale;
 }
+
+void FTransform::SetPosition(FVector3 position)
+{
+	this->position = position;
+}
+
+void FTransform::SetRotation(FQuaternion rotation)
+{
+	this->rotation = rotation;
+}
+
+void FTransform::SetScale(FVector3 scale)
+{
+	this->scale = scale;
+}
