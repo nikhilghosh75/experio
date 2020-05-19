@@ -1,4 +1,6 @@
 #include "FCameraData.h"
+#include "glm/mat4x4.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 FCameraData::FCameraData()
 {
@@ -20,4 +22,9 @@ FCameraData::FCameraData(FVector3 position, FQuaternion rotation, float fieldOfV
 {
 	this->cameraTransform = FTransform(position, rotation);
 	this->fieldOfView = fieldOfView;
+}
+
+glm::mat4 FCameraData::GetViewMatrix() const
+{
+	return (glm::mat4)cameraTransform.GetRotation() * glm::translate(glm::mat4(), (glm::vec3)(cameraTransform.GetPosition() * -1.f));
 }

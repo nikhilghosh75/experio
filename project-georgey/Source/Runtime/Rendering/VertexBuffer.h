@@ -17,4 +17,6 @@ public:
 	void Unbind() const;
 
 	VertexBuffer operator=(const VertexBuffer&) = delete;
+
+	unsigned int GetSize() const { return this->size; }
 };
