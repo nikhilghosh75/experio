@@ -75,6 +75,19 @@ FVector3 FVector3::Reflect(const FVector3 & Incident, const FVector3 & Normal)
 	return Incident - (Normal * 2.f * Dot(Incident, Normal));
 }
 
+FVector3 FVector3::Refract(const FVector3 & Incident, const FVector3 & Normal, float indexOfRefraction)
+{
+	float dotValue = Dot(Incident, Normal);
+	float k = 1.f - indexOfRefraction * indexOfRefraction * (1 - dotValue * dotValue);
+	return (indexOfRefraction * Incident - (indexOfRefraction * dotValue * LMath::Sqrt(k)) * Normal) * (float)(k >= 0);
+}
+
+FVector3 FVector3::BoundToBox(const FVector3 & Min, const FVector3 & Max, const FVector3 & V)
+{
+	return FVector3(LMath::Clamp(V.x, Min.x, Max.x), LMath::Clamp(V.y, Min.y, Max.y), LMath::Clamp(V.z, Min.z, Max.z));
+}
+
+
 bool FVector3::Coincident(const FVector3& V1, const FVector3& V2, float threshold)
 {
     if(Dot(V1, V2) < threshold)
@@ -222,4 +235,9 @@ FVector3 FVector3::operator/(const float f) const
 FVector3 FVector3::operator/=(float f)
 {
 	return *this / f;
+}
+
+FVector3 operator*(float f, const FVector3 & V)
+{
+	return FVector3(f * V.x, f * V.y, f * V.z);
 }

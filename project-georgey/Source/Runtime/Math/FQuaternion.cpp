@@ -111,6 +111,16 @@ FQuaternion FQuaternion::GetConjugate(const FQuaternion & Q)
 	return FQuaternion(-Q.x, -Q.y, -Q.z, Q.w);
 }
 
+bool FQuaternion::Equals(const FQuaternion & Q1, const FQuaternion Q2, float tolerance)
+{
+	return LMath::ApproxEquals(Q1.x, Q2.x, tolerance) && LMath::ApproxEquals(Q1.y, Q2.y, tolerance) && LMath::ApproxEquals(Q1.z, Q1.z, tolerance) && LMath::ApproxEquals(Q1.w, Q2.w, tolerance);
+}
+
+bool FQuaternion::IsIdentity(const FQuaternion & Q, float tolerance)
+{
+	return LMath::ApproxEquals(Q.x, 0, tolerance) && LMath::ApproxEquals(Q.y, 0, tolerance) && LMath::ApproxEquals(Q.z, 0, tolerance) && LMath::ApproxEquals(Q.w, 1.f, tolerance);
+}
+
 bool FQuaternion::IsUnit(const FQuaternion & Q, float tolerance)
 {
 	return LMath::ApproxEquals(SqrMagnitude(Q), 1.f);
