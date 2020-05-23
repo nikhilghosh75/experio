@@ -3,6 +3,7 @@
 #include "../Files/Images/LImageOperations.h"
 #include "LOpenGL.h"
 #include "GL/glew.h"
+#include "../Debug/GDebug.h"
 
 Texture::Texture()
 {
@@ -31,6 +32,11 @@ Texture::Texture(ImageData * data)
 
 void Texture::ConfigureData()
 {
+	if (this->data == nullptr)
+	{
+		GDebug::LogError("The data could not be loaded");
+		return;
+	}
 	GLenum internalFormat = LOpenGL::GetInternalFormat(this->data->encoding, this->data->fileType);
 	GLenum imageFormat = LOpenGL::GetImageFormat(this->data->encoding, this->data->fileType);
 
