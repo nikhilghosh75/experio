@@ -67,6 +67,8 @@ void Renderer::DrawMesh(const MeshComponent & mesh, const FCameraData & cameraDa
 
 	mesh.meshShader->Bind();
 	mesh.meshShader->SetUniformMatrix4("MVP", MVP);
+	mesh.meshShader->SetUniformMatrix4("M", modelMatrix);
+	mesh.meshShader->SetUniformMatrix4("V", viewMatrix);
 
 	VertexArray va;
 
@@ -99,7 +101,6 @@ void Renderer::TempDraw(const VertexArray * va, const Shader * shader, int count
 	glDrawArrays(GL_TRIANGLES, 0, (unsigned int)count);
 }
 
-
 void Renderer::TempRenderer()
 {
 	TempProfiler("Rendering Textured Cube");
@@ -108,135 +109,36 @@ void Renderer::TempRenderer()
 
 	Clear();
 
-	VertexArray va;
-	va.Bind();
-
 	Shader basicShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicFragment.shader");
 	basicShader.Bind();
 
-	// Projection matrix : 45� Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 2.f, 0.1f, 100.0f);
-	// Camera matrix
-	glm::mat4 View = glm::lookAt(
-		glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
-		glm::vec3(0, 0, 0), // and looks at the origin
-		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
-	);
-	// Model matrix : an identity matrix (model will be at the origin)
-	glm::mat4 Model = glm::mat4(1.0f);
-	// Our ModelViewProjection : multiplication of our 3 matrices
-	glm::mat4 MVP = Projection * View * Model; // Remember, matrix multiplication is the other way around
+	glm::vec3 lightPosition = glm::vec3(4, 4, 4);
+	basicShader.SetUniformVec3("LightWorldPosition", lightPosition);
 
-	// Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
-	// A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
-	static const GLfloat g_vertex_buffer_data[] = {
-		-1.0f,-1.0f,-1.0f, // 0
-		-1.0f,-1.0f, 1.0f, // 1
-		-1.0f, 1.0f, 1.0f, // 2
-		 1.0f, 1.0f,-1.0f, // 3
-		-1.0f,-1.0f,-1.0f, // 0
-		-1.0f, 1.0f,-1.0f, // 4
-		 1.0f,-1.0f, 1.0f, // 5
-		-1.0f,-1.0f,-1.0f, // 0
-		 1.0f,-1.0f,-1.0f, // 6
-		 1.0f, 1.0f,-1.0f, // 3
-		 1.0f,-1.0f,-1.0f, // 6
-		-1.0f,-1.0f,-1.0f, // 0
-		-1.0f,-1.0f,-1.0f, // 0
-		-1.0f, 1.0f, 1.0f, // 2
-		-1.0f, 1.0f,-1.0f, // 4
-		 1.0f,-1.0f, 1.0f, // 5
-		-1.0f,-1.0f, 1.0f, // 1
-		-1.0f,-1.0f,-1.0f, // 0
-		-1.0f, 1.0f, 1.0f, // 2
-		-1.0f,-1.0f, 1.0f, // 1
-		 1.0f,-1.0f, 1.0f, // 5
-		 1.0f, 1.0f, 1.0f, // 7
-		 1.0f,-1.0f,-1.0f, // 6
-		 1.0f, 1.0f,-1.0f, // 3
-		 1.0f,-1.0f,-1.0f, // 6
-		 1.0f, 1.0f, 1.0f, // 7
-		 1.0f,-1.0f, 1.0f, // 5
-		 1.0f, 1.0f, 1.0f, // 7
-		 1.0f, 1.0f,-1.0f, // 3
-		-1.0f, 1.0f,-1.0f, // 4
-		 1.0f, 1.0f, 1.0f, // 7
-		-1.0f, 1.0f,-1.0f, // 4
-		-1.0f, 1.0f, 1.0f, // 1
-		 1.0f, 1.0f, 1.0f, // 7
-		-1.0f, 1.0f, 1.0f, // 2
-		 1.0f,-1.0f, 1.0f  // 5
-	};
+	glm::vec3 lightColor = glm::vec3(1, 1, 1);
+	basicShader.SetUniformVec3("LightColor", lightColor);
 
-	// Two UV coordinates for each vertex. They were created with Blender.
-	static const GLfloat g_uv_buffer_data[] = {
-		0.000000f, 0.333333f,
-		0.250000f, 0.333333f,
-		0.250000f, 0.666667f,
-		0.999930f, 0.329114f,
-		0.667979f, 0.666667f,
-		1.000000f, 0.666667f,
-		0.667979f, 0.666667f,
-		0.336024f, 1.0f - 0.671877f,
-		0.667969f, 1.0f - 0.671889f,
-		1.000023f, 1.0f - 0.000013f,
-		0.668104f, 1.0f - 0.000013f,
-		0.667979f, 1.0f - 0.335851f,
-		0.000059f, 1.0f - 0.000004f,
-		0.335973f, 1.0f - 0.335903f,
-		0.336098f, 1.0f - 0.000071f,
-		0.667979f, 1.0f - 0.335851f,
-		0.335973f, 1.0f - 0.335903f,
-		0.336024f, 1.0f - 0.671877f,
-		1.000004f, 1.0f - 0.671847f,
-		0.999958f, 1.0f - 0.336064f,
-		0.667979f, 1.0f - 0.335851f,
-		0.668104f, 1.0f - 0.000013f,
-		0.335973f, 1.0f - 0.335903f,
-		0.667979f, 1.0f - 0.335851f,
-		0.335973f, 1.0f - 0.335903f,
-		0.668104f, 1.0f - 0.000013f,
-		0.336098f, 1.0f - 0.000071f,
-		0.000103f, 1.0f - 0.336048f,
-		0.000004f, 1.0f - 0.671870f,
-		0.336024f, 1.0f - 0.671877f,
-		0.000103f, 1.0f - 0.336048f,
-		0.336024f, 1.0f - 0.671877f,
-		0.335973f, 1.0f - 0.335903f,
-		0.667969f, 1.0f - 0.671889f,
-		1.000004f, 1.0f - 0.671847f,
-		0.667979f, 1.0f - 0.335851f
-	};
+	float lightIntensity = 50.0f;
+	basicShader.SetUniformFloat("LightPower", lightIntensity);
 
-	VertexBuffer vb(g_vertex_buffer_data, sizeof(g_vertex_buffer_data));
-	VertexBuffer uvb(g_uv_buffer_data, sizeof(g_uv_buffer_data));
-
-	basicShader.SetUniformMatrix4("MVP", MVP);
-
-	Texture testTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/NumberedCube.bmp");
+	Texture testTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/uvmap.bmp");
 	testTexture.Bind(0);
-	
 	basicShader.SetUniformInt("textureSampler", 0);
 
-	VertexBufferLayout vbLayout;
-	vbLayout.PushFloat(3);
+	OBJReader objReader;
+	MeshData* tempData = objReader.ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Meshes/suzanne.obj");
 
-	VertexBufferLayout uvbLayout;
-	uvbLayout.PushFloat(2);
+	MeshComponent suzanneMesh(tempData, &basicShader);
+	suzanneMesh.SetTransform(FTransform());
+	suzanneMesh.transform.SetRotation(FQuaternion::MakeFromEuler(FVector3(0, 90, 0)));
+	suzanneMesh.transform.SetScale(FVector3(1, 1, 1));
+	suzanneMesh.RecalculateModelMatrix();
 
-	va.AddBuffer(&vb, vbLayout);
-	va.AddBuffer(&uvb, uvbLayout);
+	FCameraData camera(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);
 
-	OBJReader reader;
-	MeshData* tempData = reader.ReadFile("C:/Users/debgh/Documents/Meshes/airplane.obj");
+	this->DrawMesh(suzanneMesh, camera);
 
-	// Draw the triangle !
-	glDrawArrays(GL_TRIANGLES, 0, 12 * 3); // 12*3 indices starting at 0 -> 12 triangles
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
 	LogRenderingError();
-
 }
 
 void Renderer::TempModelRenderer()
