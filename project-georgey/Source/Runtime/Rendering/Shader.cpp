@@ -41,6 +41,16 @@ void Shader::SetUniformFloat(const std::string & name, float f) const
 	glUniform1f(GetUniformLocation(name), f);
 }
 
+void Shader::SetUniformVec2(const std::string & name, glm::vec2 vec) const
+{
+	glUniform2fv(GetUniformLocation(name), 1, (GLfloat*)&vec);
+}
+
+void Shader::SetUniformVec3(const std::string & name, glm::vec3 vec) const
+{
+	glUniform3fv(GetUniformLocation(name), 1, (GLfloat*)&vec);
+}
+
 void Shader::SetUniformVec4(const std::string & name, glm::vec4 vec) const
 {
 	glUniform4fv(GetUniformLocation(name), 1, (GLfloat*)&vec);
@@ -103,5 +113,6 @@ std::string Shader::ParseShader(const std::string& filepath)
 
 unsigned int Shader::GetUniformLocation(const std::string & name) const
 {
-	return glGetUniformLocation(rendererID, name.c_str());
+	unsigned int i = glGetUniformLocation(rendererID, name.c_str());
+	return i;
 }
