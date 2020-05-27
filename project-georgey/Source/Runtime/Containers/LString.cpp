@@ -30,3 +30,15 @@ std::vector<std::string> LString::SeperateStringByChar(std::string str, char c, 
 	}
 	return realSeperatedStrings;
 }
+
+std::string LString::GetFileLocation(const std::string fileName)
+{
+	size_t lastSlash = fileName.rfind("/");
+	return fileName.substr(0, lastSlash);
+}
+
+std::string LString::GetFileName(const std::string fileName)
+{
+	size_t lastSlash = fileName.rfind("/");
+	return fileName.substr(lastSlash + 1);
+}
