@@ -1,13 +1,13 @@
 #pragma once
 #include "../FileReader.h"
 
-enum EImageFileType : uint8_t
+enum class EImageFileType : uint8_t
 {
 	BMP,
 	PNG
 };
 
-enum EImageEncoding : uint8_t
+enum class EImageEncoding : uint8_t
 {
 	Unencoded = 0,
 	Grayscale = 8,

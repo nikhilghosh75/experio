@@ -2,7 +2,7 @@
 #include <string>
 using namespace std;
 
-enum EDayOfWeek
+enum class EDayOfWeek
 {
 	Monday,
 	Tuesday,
@@ -13,7 +13,7 @@ enum EDayOfWeek
 	Sunday
 };
 
-enum EMonthOfYear
+enum class EMonthOfYear
 {
 	January = 1,
 	February,

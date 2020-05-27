@@ -7,6 +7,13 @@
 #include "../Debug/GDebug.h"
 
 
+Shader::Shader()
+{
+	this->vertexShaderFilepath = "";
+	this->fragmentShaderFilepath = "";
+	this->rendererID = 0;
+}
+
 Shader::Shader(const std::string & vertexShaderFilepath, const std::string & fragmentShaderFilepath)
 {
 	this->vertexShaderFilepath = vertexShaderFilepath;

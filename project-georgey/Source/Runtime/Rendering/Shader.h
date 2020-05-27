@@ -3,7 +3,7 @@
 #include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/glm.hpp"
 #include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/mat4x4.hpp"
 
-enum EShaderType
+enum class EShaderType
 {
 	Vertex = 0,
 	Fragment = 1,
@@ -16,6 +16,7 @@ private:
 	std::string vertexShaderFilepath, fragmentShaderFilepath;
 	unsigned int rendererID;
 public:
+	Shader();
 	Shader(const std::string& vertexShaderFilepath, const std::string& fragmentShaderFilepath);
 	~Shader();
 
