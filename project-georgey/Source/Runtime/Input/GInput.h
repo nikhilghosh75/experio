@@ -1,6 +1,6 @@
 #pragma once
 
-enum EInputType
+enum class EInputType
 {
 	Keyboard,
 	Mouse
