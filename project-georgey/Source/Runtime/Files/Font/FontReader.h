@@ -66,6 +66,18 @@ public:
 	std::vector<FCharacterInfo> characters;
 
 	EFontFileType fileType;
+
+	FCharacterInfo GetCharacterFromCode(unsigned int code)
+	{
+		for (int i = 0; i < characters.size(); i++)
+		{
+			if (characters[i].charCode == code)
+			{
+				return characters[i];
+			}
+		}
+		return characters[0];
+	}
 };
 
 class FontReader : FileReader<FontData>
