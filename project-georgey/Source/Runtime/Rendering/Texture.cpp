@@ -56,13 +56,13 @@ void Texture::SetData(ImageData * data)
 	ConfigureData();
 }
 
-void Texture::Bind(unsigned int slot)
+void Texture::Bind(unsigned int slot) const
 {
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, this->rendererID);
 }
 
-void Texture::UnBind()
+void Texture::UnBind() const
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

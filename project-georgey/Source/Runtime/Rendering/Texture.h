@@ -17,12 +17,12 @@ public:
 	void SetData(ImageData* data);
 	void SetData(void* data, int width, int height, EImageEncoding encoding, bool invertedPixels = false);
 
-	void Bind(unsigned int slot = 0);
-	void UnBind();
+	void Bind(unsigned int slot = 0) const;
+	void UnBind() const;
 
-	unsigned int GetWidth();
-	unsigned int GetHeight();
-	EImageEncoding GetImageEncoding();
+	unsigned int GetWidth() const;
+	unsigned int GetHeight() const;
+	EImageEncoding GetImageEncoding() const;
 
 	bool operator==(const Texture& other) const;
 	bool operator!=(const Texture& other) const;
