@@ -22,6 +22,11 @@ float LWindowOperations::PixelToNormalizedSize(const FWindowData & windowData, c
 	}
 }
 
+FVector2 LWindowOperations::PixelToNormalizedPos(const FWindowData & windowData, const FVector2 & pixelPos)
+{
+	return FVector2(PixelToNormalizedSize(windowData, pixelPos.x, EWindowAxisType::X), PixelToNormalizedSize(windowData, pixelPos.y, EWindowAxisType::Y));
+}
+
 float LWindowOperations::NormalizedToPixelSize(const FWindowData & windowData, const float normalizedSize, EWindowAxisType axis)
 {
 	switch (axis)
@@ -36,6 +41,11 @@ float LWindowOperations::NormalizedToPixelSize(const FWindowData & windowData, c
 	default:
 		return 0;
 	}
+}
+
+FVector2 LWindowOperations::NormalizedToPixelPos(const FWindowData & windowData, const FVector2 & normalizedPos)
+{
+	return FVector2(NormalizedToPixelSize(windowData, normalizedPos.x, EWindowAxisType::X), NormalizedToPixelSize(windowData, normalizedPos.y, EWindowAxisType::Y));
 }
 
 float LWindowOperations::PixelToClippedSize(const FWindowData & windowData, const float pixelSize, EWindowAxisType axis)
@@ -53,3 +63,9 @@ float LWindowOperations::PixelToClippedSize(const FWindowData & windowData, cons
 		return 0;
 	}
 }
+
+FVector2 LWindowOperations::PixelToClippedPos(const FWindowData & data, const FVector2 & pixelPos)
+{
+	return FVector2(PixelToClippedSize(data, pixelPos.x, EWindowAxisType::X), PixelToClippedSize(data, pixelPos.y, EWindowAxisType::Y));
+}
+
