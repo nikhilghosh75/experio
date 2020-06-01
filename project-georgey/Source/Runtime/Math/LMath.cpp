@@ -91,6 +91,15 @@ float LMath::Atan2(float x, float y)
 	return Atan(ratio) - PI;
 }
 
+bool LMath::Between(float min, float max, float f)
+{
+	if (f < max && f > min)
+	{
+		return true;
+	}
+	return false;
+}
+
 float LMath::Clamp(float f, float min, float max)
 {
 	if (f < min)
@@ -112,6 +121,15 @@ float LMath::ClampAngleDeg(float f)
 float LMath::ClampAngleRad(float f)
 {
 	return Clamp(f, 0.0f, 2 * PI);
+}
+
+float LMath::CopySign(float x, float y)
+{
+	if (y > 0.0f)
+	{
+		return LMath::Abs(x);
+	}
+	return -1.f * LMath::Abs(x);
 }
 
 float LMath::Cos(float angle)

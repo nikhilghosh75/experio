@@ -12,17 +12,31 @@ struct FRect
 	FRect(float minX, float minY, float maxX, float maxY);
 	FRect(const FVector2* points, int count); // Creates a bounding box
 
-	bool operator == (const FRect& other) const { return (min == other.min) && (max == other.max); }
+	void Fix();
 
-	bool IsInside(FVector2 point);
-	// !=
+	bool operator == (const FRect& other) const { return (min == other.min) && (max == other.max); }
+	bool operator != (const FRect& other) const { return !(min == other.min) || !(max == other.max); }
+
+	bool IsInside(FVector2 point) const;
+
+	FVector2 GetTopLeft() const;
+	FVector2 GetTopRight() const;
+	FVector2 GetBottomLeft() const;
+	FVector2 GetBottomRight() const;
+
+	float GetWidth() const;
+	float GetHeight() const;
+
 	// +, +=
 	// []
 
 	// DistanceToPoint
 	// ExpandBy
-	// Area
-	// Center
+	
+	float GetArea() const;
+
+	FVector2 GetCenter() const;
+	
 	// Event
 	// Intersect
 	// IsInside

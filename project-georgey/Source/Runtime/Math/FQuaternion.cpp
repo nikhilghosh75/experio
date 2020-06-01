@@ -147,3 +147,27 @@ FQuaternion FQuaternion::MakeFromEuler(const FVector3 & Euler)
 
 	return q;
 }
+
+FVector3 FQuaternion::ToEuler(const FQuaternion & Q)
+{
+	float sinrCosp = 2 * (Q.w * Q.x * Q.y * Q.z);
+	float cosrCosp = 1 - 2 * (Q.x * Q.x + Q.y * Q.y);
+	float roll = LMath::Atan2(sinrCosp, cosrCosp);
+
+	float sinp = 2 * (Q.w * Q.y - Q.z * Q.x);
+	float pitch = 0.f;
+	if (LMath::Abs(sinp) >= 1)
+	{
+		pitch = LMath::CopySign(PI / 2, sinp);
+	}
+	else
+	{
+		pitch = LMath::Asin(sinp);
+	}
+
+	float sinyCosp = 2 * (Q.w * Q.z + Q.x * Q.y);
+	float cosyCosp = 1 - 2 * (Q.y * Q.y + Q.z * Q.z);
+	float yaw = LMath::Atan2(sinyCosp, cosyCosp);
+
+	return FVector3(roll, pitch, yaw);
+}
