@@ -86,6 +86,41 @@ void Renderer::DrawMesh(const MeshComponent & mesh, const FCameraData & cameraDa
 	glDrawArrays(GL_TRIANGLES, 0, mesh.meshData->GetTriangleCount());
 }
 
+void Renderer::DrawQuad(const Texture & texture, const Shader & shader, const FRect & uvRect, const FRect & vertexRect)
+{
+	shader.Bind();
+	texture.Bind();
+
+	glm::vec2 verticies[6] = {
+		vertexRect.GetTopLeft(), vertexRect.GetBottomLeft(), vertexRect.GetTopRight(),
+		vertexRect.GetBottomRight(), vertexRect.GetTopRight(), vertexRect.GetBottomLeft()
+	};
+
+	/*
+		uvRect.GetTopLeft().UVCords(), uvRect.GetBottomLeft().UVCords(), uvRect.GetTopRight().UVCords(),
+		uvRect.GetBottomRight().UVCords(), uvRect.GetTopRight().UVCords(), uvRect.GetBottomLeft()
+	*/
+	
+	glm::vec2 uvs[6] = {
+		glm::vec2(uvRect.min.x + 0.03f, 1.f - uvRect.min.y), glm::vec2(uvRect.min.x + 0.03f, 1.f - uvRect.max.y), glm::vec2(uvRect.max.x + 0.03f, 1.f - uvRect.min.y),
+		glm::vec2(uvRect.max.x + 0.03f, 1.f - uvRect.max.y), glm::vec2(uvRect.max.x + 0.03f, 1.f - uvRect.min.y), glm::vec2(uvRect.min.x + 0.03f, 1.f - uvRect.max.y)
+	};
+
+	VertexBuffer vertexBuffer(verticies, sizeof(verticies));
+	VertexBuffer uvBuffer(uvs, sizeof(uvs));
+	
+	VertexArray va;
+
+	VertexBufferLayout vertexLayout, uvLayout;
+	vertexLayout.PushFloat(2);
+	uvLayout.PushFloat(2);
+
+	va.AddBuffer(&vertexBuffer, vertexLayout);
+	va.AddBuffer(&uvBuffer, uvLayout);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
 void Renderer::TempDraw(const VertexArray* va, const IndexBuffer* ib, const Shader* shader) const
 {
 	shader->Bind();
@@ -103,6 +138,8 @@ void Renderer::TempDraw(const VertexArray * va, const Shader * shader, int count
 
 void Renderer::TempRenderer()
 {
+	LogRenderingError();
+
 	TempProfiler("Rendering Textured Cube");
 
 	BMPReader bmpReader;
@@ -138,7 +175,9 @@ void Renderer::TempRenderer()
 
 	this->DrawMesh(suzanneMesh, camera);
 
-	LogRenderingError();
+	//InitText2D("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/Holstein.bmp", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Text2DVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Text2DFragment.shader");
+	//PrintText2D("Tolulope", 0.5, 0.5, 30);
+	//LogRenderingError();
 }
 
 void Renderer::TempModelRenderer()
