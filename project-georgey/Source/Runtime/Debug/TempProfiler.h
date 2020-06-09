@@ -14,3 +14,4 @@ public:
 	~TempProfiler();
 };
 
+#define PROFILE_SCOPE(__name) TempProfiler profiler(__name)

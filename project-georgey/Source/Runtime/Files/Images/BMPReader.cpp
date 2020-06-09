@@ -11,7 +11,7 @@ BMPReader::BMPReader()
 
 ImageData* BMPReader::ReadFile(const char * fileName)
 {
-	TempProfiler("BMP Reader");
+	TempProfiler profiler("BMP Reader");
 	ImageData* returnData = new ImageData();
 	returnData->fileType = EImageFileType::BMP;
 
