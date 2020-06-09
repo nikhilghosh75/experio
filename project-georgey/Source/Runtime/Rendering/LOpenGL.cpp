@@ -22,6 +22,11 @@ size_t LOpenGL::GetSizeOfType(unsigned int type)
 	return 0;
 }
 
+size_t LOpenGL::GetSizeOfType(EDataType type)
+{
+	return GetSizeOfType((unsigned int)type);
+}
+
 size_t LOpenGL::GetImageFormat(EImageEncoding encoding, EImageFileType fileType)
 {
 	switch (fileType)

@@ -1,11 +1,13 @@
 #pragma once
 #include "GL/glew.h"
 #include "../Files/Images/ImageReader.h"
+#include "VertexBuffer.h"
 
 class LOpenGL
 {
 public:
 	static size_t GetSizeOfType(unsigned int type);
+	static size_t GetSizeOfType(EDataType type);
 
 	static size_t GetImageFormat(EImageEncoding encoding, EImageFileType fileType);
 

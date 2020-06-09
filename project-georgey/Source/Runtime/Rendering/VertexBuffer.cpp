@@ -3,10 +3,11 @@
 #include <GL/GL.h>
 #include <stdlib.h>
 #include <string.h>
+#include "LOpenGL.h"
 
 VertexBuffer::VertexBuffer()
 {
-	this->rendererID = 4294967294;
+	this->rendererID = VERTEX_BUFFER_NOT_DEFINED;
 }
 
 VertexBuffer::VertexBuffer(const void * data, unsigned int size)
@@ -14,6 +15,30 @@ VertexBuffer::VertexBuffer(const void * data, unsigned int size)
 	this->data = (void*) malloc(size);
 	memcpy(this->data, data, size);
 	this->size = size;
+	glGenBuffers(1, &rendererID);
+	glBindBuffer(GL_ARRAY_BUFFER, rendererID);
+	glBufferData(GL_ARRAY_BUFFER, size, this->data, GL_STATIC_DRAW);
+}
+
+VertexBuffer::VertexBuffer(const void * data, unsigned int size, unsigned int dataType)
+{
+	this->data = (void*)malloc(size);
+	memcpy(this->data, data, size);
+	this->size = size;
+	this->dataType = (EDataType)dataType;
+
+	glGenBuffers(1, &rendererID);
+	glBindBuffer(GL_ARRAY_BUFFER, rendererID);
+	glBufferData(GL_ARRAY_BUFFER, size, this->data, GL_STATIC_DRAW);
+}
+
+VertexBuffer::VertexBuffer(const void * data, unsigned int size, EDataType dataType)
+{
+	this->data = (void*)malloc(size);
+	memcpy(this->data, data, size);
+	this->size = size;
+	this->dataType = (EDataType)dataType;
+
 	glGenBuffers(1, &rendererID);
 	glBindBuffer(GL_ARRAY_BUFFER, rendererID);
 	glBufferData(GL_ARRAY_BUFFER, size, this->data, GL_STATIC_DRAW);
@@ -33,4 +58,47 @@ void VertexBuffer::Bind() const
 void VertexBuffer::Unbind() const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void VertexBuffer::SetData(const void * data, unsigned int size)
+{
+	delete this->data;
+
+	this->data = (void*)malloc(size);
+	memcpy(this->data, data, size);
+	this->size = size;
+	
+	if (this->rendererID == VERTEX_BUFFER_NOT_DEFINED)
+	{
+		glGenBuffers(1, &rendererID);
+	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, rendererID);
+	glBufferData(GL_ARRAY_BUFFER, size, this->data, GL_STATIC_DRAW);
+}
+
+void VertexBuffer::SetData(const void * data, unsigned int size, EDataType dataType)
+{
+	this->data = (void*)malloc(size);
+	memcpy(this->data, data, size);
+	this->size = size;
+	this->dataType = dataType;
+
+	if (this->rendererID == VERTEX_BUFFER_NOT_DEFINED)
+	{
+		glGenBuffers(1, &rendererID);
+	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, rendererID);
+	glBufferData(GL_ARRAY_BUFFER, size, this->data, GL_STATIC_DRAW);
+}
+
+unsigned int VertexBuffer::GetCount() const
+{
+	return this->size / LOpenGL::GetSizeOfType(dataType);
+}
+
+GLfloat * VertexBuffer::GetDataAsFloatArray() const
+{
+	return (GLfloat*)this->data;
 }
