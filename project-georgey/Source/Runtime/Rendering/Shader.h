@@ -28,6 +28,8 @@ public:
 	void SetUniformVec2(const std::string& name, glm::vec2 vec) const;
 	void SetUniformVec3(const std::string& name, glm::vec3 vec) const;
 	void SetUniformVec4(const std::string& name, glm::vec4 vec) const;
+	void SetUniformMatrix2(const std::string& name, glm::mat2 mat) const;
+	void SetUniformMatrix3(const std::string& name, glm::mat3 mat) const;
 	void SetUniformMatrix4(const std::string& name, glm::mat4 mat) const;
 
 	static unsigned int CompileShader(const std::string & source, unsigned int type);
