@@ -4,7 +4,8 @@
 enum class EImageFileType : uint8_t
 {
 	BMP,
-	PNG
+	PNG,
+	TGA
 };
 
 enum class EImageEncoding : uint8_t
