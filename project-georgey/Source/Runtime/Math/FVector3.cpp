@@ -87,6 +87,11 @@ FVector3 FVector3::BoundToBox(const FVector3 & Min, const FVector3 & Max, const 
 	return FVector3(LMath::Clamp(V.x, Min.x, Max.x), LMath::Clamp(V.y, Min.y, Max.y), LMath::Clamp(V.z, Min.z, Max.z));
 }
 
+FVector3 FVector3::BoundToCube(const FVector3 & Center, float radius, const FVector3 & V)
+{
+	return BoundToBox(Center - FVector3(radius, radius, radius), Center + FVector3(radius, radius, radius), V);
+}
+
 
 bool FVector3::Coincident(const FVector3& V1, const FVector3& V2, float threshold)
 {

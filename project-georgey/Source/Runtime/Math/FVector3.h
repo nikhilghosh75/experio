@@ -29,7 +29,7 @@ public:
 	static FVector3 Reflect(const FVector3& Incident, const FVector3& Normal);
 	static FVector3 Refract(const FVector3& Incident, const FVector3& Normal, float indexOfRefraction);
 	static FVector3 BoundToBox(const FVector3& Min, const FVector3& Max, const FVector3& V);
-	static FVector3 BoundToCube(const FVector3& Center, float radius);
+	static FVector3 BoundToCube(const FVector3& Center, float radius, const FVector3& V);
 	static FVector3 Clamp(const FVector3& V, float minLength, float maxLength);
 	static FVector3 ClampValues(const FVector3& V, float minEntry, float maxEntry);
 
