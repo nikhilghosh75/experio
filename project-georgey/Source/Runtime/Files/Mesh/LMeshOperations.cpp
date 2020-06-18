@@ -97,7 +97,7 @@ IndexBuffer* LMeshOperations::IndexMesh(MeshData & data)
 			outNormals.push_back(normals[i]);
 			outTangents.push_back(tangents[i]);
 			outBitangents.push_back(bitangents[i]);
-			outIndicies.push_back((unsigned int)outIndicies.size() - 1);
+			outIndicies.push_back((unsigned int)outVertices.size() - 1);
 		}
 		else
 		{

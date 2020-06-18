@@ -72,13 +72,6 @@ void TextComponent::RenderText()
 		currentCursorLocation = currentCursorLocation + cursorMoveVec;
 	}
 
-	GDebug::Log(to_string(verticies[0].x) + "," + to_string(verticies[0].y));
-	GDebug::Log(to_string(verticies[1].x) + "," + to_string(verticies[1].y));
-	GDebug::Log(to_string(verticies[2].x) + "," + to_string(verticies[2].y));
-	GDebug::Log(to_string(verticies[3].x) + "," + to_string(verticies[3].y));
-	GDebug::Log(to_string(verticies[4].x) + "," + to_string(verticies[4].y));
-	GDebug::Log(to_string(verticies[5].x) + "," + to_string(verticies[5].y));
-
 	VertexBuffer vertexBuffer(verticies, sizeof(glm::vec2) * length * 6);
 	VertexBuffer uvBuffer(uvs, sizeof(glm::vec2) * length * 6);
 
