@@ -7,6 +7,7 @@
 #include "../../Debug/GDebug.h"
 #include "../../Debug/TempProfiler.h"
 #include "../../Containers/LString.h"
+#include "LMeshOperations.h"
 
 MeshData * OBJReader::ReadFile(const char * fileName)
 {
@@ -81,37 +82,42 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 		}
 	}
 
-	float* vertexData = new float[vertexIndicies.size() * 3];
+	GDebug::Log("Read Entire File");
+
+	glm::vec3* vertexData = new glm::vec3[vertexIndicies.size()];
 	for (int i = 0; i < vertexIndicies.size(); i++)
 	{
-		glm::vec3 currentVertex = tempVertices[vertexIndicies[i] - 1];
-		vertexData[i * 3] = currentVertex.x;
-		vertexData[i * 3 + 1] = currentVertex.y;
-		vertexData[i * 3 + 2] = currentVertex.z;
+		vertexData[i] = tempVertices[vertexIndicies[i] - 1];
 	}
 
-	float* uvData = new float[uvIndicies.size() * 2];
+	glm::vec2* uvData = new glm::vec2[uvIndicies.size()];
 	for (int i = 0; i < uvIndicies.size(); i++)
 	{
-		glm::vec2 currentUV = tempUVs[uvIndicies[i] - 1];
-		uvData[i * 2] = currentUV.x;
-		uvData[i * 2 + 1] = currentUV.y;
+		uvData[i] = tempUVs[uvIndicies[i] - 1];
 	}
 
-	float* normalData = new float[normalIndicies.size() * 3];
+	glm::vec3* normalData = new glm::vec3[normalIndicies.size()];
 	for (int i = 0; i < normalIndicies.size(); i++)
 	{
-		glm::vec3 currentNormal = tempNormals[normalIndicies[i] - 1];
-		normalData[i * 3] = currentNormal.x;
-		normalData[i * 3 + 1] = currentNormal.y;
-		normalData[i * 3 + 2] = currentNormal.z;
+		normalData[i] = tempNormals[normalIndicies[i] - 1];
 	}
 
 	MeshData* meshData = new MeshData();
 	meshData->fileType = EMeshFileType::OBJ;
-	meshData->verticies = new VertexBuffer(vertexData, vertexIndicies.size() * 3 * sizeof(float));
-	meshData->uv = new VertexBuffer(uvData, uvIndicies.size() * 2 * sizeof(float));
-	meshData->normals = new VertexBuffer(normalData, normalIndicies.size() * 3 * sizeof(float));
+	meshData->verticies = new VertexBuffer(vertexData, vertexIndicies.size() * sizeof(glm::vec3), EDataType::FLOAT);
+	meshData->uv = new VertexBuffer(uvData, uvIndicies.size() * sizeof(glm::vec2), EDataType::FLOAT);
+	meshData->normals = new VertexBuffer(normalData, normalIndicies.size() * sizeof(glm::vec3), EDataType::FLOAT);
 
+	VertexBuffer* tangentBuffer = new VertexBuffer(); 
+	VertexBuffer* bitangentBuffer = new VertexBuffer();
+	LMeshOperations::CalculateBiTangents(*meshData->verticies, *meshData->uv, *meshData->normals, *tangentBuffer, *bitangentBuffer);
+	meshData->tangents = tangentBuffer;
+	meshData->bitangents = bitangentBuffer;
+
+	GDebug::Log("Read Tangents and Bitangents");
+
+	meshData->indexBuffer = LMeshOperations::IndexMesh(*meshData);
+	//meshData->isIndexed = false;
+	meshData->isIndexed = true;
 	return meshData;
 }
