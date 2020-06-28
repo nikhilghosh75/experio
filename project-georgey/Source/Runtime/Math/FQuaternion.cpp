@@ -171,3 +171,14 @@ FVector3 FQuaternion::ToEuler(const FQuaternion & Q)
 
 	return FVector3(roll, pitch, yaw);
 }
+
+float FQuaternion::GetAngle(const FQuaternion & Q)
+{
+	return 2.f * LMath::Acos(Q.w);
+}
+
+float FQuaternion::AngularDistance(const FQuaternion & Q1, const FQuaternion & Q2)
+{
+	float innerProduct = Q1.x * Q2.x + Q1.y * Q2.y + Q1.z * Q2.z + Q1.w * Q2.w;
+	return LMath::Acos((2 * innerProduct * innerProduct) - 1.f);
+}

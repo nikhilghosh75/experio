@@ -92,6 +92,25 @@ FVector3 FVector3::BoundToCube(const FVector3 & Center, float radius, const FVec
 	return BoundToBox(Center - FVector3(radius, radius, radius), Center + FVector3(radius, radius, radius), V);
 }
 
+FVector3 FVector3::Clamp(const FVector3 & V, float minLength, float maxLength)
+{
+	float sqrMagnitude = FVector3::SqrMagnitude(V);
+	if (sqrMagnitude > maxLength * maxLength)
+	{
+		return V * (maxLength / LMath::Sqrt(sqrMagnitude));
+	}
+	else if (sqrMagnitude < minLength * minLength)
+	{
+		return V * (minLength / LMath::Sqrt(sqrMagnitude));
+	}
+	return V;
+}
+
+FVector3 FVector3::ClampValues(const FVector3 & V, float minEntry, float maxEntry)
+{
+	return FVector3(LMath::Clamp(V.x, minEntry, maxEntry), LMath::Clamp(V.y, minEntry, maxEntry), LMath::Clamp(V.z, minEntry, maxEntry));
+}
+
 
 bool FVector3::Coincident(const FVector3& V1, const FVector3& V2, float threshold)
 {
@@ -209,6 +228,9 @@ FVector3 FVector3::operator+(const FVector3& V) const
 
 FVector3 FVector3::operator+=(const FVector3& V)
 {
+	this->x += V.x;
+	this->y += V.y;
+	this->z += V.z;
     return *this + V;
 }
 

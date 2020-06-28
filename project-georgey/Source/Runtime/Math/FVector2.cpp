@@ -33,6 +33,16 @@ float FVector2::SqrDistance(const FVector2 & V) const
 	return (V.x - this->x) * (V.x - this->x) + (V.y - this->y) * (V.y - this->y);
 }
 
+float FVector2::Distance(const FVector2 & V1, const FVector2 & V2)
+{
+	return V1.Distance(V2);
+}
+
+float FVector2::SqrDistance(const FVector2 & V1, const FVector2 & V2)
+{
+	return V1.SqrDistance(V2);
+}
+
 FVector2 FVector2::operator+(const FVector2 Other) const
 {
 	return FVector2(this->x + Other.x, this->y + Other.y);
@@ -51,6 +61,12 @@ FVector2 FVector2::operator-(const FVector2 Other) const
 FVector2 FVector2::ToUVCords(const FVector2 & V)
 {
 	return FVector2(V.x, 1.f - V.y);
+}
+
+FVector2 FVector2::Normalized() const
+{
+	float magnitude = this->Magnitude();
+	return FVector2(this->x / magnitude, this->y / magnitude);
 }
 
 FVector2 FVector2::UVCords() const
