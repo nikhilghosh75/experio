@@ -5,6 +5,7 @@
 #include "../Rendering/Renderer.h"
 #include "../Files/Font/FNTReader.h"
 #include "../UI/TextComponent.h"
+#include "../Particles/ParticleSystem.h"
 using namespace std;
 
 GApplication::GApplication()
@@ -33,13 +34,16 @@ void GApplication::Run()
 	textComponent.text = "Nikhil Ghosh";
 	textComponent.transform = RectTransform(FVector2(0.4f, 0.4f), FVector2(1.f, 0.6f));
 
+	ParticleSystem particleSystem;
+
 	while (newWindow.isActive)
 	{
 		tempRenderer.OnNewFrame();
 		newWindow.OnUpdate();
 		tempRenderer.Clear();
-		tempRenderer.TempRenderer();
+		//tempRenderer.TempRenderer();
 		textComponent.RenderText();
+		particleSystem.Update();
 		tempRenderer.LogRenderingError();
 	}
 	cin.get();
