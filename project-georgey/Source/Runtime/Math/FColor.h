@@ -17,6 +17,8 @@ struct FColor
 	static FColor FromHex(std::string s);
 	static FColor FromString(std::string s);
 	static FColor FromCMYK(float c, float m, float y, float k);
+	static FColor FromCMYK(std::string s);
+	static FColor FromRGBString(std::string s);
 
 	std::string Hex() const;
 	std::string RGBAString() const;
@@ -27,6 +29,7 @@ struct FColor
 	float Y() const;
 	float K() const;
 
+	static FColor Lerp(FColor start, FColor end, float t);
 	static FColor RandomColor(bool randomAlpha=true);
 
 	// Colors
