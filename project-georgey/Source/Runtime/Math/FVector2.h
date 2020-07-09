@@ -44,4 +44,11 @@ struct FVector2
 	FVector2 operator+(const FVector2 Other) const;
 	FVector2 operator+=(const FVector2 Other);
 	FVector2 operator-(const FVector2 Other) const;
+	FVector2 operator-=(const FVector2 Other);
+	FVector2 operator*(const float f) const;
+	FVector2 operator*=(const float f);
+	FVector2 operator/(const float f) const;
+	FVector2 operator/=(const float f);
 };
+
+FVector2 operator*(float f, const FVector2& V);

@@ -50,12 +50,45 @@ FVector2 FVector2::operator+(const FVector2 Other) const
 
 FVector2 FVector2::operator+=(const FVector2 Other)
 {
-	return FVector2(this->x + Other.x, this->y + Other.y);
+	this->x += Other.x;
+	this->y += Other.y;
+	return *this + Other;
 }
 
 FVector2 FVector2::operator-(const FVector2 Other) const
 {
 	return FVector2(this->x - Other.x, this->y - Other.y);
+}
+
+FVector2 FVector2::operator-=(const FVector2 Other)
+{
+	this->x -= Other.x;
+	this->y -= Other.y;
+	return FVector2();
+}
+
+FVector2 FVector2::operator*(const float f) const
+{
+	return FVector2(this->x * f, this->y * f);
+}
+
+FVector2 FVector2::operator*=(const float f)
+{
+	this->x *= f;
+	this->y *= f;
+	return *this * f;
+}
+
+FVector2 FVector2::operator/(const float f) const
+{
+	return FVector2(this->x / f, this->y / f);
+}
+
+FVector2 FVector2::operator/=(const float f)
+{
+	this->x /= f;
+	this->y /= f;
+	return FVector2();
 }
 
 FVector2 FVector2::ToUVCords(const FVector2 & V)
@@ -82,4 +115,22 @@ float FVector2::Dot(const FVector2 & V1, const FVector2 & V2)
 float FVector2::Cross(const FVector2 & V1, const FVector2 & V2)
 {
 	return V1.x * V2.y - V1.y * V2.x;
+}
+
+FVector2 FVector2::Reflect(const FVector2 & incident, const FVector2 & normal)
+{
+	return incident - (normal * 2.f * Dot(incident, normal));
+}
+
+FVector2 FVector2::Refract(const FVector2 & incident, const FVector2 & normal, float indexOfRefraction)
+{
+	float dotValue = Dot(incident, normal);
+	float k = 1.f - indexOfRefraction * indexOfRefraction * (1 - dotValue * dotValue);
+	return (indexOfRefraction * incident - (indexOfRefraction * dotValue * LMath::Sqrt(k)) * normal) * (float)(k >= 0);
+	return FVector2();
+}
+
+FVector2 operator*(float f, const FVector2 & V)
+{
+	return V * f;
 }
