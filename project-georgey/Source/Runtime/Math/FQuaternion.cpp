@@ -106,6 +106,34 @@ glm::mat4 FQuaternion::ToGLMMat4(const FQuaternion & Q)
 	return glm::mat4(col0, col1, col2, col3);
 }
 
+FQuaternion FQuaternion::operator*(const float f) const
+{
+	return FQuaternion(this->x * f, this->y * f, this->z * f, this->w * f);
+}
+
+FQuaternion FQuaternion::operator*=(float f)
+{
+	this->x *= f;
+	this->y *= f;
+	this->z *= f;
+	this->w *= f;
+	return *this * f;
+}
+
+FQuaternion FQuaternion::operator/(const float f) const
+{
+	return FQuaternion(this->x / f, this->y / f, this->z / f, this->w / f);
+}
+
+FQuaternion FQuaternion::operator/=(float f)
+{
+	this->x /= f;
+	this->y /= f;
+	this->z /= f;
+	this->w /= f;
+	return *this / f;
+}
+
 FQuaternion FQuaternion::GetConjugate(const FQuaternion & Q)
 {
 	return FQuaternion(-Q.x, -Q.y, -Q.z, Q.w);
@@ -177,8 +205,68 @@ float FQuaternion::GetAngle(const FQuaternion & Q)
 	return 2.f * LMath::Acos(Q.w);
 }
 
+float FQuaternion::Dot(const FQuaternion & Q1, const FQuaternion & Q2)
+{
+	return Q1.x * Q2.x + Q1.y * Q2.y + Q1.z * Q2.z + Q1.w * Q2.w;
+}
+
 float FQuaternion::AngularDistance(const FQuaternion & Q1, const FQuaternion & Q2)
 {
 	float innerProduct = Q1.x * Q2.x + Q1.y * Q2.y + Q1.z * Q2.z + Q1.w * Q2.w;
 	return LMath::Acos((2 * innerProduct * innerProduct) - 1.f);
+}
+
+FQuaternion FQuaternion::Lerp(const FQuaternion & Q1, const FQuaternion & Q2, float t)
+{
+	return FQuaternion(
+		LMath::Lerp(Q1.x, Q2.x, t),
+		LMath::Lerp(Q1.y, Q2.y, t),
+		LMath::Lerp(Q1.z, Q2.z, t),
+		LMath::Lerp(Q1.w, Q2.w, t)
+	);
+}
+
+FQuaternion FQuaternion::BiLerp(const FQuaternion & Q00, const FQuaternion & Q10, const FQuaternion & Q01, const FQuaternion & Q11, float t1, float t2)
+{
+	return FQuaternion::Lerp(
+		FQuaternion::Slerp(Q00, Q10, t1),
+		FQuaternion::Slerp(Q01, Q11, t1),
+		t2
+	);
+}
+
+FQuaternion FQuaternion::Slerp(const FQuaternion & Q1, const FQuaternion & Quat2, float t)
+{
+	FQuaternion Q2 = Quat2;
+
+	float dot = Dot(Q1, Q2);
+
+	if (dot < 0.0f)
+	{
+		Q2 = Q2 * -1.f;
+		dot = dot * -1.f;
+	}
+
+	const float DOT_THRESHOLD = 0.9995f;
+
+	if (dot > DOT_THRESHOLD)
+	{
+		FQuaternion result = Q1 + t * (Q2 - Q1);
+		return result;
+	}
+
+	float theta0 = LMath::Acos(dot);
+	float theta = theta0 * t;
+	float sinTheta = LMath::Sin(theta);
+	float sinTheta0 = LMath::Sin(theta0);
+
+	float s0 = LMath::Cos(theta) - dot * sinTheta / sinTheta0;
+	float s1 = sinTheta / sinTheta0;
+
+	return (s0 * Q1) + (s1 * Q2);
+}
+
+FQuaternion operator*(float f, const FQuaternion & Q)
+{
+	return FQuaternion(Q.x * f, Q.y * f, Q.z * f, Q.w * f);
 }

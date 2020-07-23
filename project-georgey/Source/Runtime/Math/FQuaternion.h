@@ -33,6 +33,11 @@ struct FQuaternion
 	//operator mat4() const { return ToMat4(*this); }
 	operator glm::mat4() const { return ToGLMMat4(*this); }
 
+	FQuaternion operator*(const float f) const;
+	FQuaternion operator*=(float f);
+	FQuaternion operator/(const float f) const;
+	FQuaternion operator/=(float f);
+
 	static FQuaternion GetConjugate(const FQuaternion& Q);
 
 	static bool Equals(const FQuaternion& Q1, const FQuaternion Q2, float tolerance = 0.000001f);
@@ -42,6 +47,8 @@ struct FQuaternion
 	static FQuaternion MakeFromEuler(const FVector3& Euler); // x - roll, y - pitch, z - yaw
 	static FVector3 ToEuler(const FQuaternion& Q);
 	static float GetAngle(const FQuaternion& Q);
+
+	static float Dot(const FQuaternion& Q1, const FQuaternion& Q2);
 
 	static float AngularDistance(const FQuaternion& Q1, const FQuaternion& Q2);
 	static FQuaternion Lerp(const FQuaternion& Q1, const FQuaternion& Q2, float t);
@@ -57,3 +64,5 @@ struct FQuaternion
 	static FVector3 GetUpVector(const FQuaternion& Q);
 	static FVector3 GetDownVector(const FQuaternion& Q);
 };
+
+FQuaternion operator*(float f, const FQuaternion& Q);
