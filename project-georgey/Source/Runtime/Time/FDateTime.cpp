@@ -6,7 +6,7 @@ using namespace std;
 
 const int DAYSTOMONTH[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
 const int DAYSINYEAR = 365;
-const int DAYSINCYCLE = 146097;
+const int DAYSINCYCLE = 146097; // 1 cycle is 400 years
 const long long MAXTICKS = 8640000000000000;
 const long long TICKSPERDAY = 864000000000;
 const long long TICKSPERHOUR = 36000000000;
@@ -15,7 +15,7 @@ const int TICKSPERSECOND = 10000000;
 const int TICKSPERMILLISECOND = 10000;
 const int TICKSPERMICROSECOND = 10;
 const long long TICKSSINCE1601 = 504912960000000000;
-const long long TICSSINCEUNIXEPOCH = 621672192000000000;
+const long long TICKSINCEUNIXEPOCH = 621672192000000000;
 
 void DateTimeTest()
 {
@@ -66,24 +66,26 @@ FDateTime::FDateTime(int year, int month, int day, int hour, int minute, int sec
 		+ microsecond * TICKSPERMICROSECOND;
 }
 
-const FDateTime FDateTime::operator+(const FDateTime & other)
+const FDateTime FDateTime::operator+(const FDuration & duration)
 {
-	return FDateTime(this->ticks + other.ticks);
+	return FDateTime(this->ticks + duration.ticks);
 }
 
-FDateTime FDateTime::operator+=(const FDateTime & other)
+FDateTime FDateTime::operator+=(const FDuration & duration)
 {
-	return *this + other;
+	this->ticks += duration.ticks;
+	return FDateTime(this->ticks + duration.ticks);
 }
 
-const FDateTime FDateTime::operator-(const FDateTime & other)
+const FDateTime FDateTime::operator-(const FDuration & duration)
 {
-	return FDateTime(this->ticks - other.ticks);
+	return FDateTime(this->ticks - duration.ticks);
 }
 
-FDateTime FDateTime::operator-=(const FDateTime & other)
+FDateTime FDateTime::operator-=(const FDuration & duration)
 {
-	return *this - other;
+	this->ticks -= duration.ticks;
+	return FDateTime(this->ticks - duration.ticks);
 }
 
 const bool FDateTime::operator==(const FDateTime & other)
@@ -372,5 +374,10 @@ string FDateTime::TimeToString(const FDateTime & dateTime)
 
 FDateTime FDateTime::TimeSinceUnixEpoch(const FDateTime & dateTime)
 {
-	return FDateTime(dateTime.ticks - TICSSINCEUNIXEPOCH);
+	return FDateTime(dateTime.ticks - TICKSINCEUNIXEPOCH);
+}
+
+FDuration operator-(const FDateTime & date1, const FDateTime & date2)
+{
+	return FDuration(date1.ticks - date2.ticks);
 }

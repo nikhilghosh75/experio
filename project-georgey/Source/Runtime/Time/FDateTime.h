@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "FDuration.h"
 using namespace std;
 
 enum class EDayOfWeek
@@ -41,10 +42,10 @@ public:
 
 	long long ticks;
 
-	const FDateTime operator+(const FDateTime& other);
-	FDateTime operator+=(const FDateTime& other);
-	const FDateTime operator-(const FDateTime& other);
-	FDateTime operator-=(const FDateTime& other);
+	const FDateTime operator+(const FDuration& duration);
+	FDateTime operator+=(const FDuration& other);
+	const FDateTime operator-(const FDuration& other);
+	FDateTime operator-=(const FDuration& other);
 	const bool operator==(const FDateTime& other);
 	const bool operator!=(const FDateTime& other);
 	const bool operator>(const FDateTime& other);
@@ -82,3 +83,4 @@ public:
 	static FDateTime TimeSinceUnixEpoch(const FDateTime& dateTime);
 };
 
+FDuration operator-(const FDateTime& date1, const FDateTime& date2);
