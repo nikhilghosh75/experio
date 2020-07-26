@@ -6,6 +6,10 @@
 #include "../Files/Font/FNTReader.h"
 #include "../UI/TextComponent.h"
 #include "../Particles/ParticleSystem.h"
+#include "../Containers/TTypedTree.h"
+#include "../Framework/Component.h"
+#include "../Framework/Project.h"
+#include "../Time/GameTime.h"
 using namespace std;
 
 GApplication::GApplication()
@@ -25,6 +29,8 @@ void GApplication::Run()
 	delete windowProfiler;
 	Renderer tempRenderer;
 
+	GameTime::StartGame();
+
 	FNTReader reader;
 	FontData* data = reader.ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Fonts/calibri.fnt");
 	TextComponent textComponent;
@@ -36,6 +42,8 @@ void GApplication::Run()
 
 	ParticleSystem particleSystem;
 
+	unsigned int test = Project::ClassTypeToInt<TestComponent>();
+
 	while (newWindow.isActive)
 	{
 		tempRenderer.OnNewFrame();
@@ -45,6 +53,8 @@ void GApplication::Run()
 		textComponent.RenderText();
 		particleSystem.Update();
 		tempRenderer.LogRenderingError();
+		GameTime::OnEndFrame();
+		GDebug::Log("DeltaTime = " + to_string(GameTime::deltaTime));
 	}
 	cin.get();
 }
