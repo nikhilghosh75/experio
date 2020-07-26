@@ -1,5 +1,7 @@
 #pragma once
 
+#define PB_NUM_KEY_CODES 116
+
 enum class EInputType
 {
 	Keyboard,
@@ -138,7 +140,7 @@ enum class EKeyStatus
 class GInput
 {
 private:
-	static EKeyStatus keyStatuses[116];
+	static EKeyStatus keyStatuses[PB_NUM_KEY_CODES];
 
 public:
 	GInput();
@@ -147,4 +149,10 @@ public:
 
 	static void OnKeyPressed(unsigned int keycode);
 	static void OnKeyReleased(unsigned int keycode);
+
+	static bool GetKey(EKeyCode keycode);
+	static bool GetKeyDown(EKeyCode keycode);
+	static bool GetKeyUp(EKeyCode keycode);
+
+	static void OnFrameEnd();
 };

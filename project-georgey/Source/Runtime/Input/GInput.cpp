@@ -56,3 +56,33 @@ void GInput::OnKeyReleased(unsigned int keycode)
 	EKeyCode convertedKeyCode = SystemToKeycode(keycode);
 	keyStatuses[(unsigned int)convertedKeyCode] = EKeyStatus::ReleasedThisFrame;
 }
+
+bool GInput::GetKey(EKeyCode keycode)
+{
+	return (keyStatuses[(unsigned int)keycode] == EKeyStatus::Pressed || keyStatuses[(unsigned int)keycode] == EKeyStatus::PressedThisFrame);
+}
+
+bool GInput::GetKeyDown(EKeyCode keycode)
+{
+	return keyStatuses[(unsigned int)keycode] == EKeyStatus::Pressed;
+}
+
+bool GInput::GetKeyUp(EKeyCode keycode)
+{
+	return keyStatuses[(unsigned int)keycode] == EKeyStatus::ReleasedThisFrame;
+}
+
+void GInput::OnFrameEnd()
+{
+	for (int i = 0; i < PB_NUM_KEY_CODES; i++)
+	{
+		if (keyStatuses[i] == EKeyStatus::PressedThisFrame)
+		{
+			keyStatuses[i] = EKeyStatus::Pressed;
+		}
+		else if (keyStatuses[i] == EKeyStatus::ReleasedThisFrame)
+		{
+			keyStatuses[i] = EKeyStatus::Released;
+		}
+	}
+}
