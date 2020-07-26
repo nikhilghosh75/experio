@@ -1,4 +1,4 @@
-#include "GInput.h"
+#include "Input.h"
 #include "../Core/Core.h"
 
 #ifdef PLATFORM_WINDOWS
@@ -25,9 +25,9 @@ const int SYSTEMTOKEYCODE[145] = {
 }; // 48 (0x30)
 #endif
 
-EKeyStatus GInput::keyStatuses[116];
+EKeyStatus Input::keyStatuses[116];
 
-GInput::GInput()
+Input::Input()
 {
 	for (int i = 0; i < 116; i++)
 	{
@@ -35,7 +35,7 @@ GInput::GInput()
 	}
 }
 
-EKeyCode GInput::SystemToKeycode(unsigned int keycode)
+EKeyCode Input::SystemToKeycode(unsigned int keycode)
 {
 	if (keycode > 145)
 	{
@@ -45,34 +45,34 @@ EKeyCode GInput::SystemToKeycode(unsigned int keycode)
 	return *(EKeyCode*)&convertedKeyCode;
 }
 
-void GInput::OnKeyPressed(unsigned int keycode)
+void Input::OnKeyPressed(unsigned int keycode)
 {
 	EKeyCode convertedKeyCode = SystemToKeycode(keycode);
 	keyStatuses[(unsigned int)convertedKeyCode] = EKeyStatus::PressedThisFrame;
 }
 
-void GInput::OnKeyReleased(unsigned int keycode)
+void Input::OnKeyReleased(unsigned int keycode)
 {
 	EKeyCode convertedKeyCode = SystemToKeycode(keycode);
 	keyStatuses[(unsigned int)convertedKeyCode] = EKeyStatus::ReleasedThisFrame;
 }
 
-bool GInput::GetKey(EKeyCode keycode)
+bool Input::GetKey(EKeyCode keycode)
 {
 	return (keyStatuses[(unsigned int)keycode] == EKeyStatus::Pressed || keyStatuses[(unsigned int)keycode] == EKeyStatus::PressedThisFrame);
 }
 
-bool GInput::GetKeyDown(EKeyCode keycode)
+bool Input::GetKeyDown(EKeyCode keycode)
 {
 	return keyStatuses[(unsigned int)keycode] == EKeyStatus::Pressed;
 }
 
-bool GInput::GetKeyUp(EKeyCode keycode)
+bool Input::GetKeyUp(EKeyCode keycode)
 {
 	return keyStatuses[(unsigned int)keycode] == EKeyStatus::ReleasedThisFrame;
 }
 
-void GInput::OnFrameEnd()
+void Input::OnFrameEnd()
 {
 	for (int i = 0; i < PB_NUM_KEY_CODES; i++)
 	{

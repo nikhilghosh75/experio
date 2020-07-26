@@ -137,13 +137,13 @@ enum class EKeyStatus
 	ReleasedThisFrame
 };
 
-class GInput
+class Input
 {
 private:
 	static EKeyStatus keyStatuses[PB_NUM_KEY_CODES];
 
 public:
-	GInput();
+	Input();
 
 	static EKeyCode SystemToKeycode(unsigned int keycode);
 

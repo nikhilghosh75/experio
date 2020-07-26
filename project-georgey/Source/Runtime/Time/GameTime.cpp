@@ -1,5 +1,5 @@
 #include "GameTime.h"
-#include "../Input/GInput.h"
+#include "../Input/Input.h"
 
 float GameTime::deltaTime = 0.f;
 float GameTime::fixedDeltaTime = 0.02f;
@@ -23,5 +23,5 @@ void GameTime::OnEndFrame()
 	frameCount++;
 	timeSinceStart += deltaTime;
 
-	GInput::OnFrameEnd();
+	Input::OnFrameEnd();
 }

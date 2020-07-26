@@ -7,17 +7,26 @@
 #include <GL/GLU.h>
 #include <thread>
 
+#include "imgui.h"
+#include "examples/imgui_impl_win32.h"
+#include "examples/imgui_impl_opengl3.h"
+#include "imgui_internal.h"
+#include <tchar.h>
+
 #ifdef PLATFORM_WINDOWS
 LRESULT CALLBACK WindowsProcedure(HWND window, int wm, WPARAM wParam, LPARAM lParam);
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 #endif
 
 HDC deviceContext;
+HGLRC openGLRenderingContext;
 
 FWindowData GWindow::windowData;
+GWindow* GWindow::instance;
 
 GWindow::GWindow()
 {
-	
+	instance = this;
 }
 
 void GWindow::InstantiateWindow()
@@ -49,7 +58,7 @@ void GWindow::InstantiateWindow()
 	}
 
 	ShowWindow(hwnd, SW_SHOW);
-	this->hwnd = hwnd;
+	this->hwnd = &hwnd;
 #endif
 
 	this->isActive = true;
@@ -63,8 +72,17 @@ void GWindow::OnUpdate()
 	isActive = GetMessage(&msg, NULL, 0, 0); // Change null to hwnd
 	TranslateMessage(&msg);
 	DispatchMessage(&msg);
+
+	HDC deviceContextHandle = GetDC(*this->hwnd);
+	wglMakeCurrent(deviceContextHandle, openGLRenderingContext);
 	SwapBuffers(deviceContext);
 #endif
+}
+
+void GWindow::MakeContext()
+{
+	HDC deviceContextHandle = GetDC(*this->hwnd);
+	wglMakeCurrent(deviceContextHandle, openGLRenderingContext);
 }
 
 void GWindow::CloseWindow()
@@ -82,10 +100,10 @@ void GWindow::ReceiveInput(EInputType inputType, unsigned int param1, unsigned i
 		switch (param1)
 		{
 		case PB_KEYPRESSED:
-			GInput::OnKeyPressed(param2);
+			Input::OnKeyPressed(param2);
 			break;
 		case PB_KEYRELEASED:
-			GInput::OnKeyReleased(param2);
+			Input::OnKeyReleased(param2);
 			break;
 		}
 		break;
@@ -107,9 +125,26 @@ FWindowData GWindow::GetWindowData()
 	return windowData;
 }
 
+void GWindow::CallViewport()
+{
+	glViewport(0, 0, windowData.width, windowData.height);
+}
+
+#ifdef PLATFORM_WINDOWS
+HWND* GWindow::GetHWND()
+{
+	return this->hwnd;
+}
+#endif
+
 #ifdef PLATFORM_WINDOWS
 LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(window, message, wParam, lParam))
+	{
+		return true;
+	}
+
 	GDebug::Log(to_string(message));
 	switch (message)
 	{
@@ -149,7 +184,7 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 		{
 			GDebug::LogError("SET PIXEL FORMAT FAILED");
 		}
-		HGLRC openGLRenderingContext = wglCreateContext(deviceContextHandle);
+		openGLRenderingContext = wglCreateContext(deviceContextHandle);
 		wglMakeCurrent(deviceContextHandle, openGLRenderingContext);
 		GetClientRect(window, &rect);
 		glViewport(0, 0, rect.right - rect.left, rect.bottom - rect.top);
