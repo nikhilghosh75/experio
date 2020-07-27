@@ -69,9 +69,14 @@ void GWindow::OnUpdate()
 #ifdef PLATFORM_WINDOWS
 	//ShowWindow(this->hwnd, SW_SHOW);
 	MSG msg;
-	isActive = GetMessage(&msg, NULL, 0, 0); // Change null to hwnd
-	TranslateMessage(&msg);
-	DispatchMessage(&msg);
+
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0)
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	//isActive = GetMessage(&msg, NULL, 0, 0); // Change null to hwnd
 
 	HDC deviceContextHandle = GetDC(*this->hwnd);
 	wglMakeCurrent(deviceContextHandle, openGLRenderingContext);
@@ -192,6 +197,11 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 		GWindow::ResizeWindow(EWindowResizeType::Create, rect.right - rect.left, rect.bottom - rect.top);
 	}
 		break;
+	case WM_DESTROY:
+	{
+		GWindow::Get()->isActive = false;
+		// Implement Application Close Here
+	}
 	case WM_SIZE:
 	{
 		std::thread worker(GWindow::ResizeWindow, (EWindowResizeType)wParam , lParam % LMath::PowOfTwo(16), lParam / LMath::PowOfTwo(16));

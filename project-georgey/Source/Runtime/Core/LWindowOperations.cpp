@@ -3,7 +3,11 @@
 
 float LWindowOperations::GetAspectRatio(const FWindowData & windowData)
 {
-	return windowData.width / windowData.height;
+	if (windowData.height == 0)
+	{
+		return 1;
+	}
+	return (float)windowData.width / windowData.height;
 }
 
 float LWindowOperations::PixelToNormalizedSize(const FWindowData & windowData, const float pixelSize, EWindowAxisType axis)
