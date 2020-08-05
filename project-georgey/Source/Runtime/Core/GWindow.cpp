@@ -112,6 +112,22 @@ void GWindow::ReceiveInput(EInputType inputType, unsigned int param1, unsigned i
 			break;
 		}
 		break;
+	case EInputType::Mouse:
+		switch (param1)
+		{
+		case PB_BUTTONDOWN:
+			Input::OnMouseButtonDown(GetMouseButton(param2));
+			break;
+		case PB_BUTTONUP:
+			Input::OnMouseButtonUp(GetMouseButton(param2));
+			break;
+		case PB_MOUSEMOVE:
+			Input::OnMouseMove(FVector2(param2, param3));
+			break;
+		case PB_MOUSEWHEEL:
+			Input::OnMouseScroll((float)param2);
+		}
+		break;
 	}
 }
 
@@ -123,6 +139,20 @@ void GWindow::ResizeWindow(EWindowResizeType resizeType, int width, int height)
 #ifdef PLATFORM_WINDOWS
 
 #endif
+}
+
+EMouseButton GWindow::GetMouseButton(unsigned int mouseEnum)
+{
+	switch (mouseEnum)
+	{
+	case PB_LEFTMOUSE:
+		return EMouseButton::Left;
+	case PB_MIDDLEMOUSE:
+		return EMouseButton::Middle;
+	case PB_RIGHTMOUSE:
+		return EMouseButton::Right;
+	}
+	return EMouseButton::Left;
 }
 
 FWindowData GWindow::GetWindowData()
@@ -219,6 +249,52 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 		std::thread worker(GWindow::ReceiveInput, EInputType::Keyboard, PB_KEYRELEASED, wParam, 0);
 		worker.detach();
 		break;
+	}
+	case WM_LBUTTONDOWN:
+	{
+		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONDOWN, PB_LEFTMOUSE, 0);
+		worker.detach();
+		break;
+	}
+	case WM_LBUTTONUP:
+	{
+		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONUP, PB_LEFTMOUSE, 0);
+		worker.detach();
+		break;
+	}
+	case WM_MBUTTONDOWN:
+	{
+		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONDOWN, PB_MIDDLEMOUSE, 0);
+		worker.detach();
+		break;
+	}
+	case WM_MBUTTONUP:
+	{
+		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONUP, PB_MIDDLEMOUSE, 0);
+		worker.detach();
+		break;
+	}
+	case WM_RBUTTONDOWN:
+	{
+		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONDOWN, PB_RIGHTMOUSE, 0);
+		worker.detach();
+		break;
+	}
+	case WM_RBUTTONUP:
+	{
+		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONUP, PB_RIGHTMOUSE, 0);
+		worker.detach();
+		break;
+	}
+	case WM_MOUSEMOVE:
+	{
+		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_MOUSEMOVE, lParam % LMath::PowOfTwo(16), lParam / LMath::PowOfTwo(16));
+		worker.detach();
+		break;
+	}
+	case WM_MOUSEWHEEL:
+	{
+		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_MOUSEWHEEL, GET_WHEEL_DELTA_WPARAM(wParam), 0);
 	}
 	default:
 		return DefWindowProc(window, message, wParam, lParam);

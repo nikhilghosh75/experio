@@ -1,4 +1,5 @@
 #pragma once
+#include "../Math/FVector2.h"
 
 #define PB_NUM_KEY_CODES 116
 
@@ -137,11 +138,32 @@ enum class EKeyStatus
 	ReleasedThisFrame
 };
 
+enum class EMouseButton
+{
+	Left,
+	Middle,
+	Right
+};
+
+enum class EMouseStatus
+{
+	Down,
+	DownThisFrame,
+	Up,
+	UpThisFrame
+};
+
 class Input
 {
 private:
 	static EKeyStatus keyStatuses[PB_NUM_KEY_CODES];
 
+	static EMouseStatus leftMouseStatus;
+	static EMouseStatus middleMouseStatus;
+	static EMouseStatus rightMouseStatus;
+
+	static FVector2 mousePosition;
+	static float mouseScrollDelta;
 public:
 	Input();
 
@@ -150,9 +172,22 @@ public:
 	static void OnKeyPressed(unsigned int keycode);
 	static void OnKeyReleased(unsigned int keycode);
 
+	static void OnMouseButtonDown(EMouseButton button);
+	static void OnMouseButtonUp(EMouseButton button);
+
+	static void OnMouseMove(const FVector2& newPosition);
+	static void OnMouseScroll(float newMouseScrollDelta);
+
 	static bool GetKey(EKeyCode keycode);
 	static bool GetKeyDown(EKeyCode keycode);
 	static bool GetKeyUp(EKeyCode keycode);
+
+	static bool GetMouseButton(EMouseButton button = EMouseButton::Left);
+	static bool GetMouseButtonDown(EMouseButton button = EMouseButton::Left);
+	static bool GetMouseButtonUp(EMouseButton button = EMouseButton::Left);
+
+	static FVector2 GetMousePosition() { return mousePosition; }
+	static float GetMouseScrollDelta() { return mouseScrollDelta; }
 
 	static void OnFrameEnd();
 };

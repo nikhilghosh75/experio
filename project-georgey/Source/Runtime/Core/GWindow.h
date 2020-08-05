@@ -10,6 +10,13 @@ using namespace std;
 
 #define PB_KEYPRESSED		0x9675
 #define PB_KEYRELEASED		0x9676
+#define PB_LEFTMOUSE		0x9677
+#define PB_RIGHTMOUSE		0x9678
+#define PB_MIDDLEMOUSE		0x9679
+#define PB_MOUSEWHEEL		0x9680
+#define PB_MOUSEMOVE		0x9681
+#define PB_BUTTONUP			0x9800
+#define PB_BUTTONDOWN		0x9801
 
 struct FWindowData
 {
@@ -53,6 +60,7 @@ public:
 
 	static void ReceiveInput(EInputType inputType, unsigned int param1, unsigned int param2=0, unsigned int param3=0);
 	static void ResizeWindow(EWindowResizeType resizeType, int width, int height);
+	static EMouseButton GetMouseButton(unsigned int mouseEnum);
 
 	static FWindowData GetWindowData();
 	static GWindow* Get() { return instance; }
