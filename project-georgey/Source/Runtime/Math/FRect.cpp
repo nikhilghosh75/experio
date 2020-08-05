@@ -18,6 +18,58 @@ FRect::FRect(float minX, float minY, float maxX, float maxY)
 	this->max = FVector2(maxX, maxY);
 }
 
+FRect::FRect(const FVector2 * points, int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		if (points[i].x < min.x)
+		{
+			min.x = points[i].x;
+		}
+		
+		if (points[i].y < min.y)
+		{
+			min.y = points[i].y;
+		}
+
+		if (points[i].x > max.x)
+		{
+			max.x = points[i].x;
+		}
+
+		if (points[i].y > max.y)
+		{
+			max.y = points[i].y;
+		}
+	}
+}
+
+FRect::FRect(const std::vector<FVector2> points)
+{
+	for (int i = 0; i < points.size(); i++)
+	{
+		if (points[i].x < min.x)
+		{
+			min.x = points[i].x;
+		}
+
+		if (points[i].y < min.y)
+		{
+			min.y = points[i].y;
+		}
+
+		if (points[i].x > max.x)
+		{
+			max.x = points[i].x;
+		}
+
+		if (points[i].y > max.y)
+		{
+			max.y = points[i].y;
+		}
+	}
+}
+
 void FRect::Fix()
 {
 	if (min.x > max.x)
@@ -67,6 +119,15 @@ float FRect::GetWidth() const
 float FRect::GetHeight() const
 {
 	return max.y - min.y;
+}
+
+FVector2 & FRect::operator[](int i)
+{
+	if (i == 0)
+	{
+		return this->min;
+	}
+	return this->max;
 }
 
 float FRect::GetArea() const

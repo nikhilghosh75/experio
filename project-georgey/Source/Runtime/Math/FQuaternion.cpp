@@ -266,6 +266,56 @@ FQuaternion FQuaternion::Slerp(const FQuaternion & Q1, const FQuaternion & Quat2
 	return (s0 * Q1) + (s1 * Q2);
 }
 
+FQuaternion FQuaternion::FindBetweenNormals(const FVector3 & N1, const FVector3 & N2)
+{
+	FVector3 start = FVector3::Normalized(N1);
+	FVector3 dest = FVector3::Normalized(N2);
+
+	float cosTheta = FVector3::Dot(N1, N2);
+	FVector3 rotationAxis;
+
+	if (cosTheta < -1 + 0.001f)
+	{
+		rotationAxis = FVector3::Cross(FVector3(0, 0, 1.0f), start);
+		if (FVector3::SqrMagnitude(rotationAxis) < 0.005f)
+		{
+			rotationAxis = FVector3::Cross(FVector3(1, 0, 0), start);
+		}
+
+		rotationAxis = FVector3::Normalized(rotationAxis);
+		return FQuaternion(rotationAxis, PI);
+	}
+	rotationAxis = FVector3::Cross(start, dest);
+
+	float s = LMath::Sqrt((1 + cosTheta) * 2.f);
+	float invs = 1 / s;
+
+	return FQuaternion(rotationAxis.x * invs, rotationAxis.y * invs, rotationAxis.z * invs, s * 0.5f);
+}
+
+FQuaternion FQuaternion::LookAt(const FVector3 eye, const FVector3 center, const FVector3 up)
+{
+	FVector3 f = FVector3::Normalized(center - eye);
+	FVector3 s = FVector3::Normalized(FVector3::Cross(f, up));
+	FVector3 u = FVector3::Cross(s, f);
+
+	glm::mat4 result(1);
+	result[0][0] = s.x;
+	result[1][0] = s.y;
+	result[2][0] = s.z;
+	result[0][1] = u.x;
+	result[1][1] = u.y;
+	result[2][1] = u.z;
+	result[0][2] = f.x;
+	result[1][2] = f.y;
+	result[2][2] = f.z;
+	result[3][0] = FVector3::Dot(s, eye);
+	result[3][1] = FVector3::Dot(u, eye);
+	result[3][2] = FVector3::Dot(f, eye);
+
+	return FQuaternion(result);
+}
+
 FQuaternion operator*(float f, const FQuaternion & Q)
 {
 	return FQuaternion(Q.x * f, Q.y * f, Q.z * f, Q.w * f);

@@ -142,6 +142,16 @@ float LMath::DegreesToRadians(float Degrees)
 	return Degrees * PI / 180.f;
 }
 
+long long LMath::FactorialInt(unsigned short n)
+{
+	int result = 1;
+	for (int i = 2; i < n; i++)
+	{
+		result *= i;
+	}
+	return result;
+}
+
 float LMath::Lerp(float a, float b, float t)
 {
 	return ((b - a) * t) + a;

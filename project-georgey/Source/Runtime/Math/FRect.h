@@ -1,16 +1,17 @@
 #pragma once
 #include "FVector2.h"
+#include <vector>
 
 struct FRect
 {
 	FVector2 min;
-
 	FVector2 max;
 
 	FRect();
 	FRect(FVector2 min, FVector2 max);
 	FRect(float minX, float minY, float maxX, float maxY);
 	FRect(const FVector2* points, int count); // Creates a bounding box
+	FRect(const std::vector<FVector2> points);
 
 	void Fix();
 
@@ -27,8 +28,9 @@ struct FRect
 	float GetWidth() const;
 	float GetHeight() const;
 
+	FVector2& operator[](int i);
+
 	// +, +=
-	// []
 
 	// DistanceToPoint
 	// ExpandBy

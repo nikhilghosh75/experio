@@ -130,6 +130,30 @@ FVector2 FVector2::Refract(const FVector2 & incident, const FVector2 & normal, f
 	return FVector2();
 }
 
+FVector2 FVector2::BoundToRect(const FVector2 & min, const FVector2 & max, const FVector2 & V)
+{
+	return FVector2(LMath::Clamp(V.x, min.x, min.y), LMath::Clamp(V.y, min.y, max.y));
+}
+
+FVector2 FVector2::Clamp(const FVector2 & V, float minLength, float maxLength)
+{
+	float sqrMagnitude = V.SqrMagnitude();
+	if (sqrMagnitude > maxLength * maxLength)
+	{
+		return V * (maxLength / LMath::Sqrt(sqrMagnitude));
+	}
+	else if (sqrMagnitude < minLength * minLength)
+	{
+		return V * (minLength / LMath::Sqrt(sqrMagnitude));
+	}
+	return V;
+}
+
+FVector2 FVector2::ClampValues(const FVector2 & V, float minEntry, float maxEntry)
+{
+	return FVector2(LMath::Clamp(V.x, minEntry, maxEntry), LMath::Clamp(V.y, minEntry, maxEntry));
+}
+
 FVector2 operator*(float f, const FVector2 & V)
 {
 	return V * f;
