@@ -56,6 +56,8 @@ struct FQuaternion
 	static FQuaternion Slerp(const FQuaternion& Q1, const FQuaternion& Q2, float t);
 	static FQuaternion FindBetweenNormals(const FVector3& N1, const FVector3& N2);
 
+	static FQuaternion LookAt(const FVector3 eye, const FVector3 center, const FVector3 up);
+
 	static FVector3 GetRotationAxis(const FQuaternion& Q);
 	static FVector3 GetForwardVector(const FQuaternion& Q);
 	static FVector3 GetBackwardVector(const FQuaternion& Q);

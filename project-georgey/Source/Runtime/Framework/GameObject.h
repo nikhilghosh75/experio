@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Component.h"
+#include "../Math/FTransform.h"
 
 class GameObject
 {
@@ -11,6 +12,7 @@ public:
 	uint8_t sceneIndex;
 	std::vector<Component*> components;
 	std::string* name;
+	FTransform transform;
 
 	GameObject(std::string* name);
 	GameObject(std::string* name, unsigned short tag, uint8_t layer);
