@@ -29,17 +29,18 @@ struct FRect
 	float GetHeight() const;
 
 	FVector2& operator[](int i);
-
-	// +, +=
-
-	// DistanceToPoint
-	// ExpandBy
 	
+	float GetDistanceToPoint(const FVector2& point) const;
+
 	float GetArea() const;
 
 	FVector2 GetCenter() const;
 	
-	// Event
+	FVector2 GetClosestPointOnRect(const FVector2 point) const;
+
+	bool Intersecting(const FRect& other) const;
+	static bool Intersecting(const FRect& R1, const FRect R2);
+
 	// Intersect
 	// IsInside
 	// Closest Point

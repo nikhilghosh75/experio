@@ -1,4 +1,5 @@
 #include "FRect.h"
+#include "LMath.h"
 
 FRect::FRect()
 {
@@ -130,6 +131,44 @@ FVector2 & FRect::operator[](int i)
 	return this->max;
 }
 
+float FRect::GetDistanceToPoint(const FVector2 & point) const
+{
+	if (point.x < min.x)
+	{
+		if (point.y < min.y)
+		{
+			return FVector2::Distance(point, min);
+		}
+		else if (point.y > max.y)
+		{
+			return FVector2::Distance(point, FVector2(min.x, max.y));
+		}
+		return min.x - point.x;
+	}
+	else if(point.x > max.x)
+	{
+		if (point.y < min.y)
+		{
+			return FVector2::Distance(point, FVector2(max.x, min.y));
+		}
+		else if (point.y > max.y)
+		{
+			return FVector2::Distance(point, max);
+		}
+		return point.x - max.x;
+	}
+	
+	if (point.y > max.y)
+	{
+		return point.y - max.y;
+	}
+	else if (point.y < min.y)
+	{
+		return min.y - point.y;
+	}
+	return 0.0f;
+}
+
 float FRect::GetArea() const
 {
 	return GetHeight() * GetWidth();
@@ -138,4 +177,42 @@ float FRect::GetArea() const
 FVector2 FRect::GetCenter() const
 {
 	return FVector2( (max.x - min.x) / 2.f, (max.y - min.y) / 2.f );
+}
+
+FVector2 FRect::GetClosestPointOnRect(const FVector2 point) const
+{
+	if (point.x < min.x)
+	{
+		if (point.y < min.y)
+		{
+			return min;
+		}
+		else if (point.y > max.y)
+		{
+			return FVector2(min.x, max.y);
+		}
+		return FVector2(min.x, point.y);
+	}
+	else if (point.x > max.x)
+	{
+		if (point.y < min.y)
+		{
+			return FVector2(max.x, min.y);
+		}
+		else if (point.y > max.y)
+		{
+			return max;
+		}
+		return FVector2(max.x, point.y);
+	}
+
+	if (point.y > max.y)
+	{
+		return FVector2(point.x, max.y);
+	}
+	else if (point.y < min.y)
+	{
+		return FVector2(point.x, min.y);
+	}
+	return point;
 }
