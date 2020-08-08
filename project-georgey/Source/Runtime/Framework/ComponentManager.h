@@ -1,29 +1,81 @@
 #pragma once
 #include "Component.h"
 #include "../Debug/GDebug.h"
+#include "../Particles/ParticleSystem.h"
+#include "../Rendering/Billboard.h"
+#include "../Rendering/MeshComponent.h"
+#include "../UI/TextComponent.h"
 
 class ComponentManager
 {
 public:
 	virtual void Update() {};
 
-	virtual void AddComponent(GameObject* gameObject, unsigned int id);
+	virtual void AddComponent(GameObject* gameObject, unsigned int id) {};
 
-	virtual Component* GetComponent(GameObject* gameObject, unsigned int classId);
+	virtual Component* GetComponent(GameObject* gameObject, unsigned int classId) { return nullptr; };
 
-	virtual void DeleteComponent(GameObject* gameObject, unsigned int classId);
+	virtual void DeleteComponent(GameObject* gameObject, unsigned int classId) {};
 };
 
-class TestComponentManager : ComponentManager
+#define PB_ADD_COMPONENT(_vectorName_) _vectorName_.emplace_back(gameObject); break;
+
+#define PB_GET_COMPONENT(_vectorName_) for(int i = 0; i < _vectorName_.size(); i++)\
+	{\
+		if(_vectorName_[i].GetGameObject() == gameObject)\
+		{\
+			return (Component*)(&(_vectorName_[i]));\
+		}\
+	}\
+	return nullptr;
+
+#define PB_DELETE_COMPONENT(_vectorName_) for(int i = 0; i < _vectorName_.size(); i++)\
+	{\
+		if(gameObject == _vectorName_[i].GetGameObject())\
+		{\
+			foundComponent = true;\
+		}\
+		if(foundComponent)\
+		{\
+			if (i + 1 == _vectorName_.size())\
+			{\
+				_vectorName_.pop_back();\
+				return;\
+			}\
+			_vectorName_[i] = _vectorName_[i + 1];\
+		}\
+	}\
+	break;\
+
+class TestComponentManager : public ComponentManager
 {
 public:
 	std::vector<TestComponent> testComponentInstances;
+	std::vector<ParticleSystem> particleSystemInstances;
+	std::vector<Billboard> billboardInstances;
+	std::vector<MeshComponent> meshInstances;
+	std::vector<TextComponent> textComponentInstances;
 
 	virtual void Update() override 
 	{
 		for (int i = 0; i < testComponentInstances.size(); i++)
 		{
 			testComponentInstances[i].Update();
+		}
+
+		for (int i = 0; i < meshInstances.size(); i++)
+		{
+			meshInstances[i].Update();
+		}
+
+		for (int i = 0; i < particleSystemInstances.size(); i++)
+		{
+			particleSystemInstances[i].Update();
+		}
+
+		for (int i = 0; i < billboardInstances.size(); i++)
+		{
+			billboardInstances[i].Update();
 		}
 	}
 
@@ -32,10 +84,18 @@ public:
 		switch (classId)
 		{
 		case 2:
-			testComponentInstances.emplace_back(gameObject);
-			break;
+			PB_ADD_COMPONENT(testComponentInstances);
+		case 101:
+			PB_ADD_COMPONENT(meshInstances);
+		case 102:
+			PB_ADD_COMPONENT(particleSystemInstances);
+		case 103:
+			PB_ADD_COMPONENT(billboardInstances);
+		case 104:
+			PB_ADD_COMPONENT(textComponentInstances);
+		default:
+			GDebug::LogError("Component cannot be found. Make sure to regenerate the project");
 		}
-		GDebug::LogError("Component cannot be found. Make sure to regenerate the project");
 	}
 
 	virtual Component* GetComponent(GameObject* gameObject, unsigned int classId) override
@@ -43,14 +103,15 @@ public:
 		switch (classId)
 		{
 		case 2:
-			for (int i = 0; i < testComponentInstances.size(); i++)
-			{
-				if (testComponentInstances[i].GetGameObject() == gameObject)
-				{
-					return (Component*)(&(testComponentInstances[i]));
-				}
-			}
-			return nullptr;
+			PB_GET_COMPONENT(testComponentInstances);
+		case 101:
+			PB_GET_COMPONENT(meshInstances);
+		case 102:
+			PB_GET_COMPONENT(particleSystemInstances);
+		case 103:
+			PB_GET_COMPONENT(billboardInstances);
+		case 104:
+			PB_GET_COMPONENT(textComponentInstances);
 		}
 
 		GDebug::LogError("Component cannot be found. Make sure to regenerate the project");
@@ -63,23 +124,15 @@ public:
 		switch (classId)
 		{
 		case 2:
-			for (int i = 0; i < testComponentInstances.size(); i++)
-			{
-				if (gameObject == testComponentInstances[i].GetGameObject())
-				{
-					foundComponent = true;
-				}
-				if (foundComponent)
-				{
-					if (i + 1 == testComponentInstances.size())
-					{
-						testComponentInstances.pop_back();
-						return;
-					}
-					testComponentInstances[i] = testComponentInstances[i + 1];
-				}
-			}
-			break;
+			PB_DELETE_COMPONENT(testComponentInstances);
+		case 101:
+			PB_DELETE_COMPONENT(meshInstances);
+		case 102:
+			PB_DELETE_COMPONENT(particleSystemInstances);
+		case 103:
+			PB_DELETE_COMPONENT(billboardInstances);
+		case 104:
+			PB_DELETE_COMPONENT(textComponentInstances);
 		}
 	}
 };
