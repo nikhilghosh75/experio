@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "../Math/FVector2.h"
 #include "../Math/FVector3.h"
+#include "../Framework/Framework.h"
 
 enum class EBillboardSizeType : uint8_t
 {
@@ -17,13 +18,12 @@ enum class EBilboardOrientation : uint8_t
 	AroundAxis = 50
 };
 
-class Billboard
+class Billboard : public Component
 {
 public:
 	Texture* billboardTexture;
 	EBillboardSizeType sizeType;
 	EBilboardOrientation orientation;
-	FVector3 billboardPosition;
 	FVector2 billboardSize;
 
 	union
@@ -32,5 +32,8 @@ public:
 		FVector3 eulerRotation;
 	};
 
-	Billboard();
+	Billboard(GameObject* object);
+
+	virtual void Start() override;
+	virtual void Update() override;
 };
