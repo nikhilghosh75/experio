@@ -18,6 +18,10 @@
 #include "../Files/Mesh/OBJReader.h"
 #include "Texture.h"
 
+Renderer* Renderer::instance;
+
+Shader* basicShader = nullptr;
+
 void Renderer::LogRenderingError()
 {
 	GLenum currentError = glGetError();
@@ -30,8 +34,8 @@ void Renderer::LogRenderingError()
 Renderer::Renderer()
 {
 	defaultVertexLayout.PushFloat(3);
+	instance = this;
 }
-
 
 Renderer::~Renderer()
 {
@@ -88,7 +92,7 @@ void Renderer::DrawBillboard(const Billboard & billboard, const FCameraData & ca
 
 	billboardShader.SetUniformVec3("cameraRightWorldSpace", glm::vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]));
 	billboardShader.SetUniformVec3("cameraUpWorldSpace", glm::vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]));
-	billboardShader.SetUniformVec3("billboardPosition", billboard.billboardPosition);
+	billboardShader.SetUniformVec3("billboardPosition", glm::vec3(0, 2, 0));
 	billboardShader.SetUniformVec2("billboardSize", billboard.billboardSize);
 	billboardShader.SetUniformMatrix4("VP", VP);
 	billboardShader.SetUniformInt("billboardSizeType", (int)billboard.sizeType);
@@ -101,6 +105,8 @@ void Renderer::DrawBillboard(const Billboard & billboard, const FCameraData & ca
 	billboardVA.AddBuffer(&billboardBuffer, billboardLayout);
 
 	glDrawArrays(GL_TRIANGLES, 0, 12);
+
+	glDisable(GL_BLEND);
 }
 
 void Renderer::DrawMesh(const MeshComponent & mesh, const FCameraData & cameraData)
@@ -273,6 +279,7 @@ void Renderer::TempRenderer()
 
 	OBJReader objReader;
 	MeshData* tempData = objReader.ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Meshes/suzanne.obj");
+	// MeshData* tempData = objReader.ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Meshes/cylinder.obj");
 	tempData->mapData = new MeshMapData();
 	tempData->mapData->albedoMap = &albedoTexture;
 	//tempData->mapData->normalMap = &normalTexture;
@@ -281,7 +288,7 @@ void Renderer::TempRenderer()
 	MeshComponent suzanneMesh(tempData, &basicShader);
 	suzanneMesh.SetTransform(FTransform());
 	suzanneMesh.transform.SetRotation(FQuaternion::MakeFromEuler(FVector3(0, 90, 0)));
-	suzanneMesh.transform.SetScale(FVector3(1, 1, 1));
+	suzanneMesh.transform.SetScale(FVector3(0.7, 0.7, 0.7));
 	suzanneMesh.RecalculateModelMatrix();
 
 	FCameraData camera(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);
@@ -290,17 +297,19 @@ void Renderer::TempRenderer()
 
 	// BILLBOARDS
 
-	Texture healthbarTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/HealthBar.bmp");
-	Billboard billboard;
-	billboard.sizeType = EBillboardSizeType::World;
-	billboard.billboardTexture = &healthbarTexture;
-	billboard.billboardPosition = FVector3(0, 2, 0);
-	billboard.billboardSize = FVector2(1.0f, 0.125f);
-	billboard.orientation = EBilboardOrientation::TowardCamera;
+	//Texture healthbarTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/HealthBar.bmp");
+	//Billboard billboard(nullptr);
+	//billboard.sizeType = EBillboardSizeType::World;
+	//billboard.billboardTexture = &healthbarTexture;
+	//billboard.billboardPosition = FVector3(0, 2, 0);
+	//billboard.billboardSize = FVector2(1.0f, 0.125f);
+	//billboard.orientation = EBilboardOrientation::TowardCamera;
 
-	this->DrawBillboard(billboard, camera);
+	//this->DrawBillboard(billboard, camera);
 	
 	LogRenderingError();
+
+	delete tempData;
 }
 
 void Renderer::TempModelRenderer()

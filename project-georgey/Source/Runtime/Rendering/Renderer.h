@@ -21,6 +21,8 @@ private:
 	FrameBuffer renderBuffer;
 
 	unsigned int FramebufferName, renderedTexture, depthrenderbuffer, quad_vertexbuffer, quad_uvbuffer;
+
+	static Renderer* instance;
 public:
 	void LogRenderingError();
 
@@ -47,4 +49,6 @@ public:
 	void TempModelRenderer();
 
 	void TempFramebufferRenderer();
+
+	static Renderer* Get() { return instance; }
 };
