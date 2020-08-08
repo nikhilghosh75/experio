@@ -25,6 +25,7 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 	if (objFile.fail())
 	{
 		GDebug::LogError("OBJ Reader " + (std::string)fileName + " cannot be loaded");
+		GDebug::LogError(strerror(errno));
 		objFile.close();
 		return nullptr;
 	}
@@ -83,6 +84,7 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 	}
 
 	GDebug::Log("Read Entire File");
+	objFile.close();
 
 	glm::vec3* vertexData = new glm::vec3[vertexIndicies.size()];
 	for (int i = 0; i < vertexIndicies.size(); i++)
