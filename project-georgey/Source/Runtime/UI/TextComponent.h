@@ -3,11 +3,16 @@
 #include <string>
 #include "../Files/Font/FontReader.h"
 #include "../Rendering/Shader.h"
+#include "../Framework/Framework.h"
 
-class TextComponent 
+class TextComponent : public Component
 {
 public:
 	TextComponent();
+	TextComponent(GameObject* object);
+
+	virtual void Start() override;
+	virtual void Update() override;
 
 	RectTransform transform;
 
