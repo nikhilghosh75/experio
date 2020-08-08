@@ -28,6 +28,11 @@ std::string DefaultTagNumToString(unsigned short num)
 	return "";
 }
 
+class MeshComponent;
+class ParticleSystem;
+class Billboard;
+class TextComponent;
+
 template <class T>
 unsigned int DefaultClassTypeToInt()
 {
@@ -39,3 +44,8 @@ unsigned int DefaultClassTypeToInt<TestComponent>()
 {
 	return 2;
 }
+
+template<> unsigned int DefaultClassTypeToInt<MeshComponent>() { return 101; }
+template<> unsigned int DefaultClassTypeToInt<ParticleSystem>() { return 102; }
+template<> unsigned int DefaultClassTypeToInt<Billboard>() { return 103; }
+template<> unsigned int DefaultClassTypeToInt<TextComponent>() { return 104; }
