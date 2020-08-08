@@ -21,14 +21,14 @@ public:
 
 	virtual void Update() {};
 
-	GameObject* GetGameObject() { return gameObject; }
+	GameObject* GetGameObject() const { return gameObject; }
 	uint64_t GetId() { return id; }
 };
 
 class TestComponent : public Component
 {
 public:
-	TestComponent(GameObject* object) { gameObject = object; };
+	TestComponent(GameObject* object) { gameObject = object; Start(); };
 
 	virtual void Start() override { GDebug::Log("Started"); }
 
