@@ -10,17 +10,11 @@
 #include "../Debug/TempProfiler.h"
 
 int particlesPerSecond = 10000;
-float deltaTime = 0.016f;
 
-ParticleSystem::ParticleSystem()
+ParticleSystem::ParticleSystem(GameObject * object)
 {
-	maxParticles = GetMaxParticles();
-	particles = new FParticleData[maxParticles];
-	particleShader = new Shader(
-		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/ParticleVertex.shader", 
-		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/ParticleFragment.shader"
-	);
-	Initialize();
+	this->gameObject = object;
+	Start();
 }
 
 ParticleSystem::~ParticleSystem()
@@ -29,9 +23,14 @@ ParticleSystem::~ParticleSystem()
 	delete particleShader;
 }
 
-void ParticleSystem::Initialize()
+void ParticleSystem::Start()
 {
-	
+	maxParticles = GetMaxParticles();
+	particles = new FParticleData[maxParticles];
+	particleShader = new Shader(
+		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/ParticleVertex.shader",
+		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/ParticleFragment.shader"
+	);
 }
 
 void ParticleSystem::Update()
@@ -40,7 +39,7 @@ void ParticleSystem::Update()
 
 	FCameraData camera(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);
 
-	int newParticles = (int)(particlesPerSecond * deltaTime);
+	int newParticles = (int)(particlesPerSecond * GameTime::deltaTime);
 	FVector3 mainDirection = FVector3(0, 10.0f, 0.0f);
 	float spread = 1.5f;
 
@@ -53,7 +52,7 @@ void ParticleSystem::Update()
 	{
 		particleIndex = FindUnusedParticle();
 		particles[particleIndex].life = 5.0f;
-		particles[particleIndex].position = FVector3(0, 0, 0.0f);
+		particles[particleIndex].position = gameObject->transform.GetPosition();
 
 		FVector3 randomDirection = FVector3(
 			(rand() % 2000 - 1000.0f) / 1000.0f, 
@@ -72,12 +71,12 @@ void ParticleSystem::Update()
 		
 		if (p.life > 0.0f)
 		{
-			p.life -= deltaTime;
+			p.life -= GameTime::deltaTime;
 
 			if (p.life > 0.0f)
 			{
-				p.speed += FVector3(0.0f, -9.81f, 0.0f) * (float)deltaTime * 0.5f;
-				p.position += p.speed * (float)deltaTime;
+				p.speed += FVector3(0.0f, -9.81f, 0.0f) * (float)GameTime::deltaTime * 0.5f;
+				p.position += p.speed * (float)GameTime::deltaTime;
 				
 				particlePositions[particlesCount] = p.position;
 				particleColors[particlesCount] = p.color;
@@ -131,6 +130,8 @@ void ParticleSystem::Update()
 		1.0f,-1.0f, 1.0f
 	};
 
+	GLenum error = glGetError();
+
 	glm::mat4 viewMatrix = camera.GetViewMatrix();
 	FWindowData data = GWindow::GetWindowData();
 	float aspectRatio = LWindowOperations::GetAspectRatio(data);
@@ -138,8 +139,6 @@ void ParticleSystem::Update()
 
 	particleShader->Bind();
 	particleShader->SetUniformMatrix4("VP", projectionMatrix * viewMatrix);
-
-	GLenum error = glGetError();
 
 	GLuint vertexBuffer;
 	glGenBuffers(1, &vertexBuffer);
@@ -156,7 +155,7 @@ void ParticleSystem::Update()
 	glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
 	glBufferData(GL_ARRAY_BUFFER, particlesCount * sizeof(FColor), particleColors , GL_STATIC_DRAW);
 
-	FParticleData tempParticle = particles[130];
+	FParticleData tempParticle = particles[3];
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -206,6 +205,8 @@ void ParticleSystem::Update()
 
 	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 36, particlesCount);
 	error = glGetError();
+
+	glDeleteVertexArrays(1, &vertexArray);
 }
 
 int ParticleSystem::FindUnusedParticle()

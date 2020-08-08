@@ -1,22 +1,24 @@
 #pragma once
 #include "Particle.h"
 #include "../Rendering/Shader.h"
+#include "../Framework/Framework.h"
 
-class ParticleSystem
+class ParticleSystem : public Component
 {
 	FParticleData* particles;
 	unsigned int maxParticles;
-	int lastUsedParticle;
+	int lastUsedParticle = 0;
 	Shader* particleShader;
 
 public:
-	ParticleSystem();
+	ParticleSystem() {};
+	ParticleSystem(GameObject* object);
 
 	~ParticleSystem();
 
-	void Initialize();
+	virtual void Start() override;
 
-	void Update();
+	virtual void Update() override;
 
 private:
 	int FindUnusedParticle();
