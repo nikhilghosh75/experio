@@ -34,7 +34,9 @@ struct FQuaternion
 	operator glm::mat4() const { return ToGLMMat4(*this); }
 
 	FQuaternion operator*(const float f) const;
+	FQuaternion operator*(const FQuaternion& Q) const;
 	FQuaternion operator*=(float f);
+	FQuaternion operator*=(const FQuaternion& Q);
 	FQuaternion operator/(const float f) const;
 	FQuaternion operator/=(float f);
 

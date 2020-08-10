@@ -111,6 +111,16 @@ FQuaternion FQuaternion::operator*(const float f) const
 	return FQuaternion(this->x * f, this->y * f, this->z * f, this->w * f);
 }
 
+FQuaternion FQuaternion::operator*(const FQuaternion & Q) const
+{
+	return FQuaternion(
+		this->w * Q.x + this->x * Q.w + this->y * Q.z - this->z * Q.y,
+		this->w * Q.y - this->x * Q.z + this->y * Q.w + this->z * Q.x,
+		this->w * Q.z + this->x * Q.y - this->y * Q.x + this->z * Q.w,
+		this->w * Q.w - this->x * Q.x - this->y * Q.y - this->z * Q.z
+	);
+}
+
 FQuaternion FQuaternion::operator*=(float f)
 {
 	this->x *= f;
@@ -118,6 +128,16 @@ FQuaternion FQuaternion::operator*=(float f)
 	this->z *= f;
 	this->w *= f;
 	return *this * f;
+}
+
+FQuaternion FQuaternion::operator*=(const FQuaternion & Q)
+{
+	this->w = this->w * Q.w - this->x * Q.x - this->y * Q.y - this->z * Q.z;
+	this->x = this->w * Q.x + this->x * Q.w + this->y * Q.z - this->z * Q.y;
+	this->y = this->w * Q.y - this->x * Q.z + this->y * Q.w + this->z * Q.x;
+	this->z = this->w * Q.z + this->x * Q.y - this->y * Q.x + this->z * Q.w;
+
+	return *this * Q;
 }
 
 FQuaternion FQuaternion::operator/(const float f) const
