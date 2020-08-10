@@ -92,7 +92,7 @@ void Renderer::DrawBillboard(const Billboard & billboard, const FCameraData & ca
 
 	billboardShader.SetUniformVec3("cameraRightWorldSpace", glm::vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]));
 	billboardShader.SetUniformVec3("cameraUpWorldSpace", glm::vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]));
-	billboardShader.SetUniformVec3("billboardPosition", glm::vec3(0, 2, 0));
+	billboardShader.SetUniformVec3("billboardPosition", billboard.GetGameObject()->transform.GetPosition());
 	billboardShader.SetUniformVec2("billboardSize", billboard.billboardSize);
 	billboardShader.SetUniformMatrix4("VP", VP);
 	billboardShader.SetUniformInt("billboardSizeType", (int)billboard.sizeType);

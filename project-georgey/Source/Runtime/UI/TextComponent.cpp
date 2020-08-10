@@ -8,12 +8,12 @@
 
 TextComponent::TextComponent()
 {
-	Start();
 }
 
 TextComponent::TextComponent(GameObject * object)
 {
 	this->gameObject = object;
+	Start();
 }
 
 void TextComponent::Start()

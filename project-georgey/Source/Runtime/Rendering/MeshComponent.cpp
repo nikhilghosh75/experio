@@ -54,9 +54,6 @@ void MeshComponent::Start()
 			"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicFragment.shader"
 		);
 	}
-
-	transform.SetScale(FVector3(0.87f, 0.87f, 0.87f));
-	transform.SetRotation(FQuaternion::MakeFromEuler(FVector3(0, 90, 0)));
 }
 
 void MeshComponent::Update()
@@ -86,9 +83,9 @@ void MeshComponent::Update()
 
 void MeshComponent::RecalculateModelMatrix()
 {
-	FVector3 position = transform.GetPosition();
-	FQuaternion rotation = transform.GetRotation();
-	FVector3 scale = transform.GetScale();
+	FVector3 position = gameObject->transform.GetPosition();
+	FQuaternion rotation = gameObject->transform.GetRotation();
+	FVector3 scale = gameObject->transform.GetScale();
 
 	glm::mat4 translationMatrix = glm::translate((glm::vec3)position);
 	glm::mat4 rotationMatrix = glm::toMat4((glm::quat)rotation);
