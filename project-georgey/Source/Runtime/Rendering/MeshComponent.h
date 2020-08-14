@@ -11,7 +11,6 @@ class MeshComponent : public Component
 public:
 	Shader* meshShader = nullptr;
 	MeshData* meshData = nullptr;
-	FTransform transform;
 	bool isVisible;
 
 private:
@@ -20,8 +19,6 @@ public:
 	MeshComponent();
 	MeshComponent(GameObject* object);
 	MeshComponent(MeshData* newMeshData, Shader* newShader);
-
-	void SetTransform(FTransform newTransform);
 
 	glm::mat4 GetModelMatrix() const;
 

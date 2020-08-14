@@ -92,7 +92,7 @@ void Renderer::DrawBillboard(const Billboard & billboard, const FCameraData & ca
 
 	billboardShader.SetUniformVec3("cameraRightWorldSpace", glm::vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]));
 	billboardShader.SetUniformVec3("cameraUpWorldSpace", glm::vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]));
-	billboardShader.SetUniformVec3("billboardPosition", billboard.GetGameObject()->transform.GetPosition());
+	billboardShader.SetUniformVec3("billboardPosition", billboard.GetGameObject()->GetPosition());
 	billboardShader.SetUniformVec2("billboardSize", billboard.billboardSize);
 	billboardShader.SetUniformMatrix4("VP", VP);
 	billboardShader.SetUniformInt("billboardSizeType", (int)billboard.sizeType);
@@ -286,9 +286,8 @@ void Renderer::TempRenderer()
 	//tempData->mapData->specularMap = &specularTexture;
 
 	MeshComponent suzanneMesh(tempData, &basicShader);
-	suzanneMesh.SetTransform(FTransform());
-	suzanneMesh.transform.SetRotation(FQuaternion::MakeFromEuler(FVector3(0, 90, 0)));
-	suzanneMesh.transform.SetScale(FVector3(0.7, 0.7, 0.7));
+	suzanneMesh.GetGameObject()->transform.SetRotation(FQuaternion::MakeFromEuler(FVector3(0, 90, 0)));
+	suzanneMesh.GetGameObject()->transform.SetScale(FVector3(0.7, 0.7, 0.7));
 	suzanneMesh.RecalculateModelMatrix();
 
 	FCameraData camera(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);
@@ -310,27 +309,6 @@ void Renderer::TempRenderer()
 	LogRenderingError();
 
 	delete tempData;
-}
-
-void Renderer::TempModelRenderer()
-{
-	OBJReader reader;
-	MeshData* planeData = reader.ReadFile("C:/Users/debgh/Documents/Meshes/airplane.obj");
-
-	Shader basicShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicFragment.shader");
-	
-	MeshComponent planeMesh(planeData, &basicShader);
-	planeMesh.SetTransform(FTransform());
-	planeMesh.transform.SetScale(FVector3(1.f, 1.f, 1.f));
-	planeMesh.RecalculateModelMatrix();
-	
-	Texture testTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/NumberedCube.bmp");
-	testTexture.Bind(0);
-	basicShader.SetUniformInt("textureSampler", 0);
-
-	FCameraData camera(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);
-	
-	this->DrawMesh(planeMesh, camera);
 }
 
 void Renderer::TempFramebufferRenderer()

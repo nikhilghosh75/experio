@@ -52,7 +52,7 @@ void ParticleSystem::Update()
 	{
 		particleIndex = FindUnusedParticle();
 		particles[particleIndex].life = 5.0f;
-		particles[particleIndex].position = gameObject->transform.GetPosition();
+		particles[particleIndex].position = gameObject->GetPosition();
 
 		FVector3 randomDirection = FVector3(
 			(rand() % 2000 - 1000.0f) / 1000.0f, 
