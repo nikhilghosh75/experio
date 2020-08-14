@@ -2,112 +2,6 @@
 #include <string>
 #include "../Debug/TempProfiler.h"
 
-#define TYPED_TREE_START_CAPACITY 4
-#define TYPED_TREE_ADD_CAPACITY 8
-
-/*
-	TTYPEDTREENODE
-*/
-
-template<class T>
-TTypedTreeNode<T>::TTypedTreeNode(T newObject)
-{
-	object = newObject;
-	parentNode = nullptr;
-	children = std::vector<TTypedTreeNode<T>*>();
-	owningTree = nullptr;
-}
-
-template<class T>
-TTypedTreeNode<T>::TTypedTreeNode(T newObject, TTypedTree<T>* owningTree)
-{
-	object = newObject;
-	parentNode = nullptr;
-	children = std::vector<TTypedTreeNode<T>*>();
-	this->owningTree = owningTree;
-}
-
-template<class T>
-bool TTypedTreeNode<T>::IsRoot() const
-{
-	return !IsChild();
-}
-
-template<class T>
-bool TTypedTreeNode<T>::IsParent() const
-{
-	return this->childrenCount != 0;
-}
-
-template<class T>
-bool TTypedTreeNode<T>::IsChild() const
-{
-	return this->parentNode != nullptr;
-}
-
-template<class T>
-T& TTypedTreeNode<T>::AddChild(T newObject)
-{
-	children.push_back(new TTypedTreeNode<T>(newObject, owningTree));
-	children[children.size() - 1]->parentNode = this;
-	this->owningTree->NodeAdded();
-	return children[children.size() - 1]->object;
-}
-
-template<class T>
-void TTypedTreeNode<T>::DeleteChild(int index)
-{
-	for (int i = index + 1; i < children.size(); i++)
-	{
-		children[i - 1] = children[i];
-	}
-	children.pop_back();
-	this->owningTree->NodeDeleted();
-}
-
-/*
-	TTYPEDTREE
-*/
-
-template<class T>
-TTypedTree<T>::TTypedTree()
-{
-	this->root = nullptr;
-	this->count = 0;
-}
-
-template<class T>
-TTypedTree<T>::TTypedTree(T root)
-{
-	this->root = new TTypedTreeNode<T>(root);
-	this->root->owningTree = this;
-	this->count = 1;
-}
-
-template<class T>
-void TTypedTree<T>::NodeAdded()
-{
-	count++;
-}
-
-template<class T>
-void TTypedTree<T>::NodeDeleted()
-{
-	count--;
-}
-
-template<class T>
-void TTypedTree<T>::Empty()
-{
-	static_assert(false);
-}
-
-template<class T>
-void TTypedTree<T>::AddChildToRoot(T item)
-{
-	this->root->AddChild(item);
-}
-
 void TTypedTreeTest()
 {
 	TempProfiler profiler("Typed Tree Test");
@@ -142,15 +36,19 @@ void TTypedTreeTest()
 	insect->AddChild("Dragonflies");
 	insect->AddChild("Crickets");
 
-	mammal->DeleteChild(1);
-
 	TTypedTreeIterator<string> typedTreeIterator(&typedTree);
 
 	for (int i = 0; i < typedTree.GetCount(); i++)
 	{
 		typedTreeIterator.Increment();
 	}
+
+	mammal->DeleteChild(1);
 }
+
+/*
+	TTypedTreeIterator
+*/
 
 template<class T>
 TTypedTreeIterator<T>::TTypedTreeIterator(TTypedTree<T>* tree)
@@ -158,50 +56,50 @@ TTypedTreeIterator<T>::TTypedTreeIterator(TTypedTree<T>* tree)
 	this->container = tree;
 	this->current = tree->GetRoot();
 	this->nodeVisitedCount = 1;
-	this->currentChild = 0;
 	this->currentDepth = 0;
+
+	for (int i = 0; i < MAX_TYPED_TREE_DEPTH; i++) { this->position[i] = 0; }
 }
 
 template<class T>
 bool TTypedTreeIterator<T>::IsAtEnd()
 {
-	return this->nodeVisitedCount == this->container->GetCount();
+	return this->nodeVisitedCount >= this->container->GetCount();
 }
 
 template<class T>
 void TTypedTreeIterator<T>::Increment()
 {
-	if (currentDepth == 0 || goDown)
+	// First Element
+	if (this->nodeVisitedCount == 1)
 	{
-		if (this->current->children.size() == 0)
-		{
-			currentDepth = 1;
-			goDown = false;
-		}
-		else
-		{
-			this->current = this->current->children[0];
-			currentChild = 0;
-			return;
-		}
+		this->current = this->current->children[0];
+		this->nodeVisitedCount++;
 	}
-
-	if(currentDepth > 0)
+	// If it has children
+	else if (this->current->children.size() > 0)
+	{
+		this->current = this->current->children[0];
+		currentDepth++;
+		position[currentDepth] = 0;
+		this->nodeVisitedCount++;
+	}
+	else
 	{
 		TTypedTreeNode<T>* tempCurrent = this->current;
-		for (int i = 0; i < currentDepth; i++)
+		for (int i = this->currentDepth; i > 0; i--)
 		{
 			tempCurrent = tempCurrent->parentNode;
-			if (tempCurrent->children.size() > currentChild + 1)
+			if (tempCurrent->children.size() > position[i] + 1)
 			{
-				this->current = tempCurrent->children[currentChild + 1];
-				currentChild++;
-				goDown = true;
+				this->current = tempCurrent->children[position[i] + 1];
+				position[i]++;
+				this->nodeVisitedCount++;
 				return;
 			}
 		}
-		currentDepth++;
-		this->current = tempCurrent;
-		currentChild = 0;
+		this->current = tempCurrent->children[(position[0] + 1) % tempCurrent->children.size()];
+		currentDepth = 0;
+		this->nodeVisitedCount++;
 	}
 }
