@@ -19,3 +19,9 @@ public:
 	template<class T>
 	static std::string ClassTypeToString();
 };
+
+#define PB_EMPLACE_COMPONENT(_className_, _classID_) \
+	_className_* component = (_className_*)Project::componentManager->AddComponent(gameObject, _classID_);\
+	SetComponentParams<_className_>(params, component);
+
+#define PB_START() component->Start();
