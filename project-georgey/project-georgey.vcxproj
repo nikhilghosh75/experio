@@ -11,18 +11,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Runtime\Audio\AudioClip.h" />
     <ClInclude Include="Source\Runtime\Base\GSingleton.h" />
     <ClInclude Include="Source\Runtime\Camera\Camera.h" />
     <ClInclude Include="Source\Runtime\Camera\FCameraData.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
     <ClInclude Include="Source\Runtime\Containers\THashtable.h" />
+    <ClInclude Include="Source\Runtime\Containers\TQueue.h" />
     <ClInclude Include="Source\Runtime\Containers\TTypedTree.h" />
     <ClInclude Include="Source\Runtime\Core\FException.h" />
     <ClInclude Include="Source\Runtime\Core\GWindow.h" />
     <ClInclude Include="Source\Runtime\Core\LWindowOperations.h" />
     <ClInclude Include="Source\Runtime\Core\WindowEnums.h" />
-    <ClInclude Include="Source\Runtime\Events\TEvent.h" />
+    <ClInclude Include="Source\Runtime\Files\LFileOperations.h" />
+    <ClInclude Include="Source\Runtime\Framework\Params.h" />
+    <ClInclude Include="Source\Runtime\Framework\SceneLoader.h" />
+    <ClInclude Include="Source\Runtime\Framework\TEvent.h" />
     <ClInclude Include="Source\Runtime\Files\Font\FNTReader.h" />
     <ClInclude Include="Source\Runtime\Files\Font\FontReader.h" />
     <ClInclude Include="Source\Runtime\Files\Images\BMPReader.h" />
@@ -40,12 +45,15 @@
     <ClInclude Include="Source\Runtime\Framework\Project.h" />
     <ClInclude Include="Source\Runtime\Framework\Scene.h" />
     <ClInclude Include="Source\Runtime\Input\Input.h" />
+    <ClInclude Include="Source\Runtime\Math\Datatable.h" />
+    <ClInclude Include="Source\Runtime\Math\FBox.h" />
     <ClInclude Include="Source\Runtime\Math\FColor.h" />
     <ClInclude Include="Source\Runtime\Math\FCurve.h" />
     <ClInclude Include="Source\Runtime\Math\FQuaternion.h" />
     <ClInclude Include="Source\Runtime\Math\FRect.h" />
     <ClInclude Include="Source\Runtime\Math\FTransform.h" />
     <ClInclude Include="Source\Runtime\Math\FVector2.h" />
+    <ClInclude Include="Source\Runtime\Math\FVector4.h" />
     <ClInclude Include="Source\Runtime\Math\MatrixTypes.h" />
     <ClInclude Include="Source\Runtime\Math\TMatrix.h" />
     <ClInclude Include="Source\Runtime\Particles\Particle.h" />
@@ -90,7 +98,12 @@
     <ClCompile Include="Source\Runtime\Containers\TTypedTree.cpp" />
     <ClCompile Include="Source\Runtime\Core\GWindow.cpp" />
     <ClCompile Include="Source\Runtime\Core\LWindowOperations.cpp" />
-    <ClCompile Include="Source\Runtime\Events\TEvent.cpp" />
+    <ClCompile Include="Source\Runtime\Files\Font\FontReader.cpp" />
+    <ClCompile Include="Source\Runtime\Files\Images\ImageReader.cpp" />
+    <ClCompile Include="Source\Runtime\Files\LFileOperations.cpp" />
+    <ClCompile Include="Source\Runtime\Files\Mesh\MeshReader.cpp" />
+    <ClCompile Include="Source\Runtime\Framework\SceneLoader.cpp" />
+    <ClCompile Include="Source\Runtime\Framework\TEvent.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\FNTReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Images\BMPReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Images\LImageOperations.cpp" />
@@ -109,6 +122,7 @@
     <ClCompile Include="Source\Runtime\Math\FRect.cpp" />
     <ClCompile Include="Source\Runtime\Math\FTransform.cpp" />
     <ClCompile Include="Source\Runtime\Math\FVector2.cpp" />
+    <ClCompile Include="Source\Runtime\Math\FVector4.cpp" />
     <ClCompile Include="Source\Runtime\Math\TMatrix.cpp" />
     <ClCompile Include="Source\Runtime\Particles\ParticleSystem.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Billboard.cpp" />
