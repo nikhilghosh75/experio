@@ -15,9 +15,9 @@ public:
 	unsigned short tag;
 	uint8_t layer;
 	uint8_t sceneIndex;
-	std::vector<Component*> components;
 	std::string name;
 	FTransform transform;
+	bool isActive = true;
 
 	GameObject();
 	GameObject(std::string name);
@@ -49,4 +49,7 @@ public:
 	void Translate(FVector3 translationAmount);
 	void Rotate(FQuaternion rotationAmount);
 	void Scale(float scaleFactor);
+
+	static GameObject* FindObjectWithTag(std::string tag);
+	static GameObject* FindObjectWithTag(unsigned short tag);
 };

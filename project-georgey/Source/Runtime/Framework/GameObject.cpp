@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "Project.h"
+#include "Scene.h"
 
 GameObject::GameObject()
 {
@@ -115,4 +116,51 @@ void GameObject::Rotate(FQuaternion rotationAmount)
 void GameObject::Scale(float scaleFactor)
 {
 	this->transform.Scale(scaleFactor);
+}
+
+GameObject * GameObject::FindObjectWithTag(std::string tag)
+{
+	unsigned short tagID = Project::TagStringToNum(tag.c_str());
+	for (int i = 0; i < MAX_SCENES; i++)
+	{
+		Scene* currentScene = &Scene::scenes[i];
+		if (!currentScene->isActive)
+		{
+			continue;
+		}
+		TTypedTree<GameObject>* hierarchy = &currentScene->sceneHiearchy;
+		TTypedTreeIterator<GameObject> iterator(hierarchy);
+		while (!iterator.IsAtEnd())
+		{
+			if (iterator.current->object.tag == tagID)
+			{
+				return &iterator.current->object;
+			}
+			iterator.Increment();
+		}
+	}
+	return nullptr;
+}
+
+GameObject * GameObject::FindObjectWithTag(unsigned short tag)
+{
+	for (int i = 0; i < MAX_SCENES; i++)
+	{
+		Scene* currentScene = &Scene::scenes[i];
+		if (!currentScene->isActive)
+		{
+			continue;
+		}
+		TTypedTree<GameObject>* hierarchy = &currentScene->sceneHiearchy;
+		TTypedTreeIterator<GameObject> iterator(hierarchy);
+		while (!iterator.IsAtEnd())
+		{
+			if (iterator.current->object.tag == tag)
+			{
+				return &iterator.current->object;
+			}
+			iterator.Increment();
+		}
+	}
+	return nullptr;
 }
