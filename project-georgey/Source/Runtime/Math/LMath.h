@@ -66,6 +66,8 @@ public:
 
 	static long long PowOfTwo(int e);
 
+	static long long PowOfTen(int e);
+
 	static float RadiansToDegrees(float radians);
 
 	static int Round(float f);
