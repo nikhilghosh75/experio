@@ -94,8 +94,7 @@ public:
 
 	TTypedTree(T root)
 	{
-		this->root = new TTypedTreeNode<T>(root);
-		this->root->owningTree = this;
+		this->root = new TTypedTreeNode<T>(root, this);
 		this->count = 1;
 	}
 
@@ -107,6 +106,11 @@ public:
 	unsigned int GetCount() const { return count; }
 	TTypedTreeNode<T>* GetRoot() const { return root; }
 	T& GetRootObject() const { return root->object; }
+	void SetCount(unsigned int newCount) 
+	{
+		#pragma message("Only use this if you know what you're doing")
+		count = newCount;
+	}
 
 	void AddChildToRoot(T item)
 	{
@@ -130,10 +134,73 @@ private:
 
 	uint8_t position[MAX_TYPED_TREE_DEPTH];
 public:
-	TTypedTreeIterator(TTypedTree<T>* tree);
+	TTypedTreeIterator(TTypedTree<T>* tree)
+	{
+		this->container = tree;
+		this->current = tree->GetRoot();
+		this->nodeVisitedCount = 1;
+		this->currentDepth = 0;
 
-	bool IsAtEnd();
-	void Increment();
+		for (int i = 0; i < MAX_TYPED_TREE_DEPTH; i++) { this->position[i] = 0; }
+	}
+
+	bool IsAtEnd() const { return this->nodeVisitedCount >= this->container->GetCount(); }
+
+	void Increment()
+	{
+		if (this->nodeVisitedCount == 1)
+		{
+			this->current = this->current->children[0];
+			this->nodeVisitedCount++;
+		}
+		// If it has children
+		else if (this->current->children.size() > 0)
+		{
+			this->current = this->current->children[0];
+			currentDepth++;
+			position[currentDepth] = 0;
+			this->nodeVisitedCount++;
+		}
+		else
+		{
+			TTypedTreeNode<T>* tempCurrent = this->current;
+			for (int i = this->currentDepth; i > 0; i--)
+			{
+				tempCurrent = tempCurrent->parentNode;
+				if (tempCurrent->children.size() > position[i] + 1)
+				{
+					this->current = tempCurrent->children[position[i] + 1];
+					position[i]++;
+					this->nodeVisitedCount++;
+					return;
+				}
+			}
+			if (position[0] + 1 >= tempCurrent->children.size())
+			{
+				return;
+			}
+			this->current = tempCurrent->children[(position[0] + 1) % tempCurrent->children.size()];
+			currentDepth = 0;
+			this->nodeVisitedCount++;
+		}
+	}
 };
 
 void TTypedTreeTest();
+
+/*
+template<class T>
+void CalculateCount(TTypedTree<T>* tree)
+{
+	int count = 0;
+	TTypedTreeIterator<T> iterator(tree);
+
+	while (!iterator.SlowIsAtEnd())
+	{
+		iterator.Increment();
+		count++;
+	}
+
+	tree->SetCount(count);
+}
+*/
