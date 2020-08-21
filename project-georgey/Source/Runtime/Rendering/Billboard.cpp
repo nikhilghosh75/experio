@@ -13,7 +13,6 @@
 Billboard::Billboard(GameObject * object)
 {
 	this->gameObject = object;
-	Start();
 }
 
 void Billboard::Start()
