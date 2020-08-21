@@ -3,6 +3,10 @@
 #include "../../Debug/TempProfiler.h"
 #include <fstream>
 
+TGAReader::TGAReader()
+{
+}
+
 ImageData* TGAReader::ReadFile(const char * fileName)
 {
 	TempProfiler("Reading TGA");
