@@ -52,7 +52,7 @@ struct FCharacterInfo
 	FVector2 offset;
 };
 
-class FontData : TFileData
+class FontData
 {
 public:
 	int defaultFontSize;
@@ -84,4 +84,6 @@ class FontReader : FileReader<FontData>
 {
 public:
 	FontReader() { };
+
+	static FontData* ReadFile(const char* fileName);
 };

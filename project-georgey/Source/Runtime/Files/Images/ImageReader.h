@@ -17,7 +17,7 @@ enum class EImageEncoding : uint8_t
 	TruecolorAlpha = 32
 };
 
-class ImageData : TFileData
+class ImageData
 {
 public:
 	unsigned int width;
@@ -31,8 +31,7 @@ public:
 class ImageReader : FileReader<ImageData>
 {
 public:
-	ImageReader()
-	{
+	ImageReader() { };
 
-	};
+	static ImageData* ReadFile(const char* filePath);
 };

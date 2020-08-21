@@ -19,7 +19,7 @@ public:
 	Texture* specularMap;
 };
 
-class MeshData : TFileData
+class MeshData
 {
 public:
 	VertexBuffer* verticies;
@@ -41,5 +41,6 @@ public:
 
 class MeshReader : FileReader<MeshData>
 {
-	
+public:
+	static MeshData* ReadFile(const char* fileName);
 };
