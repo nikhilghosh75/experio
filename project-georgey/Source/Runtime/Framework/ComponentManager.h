@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Scene.h"
 #include "../Debug/GDebug.h"
 #include "../Particles/ParticleSystem.h"
 #include "../Rendering/Billboard.h"
@@ -11,14 +12,14 @@ class ComponentManager
 public:
 	virtual void Update() {};
 
-	virtual void AddComponent(GameObject* gameObject, unsigned int id) {};
+	virtual Component* AddComponent(GameObject* gameObject, unsigned int id) { return nullptr; };
 
 	virtual Component* GetComponent(GameObject* gameObject, unsigned int classId) { return nullptr; };
 
 	virtual void DeleteComponent(GameObject* gameObject, unsigned int classId) {};
 };
 
-#define PB_ADD_COMPONENT(_vectorName_) _vectorName_.emplace_back(gameObject); break;
+#define PB_ADD_COMPONENT(_vectorName_) _vectorName_.emplace_back(gameObject); return (Component*)(&_vectorName_[_vectorName_.size() - 1]);
 
 #define PB_GET_COMPONENT(_vectorName_) for(int i = 0; i < _vectorName_.size(); i++)\
 	{\
@@ -47,6 +48,12 @@ public:
 	}\
 	break;\
 
+#define PB_UPDATE(_vectorName_) for(int i = 0; i < _vectorName_.size(); i++)\
+	{\
+		if(!Scene::IsActive(_vectorName_[i].GetGameObject())) { continue; }\
+		_vectorName_[i].Update();\
+	}\
+
 class TestComponentManager : public ComponentManager
 {
 public:
@@ -58,28 +65,13 @@ public:
 
 	virtual void Update() override 
 	{
-		for (int i = 0; i < testComponentInstances.size(); i++)
-		{
-			testComponentInstances[i].Update();
-		}
-
-		for (int i = 0; i < meshInstances.size(); i++)
-		{
-			meshInstances[i].Update();
-		}
-
-		for (int i = 0; i < particleSystemInstances.size(); i++)
-		{
-			particleSystemInstances[i].Update();
-		}
-
-		for (int i = 0; i < billboardInstances.size(); i++)
-		{
-			billboardInstances[i].Update();
-		}
+		PB_UPDATE(testComponentInstances);
+		PB_UPDATE(meshInstances);
+		PB_UPDATE(particleSystemInstances);
+		PB_UPDATE(billboardInstances);
 	}
 
-	virtual void AddComponent(GameObject* gameObject, unsigned int classId) override
+	virtual Component* AddComponent(GameObject* gameObject, unsigned int classId) override
 	{
 		switch (classId)
 		{
@@ -95,6 +87,7 @@ public:
 			PB_ADD_COMPONENT(textComponentInstances);
 		default:
 			GDebug::LogError("Component cannot be found. Make sure to regenerate the project");
+			return nullptr;
 		}
 	}
 
