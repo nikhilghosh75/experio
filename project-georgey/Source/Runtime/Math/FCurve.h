@@ -16,6 +16,7 @@ struct FCurve
 	FVector2* points;
 	EEasingFuncType* easingTypes;
 
+	FCurve();
 	FCurve(FVector2* points, EEasingFuncType* easingTypes, unsigned int curvePointCount);
 
 	float GetY(float x);
