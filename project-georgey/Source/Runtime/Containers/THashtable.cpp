@@ -2,6 +2,7 @@
 
 #define HASHTABLE_START_CAPACITY 8
 
+/*
 THashtable<int, int> doubleInts;
 
 template<typename K, typename V, typename F>
@@ -194,3 +195,4 @@ void THashtable<K, V, F>::Resize(unsigned int newCapacity)
 		this->Insert(keys[i], values[i]);
 	}
 }
+*/
