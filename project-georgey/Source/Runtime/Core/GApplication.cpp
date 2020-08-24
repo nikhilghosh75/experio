@@ -11,7 +11,7 @@
 #include "../Framework/Project.h"
 #include "../Framework/Scene.h"
 #include "../Time/GameTime.h"
-#include "../Camera/Camera.h"
+#include "../Camera/VirtualCamera.h"
 #include "../Framework/SceneLoader.h"
 
 #include "../Files/LFileOperations.h"
@@ -40,19 +40,27 @@ void GApplication::Run()
 
 	TTypedTreeTest();
 
-	std::string test = LFileOperations::GetFullFilePath("?Standard?/Textures/HealthBar.bmp");
-
 	SceneLoader::LoadSceneFromFile("C:/Users/debgh/source/repos/project-bloo/Amber/Assets/Scenes/TestScene.pbscene", 0);
 
 	Scene::Activate(0);
+	GameObject cameraObject((std::string)"Camera", 1, 2);
+	cameraObject.transform = FTransform(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))));
+
+	VirtualCamera mainCamera(&cameraObject);
+	mainCamera.fieldOfView = 45.f;
+	mainCamera.Start();
+
+	GameObject secondObject((std::string)"Second Object", 1, 2);
+	secondObject.transform = FTransform(FVector3(5, 5, 5), FQuaternion(glm::lookAt(glm::vec3(5, 5, 5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))));
+
+	VirtualCamera secondCamera(&cameraObject);
+	secondCamera.fieldOfView = 60.f;
+	secondCamera.priority = -1.f;
+	secondCamera.Start();
+
+	glm::mat4 test = glm::perspective(0.785f, 2.589f, 0.1f, 1000.f);
 
 	/*
-	GameObject cameraObject((std::string)"Camera", 1, 2);
-	cameraObject.transform = FTransform(FVector3(4.f, 3.f, -3.f), FQuaternion::LookAt(FVector3(4.f, 3.f, -3.f), FVector3(0.f, 0.f, 0.f), FVector3(0.f, 1.f, 0.f)));
-
-	Camera mainCamera(&cameraObject);
-	mainCamera.fieldOfView = 45.f;
-
 	FontData* data = FontReader::ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Fonts/calibri.fnt");
 	TextComponent textComponent;
 	textComponent.fontSize = 72;
@@ -78,6 +86,7 @@ void GApplication::Run()
 		tempRenderer.OnNewFrame();
 		newWindow.OnUpdate();
 		tempRenderer.Clear();
+		//tempRenderer.TempRenderer();
 		Project::componentManager->Update();
 		// textComponent.RenderText();
 		tempRenderer.LogRenderingError();

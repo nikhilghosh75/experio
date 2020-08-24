@@ -6,6 +6,7 @@
 #include "../Rendering/Billboard.h"
 #include "../Rendering/MeshComponent.h"
 #include "../UI/TextComponent.h"
+#include "../Camera/CameraSystem.h"
 
 class ComponentManager
 {
@@ -65,6 +66,7 @@ public:
 
 	virtual void Update() override 
 	{
+		CameraSystem::Update();
 		PB_UPDATE(testComponentInstances);
 		PB_UPDATE(meshInstances);
 		PB_UPDATE(particleSystemInstances);

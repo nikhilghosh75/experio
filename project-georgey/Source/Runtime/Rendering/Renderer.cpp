@@ -17,6 +17,7 @@
 #include "../Files/Images/TGAReader.h"
 #include "../Files/Mesh/OBJReader.h"
 #include "Texture.h"
+#include "../Camera/VirtualCamera.h"
 
 Renderer* Renderer::instance;
 
@@ -57,7 +58,7 @@ void Renderer::OnEndFrame()
 
 }
 
-void Renderer::DrawBillboard(const Billboard & billboard, const FCameraData & cameraData)
+void Renderer::DrawBillboard(const Billboard & billboard, const glm::mat4 viewMatrix, const glm::mat4 projectionMatrix)
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -82,11 +83,8 @@ void Renderer::DrawBillboard(const Billboard & billboard, const FCameraData & ca
 
 	VertexBuffer billboardBuffer(billboardBufferData, sizeof(billboardBufferData));
 
-	glm::mat4 viewMatrix = cameraData.GetViewMatrix();
-
 	FWindowData data = GWindow::GetWindowData();
 	float aspectRatio = LWindowOperations::GetAspectRatio(data);
-	glm::mat4 projectionMatrix = glm::perspective(LMath::DegreesToRadians(cameraData.fieldOfView), aspectRatio, cameraData.nearClipPlane, cameraData.farClipPlane);
 
 	glm::mat4 VP = projectionMatrix * viewMatrix;
 
@@ -109,7 +107,7 @@ void Renderer::DrawBillboard(const Billboard & billboard, const FCameraData & ca
 	glDisable(GL_BLEND);
 }
 
-void Renderer::DrawMesh(const MeshComponent & mesh, const FCameraData & cameraData)
+void Renderer::DrawMesh(const MeshComponent & mesh, const glm::mat4 viewMatrix, const glm::mat4 projectionMatrix)
 {
 	PROFILE_SCOPE("Rendering Mesh");
 
@@ -119,11 +117,9 @@ void Renderer::DrawMesh(const MeshComponent & mesh, const FCameraData & cameraDa
 	}
 
 	glm::mat4 modelMatrix = mesh.GetModelMatrix();
-	glm::mat4 viewMatrix = cameraData.GetViewMatrix();
 
 	FWindowData data = GWindow::GetWindowData();
 	float aspectRatio = LWindowOperations::GetAspectRatio(data);
-	glm::mat4 projectionMatrix = glm::perspective(LMath::DegreesToRadians(cameraData.fieldOfView), aspectRatio, cameraData.nearClipPlane, cameraData.farClipPlane);
 
 	glm::mat4 MVP = projectionMatrix * viewMatrix * modelMatrix;
 
@@ -285,14 +281,20 @@ void Renderer::TempRenderer()
 	//tempData->mapData->normalMap = &normalTexture;
 	//tempData->mapData->specularMap = &specularTexture;
 
-	MeshComponent suzanneMesh(tempData, &basicShader);
+	// MeshComponent suzanneMesh(tempData, &basicShader);
+	GameObject tempObject;
+	MeshComponent suzanneMesh(&tempObject);
+	suzanneMesh.meshData = tempData;
+	suzanneMesh.meshShader = &basicShader;
 	suzanneMesh.GetGameObject()->transform.SetRotation(FQuaternion::MakeFromEuler(FVector3(0, 90, 0)));
 	suzanneMesh.GetGameObject()->transform.SetScale(FVector3(0.7, 0.7, 0.7));
 	suzanneMesh.RecalculateModelMatrix();
 
-	FCameraData camera(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);
+	//glm::mat4 viewMatrix = (FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);
+	glm::mat4 viewMatrix = VirtualCamera::CalculateViewMatrix(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))));
+	glm::mat4 projectionMatrix = VirtualCamera::CalculateProjectionMatrix(45.f, 0.1f, 1000.f);
 
-	this->DrawMesh(suzanneMesh, camera);
+	this->DrawMesh(suzanneMesh, viewMatrix, projectionMatrix);
 
 	// BILLBOARDS
 

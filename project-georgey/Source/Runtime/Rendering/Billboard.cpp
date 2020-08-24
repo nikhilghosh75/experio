@@ -7,7 +7,7 @@
 #include "../Core/LWindowOperations.h"
 #include "VertexBufferLayout.h"
 #include "VertexArray.h"
-#include "../Camera/Camera.h"
+#include "../Camera/CameraSystem.h"
 #include "Renderer.h"
 
 Billboard::Billboard(GameObject * object)
@@ -25,6 +25,5 @@ void Billboard::Start()
 
 void Billboard::Update()
 {
-	FCameraData camera(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);
-	Renderer::Get()->DrawBillboard(*this, camera);
+	Renderer::Get()->DrawBillboard(*this, CameraSystem::currentViewMatrix, CameraSystem::currentProjectionMatrix);
 }

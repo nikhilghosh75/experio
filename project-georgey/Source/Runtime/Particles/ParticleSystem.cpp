@@ -2,7 +2,7 @@
 #include "../Rendering/VertexBuffer.h"
 #include "../Rendering/VertexBufferLayout.h"
 #include "../Rendering/VertexArray.h"
-#include "../Camera/FCameraData.h"
+#include "../Camera/CameraSystem.h"
 #include "../Core/GWindow.h"
 #include "../Core/LWindowOperations.h"
 #include "glm/gtc/matrix_transform.hpp"
@@ -36,8 +36,6 @@ void ParticleSystem::Start()
 void ParticleSystem::Update()
 {
 	PROFILE_SCOPE("Particle Update");
-
-	FCameraData camera(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);
 
 	int newParticles = (int)(particlesPerSecond * GameTime::deltaTime);
 	FVector3 mainDirection = FVector3(0, 10.0f, 0.0f);
@@ -132,10 +130,10 @@ void ParticleSystem::Update()
 
 	GLenum error = glGetError();
 
-	glm::mat4 viewMatrix = camera.GetViewMatrix();
+	glm::mat4 viewMatrix = CameraSystem::currentViewMatrix;
 	FWindowData data = GWindow::GetWindowData();
 	float aspectRatio = LWindowOperations::GetAspectRatio(data);
-	glm::mat4 projectionMatrix = glm::perspective(LMath::DegreesToRadians(camera.fieldOfView), aspectRatio, camera.nearClipPlane, camera.farClipPlane);
+	glm::mat4 projectionMatrix = CameraSystem::currentProjectionMatrix;
 
 	particleShader->Bind();
 	particleShader->SetUniformMatrix4("VP", projectionMatrix * viewMatrix);

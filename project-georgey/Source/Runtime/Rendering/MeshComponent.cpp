@@ -4,7 +4,7 @@
 #include "glm/gtx/quaternion.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "../Files/Mesh/MeshReader.h"
-#include "../Camera/FCameraData.h"
+#include "../Camera/CameraSystem.h"
 #include "Renderer.h"
 
 MeshComponent::MeshComponent()
@@ -66,9 +66,7 @@ void MeshComponent::Update()
 
 	RecalculateModelMatrix();
 
-	FCameraData camera(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);
-
-	Renderer::Get()->DrawMesh(*this, camera);
+	Renderer::Get()->DrawMesh(*this, CameraSystem::currentViewMatrix, CameraSystem::currentProjectionMatrix);
 }
 
 void MeshComponent::RecalculateModelMatrix()

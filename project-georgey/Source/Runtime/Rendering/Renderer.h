@@ -34,9 +34,9 @@ public:
 	void OnNewFrame();
 	void OnEndFrame();
 
-	void DrawBillboard(const Billboard& billboard, const FCameraData& cameraData);
+	void DrawBillboard(const Billboard& billboard, const glm::mat4 viewMatrix, const glm::mat4 projectionMatrix);
 
-	void DrawMesh(const MeshComponent& mesh, const FCameraData& cameraData);
+	void DrawMesh(const MeshComponent& mesh, const glm::mat4 viewMatrix, const glm::mat4 projectionMatrix);
 
 	void DrawQuad(unsigned int textureID, const Shader& shader, const FRect& uvRect, const FRect& vertexRect);
 	void DrawQuad(const Texture& texture, const Shader& shader, const FRect& uvRect, const FRect& vertexRect);
