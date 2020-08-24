@@ -12,9 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Runtime\Audio\AudioClip.h" />
-    <ClInclude Include="Source\Runtime\Base\GSingleton.h" />
-    <ClInclude Include="Source\Runtime\Camera\Camera.h" />
-    <ClInclude Include="Source\Runtime\Camera\FCameraData.h" />
+    <ClInclude Include="Source\Runtime\Camera\CameraSystem.h" />
+    <ClInclude Include="Source\Runtime\Camera\VirtualCamera.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
     <ClInclude Include="Source\Runtime\Containers\THashtable.h" />
@@ -90,9 +89,8 @@
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Runtime\Base\GSingleton.cpp" />
-    <ClCompile Include="Source\Runtime\Camera\Camera.cpp" />
-    <ClCompile Include="Source\Runtime\Camera\FCameraData.cpp" />
+    <ClCompile Include="Source\Runtime\Camera\CameraSystem.cpp" />
+    <ClCompile Include="Source\Runtime\Camera\VirtualCamera.cpp" />
     <ClCompile Include="Source\Runtime\Containers\LString.cpp" />
     <ClCompile Include="Source\Runtime\Containers\THashtable.cpp" />
     <ClCompile Include="Source\Runtime\Containers\TTypedTree.cpp" />
