@@ -1,7 +1,6 @@
 #pragma once
 #include "FVector3.h"
 #include "FQuaternion.h"
-#include "../Events/TEvent.h"
 
 struct FTransform
 {
@@ -23,11 +22,6 @@ public:
 	void SetPosition(FVector3 position);
 	void SetRotation(FQuaternion rotation);
 	void SetScale(FVector3 scale);
-
-	TEvent OnTransformChange;
-	TEventOne<FVector3> OnPositionChange;
-	TEventOne<FQuaternion> OnRotationChange;
-	TEventOne<FVector3> OnScaleChange;
 
 	void Translate(FVector3 translationAmount);
 	void Rotate(FQuaternion rotation);
