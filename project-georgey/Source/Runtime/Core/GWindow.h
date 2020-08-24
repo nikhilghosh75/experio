@@ -1,5 +1,4 @@
 #pragma once
-#include "../Base/GSingleton.h"
 #include <string>
 #include <vector>
 #include "Core.h"

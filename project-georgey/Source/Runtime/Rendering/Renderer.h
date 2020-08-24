@@ -11,7 +11,6 @@
 #include "MeshComponent.h"
 #include "FrameBuffer.h"
 #include "../Math/FRect.h"
-#include "../Camera/FCameraData.h"
 
 class Renderer
 {
