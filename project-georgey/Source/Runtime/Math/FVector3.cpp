@@ -70,6 +70,15 @@ FVector3 FVector3::Cross(const FVector3& V1, const FVector3& V2)
     return FVector3(V1.y * V2.z - V1.z * V2.y, V1.z * V2.x - V1.x * V2.z, V1.x * V2.y - V1.y * V2.x);
 }
 
+FVector3 FVector3::Lerp(const FVector3 & V1, const FVector3 & V2, float t)
+{
+	return FVector3(
+		LMath::Lerp(V1.x, V2.x, t),
+		LMath::Lerp(V1.y, V2.y, t),
+		LMath::Lerp(V1.z, V2.z, t)
+	);
+}
+
 FVector3 FVector3::Reflect(const FVector3 & Incident, const FVector3 & Normal)
 {
 	return Incident - (Normal * 2.f * Dot(Incident, Normal));

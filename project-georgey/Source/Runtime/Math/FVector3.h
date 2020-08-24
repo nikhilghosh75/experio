@@ -26,6 +26,7 @@ public:
 
     static float Dot(const FVector3& V1, const FVector3& V2);
     static FVector3 Cross(const FVector3& V1, const FVector3& V2);
+	static FVector3 Lerp(const FVector3& V1, const FVector3& V2, float t);
 	static FVector3 Reflect(const FVector3& Incident, const FVector3& Normal);
 	static FVector3 Refract(const FVector3& Incident, const FVector3& Normal, float indexOfRefraction);
 	static FVector3 BoundToBox(const FVector3& Min, const FVector3& Max, const FVector3& V);
