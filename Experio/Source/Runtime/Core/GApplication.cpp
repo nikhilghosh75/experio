@@ -13,7 +13,7 @@
 #include "../Time/GameTime.h"
 #include "../Camera/VirtualCamera.h"
 #include "../Framework/SceneLoader.h"
-
+#include "../Framework/PrefabLoader.h"
 #include "../Files/LFileOperations.h"
 using namespace std;
 
@@ -88,7 +88,6 @@ void GApplication::Run()
 		tempRenderer.Clear();
 		//tempRenderer.TempRenderer();
 		Project::componentManager->Update();
-		// textComponent.RenderText();
 		tempRenderer.LogRenderingError();
 		GameTime::OnEndFrame();
 		GDebug::Log("DeltaTime = " + to_string(GameTime::deltaTime));

@@ -7,3 +7,4 @@
 #include "Runtime/Rendering/Renderer.h";
 
 #include "../../Dependencies/GLEW/include/GL/glew.h";
+#include "../../Dependencies/imgui/imgui.h";

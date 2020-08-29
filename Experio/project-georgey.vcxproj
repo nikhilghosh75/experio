@@ -56,6 +56,7 @@
     <ClInclude Include="Source\Runtime\Math\FVector4.h" />
     <ClInclude Include="Source\Runtime\Math\MatrixTypes.h" />
     <ClInclude Include="Source\Runtime\Math\TMatrix.h" />
+    <ClInclude Include="Source\Runtime\Memory\TScopePtr.h" />
     <ClInclude Include="Source\Runtime\Particles\Particle.h" />
     <ClInclude Include="Source\Runtime\Particles\ParticleSystem.h" />
     <ClInclude Include="Source\Runtime\Rendering\Billboard.h" />
