@@ -1,6 +1,0 @@
-﻿  GAmber.cpp
-c:\users\debgh\source\repos\project-georgey\amber\source\gamber.h(2): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\debgh\source\repos\project-georgey\project-georgey\source\engine.h(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\debgh\source\repos\project-georgey\project-georgey\source\engine.h(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\debgh\source\repos\project-georgey\amber\source\gamber.h(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  Amber.vcxproj -> C:\Users\debgh\source\repos\project-georgey\x64\Debug\Amber.exe
