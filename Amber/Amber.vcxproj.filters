@@ -26,5 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scenes\TestScene.pbscene" />
+    <None Include="Assets\Prefabs\Suzanne.prefab" />
   </ItemGroup>
 </Project>
