@@ -18,6 +18,9 @@ public:
 	virtual Component* GetComponent(GameObject* gameObject, unsigned int classId) { return nullptr; };
 
 	virtual void DeleteComponent(GameObject* gameObject, unsigned int classId) {};
+
+	virtual std::vector<unsigned int> GetComponentsIDsInGameObject(GameObject* gameObject) { return std::vector<unsigned int>(); };
+	virtual std::vector<Component*> GetComponentsInGameObject(GameObject* gameObject) { return std::vector<Component*>(); };
 };
 
 #define PB_ADD_COMPONENT(_vectorName_) _vectorName_.emplace_back(gameObject); return (Component*)(&_vectorName_[_vectorName_.size() - 1]);
@@ -57,6 +60,7 @@ public:
 
 class TestComponentManager : public ComponentManager
 {
+	const std::vector<unsigned int> classIds = { 2, 100, 101, 102, 103, 104 };
 public:
 	std::vector<TestComponent> testComponentInstances;
 	std::vector<ParticleSystem> particleSystemInstances;
@@ -129,5 +133,34 @@ public:
 		case 104:
 			PB_DELETE_COMPONENT(textComponentInstances);
 		}
+	}
+
+	virtual std::vector<unsigned int> GetComponentIDsInGameObject(GameObject* gameObject)
+	{
+		std::vector<unsigned int> returnVector;
+		for (int i = 0; i < classIds.size(); i++)
+		{
+			if (GetComponent(gameObject, classIds[i]) != nullptr)
+			{
+				returnVector.push_back(classIds[i]);
+			}
+		}
+		
+		return returnVector;
+	}
+
+	virtual std::vector<Component*> GetComponentsInGameObject(GameObject* gameObject)
+	{
+		std::vector<Component*> returnVector;
+		for (int i = 0; i < classIds.size(); i++)
+		{
+			Component* component = GetComponent(gameObject, classIds[i]);
+			if (component != nullptr)
+			{
+				returnVector.push_back(component);
+			}
+		}
+
+		return returnVector;
 	}
 };
