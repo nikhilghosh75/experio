@@ -5,8 +5,9 @@
 #ifdef console
 #include <iostream>
 #include <windows.h>
-using namespace std;
 #endif
+
+std::vector<FDebugInfo> GDebug::debugInfo;
 
 void GDebug::Log(string s)
 {
@@ -16,7 +17,7 @@ void GDebug::Log(string s)
 #endif
 
 	FDebugInfo newInfo(EDebugType::Normal, s, FDateTime::NowHighRes());
-	debugInfo.Append(newInfo);
+	debugInfo.push_back(newInfo);
 }
 
 void GDebug::LogWarning(string s)
@@ -27,7 +28,7 @@ void GDebug::LogWarning(string s)
 #endif
 
 	FDebugInfo newInfo(EDebugType::Warning, s, FDateTime::NowHighRes());
-	debugInfo.Append(newInfo);
+	debugInfo.push_back(newInfo);
 }
 
 void GDebug::LogError(string s)
@@ -38,5 +39,5 @@ void GDebug::LogError(string s)
 #endif
 
 	FDebugInfo newInfo(EDebugType::Error, s, FDateTime::NowHighRes());
-	debugInfo.Append(newInfo);
+	debugInfo.push_back(newInfo);
 }

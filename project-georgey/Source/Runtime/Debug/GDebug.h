@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../Containers//TArray.h"
+#include <vector>
 #include "../Time/FDateTime.h"
 using namespace std;
 
@@ -28,7 +28,7 @@ struct FDebugInfo
 class GDebug
 {
 private:
-	static TArray<FDebugInfo> debugInfo;
+	static std::vector<FDebugInfo> debugInfo;
 
 public:
 	static void Log(string s);
