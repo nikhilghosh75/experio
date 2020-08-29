@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 #define HASHTABLE_START_CAPACITY 8
 
@@ -17,8 +18,8 @@ public:
 		nextNode = nullptr;
 	}
 
-	K GetKey() const { return key; }
-	V GetValue() const { return value; }
+	K& GetKey() { return key; }
+	V& GetValue() { return value; }
 	THashNode* GetNext() const { return nextNode; }
 
 	void SetValue(V value)
@@ -92,8 +93,6 @@ public:
 			}
 			entry = entry->GetNext();
 		}
-
-		return nullptr;
 	}
 
 	bool SafeGet(const K& key, V& value)
@@ -239,4 +238,17 @@ public:
 
 	unsigned int GetSize() const { return size; }
 	unsigned int GetCapacity() const { return capacity; }
+};
+
+void THashtableTest();
+
+struct StringHashFunction
+{
+public:
+	unsigned int tableCapacity;
+
+	unsigned long operator()(const std::string& key) const
+	{
+		return (key[0] + key.size()) % tableCapacity;
+	}
 };
