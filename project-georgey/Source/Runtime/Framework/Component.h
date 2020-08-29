@@ -23,6 +23,8 @@ public:
 
 	GameObject* GetGameObject() const { return gameObject; }
 	uint64_t GetId() { return id; }
+
+	friend Component* CopyComponent(GameObject* gameObject, Component* component, unsigned int classId);
 };
 
 class TestComponent : public Component
