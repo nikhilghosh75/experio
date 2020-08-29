@@ -1,8 +1,8 @@
 #pragma once
-#include "../../project-georgey/Source/Engine.h";
-#include "../../project-georgey/Source/Runtime/Core/GApplication.h";
+#include "../../Experio/Source/Engine.h";
+#include "../../Experio/Source/Runtime/Core/Application.h";
 
-class GAmber : public GApplication
+class GAmber : public Application
 {
 public:
 	GAmber();

@@ -1,4 +1,4 @@
-#include "GApplication.h"
+#include "Application.h"
 #include "GWindow.h"
 #include <iostream>
 #include "../Debug/TempProfiler.h"
@@ -17,16 +17,16 @@
 #include "../Files/LFileOperations.h"
 using namespace std;
 
-GApplication::GApplication()
+Application::Application()
 {
 }
 
 
-GApplication::~GApplication()
+Application::~Application()
 {
 }
 
-void GApplication::Run()
+void Application::Run()
 {
 	TempProfiler* windowProfiler = new TempProfiler();
 	GWindow newWindow;
