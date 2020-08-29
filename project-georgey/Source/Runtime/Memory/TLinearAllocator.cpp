@@ -3,7 +3,7 @@
 #include <iostream>
 #include "TLinearAllocator.h"
 
-void Test()
+void TestLinearAllocator()
 {
 	TLinearAllocator<int>* allocator = new TLinearAllocator<int>((size_t)400);
 	allocator->Init();
