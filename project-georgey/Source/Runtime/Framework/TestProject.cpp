@@ -104,3 +104,15 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 	case 104: { PB_EMPLACE_COMPONENT(TextComponent, classId); PB_START(); } break;
 	}
 }
+
+size_t SizeOfComponent(unsigned int classId)
+{
+	switch (classId)
+	{
+	case 101: return sizeof(MeshComponent);
+	case 102: return sizeof(ParticleSystem);
+	case 103: return sizeof(Billboard);
+	case 104: return sizeof(TextComponent);
+	}
+	return 0;
+}
