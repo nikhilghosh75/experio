@@ -58,7 +58,9 @@ public:
     FVector3 operator-(const FVector3& V) const;
     FVector3 operator-=(const FVector3& V);
     FVector3 operator*(const float f) const;
+	FVector3 operator*(const FVector3& V) const;
     FVector3 operator*=(float f);
+	FVector3 operator*=(const FVector3& V);
     FVector3 operator/(const float f) const;
     FVector3 operator/=(float f);
 };

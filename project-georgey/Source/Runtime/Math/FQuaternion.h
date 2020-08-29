@@ -30,7 +30,6 @@ struct FQuaternion
 
 	operator string() const { return ToString(*this); };
 	operator glm::quat() const { return ToGLMQuat(*this); };
-	//operator mat4() const { return ToMat4(*this); }
 	operator glm::mat4() const { return ToGLMMat4(*this); }
 
 	FQuaternion operator*(const float f) const;
