@@ -98,23 +98,42 @@ public:
 		this->count = 1;
 	}
 
+	~TTypedTree()
+	{
+		DeleteNode(this->root);
+	}
+
 	void NodeAdded() { this->count++; }
 	void NodeDeleted() { this->count--; }
 
-	void Empty() { static_assert(false); }
+	void Empty() 
+	{
+		for (int i = 0; i < this->root->children.size(); i++)
+		{
+			DeleteNode(this->root->children[i]);
+		}
+		count = 1;
+	}
 
 	unsigned int GetCount() const { return count; }
 	TTypedTreeNode<T>* GetRoot() const { return root; }
 	T& GetRootObject() const { return root->object; }
-	void SetCount(unsigned int newCount) 
-	{
-		#pragma message("Only use this if you know what you're doing")
-		count = newCount;
-	}
 
 	void AddChildToRoot(T item)
 	{
 		this->root->AddChild(item);
+	}
+
+	void DeleteNode(TTypedTreeNode<T>* node)
+	{
+		if (node != nullptr)
+		{
+			for (int i = 0; i < node->children.size(); i++)
+			{
+				DeleteNode(node->children[i]);
+			}
+			delete node;
+		}
 	}
 };
 
@@ -187,20 +206,3 @@ public:
 };
 
 void TTypedTreeTest();
-
-/*
-template<class T>
-void CalculateCount(TTypedTree<T>* tree)
-{
-	int count = 0;
-	TTypedTreeIterator<T> iterator(tree);
-
-	while (!iterator.SlowIsAtEnd())
-	{
-		iterator.Increment();
-		count++;
-	}
-
-	tree->SetCount(count);
-}
-*/
