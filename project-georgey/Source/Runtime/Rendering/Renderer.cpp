@@ -286,8 +286,8 @@ void Renderer::TempRenderer()
 	MeshComponent suzanneMesh(&tempObject);
 	suzanneMesh.meshData = tempData;
 	suzanneMesh.meshShader = &basicShader;
-	suzanneMesh.GetGameObject()->transform.SetRotation(FQuaternion::MakeFromEuler(FVector3(0, 90, 0)));
-	suzanneMesh.GetGameObject()->transform.SetScale(FVector3(0.7, 0.7, 0.7));
+	suzanneMesh.GetGameObject()->localRotation = FQuaternion::MakeFromEuler(FVector3(0, 90, 0));
+	suzanneMesh.GetGameObject()->localScale = FVector3(0.7, 0.7, 0.7);
 	suzanneMesh.RecalculateModelMatrix();
 
 	//glm::mat4 viewMatrix = (FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))), 45.f);

@@ -16,7 +16,11 @@ public:
 	uint8_t layer;
 	uint8_t sceneIndex;
 	std::string name;
-	FTransform transform;
+	GameObject* parent = nullptr;
+	std::vector<GameObject*> children;
+	FVector3 localPosition;
+	FQuaternion localRotation;
+	FVector3 localScale;
 	bool isActive = true;
 
 	GameObject();
@@ -33,22 +37,20 @@ public:
 	template<class T>
 	void DeleteComponent();
 
+	GameObject* AddChild(std::string name);
+
 	static std::vector<GameObject> FindGameObjectsWithTag(unsigned short tag, uint8_t sceneIndex = 0);
 
+	// WORLD POSITION
 	FVector3 GetPosition() const;
 	FQuaternion GetRotation() const;
 	FVector3 GetScale() const;
 
-	void SetPosition(FVector3 newPosition);
-	void SetPosition(float x, float y, float z);
-	void SetRotation(FQuaternion newRotation);
-	void SetRotation(float x, float y, float z, float w);
-	void SetScale(FVector3 newScale);
-	void SetScale(float x, float y, float z);
-
 	void Translate(FVector3 translationAmount);
 	void Rotate(FQuaternion rotationAmount);
 	void Scale(float scaleFactor);
+
+	void SetTransform(FVector3 position, FQuaternion rotation, FVector3 scale);
 
 	static GameObject* FindObjectWithTag(std::string tag);
 	static GameObject* FindObjectWithTag(unsigned short tag);

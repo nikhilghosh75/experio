@@ -52,6 +52,13 @@ void GameObject::DeleteComponent()
 	return Project::componentManager->DeleteComponent(this, Project::ClassTypeToInt<T>());
 }
 
+GameObject * GameObject::AddChild(std::string name)
+{
+	this->children.push_back(new GameObject(name));
+	this->children[children.size() - 1]->parent = this;
+	return children[children.size() - 1];
+}
+
 std::vector<GameObject> GameObject::FindGameObjectsWithTag(unsigned short tag, uint8_t sceneIndex)
 {
 	// TO-DO
@@ -60,66 +67,65 @@ std::vector<GameObject> GameObject::FindGameObjectsWithTag(unsigned short tag, u
 
 FVector3 GameObject::GetPosition() const
 {
-	return transform.GetPosition();
+	GameObject* tempObject = this->parent;
+	FVector3 position = localPosition;
+	while (tempObject != nullptr)
+	{
+		position += tempObject->localPosition;
+		tempObject = tempObject->parent;
+	}
+	return position;
 }
 
 FQuaternion GameObject::GetRotation() const
 {
-	return transform.GetRotation();
+	GameObject* tempObject = this->parent;
+	FQuaternion rotation = localRotation;
+	while (tempObject != nullptr)
+	{
+		rotation *= tempObject->localRotation;
+		tempObject = tempObject->parent;
+	}
+	return rotation;
 }
 
 FVector3 GameObject::GetScale() const
 {
-	return transform.GetScale();
-}
-
-void GameObject::SetPosition(FVector3 newPosition)
-{
-	this->transform.SetPosition(newPosition);
-}
-
-void GameObject::SetPosition(float x, float y, float z)
-{
-	this->transform.SetPosition(FVector3(x, y, z));
-}
-
-void GameObject::SetRotation(FQuaternion newRotation)
-{
-	this->transform.SetRotation(newRotation);
-}
-
-void GameObject::SetRotation(float x, float y, float z, float w)
-{
-	this->transform.SetRotation(FQuaternion(x, y, z, w));
-}
-
-void GameObject::SetScale(FVector3 newScale)
-{
-	this->transform.SetScale(newScale);
-}
-
-void GameObject::SetScale(float x, float y, float z)
-{
-	this->transform.SetScale(FVector3(x, y, z));
+	GameObject* tempObject = this->parent;
+	FVector3 scale = localScale;
+	while (tempObject != nullptr)
+	{
+		scale *= tempObject->localScale;
+		tempObject = tempObject->parent;
+	}
+	return scale;
 }
 
 void GameObject::Translate(FVector3 translationAmount)
 {
-	this->transform.Translate(translationAmount);
+	this->localPosition += translationAmount;
 }
 
 void GameObject::Rotate(FQuaternion rotationAmount)
 {
-	this->transform.Rotate(rotationAmount);
+	this->localRotation *= rotationAmount;
 }
 
 void GameObject::Scale(float scaleFactor)
 {
-	this->transform.Scale(scaleFactor);
+	this->localScale *= scaleFactor;
+}
+
+void GameObject::SetTransform(FVector3 position, FQuaternion rotation, FVector3 scale)
+{
+	this->localPosition = position;
+	this->localRotation = rotation;
+	this->localScale = scale;
 }
 
 GameObject * GameObject::FindObjectWithTag(std::string tag)
 {
+	/*
 	unsigned short tagID = Project::TagStringToNum(tag.c_str());
 	for (int i = 0; i < MAX_SCENES; i++)
 	{
@@ -128,7 +134,7 @@ GameObject * GameObject::FindObjectWithTag(std::string tag)
 		{
 			continue;
 		}
-		TTypedTree<GameObject>* hierarchy = &currentScene->sceneHiearchy;
+		GameObject* hierarchy = currentScene->sceneRoot;
 		TTypedTreeIterator<GameObject> iterator(hierarchy);
 		while (!iterator.IsAtEnd())
 		{
@@ -140,10 +146,13 @@ GameObject * GameObject::FindObjectWithTag(std::string tag)
 		}
 	}
 	return nullptr;
+	*/
+	return nullptr;
 }
 
 GameObject * GameObject::FindObjectWithTag(unsigned short tag)
 {
+	/*
 	for (int i = 0; i < MAX_SCENES; i++)
 	{
 		Scene* currentScene = &Scene::scenes[i];
@@ -162,5 +171,7 @@ GameObject * GameObject::FindObjectWithTag(unsigned short tag)
 			iterator.Increment();
 		}
 	}
+	return nullptr;
+	*/
 	return nullptr;
 }
