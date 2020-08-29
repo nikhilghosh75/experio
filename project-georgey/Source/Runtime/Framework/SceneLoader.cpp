@@ -55,7 +55,7 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 	sceneFile.getline(word, 256);
 	if (ShouldQuitOnProjectName((std::string)word, compareType)) return;
 
-	TTypedTreeNode<GameObject>* currentNode = nullptr;
+	GameObject* currentNode = nullptr;
 	bool isRoot = true;
 	bool inComponent = false;
 
@@ -72,14 +72,13 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 			sceneFile.getline(word, 256);
 			if (isRoot)
 			{
-				currentNode = currentScene->sceneHiearchy.GetRoot();
-				currentNode->object.name = (std::string)word;
+				currentNode = &currentScene->sceneRoot;
+				currentNode->name = (std::string)word;
 				isRoot = false;
 			}
 			else
 			{
-				currentNode = &currentNode->AddChild(GameObject((std::string)word));
-				currentScene->sceneHiearchy.NodeAdded();
+				currentNode = currentNode->AddChild((std::string)word);
 			}
 		}
 		else if (strcmp(word, "Transform:") == 0)
@@ -90,37 +89,37 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 			sceneFile >> x;
 			sceneFile >> y;
 			sceneFile >> z;
-			currentNode->object.SetPosition(x, y, z);
+			currentNode->localPosition = FVector3(x, y, z);
 
 			// Rotation
 			sceneFile >> x;
 			sceneFile >> y;
 			sceneFile >> z;
 			sceneFile >> w;
-			currentNode->object.SetRotation(x, y, z, w);
+			currentNode->localRotation = FQuaternion(x, y, z, w);
 
 			// Scale
 			sceneFile >> x;
 			sceneFile >> y;
 			sceneFile >> z;
-			currentNode->object.SetScale(x, y, z);
+			currentNode->localScale = FVector3(x, y, z);
 		}
 		else if (strcmp(word, "Tag:") == 0)
 		{
 			int tag;
 			sceneFile >> tag;
-			currentNode->object.tag = tag;
+			currentNode->tag = tag;
 		}
 		else if (strcmp(word, "Layer:") == 0)
 		{
 			int layer;
 			sceneFile >> layer;
-			currentNode->object.layer = layer;
+			currentNode->layer = layer;
 		}
 		else if (strcmp(word, "Components:") == 0)
 		{
 			inComponent = true;
-			AddComponentsToObjects(sceneFile, sceneSlot, &currentNode->object);
+			AddComponentsToObjects(sceneFile, sceneSlot, currentNode);
 			inComponent = false;
 		}
 		else if (strcmp(word, "Children:") == 0)
@@ -129,7 +128,7 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 		}
 		else if (strcmp(word, "},{") == 0)
 		{
-			currentNode = currentNode->parentNode;
+			currentNode = currentNode->parent;
 		}
 	}
 	currentScene->isActive = true;

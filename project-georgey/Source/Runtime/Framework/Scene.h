@@ -10,7 +10,7 @@
 class Scene
 {
 public:
-	TTypedTree<GameObject> sceneHiearchy;
+	GameObject sceneRoot;
 	bool isActive = false;
 
 private:

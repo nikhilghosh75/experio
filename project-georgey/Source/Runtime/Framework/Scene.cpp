@@ -8,7 +8,7 @@ Scene::Scene()
 {
 	this->name = "";
 	this->id = sceneCount;
-	this->sceneHiearchy = TTypedTree<GameObject>(GameObject());
+	this->sceneRoot = GameObject((std::string)"Scene Root", 0, 0);
 
 	sceneCount++;
 }
@@ -17,7 +17,7 @@ Scene::Scene(std::string name)
 {
 	this->name = name;
 	this->id = sceneCount;
-	this->sceneHiearchy = TTypedTree<GameObject>(GameObject((std::string)"Scene Root", 0, 0));
+	this->sceneRoot = GameObject((std::string)"Scene Root", 0, 0);
 
 	sceneCount++;
 }
