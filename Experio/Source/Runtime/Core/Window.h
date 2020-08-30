@@ -4,8 +4,6 @@
 #include "Core.h"
 #include <Windows.h>
 #include "../Input/Input.h"
-#include "WindowEnums.h"
-using namespace std;
 
 #define PB_KEYPRESSED		0x9675
 #define PB_KEYRELEASED		0x9676
@@ -16,6 +14,21 @@ using namespace std;
 #define PB_MOUSEMOVE		0x9681
 #define PB_BUTTONUP			0x9800
 #define PB_BUTTONDOWN		0x9801
+
+enum class EWindowResizeType
+{
+	Resize = 0, // Normal Resize
+	Minimize = 1, // When Minimized is clicked
+	Maximize = 2, // When Maximized is clicked
+	Create = 3 // When the window is created
+};
+
+enum class EWindowAxisType
+{
+	None = 0,
+	X = 1,
+	Y = 2
+};
 
 struct FWindowData
 {
@@ -38,15 +51,15 @@ struct FWindowData
 	}
 };
 
-class GWindow
+class Window
 {
 #ifdef PLATFORM_WINDOWS
 	HWND* hwnd;
 #endif
 	static FWindowData windowData;
-	static GWindow* instance;
+	static Window* instance;
 public:
-	GWindow();
+	Window();
 
 	void InstantiateWindow();
 	void OnUpdate();
@@ -62,7 +75,7 @@ public:
 	static EMouseButton GetMouseButton(unsigned int mouseEnum);
 
 	static FWindowData GetWindowData();
-	static GWindow* Get() { return instance; }
+	static Window* Get() { return instance; }
 
 	static void CallViewport();
 

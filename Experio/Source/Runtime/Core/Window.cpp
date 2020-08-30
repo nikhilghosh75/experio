@@ -1,4 +1,4 @@
-#include "GWindow.h"
+#include "Window.h"
 #include "../Debug/GDebug.h"
 #include "../Debug/TempProfiler.h"
 #include "../Math/LMath.h"
@@ -21,15 +21,15 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 HDC deviceContext;
 HGLRC openGLRenderingContext;
 
-FWindowData GWindow::windowData;
-GWindow* GWindow::instance;
+FWindowData Window::windowData;
+Window* Window::instance;
 
-GWindow::GWindow()
+Window::Window()
 {
 	instance = this;
 }
 
-void GWindow::InstantiateWindow()
+void Window::InstantiateWindow()
 {
 #ifdef PLATFORM_WINDOWS
 	WNDCLASSEX wc{};
@@ -64,7 +64,7 @@ void GWindow::InstantiateWindow()
 	this->isActive = true;
 }
 
-void GWindow::OnUpdate()
+void Window::OnUpdate()
 {
 #ifdef PLATFORM_WINDOWS
 	//ShowWindow(this->hwnd, SW_SHOW);
@@ -84,20 +84,20 @@ void GWindow::OnUpdate()
 #endif
 }
 
-void GWindow::MakeContext()
+void Window::MakeContext()
 {
 	HDC deviceContextHandle = GetDC(*this->hwnd);
 	wglMakeCurrent(deviceContextHandle, openGLRenderingContext);
 }
 
-void GWindow::CloseWindow()
+void Window::CloseWindow()
 {
 #ifdef PLATFORM_WINDOWS
 	PostQuitMessage(0);
 #endif
 }
 
-void GWindow::ReceiveInput(EInputType inputType, unsigned int param1, unsigned int param2, unsigned int param3)
+void Window::ReceiveInput(EInputType inputType, unsigned int param1, unsigned int param2, unsigned int param3)
 {
 	switch (inputType)
 	{
@@ -131,7 +131,7 @@ void GWindow::ReceiveInput(EInputType inputType, unsigned int param1, unsigned i
 	}
 }
 
-void GWindow::ResizeWindow(EWindowResizeType resizeType, int width, int height)
+void Window::ResizeWindow(EWindowResizeType resizeType, int width, int height)
 {
 	glViewport(0, 0, width, height);
 	windowData.width = width;
@@ -141,7 +141,7 @@ void GWindow::ResizeWindow(EWindowResizeType resizeType, int width, int height)
 #endif
 }
 
-EMouseButton GWindow::GetMouseButton(unsigned int mouseEnum)
+EMouseButton Window::GetMouseButton(unsigned int mouseEnum)
 {
 	switch (mouseEnum)
 	{
@@ -155,18 +155,18 @@ EMouseButton GWindow::GetMouseButton(unsigned int mouseEnum)
 	return EMouseButton::Left;
 }
 
-FWindowData GWindow::GetWindowData()
+FWindowData Window::GetWindowData()
 {
 	return windowData;
 }
 
-void GWindow::CallViewport()
+void Window::CallViewport()
 {
 	glViewport(0, 0, windowData.width, windowData.height);
 }
 
 #ifdef PLATFORM_WINDOWS
-HWND* GWindow::GetHWND()
+HWND* Window::GetHWND()
 {
 	return this->hwnd;
 }
@@ -224,77 +224,77 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 		GetClientRect(window, &rect);
 		glViewport(0, 0, rect.right - rect.left, rect.bottom - rect.top);
 		GLenum error = glewInit();
-		GWindow::ResizeWindow(EWindowResizeType::Create, rect.right - rect.left, rect.bottom - rect.top);
+		Window::ResizeWindow(EWindowResizeType::Create, rect.right - rect.left, rect.bottom - rect.top);
 	}
 		break;
 	case WM_DESTROY:
 	{
-		GWindow::Get()->isActive = false;
+		Window::Get()->isActive = false;
 		// Implement Application Close Here
 	}
 	case WM_SIZE:
 	{
-		std::thread worker(GWindow::ResizeWindow, (EWindowResizeType)wParam , lParam % LMath::PowOfTwo(16), lParam / LMath::PowOfTwo(16));
+		std::thread worker(Window::ResizeWindow, (EWindowResizeType)wParam , lParam % LMath::PowOfTwo(16), lParam / LMath::PowOfTwo(16));
 		worker.detach();
 		break;
 	}
 	case WM_KEYDOWN:
 	{
-		std::thread worker(GWindow::ReceiveInput, EInputType::Keyboard, PB_KEYPRESSED, wParam, 0);
+		std::thread worker(Window::ReceiveInput, EInputType::Keyboard, PB_KEYPRESSED, wParam, 0);
 		worker.detach();
 		break;
 	}
 	case WM_KEYUP:
 	{
-		std::thread worker(GWindow::ReceiveInput, EInputType::Keyboard, PB_KEYRELEASED, wParam, 0);
+		std::thread worker(Window::ReceiveInput, EInputType::Keyboard, PB_KEYRELEASED, wParam, 0);
 		worker.detach();
 		break;
 	}
 	case WM_LBUTTONDOWN:
 	{
-		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONDOWN, PB_LEFTMOUSE, 0);
+		std::thread worker(Window::ReceiveInput, EInputType::Mouse, PB_BUTTONDOWN, PB_LEFTMOUSE, 0);
 		worker.detach();
 		break;
 	}
 	case WM_LBUTTONUP:
 	{
-		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONUP, PB_LEFTMOUSE, 0);
+		std::thread worker(Window::ReceiveInput, EInputType::Mouse, PB_BUTTONUP, PB_LEFTMOUSE, 0);
 		worker.detach();
 		break;
 	}
 	case WM_MBUTTONDOWN:
 	{
-		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONDOWN, PB_MIDDLEMOUSE, 0);
+		std::thread worker(Window::ReceiveInput, EInputType::Mouse, PB_BUTTONDOWN, PB_MIDDLEMOUSE, 0);
 		worker.detach();
 		break;
 	}
 	case WM_MBUTTONUP:
 	{
-		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONUP, PB_MIDDLEMOUSE, 0);
+		std::thread worker(Window::ReceiveInput, EInputType::Mouse, PB_BUTTONUP, PB_MIDDLEMOUSE, 0);
 		worker.detach();
 		break;
 	}
 	case WM_RBUTTONDOWN:
 	{
-		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONDOWN, PB_RIGHTMOUSE, 0);
+		std::thread worker(Window::ReceiveInput, EInputType::Mouse, PB_BUTTONDOWN, PB_RIGHTMOUSE, 0);
 		worker.detach();
 		break;
 	}
 	case WM_RBUTTONUP:
 	{
-		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_BUTTONUP, PB_RIGHTMOUSE, 0);
+		std::thread worker(Window::ReceiveInput, EInputType::Mouse, PB_BUTTONUP, PB_RIGHTMOUSE, 0);
 		worker.detach();
 		break;
 	}
 	case WM_MOUSEMOVE:
 	{
-		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_MOUSEMOVE, lParam % LMath::PowOfTwo(16), lParam / LMath::PowOfTwo(16));
+		std::thread worker(Window::ReceiveInput, EInputType::Mouse, PB_MOUSEMOVE, lParam % LMath::PowOfTwo(16), lParam / LMath::PowOfTwo(16));
 		worker.detach();
 		break;
 	}
 	case WM_MOUSEWHEEL:
 	{
-		std::thread worker(GWindow::ReceiveInput, EInputType::Mouse, PB_MOUSEWHEEL, GET_WHEEL_DELTA_WPARAM(wParam), 0);
+		std::thread worker(Window::ReceiveInput, EInputType::Mouse, PB_MOUSEWHEEL, GET_WHEEL_DELTA_WPARAM(wParam), 0);
 	}
 	default:
 		return DefWindowProc(window, message, wParam, lParam);
