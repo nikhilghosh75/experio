@@ -1,15 +1,15 @@
 #define console
 
-#include "GDebug.h"
+#include "Debug.h"
 
 #ifdef console
 #include <iostream>
 #include <windows.h>
 #endif
 
-std::vector<FDebugInfo> GDebug::debugInfo;
+std::vector<FDebugInfo> Debug::debugInfo;
 
-void GDebug::Log(string s)
+void Debug::Log(string s)
 {
 #ifdef console
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
@@ -20,7 +20,7 @@ void GDebug::Log(string s)
 	debugInfo.push_back(newInfo);
 }
 
-void GDebug::LogWarning(string s)
+void Debug::LogWarning(string s)
 {
 #ifdef console
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
@@ -31,7 +31,7 @@ void GDebug::LogWarning(string s)
 	debugInfo.push_back(newInfo);
 }
 
-void GDebug::LogError(string s)
+void Debug::LogError(string s)
 {
 #ifdef console
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);

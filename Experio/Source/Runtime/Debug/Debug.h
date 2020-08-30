@@ -25,7 +25,7 @@ struct FDebugInfo
 	}
 };
 
-class GDebug
+class Debug
 {
 private:
 	static std::vector<FDebugInfo> debugInfo;
