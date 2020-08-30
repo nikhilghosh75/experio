@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "GWindow.h"
+#include "Window.h"
 #include <iostream>
 #include "../Debug/TempProfiler.h"
 #include "../Rendering/Renderer.h"
@@ -29,7 +29,7 @@ Application::~Application()
 void Application::Run()
 {
 	TempProfiler* windowProfiler = new TempProfiler();
-	GWindow newWindow;
+	Window newWindow;
 	newWindow.InstantiateWindow();
 	delete windowProfiler;
 	Renderer tempRenderer;
@@ -40,7 +40,7 @@ void Application::Run()
 
 	TTypedTreeTest();
 
-	SceneLoader::LoadSceneFromFile("C:/Users/debgh/source/repos/project-bloo/Amber/Assets/Scenes/TestScene.pbscene", 0);
+	SceneLoader::LoadSceneFromFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Scenes/TestScene.pbscene", 0);
 
 	Scene::Activate(0);
 	GameObject cameraObject((std::string)"Camera", 1, 2);

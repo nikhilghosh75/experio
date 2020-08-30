@@ -34,14 +34,14 @@ void MeshComponent::Start()
 {
 	if (this->meshData == nullptr)
 	{
-		this->meshData = MeshReader::ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Meshes/suzanne.obj");
+		this->meshData = MeshReader::ReadFile("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Meshes/suzanne.obj");
 	}
 
 	if (this->meshShader == nullptr)
 	{
 		this->meshShader = new Shader(
-			"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicVertex.shader", 
-			"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicFragment.shader"
+			"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BasicVertex.shader", 
+			"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BasicFragment.shader"
 		);
 	}
 }
@@ -60,7 +60,7 @@ void MeshComponent::Update()
 	float lightIntensity = 50.0f;
 	this->meshShader->SetUniformFloat("LightPower", lightIntensity);
 
-	Texture albedoTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/uvmap.bmp");
+	Texture albedoTexture("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Textures/uvmap.bmp");
 	albedoTexture.Bind(0);
 	this->meshShader->SetUniformInt("albedoTexture", 0);
 

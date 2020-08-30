@@ -1,6 +1,6 @@
 #include "VirtualCamera.h"
 #include "CameraSystem.h"
-#include "../Core/GWindow.h"
+#include "../Core/Window.h"
 #include "../Core/LWindowOperations.h"
 #include "../Math/LMath.h"
 
@@ -26,7 +26,7 @@ glm::mat4 VirtualCamera::GetViewMatrix() const
 
 glm::mat4 VirtualCamera::GetProjectionMatrix() const
 {
-	float aspectRatio = LWindowOperations::GetAspectRatio(GWindow::GetWindowData());
+	float aspectRatio = LWindowOperations::GetAspectRatio(Window::GetWindowData());
 	return glm::perspective(
 		LMath::DegreesToRadians(this->fieldOfView), 
 		aspectRatio, 
@@ -42,7 +42,7 @@ glm::mat4 VirtualCamera::CalculateViewMatrix(glm::vec3 position, glm::quat rotat
 
 glm::mat4 VirtualCamera::CalculateProjectionMatrix(float fieldOfView, float nearClipPlane, float farClipPlane)
 {
-	float aspectRatio = LWindowOperations::GetAspectRatio(GWindow::Get()->GetWindowData());
+	float aspectRatio = LWindowOperations::GetAspectRatio(Window::Get()->GetWindowData());
 	return glm::perspective(
 		LMath::DegreesToRadians(fieldOfView),
 		aspectRatio,

@@ -3,7 +3,7 @@
 #include "../Rendering/VertexBufferLayout.h"
 #include "../Rendering/VertexArray.h"
 #include "../Camera/CameraSystem.h"
-#include "../Core/GWindow.h"
+#include "../Core/Window.h"
 #include "../Core/LWindowOperations.h"
 #include "glm/gtc/matrix_transform.hpp"
 #include "../Math/LMath.h"
@@ -131,7 +131,7 @@ void ParticleSystem::Update()
 	GLenum error = glGetError();
 
 	glm::mat4 viewMatrix = CameraSystem::currentViewMatrix;
-	FWindowData data = GWindow::GetWindowData();
+	FWindowData data = Window::GetWindowData();
 	float aspectRatio = LWindowOperations::GetAspectRatio(data);
 	glm::mat4 projectionMatrix = CameraSystem::currentProjectionMatrix;
 

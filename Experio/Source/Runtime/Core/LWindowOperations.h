@@ -1,6 +1,5 @@
 #pragma once
-#include "GWindow.h"
-#include "WindowEnums.h"
+#include "Window.h"
 #include "../Math/FVector2.h"
 
 class LWindowOperations

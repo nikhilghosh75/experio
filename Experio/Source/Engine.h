@@ -2,7 +2,7 @@
 
 // For use by Bloo Applications
 
-#include "Runtime/Core/GApplication.h";
+#include "Runtime/Core/Application.h";
 #include "Runtime/Core/EntryPoint.h";
 #include "Runtime/Rendering/Renderer.h";
 

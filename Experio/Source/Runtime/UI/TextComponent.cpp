@@ -1,7 +1,7 @@
 #include "TextComponent.h"
 #include "../Debug/GDebug.h"
 #include "../Rendering/VertexBuffer.h"
-#include "../Core/GWindow.h"
+#include "../Core/Window.h"
 #include "../Core/LWindowOperations.h"
 #include "../Rendering/VertexArray.h"
 #include "../Rendering/VertexBufferLayout.h"
@@ -44,7 +44,7 @@ void TextComponent::RenderText()
 	glm::vec2* verticies = new glm::vec2[6 * length];
 	glm::vec2* uvs = new glm::vec2[6 * length];
 
-	FWindowData data = GWindow::GetWindowData();
+	FWindowData data = Window::GetWindowData();
 	float clippedSize = LWindowOperations::PixelToNormalizedSize(data, fontSize * 1.333f, EWindowAxisType::Y);
 	float clippedMargin = LWindowOperations::PixelToNormalizedSize(data, margins, EWindowAxisType::X);
 	FVector2 topLeftOfText = this->transform.rect.GetTopLeft();

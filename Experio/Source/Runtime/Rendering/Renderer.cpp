@@ -9,7 +9,7 @@
 #include "glm/glm.hpp"
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "../Core/GWindow.h"
+#include "../Core/Window.h"
 #include "../Core/LWindowOperations.h"
 #include <fstream>
 #include "../Files/Images/ImageReader.h"
@@ -64,8 +64,8 @@ void Renderer::DrawBillboard(const Billboard & billboard, const glm::mat4 viewMa
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	Shader billboardShader(
-		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BillboardVertex.shader",
-		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BillboardFragment.shader"
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BillboardVertex.shader",
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BillboardFragment.shader"
 	);
 	billboardShader.Bind();
 
@@ -83,7 +83,7 @@ void Renderer::DrawBillboard(const Billboard & billboard, const glm::mat4 viewMa
 
 	VertexBuffer billboardBuffer(billboardBufferData, sizeof(billboardBufferData));
 
-	FWindowData data = GWindow::GetWindowData();
+	FWindowData data = Window::GetWindowData();
 	float aspectRatio = LWindowOperations::GetAspectRatio(data);
 
 	glm::mat4 VP = projectionMatrix * viewMatrix;
@@ -118,7 +118,7 @@ void Renderer::DrawMesh(const MeshComponent & mesh, const glm::mat4 viewMatrix, 
 
 	glm::mat4 modelMatrix = mesh.GetModelMatrix();
 
-	FWindowData data = GWindow::GetWindowData();
+	FWindowData data = Window::GetWindowData();
 	float aspectRatio = LWindowOperations::GetAspectRatio(data);
 
 	glm::mat4 MVP = projectionMatrix * viewMatrix * modelMatrix;
@@ -319,7 +319,7 @@ void Renderer::TempFramebufferRenderer()
 
 	PROFILE_SCOPE("Rendering Framebuffer");
 
-	FWindowData windowData = GWindow::GetWindowData();
+	FWindowData windowData = Window::GetWindowData();
 
 	glEnable(GL_CULL_FACE);
 

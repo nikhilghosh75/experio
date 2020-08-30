@@ -34,11 +34,16 @@ std::string LFileOperations::GetExtension(std::string filePath)
 
 std::string LFileOperations::GetFullFilePath(std::string filePath)
 {
-	if (filePath[0] == '?' || filePath[1] == '?')
+	if (filePath[0] == ' ')
+	{
+		filePath = filePath.substr(1);
+	}
+
+	if (filePath[0] == '?')
 	{
 		if (filePath.find("?Standard?") != std::string::npos)
 		{
-			return "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/" + filePath.substr(11);
+			return "C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard" + filePath.substr(10);
 		}
 	}
 	return "C:/Users/debgh/source/repos/project-bloo/" + filePath;
