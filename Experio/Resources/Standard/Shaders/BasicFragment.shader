@@ -8,8 +8,8 @@ in vec3 LightDirectionCameraSpace;
 in vec3 EyeDirectionTangentSpace;
 in vec3 LightDirectionTangentSpace;
 
-layout(location = 0) out vec3 color;
-//out vec3 color;
+//layout(location = 0) out vec3 color;
+out vec3 color;
 
 uniform sampler2D albedoTexture;
 uniform sampler2D normalTexture;
