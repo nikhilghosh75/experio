@@ -19,10 +19,8 @@
     <ClInclude Include="Source\Runtime\Containers\THashtable.h" />
     <ClInclude Include="Source\Runtime\Containers\TQueue.h" />
     <ClInclude Include="Source\Runtime\Containers\TTypedTree.h" />
-    <ClInclude Include="Source\Runtime\Core\FException.h" />
-    <ClInclude Include="Source\Runtime\Core\GWindow.h" />
+    <ClInclude Include="Source\Runtime\Core\Window.h" />
     <ClInclude Include="Source\Runtime\Core\LWindowOperations.h" />
-    <ClInclude Include="Source\Runtime\Core\WindowEnums.h" />
     <ClInclude Include="Source\Runtime\Files\LFileOperations.h" />
     <ClInclude Include="Source\Runtime\Framework\Params.h" />
     <ClInclude Include="Source\Runtime\Framework\PrefabLoader.h" />
@@ -76,7 +74,7 @@
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\Runtime\Containers\TArray.h" />
     <ClInclude Include="Source\Runtime\Core\EntryPoint.h" />
-    <ClInclude Include="Source\Runtime\Core\GApplication.h" />
+    <ClInclude Include="Source\Runtime\Core\Application.h" />
     <ClInclude Include="Source\Runtime\Core\Core.h" />
     <ClInclude Include="Source\Runtime\Debug\GDebug.h" />
     <ClInclude Include="Source\Runtime\Math\FVector3.h" />
@@ -96,7 +94,7 @@
     <ClCompile Include="Source\Runtime\Containers\LString.cpp" />
     <ClCompile Include="Source\Runtime\Containers\THashtable.cpp" />
     <ClCompile Include="Source\Runtime\Containers\TTypedTree.cpp" />
-    <ClCompile Include="Source\Runtime\Core\GWindow.cpp" />
+    <ClCompile Include="Source\Runtime\Core\Window.cpp" />
     <ClCompile Include="Source\Runtime\Core\LWindowOperations.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\FontReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Images\ImageReader.cpp" />
@@ -141,7 +139,7 @@
     <ClCompile Include="Source\Runtime\Rendering\VertexBufferLayout.cpp" />
     <ClCompile Include="Source\Runtime\Time\FDateTime.cpp" />
     <ClCompile Include="Source\Runtime\Containers\TArray.cpp" />
-    <ClCompile Include="Source\Runtime\Core\GApplication.cpp" />
+    <ClCompile Include="Source\Runtime\Core\Application.cpp" />
     <ClCompile Include="Source\Runtime\Debug\GDebug.cpp" />
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp" />
     <ClCompile Include="Source\Runtime\Math\LMath.cpp" />
