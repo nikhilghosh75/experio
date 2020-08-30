@@ -1,7 +1,7 @@
 #include "LMeshOperations.h"
 #include "glm/glm.hpp"
 #include <limits>
-#include "../../Debug/GDebug.h"
+#include "../../Debug/Debug.h"
 #include <vector>
 #include <map>
 #include <string>

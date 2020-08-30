@@ -76,7 +76,7 @@
     <ClInclude Include="Source\Runtime\Core\EntryPoint.h" />
     <ClInclude Include="Source\Runtime\Core\Application.h" />
     <ClInclude Include="Source\Runtime\Core\Core.h" />
-    <ClInclude Include="Source\Runtime\Debug\GDebug.h" />
+    <ClInclude Include="Source\Runtime\Debug\Debug.h" />
     <ClInclude Include="Source\Runtime\Math\FVector3.h" />
     <ClInclude Include="Source\Runtime\Math\LMath.h" />
     <ClInclude Include="Source\Runtime\Memory\LPointerOperations.h" />
@@ -140,7 +140,7 @@
     <ClCompile Include="Source\Runtime\Time\FDateTime.cpp" />
     <ClCompile Include="Source\Runtime\Containers\TArray.cpp" />
     <ClCompile Include="Source\Runtime\Core\Application.cpp" />
-    <ClCompile Include="Source\Runtime\Debug\GDebug.cpp" />
+    <ClCompile Include="Source\Runtime\Debug\Debug.cpp" />
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp" />
     <ClCompile Include="Source\Runtime\Math\LMath.cpp" />
     <ClCompile Include="Source\Runtime\Memory\LPointerOperations.cpp" />

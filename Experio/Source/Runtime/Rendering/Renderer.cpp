@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <GL/GL.h>
 #include "../Math/LMath.h"
-#include "../Debug/GDebug.h"
+#include "../Debug/Debug.h"
 #include "../Debug/TempProfiler.h"
 #include "glm/glm.hpp"
 #include "glm/mat4x4.hpp"
@@ -28,7 +28,7 @@ void Renderer::LogRenderingError()
 	GLenum currentError = glGetError();
 	if (currentError != GL_NO_ERROR)
 	{
-		GDebug::LogError("OPENGL Error " + to_string(currentError));
+		Debug::LogError("OPENGL Error " + to_string(currentError));
 	}
 }
 
@@ -352,7 +352,7 @@ void Renderer::TempFramebufferRenderer()
 
 	if (framebufferStatus != GL_FRAMEBUFFER_COMPLETE)
 	{
-		GDebug::LogError("Framebuffer Object");
+		Debug::LogError("Framebuffer Object");
 		return;
 	}
 

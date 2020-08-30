@@ -23,7 +23,7 @@ GameObject * PrefabLoader::LoadPrefab(std::string filePath, GameObject * parent,
 {
 	if (!LFileOperations::DoesFileHaveExtension(filePath, "prefab"))
 	{
-		GDebug::LogError("Prefab is not a .prefab file");
+		Debug::LogError("Prefab is not a .prefab file");
 		return nullptr;
 	}
 
@@ -35,7 +35,7 @@ GameObject * PrefabLoader::LoadPrefab(std::string filePath, GameObject * parent,
 	ifstream prefabFile(filePath);
 	if (prefabFile.fail())
 	{
-		GDebug::LogError("File " + filePath + " could not be opened");
+		Debug::LogError("File " + filePath + " could not be opened");
 		return nullptr;
 	}
 
@@ -113,7 +113,7 @@ GameObject * PrefabLoader::LoadPrefab(std::string filePath, GameObject * parent,
 		}
 	}
 	currentScene->isActive = true;
-	GDebug::Log("Scene Loading Finished");
+	Debug::Log("Scene Loading Finished");
 
 	return prefabRoot;
 }

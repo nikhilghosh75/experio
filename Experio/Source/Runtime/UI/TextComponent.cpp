@@ -1,5 +1,5 @@
 #include "TextComponent.h"
-#include "../Debug/GDebug.h"
+#include "../Debug/Debug.h"
 #include "../Rendering/VertexBuffer.h"
 #include "../Core/Window.h"
 #include "../Core/LWindowOperations.h"
@@ -35,7 +35,7 @@ void TextComponent::RenderText()
 {
 	if (font == nullptr)
 	{
-		GDebug::LogError("Text could not be rendered due to it not having a font");
+		Debug::LogError("Text could not be rendered due to it not having a font");
 		return;
 	}
 

@@ -2,7 +2,7 @@
 
 #include "stdint.h"
 #include <vector>
-#include "../Debug/GDebug.h"
+#include "../Debug/Debug.h"
 
 class GameObject;
 class Scene;
@@ -32,7 +32,7 @@ class TestComponent : public Component
 public:
 	TestComponent(GameObject* object) { gameObject = object; Start(); };
 
-	virtual void Start() override { GDebug::Log("Started"); }
+	virtual void Start() override { Debug::Log("Started"); }
 
-	virtual void Update() override { GDebug::Log("Updating"); }
+	virtual void Update() override { Debug::Log("Updating"); }
 };

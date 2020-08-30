@@ -4,7 +4,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
-#include "../Debug/GDebug.h"
+#include "../Debug/Debug.h"
 
 
 Shader::Shader()
@@ -80,6 +80,11 @@ void Shader::SetUniformMatrix4(const std::string & name, glm::mat4 mat) const
 
 unsigned int Shader::CompileShader(const std::string & source, unsigned int type)
 {
+	if (source.size() < 2)
+	{
+		Debug::LogError("Shader is empty");
+		return 0;
+	}
 	unsigned int id = glCreateShader(type);
 	const char* src = source.c_str();
 	glShaderSource(id, 1, &src, nullptr);
@@ -93,7 +98,7 @@ unsigned int Shader::CompileShader(const std::string & source, unsigned int type
 		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
 		char* message = new char[length];
 		glGetShaderInfoLog(id, length, &length, message);
-		GDebug::LogError("Failed to compile shader!" + std::string(message));
+		Debug::LogError("Failed to compile shader!" + std::string(message));
 	}
 
 	return id;

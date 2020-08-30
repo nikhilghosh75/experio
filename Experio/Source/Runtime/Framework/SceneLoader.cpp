@@ -1,6 +1,6 @@
 #include "SceneLoader.h"
 #include "../Files/LFileOperations.h"
-#include "../Debug/GDebug.h"
+#include "../Debug/Debug.h"
 #include "Scene.h"
 #include "Project.h"
 #include "../Containers/TTypedTree.h"
@@ -17,20 +17,20 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 {
 	if (sceneSlot >= MAX_SCENES)
 	{
-		GDebug::LogError("Invalid Scene");
+		Debug::LogError("Invalid Scene");
 		return;
 	}
 
 	if (!LFileOperations::DoesFileHaveExtension(filePath, "pbscene"))
 	{
-		GDebug::LogError("Loaded Scene is not a .pbscene file");
+		Debug::LogError("Loaded Scene is not a .pbscene file");
 		return;
 	}
 
 	ifstream sceneFile(filePath);
 	if (sceneFile.fail())
 	{
-		GDebug::LogError("File " + filePath + " could not be opened");
+		Debug::LogError("File " + filePath + " could not be opened");
 		return;
 	}
 
@@ -40,7 +40,7 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 	sceneFile.getline(word, 256);
 	if (strcmp(word, "PROJECT BLOO SCENE") != 0)
 	{
-		GDebug::LogError("File " + filePath + " is improperly formatted");
+		Debug::LogError("File " + filePath + " is improperly formatted");
 		return;
 	}
 	Scene* currentScene = &Scene::scenes[sceneSlot];
@@ -132,7 +132,7 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 		}
 	}
 	currentScene->isActive = true;
-	GDebug::Log("Scene Loading Finished");
+	Debug::Log("Scene Loading Finished");
 }
 
 bool SceneLoader::ShouldQuitOnProjectName(std::string sceneProjectName, ESceneProjectCompareType compareType)
@@ -144,14 +144,14 @@ bool SceneLoader::ShouldQuitOnProjectName(std::string sceneProjectName, EScenePr
 	case ESceneProjectCompareType::Return:
 		if (sceneProjectName != Project::projectName)
 		{
-			GDebug::LogError("Scene does not have the same project name as the project. Exitting scene loading process");
+			Debug::LogError("Scene does not have the same project name as the project. Exitting scene loading process");
 			return true;
 		}
 		return false;
 	case ESceneProjectCompareType::Warning:
 		if (sceneProjectName != Project::projectName)
 		{
-			GDebug::LogWarning("Scene does not have the same project name as the project. Make sure this is intentional");
+			Debug::LogWarning("Scene does not have the same project name as the project. Make sure this is intentional");
 		}
 		return false;
 	}

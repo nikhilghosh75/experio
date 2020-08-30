@@ -1,6 +1,6 @@
 #include "FQuaternion.h"
 #include "LMath.h"
-#include "../Debug/GDebug.h"
+#include "../Debug/Debug.h"
 
 FQuaternion::FQuaternion()
 {

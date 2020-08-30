@@ -90,7 +90,7 @@ void Application::Run()
 		Project::componentManager->Update();
 		tempRenderer.LogRenderingError();
 		GameTime::OnEndFrame();
-		GDebug::Log("DeltaTime = " + to_string(GameTime::deltaTime));
+		Debug::Log("DeltaTime = " + to_string(GameTime::deltaTime));
 	}
 	cin.get();
 }

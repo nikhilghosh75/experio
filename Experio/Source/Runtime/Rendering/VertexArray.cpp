@@ -1,5 +1,5 @@
 #include "VertexArray.h"
-#include "../Debug/GDebug.h"
+#include "../Debug/Debug.h"
 
 VertexArray::VertexArray()
 {
@@ -15,6 +15,12 @@ VertexArray::~VertexArray()
 
 void VertexArray::AddBuffer(const VertexBuffer* buffer, const VertexBufferLayout & layout)
 {
+	if (buffer == nullptr)
+	{
+		Debug::LogError("Attempted to add null buffer to Vertex Array " + to_string(rendererID));
+		return;
+	}
+
 	const std::vector<FVertexBufferElement> elements = layout.GetElements();
 	Bind();
 	buffer->Bind();

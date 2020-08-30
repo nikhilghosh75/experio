@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include "../../Debug/GDebug.h"
+#include "../../Debug/Debug.h"
 #include "../../Debug/TempProfiler.h"
 #include "../../Containers/LString.h"
 #include "LMeshOperations.h"
@@ -24,8 +24,8 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 	ifstream objFile(fileName);
 	if (objFile.fail())
 	{
-		GDebug::LogError("OBJ Reader " + (std::string)fileName + " cannot be loaded");
-		GDebug::LogError(strerror(errno));
+		Debug::LogError("OBJ Reader " + (std::string)fileName + " cannot be loaded");
+		Debug::LogError(strerror(errno));
 		objFile.close();
 		return nullptr;
 	}
@@ -67,7 +67,7 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 
 				if (seperatedIndicies.size() != 3)
 				{
-					GDebug::LogError((std::string)fileName + " is not properly formatted");
+					Debug::LogError((std::string)fileName + " is not properly formatted");
 					objFile.close();
 					return nullptr;
 				}
@@ -83,7 +83,7 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 		}
 	}
 
-	GDebug::Log("Read Entire File");
+	Debug::Log("Read Entire File");
 	objFile.close();
 
 	glm::vec3* vertexData = new glm::vec3[vertexIndicies.size()];
@@ -116,7 +116,7 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 	meshData->tangents = tangentBuffer;
 	meshData->bitangents = bitangentBuffer;
 
-	GDebug::Log("Read Tangents and Bitangents");
+	Debug::Log("Read Tangents and Bitangents");
 
 	meshData->indexBuffer = LMeshOperations::IndexMesh(*meshData);
 	//meshData->isIndexed = false;

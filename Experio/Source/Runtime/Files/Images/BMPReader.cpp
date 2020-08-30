@@ -1,7 +1,7 @@
 #include "BMPReader.h"
 #include <fstream>
 #include <iostream>
-#include "../../Debug/GDebug.h"
+#include "../../Debug/Debug.h"
 #include "../../Debug/TempProfiler.h"
 #include "LImageOperations.h"
 
@@ -23,14 +23,14 @@ ImageData* BMPReader::ReadFile(const char * fileName)
 	ifstream bmpStream(fileName);
 	if (bmpStream.fail())
 	{
-		GDebug::LogError("BMP File " + (std::string)fileName + " could not be loaded");
+		Debug::LogError("BMP File " + (std::string)fileName + " could not be loaded");
 		return 0;
 	}
 
 	bmpStream.read(header, 54);
 	if (header[0] != 'B' || header[1] != 'M')
 	{
-		GDebug::LogError((std::string)fileName + " is not a correct BMP file");
+		Debug::LogError((std::string)fileName + " is not a correct BMP file");
 		return 0;
 	}
 

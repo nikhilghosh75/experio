@@ -1,5 +1,5 @@
 #include "Window.h"
-#include "../Debug/GDebug.h"
+#include "../Debug/Debug.h"
 #include "../Debug/TempProfiler.h"
 #include "../Math/LMath.h"
 #include <GL/glew.h>
@@ -180,7 +180,7 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 		return true;
 	}
 
-	GDebug::Log(to_string(message));
+	Debug::Log(to_string(message));
 	switch (message)
 	{
 	case WM_CREATE:
@@ -212,12 +212,12 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 		int pixelFormat = ChoosePixelFormat(deviceContextHandle, &pfd);
 		if (pixelFormat == 0)
 		{
-			GDebug::LogError("PIXEL FORMAT FAILED");
+			Debug::LogError("PIXEL FORMAT FAILED");
 		}
 		bool setFormat = SetPixelFormat(deviceContextHandle, pixelFormat, &pfd);
 		if (!setFormat)
 		{
-			GDebug::LogError("SET PIXEL FORMAT FAILED");
+			Debug::LogError("SET PIXEL FORMAT FAILED");
 		}
 		openGLRenderingContext = wglCreateContext(deviceContextHandle);
 		wglMakeCurrent(deviceContextHandle, openGLRenderingContext);

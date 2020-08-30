@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../Debug/GDebug.h"
+#include "../Debug/Debug.h"
 #include "../Containers/LString.h"
 #include "../Files/LFileOperations.h"
 
@@ -213,19 +213,19 @@ FQuaternion ParseQuaternion(std::string str)
 
 FCurve ParseCurve(std::string str)
 {
-	GDebug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
 	return FCurve();
 }
 
 AudioClip ParseAudio(std::string str)
 {
-	GDebug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
 	return AudioClip();
 }
 
 Datatable ParseData(std::string str)
 {
-	GDebug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
 	return Datatable();
 }
 

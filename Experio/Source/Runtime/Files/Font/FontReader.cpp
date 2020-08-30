@@ -1,7 +1,7 @@
 #include "FontReader.h"
 #include "FNTReader.h"
 #include "../LFileOperations.h"
-#include "../../Debug/GDebug.h"
+#include "../../Debug/Debug.h"
 
 FontData * FontReader::ReadFile(const char * fileName)
 {
@@ -13,6 +13,6 @@ FontData * FontReader::ReadFile(const char * fileName)
 		return reader.ReadFile(fileName);
 	}
 
-	GDebug::LogError("Font File was not recognized");
+	Debug::LogError("Font File was not recognized");
 	return nullptr;
 }

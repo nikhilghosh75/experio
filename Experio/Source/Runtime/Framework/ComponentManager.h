@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Scene.h"
-#include "../Debug/GDebug.h"
+#include "../Debug/Debug.h"
 #include "../Particles/ParticleSystem.h"
 #include "../Rendering/Billboard.h"
 #include "../Rendering/MeshComponent.h"
@@ -92,7 +92,7 @@ public:
 		case 104:
 			PB_ADD_COMPONENT(textComponentInstances);
 		default:
-			GDebug::LogError("Component cannot be found. Make sure to regenerate the project");
+			Debug::LogError("Component cannot be found. Make sure to regenerate the project");
 			return nullptr;
 		}
 	}
@@ -113,7 +113,7 @@ public:
 			PB_GET_COMPONENT(textComponentInstances);
 		}
 
-		GDebug::LogError("Component cannot be found. Make sure to regenerate the project");
+		Debug::LogError("Component cannot be found. Make sure to regenerate the project");
 		return nullptr;
 	}
 

@@ -2,7 +2,7 @@
 #include "BMPReader.h"
 #include "TGAReader.h"
 #include "../LFileOperations.h"
-#include "../../Debug/GDebug.h"
+#include "../../Debug/Debug.h"
 
 ImageData * ImageReader::ReadFile(const char * fileName)
 {
@@ -19,6 +19,6 @@ ImageData * ImageReader::ReadFile(const char * fileName)
 		return reader.ReadFile(fileName);
 	}
 
-	GDebug::LogError("Font File was not recognized");
+	Debug::LogError("Image File was not recognized");
 	return nullptr;
 }

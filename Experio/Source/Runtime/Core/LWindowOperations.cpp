@@ -1,5 +1,5 @@
 #include "LWindowOperations.h"
-#include "../Debug/GDebug.h"
+#include "../Debug/Debug.h"
 
 float LWindowOperations::GetAspectRatio(const FWindowData & windowData)
 {
@@ -15,7 +15,7 @@ float LWindowOperations::PixelToNormalizedSize(const FWindowData & windowData, c
 	switch (axis)
 	{
 	case EWindowAxisType::None:
-		GDebug::LogError("Axis Type is None");
+		Debug::LogError("Axis Type is None");
 		return 0;
 	case EWindowAxisType::X:
 		return pixelSize / windowData.width;
@@ -36,7 +36,7 @@ float LWindowOperations::NormalizedToPixelSize(const FWindowData & windowData, c
 	switch (axis)
 	{
 	case EWindowAxisType::None:
-		GDebug::LogError("Axis Type is None");
+		Debug::LogError("Axis Type is None");
 		return 0;
 	case EWindowAxisType::X:
 		return normalizedSize * windowData.width;
@@ -57,7 +57,7 @@ float LWindowOperations::PixelToClippedSize(const FWindowData & windowData, cons
 	switch (axis)
 	{
 	case EWindowAxisType::None:
-		GDebug::LogError("Axis Type is None");
+		Debug::LogError("Axis Type is None");
 		return 0;
 	case EWindowAxisType::X:
 		return (pixelSize / windowData.width) * 2 - 1.f;

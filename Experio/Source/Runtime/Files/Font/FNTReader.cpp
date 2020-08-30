@@ -1,6 +1,6 @@
 #include "FNTReader.h"
 #include "../../Rendering/Texture.h"
-#include "../../Debug/GDebug.h"
+#include "../../Debug/Debug.h"
 #include "../../Debug/TempProfiler.h"
 #include "../../Containers/LString.h"
 
@@ -18,7 +18,7 @@ FontData * FNTReader::ReadFile(const char * fileName)
 	ifstream fntStream(fileName);
 	if (fntStream.fail())
 	{
-		GDebug::LogError("FNT File " + (std::string)fileName + " could not be opened");
+		Debug::LogError("FNT File " + (std::string)fileName + " could not be opened");
 		return 0;
 	}
 
