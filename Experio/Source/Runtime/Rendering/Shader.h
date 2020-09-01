@@ -36,4 +36,5 @@ public:
 	static unsigned int CreateShader(const std::string & vertexShader, const std::string & fragmentShader);
 	static std::string ParseShader(const std::string& filepath);
 	unsigned int GetUniformLocation(const std::string& name) const;
+	bool DoesUniformExist(const std::string& name) const;
 };

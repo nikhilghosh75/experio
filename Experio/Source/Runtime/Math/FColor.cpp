@@ -143,3 +143,13 @@ FColor FColor::RandomColor(bool randomAlpha)
 		randomAlpha ? (rand() % 256) / 256.f : 1.f
 	);
 }
+
+FColor::operator FVector3() const
+{
+	return FVector3(this->r, this->g, this->b);
+}
+
+FColor::operator FVector4() const
+{
+	return FVector4(this->r, this->g, this->b, this->a);
+}

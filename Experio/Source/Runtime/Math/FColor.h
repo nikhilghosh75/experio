@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include "FVector3.h"
+#include "FVector4.h"
 
 struct FColor
 {
@@ -31,6 +33,9 @@ struct FColor
 
 	static FColor Lerp(FColor start, FColor end, float t);
 	static FColor RandomColor(bool randomAlpha=true);
+
+	operator FVector3() const;
+	operator FVector4() const;
 
 	// Colors
 	static const FColor Black;

@@ -138,3 +138,8 @@ unsigned int Shader::GetUniformLocation(const std::string & name) const
 	unsigned int i = glGetUniformLocation(rendererID, name.c_str());
 	return i;
 }
+
+bool Shader::DoesUniformExist(const std::string & name) const
+{
+	return glGetUniformLocation(rendererID, name.c_str()) != -1;
+}
