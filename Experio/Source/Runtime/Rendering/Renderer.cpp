@@ -118,18 +118,10 @@ void Renderer::DrawMesh(const MeshComponent & mesh, const glm::mat4 viewMatrix, 
 
 	glm::mat4 modelMatrix = mesh.GetModelMatrix();
 
-	FWindowData data = Window::GetWindowData();
-	float aspectRatio = LWindowOperations::GetAspectRatio(data);
-
-	glm::mat4 MVP = projectionMatrix * viewMatrix * modelMatrix;
-
-	glm::mat3 MV3x3 = glm::mat3(viewMatrix * modelMatrix);
-
-	mesh.meshShader->Bind();
-	mesh.meshShader->SetUniformMatrix4("MVP", MVP);
-	mesh.meshShader->SetUniformMatrix4("M", modelMatrix);
-	mesh.meshShader->SetUniformMatrix4("V", viewMatrix);
-	mesh.meshShader->SetUniformMatrix3("MV3x3", MV3x3);
+	mesh.material->Bind();
+	mesh.material->SetInternalUniforms();
+	mesh.material->SetLightingData(FLightData(FVector3(4, 4, 4), FQuaternion(), FColor(1, 1, 1), 50.f));
+	mesh.material->SetMVP(modelMatrix, viewMatrix, projectionMatrix);
 
 	VertexArray va;
 
@@ -246,38 +238,12 @@ void Renderer::TempRenderer()
 	Clear();
 
 	// REGULAR
-
-	Shader basicShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/BasicFragment.shader");
-	basicShader.Bind();
-
-	Shader textShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Text2DVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Text2DFragment.shader");
-
-	glm::vec3 lightPosition = glm::vec3(4, 4, 4);
-	basicShader.SetUniformVec3("LightWorldPosition", lightPosition);
-
-	glm::vec3 lightColor = glm::vec3(1, 1, 1);
-	basicShader.SetUniformVec3("LightColor", lightColor);
-
-	float lightIntensity = 50.0f;
-	basicShader.SetUniformFloat("LightPower", lightIntensity);
-
-	Texture albedoTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/uvmap.bmp");
-	albedoTexture.Bind(0);
-	basicShader.SetUniformInt("albedoTexture", 0);
-
-	//Texture normalTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/normal.bmp");
-	//normalTexture.Bind(1);
-	//basicShader.SetUniformInt("normalTexture", 1);
-
-	//Texture specularTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/specular.bmp");
-	//specularTexture.Bind(2);
-	//basicShader.SetUniformInt("specularTexture", 2);
+;
 
 	OBJReader objReader;
 	MeshData* tempData = objReader.ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Meshes/suzanne.obj");
 	// MeshData* tempData = objReader.ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Meshes/cylinder.obj");
 	tempData->mapData = new MeshMapData();
-	tempData->mapData->albedoMap = &albedoTexture;
 	//tempData->mapData->normalMap = &normalTexture;
 	//tempData->mapData->specularMap = &specularTexture;
 
@@ -285,7 +251,12 @@ void Renderer::TempRenderer()
 	GameObject tempObject;
 	MeshComponent suzanneMesh(&tempObject);
 	suzanneMesh.meshData = tempData;
-	suzanneMesh.meshShader = &basicShader;
+	suzanneMesh.material = new MeshMaterial();
+	suzanneMesh.material->SetShader("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BasicVertex",
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BasicFragment");
+	suzanneMesh.material->albedo = new Texture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/uvmap.bmp");
+	suzanneMesh.material->normal = new Texture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/normal.bmp");
+	suzanneMesh.material->specular = new Texture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/specular.bmp");
 	suzanneMesh.GetGameObject()->localRotation = FQuaternion::MakeFromEuler(FVector3(0, 90, 0));
 	suzanneMesh.GetGameObject()->localScale = FVector3(0.7, 0.7, 0.7);
 	suzanneMesh.RecalculateModelMatrix();
