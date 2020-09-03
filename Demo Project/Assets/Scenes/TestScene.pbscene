@@ -33,7 +33,7 @@ Children: [{
 	Components: [{
 		ClassID: 101
 		Params:
-			meshShader: ?Standard?/Shaders/BasicVertex.shader ?Standard?/Shaders/BasicFragment.shader
+			material: ?Standard?/Materials/Test.material
 			meshData: ?Standard?/Meshes/suzanne.obj
 			isVisible: true
 	}]
