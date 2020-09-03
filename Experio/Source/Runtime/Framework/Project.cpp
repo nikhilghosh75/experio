@@ -16,6 +16,7 @@ extern std::string DefaultClassTypeToString();
 std::string Project::projectName = projectName;
 
 ComponentManager* Project::componentManager;
+MaterialManager* Project::materialManager;
 
 unsigned short Project::TagStringToNum(const char * string)
 {

@@ -35,16 +35,6 @@ void MeshComponent::Start()
 	{
 		this->meshData = MeshReader::ReadFile("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Meshes/suzanne.obj");
 	}
-
-	if (this->material == nullptr)
-	{
-		this->material = new MeshMaterial();
-		this->material->SetShader("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BasicVertex.shader",
-			"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BasicFragment.shader");
-		this->material->albedo = new Texture("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Textures/uvmap.bmp");
-		this->material->normal = new Texture("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Textures/normal.bmp");
-		this->material->specular = new Texture("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Textures/specular.bmp");
-	}
 }
 
 void MeshComponent::Update()

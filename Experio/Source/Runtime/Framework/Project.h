@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "ComponentManager.h"
+#include "../Rendering/Materials/MaterialManager.h"
 
 class Project
 {
@@ -8,6 +9,8 @@ public:
 	static std::string projectName;
 
 	static ComponentManager* componentManager;
+
+	static MaterialManager* materialManager;
 
 	static unsigned short TagStringToNum(const char* string);
 

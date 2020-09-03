@@ -120,7 +120,7 @@ void Renderer::DrawMesh(const MeshComponent & mesh, const glm::mat4 viewMatrix, 
 
 	mesh.material->Bind();
 	mesh.material->SetInternalUniforms();
-	mesh.material->SetLightingData(FLightData(FVector3(4, 4, 4), FQuaternion(), FColor(1, 1, 1), 50.f));
+	mesh.material->SetLightingData(FLightData(FVector3(4, 4, 4), FQuaternion(), FColor(1, 1, 1), 20.f));
 	mesh.material->SetMVP(modelMatrix, viewMatrix, projectionMatrix);
 
 	VertexArray va;

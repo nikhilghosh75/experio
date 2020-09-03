@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../Debug/TempProfiler.h"
 #include "../Rendering/Renderer.h"
+#include "../Rendering/Materials/TestMaterialManager.h"
 #include "../Files/Font/FontReader.h"
 #include "../UI/TextComponent.h"
 #include "../Particles/ParticleSystem.h"
@@ -35,6 +36,7 @@ void Application::Run()
 	Renderer tempRenderer;
 
 	Project::componentManager = new TestComponentManager();
+	Project::materialManager = new TestMaterialManager();
 
 	GameTime::StartGame();
 

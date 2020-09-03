@@ -72,7 +72,7 @@ void SetComponentParams(std::vector<std::string> params, T* component) { }
 
 template<> void SetComponentParams(std::vector<std::string> params, MeshComponent* component)
 {
-	//component->meshShader = ParseShader(params[0]);
+	component->material = (MeshMaterial*)ParseMaterial(params[0]);
 	component->meshData = ParseMesh(params[1]);
 	component->isVisible = ParseBool(params[2]);
 }
