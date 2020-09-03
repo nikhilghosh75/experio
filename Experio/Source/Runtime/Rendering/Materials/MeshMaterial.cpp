@@ -1,5 +1,15 @@
 #include "MeshMaterial.h"
 
+MeshMaterial::MeshMaterial()
+{
+	this->shader = nullptr;
+}
+
+MeshMaterial::MeshMaterial(Shader * shader)
+{
+	this->shader = shader;
+}
+
 void MeshMaterial::SetMVP(const glm::mat4 M, const glm::mat4 V, const glm::mat4 P)
 {
 	glm::mat4 MVP = P * V * M;

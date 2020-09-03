@@ -7,6 +7,9 @@
 class MeshMaterial : public Material
 {
 public:
+	MeshMaterial();
+	MeshMaterial(Shader* shader);
+
 	Texture* albedo;
 	Texture* normal;
 	Texture* specular;

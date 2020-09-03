@@ -7,6 +7,16 @@ protected:
 	Shader* shader;
 
 public:
+	Material()
+	{
+		this->shader = nullptr;
+	}
+
+	Material(Shader* shader)
+	{
+		this->shader = shader;
+	}
+
 	void SetShader(std::string vertex, std::string fragment)
 	{
 		shader = new Shader(vertex, fragment);
