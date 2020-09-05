@@ -1,9 +1,8 @@
 #pragma once
 #include <cstdint>
 #include <exception>
-using namespace std;
 
-struct InvalidSizeException : public exception {
+struct InvalidSizeException : public std::exception {
 	size_t invalidSize;
 	InvalidSizeException(size_t size)
 	{

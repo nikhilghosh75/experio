@@ -72,4 +72,3 @@ FVector2 LWindowOperations::PixelToClippedPos(const FWindowData & data, const FV
 {
 	return FVector2(PixelToClippedSize(data, pixelPos.x, EWindowAxisType::X), PixelToClippedSize(data, pixelPos.y, EWindowAxisType::Y));
 }
-

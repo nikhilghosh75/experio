@@ -2,8 +2,6 @@
 #include <vector>
 #include <string>
 
-using namespace std;
-
 struct TFunctionPointer
 {
 	void(*function)();
@@ -85,7 +83,7 @@ struct TFunctionPointerFour
 
 class TEvent
 {
-	vector<TFunctionPointer> listeners;
+	std::vector<TFunctionPointer> listeners;
 public:
 	void AddListener(void(*function)());
 
@@ -97,7 +95,7 @@ public:
 template <class InOne>
 class TEventOne
 {
-	vector<TFunctionPointerOne<InOne>> listeners;
+	std::vector<TFunctionPointerOne<InOne>> listeners;
 public:
 	void AddListener(void(*function)(InOne a));
 
@@ -109,7 +107,7 @@ public:
 template <class InOne, class InTwo>
 class TEventTwo
 {
-	vector<TFunctionPointerTwo<InOne, InTwo>> listeners;
+	std::vector<TFunctionPointerTwo<InOne, InTwo>> listeners;
 public:
 	void AddListener(void(*function)(InOne a, InTwo b));
 
@@ -121,7 +119,7 @@ public:
 template <class InOne, class InTwo, class InThree>
 class TEventThree
 {
-	vector<TFunctionPointerThree<InOne, InTwo, InThree>> listeners;
+	std::vector<TFunctionPointerThree<InOne, InTwo, InThree>> listeners;
 public:
 	void AddListener(void(*function)(InOne a, InTwo b, InThree c));
 
@@ -133,7 +131,7 @@ public:
 template <class InOne, class InTwo, class InThree, class InFour>
 class TEventFour
 {
-	vector<TFunctionPointerFour<InOne, InTwo, InThree, InFour>> listeners;
+	std::vector<TFunctionPointerFour<InOne, InTwo, InThree, InFour>> listeners;
 public:
 	void AddListener(void(*function)(InOne a, InTwo b, InThree c, InFour d));
 

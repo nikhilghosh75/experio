@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include "../Time/FDateTime.h"
-using namespace std;
 
 enum EDebugType
 {
@@ -14,10 +13,10 @@ enum EDebugType
 struct FDebugInfo
 {
 	EDebugType type;
-	string message;
+	std::string message;
 	FDateTime time;
 
-	FDebugInfo(EDebugType newType, string newMessage, FDateTime newTime)
+	FDebugInfo(EDebugType newType, std::string newMessage, FDateTime newTime)
 	{
 		type = newType;
 		message = newMessage;
@@ -31,7 +30,7 @@ private:
 	static std::vector<FDebugInfo> debugInfo;
 
 public:
-	static void Log(string s);
-	static void LogWarning(string s);
-	static void LogError(string s);
+	static void Log(std::string s);
+	static void LogWarning(std::string s);
+	static void LogError(std::string s);
 };

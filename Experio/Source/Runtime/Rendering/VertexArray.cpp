@@ -17,7 +17,7 @@ void VertexArray::AddBuffer(const VertexBuffer* buffer, const VertexBufferLayout
 {
 	if (buffer == nullptr)
 	{
-		Debug::LogError("Attempted to add null buffer to Vertex Array " + to_string(rendererID));
+		Debug::LogError("Attempted to add null buffer to Vertex Array " + std::to_string(rendererID));
 		return;
 	}
 

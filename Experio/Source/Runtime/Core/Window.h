@@ -32,7 +32,7 @@ enum class EWindowAxisType
 
 struct FWindowData
 {
-	string title;
+	std::string title;
 	int width;
 	int height;
 
@@ -43,7 +43,7 @@ struct FWindowData
 		height = 0;
 	}
 
-	FWindowData(int newWidth, int newHeight, const string& newTitle = "Project Bloo")
+	FWindowData(int newWidth, int newHeight, const std::string& newTitle = "Project Bloo")
 	{
 		title = newTitle;
 		width = newWidth;

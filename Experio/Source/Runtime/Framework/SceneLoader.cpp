@@ -27,7 +27,7 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 		return;
 	}
 
-	ifstream sceneFile(filePath);
+	std::ifstream sceneFile(filePath);
 	if (sceneFile.fail())
 	{
 		Debug::LogError("File " + filePath + " could not be opened");
@@ -158,7 +158,7 @@ bool SceneLoader::ShouldQuitOnProjectName(std::string sceneProjectName, EScenePr
 	return false;
 }
 
-void SceneLoader::AddComponentsToObjects(ifstream& stream, int sceneSlot, GameObject * gameObject)
+void SceneLoader::AddComponentsToObjects(std::ifstream& stream, int sceneSlot, GameObject * gameObject)
 {
 	char word[256];
 

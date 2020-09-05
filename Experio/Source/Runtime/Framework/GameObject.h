@@ -8,10 +8,6 @@
 class GameObject
 {
 public:
-	// FVector3 localPosition;
-	// FQuaternion localRotation;
-	// FVector3 localScale;
-
 	unsigned short tag;
 	uint8_t layer;
 	uint8_t sceneIndex;

@@ -36,7 +36,7 @@ void TTypedTreeTest()
 	insect->AddChild("Dragonflies");
 	insect->AddChild("Crickets");
 
-	TTypedTreeIterator<string> typedTreeIterator(&typedTree);
+	TTypedTreeIterator<std::string> typedTreeIterator(&typedTree);
 
 	for (int i = 0; i < typedTree.GetCount(); i++)
 	{

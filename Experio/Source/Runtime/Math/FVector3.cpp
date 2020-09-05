@@ -1,16 +1,14 @@
 #include "FVector3.h"
 #include "LMath.h"
 #include <iostream>
-#include <stdio.h>
-using namespace std;
 
 void TestVector()
 {
     FVector3 testVector(3.0f, 4.0f);
 
-    cout << FVector3::Magnitude(testVector) << endl; // 5
-    cout << FVector3::SqrMagnitude(testVector) << endl; // 25
-    cout << (string)testVector << endl;
+	std::cout << FVector3::Magnitude(testVector) << std::endl; // 5
+	std::cout << FVector3::SqrMagnitude(testVector) << std::endl; // 25
+	std::cout << (std::string)testVector << std::endl;
 }
 
 FVector3::FVector3()
@@ -210,11 +208,11 @@ FVector3 FVector3::GetSignVector(const FVector3 & V)
 	return tempVector;
 }
 
-string FVector3::ToString(const FVector3& V, const int numDigits)
+std::string FVector3::ToString(const FVector3& V, const int numDigits)
 {
-	string xString = to_string(V.x);
-	string yString = to_string(V.y);
-	string zString = to_string(V.z);
+	std::string xString = std::to_string(V.x);
+	std::string yString = std::to_string(V.y);
+	std::string zString = std::to_string(V.z);
     return "[" + xString + ", " + yString + ", " + zString + "]";
 }
 

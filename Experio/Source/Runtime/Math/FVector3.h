@@ -1,7 +1,5 @@
 #pragma once
 #include <string>
-using namespace std;
-
 #include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/glm.hpp"
 #include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/mat4x4.hpp"
 
@@ -45,11 +43,11 @@ public:
     static FVector3 Reciprocal(const FVector3& V);
 	static FVector3 GetSignVector(const FVector3& V);
 
-    static string ToString (const FVector3& V, const int numDigits = 5);
+    static std::string ToString (const FVector3& V, const int numDigits = 5);
 	static glm::vec3 ToGLMVector(const FVector3& V);
 	static glm::vec4 ToGLMVector4(const FVector3& V);
 
-    operator string() const { return FVector3::ToString(*this); }
+    operator std::string() const { return FVector3::ToString(*this); }
 	operator glm::vec3() const { return ToGLMVector(*this); }
 	operator glm::vec4() const { return ToGLMVector4(*this); }
 

@@ -32,7 +32,7 @@ GameObject * PrefabLoader::LoadPrefab(std::string filePath, GameObject * parent,
 	bool inComponent = false;
 	GameObject* prefabRoot = nullptr;
 
-	ifstream prefabFile(filePath);
+	std::ifstream prefabFile(filePath);
 	if (prefabFile.fail())
 	{
 		Debug::LogError("File " + filePath + " could not be opened");
@@ -118,7 +118,7 @@ GameObject * PrefabLoader::LoadPrefab(std::string filePath, GameObject * parent,
 	return prefabRoot;
 }
 
-void PrefabLoader::AddComponentsToObject(ifstream & stream, GameObject * gameObject)
+void PrefabLoader::AddComponentsToObject(std::ifstream & stream, GameObject * gameObject)
 {
 	char word[256];
 

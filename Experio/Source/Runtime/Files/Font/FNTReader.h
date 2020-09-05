@@ -18,5 +18,5 @@ private:
 
 	ECharacterSet ParseCharacterSet(const std::string& s);
 
-	FCharacterInfo ReadCharacterData(ifstream& fntStream, float width, float height);
+	FCharacterInfo ReadCharacterData(std::ifstream& fntStream, float width, float height);
 };

@@ -28,7 +28,7 @@ struct FQuaternion
 	//static mat4 ToMat4(const FQuaternion& Q);
 	static glm::mat4 ToGLMMat4(const FQuaternion& Q);
 
-	operator string() const { return ToString(*this); };
+	operator std::string() const { return ToString(*this); };
 	operator glm::quat() const { return ToGLMQuat(*this); };
 	operator glm::mat4() const { return ToGLMMat4(*this); }
 

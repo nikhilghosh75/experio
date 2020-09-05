@@ -180,7 +180,7 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 		return true;
 	}
 
-	Debug::Log(to_string(message));
+	Debug::Log(std::to_string(message));
 	switch (message)
 	{
 	case WM_CREATE:

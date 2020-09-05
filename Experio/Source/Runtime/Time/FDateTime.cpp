@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include "windows.h"
-using namespace std;
 
 const int DAYSTOMONTH[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
 const int DAYSINYEAR = 365;
@@ -20,15 +19,15 @@ const long long TICKSINCEUNIXEPOCH = 621672192000000000;
 void DateTimeTest()
 {
 	FDateTime testDate(2018, 4, 22, 13, 2);
-	cout << "Ticks: " << testDate.ticks << endl;
+	std::cout << "Ticks: " << testDate.ticks << std::endl;
 	int month, day, year;
 	FDateTime::GetDate(testDate, day, month, year);
-	cout << month << endl;
-	cout << day << endl;
-	cout << year << endl;
+	std::cout << month << std::endl;
+	std::cout << day << std::endl;
+	std::cout << year << std::endl;
 	FDateTime now = FDateTime::Now();
 	FDateTime nowHighRes = FDateTime::NowHighRes();
-	cout << FDateTime::GetMinute(nowHighRes) << endl;
+	std::cout << FDateTime::GetMinute(nowHighRes) << std::endl;
 }
 
 FDateTime::FDateTime()
@@ -58,7 +57,6 @@ FDateTime::FDateTime(int year, int month, int day, int hour, int minute, int sec
 	totalDays += day - 1;
 	totalDays += 2; // Adjusting for something
 
-	cout << "TOTAL DAYS: " << totalDays << endl;
 	long long totalSeconds = hour * 3600 + minute * 60 + second;
 
 	ticks = totalDays * TICKSPERDAY + totalSeconds * TICKSPERSECOND 
@@ -287,7 +285,7 @@ FDateTime FDateTime::Now()
 #ifdef PLATFORM_WINDOWS
 	SYSTEMTIME st;
 	GetSystemTime(&st);
-	cout << st.wMinute << endl;
+	std::cout << st.wMinute << std::endl;
 	return FDateTime(st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
 #endif
 }
@@ -304,52 +302,86 @@ FDateTime FDateTime::NowHighRes()
 #endif
 }
 
-string FDateTime::ToString(const FDateTime & dateTime)
+std::string FDateTime::ToString(const FDateTime & dateTime)
 {
 	int month, day, year;
 	GetDate(dateTime, day, month, year);
-	string s = to_string(month);
-	s += "/" + to_string(day);
-	s += "/" + to_string(year);
+	std::string s = std::to_string(month);
+	s += "/" + std::to_string(day);
+	s += "/" + std::to_string(year);
 
 	if (year < 0)
 	{
 		s += " BC";
 	}
 
-	s += " " + to_string(GetHour(dateTime));
-	s += ":" + to_string(GetMinute(dateTime));
-	s += ":" + to_string(GetSecond(dateTime));
-	s += ":" + to_string(GetMillisecond(dateTime));
+	s += " " + std::to_string(GetHour(dateTime));
+	s += ":" + std::to_string(GetMinute(dateTime));
+	s += ":" + std::to_string(GetSecond(dateTime));
+	s += ":" + std::to_string(GetMillisecond(dateTime));
 
-	return string();
+	return std::string();
 }
 
-string FDateTime::ToString(const FDateTime & dateTime, const string format)
+std::string FDateTime::ToString(const FDateTime & dateTime, const std::string format)
 {
-/*
-	string s;
+	std::string s;
 	s.resize(format.length);
 	int n = format.length();
 	for (int i = 0; i < n; i++)
 	{
 		if (format[i] == '%')
 		{
-			// TO-DO: Add stuff;
+			switch (format[i + 1])
+			{
+			case 'a': // am/pm
+				if (GetHour(dateTime) > 12)
+				{
+					s[i] = 'P';
+					s[i + 1] = 'M';
+				}
+				else
+				{
+					s[i] = 'a';
+					s[i + 1] = 'm';
+				}
+				break;
+			case 'A': // AM/PM
+				if (GetHour(dateTime) > 12)
+				{
+					s[i] = 'P';
+					s[i + 1] = 'M';
+				}
+				else
+				{
+					s[i] = 'A';
+					s[i + 1] = 'M';
+				}
+				break;
+			case 'd':
+				// TO-DO
+				break;
+			case 'D':
+				// TO-DO
+				break;
+			case 'e':
+				// TO-DO;
+				break;
+			}
+			i++;
 		}
 	}
 	return s;
-*/
 	return "ENAM";
 }
 
-string FDateTime::DateToString(const FDateTime & dateTime)
+std::string FDateTime::DateToString(const FDateTime & dateTime)
 {
 	int month, day, year;
 	GetDate(dateTime, day, month, year);
-	string s = to_string(month);
-	s += "/" + to_string(day);
-	s += "/" + to_string(year);
+	std::string s = std::to_string(month);
+	s += "/" + std::to_string(day);
+	s += "/" + std::to_string(year);
 
 	if (year < 0)
 	{
@@ -358,17 +390,17 @@ string FDateTime::DateToString(const FDateTime & dateTime)
 	return s;
 }
 
-string FDateTime::SecondsToString(const FDateTime & dateTime)
+std::string FDateTime::SecondsToString(const FDateTime & dateTime)
 {
-	return to_string((dateTime.ticks / (float)TICKSPERSECOND));
+	return std::to_string((dateTime.ticks / (float)TICKSPERSECOND));
 }
 
-string FDateTime::TimeToString(const FDateTime & dateTime)
+std::string FDateTime::TimeToString(const FDateTime & dateTime)
 {
-	string s = to_string(GetHour(dateTime));
-	s += ":" + to_string(GetMinute(dateTime));
-	s += ":" + to_string(GetSecond(dateTime));
-	s += ":" + to_string(GetMillisecond(dateTime));
+	std::string s = std::to_string(GetHour(dateTime));
+	s += ":" + std::to_string(GetMinute(dateTime));
+	s += ":" + std::to_string(GetSecond(dateTime));
+	s += ":" + std::to_string(GetMillisecond(dateTime));
 	return s;
 }
 

@@ -13,5 +13,5 @@ public:
 		FVector3 localPosition, FQuaternion localRotation);
 
 private:
-	static void AddComponentsToObject(ifstream& stream, GameObject* gameObject);
+	static void AddComponentsToObject(std::ifstream& stream, GameObject* gameObject);
 };

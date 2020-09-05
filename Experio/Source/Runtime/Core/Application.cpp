@@ -16,7 +16,6 @@
 #include "../Framework/SceneLoader.h"
 #include "../Framework/PrefabLoader.h"
 #include "../Files/LFileOperations.h"
-using namespace std;
 
 Application::Application()
 {
@@ -92,7 +91,7 @@ void Application::Run()
 		Project::componentManager->Update();
 		tempRenderer.LogRenderingError();
 		GameTime::OnEndFrame();
-		Debug::Log("DeltaTime = " + to_string(GameTime::deltaTime));
+		Debug::Log("DeltaTime = " + std::to_string(GameTime::deltaTime));
 	}
-	cin.get();
+	std::cin.get();
 }

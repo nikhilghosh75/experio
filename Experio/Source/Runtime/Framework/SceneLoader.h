@@ -19,5 +19,5 @@ private:
 	// Helpers
 	static bool ShouldQuitOnProjectName(std::string sceneProjectName, ESceneProjectCompareType compareType);
 
-	static void AddComponentsToObjects(ifstream& stream, int sceneSlot, GameObject* gameObject);
+	static void AddComponentsToObjects(std::ifstream& stream, int sceneSlot, GameObject* gameObject);
 };

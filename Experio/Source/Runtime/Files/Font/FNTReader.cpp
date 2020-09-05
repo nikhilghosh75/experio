@@ -15,7 +15,7 @@ FontData * FNTReader::ReadFile(const char * fileName)
 	FontData* returnData = new FontData();
 	returnData->fileType = EFontFileType::FNT;
 
-	ifstream fntStream(fileName);
+	std::ifstream fntStream(fileName);
 	if (fntStream.fail())
 	{
 		Debug::LogError("FNT File " + (std::string)fileName + " could not be opened");
@@ -30,30 +30,30 @@ FontData * FNTReader::ReadFile(const char * fileName)
 
 	while (fntStream >> word)
 	{
-		if (word.find("face=") != string::npos)
+		if (word.find("face=") != std::string::npos)
 		{
 			returnData->name = StripQuotes(StripAfterEqualSign(word));
 		}
-		else if (word.find("charset=") != string::npos)
+		else if (word.find("charset=") != std::string::npos)
 		{
 			returnData->charset = ParseCharacterSet(word);
 		}
-		else if (word.find("scaleW=") != string::npos)
+		else if (word.find("scaleW=") != std::string::npos)
 		{
 			textureWidth = atof(StripAfterEqualSign(word).c_str());
 		}
-		else if (word.find("scaleH=") != string::npos)
+		else if (word.find("scaleH=") != std::string::npos)
 		{
 			textureHeight = atof(StripAfterEqualSign(word).c_str());
 		}
-		else if (word.find("file=") != string::npos)
+		else if (word.find("file=") != std::string::npos)
 		{
 			std::string imageFileName = StripQuotes(StripAfterEqualSign(word));
 			std::string fileLocation = LString::GetFileLocation(fileName);
 			std::string imageFilePath = (std::string)fileLocation + "/" + imageFileName;
 			returnData->fontTexture = new Texture(imageFilePath.c_str());
 		}
-		else if (word.find("count=") != string::npos)
+		else if (word.find("count=") != std::string::npos)
 		{
 			std::string countString = StripAfterEqualSign(word);
 			int count = atoi(countString.c_str());
@@ -73,7 +73,7 @@ FontData * FNTReader::ReadFile(const char * fileName)
 std::string FNTReader::StripAfterEqualSign(const std::string& s)
 {
 	size_t equalsPosition = s.find("=");
-	if (equalsPosition == string::npos)
+	if (equalsPosition == std::string::npos)
 	{
 		return s;
 	}
@@ -104,7 +104,7 @@ ECharacterSet FNTReader::ParseCharacterSet(const std::string& s)
 	return ECharacterSet();
 }
 
-FCharacterInfo FNTReader::ReadCharacterData(ifstream & fntStream, float width, float height)
+FCharacterInfo FNTReader::ReadCharacterData(std::ifstream & fntStream, float width, float height)
 {
 	FCharacterInfo characterInfo;
 	FRect uvRect;

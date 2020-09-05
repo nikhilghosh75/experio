@@ -216,3 +216,34 @@ FVector2 FRect::GetClosestPointOnRect(const FVector2 point) const
 	}
 	return point;
 }
+
+bool FRect::Intersecting(const FRect & other) const
+{
+	if (this->max.x < other.min.x)
+	{
+		return false;
+	}
+	if (this->min.x > other.max.x)
+	{
+		return false;
+	}
+	if (this->max.y < other.min.y)
+	{
+		return false;
+	}
+	if (this->min.y > other.max.y)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool FRect::Intersecting(const FRect & R1, const FRect R2)
+{
+	return R1.Intersecting(R2);
+}
+
+bool FRect::IsInside(const FVector2 & other) const
+{
+	return (other.x > min.x && other.x < max.x) && (other.y > min.y && other.y < max.y);
+}

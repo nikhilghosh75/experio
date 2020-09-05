@@ -21,7 +21,7 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 	std::vector<glm::vec2> tempUVs;
 	std::vector<glm::vec3> tempNormals;
 
-	ifstream objFile(fileName);
+	std::ifstream objFile(fileName);
 	if (objFile.fail())
 	{
 		Debug::LogError("OBJ Reader " + (std::string)fileName + " cannot be loaded");

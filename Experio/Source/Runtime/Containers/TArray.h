@@ -2,7 +2,6 @@
 #include <cstdint>
 #include <array>
 #include <sstream>
-using namespace std;
 
 template <class T> class TElement
 {
@@ -73,11 +72,11 @@ public:
     void RemoveSingle(T item);
 
     T* ToArray() const;
-    string ToString() const;
+	std::string ToString() const;
 
     void Swap(int indexA, int indexB);
 
-    operator string() const {return ToString();}
+    operator std::string() const {return ToString();}
     //TArray<T> operator+(const TArray<T> array);
     //TArray<T> operator+(const T item);
     //TArray<T> operator+=(const TArray<T> array);

@@ -1,7 +1,6 @@
 #include "TArray.h"
 #include <iostream>
 #include <exception>
-using namespace std;
 
 void Test()
 {
@@ -11,81 +10,81 @@ void Test()
 	array.Init(125, 5);
 
 	// Check Count
-	cout << array.Count() << endl; // 5
+	std::cout << array.Count() << std::endl; // 5
 
 	// Check Access Function
 	array[3] = 6;
-	cout << array[3] << endl; // 6
-	cout << array[4] << endl; // 125
+	std::cout << array[3] << std::endl; // 6
+	std::cout << array[4] << std::endl; // 125
 
 	// Check Object Append
 	array.Append(64);
 
 	// Check Array Append
-	cout << array[5] << endl; // 64
+	std::cout << array[5] << std::endl; // 64
 	int tempArray[2];
 	tempArray[0] = 12;
 	tempArray[1] = 13;
 	array.Append(tempArray, 2);
-	cout << array[7] << endl; // 13
+	std::cout << array[7] << std::endl; // 13
 
 	// Check Array Insert
 	array.Insert(256, 5);
-	cout << array[5] << endl; // 256
-	cout << array.Count() << endl; // 9
+	std::cout << array[5] << std::endl; // 256
+	std::cout << array.Count() << std::endl; // 9
 
 	// Check Array Insert (TArray)
 	TArray<int> testArray = *(new TArray<int>());
 	testArray.Init(343, 6);
 	array.Insert(testArray, 6);
-	cout << array.Count() << endl; // 15
-	cout << array[10] << endl; // 343
+	std::cout << array.Count() << std::endl; // 15
+	std::cout << array[10] << std::endl; // 343
 
 	// Check Array Insert (Array)
 	array.Insert(tempArray, 2, 10);
-	cout << array[10] << endl; // 12
+	std::cout << array[10] << std::endl; // 12
 
 	// Check First
-	cout << array.First() << endl; //125
+	std::cout << array.First() << std::endl; //125
 
 	// Check Last
-	cout << array.Last() << endl; // 13
+	std::cout << array.Last() << std::endl; // 13
 
 	// Find
-	cout << array.Find(6) << endl; // 3
-	cout << array.Find(1) << endl; // -1
+	std::cout << array.Find(6) << std::endl; // 3
+	std::cout << array.Find(1) << std::endl; // -1
 
 	// FindAll
 	TArray<int> foundArray = array.FindAll(343);
-	cout << foundArray.Count() << endl; // 6
+	std::cout << foundArray.Count() << std::endl; // 6
 
 	// FindInRange
-	cout << array.FindInRange(343, 8, 12) << endl; // 8
+	std::cout << array.FindInRange(343, 8, 12) << std::endl; // 8
 
 	// RemoveAt
 	array.RemoveAt(3);
-	cout << array[3] << endl; // 125
-	cout << array.Count() << endl; // 16
+	std::cout << array[3] << std::endl; // 125
+	std::cout << array.Count() << std::endl; // 16
 
 	// RemoveAt (RANGE)
 	array.RemoveAt(13, 2);
-	cout << array.Count() << endl; //14
+	std::cout << array.Count() << std::endl; //14
 	
 	// RemoveSingle
 	array.RemoveSingle(343);
-	cout << array.FindAll(343).Count() << endl; // 5
+	std::cout << array.FindAll(343).Count() << std::endl; // 5
 
 	// RemoveInRange
 	array.RemoveInRange(343, 4, 7);
-	cout << array.FindAll(343).Count() << endl; // 3
+	std::cout << array.FindAll(343).Count() << std::endl; // 3
 
 	// Remove
 	array.Remove(343);
-	cout << array.FindAll(343).Count() << endl; // 0
+	std::cout << array.FindAll(343).Count() << std::endl; // 0
 
 	// Swap
 	array.Swap(0, 7);
-	cout << array[0] << endl; // 13
+	std::cout << array[0] << std::endl; // 13
 
 	// Plus
 	//array += testArray;
@@ -646,14 +645,14 @@ T* TArray<T>::ToArray() const
 }
 
 template <class T>
-string TArray<T>::ToString() const
+std::string TArray<T>::ToString() const
 {
-	string s = "";
+	std::string s = "";
 	int currentIndex = 0;
 	TElement<T>* currentElement = this->start;
 
-	stringstream ss;
-	string tempString;
+	std::stringstream ss;
+	std::string tempString;
 
 	while(currentElement != nullptr)
 	{

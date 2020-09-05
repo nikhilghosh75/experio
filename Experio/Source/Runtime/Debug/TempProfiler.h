@@ -1,16 +1,15 @@
 #pragma once
 #include "../Time/FDateTime.h"
 #include <string>
-using namespace std;
 
 class TempProfiler
 {
 	FDateTime start;
-	string name;
+	std::string name;
 
 public:
 	TempProfiler();
-	TempProfiler(string s);
+	TempProfiler(std::string s);
 	~TempProfiler();
 };
 

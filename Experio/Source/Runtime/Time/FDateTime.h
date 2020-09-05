@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include "FDuration.h"
-using namespace std;
 
 enum class EDayOfWeek
 {
@@ -74,11 +73,11 @@ public:
 	static FDateTime Now();
 	static FDateTime NowHighRes();
 
-	static string ToString(const FDateTime& dateTime);
-	static string ToString(const FDateTime& dateTime, const string format);
-	static string DateToString(const FDateTime& dateTime);
-	static string SecondsToString(const FDateTime& dateTime);
-	static string TimeToString(const FDateTime& dateTime);
+	static std::string ToString(const FDateTime& dateTime);
+	static std::string ToString(const FDateTime& dateTime, const std::string format);
+	static std::string DateToString(const FDateTime& dateTime);
+	static std::string SecondsToString(const FDateTime& dateTime);
+	static std::string TimeToString(const FDateTime& dateTime);
 
 	static FDateTime TimeSinceUnixEpoch(const FDateTime& dateTime);
 };

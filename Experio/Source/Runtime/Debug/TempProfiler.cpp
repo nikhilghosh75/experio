@@ -1,6 +1,5 @@
 #include "TempProfiler.h"
 #include <iostream>
-using namespace std;
 
 TempProfiler::TempProfiler()
 {
@@ -8,7 +7,7 @@ TempProfiler::TempProfiler()
 	name = "Unnamed";
 }
 
-TempProfiler::TempProfiler(string s)
+TempProfiler::TempProfiler(std::string s)
 {
 	start = FDateTime::NowHighRes();
 	name = s;
@@ -18,5 +17,5 @@ TempProfiler::~TempProfiler()
 {
 	FDateTime end = FDateTime::NowHighRes();
 	long long elapsed = (end - start).ticks;
-	cout << "Process " << name << " took " << FDateTime::SecondsToString(elapsed) << " seconds" << endl;
+	std::cout << "Process " << name << " took " << FDateTime::SecondsToString(elapsed) << " seconds" << std::endl;
 }

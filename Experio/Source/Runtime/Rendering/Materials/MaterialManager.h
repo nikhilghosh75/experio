@@ -18,7 +18,7 @@ public:
 			return nullptr;
 		}
 
-		ifstream materialFile(filePath);
+		std::ifstream materialFile(filePath);
 		if (materialFile.fail())
 		{
 			Debug::LogError("File " + filePath + " could not be opened");

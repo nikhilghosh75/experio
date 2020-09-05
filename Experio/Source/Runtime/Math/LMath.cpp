@@ -1,10 +1,7 @@
 #include <limits>
 #include <iostream>
 #include "math.h"
-
 #include "LMath.h"
-
-using namespace std;
 
 /*
 int main()

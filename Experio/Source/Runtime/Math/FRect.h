@@ -41,7 +41,5 @@ struct FRect
 	bool Intersecting(const FRect& other) const;
 	static bool Intersecting(const FRect& R1, const FRect R2);
 
-	// Intersect
-	// IsInside
-	// Closest Point
+	bool IsInside(const FVector2& other) const;
 };

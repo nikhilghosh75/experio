@@ -28,7 +28,7 @@ void Renderer::LogRenderingError()
 	GLenum currentError = glGetError();
 	if (currentError != GL_NO_ERROR)
 	{
-		Debug::LogError("OPENGL Error " + to_string(currentError));
+		Debug::LogError("OPENGL Error " + std::to_string(currentError));
 	}
 }
 

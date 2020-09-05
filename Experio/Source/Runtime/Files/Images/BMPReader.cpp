@@ -20,7 +20,7 @@ ImageData* BMPReader::ReadFile(const char * fileName)
 	unsigned int imageSize;
 	uint16_t bitsPerPixel;
 
-	ifstream bmpStream(fileName);
+	std::ifstream bmpStream(fileName);
 	if (bmpStream.fail())
 	{
 		Debug::LogError("BMP File " + (std::string)fileName + " could not be loaded");

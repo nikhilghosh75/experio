@@ -1,7 +1,6 @@
 #include "TEvent.h"
 #include <thread>
 
-using namespace std;
 
 void TEvent::AddListener(void(*function)())
 {
@@ -18,7 +17,7 @@ void TEvent::CallListeners()
 
 void TEvent::Invoke()
 {
-	thread listenerThread(&TEvent::CallListeners, this);
+	std::thread listenerThread(&TEvent::CallListeners, this);
 	listenerThread.detach();
 	return;
 }
@@ -43,7 +42,7 @@ void TEventOne<InOne>::CallListeners(InOne a)
 template<class InOne>
 void TEventOne<InOne>::Invoke(InOne a)
 {
-	thread listenerThread(&TEventOne::CallListeners, this, a);
+	std::thread listenerThread(&TEventOne::CallListeners, this, a);
 	listenerThread.detach();
 	return;
 }
@@ -68,7 +67,7 @@ void TEventTwo<InOne, InTwo>::CallListeners(InOne a, InTwo b)
 template<class InOne, class InTwo>
 void TEventTwo<InOne, InTwo>::Invoke(InOne a, InTwo b)
 {
-	thread listenerThread(&TEventTwo::CallListeners, this, a, b);
+	std::thread listenerThread(&TEventTwo::CallListeners, this, a, b);
 	listenerThread.detach();
 	return;
 }
@@ -93,7 +92,7 @@ void TEventThree<InOne, InTwo, InThree>::CallListeners(InOne a, InTwo b, InThree
 template<class InOne, class InTwo, class InThree>
 void TEventThree<InOne, InTwo, InThree>::Invoke(InOne a, InTwo b, InThree c)
 {
-	thread listenerThread(&TEventThree::CallListeners, this, a, b, c);
+	std::thread listenerThread(&TEventThree::CallListeners, this, a, b, c);
 	listenerThread.detach();
 	return;
 }
@@ -118,7 +117,7 @@ void TEventFour<InOne, InTwo, InThree, InFour>::CallListeners(InOne a, InTwo b, 
 template<class InOne, class InTwo, class InThree, class InFour>
 void TEventFour<InOne, InTwo, InThree, InFour>::Invoke(InOne a, InTwo b, InThree c, InFour d)
 {
-	thread listenerThread(&TEventFour::CallListeners, this, a, b, c, d);
+	std::thread listenerThread(&TEventFour::CallListeners, this, a, b, c, d);
 	listenerThread.detach();
 	return;
 }
