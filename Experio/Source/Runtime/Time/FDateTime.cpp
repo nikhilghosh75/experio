@@ -326,7 +326,7 @@ std::string FDateTime::ToString(const FDateTime & dateTime)
 std::string FDateTime::ToString(const FDateTime & dateTime, const std::string format)
 {
 	std::string s;
-	s.resize(format.length);
+	s.resize(format.length());
 	int n = format.length();
 	for (int i = 0; i < n; i++)
 	{
