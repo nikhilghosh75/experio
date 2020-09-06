@@ -61,7 +61,14 @@
     <ClInclude Include="Source\Runtime\Rendering\FrameBuffer.h" />
     <ClInclude Include="Source\Runtime\Rendering\ImguiWindow.h" />
     <ClInclude Include="Source\Runtime\Rendering\IndexBuffer.h" />
+    <ClInclude Include="Source\Runtime\Rendering\LightData.h" />
     <ClInclude Include="Source\Runtime\Rendering\LOpenGL.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Materials\BillboardMaterial.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Materials\Material.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Materials\MaterialManager.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Materials\MeshMaterial.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Materials\TestMaterialManager.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Materials\TextMaterial.h" />
     <ClInclude Include="Source\Runtime\Rendering\MeshComponent.h" />
     <ClInclude Include="Source\Runtime\Rendering\Renderer.h" />
     <ClInclude Include="Source\Runtime\Rendering\Shader.h" />
@@ -87,6 +94,7 @@
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
+    <ClInclude Include="Source\ThirdParty\Event System\Event.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Camera\CameraSystem.cpp" />
@@ -100,6 +108,7 @@
     <ClCompile Include="Source\Runtime\Files\Images\ImageReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\LFileOperations.cpp" />
     <ClCompile Include="Source\Runtime\Files\Mesh\MeshReader.cpp" />
+    <ClCompile Include="Source\Runtime\Framework\Params.cpp" />
     <ClCompile Include="Source\Runtime\Framework\PrefabLoader.cpp" />
     <ClCompile Include="Source\Runtime\Framework\SceneLoader.cpp" />
     <ClCompile Include="Source\Runtime\Framework\TEvent.cpp" />
@@ -130,6 +139,8 @@
     <ClCompile Include="Source\Runtime\Rendering\ImguiWindow.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\IndexBuffer.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\LOpenGL.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Materials\BillboardMaterial.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Materials\MeshMaterial.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\MeshComponent.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Renderer.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Shader.cpp" />
@@ -153,6 +164,7 @@
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Standard\Materials\Test.material" />
     <None Include="Resources\Standard\Shaders\BasicFragment.shader" />
     <None Include="Resources\Standard\Shaders\BasicVertex.shader" />
     <None Include="Resources\Standard\Shaders\BillboardFragment.shader" />
@@ -214,6 +226,7 @@
       <PreprocessorDefinitions>PLATFORM_WINDOWS;BUILD_DLL;GLEW_STATIC;_GDI32_;_WINDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
       <EnableModules>false</EnableModules>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -227,6 +240,7 @@
       <PreprocessorDefinitions>PLATFORM_WINDOWS;BUILD_DLL;GLEW_STATIC;_GDI32_;_WINDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
       <EnableModules>false</EnableModules>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
