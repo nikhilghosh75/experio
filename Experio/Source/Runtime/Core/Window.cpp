@@ -29,6 +29,13 @@ Window::Window()
 	instance = this;
 }
 
+Window::~Window()
+{
+#ifdef PLATFORM_WINDOWS
+	DestroyWindow(*hwnd);
+#endif
+}
+
 void Window::InstantiateWindow()
 {
 #ifdef PLATFORM_WINDOWS

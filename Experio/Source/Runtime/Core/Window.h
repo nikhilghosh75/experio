@@ -61,6 +61,8 @@ class Window
 public:
 	Window();
 
+	~Window();
+
 	void InstantiateWindow();
 	void OnUpdate();
 	void MakeContext();
