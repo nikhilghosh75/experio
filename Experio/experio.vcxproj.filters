@@ -267,9 +267,6 @@
     <ClInclude Include="Source\ThirdParty\Event System\Event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Runtime\Audio\AudioSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Containers\TArray.cpp">
@@ -405,9 +402,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Framework\Project.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Runtime\Framework\TestProject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Time\FDuration.cpp">

@@ -58,7 +58,9 @@
     <ClInclude Include="Source\Runtime\Particles\Particle.h" />
     <ClInclude Include="Source\Runtime\Particles\ParticleSystem.h" />
     <ClInclude Include="Source\Runtime\Rendering\Billboard.h" />
-    <ClInclude Include="Source\Runtime\Rendering\FrameBuffer.h" />
+    <ClInclude Include="Source\Runtime\Rendering\FrameBuffer.h">
+      <DeploymentContent>true</DeploymentContent>
+    </ClInclude>
     <ClInclude Include="Source\Runtime\Rendering\ImguiWindow.h" />
     <ClInclude Include="Source\Runtime\Rendering\IndexBuffer.h" />
     <ClInclude Include="Source\Runtime\Rendering\LightData.h" />
@@ -122,7 +124,6 @@
     <ClCompile Include="Source\Runtime\Framework\GameObject.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Project.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Scene.cpp" />
-    <ClCompile Include="Source\Runtime\Framework\TestProject.cpp" />
     <ClCompile Include="Source\Runtime\Input\Input.cpp" />
     <ClCompile Include="Source\Runtime\Math\FColor.cpp" />
     <ClCompile Include="Source\Runtime\Math\FCurve.cpp" />

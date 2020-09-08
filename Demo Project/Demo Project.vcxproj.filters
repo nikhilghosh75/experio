@@ -15,17 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\GAmber.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <None Include="Assets\Scenes\TestScene.pbscene" />
+    <None Include="Assets\Prefabs\Suzanne.prefab" />
+    <None Include="Assets\Materials\SuzanneMat.material" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\GAmber.h">
+    <ClInclude Include="Source\DemoProject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DemoProjectComponentManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DemoProjectMaterialManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Scenes\TestScene.pbscene" />
-    <None Include="Assets\Prefabs\Suzanne.prefab" />
+    <ClCompile Include="Source\DemoProject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

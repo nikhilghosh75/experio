@@ -85,7 +85,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glew32s.lib;opengl32.lib;Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -132,12 +132,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\GAmber.cpp" />
+    <ClCompile Include="Source\DemoProject.cpp" />
+    <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\GAmber.h" />
+    <ClInclude Include="Source\DemoProject.h" />
+    <ClInclude Include="Source\DemoProjectComponentManager.h" />
+    <ClInclude Include="Source\DemoProjectMaterialManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Materials\SuzanneMat.material" />
     <None Include="Assets\Prefabs\Suzanne.prefab" />
     <None Include="Assets\Scenes\TestScene.pbscene" />
   </ItemGroup>
