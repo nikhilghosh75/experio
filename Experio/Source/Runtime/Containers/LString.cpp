@@ -110,32 +110,32 @@ unsigned int LString::HexCharToInt(char c)
 	return 0;
 }
 
-bool LString::IsAlpha(char c)
+constexpr bool LString::IsAlpha(char c)
 {
 	return (c > 64 && c < 91) || (c > 96 && c < 121);
 }
 
-bool LString::IsAlphaNumeric(char c)
+constexpr bool LString::IsAlphaNumeric(char c)
 {
 	return IsAlpha(c) || IsNumeric(c);
 }
 
-bool LString::IsLower(char c)
+constexpr bool LString::IsLower(char c)
 {
 	return c > 96 && c < 121;
 }
 
-bool LString::IsNumeric(char c)
+constexpr bool LString::IsNumeric(char c)
 {
 	return c > 47 && c < 58;
 }
 
-bool LString::IsUpper(char c)
+constexpr bool LString::IsUpper(char c)
 {
 	return c > 64 && c < 91;
 }
 
-int LString::CharToInt(char c)
+constexpr int LString::CharToInt(char c)
 {
 	return c - 48;
 }

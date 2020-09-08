@@ -6,7 +6,7 @@
 class LString
 {
 public:
-	static int CharToInt(char c);
+	constexpr static int CharToInt(char c);
 
 	static std::string GetFileLocation(const std::string fileName);
 
@@ -16,11 +16,11 @@ public:
 
 	static unsigned int HexCharToInt(char c);
 
-	static bool IsAlpha(char c);
-	static bool IsAlphaNumeric(char c);
-	static bool IsLower(char c);
-	static bool IsNumeric(char c);
-	static bool IsUpper(char c);
+	constexpr static bool IsAlpha(char c);
+	constexpr static bool IsAlphaNumeric(char c);
+	constexpr static bool IsLower(char c);
+	constexpr static bool IsNumeric(char c);
+	constexpr static bool IsUpper(char c);
 
 	static std::vector<std::string> SeperateStringByChar(std::string str, char c, bool removeZeroLength = true);
 
