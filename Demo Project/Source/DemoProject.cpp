@@ -1,13 +1,4 @@
-#include <string>
-#include <vector>
-#include "Project.h"
-#include "Component.h"
-#include "Params.h"
-
-#include "../Rendering/MeshComponent.h"
-#include "../Particles/ParticleSystem.h"
-#include "../Rendering/Billboard.h"
-#include "../UI/TextComponent.h"
+#include "DemoProject.h"
 
 std::string projectName = "Test Project";
 
@@ -56,13 +47,13 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 	case 2:
 		return std::vector<std::string>();
 	case 101:
-		return std::vector<std::string>({"meshShader", "meshData", "isVisible"});
+		return std::vector<std::string>({ "meshShader", "meshData", "isVisible" });
 	case 102:
 		return std::vector<std::string>();
 	case 103:
-		return std::vector<std::string>({"billboardTexture", "sizeType", "orientation", "billboardSize"});
+		return std::vector<std::string>({ "billboardTexture", "sizeType", "orientation", "billboardSize" });
 	case 104:
-		return std::vector<std::string>({"margins", "fontSize", "text", "font", "shader"});
+		return std::vector<std::string>({ "margins", "fontSize", "text", "font", "shader" });
 	}
 	return std::vector<std::string>();
 }
