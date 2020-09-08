@@ -1,5 +1,10 @@
 #include "BillboardMaterial.h"
 
+BillboardMaterial::BillboardMaterial(Shader * shader)
+{
+	this->shader = shader;
+}
+
 void BillboardMaterial::SetCameraVP(glm::mat4 V, glm::mat4 P, FVector3 cameraUp, FVector3 cameraRight)
 {
 	glm::mat4 VP = P * V;
@@ -18,6 +23,5 @@ void BillboardMaterial::SetBillboardData(FVector3 position, FVector3 rotation, F
 
 void BillboardMaterial::SetInternalUniforms()
 {
-	billboardTexture->Bind(0);
 	shader->SetUniformInt("albedoTexture", 0);
 }
