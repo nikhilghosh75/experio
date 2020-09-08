@@ -34,9 +34,6 @@ void Application::Run()
 	delete windowProfiler;
 	Renderer tempRenderer;
 
-	Project::componentManager = new TestComponentManager();
-	Project::materialManager = new TestMaterialManager();
-
 	GameTime::StartGame();
 
 	TTypedTreeTest();
