@@ -2,9 +2,11 @@
 #include "../Debug/Debug.h"
 #include "../Debug/TempProfiler.h"
 #include "../Math/LMath.h"
+#include "../Rendering/LOpenGL.h"
 #include <GL/glew.h>
 #include <GL/GL.h>
 #include <GL/GLU.h>
+#include "GL/wglext.h"
 #include <thread>
 
 #include "imgui.h"
@@ -102,6 +104,22 @@ void Window::CloseWindow()
 #ifdef PLATFORM_WINDOWS
 	PostQuitMessage(0);
 #endif
+}
+
+bool Window::SetSwapInterval(int interval)
+{
+	if (LOpenGL::WGLExtensionSupported("WGL_EXT_swap_control"))
+	{
+		// Extension is supported, init pointers.
+		PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
+
+		// this is another function from WGL_EXT_swap_control extension
+		PFNWGLGETSWAPINTERVALEXTPROC wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC)wglGetProcAddress("wglGetSwapIntervalEXT");
+
+		wglSwapIntervalEXT(interval);
+		return true;
+	}
+	return false;
 }
 
 void Window::ReceiveInput(EInputType inputType, unsigned int param1, unsigned int param2, unsigned int param3)

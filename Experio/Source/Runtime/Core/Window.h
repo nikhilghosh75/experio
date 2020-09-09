@@ -4,6 +4,7 @@
 #include "Core.h"
 #include <Windows.h>
 #include "../Input/Input.h"
+#include "Platform.h"
 
 #define PB_KEYPRESSED		0x9675
 #define PB_KEYRELEASED		0x9676
@@ -58,6 +59,7 @@ class Window
 #endif
 	static FWindowData windowData;
 	static Window* instance;
+
 public:
 	Window();
 
@@ -67,6 +69,10 @@ public:
 	void OnUpdate();
 	void MakeContext();
 	void CloseWindow();
+
+#ifdef PLATFORM_DESKTOP
+	bool imGuiEnabled = false;
+#endif
 
 	bool isActive;
 
