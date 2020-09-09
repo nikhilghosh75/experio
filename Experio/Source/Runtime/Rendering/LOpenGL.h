@@ -12,4 +12,6 @@ public:
 	static size_t GetImageFormat(EImageEncoding encoding, EImageFileType fileType);
 
 	static size_t GetInternalFormat(EImageEncoding encoding, EImageFileType fileType);
+
+	static bool WGLExtensionSupported(const char* extensionName);
 };

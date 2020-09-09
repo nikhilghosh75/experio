@@ -1,4 +1,5 @@
 #include "LOpenGL.h"
+#include "GL/wglext.h"
 
 size_t LOpenGL::GetSizeOfType(unsigned int type)
 {
@@ -61,4 +62,20 @@ size_t LOpenGL::GetInternalFormat(EImageEncoding encoding, EImageFileType fileTy
 		}
 	}
 	return 0;;
+}
+
+bool LOpenGL::WGLExtensionSupported(const char * extensionName)
+{
+	// this is pointer to function which returns pointer to string with list of all wgl extensions
+	PFNWGLGETEXTENSIONSSTRINGEXTPROC _wglGetExtensionsStringEXT = NULL;
+
+	// determine pointer to wglGetExtensionsStringEXT function
+	_wglGetExtensionsStringEXT = (PFNWGLGETEXTENSIONSSTRINGEXTPROC)wglGetProcAddress("wglGetExtensionsStringEXT");
+
+	if (strstr(_wglGetExtensionsStringEXT(), extensionName) == NULL)
+	{
+		return false;
+	}
+
+	return true;
 }
