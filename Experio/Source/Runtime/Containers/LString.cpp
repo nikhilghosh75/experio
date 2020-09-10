@@ -1,5 +1,5 @@
 #include "LString.h"
-#include "../Math/LMath.h"
+#include <sstream>
 
 std::vector<std::string> LString::SeperateStringByChar(std::string str, char c, bool removeZeroLength)
 {
@@ -150,4 +150,22 @@ std::string LString::GetFileName(const std::string fileName)
 {
 	size_t lastSlash = fileName.rfind("/");
 	return fileName.substr(lastSlash + 1);
+}
+
+std::string LString::FloatToString(float f, int sigFigs)
+{
+	std::stringstream ss;
+	int trunc = (int)f;
+	ss << trunc;
+	float remainder = f - (float)trunc;
+	ss << '.';
+	float pow = 1;
+	for (int i = 0; i < sigFigs; i++)
+	{
+		pow *= 10.f;
+		remainder = fmod(remainder, 10.f);
+		trunc = (int)(remainder * pow);
+		ss << trunc;
+	}
+	return ss.str();
 }

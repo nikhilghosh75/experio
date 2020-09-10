@@ -187,6 +187,11 @@ float LMath::Ln(float x)
 	return log(x);
 }
 
+float LMath::Log(float x, float b)
+{
+	return log(x) / log(b);
+}
+
 float LMath::Max(float a, float b)
 {
 	if (a > b)
