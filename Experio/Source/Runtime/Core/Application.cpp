@@ -36,8 +36,6 @@ void Application::Run()
 
 	GameTime::StartGame();
 
-	TTypedTreeTest();
-
 	SceneLoader::LoadSceneFromFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Scenes/TestScene.pbscene", 0);
 
 	Scene::Activate(0);
@@ -56,29 +54,6 @@ void Application::Run()
 	secondCamera.priority = -1.f;
 	secondCamera.Start();
 
-	glm::mat4 test = glm::perspective(0.785f, 2.589f, 0.1f, 1000.f);
-
-	/*
-	FontData* data = FontReader::ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Fonts/calibri.fnt");
-	TextComponent textComponent;
-	textComponent.fontSize = 72;
-	textComponent.font = data;
-	textComponent.shader = new Shader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Text2DVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Text2DFragment.shader");
-	textComponent.text = "Nikhil Ghosh";
-	textComponent.transform = RectTransform(FVector2(0.4f, 0.4f), FVector2(1.f, 0.6f));
-
-	GameObject testObject((std::string)"Test", 0, 1);
-	GameObject billboardObject((std::string)"Billboard", 0, 1);
-	billboardObject.transform = FTransform(0, 2, 0);
-	GameObject meshObject((std::string)"Mesh", 0, 1);
-	meshObject.transform = FTransform(0, -0.5, 0, 0, 0.70711, 0, 0.70711, 1.5, 1.5, 1.5);
-
-	Component* billboard = Project::componentManager->AddComponent(&billboardObject, 103);
-	billboard->Start();
-	Component* mesh = Project::componentManager->AddComponent(&meshObject, 101);
-	mesh->Start();
-	*/
-
 	while (newWindow.isActive)
 	{
 		tempRenderer.OnNewFrame();
@@ -87,6 +62,7 @@ void Application::Run()
 		//tempRenderer.TempRenderer();
 		Project::componentManager->Update();
 		tempRenderer.LogRenderingError();
+		tempRenderer.OnEndFrame();
 		GameTime::OnEndFrame();
 		Debug::Log("DeltaTime = " + std::to_string(GameTime::deltaTime));
 	}
