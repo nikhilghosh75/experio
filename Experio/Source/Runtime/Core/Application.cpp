@@ -3,7 +3,6 @@
 #include <iostream>
 #include "../Debug/TempProfiler.h"
 #include "../Rendering/Renderer.h"
-#include "../Rendering/Materials/TestMaterialManager.h"
 #include "../Files/Font/FontReader.h"
 #include "../UI/TextComponent.h"
 #include "../Particles/ParticleSystem.h"

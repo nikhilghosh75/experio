@@ -69,9 +69,10 @@ public:
 	void OnUpdate();
 	void MakeContext();
 	void CloseWindow();
+	void SwapBuffer();
 
-#ifdef PLATFORM_DESKTOP
-	bool imGuiEnabled = false;
+#ifdef PLATFORM_WINDOWS
+	void UpdateMessages();
 #endif
 
 	bool isActive;

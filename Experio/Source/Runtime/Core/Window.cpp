@@ -55,6 +55,7 @@ void Window::InstantiateWindow()
 
 	if (!RegisterClassEx(&wc))
 	{
+		Debug::LogError("Windows Class Failed to Register");
 		return;
 	}
 
@@ -67,6 +68,7 @@ void Window::InstantiateWindow()
 	}
 
 	ShowWindow(hwnd, SW_SHOW);
+	UpdateWindow(hwnd);
 	this->hwnd = &hwnd;
 #endif
 
@@ -104,6 +106,22 @@ void Window::CloseWindow()
 #ifdef PLATFORM_WINDOWS
 	PostQuitMessage(0);
 #endif
+}
+
+void Window::SwapBuffer()
+{
+	SwapBuffers(deviceContext);
+}
+
+void Window::UpdateMessages()
+{
+	MSG msg;
+
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0)
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
 }
 
 bool Window::SetSwapInterval(int interval)
@@ -200,11 +218,6 @@ HWND* Window::GetHWND()
 #ifdef PLATFORM_WINDOWS
 LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 {
-	if (ImGui_ImplWin32_WndProcHandler(window, message, wParam, lParam))
-	{
-		return true;
-	}
-
 	Debug::Log(std::to_string(message));
 	switch (message)
 	{
@@ -248,6 +261,7 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 		wglMakeCurrent(deviceContextHandle, openGLRenderingContext);
 		GetClientRect(window, &rect);
 		glViewport(0, 0, rect.right - rect.left, rect.bottom - rect.top);
+		Window::Get()->SetSwapInterval(1);
 		GLenum error = glewInit();
 		Window::ResizeWindow(EWindowResizeType::Create, rect.right - rect.left, rect.bottom - rect.top);
 	}
@@ -255,12 +269,11 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 	{
 		Window::Get()->isActive = false;
-		// Implement Application Close Here
+		wglDeleteContext(openGLRenderingContext);
 	}
 	case WM_SIZE:
 	{
-		std::thread worker(Window::ResizeWindow, (EWindowResizeType)wParam , lParam % LMath::PowOfTwo(16), lParam / LMath::PowOfTwo(16));
-		worker.detach();
+		Window::ResizeWindow((EWindowResizeType)wParam , lParam % LMath::PowOfTwo(16), lParam / LMath::PowOfTwo(16));
 		break;
 	}
 	case WM_KEYDOWN:
