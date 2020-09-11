@@ -267,6 +267,12 @@
     <ClInclude Include="Source\ThirdParty\Event System\Event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Runtime\Core\Platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Files\FFileCategory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Containers\TArray.cpp">
@@ -459,6 +465,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Framework\Params.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Runtime\Files\FFileCategory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

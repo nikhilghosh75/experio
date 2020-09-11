@@ -19,8 +19,10 @@
     <ClInclude Include="Source\Runtime\Containers\THashtable.h" />
     <ClInclude Include="Source\Runtime\Containers\TQueue.h" />
     <ClInclude Include="Source\Runtime\Containers\TTypedTree.h" />
+    <ClInclude Include="Source\Runtime\Core\Platform.h" />
     <ClInclude Include="Source\Runtime\Core\Window.h" />
     <ClInclude Include="Source\Runtime\Core\LWindowOperations.h" />
+    <ClInclude Include="Source\Runtime\Files\FFileCategory.h" />
     <ClInclude Include="Source\Runtime\Files\LFileOperations.h" />
     <ClInclude Include="Source\Runtime\Framework\Params.h" />
     <ClInclude Include="Source\Runtime\Framework\PrefabLoader.h" />
@@ -106,6 +108,7 @@
     <ClCompile Include="Source\Runtime\Containers\TTypedTree.cpp" />
     <ClCompile Include="Source\Runtime\Core\Window.cpp" />
     <ClCompile Include="Source\Runtime\Core\LWindowOperations.cpp" />
+    <ClCompile Include="Source\Runtime\Files\FFileCategory.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\FontReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Images\ImageReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\LFileOperations.cpp" />
