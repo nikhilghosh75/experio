@@ -17,4 +17,9 @@ public:
 	static bool SetSwapInterval(int interval);
 
 	static void OnResize(int width, int height);
+
+private:
+	static void Dockspace();
+
+	static void CreateUpperMenu();
 };

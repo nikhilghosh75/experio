@@ -9,7 +9,7 @@
 #include "examples/imgui_impl_opengl3.h"
 #include "imgui_internal.h"
 
-#include "Core/EditorWindow.h"
+#include "EditorWindow.h"
 #include "Runtime/Core/Window.h"
 
 int main(int argc, char** argv)
@@ -22,6 +22,10 @@ int main(int argc, char** argv)
 
 		ImGui::Begin("Test");
 		ImGui::Text("Hello World");
+		ImGui::End();
+
+		ImGui::Begin("Test 2");
+		ImGui::Text("Hello Second World");
 		ImGui::End();
 
 		EditorWindow::EndFrame();
