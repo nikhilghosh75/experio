@@ -5,8 +5,10 @@
 	#include <Windows.h>
 #endif
 
+#include "imconfig.h"
 #include "imgui.h"
 #include "imgui_internal.h";
+#include "imgui_demo.h"
 
 #include "imgui.cpp";
 #include "imgui_demo.cpp"
