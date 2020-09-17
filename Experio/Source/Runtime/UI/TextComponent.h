@@ -5,6 +5,13 @@
 #include "../Rendering/Shader.h"
 #include "../Framework/Framework.h"
 
+enum class ETextRenderMode
+{
+	Default,
+	Stylized,
+	Rich
+};
+
 class TextComponent : public Component
 {
 public:
