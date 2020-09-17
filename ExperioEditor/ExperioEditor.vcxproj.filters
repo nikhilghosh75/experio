@@ -26,5 +26,8 @@
     <ClInclude Include="Source\Core\EditorWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Core\EditorModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
