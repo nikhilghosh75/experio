@@ -18,6 +18,8 @@
 #include "../Files/Mesh/OBJReader.h"
 #include "Texture.h"
 #include "../Camera/VirtualCamera.h"
+#include "FrameBuffer.h"
+#include "../Framework/Project.h"
 
 Renderer* Renderer::instance;
 
@@ -284,118 +286,6 @@ void Renderer::TempRenderer()
 	delete tempData;
 }
 
-void Renderer::TempFramebufferRenderer()
-{
-	LogRenderingError();
-
-	PROFILE_SCOPE("Rendering Framebuffer");
-
-	FWindowData windowData = Window::GetWindowData();
-
-	glEnable(GL_CULL_FACE);
-
-	glGenFramebuffers(1, &FramebufferName);
-	glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
-
-	glGenTextures(1, &renderedTexture);
-	glBindTexture(GL_TEXTURE_2D, renderedTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowData.width, windowData.height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
-
-	GLuint rboDepthStencil;
-	glGenRenderbuffers(1, &rboDepthStencil);
-	glBindRenderbuffer(GL_RENDERBUFFER, rboDepthStencil);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rboDepthStencil);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-	glDrawBuffers(1, DrawBuffers);
-
-	unsigned int framebufferStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-
-	if (framebufferStatus != GL_FRAMEBUFFER_COMPLETE)
-	{
-		Debug::LogError("Framebuffer Object");
-		return;
-	}
-
-	static const GLfloat g_quad_vertex_buffer_data[] = {
-		-1.0f, -1.0f,
-		 1.0f, -1.0f,
-		-1.0f,  1.0f,
-		-1.0f,  1.0f,
-		 1.0f, -1.0f,
-		 1.0f,  1.0f,
-	};
-
-	static const GLfloat g_quad_uv_buffer_data[] = {
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-		0.0f, 1.0f,
-		0.0f, 1.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f
-	};
-	glViewport(0, 0, windowData.width, windowData.height);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	// REGULAR
-
-	GLuint buffer;
-	float positions[6] = { -0.5f, -0.5f, 0.0f, 0.5f, 0.5f, -0.5f };
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
-
-	glClear(GL_COLOR_BUFFER_BIT);
-	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	glDisableVertexAttribArray(0);
-
-	// FRAMBUFFER
-	glDisable(GL_DEPTH_TEST);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	glViewport(0, 0, windowData.width, windowData.height);
-
-	Clear();
-
-	Shader quadShader(
-		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/FullScreenVertex.shader",
-		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/FullScreenFragment.shader"
-	);
-	quadShader.Bind();
-	quadShader.SetUniformInt("textureSampler", 3);
-
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, renderedTexture);
-
-	VertexBuffer vertexBuffer(g_quad_vertex_buffer_data, sizeof(g_quad_vertex_buffer_data));
-	VertexBuffer uvBuffer(g_quad_uv_buffer_data, sizeof(g_quad_uv_buffer_data));
-
-	VertexBufferLayout quadLayout;
-	quadLayout.PushFloat(2);
-
-	VertexArray va;
-	va.AddBuffer(&vertexBuffer, quadLayout);
-	va.AddBuffer(&uvBuffer, quadLayout);
-
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-}
-
 unsigned int CompileShader(const std::string & source, unsigned int type)
 {
 	unsigned int id = glCreateShader(type);
@@ -411,6 +301,7 @@ unsigned int CompileShader(const std::string & source, unsigned int type)
 		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
 		char* message = new char[length];
 		glGetShaderInfoLog(id, length, &length, message);
+		Debug::LogError(message);
 	}
 
 	return id;
@@ -432,6 +323,103 @@ unsigned int CreateShader(const std::string & vertexShader, const std::string & 
 
 	return program;
 }
+
+void Renderer::TempFramebufferRenderer()
+{
+	FWindowData window = Window::GetWindowData();
+
+	VertexBufferLayout layout;
+	layout.PushFloat(2);
+
+	Framebuffer framebuffer(window.width, window.height);
+	framebuffer.Bind();
+
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	unsigned int framebufferStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (framebufferStatus != GL_FRAMEBUFFER_COMPLETE)
+	{
+		Debug::LogError("Framebuffer Object");
+		return;
+	}
+
+	// Triangle Render Code
+	/*
+	float positions[6] = { -0.5f, -0.5f, 0.0f, 0.5f, 0.5f, -0.5f };
+
+	VertexBuffer positionBuffer(&positions, 6 * sizeof(float));
+
+	VertexArray va;
+	va.AddBuffer(&positionBuffer, layout);
+
+	Shader standardShader(
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/StandardVertex.shader",
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/StandardFragment.shader"
+	);
+	standardShader.Bind();
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	va.DestroyLayouts();
+	*/
+	Project::componentManager->Update();
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	// Render on the whole framebuffer, complete from the lower left corner to the upper right
+	glViewport(0, 0, window.width, window.height);
+
+	// Clear the screen
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Use our shader
+	Shader framebufferShader(
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/InvertedScreenVertex.shader",
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/InvertedScreenFragment.shader"
+	);
+	framebufferShader.Bind();
+
+	framebuffer.Unbind();
+
+	// Bind our texture in Texture Unit 0
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, framebuffer.GetColorAttachment());
+	
+	framebufferShader.SetUniformInt("textureSampler", 0);
+
+	static const GLfloat g_quad_vertex_buffer_data[] = {
+		-1.0f, -1.0f,
+		 1.0f, -1.0f,
+		-1.0f,  1.0f,
+		-1.0f,  1.0f,
+		 1.0f, -1.0f,
+		 1.0f,  1.0f,
+	};
+
+	unsigned int quadVertexBuffer;
+	glGenBuffers(1, &quadVertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_quad_vertex_buffer_data), g_quad_vertex_buffer_data, GL_STATIC_DRAW);
+
+	// 1rst attribute buffer : vertices
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVertexBuffer);
+	glVertexAttribPointer(
+		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+		2,                  // size
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		0,                  // stride
+		(void*)0            // array buffer offset
+	);
+
+	// Draw the triangles !
+	glDrawArrays(GL_TRIANGLES, 0, 6); // 2*3 indices starting at 0 -> 2 triangles
+
+	glDisableVertexAttribArray(0);
+}
+
 
 void Renderer::TempModelRenderer()
 {
@@ -574,4 +562,60 @@ void Renderer::TempModelRenderer()
 	glDisableVertexAttribArray(1);
 	glDeleteVertexArrays(1, &vertexArrayID);
 
+}
+
+void Renderer::TempPostProcessingRenderer(Framebuffer & framebuffer)
+{
+	FWindowData window = Window::GetWindowData();
+
+	framebuffer.Unbind();
+	glViewport(0, 0, window.width, window.height);
+
+	// Clear the screen
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Use our shader
+	Shader framebufferShader(
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/InvertedScreenVertex.shader",
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/InvertedScreenFragment.shader"
+	);
+	framebufferShader.Bind();
+
+	// Bind our texture in Texture Unit 0
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, framebuffer.GetColorAttachment());
+
+	framebufferShader.SetUniformInt("textureSampler", 0);
+
+	static const GLfloat g_quad_vertex_buffer_data[] = {
+		-1.0f, -1.0f,
+		 1.0f, -1.0f,
+		-1.0f,  1.0f,
+		-1.0f,  1.0f,
+		 1.0f, -1.0f,
+		 1.0f,  1.0f,
+	};
+
+	unsigned int quadVertexBuffer;
+	glGenBuffers(1, &quadVertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_quad_vertex_buffer_data), g_quad_vertex_buffer_data, GL_STATIC_DRAW);
+
+	// 1rst attribute buffer : vertices
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVertexBuffer);
+	glVertexAttribPointer(
+		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+		2,                  // size
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		0,                  // stride
+		(void*)0            // array buffer offset
+	);
+
+	// Draw the triangles !
+	glDrawArrays(GL_TRIANGLES, 0, 6); // 2*3 indices starting at 0 -> 2 triangles
+
+	glDisableVertexAttribArray(0);
 }

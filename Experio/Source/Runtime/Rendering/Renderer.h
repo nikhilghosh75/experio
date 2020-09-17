@@ -17,8 +17,6 @@ class Renderer
 private:
 	VertexBufferLayout defaultVertexLayout;
 
-	FrameBuffer renderBuffer;
-
 	unsigned int FramebufferName, renderedTexture, depthrenderbuffer, quad_vertexbuffer, quad_uvbuffer;
 
 	static Renderer* instance;
@@ -46,6 +44,8 @@ public:
 	void TempRenderer();
 
 	void TempModelRenderer();
+
+	void TempPostProcessingRenderer(Framebuffer& fb);
 
 	void TempFramebufferRenderer();
 
