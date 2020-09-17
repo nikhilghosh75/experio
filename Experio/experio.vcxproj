@@ -24,6 +24,8 @@
     <ClInclude Include="Source\Runtime\Core\LWindowOperations.h" />
     <ClInclude Include="Source\Runtime\Files\FFileCategory.h" />
     <ClInclude Include="Source\Runtime\Files\LFileOperations.h" />
+    <ClInclude Include="Source\Runtime\Framework\GameObjectIterator.h" />
+    <ClInclude Include="Source\Runtime\Framework\GUID.h" />
     <ClInclude Include="Source\Runtime\Framework\Params.h" />
     <ClInclude Include="Source\Runtime\Framework\PrefabLoader.h" />
     <ClInclude Include="Source\Runtime\Framework\SceneLoader.h" />
@@ -175,8 +177,12 @@
     <None Include="Resources\Standard\Shaders\BillboardVertex.shader" />
     <None Include="Resources\Standard\Shaders\FullScreenFragment.shader" />
     <None Include="Resources\Standard\Shaders\FullScreenVertex.shader" />
+    <None Include="Resources\Standard\Shaders\InvertedScreenFragment.shader" />
+    <None Include="Resources\Standard\Shaders\InvertedScreenVertex.shader" />
     <None Include="Resources\Standard\Shaders\ParticleFragment.shader" />
     <None Include="Resources\Standard\Shaders\ParticleVertex.shader" />
+    <None Include="Resources\Standard\Shaders\StandardFragment.shader" />
+    <None Include="Resources\Standard\Shaders\StandardVertex.shader" />
     <None Include="Resources\Standard\Shaders\Text2DFragment.shader" />
     <None Include="Resources\Standard\Shaders\Text2DVertex.shader" />
   </ItemGroup>

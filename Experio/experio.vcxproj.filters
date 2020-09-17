@@ -273,6 +273,12 @@
     <ClInclude Include="Source\Runtime\Files\FFileCategory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Runtime\Framework\GameObjectIterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Framework\GUID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Containers\TArray.cpp">
@@ -483,5 +489,9 @@
     <None Include="Resources\Standard\Shaders\ParticleFragment.shader" />
     <None Include="Resources\Standard\Shaders\ParticleVertex.shader" />
     <None Include="Resources\Standard\Materials\Test.material" />
+    <None Include="Resources\Standard\Shaders\StandardVertex.shader" />
+    <None Include="Resources\Standard\Shaders\StandardFragment.shader" />
+    <None Include="Resources\Standard\Shaders\InvertedScreenFragment.shader" />
+    <None Include="Resources\Standard\Shaders\InvertedScreenVertex.shader" />
   </ItemGroup>
 </Project>
