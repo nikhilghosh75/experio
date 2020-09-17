@@ -15,4 +15,6 @@ public:
 
 	void Bind() const;
 	void Unbind() const;
+
+	void DestroyLayouts();
 };

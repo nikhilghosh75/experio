@@ -44,3 +44,12 @@ void VertexArray::Unbind() const
 {
 	glBindVertexArray(0);
 }
+
+void VertexArray::DestroyLayouts()
+{
+	for (int i = 0; i < bufferCount; i++)
+	{
+		glDisableVertexAttribArray(i);
+	}
+	bufferCount = 0;
+}
