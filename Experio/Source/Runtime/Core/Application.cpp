@@ -57,8 +57,12 @@ void Application::Run()
 	{
 		tempRenderer.OnNewFrame();
 		newWindow.OnUpdate();
+		if (!newWindow.isActive)
+		{
+			break;
+		}
 		tempRenderer.Clear();
-		//tempRenderer.TempRenderer();
+		//tempRenderer.TempFramebufferRenderer();
 		Project::componentManager->Update();
 		tempRenderer.LogRenderingError();
 		tempRenderer.OnEndFrame();
