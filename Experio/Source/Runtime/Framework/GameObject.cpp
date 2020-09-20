@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "Project.h"
 #include "Scene.h"
+#include "GameObjectIterator.h"
 
 GameObject::GameObject()
 {
@@ -125,7 +126,6 @@ void GameObject::SetTransform(FVector3 position, FQuaternion rotation, FVector3 
 
 GameObject * GameObject::FindObjectWithTag(std::string tag)
 {
-	/*
 	unsigned short tagID = Project::TagStringToNum(tag.c_str());
 	for (int i = 0; i < MAX_SCENES; i++)
 	{
@@ -134,25 +134,22 @@ GameObject * GameObject::FindObjectWithTag(std::string tag)
 		{
 			continue;
 		}
-		GameObject* hierarchy = currentScene->sceneRoot;
-		TTypedTreeIterator<GameObject> iterator(hierarchy);
+		GameObject* root = &currentScene->sceneRoot;
+		GameObjectIterator iterator(root);
 		while (!iterator.IsAtEnd())
 		{
-			if (iterator.current->object.tag == tagID)
+			if (iterator.current->tag == tagID)
 			{
-				return &iterator.current->object;
+				return iterator.current;
 			}
 			iterator.Increment();
 		}
 	}
 	return nullptr;
-	*/
-	return nullptr;
 }
 
 GameObject * GameObject::FindObjectWithTag(unsigned short tag)
 {
-	/*
 	for (int i = 0; i < MAX_SCENES; i++)
 	{
 		Scene* currentScene = &Scene::scenes[i];
@@ -160,18 +157,16 @@ GameObject * GameObject::FindObjectWithTag(unsigned short tag)
 		{
 			continue;
 		}
-		TTypedTree<GameObject>* hierarchy = &currentScene->sceneHiearchy;
-		TTypedTreeIterator<GameObject> iterator(hierarchy);
+		GameObject* root = &currentScene->sceneRoot;
+		GameObjectIterator iterator(root);
 		while (!iterator.IsAtEnd())
 		{
-			if (iterator.current->object.tag == tag)
+			if (iterator.current->tag == tag)
 			{
-				return &iterator.current->object;
+				return iterator.current;
 			}
 			iterator.Increment();
 		}
 	}
-	return nullptr;
-	*/
 	return nullptr;
 }
