@@ -96,7 +96,7 @@ std::string FDuration::ToString(const FDuration & duration)
 	ss << GetHour(duration) << " h ";
 	ss << GetMinute(duration) << " m";
 	ss << GetSecond(duration) << " s";
-	ss << GetSecond(duration) << " ms";
+	ss << GetMillisecond(duration) << " ms";
 	return ss.str();
 }
 
