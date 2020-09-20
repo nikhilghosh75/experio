@@ -21,3 +21,20 @@ bool FFileCategory::IsCode() const
 {
 	return this->type == EAssetType::CPP || this->type == EAssetType::H || this->type == EAssetType::NonEngineCode;
 }
+
+bool FFileCategory::IsParseable() const
+{
+	return this->type == EAssetType::Font
+		|| this->type == EAssetType::Image
+		|| this->type == EAssetType::Material
+		|| this->type == EAssetType::Mesh
+		|| this->type == EAssetType::Scene;
+}
+
+bool FFileCategory::IsEngineOnly() const
+{
+	return this->type == EAssetType::Material
+		|| this->type == EAssetType::Particle
+		|| this->type == EAssetType::Scene
+		|| this->type == EAssetType::Shader;
+}
