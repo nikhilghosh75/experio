@@ -73,12 +73,12 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 			if (isRoot)
 			{
 				currentNode = &currentScene->sceneRoot;
-				currentNode->name = (std::string)word;
+				currentNode->name = (std::string)(&word[1]);
 				isRoot = false;
 			}
 			else
 			{
-				currentNode = currentNode->AddChild((std::string)word);
+				currentNode = currentNode->AddChild((std::string)(&word[1]));
 			}
 		}
 		else if (strcmp(word, "Transform:") == 0)
