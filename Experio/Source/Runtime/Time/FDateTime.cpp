@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "windows.h"
+#include "../Containers/LString.h"
 
 const int DAYSTOMONTH[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
 const int DAYSINYEAR = 365;
@@ -337,8 +338,8 @@ std::string FDateTime::ToString(const FDateTime & dateTime, const std::string fo
 			case 'a': // am/pm
 				if (GetHour(dateTime) > 12)
 				{
-					s[i] = 'P';
-					s[i + 1] = 'M';
+					s[i] = 'p';
+					s[i + 1] = 'm';
 				}
 				else
 				{
@@ -359,20 +360,37 @@ std::string FDateTime::ToString(const FDateTime & dateTime, const std::string fo
 				}
 				break;
 			case 'd':
-				// TO-DO
+				if (GetDay(dateTime) >= 10)
+				{
+					s[i] = LString::DigitToChar(GetDay(dateTime) / 10);
+					s[i + 1] = LString::DigitToChar(GetDay(dateTime) % 10);
+				}
+				else
+				{
+					s[i] = 0;
+					s[i + 1] = LString::DigitToChar(GetDay(dateTime));
+				}
 				break;
 			case 'D':
 				// TO-DO
 				break;
 			case 'e':
-				// TO-DO;
+				if (dateTime.ticks > 0)
+				{
+					s[i] = 'A';
+					s[i + 1] = 'D';
+				}
+				else
+				{
+					s[i] = 'B';
+					s[i + 1] = 'C';
+				}
 				break;
 			}
 			i++;
 		}
 	}
 	return s;
-	return "ENAM";
 }
 
 std::string FDateTime::DateToString(const FDateTime & dateTime)
