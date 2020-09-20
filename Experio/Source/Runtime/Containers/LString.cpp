@@ -93,6 +93,17 @@ unsigned int LString::HexStringToInt(std::string s)
 	return returnValue;
 }
 
+unsigned long long LString::HexStringToLong(std::string s)
+{
+	unsigned long long returnValue = 0;
+	int n = s.size();
+	for (int i = 0; i < n; i++)
+	{
+		returnValue += LMath::PowOfTwo(n - i - 1) * HexCharToInt(s[i]);
+	}
+	return returnValue;
+}
+
 unsigned int LString::HexCharToInt(char c)
 {
 	if (c > 47 && c < 58)
@@ -135,9 +146,21 @@ constexpr bool LString::IsUpper(char c)
 	return c > 64 && c < 91;
 }
 
+std::string LString::LongLongToHexString(uint64_t n)
+{
+	std::stringstream ss;
+	ss << std::hex << n;
+	return ss.str();
+}
+
 constexpr int LString::CharToInt(char c)
 {
 	return c - 48;
+}
+
+char LString::DigitToChar(int i)
+{
+	return (i % 10) + '0';
 }
 
 std::string LString::GetFileLocation(const std::string fileName)

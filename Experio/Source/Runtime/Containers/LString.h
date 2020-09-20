@@ -10,6 +10,8 @@ class LString
 public:
 	constexpr static int CharToInt(char c);
 
+	static char DigitToChar(int i);
+
 	static std::string GetFileLocation(const std::string fileName);
 
 	static std::string GetFileName(const std::string fileName);
@@ -17,6 +19,7 @@ public:
 	static std::string FloatToString(float f, int sigFigs = 5);
 
 	static unsigned int HexStringToInt(std::string s);
+	static unsigned long long HexStringToLong(std::string s);
 
 	static unsigned int HexCharToInt(char c);
 
@@ -26,10 +29,12 @@ public:
 	constexpr static bool IsNumeric(char c);
 	constexpr static bool IsUpper(char c);
 
-	static std::vector<std::string> SeperateStringByChar(std::string str, char c, bool removeZeroLength = true);
+	static std::string LongLongToHexString(uint64_t n);
 
 	template<typename Number>
 	static std::string NumberWithCommas(Number n);
+
+	static std::vector<std::string> SeperateStringByChar(std::string str, char c, bool removeZeroLength = true);
 
 	static float StringToFloat(std::string str);
 
