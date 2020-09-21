@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{43176A5C-B986-4032-BCB7-85F1D3ACE189}</ProjectGuid>
-    <RootNamespace>Amber</RootNamespace>
+    <ProjectGuid>{287DD025-CFA6-47C0-8322-3306685DE567}</ProjectGuid>
+    <RootNamespace>DemoProjectExe</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -39,13 +39,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -70,9 +70,26 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)\bin\intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\Demo Project\</OutDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>.</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\x64;$(SolutionDir)bin\x64\Debug\Engine;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -80,24 +97,6 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\x64;$(SolutionDir)bin\x64\Debug\Engine;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalOptions>/VERBOSE %(AdditionalOptions)</AdditionalOptions>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapExports>true</MapExports>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -121,35 +120,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\x64;$(SolutionDir)bin\x64\Debug\Engine;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalOptions>/VERBOSE %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\project-georgey\project-georgey.vcxproj">
-      <Project>{06597ef7-d716-4da4-8727-0daf4e8a67c1}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Source\DemoProject.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Source\DemoProject.h" />
-    <ClInclude Include="Source\DemoProjectComponentManager.h" />
-    <ClInclude Include="Source\DemoProjectMaterialManager.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Materials\SuzanneMat.material" />
-    <None Include="Assets\Prefabs\Suzanne.prefab" />
-    <None Include="Assets\Scenes\TestScene.pbscene" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

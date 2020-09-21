@@ -15,23 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Scenes\TestScene.pbscene" />
-    <None Include="Assets\Prefabs\Suzanne.prefab" />
-    <None Include="Assets\Materials\SuzanneMat.material" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Source\DemoProject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DemoProjectComponentManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DemoProjectMaterialManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Source\DemoProject.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
