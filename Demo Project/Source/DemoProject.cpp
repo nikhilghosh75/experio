@@ -107,3 +107,30 @@ size_t SizeOfComponent(unsigned int classId)
 	}
 	return 0;
 }
+
+// Game Functions Here
+extern "C" __declspec(dllexport) void SetupProject()
+{
+	Project::componentManager = new DemoProjectComponentManager();
+	Project::materialManager = new DemoProjectMaterialManager();
+	printf("Setup Project");
+}
+
+extern "C" __declspec(dllexport) void RunProject()
+{
+	Application app = Application();
+	app.Run();
+}
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+	switch (fdwReason)
+	{
+	case DLL_PROCESS_ATTACH:
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
+	case DLL_PROCESS_DETACH:
+		break;
+	}
+	return TRUE;
+}
