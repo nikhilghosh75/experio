@@ -11,7 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Runtime\Audio\AudioClip.h" />
+    <ClInclude Include="Source\Runtime\Audio\FAudioClip.h" />
+    <ClInclude Include="Source\Runtime\Audio\AudioSystem.h" />
     <ClInclude Include="Source\Runtime\Camera\CameraSystem.h" />
     <ClInclude Include="Source\Runtime\Camera\VirtualCamera.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
