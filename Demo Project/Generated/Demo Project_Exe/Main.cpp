@@ -1,12 +1,21 @@
-#include "../Demo Project/Source/DemoProject.h"
+#include "../../Demo Project/Source/DemoProject.h"
 #include <windows.h> 
 #include <stdio.h>
 #include <iostream>
 
 typedef void(__cdecl *MYPROC)();
 
+void SetupProject();
+void RunProject();
+
 int main(int argc, char** argv)
 {
+	SetupProject();
+	RunProject();
+	return 0;
+}
+
+/*
 	HINSTANCE hinstLib;
 	MYPROC ProcSetup, ProcRun;
 
@@ -37,5 +46,4 @@ int main(int argc, char** argv)
 	{
 		printf("Linking failed");
 	}
-	return 0;
-}
+*/

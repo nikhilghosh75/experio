@@ -130,6 +130,14 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Experio\Experio.vcxproj">
+      <Project>{06597ef7-d716-4da4-8727-0daf4e8a67c1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Demo Project.vcxproj">
+      <Project>{43176a5c-b986-4032-bcb7-85f1d3ace189}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
