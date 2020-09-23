@@ -150,6 +150,8 @@
     <None Include="Assets\Materials\SuzanneMat.material" />
     <None Include="Assets\Prefabs\Suzanne.prefab" />
     <None Include="Assets\Scenes\TestScene.pbscene" />
+    <None Include="Config\layers.pbvalues" />
+    <None Include="Config\tags.pbvalues" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

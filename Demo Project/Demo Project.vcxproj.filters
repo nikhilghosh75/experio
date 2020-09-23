@@ -18,6 +18,8 @@
     <None Include="Assets\Scenes\TestScene.pbscene" />
     <None Include="Assets\Prefabs\Suzanne.prefab" />
     <None Include="Assets\Materials\SuzanneMat.material" />
+    <None Include="Config\layers.pbvalues" />
+    <None Include="Config\tags.pbvalues" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DemoProject.h">
