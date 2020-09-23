@@ -4,7 +4,7 @@
 #include "../Containers/LString.h"
 #include "../Files/LFileOperations.h"
 
-#include "../Audio/AudioClip.h"
+#include "../Audio/FAudioClip.h"
 #include "../Files/Font/FontReader.h"
 #include "../Files/Images/ImageReader.h"
 #include "../Files/Mesh/MeshReader.h"
@@ -65,7 +65,7 @@ FColor ParseColor(std::string str);
 FQuaternion ParseQuaternion(std::string str);
 FCurve ParseCurve(std::string str);
 
-AudioClip ParseAudio(std::string str);
+FAudioClip ParseAudio(std::string str);
 Datatable ParseData(std::string str);
 FontData* ParseFont(std::string str);
 Material* ParseMaterial(std::string str);

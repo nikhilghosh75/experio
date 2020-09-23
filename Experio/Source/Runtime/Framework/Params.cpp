@@ -172,10 +172,10 @@ FCurve ParseCurve(std::string str)
 	return FCurve();
 }
 
-AudioClip ParseAudio(std::string str)
+FAudioClip ParseAudio(std::string str)
 {
 	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
-	return AudioClip();
+	return FAudioClip();
 }
 
 Datatable ParseData(std::string str)
