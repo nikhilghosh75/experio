@@ -50,7 +50,19 @@ public:
 		count = 2;
 	}
 
-	TQueue(T* objects, size_t count);
+	TQueue(T* objects, size_t count)
+	{
+		this->head = new TQueueNode<T>(objects[0]);
+		TQueueNode<T>* current = head;
+		for (int i = 1; i < count; i++)
+		{
+			this->tail = new TQueueNode<T>(objects[i]);
+			current->next = this->tail;
+			current = current->next;
+		}
+		this->count = count;
+	}
+
 	TQueue(std::vector<T> objects);
 
 	~TQueue();
@@ -75,9 +87,20 @@ public:
 		return current->object;
 	}
 
-	T Pop();
+	T Pop()
+	{
+		T object = head->object;
+		TQueueNode<T>* newHead = this->head->next;
+		delete this->head;
+		this->head = newHead;
+		this->count--;
+	}
 
 	void Push(T object);
+
+	void Empty();
+	
+	bool IsEmpty() const { return this->count == 0; }
 
 	unsigned int GetCount() const { return count; }
 };

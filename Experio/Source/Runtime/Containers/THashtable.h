@@ -41,7 +41,7 @@ public:
 
 	unsigned long operator()(const K& key) const
 	{
-		return reinterpret_cast<unsigned long>(key) % tableCapacity;
+		return static_cast<unsigned long>(key) % tableCapacity;
 	}
 };
 
@@ -180,6 +180,29 @@ public:
 		}
 	}
 
+	void RemoveValue(const V& value)
+	{
+		for (int i = 0; i < this->capacity; i++)
+		{
+			THashNode<K, V>* entry = arr[i];
+			while (entry != nullptr)
+			{
+				THashNode<K, V>* prev = entry;
+				if (entry->GetValue() == value)
+				{
+					prev->SetNext(entry->GetNext());
+					entry = entry->GetNext();
+					delete prev->GetNext();
+					this->size--;
+				}
+				if (entry != nullptr)
+				{
+					entry = entry->GetNext();
+				}
+			}
+		}
+	}
+
 	void Empty()
 	{
 		this->size = 0;
@@ -189,7 +212,7 @@ public:
 			while (entry != nullptr)
 			{
 				THashNode<K, V>* prev = entry;
-				entry = prev->nextNode;
+				entry = prev->GetNext();
 				delete prev;
 			}
 			arr[i] = nullptr;
@@ -234,6 +257,24 @@ public:
 		{
 			this->Insert(keys[i], values[i]);
 		}
+	}
+
+	bool Find(const V& value, K& foundKey)
+	{
+		for (int i = 0; i < this->capacity; i++)
+		{
+			THashNode<K, V>* entry = arr[i];
+			while (entry != nullptr)
+			{
+				if (entry->GetValue() == value)
+				{
+					foundKey = entry->GetKey();
+					return true;
+				}
+				entry = entry->GetNext();
+			}
+		}
+		return false;
 	}
 
 	unsigned int GetSize() const { return size; }
