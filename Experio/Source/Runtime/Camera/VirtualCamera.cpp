@@ -9,16 +9,6 @@ VirtualCamera::VirtualCamera(GameObject * object)
 	this->gameObject = object;
 }
 
-void VirtualCamera::Start()
-{
-	CameraSystem::RegisterCamera(this);
-}
-
-void VirtualCamera::Update()
-{
-
-}
-
 glm::mat4 VirtualCamera::GetViewMatrix() const
 {
 	return (glm::mat4)this->gameObject->GetRotation() * glm::translate(glm::mat4(), (glm::vec3)(this->gameObject->GetPosition() * -1.f ));

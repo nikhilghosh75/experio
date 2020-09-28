@@ -5,7 +5,7 @@
 
 class CameraSystem
 {
-	static std::vector<VirtualCamera*> cameras;
+	static std::vector<VirtualCamera> cameras;
 
 	static float timeInTransition;
 
@@ -17,7 +17,12 @@ class CameraSystem
 public:
 	static float transitionTime;
 
-	static void RegisterCamera(VirtualCamera* camera);
+	static VirtualCamera* AddComponent(GameObject* gameObject);
+	static VirtualCamera* AddComponent(std::vector<std::string> params, GameObject* gameObject);
+
+	static VirtualCamera* GetComponent(GameObject* gameObject);
+
+	static void DeleteComponent(GameObject* gameObject);
 
 	static void Update();
 

@@ -13,9 +13,6 @@ public:
 	float nearClipPlane = 0.1f;
 	float farClipPlane = 1000.f;
 
-	virtual void Start() override;
-	virtual void Update() override;
-
 	glm::mat4 GetViewMatrix() const;
 	glm::mat4 GetProjectionMatrix() const;
 
