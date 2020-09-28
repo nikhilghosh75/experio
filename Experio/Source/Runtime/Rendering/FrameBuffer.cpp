@@ -67,6 +67,21 @@ void Framebuffer::CheckFramebufferStatus()
 	case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
 		Debug::LogError("Framebuffer does not have anything attached");
 		break;
+	case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+		Debug::LogError("Framebuffer does not have a complete draw buffer");
+		break;
+	case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+		Debug::LogError("Framebuffer does not have a complete render buffer");
+		break;
+	case GL_FRAMEBUFFER_UNSUPPORTED:
+		Debug::LogError("Framebuffer is not supported");
+		break;
+	case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+		Debug::LogError("Framebuffer Multisample is incomplete");
+		break;
+	case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
+		Debug::LogError("Framebuffer Layer Targets is incomplete");
+		break;
 	}
 }
 

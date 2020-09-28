@@ -49,5 +49,5 @@ public:
 
 	void TempFramebufferRenderer();
 
-	static Renderer* Get() { return instance; }
+	static Renderer* Get();
 };

@@ -339,11 +339,7 @@ void Renderer::TempFramebufferRenderer()
 
 	unsigned int framebufferStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
-	if (framebufferStatus != GL_FRAMEBUFFER_COMPLETE)
-	{
-		Debug::LogError("Framebuffer Object");
-		return;
-	}
+	framebuffer.CheckFramebufferStatus();
 
 	// Triangle Render Code
 	/*
@@ -420,6 +416,14 @@ void Renderer::TempFramebufferRenderer()
 	glDisableVertexAttribArray(0);
 }
 
+Renderer* Renderer::Get()
+{
+	if (instance == nullptr)
+	{
+		Debug::LogError("Renderer is null");
+	}
+	return Renderer::instance;
+}
 
 void Renderer::TempModelRenderer()
 {
