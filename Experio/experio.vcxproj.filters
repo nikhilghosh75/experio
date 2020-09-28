@@ -39,9 +39,6 @@
     <ClInclude Include="Source\Runtime\Memory\TLinearAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Runtime\Core\EntryPoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Runtime\Time\FDateTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -280,6 +277,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Runtime\Audio\FAudioClip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Nameof\nameof.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Core\DllLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

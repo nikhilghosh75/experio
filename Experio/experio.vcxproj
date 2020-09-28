@@ -20,6 +20,7 @@
     <ClInclude Include="Source\Runtime\Containers\THashtable.h" />
     <ClInclude Include="Source\Runtime\Containers\TQueue.h" />
     <ClInclude Include="Source\Runtime\Containers\TTypedTree.h" />
+    <ClInclude Include="Source\Runtime\Core\DllLoader.h" />
     <ClInclude Include="Source\Runtime\Core\Platform.h" />
     <ClInclude Include="Source\Runtime\Core\Window.h" />
     <ClInclude Include="Source\Runtime\Core\LWindowOperations.h" />
@@ -87,7 +88,6 @@
     <ClInclude Include="Source\Runtime\Time\FDateTime.h" />
     <ClInclude Include="Source\Engine.h" />
     <ClInclude Include="Source\Runtime\Containers\TArray.h" />
-    <ClInclude Include="Source\Runtime\Core\EntryPoint.h" />
     <ClInclude Include="Source\Runtime\Core\Application.h" />
     <ClInclude Include="Source\Runtime\Core\Core.h" />
     <ClInclude Include="Source\Runtime\Debug\Debug.h" />
@@ -102,6 +102,7 @@
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
     <ClInclude Include="Source\ThirdParty\Event System\Event.h" />
+    <ClInclude Include="Source\ThirdParty\Nameof\nameof.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Camera\CameraSystem.cpp" />
