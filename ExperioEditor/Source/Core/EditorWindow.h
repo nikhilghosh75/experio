@@ -18,6 +18,12 @@ public:
 
 	static void OnResize(int width, int height);
 
+	static FWindowData GetWindowData();
+	
+#ifdef PLATFORM_WINDOWS
+	static HWND GetHWND();
+#endif
+
 private:
 	static void Dockspace();
 

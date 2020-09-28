@@ -8,6 +8,7 @@
 #include "examples/imgui_impl_win32.h"
 #include "examples/imgui_impl_opengl3.h"
 #include "imgui_internal.h"
+#include "EditorApplication.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Rendering/LOpenGL.h"
 
@@ -95,6 +96,8 @@ void EditorWindow::InitializeWindow()
 	ImGui::StyleColorsClassic();
 
 	isActive = true;
+
+	OnResize(640, 480);
 }
 
 void EditorWindow::BeginFrame()
@@ -157,7 +160,24 @@ void EditorWindow::OnResize(int width, int height)
 {
 	displayHeight = height;
 	displayWidth = width;
+	EditorApplication::loader.CallVoidFunction<VOIDINT2PROC, int, int>("SetWindowSize", width, height);
 }
+
+FWindowData EditorWindow::GetWindowData()
+{
+	FWindowData data;
+	data.width = displayWidth;
+	data.height = displayHeight;
+	data.title = "Experio Editor";
+	return FWindowData();
+}
+
+#ifdef PLATFORM_WINDOWS
+HWND EditorWindow::GetHWND()
+{
+	return EditorWindow::hwnd;
+}
+#endif
 
 void EditorWindow::Dockspace()
 {
@@ -225,10 +245,10 @@ void EditorWindow::CreateUpperMenu()
 }
 
 #ifdef PLATFORM_WINDOWS
-
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT WINAPI WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	Debug::Log(std::to_string(msg));
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
 		return true;
 
@@ -244,5 +264,4 @@ LRESULT WINAPI WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
-
 #endif
