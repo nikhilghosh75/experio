@@ -12,6 +12,10 @@ public:
 
 	static MaterialManager* materialManager;
 
+	static void EndFrame();
+
+	static void StartGame();
+
 	static unsigned short TagStringToNum(const char* string);
 
 	static std::string TagNumToString(unsigned short num);

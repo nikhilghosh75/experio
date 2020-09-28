@@ -1,5 +1,7 @@
 #include "Project.h"
 #include "Component.h"
+#include "../Time/GameTime.h"
+#include "../../ThirdParty/Nameof/nameof.hpp"
 
 extern std::string projectName;
 
@@ -10,6 +12,8 @@ extern std::string DefaultTagNumToString(unsigned short num);
 template <class T>
 extern unsigned int DefaultClassTypeToInt();
 
+extern unsigned int DefaultClassStringToInt(std::string name);
+
 template <class T>
 extern std::string DefaultClassTypeToString();
 
@@ -17,6 +21,16 @@ std::string Project::projectName = projectName;
 
 ComponentManager* Project::componentManager;
 MaterialManager* Project::materialManager;
+
+void Project::EndFrame()
+{
+	GameTime::OnEndFrame();
+}
+
+void Project::StartGame()
+{
+	GameTime::StartGame();
+}
 
 unsigned short Project::TagStringToNum(const char * string)
 {
@@ -31,13 +45,17 @@ std::string Project::TagNumToString(unsigned short num)
 template<class T>
 unsigned int Project::ClassTypeToInt()
 {
+#ifdef EXPERIO_EDITOR
+	return DefaultClassStringToInt(NAMEOF_TYPE(T));
+#else
 	return DefaultClassTypeToInt<T>();
+#endif // EXPERIO_EDITOR
 }
 
 template<>
 unsigned int Project::ClassTypeToInt<TestComponent>()
 {
-	return DefaultClassTypeToInt<TestComponent>();
+	return 2;
 }
 
 template<class T>
