@@ -16,6 +16,8 @@ public:
 
 	virtual std::vector<unsigned int> GetComponentsIDsInGameObject(GameObject* gameObject) { return std::vector<unsigned int>(); };
 	virtual std::vector<Component*> GetComponentsInGameObject(GameObject* gameObject) { return std::vector<Component*>(); };
+
+	virtual unsigned int ComponentCount() { return -1; }
 };
 
 #define PB_ADD_COMPONENT(_vectorName_) _vectorName_.emplace_back(gameObject); return (Component*)(&_vectorName_[_vectorName_.size() - 1]);

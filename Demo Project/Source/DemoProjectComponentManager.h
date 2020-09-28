@@ -33,6 +33,8 @@ public:
 		{
 		case 2:
 			PB_ADD_COMPONENT(testComponentInstances);
+		case 100:
+			return CameraSystem::AddComponent(gameObject);
 		case 101:
 			PB_ADD_COMPONENT(meshInstances);
 		case 102:
@@ -53,6 +55,8 @@ public:
 		{
 		case 2:
 			PB_GET_COMPONENT(testComponentInstances);
+		case 100:
+			return (Component*)CameraSystem::GetComponent(gameObject);
 		case 101:
 			PB_GET_COMPONENT(meshInstances);
 		case 102:
@@ -74,6 +78,9 @@ public:
 		{
 		case 2:
 			PB_DELETE_COMPONENT(testComponentInstances);
+		case 100:
+			CameraSystem::DeleteComponent(gameObject);
+			break;
 		case 101:
 			PB_DELETE_COMPONENT(meshInstances);
 		case 102:
@@ -112,5 +119,11 @@ public:
 		}
 
 		return returnVector;
+	}
+
+	virtual unsigned int ComponentCount() override
+	{
+		return testComponentInstances.size() + particleSystemInstances.size() + billboardInstances.size()
+			+ meshInstances.size() + textComponentInstances.size();
 	}
 };
