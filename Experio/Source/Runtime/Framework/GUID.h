@@ -19,7 +19,7 @@ struct GUID
 
 	std::string ToString()
 	{
-
+		return LString::LongLongToHexString(this->id);
 	}
 
 	bool operator==(const GUID& other)
