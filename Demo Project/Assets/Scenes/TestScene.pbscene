@@ -38,5 +38,19 @@ Children: [{
 			isVisible: true
 	}]
 	Children: []
+},{
+	Name: Camera
+	Transform: 4 3 -3 0.11938 -0.86197 -0.23875 0.42099 1 1 1
+	Tag: 0
+	Layer: 1
+	Components: [{
+		ClassID: 100
+		Params:
+			priority: 1.0
+			fieldOfView: 45.0
+			nearClipPlane: 0.01
+			farClipPlane: 1000
+	}]
+	Children: []
 }
 ]}
