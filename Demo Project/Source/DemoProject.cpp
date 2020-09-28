@@ -1,4 +1,6 @@
 #include "DemoProject.h"
+#include "Runtime/Framework/SceneLoader.h"
+#include "Runtime/Core/Window.h"
 
 std::string projectName = "Test Project";
 
@@ -34,7 +36,7 @@ unsigned int DefaultClassTypeToInt()
 }
 
 template<> unsigned int DefaultClassTypeToInt<TestComponent>() { return 2; }
-
+template<> unsigned int DefaultClassTypeToInt<VirtualCamera>() { return 100; }
 template<> unsigned int DefaultClassTypeToInt<MeshComponent>() { return 101; }
 template<> unsigned int DefaultClassTypeToInt<ParticleSystem>() { return 102; }
 template<> unsigned int DefaultClassTypeToInt<Billboard>() { return 103; }
@@ -46,6 +48,8 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 	{
 	case 2:
 		return std::vector<std::string>();
+	case 100:
+		return std::vector<std::string>({ "priority", "fieldOfView", "nearClipPlane", "farClipPlane" });
 	case 101:
 		return std::vector<std::string>({ "meshShader", "meshData", "isVisible" });
 	case 102:
@@ -89,6 +93,7 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 {
 	switch (classId)
 	{
+	case 100: { CameraSystem::AddComponent(params, gameObject); } break;
 	case 101: { PB_EMPLACE_COMPONENT(MeshComponent, classId); PB_START(); } break;
 	case 102: { PB_EMPLACE_COMPONENT(ParticleSystem, classId); PB_START(); } break;
 	case 103: { PB_EMPLACE_COMPONENT(Billboard, classId); PB_START(); } break;
@@ -100,6 +105,7 @@ size_t SizeOfComponent(unsigned int classId)
 {
 	switch (classId)
 	{
+	case 100: return sizeof(VirtualCamera);
 	case 101: return sizeof(MeshComponent);
 	case 102: return sizeof(ParticleSystem);
 	case 103: return sizeof(Billboard);
@@ -120,6 +126,40 @@ extern "C" __declspec(dllexport) void RunProject()
 {
 	Application app = Application();
 	app.Run();
+}
+
+extern "C" __declspec(dllexport) void Update()
+{
+	printf("%i %i\n", Window::GetWindowData().width, Window::GetWindowData().height);
+	glClearColor(0, 0, 1, 1);
+	Renderer renderer;
+	renderer.LogRenderingError();
+	renderer.TempModelRenderer();
+	//Project::componentManager->Update();
+	Project::EndFrame();
+	renderer.LogRenderingError();
+}
+
+extern "C" __declspec(dllexport) bool LoadScene(std::string filename, int sceneSlot)
+{
+	bool returnValue = SceneLoader::LoadSceneFromFile(filename, sceneSlot, ESceneProjectCompareType::None);
+	Scene::Activate(sceneSlot);
+	return returnValue;
+}
+
+extern "C" __declspec(dllexport) void SetupGraphics(HWND hwnd)
+{
+	HDC deviceContext = GetDC(hwnd);
+	HGLRC glRenderContext = wglCreateContext(deviceContext);
+	wglMakeCurrent(deviceContext, glRenderContext);
+
+	glewInit();
+}
+
+extern "C" __declspec(dllexport) void SetWindowSize(int width, int height)
+{
+	printf("Set Window Size\n");
+	Window::ResizeWindow(EWindowResizeType::EditorResize, width, height);
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
