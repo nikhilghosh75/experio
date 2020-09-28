@@ -16,7 +16,7 @@ Texture::Texture(const char * fileName)
 	// TO-DO: Add more stuff as more image readers get made.
 
 	BMPReader reader;
-	this->data = reader.ReadFile(fileName);
+	this->data = ImageReader::ReadFile(fileName);
 
 	glGenTextures(1, &this->rendererID);
 	ConfigureData();
@@ -28,6 +28,11 @@ Texture::Texture(ImageData * data)
 
 	glGenTextures(1, &this->rendererID);
 	ConfigureData();
+}
+
+Texture::~Texture()
+{
+	delete this->data;
 }
 
 void Texture::ConfigureData()

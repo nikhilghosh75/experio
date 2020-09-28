@@ -14,6 +14,8 @@ public:
 	Texture(const char* fileName);
 	Texture(ImageData* data);
 
+	~Texture();
+
 	void SetData(ImageData* data);
 	void SetData(void* data, int width, int height, EImageEncoding encoding, bool invertedPixels = false);
 
