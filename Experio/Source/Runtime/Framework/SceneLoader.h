@@ -13,7 +13,7 @@ enum class ESceneProjectCompareType
 class SceneLoader
 {
 public:
-	static void LoadSceneFromFile(std::string filePath, int sceneSlot = 0, ESceneProjectCompareType compareType=ESceneProjectCompareType::None);
+	static bool LoadSceneFromFile(std::string filePath, int sceneSlot = 0, ESceneProjectCompareType compareType=ESceneProjectCompareType::None);
 
 private:
 	// Helpers

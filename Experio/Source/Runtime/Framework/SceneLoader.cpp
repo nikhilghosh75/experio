@@ -13,25 +13,25 @@ extern void SetComponentParams(std::vector<std::string> params, T* component);
 
 extern void AddComponentToScene(unsigned int classId, std::vector<std::string> params, GameObject* gameObject, uint8_t sceneId);
 
-void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneProjectCompareType compareType)
+bool SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneProjectCompareType compareType)
 {
 	if (sceneSlot >= MAX_SCENES)
 	{
 		Debug::LogError("Invalid Scene");
-		return;
+		return false;
 	}
 
 	if (!LFileOperations::DoesFileHaveExtension(filePath, "pbscene"))
 	{
 		Debug::LogError("Loaded Scene is not a .pbscene file");
-		return;
+		return false;
 	}
 
 	std::ifstream sceneFile(filePath);
 	if (sceneFile.fail())
 	{
 		Debug::LogError("File " + filePath + " could not be opened");
-		return;
+		return false;
 	}
 
 	char word[256];
@@ -41,7 +41,7 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 	if (strcmp(word, "PROJECT BLOO SCENE") != 0)
 	{
 		Debug::LogError("File " + filePath + " is improperly formatted");
-		return;
+		return false;
 	}
 	Scene* currentScene = &Scene::scenes[sceneSlot];
 
@@ -53,7 +53,7 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 	// Maybe Check Project Name
 	sceneFile >> word;
 	sceneFile.getline(word, 256);
-	if (ShouldQuitOnProjectName((std::string)word, compareType)) return;
+	if (ShouldQuitOnProjectName((std::string)word, compareType)) return false;
 
 	GameObject* currentNode = nullptr;
 	bool isRoot = true;
@@ -133,6 +133,7 @@ void SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 	}
 	currentScene->isActive = true;
 	Debug::Log("Scene Loading Finished");
+	return true;
 }
 
 bool SceneLoader::ShouldQuitOnProjectName(std::string sceneProjectName, ESceneProjectCompareType compareType)
