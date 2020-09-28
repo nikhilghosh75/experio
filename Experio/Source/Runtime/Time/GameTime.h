@@ -1,12 +1,14 @@
 #pragma once
 #include "FDateTime.h"
 #include "../Core/Application.h"
+#include "../Framework/Project.h"
 
 const float TICKSPERSECOND = 10000000.f;
 
 class GameTime
 {
 	friend class Application;
+	friend class Project;
 
 	static FDateTime lastTime;
 
