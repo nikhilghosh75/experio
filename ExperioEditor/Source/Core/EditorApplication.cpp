@@ -17,8 +17,9 @@
 #include "Runtime/Framework/SceneLoader.h"
 #include "Runtime/Framework/Project.h"
 #include "../Framework/EditorProject.h"
-
-std::string projectName = "Experio Editor";
+#include "Runtime/Rendering/Renderer.h"
+#include "Runtime/Camera/AdditionalCameras.h"
+#include "../SceneView/SceneView.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
 DllLoader EditorApplication::loader;
@@ -39,25 +40,23 @@ void EditorApplication::Run()
 {
 	EditorWindow::InitializeWindow();
 
-	// TEMP
-	LoadProject("C:/Users/debgh/source/repos/project-bloo/bin/x64/Debug/Demo Project/Demo Project.dll");
 	modules.push_back(new TestModule());
+	modules.push_back(new SceneView());
 
 	EditorProject::TempSetup();
-	bool sceneLoadedSuccess;
-	// loader.CallFunction<bool, BOOLSTRINGINTPROC, std::string, int>("LoadScene", sceneLoadedSuccess, "C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Scenes/TestScene.pbscene", 0);
+	SceneLoader::LoadSceneFromFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Scenes/TestScene.pbscene", 0);
+	Scene::Activate(0);
 
 	while (EditorWindow::isActive)
 	{
 		EditorWindow::BeginFrame();
-		// loader.CallFunction("Update");
+
 		RenderModules();
+
 		EditorWindow::EndFrame();
 	}
 
 	EditorWindow::CloseWindow();
-
-	loader.UnloadDll();
 }
 
 void EditorApplication::LoadProject(std::string dllFilePath)
