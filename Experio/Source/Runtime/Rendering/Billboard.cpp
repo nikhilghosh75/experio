@@ -24,5 +24,5 @@ void Billboard::Start()
 
 void Billboard::Update()
 {
-	Renderer::Get()->DrawBillboard(*this, CameraSystem::currentViewMatrix, CameraSystem::currentProjectionMatrix);
+	Renderer::Get()->DrawBillboard(*this);
 }

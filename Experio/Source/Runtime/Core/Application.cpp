@@ -32,7 +32,9 @@ void Application::Run()
 	Window newWindow;
 	newWindow.InstantiateWindow();
 	delete windowProfiler;
+
 	Renderer tempRenderer;
+	tempRenderer.MakeCurrent();
 
 	GameTime::StartGame();
 
@@ -49,7 +51,6 @@ void Application::Run()
 			break;
 		}
 		tempRenderer.Clear();
-		//tempRenderer.TempFramebufferRenderer();
 		Project::componentManager->Update();
 		tempRenderer.LogRenderingError();
 		tempRenderer.OnEndFrame();

@@ -39,10 +39,9 @@ void MeshComponent::Start()
 
 void MeshComponent::Update()
 {
-	// Replace Later
 	RecalculateModelMatrix();
 
-	Renderer::Get()->DrawMesh(*this, CameraSystem::currentViewMatrix, CameraSystem::currentProjectionMatrix);
+	Renderer::Get()->DrawMesh(*this);
 }
 
 void MeshComponent::RecalculateModelMatrix()
