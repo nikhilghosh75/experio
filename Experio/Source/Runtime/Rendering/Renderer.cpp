@@ -20,10 +20,45 @@
 #include "../Camera/VirtualCamera.h"
 #include "FrameBuffer.h"
 #include "../Framework/Project.h"
+#include "../Camera/CameraSystem.h"
+#include "../Camera/AdditionalCameras.h"
 
-Renderer* Renderer::instance;
+Renderer* Renderer::current;
 
 Shader* basicShader = nullptr;
+
+Renderer::Renderer()
+{
+	defaultVertexLayout.PushFloat(3);
+}
+
+Renderer::~Renderer()
+{
+}
+
+glm::mat4 Renderer::GetViewMatrix()
+{
+	switch (currentMode)
+	{
+	case ERenderMode::ToCameraSystem:
+		return CameraSystem::currentViewMatrix;
+	case ERenderMode::ToEditorSceneView:
+		return AdditionalCameras::viewMatrix;
+	}
+	return glm::mat4();
+}
+
+glm::mat4 Renderer::GetProjectionMatrix()
+{
+	switch (currentMode)
+	{
+	case ERenderMode::ToCameraSystem:
+		return CameraSystem::currentProjectionMatrix;
+	case ERenderMode::ToEditorSceneView:
+		return AdditionalCameras::projectionMatrix;
+	}
+	return glm::mat4();
+}
 
 void Renderer::LogRenderingError()
 {
@@ -34,14 +69,9 @@ void Renderer::LogRenderingError()
 	}
 }
 
-Renderer::Renderer()
+void Renderer::MakeCurrent()
 {
-	defaultVertexLayout.PushFloat(3);
-	instance = this;
-}
-
-Renderer::~Renderer()
-{
+	current = this;
 }
 
 void Renderer::Clear()
@@ -60,8 +90,11 @@ void Renderer::OnEndFrame()
 
 }
 
-void Renderer::DrawBillboard(const Billboard & billboard, const glm::mat4 viewMatrix, const glm::mat4 projectionMatrix)
+void Renderer::DrawBillboard(const Billboard & billboard)
 {
+	glm::mat4 projectionMatrix = GetProjectionMatrix();
+	glm::mat4 viewMatrix = GetViewMatrix();
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -109,7 +142,7 @@ void Renderer::DrawBillboard(const Billboard & billboard, const glm::mat4 viewMa
 	glDisable(GL_BLEND);
 }
 
-void Renderer::DrawMesh(const MeshComponent & mesh, const glm::mat4 viewMatrix, const glm::mat4 projectionMatrix)
+void Renderer::DrawMesh(const MeshComponent & mesh)
 {
 	PROFILE_SCOPE("Rendering Mesh");
 
@@ -117,6 +150,9 @@ void Renderer::DrawMesh(const MeshComponent & mesh, const glm::mat4 viewMatrix, 
 	{
 		return;
 	}
+
+	glm::mat4 projectionMatrix = GetProjectionMatrix();
+	glm::mat4 viewMatrix = GetViewMatrix();
 
 	glm::mat4 modelMatrix = mesh.GetModelMatrix();
 
@@ -267,7 +303,7 @@ void Renderer::TempRenderer()
 	glm::mat4 viewMatrix = VirtualCamera::CalculateViewMatrix(FVector3(4.f, 3.f, -3.f), FQuaternion(glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0))));
 	glm::mat4 projectionMatrix = VirtualCamera::CalculateProjectionMatrix(45.f, 0.1f, 1000.f);
 
-	this->DrawMesh(suzanneMesh, viewMatrix, projectionMatrix);
+	this->DrawMesh(suzanneMesh);
 
 	// BILLBOARDS
 
@@ -418,11 +454,11 @@ void Renderer::TempFramebufferRenderer()
 
 Renderer* Renderer::Get()
 {
-	if (instance == nullptr)
+	if (current == nullptr)
 	{
-		Debug::LogError("Renderer is null");
+		Debug::LogError("Current Renderer is null");
 	}
-	return Renderer::instance;
+	return Renderer::current;
 }
 
 void Renderer::TempModelRenderer()

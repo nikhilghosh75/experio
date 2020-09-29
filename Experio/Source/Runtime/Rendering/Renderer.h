@@ -12,28 +12,41 @@
 #include "FrameBuffer.h"
 #include "../Math/FRect.h"
 
+enum class ERenderMode
+{
+	ToCameraSystem,
+	ToEditorSceneView,
+	ToEditorGameView
+};
+
 class Renderer
 {
 private:
 	VertexBufferLayout defaultVertexLayout;
 
-	unsigned int FramebufferName, renderedTexture, depthrenderbuffer, quad_vertexbuffer, quad_uvbuffer;
+	static Renderer* current;
 
-	static Renderer* instance;
+	glm::mat4 GetViewMatrix();
+
+	glm::mat4 GetProjectionMatrix();
 public:
+	ERenderMode currentMode = ERenderMode::ToCameraSystem;
+
 	void LogRenderingError();
 
 	Renderer();
 	~Renderer();
+
+	void MakeCurrent();
 
 	void Clear();
 
 	void OnNewFrame();
 	void OnEndFrame();
 
-	void DrawBillboard(const Billboard& billboard, const glm::mat4 viewMatrix, const glm::mat4 projectionMatrix);
+	void DrawBillboard(const Billboard& billboard);
 
-	void DrawMesh(const MeshComponent& mesh, const glm::mat4 viewMatrix, const glm::mat4 projectionMatrix);
+	void DrawMesh(const MeshComponent& mesh);
 
 	void DrawQuad(unsigned int textureID, const Shader& shader, const FRect& uvRect, const FRect& vertexRect);
 	void DrawQuad(const Texture& texture, const Shader& shader, const FRect& uvRect, const FRect& vertexRect);
