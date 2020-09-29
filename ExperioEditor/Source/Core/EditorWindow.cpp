@@ -48,6 +48,9 @@ void EditorWindow::InitializeWindow()
 		0
 	);
 
+	displayWidth = 640;
+	displayHeight = 480;
+
 	ShowWindow(EditorWindow::hwnd, SW_SHOWDEFAULT);
 	UpdateWindow(EditorWindow::hwnd);
 
@@ -169,7 +172,7 @@ FWindowData EditorWindow::GetWindowData()
 	data.width = displayWidth;
 	data.height = displayHeight;
 	data.title = "Experio Editor";
-	return FWindowData();
+	return data;
 }
 
 #ifdef PLATFORM_WINDOWS
