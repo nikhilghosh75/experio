@@ -18,7 +18,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -57,8 +57,8 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>EXPERIO_EDITOR;PLATFORM_WINDOWS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\x64;$(SolutionDir)bin\x64\Debug\Engine;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -87,17 +87,25 @@
   <ItemGroup>
     <ClCompile Include="Source\Core\EditorApplication.cpp" />
     <ClCompile Include="Source\Core\EditorWindow.cpp" />
-    <ClCompile Include="Source\Core\Main.cpp" />
+    <ClCompile Include="Source\Framework\EditorProject.cpp" />
     <ClCompile Include="Source\Framework\ValueLoader.cpp" />
     <ClCompile Include="Source\Framework\Values.cpp" />
+    <ClCompile Include="Source\SceneView\SceneView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\EditorApplication.h" />
     <ClInclude Include="Source\Core\EditorModule.h" />
     <ClInclude Include="Source\Core\EditorWindow.h" />
+    <ClInclude Include="Source\Framework\EditorProject.h" />
     <ClInclude Include="Source\Framework\ValueLoader.h" />
     <ClInclude Include="Source\Framework\Values.h" />
+    <ClInclude Include="Source\SceneView\SceneView.h" />
     <ClInclude Include="Source\Test Modules\TestModule.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Experio\Experio.vcxproj">
+      <Project>{06597ef7-d716-4da4-8727-0daf4e8a67c1}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

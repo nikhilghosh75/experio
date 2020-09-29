@@ -8,7 +8,7 @@
 #include "Runtime/Rendering/Materials/BillboardMaterial.h"
 #include "Runtime/Rendering/Materials/TextMaterial.h"
 
-class DemoProjectMaterialManager : public MaterialManager
+__declspec(dllexport) class DemoProjectMaterialManager : public MaterialManager
 {
 	std::vector<MeshMaterial> meshMaterials;
 	std::vector<BillboardMaterial> billboardMaterials;

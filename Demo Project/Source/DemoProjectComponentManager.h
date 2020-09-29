@@ -8,7 +8,7 @@
 #include "Runtime/Rendering/MeshComponent.h"
 #include "Runtime/UI/TextComponent.h"
 
-class DemoProjectComponentManager : public ComponentManager
+__declspec(dllexport) class DemoProjectComponentManager : public ComponentManager
 {
 	const std::vector<unsigned int> classIds = { 2, 100, 101, 102, 103, 104 };
 public:
