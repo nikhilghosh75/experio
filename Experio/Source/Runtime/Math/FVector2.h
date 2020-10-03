@@ -1,7 +1,9 @@
 #pragma once
-#include "FVector3.h"
+#include <string>
+#include "glm/glm.hpp"
+#include "imgui.h"
 
-#include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/glm.hpp"
+class FVector3;
 
 struct FVector2
 {
@@ -10,7 +12,8 @@ struct FVector2
 
 	FVector2();
 	FVector2(float x, float y);
-	//FVector2(FVector3 V);
+	FVector2(FVector3 V);
+	FVector2(ImVec2 V);
 
 	float Magnitude() const;
 	float SqrMagnitude() const;
@@ -33,11 +36,20 @@ struct FVector2
 	static FVector2 ClampValues(const FVector2& V, float minEntry, float maxEntry);
 	static FVector2 ToUVCords(const FVector2& V);
 
+	static float GetMax(const FVector2& V);
+	static float GetMin(const FVector2& V);
+	static FVector2 Abs(const FVector2& V);
+	static FVector2 Reciprocal(const FVector2& V);
+	static FVector2 GetSignVector(const FVector2& V);
+
+	static std::string ToString(const FVector2& V, const int numDigits);
+
 	// Add lots of others here
 
 	static bool IsEqual(FVector2 a, FVector2 b);
 
 	operator glm::vec2() const { return glm::vec2(this->x, this->y); }
+	operator ImVec2() const { return ImVec2(this->x, this->y); }
 
 	bool operator==(const FVector2 Other) const;
 

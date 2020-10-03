@@ -17,6 +17,14 @@ FVector4::FVector4(float w, float x, float y, float z)
 	this->z = z;
 }
 
+FVector4::FVector4(ImVec4 V)
+{
+	this->w = V.w;
+	this->x = V.x;
+	this->y = V.y;
+	this->z = V.z;
+}
+
 float FVector4::Magnitude()
 {
 	return LMath::Sqrt(this->x * this->x + this->y * this->y + this->z * this->z + this->w * this->w);

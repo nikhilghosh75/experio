@@ -1,4 +1,5 @@
 #include "FVector2.h"
+#include "FVector3.h"
 #include "LMath.h"
 
 FVector2::FVector2()
@@ -11,6 +12,18 @@ FVector2::FVector2(float x, float y)
 {
 	this->x = x;
 	this->y = y;
+}
+
+FVector2::FVector2(FVector3 V)
+{
+	this->x = V.x;
+	this->y = V.y;
+}
+
+FVector2::FVector2(ImVec2 V)
+{
+	this->x = V.x;
+	this->y = V.y;
 }
 
 float FVector2::Magnitude() const

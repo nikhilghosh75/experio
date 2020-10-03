@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/glm.hpp"
-#include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/mat4x4.hpp"
+#include "glm/glm.hpp"
+#include "glm/mat4x4.hpp"
 
 struct FVector3
 {
