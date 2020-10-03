@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Runtime/Math/FRect.h"
 
 enum class EEditorModuleCategory : uint8_t
 {
@@ -11,11 +12,15 @@ enum class EEditorModuleCategory : uint8_t
 
 class EditorModule
 {
+protected:
+	FRect GetWindowRect(); // Only call this between ImGui::Begin and ImGui::End
 public:
 	std::string name;
 	EEditorModuleCategory category;
 	
 	virtual void Display() {};
+
+	virtual void HandleInput() {};
 
 	// Add EditorInput
 };
