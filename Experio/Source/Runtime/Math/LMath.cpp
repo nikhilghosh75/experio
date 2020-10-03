@@ -3,18 +3,6 @@
 #include "math.h"
 #include "LMath.h"
 
-/*
-int main()
-{
-	cout << LMath::Abs(-1.4f) << endl;
-	cout << LMath::Sin(1.2f) << endl;
-	cout << LMath::Cos(1.3f) << endl;
-	cout << LMath::Pow(1.5f, 3) << endl;
-	cout << LMath::Sqrt(5.5f) << endl;
-	cout << LMath::Ln(512.f) << endl;
-}
-*/
-
 const unsigned long long POWOFTWO[] = {
 	1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 
 	131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608, 16777216, 33554432, 67108864, 134217728, 268435456, 536870912, 1073741824, 2147483648, 4294967296, 
@@ -48,6 +36,10 @@ float LMath::Abs(float x)
 
 float LMath::Acos(float x)
 {
+	if (ApproxEquals(x, 1))
+	{
+		return 0;
+	}
 	return HALFPI - Asin(x);
 }
 
@@ -62,11 +54,30 @@ bool LMath::ApproxEquals(float a, float b, float tolerance)
 
 float LMath::Asin(float x)
 {
-	return x + Pow(x, 3)/6.f + Pow(x, 5) * 3.f/ 40.f + Pow(x, 7) * 15.f / 336.f + Pow(x, 9) * 105.f / 3456.f + Pow(x, 11) * 945.f / 42240.f + Pow(x, 13) * 10395.f / 599040.f + Pow(x, 15) * 135135.f / 9676800.f + Pow(x, 17) * 2027025.f / 175472640.f + Pow(x, 19) * 34459425.f / 3530096640.f + Pow(x, 21) * 654729075.f / 78033715200.f;
+	return asin(x);
+	/*
+	float result = x;
+	float topFactorial = 1.f;
+	float bottomFactorial = 1.f;
+	float power = 1.f;
+	float xterm = x;
+
+	for (int i = 1; i < 18; i++)
+	{
+		topFactorial *= (2 * i) * (2 * i + 1);
+		bottomFactorial *= i;
+		power *= 4;
+		xterm *= x * x;
+		result += (xterm * topFactorial) / (power * bottomFactorial * bottomFactorial * (2 * i + 1));
+	}
+
+	return result;
+	*/
 }
 
 float LMath::Atan(float x)
 {
+/*
 	float result = 0;
 	float power = x;
 	short sign = 1;
@@ -77,6 +88,8 @@ float LMath::Atan(float x)
 		sign *= -1;
 	}
 	return result;
+*/
+	return atan(x);
 }
 
 float LMath::Atan2(float x, float y)
@@ -110,6 +123,16 @@ bool LMath::Between(float min, float max, float f)
 		return true;
 	}
 	return false;
+}
+
+int LMath::BinomialCoefficent(int n, int k)
+{
+	return Factorial(n) / (Factorial(k) * Factorial(n-k));
+}
+
+int LMath::Ceil(float f)
+{
+	return std::ceilf(f);
 }
 
 float LMath::Clamp(float f, float min, float max)
@@ -146,7 +169,18 @@ float LMath::CopySign(float x, float y)
 
 float LMath::Cos(float angle)
 {
-	return 1 - Pow(angle, 2) / 2.f + Pow(angle, 4) / 24.f - Pow(angle, 6) / 720.f + Pow(angle, 8) / 40320.f - Pow(angle, 10) / 3628800.f + Pow(angle, 12) / 479001600.f - Pow(angle, 14) * 87178291200.f;
+	return cos(angle);
+	//return 1 - Pow(angle, 2) / 2.f + Pow(angle, 4) / 24.f - Pow(angle, 6) / 720.f + Pow(angle, 8) / 40320.f - Pow(angle, 10) / 3628800.f + Pow(angle, 12) / 479001600.f - Pow(angle, 14) * 87178291200.f;
+}
+
+float LMath::CosH(float angle)
+{
+	return (Pow(E, 2 * angle) + 1) / (2 * Pow(E, angle));
+}
+
+float LMath::Csc(float angle)
+{
+	return 1/Sin(angle);
 }
 
 float LMath::DegreesToRadians(float Degrees)
@@ -154,7 +188,7 @@ float LMath::DegreesToRadians(float Degrees)
 	return Degrees * PI / 180.f;
 }
 
-long long LMath::FactorialInt(unsigned short n)
+long long LMath::Factorial(unsigned short n)
 {
 	int result = 1;
 	for (int i = 2; i < n; i++)
@@ -171,6 +205,31 @@ long long LMath::Fib(int n)
 		return 0;
 	}
 	return FIBONACCI[n];
+}
+
+int LMath::Floor(float f)
+{
+	return std::floorf(f);
+}
+
+float LMath::FMod(float x, float y)
+{
+	return std::fmodf(x, y);
+}
+
+// Euclidean Algorithm
+int LMath::GCD(int a, int b)
+{
+	if (b == 0)
+	{
+		return a;
+	}
+	return GCD(b, a % b);
+}
+
+int LMath::LCM(int a, int b)
+{
+	return a * b / GCD(a, b);
 }
 
 float LMath::Lerp(float a, float b, float t)
@@ -208,6 +267,11 @@ float LMath::Min(float a, float b)
 		return a;
 	}
 	return b;
+}
+
+float LMath::Pow(float base, float exponent)
+{
+	return pow(base, exponent);
 }
 
 float LMath::Pow(float base, int exponent)
@@ -267,9 +331,25 @@ float LMath::RadiansToDegrees(float radians)
 	return radians * 180.f / PI;
 }
 
+int LMath::Round(float f)
+{
+	return std::roundf(f);
+}
+
+float LMath::Sec(float angle)
+{
+	return 1 / Cos(angle);
+}
+
 float LMath::Sin(float angle)
 {
-	return angle - Pow(angle, 3) / 6.f + Pow(angle, 5) / 120.f - Pow(angle, 7) / 5040.f + Pow(angle, 9) / 362880.f - Pow(angle, 11) / 39916800.f;
+	return sin(angle);
+	//return angle - Pow(angle, 3) / 6.f + Pow(angle, 5) / 120.f - Pow(angle, 7) / 5040.f + Pow(angle, 9) / 362880.f - Pow(angle, 11) / 39916800.f;
+}
+
+float LMath::SinH(float angle)
+{
+	return (Pow(E, 2 * angle) - 1)/(2 * Pow(E, angle));
 }
 
 float LMath::Sqrt(float x)
@@ -284,4 +364,9 @@ float LMath::Tan(float angle)
 		return std::numeric_limits<float>().infinity();
 	}
 	return LMath::Sin(angle)/LMath::Cos(angle);
+}
+
+float LMath::TanH(float angle)
+{
+	return (Pow(E, 2 * angle) - 1) / (Pow(E, 2 * angle) + 1);
 }

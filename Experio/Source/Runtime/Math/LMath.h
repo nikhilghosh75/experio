@@ -2,7 +2,14 @@
 
 const static float PI = 3.1415926536f;
 const static float HALFPI = 1.570796327;
+const static float TWOPI = 6.283185307;
+const static float ROOTPI = 1.77245385;
+const static float QUARTERPI = 0.785398163;
+const static float ONEOVERPI = 0.318309886;
+const static float E = 2.718281828;
+const static float GOLDENRATIO = 1.6180339887;
 
+// All Trig functions are in radians
 class LMath
 {
 public:
@@ -19,6 +26,8 @@ public:
 	static float Atan2(float x, float y);
 
 	static bool Between(float min, float max, float f);
+
+	static int BinomialCoefficent(int n, int k);
 	
 	static int Ceil(float f);
 
@@ -36,19 +45,19 @@ public:
 
 	static float Csc(float angle);
 
-	static float CscH(float angle);
-
 	static float DegreesToRadians(float degrees);
 
-	static float Factorial(float n);
-
-	static long long FactorialInt(unsigned short n);
+	static long long Factorial(unsigned short n);
 
 	static long long Fib(int n);
 
 	static int Floor(float f);
 
-	static float FMod(float f);
+	static float FMod(float x, float y);
+
+	static int GCD(int a, int b);
+
+	static int LCM(int a, int b);
 
 	static float Lerp(float a, float b, float t);
 
@@ -59,6 +68,8 @@ public:
 	static float Max(float a, float b);
 
 	static float Min(float a, float b);
+
+	static float Pow(float base, float exponent);
 
 	static float Pow(float base, int exponent);
 
