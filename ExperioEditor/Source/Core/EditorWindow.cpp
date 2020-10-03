@@ -130,6 +130,8 @@ void EditorWindow::EndFrame()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	wglMakeCurrent(deviceContext, glRenderContext);
 	SwapBuffers(deviceContext);
+
+	Input::OnFrameEnd();
 }
 
 void EditorWindow::CloseWindow()
