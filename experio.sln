@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo Project", "Demo Projec
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demo Project_Exe", "Demo Project\Generated\Demo Project_Exe\Demo Project_Exe.vcxproj", "{287DD025-CFA6-47C0-8322-3306685DE567}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demo Project_Editor", "Demo Project_Editor\Demo Project_Editor.vcxproj", "{7E8CD77E-1D44-4078-9825-98F666653B12}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demo Project_Editor", "Demo Project\Editor\Demo Project_Editor.vcxproj", "{7E8CD77E-1D44-4078-9825-98F666653B12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -52,7 +52,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)ExperioEditor\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui;$(SolutionDir)Demo Project\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)ExperioEditor\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui;$(SolutionDir)Demo Project\Source;$(SolutionDir)Dependencies\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PreprocessorDefinitions>EXPERIO_EDITOR;PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -80,6 +80,15 @@
     <ClCompile Include="ProjectBuild.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ExperioEditor\ExperioEditor.vcxproj">
+      <Project>{fbaf0f06-0bbd-4565-9378-6c95cb3c7296}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Experio\Experio.vcxproj">
+      <Project>{06597ef7-d716-4da4-8727-0daf4e8a67c1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Demo Project.vcxproj">
+      <Project>{43176a5c-b986-4032-bcb7-85f1d3ace189}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Demo Project\Demo Project.vcxproj">
       <Project>{43176a5c-b986-4032-bcb7-85f1d3ace189}</Project>
     </ProjectReference>
