@@ -1,6 +1,5 @@
 #include "EditorApplication.h"
 #include <Windows.h>
-#include <stdio.h>
 #include "GL/glew.h"
 #include <gl/GL.h>
 #include "GL/wglext.h"
@@ -11,14 +10,10 @@
 #include "imgui_internal.h"
 
 #include "EditorWindow.h"
-#include "Runtime/Core/Window.h"
 #include "../Framework/ValueLoader.h"
 #include "../Test Modules/TestModule.h"
 #include "Runtime/Framework/SceneLoader.h"
-#include "Runtime/Framework/Project.h"
 #include "../Framework/EditorProject.h"
-#include "Runtime/Rendering/Renderer.h"
-#include "Runtime/Camera/AdditionalCameras.h"
 #include "../SceneView/SceneView.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
@@ -39,6 +34,7 @@ EditorApplication::~EditorApplication()
 void EditorApplication::Run()
 {
 	EditorWindow::InitializeWindow();
+	Project::inEditor = true;
 
 	modules.push_back(new TestModule());
 	modules.push_back(new SceneView());
@@ -47,10 +43,12 @@ void EditorApplication::Run()
 	SceneLoader::LoadSceneFromFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Scenes/TestScene.pbscene", 0);
 	Scene::Activate(0);
 
+	Project::StartGame();
+
 	while (EditorWindow::isActive)
 	{
 		EditorWindow::BeginFrame();
-
+		Project::BeginFrame();
 		RenderModules();
 
 		EditorWindow::EndFrame();
@@ -70,7 +68,13 @@ void EditorApplication::RenderModules()
 {
 	for (int i = 0; i < modules.size(); i++)
 	{
-		ImGui::Begin(("Module " + std::to_string(i)).c_str());
+		ImGui::Begin(modules[i]->name.c_str());
+
+		if (ImGui::IsWindowFocused())
+		{
+			modules[i]->HandleInput();
+		}
+
 		modules[i]->Display();
 		ImGui::End();
 	}

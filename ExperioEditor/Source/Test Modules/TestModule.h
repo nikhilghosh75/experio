@@ -5,6 +5,12 @@
 
 class TestModule : public EditorModule
 {
+public:
+	TestModule()
+	{
+		this->name = "Test";
+	}
+
 	virtual void Display() override
 	{
 		ImGui::Text("Hello World");
