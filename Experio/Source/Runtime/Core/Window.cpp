@@ -333,6 +333,7 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEWHEEL:
 	{
 		std::thread worker(Window::ReceiveInput, EInputType::Mouse, PB_MOUSEWHEEL, GET_WHEEL_DELTA_WPARAM(wParam), 0);
+		worker.detach();
 	}
 	default:
 		return DefWindowProc(window, message, wParam, lParam);
