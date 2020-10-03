@@ -14,6 +14,7 @@ class GameTime
 
 	static void StartGame();
 
+	static void OnBeginFrame();
 	static void OnEndFrame();
 
 public:

@@ -1,5 +1,6 @@
 #include "GameTime.h"
 #include "../Input/Input.h"
+#include "../Framework/Project.h"
 
 float GameTime::deltaTime = 0.f;
 float GameTime::fixedDeltaTime = 0.02f;
@@ -12,6 +13,13 @@ void GameTime::StartGame()
 	timeSinceStart = 0.f;
 	frameCount = 0;
 	lastTime = FDateTime::NowHighRes();
+
+	Input::Init();
+}
+
+void GameTime::OnBeginFrame()
+{
+	if(Project::inEditor) Input::OnImguiUpdate();
 }
 
 void GameTime::OnEndFrame()

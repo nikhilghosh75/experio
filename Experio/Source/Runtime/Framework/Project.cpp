@@ -17,10 +17,16 @@ extern unsigned int DefaultClassStringToInt(std::string name);
 template <class T>
 extern std::string DefaultClassTypeToString();
 
+bool Project::inEditor = false;
 std::string Project::projectName = projectName;
 
 ComponentManager* Project::componentManager;
 MaterialManager* Project::materialManager;
+
+void Project::BeginFrame()
+{
+	GameTime::OnBeginFrame();
+}
 
 void Project::EndFrame()
 {

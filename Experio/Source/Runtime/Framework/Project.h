@@ -6,12 +6,15 @@
 class Project
 {
 public:
+	static bool inEditor;
+
 	static std::string projectName;
 
 	static ComponentManager* componentManager;
 
 	static MaterialManager* materialManager;
 
+	static void BeginFrame();
 	static void EndFrame();
 
 	static void StartGame();
