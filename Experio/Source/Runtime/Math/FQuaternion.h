@@ -59,6 +59,8 @@ struct FQuaternion
 
 	static FQuaternion LookAt(const FVector3 eye, const FVector3 center, const FVector3 up);
 
+	FVector3 Rotate(const FVector3 V);
+
 	static FVector3 GetRotationAxis(const FQuaternion& Q);
 	static FVector3 GetForwardVector(const FQuaternion& Q);
 	static FVector3 GetBackwardVector(const FQuaternion& Q);

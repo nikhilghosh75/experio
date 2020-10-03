@@ -336,6 +336,14 @@ FQuaternion FQuaternion::LookAt(const FVector3 eye, const FVector3 center, const
 	return FQuaternion(result);
 }
 
+FVector3 FQuaternion::Rotate(const FVector3 V)
+{
+	// Method comes from https://blog.molecular-matters.com/2013/05/24/a-faster-quaternion-vector-multiplication/
+	// Change if needed
+	FVector3 t = 2.f * FVector3::Cross(FVector3(x, y, z), V);
+	return V + w * t + FVector3::Cross(FVector3(x, y, z), t);
+}
+
 FQuaternion operator*(float f, const FQuaternion & Q)
 {
 	return FQuaternion(Q.x * f, Q.y * f, Q.z * f, Q.w * f);
