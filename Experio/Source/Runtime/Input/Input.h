@@ -1,5 +1,6 @@
 #pragma once
 #include "../Math/FVector2.h"
+#include "../Math/FRect.h"
 
 #define PB_NUM_KEY_CODES 116
 
@@ -19,7 +20,7 @@ enum class EKeyCode
 	Return,
 	Pause,
 	Escape,
-	Space,
+	Space, // 8
 	KeypadZero,
 	KeypadOne,
 	KeypadTwo,
@@ -27,7 +28,7 @@ enum class EKeyCode
 	KeypadFour,
 	KeypadFive,
 	KeypadSix,
-	KeypadSeven,
+	KeypadSeven, // 16
 	KeypadEight,
 	KeypadNine,
 	Period,
@@ -35,7 +36,7 @@ enum class EKeyCode
 	Multiply,
 	Minus,
 	Plus,
-	KeypadEnter,
+	KeypadEnter, // 24
 	Up,
 	Down,
 	Left,
@@ -43,7 +44,7 @@ enum class EKeyCode
 	Insert,
 	Home,
 	End,
-	PageUp,
+	PageUp, // 32
 	PageDown,
 	F1,
 	F2,
@@ -51,7 +52,7 @@ enum class EKeyCode
 	F4,
 	F5,
 	F6,
-	F7,
+	F7, // 40
 	F8,
 	F9,
 	F10,
@@ -59,7 +60,7 @@ enum class EKeyCode
 	F12,
 	F13,
 	F14,
-	F15,
+	F15, // 48
 	F16,
 	F17,
 	F18,
@@ -67,7 +68,7 @@ enum class EKeyCode
 	F20,
 	AlphaZero,
 	AlphaOne,
-	AlphaTwo,
+	AlphaTwo, // 56
 	AlphaThree,
 	AlphaFour,
 	AlphaFive,
@@ -75,7 +76,7 @@ enum class EKeyCode
 	AlphaSeven,
 	AlphaEight,
 	AlphaNine,
-	LeftBracket,
+	LeftBracket, // 64
 	RightBracket,
 	Backslash,
 	Underscore,
@@ -83,7 +84,7 @@ enum class EKeyCode
 	Comma,
 	Other,
 	Slash,
-	A,
+	A, // 72
 	B,
 	C,
 	D,
@@ -91,7 +92,7 @@ enum class EKeyCode
 	F,
 	G,
 	H,
-	I,
+	I, // 80
 	J,
 	K,
 	L,
@@ -99,7 +100,7 @@ enum class EKeyCode
 	N,
 	O,
 	P,
-	Q,
+	Q, // 88
 	R,
 	S,
 	T,
@@ -107,7 +108,7 @@ enum class EKeyCode
 	V,
 	W,
 	X,
-	Y,
+	Y, // 96
 	Z,
 	Tilde,
 	Numlock,
@@ -115,7 +116,7 @@ enum class EKeyCode
 	Scrolllock,
 	LeftShift,
 	RightShift,
-	LeftControl,
+	LeftControl, // 104
 	RightControl,
 	LeftAlt,
 	RightAlt,
@@ -123,7 +124,7 @@ enum class EKeyCode
 	RightCommand,
 	LeftPlatform,
 	RightPlatform,
-	AltGr,
+	AltGr, // 112
 	Print,
 	Select,
 	PrintScreen,
@@ -153,8 +154,13 @@ enum class EMouseStatus
 	UpThisFrame
 };
 
+class GameTime;
+class Window;
+
 class Input
 {
+	friend class GameTime;
+	friend class Window;
 private:
 	static EKeyStatus keyStatuses[PB_NUM_KEY_CODES];
 
@@ -163,9 +169,12 @@ private:
 	static EMouseStatus rightMouseStatus;
 
 	static FVector2 mousePosition;
+	static FVector2 lastMousePosition;
+
 	static float mouseScrollDelta;
-public:
-	Input();
+	static float mouseScrollHDelta;
+
+	static void Init();
 
 	static EKeyCode SystemToKeycode(unsigned int keycode);
 
@@ -177,6 +186,14 @@ public:
 
 	static void OnMouseMove(const FVector2& newPosition);
 	static void OnMouseScroll(float newMouseScrollDelta);
+	static void OnMouseHScroll(float newMouseScrollDelta);
+
+	static void OnImguiUpdate();
+
+	// Use wisely
+	static void Reset();
+public:
+	static void SetGameRect(FRect rect);
 
 	static bool GetKey(EKeyCode keycode);
 	static bool GetKeyDown(EKeyCode keycode);
@@ -187,7 +204,11 @@ public:
 	static bool GetMouseButtonUp(EMouseButton button = EMouseButton::Left);
 
 	static FVector2 GetMousePosition() { return mousePosition; }
+	static FVector2 GetMouseDelta() { return mousePosition - lastMousePosition; }
 	static float GetMouseScrollDelta() { return mouseScrollDelta; }
+	static float GetMouseHScrollDelta() { return mouseScrollHDelta; }
 
 	static void OnFrameEnd();
+
+	static void DebugInput();
 };

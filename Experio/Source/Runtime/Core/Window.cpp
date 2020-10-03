@@ -169,6 +169,10 @@ void Window::ReceiveInput(EInputType inputType, unsigned int param1, unsigned in
 			break;
 		case PB_MOUSEWHEEL:
 			Input::OnMouseScroll((float)param2);
+			break;
+		case PB_MOUSEHWHEEL:
+			Input::OnMouseHScroll((float)param2);
+			break;
 		}
 		break;
 	}
@@ -333,6 +337,11 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEWHEEL:
 	{
 		std::thread worker(Window::ReceiveInput, EInputType::Mouse, PB_MOUSEWHEEL, GET_WHEEL_DELTA_WPARAM(wParam), 0);
+		worker.detach();
+	}
+	case WM_MOUSEHWHEEL:
+	{
+		std::thread worker(Window::ReceiveInput, EInputType::Mouse, PB_MOUSEHWHEEL, GET_WHEEL_DELTA_WPARAM(wParam), 0);
 		worker.detach();
 	}
 	default:
