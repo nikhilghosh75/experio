@@ -14,6 +14,7 @@ class LMath
 {
 public:
 	static float Abs(float x);
+	static int Abs(int x);
 
 	static float Acos(float x);
 
@@ -66,8 +67,10 @@ public:
 	static float Log(float x, float b = 10);
 
 	static float Max(float a, float b);
+	static int Max(int a, int b);
 
 	static float Min(float a, float b);
+	static int Min(int a, int b);
 
 	static float Pow(float base, float exponent);
 

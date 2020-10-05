@@ -34,6 +34,15 @@ float LMath::Abs(float x)
 	return x;
 }
 
+int LMath::Abs(int x)
+{
+	if (x < 0)
+	{
+		return x * -1;
+	}
+	return x;
+}
+
 float LMath::Acos(float x)
 {
 	if (ApproxEquals(x, 1))
@@ -260,7 +269,25 @@ float LMath::Max(float a, float b)
 	return b;
 }
 
+int LMath::Max(int a, int b)
+{
+	if (a > b)
+	{
+		return a;
+	}
+	return b;
+}
+
 float LMath::Min(float a, float b)
+{
+	if (a < b)
+	{
+		return a;
+	}
+	return b;
+}
+
+int LMath::Min(int a, int b)
 {
 	if (a < b)
 	{
