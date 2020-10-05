@@ -34,6 +34,8 @@ public:
 	template<typename Number>
 	static std::string NumberWithCommas(Number n);
 
+	static std::string ReplaceAll(std::string s, char from, char to);
+
 	static std::vector<std::string> SeperateStringByChar(std::string str, char c, bool removeZeroLength = true);
 
 	static float StringToFloat(std::string str);

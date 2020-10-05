@@ -1,6 +1,18 @@
 #include "LString.h"
 #include <sstream>
 
+std::string LString::ReplaceAll(std::string s, char from, char to)
+{
+	std::string returnString = s;
+	size_t foundPosition = returnString.find_first_of(from);
+	while (foundPosition != std::string::npos)
+	{
+		returnString = returnString.replace(foundPosition, 1, 1, to);
+		foundPosition = returnString.find_first_of(from);
+	}
+	return returnString;
+}
+
 std::vector<std::string> LString::SeperateStringByChar(std::string str, char c, bool removeZeroLength)
 {
 	std::vector<std::string> seperatedStrings;
