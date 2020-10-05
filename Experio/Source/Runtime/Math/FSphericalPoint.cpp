@@ -22,6 +22,12 @@ FSphericalPoint::FSphericalPoint(FVector3 point)
 	this->azimuth = LMath::Atan(point.y / point.x);
 }
 
+FSphericalPoint FSphericalPoint::FromCenter(FVector3 point, FVector3 center)
+{
+	FVector3 difference = point - center;
+	return FSphericalPoint(difference);
+}
+
 void FSphericalPoint::Fix()
 {
 	while (this->polar > PI || this->polar < -PI)
@@ -56,4 +62,48 @@ FVector3 FSphericalPoint::ToCartesianPoint() const
 		this->radius * LMath::Sin(this->polar) * LMath::Sin(this->azimuth),
 		this->radius * LMath::Cos(this->polar)
 	);
+}
+
+FVector3 FSphericalPoint::ToCartesianPoint(const FVector3 center) const
+{
+	return ToCartesianPoint() + center;
+}
+
+FSphericalPoint FSphericalPoint::operator+(const FSphericalPoint sp) const
+{
+	return FSphericalPoint(this->radius + sp.radius, this->polar + sp.polar, this->azimuth + sp.azimuth);
+}
+
+FSphericalPoint FSphericalPoint::operator+=(const FSphericalPoint sp)
+{
+	this->radius += sp.radius;
+	this->polar += sp.polar;
+	this->azimuth += sp.azimuth;
+	return *this + sp;
+}
+
+FSphericalPoint FSphericalPoint::operator*(float f) const
+{
+	return FSphericalPoint(this->radius * f, this->polar, this->azimuth);
+}
+
+FSphericalPoint FSphericalPoint::operator*=(float f)
+{
+	this->radius *= f;
+	return *this * f;
+}
+
+float FSphericalPoint::Distance(const FSphericalPoint sp1, const FSphericalPoint sp2)
+{
+	return LMath::Sqrt(sp1.radius * sp1.radius + sp2.radius * sp2.radius -
+		2 * sp1.radius * sp2.radius * 
+		(LMath::Sin(sp1.polar) * LMath::Sin(sp2.polar) * LMath::Cos(sp1.azimuth - sp2.azimuth) + LMath::Cos(sp1.polar) * LMath::Cos(sp2.polar))
+	);
+}
+
+float FSphericalPoint::SqrDistance(const FSphericalPoint sp1, const FSphericalPoint sp2)
+{
+	return sp1.radius * sp1.radius + sp2.radius * sp2.radius -
+		2 * sp1.radius * sp2.radius *
+		(LMath::Sin(sp1.polar) * LMath::Sin(sp2.polar) * LMath::Cos(sp1.azimuth - sp2.azimuth) + LMath::Cos(sp1.polar) * LMath::Cos(sp2.polar));
 }
