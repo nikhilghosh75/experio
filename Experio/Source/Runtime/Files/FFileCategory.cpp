@@ -7,6 +7,18 @@ FFileCategory::FFileCategory()
 	this->isMeta = false;
 }
 
+FFileCategory::FFileCategory(EAssetType type)
+{
+	this->type = type;
+	this->isMeta = false;
+}
+
+FFileCategory::FFileCategory(EAssetType type, bool isMeta)
+{
+	this->type = type;
+	this->isMeta = isMeta;
+}
+
 FFileCategory::FFileCategory(std::string s)
 {
 	this->type = LFileOperations::GetFileType(s);

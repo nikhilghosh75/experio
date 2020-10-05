@@ -7,7 +7,6 @@ enum class EAssetType : uint8_t
 	Animation,
 	CPP,
 	Data,
-	Directory,
 	Font,
 	Image,
 	H,
@@ -20,9 +19,15 @@ enum class EAssetType : uint8_t
 	Shader,
 	Scene,
 	Text,
-	Unknown,
-	Video
+	Video,
+	Directory,
+	Unknown
 };
+
+// Directory should always be second to last
+// Unknown should always be last
+
+struct Filemask;
 
 struct FFileCategory
 {
@@ -30,6 +35,8 @@ struct FFileCategory
 	bool isMeta;
 
 	FFileCategory();
+	FFileCategory(EAssetType type);
+	FFileCategory(EAssetType type, bool isMeta);
 	FFileCategory(std::string s);
 
 	bool IsCode() const;
