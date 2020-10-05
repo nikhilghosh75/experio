@@ -281,6 +281,61 @@ void FDateTime::GetDate(const FDateTime & dateTime, int & day, int & month, int 
 	}
 }
 
+int FDateTime::GetMillisecond()
+{
+	return GetMillisecond(*this);
+}
+
+int FDateTime::GetSecond()
+{
+	return GetSecond(*this);
+}
+
+int FDateTime::GetMinute()
+{
+	return GetMinute(*this);
+}
+
+int FDateTime::GetHour()
+{
+	return GetHour(*this);
+}
+
+int FDateTime::GetHourAM()
+{
+	return GetHourAM(*this);
+}
+
+int FDateTime::GetDay()
+{
+	return GetDay(*this);
+}
+
+EDayOfWeek FDateTime::GetDayOfWeek()
+{
+	return GetDayOfWeek(*this);
+}
+
+int FDateTime::GetMonth()
+{
+	return GetMonth(*this);
+}
+
+EMonthOfYear FDateTime::GetMonthOfYear()
+{
+	return GetMonthOfYear(*this);
+}
+
+int FDateTime::GetYear()
+{
+	return GetYear(*this);
+}
+
+void FDateTime::GetDate(int & day, int & month, int & year)
+{
+	return GetDate(*this, day, month, year);
+}
+
 FDateTime FDateTime::Now()
 {
 #ifdef PLATFORM_WINDOWS
@@ -386,6 +441,17 @@ std::string FDateTime::ToString(const FDateTime & dateTime, const std::string fo
 					s[i + 1] = 'C';
 				}
 				break;
+			case 'h':
+				if (FDateTime::GetHour(dateTime) < 10)
+				{
+					s[i] = '0';
+					s[i + 1] = LString::DigitToChar(GetHour(dateTime));
+				}
+				else
+				{
+					s[i] = LString::DigitToChar(GetHour(dateTime) / 10);
+					s[i + 1] = LString::DigitToChar(GetHour(dateTime) % 10);
+				}
 			}
 			i++;
 		}

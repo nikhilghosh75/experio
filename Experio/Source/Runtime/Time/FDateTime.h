@@ -70,6 +70,18 @@ public:
 	static int GetYear(const FDateTime& dateTime);
 	static void GetDate(const FDateTime& dateTime, int& day, int& month, int& year);
 
+	int GetMillisecond();
+	int GetSecond();
+	int GetMinute();
+	int GetHour();
+	int GetHourAM();
+	int GetDay();
+	EDayOfWeek GetDayOfWeek();
+	int GetMonth();
+	EMonthOfYear GetMonthOfYear();
+	int GetYear();
+	void GetDate(int& day, int& month, int& year);
+
 	static FDateTime Now();
 	static FDateTime NowHighRes();
 
