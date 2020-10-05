@@ -15,6 +15,7 @@
 #include "Runtime/Framework/SceneLoader.h"
 #include "../Framework/EditorProject.h"
 #include "../SceneView/SceneView.h"
+#include "../FileView/FileView.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
 DllLoader EditorApplication::loader;
@@ -38,6 +39,7 @@ void EditorApplication::Run()
 
 	modules.push_back(new TestModule());
 	modules.push_back(new SceneView());
+	modules.push_back(new FileView());
 
 	EditorProject::TempSetup();
 	SceneLoader::LoadSceneFromFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Scenes/TestScene.pbscene", 0);

@@ -86,7 +86,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\EditorApplication.cpp" />
+    <ClCompile Include="Source\Core\EditorModule.cpp" />
     <ClCompile Include="Source\Core\EditorWindow.cpp" />
+    <ClCompile Include="Source\FileView\FileView.cpp" />
     <ClCompile Include="Source\Framework\EditorProject.cpp" />
     <ClCompile Include="Source\Framework\ValueLoader.cpp" />
     <ClCompile Include="Source\Framework\Values.cpp" />
@@ -96,6 +98,7 @@
     <ClInclude Include="Source\Core\EditorApplication.h" />
     <ClInclude Include="Source\Core\EditorModule.h" />
     <ClInclude Include="Source\Core\EditorWindow.h" />
+    <ClInclude Include="Source\FileView\FileView.h" />
     <ClInclude Include="Source\Framework\EditorProject.h" />
     <ClInclude Include="Source\Framework\ValueLoader.h" />
     <ClInclude Include="Source\Framework\Values.h" />

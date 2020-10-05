@@ -33,6 +33,12 @@
     <ClCompile Include="Source\SceneView\SceneView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\EditorModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FileView\FileView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\EditorWindow.h">
@@ -57,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\SceneView\SceneView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FileView\FileView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
