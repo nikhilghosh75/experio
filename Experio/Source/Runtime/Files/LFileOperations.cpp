@@ -3,6 +3,7 @@
 #include "../Containers/LString.h"
 #include <sstream>
 #include <iomanip>
+namespace fs = std::filesystem;
 
 float LFileOperations::BytesToMultiple(uint64_t bytes, EDataUnit unit)
 {
@@ -70,6 +71,75 @@ std::string LFileOperations::BytesToString(uint64_t bytes, int sigFigs, bool tru
 	return std::to_string(bytes) + " B";
 }
 
+TTypedTree<fs::directory_entry>* LFileOperations::CreateFileTree(std::string directoryRoot, EFileTreeOptions options)
+{
+	TTypedTree<fs::directory_entry>* tree = new TTypedTree<fs::directory_entry>();
+	tree->CreateRoot(fs::directory_entry(directoryRoot));
+
+	fs::recursive_directory_iterator fileIterator(directoryRoot);
+	TTypedTreeNode<fs::directory_entry>* current = tree->GetRoot();
+	int currentDepth = -1;
+	for (auto& p : fileIterator)
+	{
+		if (!p.is_directory() && options == EFileTreeOptions::DisplayDirectories)
+		{
+			continue;
+		}
+		if (currentDepth < fileIterator.depth())
+		{
+			current->AddChild(p);
+			current = current->children[current->children.size() - 1];
+		}
+		else
+		{
+			for (int i = 0; i < currentDepth - fileIterator.depth() + 1; i++)
+			{
+				current = current->parentNode;
+			}
+			current->AddChild(p);
+			current = current->children[current->children.size() - 1];
+		}
+		currentDepth = fileIterator.depth();
+	}
+
+	return tree;
+}
+
+TTypedTree<std::string>* LFileOperations::CreateFileNamesTree(std::string directoryRoot, EFileTreeOptions options)
+{
+	TTypedTree<std::string>* tree = new TTypedTree<std::string>();
+	fs::directory_entry root(directoryRoot);
+	tree->CreateRoot(root.path().stem().string());
+
+	fs::recursive_directory_iterator fileIterator(directoryRoot);
+	TTypedTreeNode<std::string>* current = tree->GetRoot();
+	int currentDepth = -1;
+	for (auto& p : fileIterator)
+	{
+		if (!p.is_directory() && options == EFileTreeOptions::DisplayDirectories)
+		{
+			continue;
+		}
+		if (currentDepth < fileIterator.depth())
+		{
+			current->AddChild(p.path().stem().string());
+			current = current->children[current->children.size() - 1];
+		}
+		else
+		{
+			for (int i = 0; i < currentDepth - fileIterator.depth() + 1; i++)
+			{
+				current = current->parentNode;
+			}
+			current->AddChild(p.path().stem().string());
+			current = current->children[current->children.size() - 1];
+		}
+		currentDepth = fileIterator.depth();
+	}
+
+	return tree;
+}
+
 bool LFileOperations::DoesFileHaveExtension(std::string filePath, const char * extension)
 {
 	int indexOfDot = 0;
@@ -99,6 +169,11 @@ std::string LFileOperations::GetExtension(std::string filePath)
 		}
 	}
 
+	if (indexOfDot == 0)
+	{
+		return "";
+	}
+
 	return filePath.substr(indexOfDot + 1);
 }
 
@@ -119,6 +194,11 @@ std::string LFileOperations::GetFullFilePath(std::string filePath)
 	return "C:/Users/debgh/source/repos/project-bloo/" + filePath;
 }
 
+std::string LFileOperations::GetFileName(std::filesystem::directory_entry entry)
+{
+	return StripFilename(entry.path().string());
+}
+
 EAssetType LFileOperations::GetFileType(std::string filePath)
 {
 	// TO-DO: Add check for directory
@@ -133,6 +213,11 @@ EAssetType LFileOperations::GetFileType(std::string filePath)
 
 EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 {
+	if (ext.size() == 0)
+	{
+		return EAssetType::Directory;
+	}
+
 	PB_COMPARE_EXT("meta", EAssetType::Meta);
 
 	// Anim
@@ -157,6 +242,7 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 
 	// H
 	PB_COMPARE_EXT("h", EAssetType::H);
+	PB_COMPARE_EXT("hpp", EAssetType::H);
 
 	// Image
 	PB_COMPARE_EXT("bmp", EAssetType::Image);
@@ -173,9 +259,13 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	PB_COMPARE_EXT("fbx", EAssetType::Mesh);
 
 	// Non-Engine Code
-	PB_COMPARE_EXT("java", EAssetType::NonEngineCode);
-	PB_COMPARE_EXT("cs", EAssetType::NonEngineCode);
-	PB_COMPARE_EXT("js", EAssetType::NonEngineCode);
+	PB_COMPARE_EXT("java", EAssetType::NonEngineCode); // Java
+	PB_COMPARE_EXT("cs", EAssetType::NonEngineCode); // C#
+	PB_COMPARE_EXT("c", EAssetType::NonEngineCode); // C
+	PB_COMPARE_EXT("js", EAssetType::NonEngineCode); // Javascript
+	PB_COMPARE_EXT("py", EAssetType::NonEngineCode); // Python
+	PB_COMPARE_EXT("rs", EAssetType::NonEngineCode); // Rust
+	PB_COMPARE_EXT("rlib", EAssetType::NonEngineCode); // Rust
 
 	// TO-DO: Particles
 	// Prefab
@@ -189,10 +279,13 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 
 	// Text
 	PB_COMPARE_EXT("txt", EAssetType::Text);
+	PB_COMPARE_EXT("docx", EAssetType::Text);
 
 	// Video
 	PB_COMPARE_EXT("mp4", EAssetType::Video);
 	PB_COMPARE_EXT("webm", EAssetType::Video);
+
+
 
 	return EAssetType::Unknown;
 }
@@ -231,4 +324,30 @@ constexpr uint64_t LFileOperations::MultipleToBytes(float bytes, EDataUnit unit)
 		return (uint64_t)(bytes * 1125899906842624);
 	}
 	return 0;
+}
+
+std::string LFileOperations::StripFilename(std::string filename)
+{
+	int indexOfSlash = 0;
+
+	for (int i = filename.size() - 2; i >= 2; i--)
+	{
+		if (filename[i] == '\\' || filename[i] == '/' || filename[i] == 92)
+		{
+			indexOfSlash = i;
+			break;
+		}
+	}
+
+	return filename.substr(indexOfSlash + 1);
+}
+
+std::string LFileOperations::StripFilename(std::filesystem::directory_entry entry)
+{
+	return entry.path().stem().string();
+}
+
+std::string LFileOperations::StripFilename(std::filesystem::path path)
+{
+	return path.stem().string();
 }
