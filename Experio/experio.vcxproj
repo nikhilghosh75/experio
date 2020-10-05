@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Runtime\Audio\FAudioClip.h" />
     <ClInclude Include="Source\Runtime\Audio\AudioSystem.h" />
+    <ClInclude Include="Source\Runtime\Camera\AdditionalCameras.h" />
     <ClInclude Include="Source\Runtime\Camera\CameraSystem.h" />
     <ClInclude Include="Source\Runtime\Camera\VirtualCamera.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
@@ -25,6 +26,7 @@
     <ClInclude Include="Source\Runtime\Core\Window.h" />
     <ClInclude Include="Source\Runtime\Core\LWindowOperations.h" />
     <ClInclude Include="Source\Runtime\Files\FFileCategory.h" />
+    <ClInclude Include="Source\Runtime\Files\Filemask.h" />
     <ClInclude Include="Source\Runtime\Files\LFileOperations.h" />
     <ClInclude Include="Source\Runtime\Framework\GameObjectIterator.h" />
     <ClInclude Include="Source\Runtime\Framework\GUID.h" />
@@ -55,6 +57,7 @@
     <ClInclude Include="Source\Runtime\Math\FCurve.h" />
     <ClInclude Include="Source\Runtime\Math\FQuaternion.h" />
     <ClInclude Include="Source\Runtime\Math\FRect.h" />
+    <ClInclude Include="Source\Runtime\Math\FSphericalPoint.h" />
     <ClInclude Include="Source\Runtime\Math\FTransform.h" />
     <ClInclude Include="Source\Runtime\Math\FVector2.h" />
     <ClInclude Include="Source\Runtime\Math\FVector4.h" />
@@ -67,9 +70,9 @@
     <ClInclude Include="Source\Runtime\Rendering\FrameBuffer.h">
       <DeploymentContent>true</DeploymentContent>
     </ClInclude>
-    <ClInclude Include="Source\Runtime\Rendering\ImguiWindow.h" />
     <ClInclude Include="Source\Runtime\Rendering\IndexBuffer.h" />
     <ClInclude Include="Source\Runtime\Rendering\LightData.h" />
+    <ClInclude Include="Source\Runtime\Rendering\LImGui.h" />
     <ClInclude Include="Source\Runtime\Rendering\LOpenGL.h" />
     <ClInclude Include="Source\Runtime\Rendering\Materials\BillboardMaterial.h" />
     <ClInclude Include="Source\Runtime\Rendering\Materials\Material.h" />
@@ -105,6 +108,7 @@
     <ClInclude Include="Source\ThirdParty\Nameof\nameof.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Runtime\Camera\AdditionalCameras.cpp" />
     <ClCompile Include="Source\Runtime\Camera\CameraSystem.cpp" />
     <ClCompile Include="Source\Runtime\Camera\VirtualCamera.cpp" />
     <ClCompile Include="Source\Runtime\Containers\LString.cpp" />
@@ -136,6 +140,7 @@
     <ClCompile Include="Source\Runtime\Math\FCurve.cpp" />
     <ClCompile Include="Source\Runtime\Math\FQuaternion.cpp" />
     <ClCompile Include="Source\Runtime\Math\FRect.cpp" />
+    <ClCompile Include="Source\Runtime\Math\FSphericalPoint.cpp" />
     <ClCompile Include="Source\Runtime\Math\FTransform.cpp" />
     <ClCompile Include="Source\Runtime\Math\FVector2.cpp" />
     <ClCompile Include="Source\Runtime\Math\FVector4.cpp" />
@@ -144,8 +149,8 @@
     <ClCompile Include="Source\Runtime\Rendering\Billboard.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\FrameBuffer.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\ImguiBuild.cpp" />
-    <ClCompile Include="Source\Runtime\Rendering\ImguiWindow.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\IndexBuffer.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\LImGui.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\LOpenGL.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Materials\BillboardMaterial.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Materials\MeshMaterial.cpp" />
