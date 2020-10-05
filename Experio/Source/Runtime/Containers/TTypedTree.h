@@ -1,6 +1,7 @@
 #pragma once
 #include "Iterator.h"
 #include <vector>
+#include <functional>
 
 #define TYPED_TREE_START_CAPACITY 4
 #define TYPED_TREE_ADD_CAPACITY 8
@@ -103,11 +104,21 @@ public:
 		DeleteNode(this->root);
 	}
 
+	void CreateRoot(T object)
+	{
+		this->root = new TTypedTreeNode<T>(object, this);
+		this->count = 1;
+	}
+
 	void NodeAdded() { this->count++; }
 	void NodeDeleted() { this->count--; }
 
 	void Empty() 
 	{
+		if (this->root == nullptr)
+		{
+			return;
+		}
 		for (int i = 0; i < this->root->children.size(); i++)
 		{
 			DeleteNode(this->root->children[i]);
@@ -163,6 +174,8 @@ public:
 		for (int i = 0; i < MAX_TYPED_TREE_DEPTH; i++) { this->position[i] = 0; }
 	}
 
+	int GetDepth() const { return this->currentDepth; }
+
 	bool IsAtEnd() const { return this->nodeVisitedCount >= this->container->GetCount(); }
 
 	void Increment()
@@ -204,5 +217,73 @@ public:
 		}
 	}
 };
+
+template<typename A>
+TTypedTreeNode<A>* SearchSubTree(TTypedTreeNode<A>* subtree, std::function<bool(A)> searchFunc)
+{
+	if (searchFunc(subtree->object))
+	{
+		return subtree;
+	}
+	if (subtree->children.size() == 0)
+	{
+		return nullptr;
+	}
+	else
+	{
+		for (int i = 0; i < subtree->children.size(); i++)
+		{
+			TTypedTreeNode<A>* temp = SearchSubTree(subtree->children[i], searchFunc);
+			if (temp != nullptr)
+			{
+				return temp;
+			}
+		}
+	}
+	return nullptr;
+}
+
+template<typename A>
+TTypedTreeNode<A>* SearchTree(TTypedTree<A>* tree, std::function<bool(A)> searchFunc)
+{
+	if (searchFunc(tree->GetRoot()->object))
+	{
+		return tree->GetRoot();
+	}
+	
+	for (int i = 0; i < tree->GetRoot()->children.size(); i++)
+	{
+		TTypedTreeNode<A>* temp = SearchSubTree(tree->GetRoot()->children[i], searchFunc);
+		if (temp != nullptr)
+		{
+			return temp;
+		}
+	}
+	return nullptr;
+}
+
+template<typename A, typename B>
+void MakeSubtreeFromBase(TTypedTreeNode<A>* from, TTypedTreeNode<B>* to, B(*convertFunc)(A))
+{
+	for (int i = 0; i < from->children.size(); i++)
+	{
+		to->AddChild(convertFunc(from->object));
+		MakeSubtreeFromBase(from->children[i], to->children[i], convertFunc);
+	}
+}
+
+template<typename A, typename B>
+void MakeTreeFromBase(TTypedTree<A>* from, TTypedTree<B>* to, B(*convertFunc)(A))
+{
+	to->Empty();
+	to->CreateRoot(convertFunc(from->GetRootObject()));
+	std::vector<TTypedTreeNode<A>*> fromChildren = from->GetRoot()->children;
+
+	for (int i = 0; i < fromChildren.size(); i++)
+	{
+		to->GetRoot()->AddChild(convertFunc(fromChildren[i]->object));
+		MakeSubtreeFromBase(fromChildren[i], to->GetRoot()->children[i], convertFunc);
+	}
+}
 
 void TTypedTreeTest();

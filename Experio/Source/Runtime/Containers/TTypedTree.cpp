@@ -11,10 +11,12 @@ void TTypedTreeTest()
 	typedTree.AddChildToRoot("Amphibian");
 	
 	TTypedTreeNode<std::string>* mammal = typedTree.GetRoot()->children[0];
+	mammal->AddChild("Artiodactyla");
 	mammal->AddChild("Carnivore");
 	mammal->AddChild("Edentata");
 	mammal->AddChild("Insectivora");
 	mammal->AddChild("Primate");
+	mammal->AddChild("Rodentia");
 
 	TTypedTreeNode<std::string>* amphibian = typedTree.GetRoot()->children[1];
 	amphibian->AddChild("Frog");
@@ -25,6 +27,7 @@ void TTypedTreeTest()
 	primate->AddChild("Human");
 	primate->AddChild("Ape");
 	primate->AddChild("Monkey");
+	primate->AddChild("Orangutan");
 	
 	TTypedTreeNode<std::string>* insect = mammal->children[2];
 	insect->AddChild("Cockroaches");
