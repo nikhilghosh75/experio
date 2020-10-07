@@ -26,7 +26,10 @@ public:
 		}
 	}
 	
-	bool IsAtEnd() const { return origin != current && nodeVisitedCount != 1; }
+	bool IsAtEnd() const 
+	{ 
+		return origin == current && nodeVisitedCount != 1; 
+	}
 
 	void Increment()
 	{
@@ -49,10 +52,10 @@ public:
 			for (int i = this->currentDepth; i > 0; i--)
 			{
 				tempCurrent = tempCurrent->parent;
-				if (tempCurrent->children.size() > position[i] + 1)
+				if (tempCurrent->children.size() > position[i - 1] + 1)
 				{
-					this->current = tempCurrent->children[position[i] + 1];
-					position[i]++;
+					this->current = tempCurrent->children[position[i - 1] + 1];
+					position[i - 1]++;
 					this->nodeVisitedCount++;
 					return;
 				}
@@ -60,6 +63,7 @@ public:
 
 			if (position[0] + 1 >= tempCurrent->children.size())
 			{
+				this->current = tempCurrent;
 				return;
 			}
 			this->current = tempCurrent->children[(position[0] + 1) % tempCurrent->children.size()];
@@ -68,18 +72,3 @@ public:
 		}
 	}
 };
-
-/*
-void GameObjectIteratorTest()
-{
-	if (!Scene::IsActive((uint8_t)0))
-	{
-		return;
-	}
-	GameObjectIterator iterator(&Scene::scenes[0].sceneRoot);
-	for (int i = 0; i < 3; i++)
-	{
-		iterator.Increment();
-	}
-}
-*/

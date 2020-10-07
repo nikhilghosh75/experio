@@ -35,8 +35,6 @@ public:
 
 	GameObject* AddChild(std::string name);
 
-	static std::vector<GameObject> FindGameObjectsWithTag(unsigned short tag, uint8_t sceneIndex = 0);
-
 	// WORLD POSITION
 	FVector3 GetPosition() const;
 	FQuaternion GetRotation() const;
@@ -50,4 +48,28 @@ public:
 
 	static GameObject* FindObjectWithTag(std::string tag);
 	static GameObject* FindObjectWithTag(unsigned short tag);
+
+	static std::vector<GameObject*> FindGameObjectsWithTag(unsigned short tag, uint8_t sceneIndex = 0);
+
+	static unsigned int NumGameObjectsWithTag(unsigned short tag);
+
+	template<typename T>
+	static T* FindObjectOfType();
+
+	template<typename T>
+	static GameObject* FindGameObjectOfType();
+
+	template<typename T>
+	static T* GetComponentInChildren(GameObject* gameObject);
+
+	template<typename T>
+	static std::vector<T*> GetComponentsInChildren(GameObject* gameObject);
+
+	static TTypedTree<GameObject>* MakeTree(GameObject* gameObject);
+	static TTypedTree<GameObject>* MakeTree(uint8_t sceneIndex);
+
+private:
+	static void MakeSubtree(GameObject* gameObject, TTypedTreeNode<GameObject>* parent);
 };
+
+static void ForEach(GameObject* gameObject, std::function<void(GameObject*)> func);
