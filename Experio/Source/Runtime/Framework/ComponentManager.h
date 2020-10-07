@@ -12,6 +12,8 @@ public:
 
 	virtual Component* GetComponent(GameObject* gameObject, unsigned int classId) { return nullptr; };
 
+	virtual Component* GetComponentAtIndex(unsigned int classId, unsigned int index) { return nullptr; }
+
 	virtual void DeleteComponent(GameObject* gameObject, unsigned int classId) {};
 
 	virtual std::vector<unsigned int> GetComponentsIDsInGameObject(GameObject* gameObject) { return std::vector<unsigned int>(); };
@@ -30,6 +32,8 @@ public:
 		}\
 	}\
 	return nullptr;
+
+#define PB_GET_COMPONENT_INDEX(_vectorName_) return (Component*)(&(_vectorName_[index]));
 
 #define PB_DELETE_COMPONENT(_vectorName_) for(int i = 0; i < _vectorName_.size(); i++)\
 	{\
@@ -55,4 +59,3 @@ public:
 		_vectorName_[i].Update();\
 	}\
 
-/**/
