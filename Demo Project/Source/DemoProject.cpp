@@ -158,7 +158,7 @@ extern "C" __declspec(dllexport) void SetupGraphics(HWND hwnd)
 
 extern "C" __declspec(dllexport) void SetWindowSize(int width, int height)
 {
-	printf("Set Window Size\n");
+	// printf("Set Window Size\n");
 	Window::ResizeWindow(EWindowResizeType::EditorResize, width, height);
 }
 
