@@ -3,6 +3,7 @@
 #include "../Containers/TTypedTree.h"
 #include "GameObject.h"
 #include "Component.h"
+#include <functional>
 #include <string>
 
 #define MAX_SCENES 32
@@ -15,13 +16,15 @@ public:
 
 private:
 	std::string name;
-	unsigned short id;
+	uint8_t id;
 public:
 	Scene();
 	Scene(std::string name);
 
 	std::string GetName() const { return name; }
 	void SetName(std::string name);
+
+	uint8_t GetId() const { return id; }
 
 	static Scene scenes[MAX_SCENES];
 	static uint8_t sceneCount;
@@ -31,4 +34,6 @@ public:
 
 	static bool IsActive(GameObject* object);
 	static bool IsActive(uint8_t sceneIndex);
+
+	static void ForAllActiveScenes(std::function<void(Scene)> func);
 };
