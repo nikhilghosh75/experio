@@ -65,7 +65,7 @@ public:
 	static int GetHourAM(const FDateTime& dateTime);
 	static int GetDay(const FDateTime& dateTime);
 	static EDayOfWeek GetDayOfWeek(const FDateTime& dateTime);
-	static int GetMonth(const FDateTime& dateTime);
+	static int GetMonth(const FDateTime& dateTime); // Indexed at 1
 	static EMonthOfYear GetMonthOfYear(const FDateTime& dateTime);
 	static int GetYear(const FDateTime& dateTime);
 	static void GetDate(const FDateTime& dateTime, int& day, int& month, int& year);

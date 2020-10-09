@@ -274,7 +274,7 @@ void FDateTime::GetDate(const FDateTime & dateTime, int & day, int & month, int 
 	{
 		if (daysInCurrentYear < DAYSTOMONTH[i])
 		{
-			month = i - 1;
+			month = i;
 			day = daysInCurrentYear - DAYSTOMONTH[i - 1] + 1;
 			return;
 		}
@@ -341,7 +341,6 @@ FDateTime FDateTime::Now()
 #ifdef PLATFORM_WINDOWS
 	SYSTEMTIME st;
 	GetSystemTime(&st);
-	std::cout << st.wMinute << std::endl;
 	return FDateTime(st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
 #endif
 }
