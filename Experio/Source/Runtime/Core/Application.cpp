@@ -44,8 +44,8 @@ void Application::Run()
 
 	while (newWindow.isActive)
 	{
-		tempRenderer.OnNewFrame();
 		newWindow.OnUpdate();
+		tempRenderer.OnNewFrame();
 		if (!newWindow.isActive)
 		{
 			break;
@@ -55,7 +55,8 @@ void Application::Run()
 		tempRenderer.LogRenderingError();
 		tempRenderer.OnEndFrame();
 		GameTime::OnEndFrame();
-		Debug::Log("DeltaTime = " + std::to_string(GameTime::deltaTime));
+		Debug::log << "DeltaTime = " << GameTime::deltaTime << Debug::endl;
 	}
+	Debug::FlushToFile();
 	std::cin.get();
 }
