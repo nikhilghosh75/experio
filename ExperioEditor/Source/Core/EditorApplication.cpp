@@ -16,6 +16,8 @@
 #include "../Framework/EditorProject.h"
 #include "../SceneView/SceneView.h"
 #include "../FileView/FileView.h"
+#include "../SceneHierarchy/SceneHierarchy.h"
+#include "Runtime/Debug/TempProfiler.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
 DllLoader EditorApplication::loader;
@@ -37,9 +39,10 @@ void EditorApplication::Run()
 	EditorWindow::InitializeWindow();
 	Project::inEditor = true;
 
-	modules.push_back(new TestModule());
+	// modules.push_back(new TestModule());
 	modules.push_back(new SceneView());
 	modules.push_back(new FileView());
+	modules.push_back(new SceneHierarchy());
 
 	EditorProject::TempSetup();
 	SceneLoader::LoadSceneFromFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Scenes/TestScene.pbscene", 0);
@@ -49,6 +52,7 @@ void EditorApplication::Run()
 
 	while (EditorWindow::isActive)
 	{
+		PROFILE_SCOPE("Editor Loop");
 		EditorWindow::BeginFrame();
 		Project::BeginFrame();
 		RenderModules();
