@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <functional>
 
 #define HASHTABLE_START_CAPACITY 8
 
@@ -269,6 +270,44 @@ public:
 				if (entry->GetValue() == value)
 				{
 					foundKey = entry->GetKey();
+					return true;
+				}
+				entry = entry->GetNext();
+			}
+		}
+		return false;
+	}
+
+	bool SearchKeys(K& foundKey, V& foundValue, std::function<bool(K&)> searchFunc)
+	{
+		for (int i = 0; i < this->capacity; i++)
+		{
+			THashNode<K, V>* entry = arr[i];
+			while (entry != nullptr)
+			{
+				if (searchFunc(entry->GetKey()))
+				{
+					foundKey = entry->GetKey();
+					foundValue = entry->GetValue();
+					return true;
+				}
+				entry = entry->GetNext();
+			}
+		}
+		return false;
+	}
+
+	bool SearchValues(K& foundKey, V& foundValue, std::function<bool(V&)> searchFunc)
+	{
+		for (int i = 0; i < this->capacity; i++)
+		{
+			THashNode<K, V>* entry = arr[i];
+			while (entry != nullptr)
+			{
+				if (searchFunc(entry->GetValue()))
+				{
+					foundKey = entry->GetKey();
+					foundValue = entry->GetValue();
 					return true;
 				}
 				entry = entry->GetNext();
