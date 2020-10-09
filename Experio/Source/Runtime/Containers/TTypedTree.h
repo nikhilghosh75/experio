@@ -229,15 +229,13 @@ TTypedTreeNode<A>* SearchSubTree(TTypedTreeNode<A>* subtree, std::function<bool(
 	{
 		return nullptr;
 	}
-	else
+
+	for (int i = 0; i < subtree->children.size(); i++)
 	{
-		for (int i = 0; i < subtree->children.size(); i++)
+		TTypedTreeNode<A>* temp = SearchSubTree(subtree->children[i], searchFunc);
+		if (temp != nullptr)
 		{
-			TTypedTreeNode<A>* temp = SearchSubTree(subtree->children[i], searchFunc);
-			if (temp != nullptr)
-			{
-				return temp;
-			}
+			return temp;
 		}
 	}
 	return nullptr;
@@ -263,7 +261,7 @@ TTypedTreeNode<A>* SearchTree(TTypedTree<A>* tree, std::function<bool(A)> search
 }
 
 template<typename A, typename B>
-void MakeSubtreeFromBase(TTypedTreeNode<A>* from, TTypedTreeNode<B>* to, B(*convertFunc)(A))
+void MakeSubtreeFromBase(TTypedTreeNode<A>* from, TTypedTreeNode<B>* to, std::function<B(A)> convertFunc)
 {
 	for (int i = 0; i < from->children.size(); i++)
 	{
@@ -273,8 +271,14 @@ void MakeSubtreeFromBase(TTypedTreeNode<A>* from, TTypedTreeNode<B>* to, B(*conv
 }
 
 template<typename A, typename B>
-void MakeTreeFromBase(TTypedTree<A>* from, TTypedTree<B>* to, B(*convertFunc)(A))
+void MakeTreeFromBase(TTypedTree<A>* from, TTypedTree<B>* to, std::function<B(A)> convertFunc)
 {
+	if (to == nullptr)
+	{
+		Debug::LogError("To is Null");
+		return;
+	}
+
 	to->Empty();
 	to->CreateRoot(convertFunc(from->GetRootObject()));
 	std::vector<TTypedTreeNode<A>*> fromChildren = from->GetRoot()->children;
@@ -283,6 +287,47 @@ void MakeTreeFromBase(TTypedTree<A>* from, TTypedTree<B>* to, B(*convertFunc)(A)
 	{
 		to->GetRoot()->AddChild(convertFunc(fromChildren[i]->object));
 		MakeSubtreeFromBase(fromChildren[i], to->GetRoot()->children[i], convertFunc);
+	}
+}
+
+template<typename A, typename B>
+TTypedTreeNode<B>* SearchCorrespondingSubtrees(TTypedTreeNode<A>* subtreeOne, TTypedTreeNode<B>* subtreeTwo, std::function<bool(A)> searchFunc)
+{
+	if (searchFunc(subtreeOne->object))
+	{
+		return subtreeTwo;
+	}
+	if (subtreeOne->children.size() == 0)
+	{
+		return nullptr;
+	}
+
+	for (int i = 0; i < subtreeOne->children.size(); i++)
+	{
+		TTypedTreeNode<B>* temp = SearchCorrespondingSubtrees(subtreeOne->children[i], subtreeTwo->children[i], searchFunc);
+		if (temp != nullptr)
+		{
+			return temp;
+		}
+	}
+	return nullptr;
+}
+
+template<typename A, typename B>
+TTypedTreeNode<B>* SearchCorrespondingTrees(TTypedTree<A>* treeOne, TTypedTree<B>* treeTwo, std::function<bool(A)> searchFunc)
+{
+	if (searchFunc(treeOne->GetRootObject()))
+	{
+		return treeTwo->GetRoot();
+	}
+
+	for (int i = 0; i < treeOne->GetRoot()->children.size(); i++)
+	{
+		TTypedTreeNode<B>* temp = SearchCorrespondingSubtrees(treeOne->GetRoot()->children[i], treeTwo->GetRoot()->children[i], searchFunc);
+		if (temp != nullptr)
+		{
+			return temp;
+		}
 	}
 }
 

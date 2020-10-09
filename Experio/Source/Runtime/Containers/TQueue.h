@@ -63,9 +63,29 @@ public:
 		this->count = count;
 	}
 
-	TQueue(std::vector<T> objects);
+	TQueue(std::vector<T> objects)
+	{
+		this->head = new TQueueNode<T>(objects[0]);
+		TQueueNode<T>* current = head;
+		for (int i = 1; i < objects->size(); i++)
+		{
+			this->tail = new TQueueNode<T>(objects[i]);
+			current->next = this->tail;
+			current = current->next;
+		}
+		this->count = objects->size();
+	}
 
-	~TQueue();
+	~TQueue()
+	{
+		TQueueNode<T>* current = head;
+		for (int i = 0; i < count; i++)
+		{
+			TQueueNode<T>* tempCurrent = current;
+			current = current->next;
+			delete tempCurrent;
+		}
+	}
 
 	T& Peek() const
 	{
@@ -96,9 +116,34 @@ public:
 		this->count--;
 	}
 
-	void Push(T object);
+	void Push(T object)
+	{
+		TQueueNode<T>* newTail = new TQueueNode<T>(object);
+		if (this->tail != nullptr)
+		{
+			this->tail->next = newTail;
+		}
+		this->tail = newTail;
+		
+		if (this->head == nullptr)
+		{
+			this->head = newTail;
+		}
 
-	void Empty();
+		this->count++;
+	}
+
+	void Empty()
+	{
+		TQueueNode<T>* current = head;
+		for (int i = 0; i < count; i++)
+		{
+			TQueueNode<T>* tempCurrent = current;
+			current = current->next;
+			delete tempCurrent;
+		}
+		this->count = 0;
+	}
 	
 	bool IsEmpty() const { return this->count == 0; }
 
