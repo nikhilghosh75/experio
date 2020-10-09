@@ -71,6 +71,28 @@ public:
 		return nullptr;
 	}
 
+	virtual Component* GetComponentAtIndex(unsigned int classId, unsigned index) override
+	{
+		switch (classId)
+		{
+		case 2:
+			PB_GET_COMPONENT_INDEX(testComponentInstances);
+		case 100:
+			Debug::Log("CameraSystem has not impleented GetComponentAtIndex"); return nullptr;
+		case 101:
+			PB_GET_COMPONENT_INDEX(meshInstances);
+		case 102:
+			PB_GET_COMPONENT_INDEX(particleSystemInstances);
+		case 103:
+			PB_GET_COMPONENT_INDEX(billboardInstances);
+		case 104:
+			PB_GET_COMPONENT_INDEX(textComponentInstances);
+		}
+
+		Debug::LogError("Component cannot be found. Make sure to regenerate the project");
+		return nullptr;
+	}
+
 	virtual void DeleteComponent(GameObject* gameObject, unsigned int classId) override
 	{
 		bool foundComponent = false;
