@@ -288,13 +288,13 @@
     <ClInclude Include="Source\Runtime\Math\FSphericalPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Runtime\Math\MathTests.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Runtime\Rendering\LImGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Runtime\Files\Filemask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Containers\LStandard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -497,10 +497,10 @@
     <ClCompile Include="Source\Runtime\Math\FSphericalPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Runtime\Math\MathTests.cpp">
+    <ClCompile Include="Source\Runtime\Rendering\LImGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Runtime\Rendering\LImGui.cpp">
+    <ClCompile Include="Source\Runtime\Audio\AudioSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
