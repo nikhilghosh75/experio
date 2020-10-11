@@ -27,6 +27,13 @@ void Scene::SetName(std::string name)
 	this->name = name;
 }
 
+unsigned int Scene::GetNumGameObjects()
+{
+	int currentNum = 0;
+	ForEach(&sceneRoot, [&currentNum](GameObject* object) { currentNum++; });
+	return 0;
+}
+
 void Scene::Activate(uint8_t sceneIndex)
 {
 	scenes[sceneIndex].isActive = true;
@@ -56,4 +63,17 @@ void Scene::ForAllActiveScenes(std::function<void(Scene)> func)
 			func(Scene::scenes[i]);
 		}
 	}
+}
+
+GameObject * Scene::FindGameObjectFromId(uint64_t id)
+{
+	for (int i = 0; i < MAX_SCENES; i++)
+	{
+		GameObject* foundObject = GameObject::FindGameObjectOfID(id, i);
+		if (foundObject != nullptr)
+		{
+			return foundObject;
+		}
+	}
+	return nullptr;
 }

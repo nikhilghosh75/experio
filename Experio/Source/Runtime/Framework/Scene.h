@@ -26,6 +26,8 @@ public:
 
 	uint8_t GetId() const { return id; }
 
+	unsigned int GetNumGameObjects();
+
 	static Scene scenes[MAX_SCENES];
 	static uint8_t sceneCount;
 
@@ -36,4 +38,6 @@ public:
 	static bool IsActive(uint8_t sceneIndex);
 
 	static void ForAllActiveScenes(std::function<void(Scene)> func);
+
+	static GameObject* FindGameObjectFromId(uint64_t id);
 };
