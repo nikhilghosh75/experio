@@ -3,6 +3,7 @@
 #include "../Containers/LString.h"
 #include <sstream>
 #include <iomanip>
+#include <chrono>
 namespace fs = std::filesystem;
 
 float LFileOperations::BytesToMultiple(uint64_t bytes, EDataUnit unit)
@@ -156,6 +157,12 @@ bool LFileOperations::DoesFileHaveExtension(std::string filePath, const char * e
 	return strcmp(&filePath[indexOfDot + 1], extension) == 0;
 }
 
+FDateTime LFileOperations::FiletimeToDateTime(std::filesystem::file_time_type time)
+{
+	Debug::LogError("Requires C++ 20 in order to work.");
+	return FDateTime();
+}
+
 std::string LFileOperations::GetExtension(std::string filePath)
 {
 	int indexOfDot = 0;
@@ -257,6 +264,7 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	// Mesh
 	PB_COMPARE_EXT("obj", EAssetType::Mesh);
 	PB_COMPARE_EXT("fbx", EAssetType::Mesh);
+	PB_COMPARE_EXT("3ds", EAssetType::Mesh);
 
 	// Non-Engine Code
 	PB_COMPARE_EXT("java", EAssetType::NonEngineCode); // Java
@@ -266,6 +274,8 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	PB_COMPARE_EXT("py", EAssetType::NonEngineCode); // Python
 	PB_COMPARE_EXT("rs", EAssetType::NonEngineCode); // Rust
 	PB_COMPARE_EXT("rlib", EAssetType::NonEngineCode); // Rust
+	PB_COMPARE_EXT("r", EAssetType::NonEngineCode); // R
+	PB_COMPARE_EXT("swift", EAssetType::NonEngineCode); // Swift
 
 	// TO-DO: Particles
 	// Prefab
@@ -284,7 +294,7 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	// Video
 	PB_COMPARE_EXT("mp4", EAssetType::Video);
 	PB_COMPARE_EXT("webm", EAssetType::Video);
-
+	PB_COMPARE_EXT("ogg", EAssetType::Video);
 
 
 	return EAssetType::Unknown;
