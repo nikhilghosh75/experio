@@ -3,12 +3,18 @@
 #include "Scene.h"
 #include "GameObjectIterator.h"
 
+uint64_t GameObject::currentGameObject = 64;
+
+#define PB_ASSIGN_DEFAULT_ID() this->id = currentGameObject; currentGameObject++;
+
 GameObject::GameObject()
 {
 	this->name = (std::string)"";
 	this->tag = 0;
 	this->layer = 0;
 	this->sceneIndex = 0;
+
+	PB_ASSIGN_DEFAULT_ID()
 }
 
 GameObject::GameObject(std::string name)
@@ -17,6 +23,8 @@ GameObject::GameObject(std::string name)
 	this->tag = 0;
 	this->layer = 0;
 	this->sceneIndex = 0;
+
+	PB_ASSIGN_DEFAULT_ID()
 }
 
 GameObject::GameObject(std::string name, unsigned short tag, uint8_t layer)
@@ -25,6 +33,8 @@ GameObject::GameObject(std::string name, unsigned short tag, uint8_t layer)
 	this->tag = tag;
 	this->layer = layer;
 	this->sceneIndex = 0;
+
+	PB_ASSIGN_DEFAULT_ID()
 }
 
 GameObject::GameObject(std::string name, unsigned short tag, uint8_t layer, uint8_t scene)
@@ -33,6 +43,8 @@ GameObject::GameObject(std::string name, unsigned short tag, uint8_t layer, uint
 	this->tag = tag;
 	this->layer = layer;
 	this->sceneIndex = scene;
+
+	PB_ASSIGN_DEFAULT_ID()
 }
 
 template<class T>
@@ -167,11 +179,30 @@ void GameObject::Scale(float scaleFactor)
 	this->localScale *= scaleFactor;
 }
 
+void GameObject::SetTransform(FTransform transform)
+{
+	this->localPosition = transform.GetPosition();
+	this->localRotation = transform.GetRotation();
+	this->localScale = transform.GetScale();
+}
+
 void GameObject::SetTransform(FVector3 position, FQuaternion rotation, FVector3 scale)
 {
 	this->localPosition = position;
 	this->localRotation = rotation;
 	this->localScale = scale;
+}
+
+bool GameObject::operator==(const GameObject & object) const
+{
+	return (name == object.name) && (this->layer == object.layer)
+		&& (this->tag == object.tag) && (sceneIndex == object.sceneIndex);
+}
+
+bool GameObject::operator!=(const GameObject & object) const
+{
+	return (name != object.name) || (this->layer != object.layer)
+		|| (this->tag != object.tag) || (sceneIndex != object.sceneIndex);
 }
 
 GameObject * GameObject::FindObjectWithTag(std::string tag)
@@ -268,6 +299,39 @@ unsigned int GameObject::NumGameObjectsWithTag(unsigned short tag)
 	}
 
 	return num;
+}
+
+GameObject * GameObject::FindGameObjectOfID(uint64_t id)
+{
+	for (int i = 0; i < MAX_SCENES; i++)
+	{
+		GameObject* foundObject = FindGameObjectOfID(id, i);
+		if (foundObject != nullptr)
+		{
+			return foundObject;
+		}
+	}
+	return nullptr;
+}
+
+GameObject * GameObject::FindGameObjectOfID(uint64_t id, uint8_t sceneIndex)
+{
+	Scene* currentScene = &Scene::scenes[sceneIndex];
+	if (!currentScene->isActive)
+	{
+		return nullptr;
+	}
+	GameObject* root = &currentScene->sceneRoot;
+	GameObjectIterator iterator(root);
+	while (!iterator.IsAtEnd())
+	{
+		if (iterator.current->id == id)
+		{
+			return iterator.current;
+		}
+		iterator.Increment();
+	}
+	return nullptr;
 }
 
 TTypedTree<GameObject>* GameObject::MakeTree(GameObject * gameObject)

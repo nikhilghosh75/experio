@@ -7,6 +7,7 @@
 
 class GameObject
 {
+	static uint64_t currentGameObject;
 public:
 	unsigned short tag;
 	uint8_t layer;
@@ -17,6 +18,7 @@ public:
 	FVector3 localPosition;
 	FQuaternion localRotation;
 	FVector3 localScale;
+	uint64_t id;
 	bool isActive = true;
 
 	GameObject();
@@ -44,7 +46,11 @@ public:
 	void Rotate(FQuaternion rotationAmount);
 	void Scale(float scaleFactor);
 
+	void SetTransform(FTransform transform);
 	void SetTransform(FVector3 position, FQuaternion rotation, FVector3 scale);
+
+	bool operator==(const GameObject& object) const;
+	bool operator!=(const GameObject& object) const;
 
 	static GameObject* FindObjectWithTag(std::string tag);
 	static GameObject* FindObjectWithTag(unsigned short tag);
@@ -52,6 +58,9 @@ public:
 	static std::vector<GameObject*> FindGameObjectsWithTag(unsigned short tag, uint8_t sceneIndex = 0);
 
 	static unsigned int NumGameObjectsWithTag(unsigned short tag);
+
+	static GameObject* FindGameObjectOfID(uint64_t id);
+	static GameObject* FindGameObjectOfID(uint64_t id, uint8_t sceneIndex);
 
 	template<typename T>
 	static T* FindObjectOfType();
@@ -72,4 +81,4 @@ private:
 	static void MakeSubtree(GameObject* gameObject, TTypedTreeNode<GameObject>* parent);
 };
 
-static void ForEach(GameObject* gameObject, std::function<void(GameObject*)> func);
+void ForEach(GameObject* gameObject, std::function<void(GameObject*)> func);
