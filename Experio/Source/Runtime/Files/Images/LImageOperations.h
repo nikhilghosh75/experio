@@ -9,4 +9,6 @@ public:
 
 	static int BitsPerPixel(EImageEncoding encoding);
 	static int BytesPerPixel(EImageEncoding encoding);
+
+	static uint64_t SizeofImage(int width, int height, EImageEncoding encoding);
 };

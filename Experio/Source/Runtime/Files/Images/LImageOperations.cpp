@@ -19,3 +19,8 @@ int LImageOperations::BytesPerPixel(EImageEncoding encoding)
 {
 	return ((int)encoding) / 8;
 }
+
+uint64_t LImageOperations::SizeofImage(int width, int height, EImageEncoding encoding)
+{
+	return height * width * BytesPerPixel(encoding);
+}
