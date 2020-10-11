@@ -39,6 +39,9 @@ public:
 	FDateTime(long long inTicks);
 	FDateTime(int year, int month, int day, int hour = 0, int minute = 0, int second = 0, int millisecond = 0, int microsecond = 0);
 
+	static FDateTime FromUnixEpoch(long long ticksSinceEpoch);
+	static FDateTime From1601Epoch(long long ticksSinceEpoch);
+
 	long long ticks;
 
 	const FDateTime operator+(const FDuration& duration);

@@ -15,7 +15,7 @@ const int TICKSPERSECOND = 10000000;
 const int TICKSPERMILLISECOND = 10000;
 const int TICKSPERMICROSECOND = 10;
 const long long TICKSSINCE1601 = 504912960000000000;
-const long long TICKSINCEUNIXEPOCH = 621672192000000000;
+const long long TICKSSINCEUNIXEPOCH = 621672192000000000;
 
 void DateTimeTest()
 {
@@ -63,6 +63,16 @@ FDateTime::FDateTime(int year, int month, int day, int hour, int minute, int sec
 	ticks = totalDays * TICKSPERDAY + totalSeconds * TICKSPERSECOND 
 		+ millisecond * TICKSPERMILLISECOND 
 		+ microsecond * TICKSPERMICROSECOND;
+}
+
+FDateTime FDateTime::FromUnixEpoch(long long ticksSinceEpoch)
+{
+	return FDateTime(ticksSinceEpoch + TICKSSINCEUNIXEPOCH);
+}
+
+FDateTime FDateTime::From1601Epoch(long long ticksSinceEpoch)
+{
+	return FDateTime(ticksSinceEpoch + TICKSSINCE1601);
 }
 
 const FDateTime FDateTime::operator+(const FDuration & duration)
@@ -489,7 +499,7 @@ std::string FDateTime::TimeToString(const FDateTime & dateTime)
 
 FDateTime FDateTime::TimeSinceUnixEpoch(const FDateTime & dateTime)
 {
-	return FDateTime(dateTime.ticks - TICKSINCEUNIXEPOCH);
+	return FDateTime(dateTime.ticks - TICKSSINCEUNIXEPOCH);
 }
 
 FDuration operator-(const FDateTime & date1, const FDateTime & date2)
