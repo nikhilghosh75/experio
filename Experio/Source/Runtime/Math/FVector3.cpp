@@ -32,6 +32,13 @@ FVector3::FVector3(float x, float y)
     this->z = 0.0f;
 }
 
+FVector3::FVector3(glm::vec3 V)
+{
+	this->x = V.x;
+	this->y = V.y;
+	this->z = V.z;
+}
+
 float FVector3::Magnitude(const FVector3& v)
 {
     return LMath::Sqrt(v.x * v.x + v.y * v.y + v.z * v.z);

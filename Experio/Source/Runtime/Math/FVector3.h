@@ -13,6 +13,7 @@ public:
     FVector3();
     FVector3(float x, float y, float z);
     FVector3(float x, float y);
+	FVector3(glm::vec3 V);
 
     static float Magnitude(const FVector3& V);
     static float SqrMagnitude(const FVector3& V);
