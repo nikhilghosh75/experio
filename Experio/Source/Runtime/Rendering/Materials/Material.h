@@ -1,5 +1,6 @@
 #pragma once
 #include "../Shader.h"
+#include "../VertexArray.h"
 
 class Material
 {
@@ -28,6 +29,7 @@ public:
 	}
 
 	virtual void SetInternalUniforms() {}
+	virtual void SetInternalBuffers(VertexArray& vertexArray) {};
 
 	~Material()
 	{

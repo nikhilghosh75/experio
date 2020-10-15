@@ -25,6 +25,8 @@ void MeshMaterial::SetMVP(const glm::mat4 M, const glm::mat4 V, const glm::mat4 
 
 void MeshMaterial::SetLightingData(FLightData lightData)
 {
+	if (!this->useLightingData) return;
+
 	// EXPAND LATER
 	shader->SetUniformVec3("LightWorldPosition",lightData.worldPosition);
 	shader->SetUniformVec3("LightColor", (FVector3)lightData.color);

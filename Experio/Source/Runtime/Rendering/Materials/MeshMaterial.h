@@ -14,6 +14,8 @@ public:
 	Texture* normal;
 	Texture* specular;
 
+	bool useLightingData = true;
+
 	void SetMVP(const glm::mat4 M, const glm::mat4 V, const glm::mat4 P);
 	void SetLightingData(const FLightData lightData);
 
