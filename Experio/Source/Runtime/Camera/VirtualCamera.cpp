@@ -3,6 +3,7 @@
 #include "../Core/Window.h"
 #include "../Core/LWindowOperations.h"
 #include "../Math/LMath.h"
+#include "../Math/FRay.h"
 
 VirtualCamera::VirtualCamera(GameObject * object)
 {
@@ -39,4 +40,26 @@ glm::mat4 VirtualCamera::CalculateProjectionMatrix(float fieldOfView, float near
 		nearClipPlane,
 		farClipPlane
 	);
+}
+
+FRay VirtualCamera::ScreenPointToRay(float x, float y)
+{
+	return ScreenPointToRay(FVector2(x, y));
+}
+
+FRay VirtualCamera::ScreenPointToRay(FVector2 point)
+{
+	glm::mat4 VP = GetProjectionMatrix() * GetViewMatrix();
+	glm::mat4 VPInv = glm::inverse(VP);
+	FWindowData data = Window::GetWindowData();
+	FVector2 clippedPoint = LWindowOperations::PixelToClippedPos(data, point);
+	glm::vec4 mousePoint = glm::vec4(clippedPoint.x, clippedPoint.y, -0.25, 1.0);
+	glm::vec4 worldPosition = VPInv * mousePoint;
+
+	worldPosition.w = 1.0 / worldPosition.w;
+	worldPosition.x *= worldPosition.w;
+	worldPosition.y *= worldPosition.w;
+	worldPosition.z *= worldPosition.w;
+
+	return FRay::BetweenPoints(gameObject->GetPosition(), (FVector3)(glm::vec3)worldPosition);
 }
