@@ -13,5 +13,7 @@ public:
 
 	static size_t GetInternalFormat(EImageEncoding encoding, EImageFileType fileType);
 
+	static EDataType StringToDataType(std::string string);
+
 	static bool WGLExtensionSupported(const char* extensionName);
 };

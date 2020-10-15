@@ -64,6 +64,18 @@ size_t LOpenGL::GetInternalFormat(EImageEncoding encoding, EImageFileType fileTy
 	return 0;;
 }
 
+EDataType LOpenGL::StringToDataType(std::string string)
+{
+	if (string == "FLOAT") return EDataType::FLOAT;
+
+	if (string == "INT") return EDataType::INT;
+
+	if (string == "UINT") return EDataType::UNSIGNED_INT;
+
+	// Add stuff here
+	return EDataType::NONE;
+}
+
 bool LOpenGL::WGLExtensionSupported(const char * extensionName)
 {
 	// this is pointer to function which returns pointer to string with list of all wgl extensions
