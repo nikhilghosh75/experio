@@ -2,7 +2,15 @@
 
 #include "../Core/EditorModule.h"
 #include "Runtime/Rendering/Renderer.h"
+#include "Runtime/Files/Mesh/MeshReader.h"
 #include "Runtime/Math/FVector3.h"
+
+enum class ESceneEditMode
+{
+	Translate,
+	Rotate,
+	Scale
+};
 
 class SceneView : public EditorModule
 {
@@ -11,13 +19,22 @@ class SceneView : public EditorModule
 
 	FVector3 cameraCenter;
 
+	ESceneEditMode currentMode;
+
 	float cameraMoveSpeed;
 	float cameraScrollSpeed;
 	float cameraRotateSpeed;
 
 	Renderer renderer;
 
+	MeshData* translationMesh;
+	MeshData* rotationMesh;
+	MeshData* scaleMesh;
+
 	void CreateMenu();
+
+	void HandleGizmos();
+	void HandleTranslation();
 public:
 	SceneView();
 
