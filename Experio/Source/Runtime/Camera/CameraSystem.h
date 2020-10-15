@@ -9,7 +9,6 @@ class CameraSystem
 
 	static float timeInTransition;
 
-	static VirtualCamera* GetCurrentCamera();
 	static VirtualCamera* currentCamera;
 
 	static glm::mat4 LerpCamerasViewMatrix(VirtualCamera* c1, VirtualCamera* c2, float t);
@@ -25,6 +24,8 @@ public:
 	static void DeleteComponent(GameObject* gameObject);
 
 	static void Update();
+
+	static VirtualCamera* GetCurrentCamera();
 
 	static glm::mat4 currentViewMatrix;
 	static glm::mat4 currentProjectionMatrix;
