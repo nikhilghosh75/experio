@@ -4,6 +4,8 @@
 #include "Runtime/Framework/Scene.h"
 #include "Runtime/Containers/LStandard.h"
 
+SceneHierarchy* SceneHierarchy::hierarchy;
+
 void SceneHierarchy::HandleDragDrop(const GameObject * gameObject)
 {
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
@@ -111,6 +113,11 @@ SceneHierarchy::SceneHierarchy()
 {
 	this->category = EEditorModuleCategory::Core;
 	this->name = "Scene Hierarchy";
+
+	if (hierarchy == nullptr)
+	{
+		hierarchy = this;
+	}
 }
 
 void SceneHierarchy::Display()
@@ -120,4 +127,9 @@ void SceneHierarchy::Display()
 	Scene::ForAllActiveScenes([&selectedItems](Scene scene) {
 		SceneHierarchy::DisplayGameObjectTree(&scene.sceneRoot, selectedItems);
 	});
+}
+
+std::vector<GameObject> SceneHierarchy::GetSelectedItems() const
+{
+	return this->currentlySelectedItems;
 }

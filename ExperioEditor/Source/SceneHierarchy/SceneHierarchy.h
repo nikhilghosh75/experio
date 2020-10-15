@@ -11,9 +11,13 @@ class SceneHierarchy : public EditorModule
 	static void HandleSwap(uint64_t fromID, uint64_t toID);
 
 public:
+	static SceneHierarchy* hierarchy;
+
 	static void DisplayGameObjectTree(const GameObject* gameObject, std::vector<GameObject>& selectedItems);
 
 	SceneHierarchy();
 
 	virtual void Display() override;
+
+	std::vector<GameObject> GetSelectedItems() const;
 };
