@@ -18,6 +18,8 @@ enum class EDataType
 	FIXED = 5132
 };
 
+class NumericData;
+
 class VertexBuffer
 {
 private:
@@ -29,6 +31,7 @@ private:
 public:
 	VertexBuffer();
 	VertexBuffer(const VertexBuffer&) = delete;
+	VertexBuffer(NumericData& data);
 	VertexBuffer(const void* data, unsigned int size);
 	VertexBuffer(const void* data, unsigned int size, unsigned int dataType);
 	VertexBuffer(const void* data, unsigned int size, EDataType dataType);
@@ -43,8 +46,10 @@ public:
 	VertexBuffer operator=(const VertexBuffer&) = delete;
 
 	unsigned int GetSize() const { return this->size; }
-
 	unsigned int GetCount() const;
+	void* GetData() const { return this->data; }
+	EDataType GetDataType() const { return this->dataType; }
 
 	GLfloat* GetDataAsFloatArray() const;
+	GLint* GetDataAsIntArray() const;
 };

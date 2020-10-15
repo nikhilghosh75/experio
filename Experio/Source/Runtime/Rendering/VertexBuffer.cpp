@@ -4,10 +4,22 @@
 #include <stdlib.h>
 #include <string.h>
 #include "LOpenGL.h"
+#include "../Data/NumericData.h"
 
 VertexBuffer::VertexBuffer()
 {
 	this->rendererID = VERTEX_BUFFER_NOT_DEFINED;
+}
+
+VertexBuffer::VertexBuffer(NumericData & data)
+{
+	this->size = data.Size();
+	this->dataType = data.GetDataType();
+	this->data = (void*)malloc(this->size);
+	memcpy(this->data, data.GetData(), this->size);
+	glGenBuffers(1, &rendererID);
+	glBindBuffer(GL_ARRAY_BUFFER, rendererID);
+	glBufferData(GL_ARRAY_BUFFER, this->size, this->data, GL_STATIC_DRAW);
 }
 
 VertexBuffer::VertexBuffer(const void * data, unsigned int size)
@@ -101,4 +113,9 @@ unsigned int VertexBuffer::GetCount() const
 GLfloat * VertexBuffer::GetDataAsFloatArray() const
 {
 	return (GLfloat*)this->data;
+}
+
+GLint * VertexBuffer::GetDataAsIntArray() const
+{
+	return (GLint*)this->data;
 }
