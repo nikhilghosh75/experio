@@ -7,6 +7,9 @@
 #include <iostream>
 #include <windows.h>
 #endif
+
+#include <sstream>
+
 #ifdef PB_LOG_FILE
 #include <sstream>
 #include <fstream>
@@ -153,5 +156,23 @@ DebugStream& operator<<(DebugStream & stream, float f)
 DebugStream& operator<<(DebugStream & stream, unsigned int i)
 {
 	stream << std::to_string(i); 
+	return stream;
+}
+
+DebugStream & operator<<(DebugStream & stream, uint8_t i)
+{
+	stream << std::to_string(i);
+	return stream;
+}
+
+DebugStream & operator<<(DebugStream & stream, uint16_t i)
+{
+	stream << std::to_string(i);
+	return stream;
+}
+
+DebugStream & operator<<(DebugStream & stream, uint64_t i)
+{
+	stream << std::to_string(i);
 	return stream;
 }
