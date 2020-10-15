@@ -65,6 +65,19 @@ public:
 		this->hashFunction.tableCapacity = HASHTABLE_START_CAPACITY;
 	}
 
+	THashtable(const K* keys, const V* values, int num)
+	{
+		this->capacity = HASHTABLE_START_CAPACITY;
+		this->arr = new THashNode<K, V>*[HASHTABLE_START_CAPACITY]();
+		this->size = 0;
+		this->hashFunction.tableCapacity = HASHTABLE_START_CAPACITY;
+
+		for (int i = 0; i < num; i++)
+		{
+			Insert(K[i], V[i]);
+		}
+	}
+
 	~THashtable()
 	{
 		for (int i = 0; i < this->capacity; i++)
