@@ -180,6 +180,8 @@ void Renderer::DrawMesh(const MeshComponent & mesh)
 	va.AddBuffer(mesh.meshData->tangents, tangentLayout);
 	va.AddBuffer(mesh.meshData->bitangents, bitangentLayout);
 
+	mesh.material->SetInternalBuffers(va);
+
 	if (mesh.meshData->isIndexed)
 	{
 		mesh.meshData->indexBuffer->Bind();
