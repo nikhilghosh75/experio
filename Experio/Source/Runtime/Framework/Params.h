@@ -14,7 +14,7 @@
 #include "../Math/FQuaternion.h"
 #include "../Math/FColor.h"
 #include "../Math/FCurve.h"
-#include "../Math/Datatable.h"
+#include "../Data/Datatable.h"
 #include "../Rendering/Materials/Material.h"
 #include "../Rendering/Shader.h"
 
