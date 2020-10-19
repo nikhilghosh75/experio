@@ -51,6 +51,7 @@ public:
 DebugStream& operator<<(DebugStream& stream, int i);
 DebugStream& operator<<(DebugStream& stream, float f);
 DebugStream& operator<<(DebugStream& stream, unsigned int i);
+DebugStream& operator<<(DebugStream& stream, long long i);
 DebugStream& operator<<(DebugStream& stream, uint8_t i);
 DebugStream& operator<<(DebugStream& stream, uint16_t i);
 DebugStream& operator<<(DebugStream& stream, uint64_t i);

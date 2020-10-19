@@ -159,6 +159,12 @@ DebugStream& operator<<(DebugStream & stream, unsigned int i)
 	return stream;
 }
 
+DebugStream & operator<<(DebugStream & stream, long long i)
+{
+	stream << std::to_string(i);
+	return stream;
+}
+
 DebugStream & operator<<(DebugStream & stream, uint8_t i)
 {
 	stream << std::to_string(i);

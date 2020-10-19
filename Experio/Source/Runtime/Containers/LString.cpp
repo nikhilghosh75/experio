@@ -158,6 +158,11 @@ constexpr bool LString::IsUpper(char c)
 	return c > 64 && c < 91;
 }
 
+bool LString::IsWhitespace(char c)
+{
+	return c == ' ' || c == '\n' || c == 0;
+}
+
 std::string LString::LongLongToHexString(uint64_t n)
 {
 	std::stringstream ss;

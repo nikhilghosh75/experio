@@ -28,6 +28,7 @@ public:
 	constexpr static bool IsLower(char c);
 	constexpr static bool IsNumeric(char c);
 	constexpr static bool IsUpper(char c);
+	static bool IsWhitespace(char c);
 
 	static std::string LongLongToHexString(uint64_t n);
 
