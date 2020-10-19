@@ -393,6 +393,10 @@ std::string FDateTime::ToString(const FDateTime & dateTime, const std::string fo
 	std::string s;
 	s.resize(format.length());
 	int n = format.length();
+
+	unsigned int skippedIndicies[32];
+	uint8_t skippedCount = 0;
+
 	for (int i = 0; i < n; i++)
 	{
 		if (format[i] == '%')
@@ -436,7 +440,16 @@ std::string FDateTime::ToString(const FDateTime & dateTime, const std::string fo
 				}
 				break;
 			case 'D':
-				// TO-DO
+				if (GetDay(dateTime) >= 10)
+				{
+					s[i] = LString::DigitToChar(GetDay(dateTime) / 10);
+					s[i + 1] = LString::DigitToChar(GetDay(dateTime) % 10);
+				}
+				else
+				{
+					skippedIndicies[skippedCount] = i; skippedCount++;
+					s[i + 1] = LString::DigitToChar(GetDay(dateTime));
+				}
 				break;
 			case 'e':
 				if (dateTime.ticks > 0)
@@ -461,6 +474,80 @@ std::string FDateTime::ToString(const FDateTime & dateTime, const std::string fo
 					s[i] = LString::DigitToChar(GetHour(dateTime) / 10);
 					s[i + 1] = LString::DigitToChar(GetHour(dateTime) % 10);
 				}
+				break;
+			case 'H':
+				if (FDateTime::GetHour(dateTime) < 10)
+				{
+					skippedIndicies[skippedCount] = i; skippedCount++;
+					s[i + 1] = LString::DigitToChar(GetHour(dateTime));
+				}
+				else
+				{
+					s[i] = LString::DigitToChar(GetHour(dateTime) / 10);
+					s[i + 1] = LString::DigitToChar(GetHour(dateTime) % 10);
+				}
+				break;
+			case 'M':
+				if (i + 2 < format.length() && format[i + 2] == 'M') // MM
+				{
+					std::string month = MonthToThreeChar(GetMonth(dateTime));
+					s[i] = month[0];
+					s[i + 1] = month[1];
+					s[i + 2] = month[2];
+					i++;
+				}
+				else
+				{
+					if (FDateTime::GetMonth(dateTime) < 10)
+					{
+						s[i] = '0';
+						s[i + 1] = LString::DigitToChar(GetMonth(dateTime));
+					}
+					else
+					{
+						s[i] = LString::DigitToChar(GetMonth(dateTime) / 10);
+						s[i + 1] = LString::DigitToChar(GetMonth(dateTime) % 10);
+					}
+				}
+				break;
+			case 'm':
+				if (i + 2 < format.length() && format[i + 2] == 'M') // mm
+				{
+					int milliseconds = GetMillisecond(dateTime);
+					if (milliseconds > 100)
+					{
+						s[i] = LString::DigitToChar(milliseconds / 100);
+						s[i + 1] = LString::DigitToChar((milliseconds % 100) / 10);
+						s[i + 2] = LString::DigitToChar(milliseconds % 10);
+					}
+					else if (milliseconds > 10)
+					{
+						s[i] = '0';
+						s[i + 1] = LString::DigitToChar(milliseconds / 10);
+						s[i + 2] = LString::DigitToChar(milliseconds % 10);
+					}
+					else
+					{
+						s[i] = '0';
+						s[i + 1] = '0';
+						s[i + 2] = LString::DigitToChar(milliseconds);
+					}
+				}
+				else
+				{
+					int milliseconds = GetMillisecond(dateTime);
+					if (milliseconds > 100)
+					{
+						s[i] = LString::DigitToChar(milliseconds / 100);
+						s[i + 1] = LString::DigitToChar((milliseconds % 100) / 10);
+					}
+					else
+					{
+						s[i] = '0';
+						s[i + 1] = LString::DigitToChar(milliseconds);
+					}
+				}
+				break;
 			}
 			i++;
 		}
@@ -495,6 +582,26 @@ std::string FDateTime::TimeToString(const FDateTime & dateTime)
 	s += ":" + std::to_string(GetSecond(dateTime));
 	s += ":" + std::to_string(GetMillisecond(dateTime));
 	return s;
+}
+
+std::string FDateTime::MonthToThreeChar(int month)
+{
+	switch (month)
+	{
+	case 1: return "Jan";
+	case 2: return "Feb";
+	case 3: return "Mar";
+	case 4: return "Apr";
+	case 5: return "May";
+	case 6: return "Jun";
+	case 7: return "Jul";
+	case 8: return "Aug";
+	case 9: return "Sep";
+	case 10: return "Oct";
+	case 11: return "Nov";
+	case 12: return "Dec";
+	}
+	return "   ";
 }
 
 FDateTime FDateTime::TimeSinceUnixEpoch(const FDateTime & dateTime)

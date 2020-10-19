@@ -94,6 +94,8 @@ public:
 	static std::string SecondsToString(const FDateTime& dateTime);
 	static std::string TimeToString(const FDateTime& dateTime);
 
+	static std::string MonthToThreeChar(int month); // Indexed at 1
+
 	static FDateTime TimeSinceUnixEpoch(const FDateTime& dateTime);
 };
 
