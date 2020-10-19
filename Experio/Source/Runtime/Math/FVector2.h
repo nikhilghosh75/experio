@@ -17,7 +17,6 @@ struct FVector2
 
 	float Magnitude() const;
 	float SqrMagnitude() const;
-
 	float Distance(const FVector2& V) const;
 	float SqrDistance(const FVector2& V) const;
 
@@ -26,6 +25,8 @@ struct FVector2
 
 	FVector2 Normalized() const;
 	FVector2 UVCords() const;
+	FVector2 Clamp(float minLength, float maxLength) const;
+	float GetAngle() const;
 
 	static float Dot(const FVector2& V1, const FVector2& V2);
 	static float Cross(const FVector2& V1, const FVector2& V2);

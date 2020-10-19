@@ -109,6 +109,29 @@ FVector2 FVector2::ToUVCords(const FVector2 & V)
 	return FVector2(V.x, 1.f - V.y);
 }
 
+float FVector2::GetMax(const FVector2 & V)
+{
+	if (V.x > V.y)
+	{
+		return V.x;
+	}
+	return V.y;
+}
+
+float FVector2::GetMin(const FVector2 & V)
+{
+	if (V.x < V.y)
+	{
+		return V.x;
+	}
+	return V.y;
+}
+
+FVector2 FVector2::Abs(const FVector2 & V)
+{
+	return FVector2(LMath::Abs(V.x), LMath::Abs(V.y));
+}
+
 FVector2 FVector2::Normalized() const
 {
 	float magnitude = this->Magnitude();
@@ -118,6 +141,11 @@ FVector2 FVector2::Normalized() const
 FVector2 FVector2::UVCords() const
 {
 	return FVector2(this->x, 1 - this->y);
+}
+
+FVector2 FVector2::Clamp(float minLength, float maxLength) const
+{
+	return Clamp(*this, minLength, maxLength);
 }
 
 float FVector2::Dot(const FVector2 & V1, const FVector2 & V2)
