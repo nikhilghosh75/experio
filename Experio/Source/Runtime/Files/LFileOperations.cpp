@@ -232,12 +232,14 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 
 	// Audio
 	PB_COMPARE_EXT("wav", EAssetType::Audio);
+	PB_COMPARE_EXT("ogg", EAssetType::Audio);
 	PB_COMPARE_EXT("mp3", EAssetType::Audio);
 
 	// CPP
 	PB_COMPARE_EXT("cpp", EAssetType::CPP);
 
 	//Data
+	PB_COMPARE_EXT("pbnumdata", EAssetType::Data);
 	PB_COMPARE_EXT("csv", EAssetType::Data);
 	PB_COMPARE_EXT("xlsx", EAssetType::Data);
 
@@ -334,6 +336,34 @@ constexpr uint64_t LFileOperations::MultipleToBytes(float bytes, EDataUnit unit)
 		return (uint64_t)(bytes * 1125899906842624);
 	}
 	return 0;
+}
+
+FileBuffer LFileOperations::ReadFileToBuffer(std::ifstream & stream, size_t maxLineLength)
+{
+	std::stringstream ss;
+	char* s = new char[maxLineLength];
+
+	while (stream.getline(s, maxLineLength))
+	{
+		ss << s << std::endl;
+	}
+
+	std::string output = ss.str();
+	return FileBuffer(output.data(), output.length());
+}
+
+FileBuffer LFileOperations::ReadTrimmedFileToBuffer(std::ifstream & stream)
+{
+	std::stringstream ss;
+	std::string s;
+
+	while (stream >> s)
+	{
+		ss << s << " ";
+	}
+
+	std::string output = ss.str();
+	return FileBuffer(output.data(), output.length());
 }
 
 std::string LFileOperations::StripFilename(std::string filename)

@@ -2,7 +2,9 @@
 #include <string>
 #include <stdint.h>
 #include <filesystem>
+#include <fstream>
 #include "FFileCategory.h"
+#include "FileBuffer.h"
 #include "../Time/FDateTime.h"
 #include "../Containers/TTypedTree.h"
 
@@ -57,6 +59,9 @@ public:
 	static EAssetType GetFileTypeOfExt(std::string ext);
 
 	constexpr static uint64_t MultipleToBytes(float bytes, EDataUnit unit);
+
+	static FileBuffer ReadFileToBuffer(std::ifstream& stream, size_t maxLineLength);
+	static FileBuffer ReadTrimmedFileToBuffer(std::ifstream& stream);
 
 	static std::string StripFilename(std::string filename);
 	static std::string StripFilename(std::filesystem::directory_entry entry);
