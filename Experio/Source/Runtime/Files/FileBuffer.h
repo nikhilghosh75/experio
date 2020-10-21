@@ -37,4 +37,16 @@ public:
 
 	char& operator[](size_t index) { return data[index]; }
 	const char& operator[](size_t index) const { return data[index]; }
+
+	// Start inclusive, end exclusive
+	std::string Substr(size_t start, size_t end) const
+	{
+		std::string str;
+		
+		for (int i = start; i < end; i++)
+		{
+			str.append({ this->data[i] });
+		}
+		return str;
+	}
 };
