@@ -42,6 +42,10 @@ public:
 	static float StringToFloat(std::string str);
 
 	static int StringToInt(std::string str);
+
+	static std::string Trim(std::string str);
+	static std::string TrimLeft(std::string str);
+	static std::string TrimRight(std::string str);
 };
 
 template<typename Number>

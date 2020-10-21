@@ -1,5 +1,6 @@
 #include "LString.h"
 #include <sstream>
+#include <algorithm>
 
 std::string LString::ReplaceAll(std::string s, char from, char to)
 {
@@ -93,6 +94,23 @@ int LString::StringToInt(std::string str)
 	return isPositive ? integer : integer * -1;
 }
 
+std::string LString::Trim(std::string str)
+{
+	return TrimLeft(TrimRight(str));
+}
+
+std::string LString::TrimLeft(std::string str)
+{
+	str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char c) {return !LString::IsWhitespace(c); }));
+	return str;
+}
+
+std::string LString::TrimRight(std::string str)
+{
+	str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char c) {return !LString::IsWhitespace(c); }).base(), str.end());
+	return str;
+}
+
 unsigned int LString::HexStringToInt(std::string s)
 {
 	unsigned int returnValue = 0;
@@ -160,7 +178,7 @@ constexpr bool LString::IsUpper(char c)
 
 bool LString::IsWhitespace(char c)
 {
-	return c == ' ' || c == '\n' || c == 0;
+	return c == ' ' || c == '\n' || c == '\t';
 }
 
 std::string LString::LongLongToHexString(uint64_t n)
