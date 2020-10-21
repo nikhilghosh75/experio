@@ -2,6 +2,7 @@
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Containers/LString.h"
+#include "Runtime/Math/LMath.h"
 #include <sstream>
 
 std::string LCodeParser::ConcatenateNamespaces(std::vector<std::string> namespaces, ECodingLanguage language)
@@ -37,8 +38,10 @@ bool LCodeParser::DoesLanguageSupport(ECodingLanguage language, ECodingLanguageF
 	case ECodingLanguage::CPlusPlus:
 		switch (feature)
 		{
+		case ECodingLanguageFeature::Async:
 		case ECodingLanguageFeature::Classes:
 		case ECodingLanguageFeature::Enums:
+		case ECodingLanguageFeature::Foreach:
 		case ECodingLanguageFeature::Namespaces:
 			return true;
 		}
@@ -48,6 +51,7 @@ bool LCodeParser::DoesLanguageSupport(ECodingLanguage language, ECodingLanguageF
 		{
 		case ECodingLanguageFeature::Classes:
 		case ECodingLanguageFeature::Enums:
+		case ECodingLanguageFeature::Foreach:
 		case ECodingLanguageFeature::Namespaces:
 			return true;
 		}
@@ -69,6 +73,7 @@ bool LCodeParser::DoesLanguageSupport(ECodingLanguage language, ECodingLanguageF
 		case ECodingLanguageFeature::Enums:
 		case ECodingLanguageFeature::Namespaces:
 			return true;
+		case ECodingLanguageFeature::Async: return version >= 11;
 		case ECodingLanguageFeature::Coroutines: return version >= 20;
 		case ECodingLanguageFeature::Foreach: return version >= 11;
 		case ECodingLanguageFeature::Modules: return version >= 23;
@@ -82,6 +87,7 @@ bool LCodeParser::DoesLanguageSupport(ECodingLanguage language, ECodingLanguageF
 		case ECodingLanguageFeature::Foreach:
 		case ECodingLanguageFeature::Namespaces:
 			return true;
+		case ECodingLanguageFeature::Async: return version >= 5;
 		case ECodingLanguageFeature::Coroutines: return version >= 5;
 		case ECodingLanguageFeature::Modules: return version >= 9;
 		}
@@ -90,6 +96,50 @@ bool LCodeParser::DoesLanguageSupport(ECodingLanguage language, ECodingLanguageF
 		Debug::LogError("Language Not Implemented");
 	}
 	return false;
+}
+
+EEnumDataType LCodeParser::GetEnumDataType(unsigned int numValues)
+{
+	// Note that the following is based on the face that the underlying type is the smallest possible type
+	if (numValues <= LMath::PowOfTwo(8)) return EEnumDataType::BYTE;
+	if (numValues <= LMath::PowOfTwo(16)) return EEnumDataType::SHORT;
+	if (numValues <= LMath::PowOfTwo(32)) return EEnumDataType::INT;
+	return EEnumDataType::LONGLONG;
+}
+
+#define PB_COMPARE_DATA_TYPE(_typename_, _type_) if(string.find(_typename_)) return _type_;
+
+EEnumDataType LCodeParser::GetEnumDataType(std::string string, ECodingLanguage language)
+{
+	switch (language)
+	{
+	case ECodingLanguage::CPlusPlus:
+		PB_COMPARE_DATA_TYPE("char", EEnumDataType::BYTE);
+		PB_COMPARE_DATA_TYPE("uint8_t", EEnumDataType::UBYTE);
+		PB_COMPARE_DATA_TYPE("unsigned char", EEnumDataType::UBYTE);
+		PB_COMPARE_DATA_TYPE("short", EEnumDataType::SHORT);
+		PB_COMPARE_DATA_TYPE("uint16_t", EEnumDataType::USHORT);
+		PB_COMPARE_DATA_TYPE("unsigned short", EEnumDataType::USHORT);
+		PB_COMPARE_DATA_TYPE("int", EEnumDataType::INT);
+		PB_COMPARE_DATA_TYPE("uint32_t", EEnumDataType::UINT);
+		PB_COMPARE_DATA_TYPE("unsigned int", EEnumDataType::UINT);
+		PB_COMPARE_DATA_TYPE("long long", EEnumDataType::LONGLONG);
+		PB_COMPARE_DATA_TYPE("uint64_t", EEnumDataType::ULONGLONG);
+		PB_COMPARE_DATA_TYPE("unsigned long long", EEnumDataType::ULONGLONG);
+	}
+	return EEnumDataType::NONE;
+}
+
+void LCodeParser::GetEnumNameValue(std::string valueText, int & currentValue, std::string & name, int & value)
+{
+	size_t equalsPosition = valueText.find('=');
+	if (equalsPosition == std::string::npos)
+	{
+		name = LString::Trim(valueText);
+		value = currentValue;
+		currentValue++;
+		return;
+	}
 }
 
 bool LCodeParser::IsAbstract(const CodeClass & codeClass)
@@ -146,6 +196,21 @@ bool LCodeParser::IsEnumToken(const FileBuffer& buffer, size_t currentIndex, ECo
 		break;
 	case ECodingLanguage::Python:
 		return false;
+	}
+	return false;
+}
+
+bool LCodeParser::IsClassToken(const FileBuffer & buffer, size_t currentIndex, ECodingLanguage language)
+{
+	const char* classToken = "class";
+	const char* structToken = "struct";
+	switch (language)
+	{
+	case ECodingLanguage::CPlusPlus:
+	case ECodingLanguage::CSharp:
+		PB_COMPARE_TOKEN(classToken, 5);
+		PB_COMPARE_TOKEN(structToken, 6);
+		break;
 	}
 	return false;
 }

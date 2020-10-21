@@ -9,5 +9,6 @@ public:
 	std::vector<CodeParam> params;
 	std::vector<CodeFunction> functions;
 	std::string name;
+	std::string filename;
 	std::vector<CodeClass*> inheritance;
 };

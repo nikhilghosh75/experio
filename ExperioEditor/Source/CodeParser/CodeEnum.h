@@ -1,10 +1,11 @@
 #pragma once
 #include <stdint.h>
-#include <map>
 #include <string>
+#include "Runtime/Containers/THashtable.h"
 
 enum class EEnumDataType : uint8_t
 {
+	NONE = 0,
 	BYTE = 7,
 	UBYTE = 8,
 	SHORT = 15,
@@ -18,6 +19,7 @@ enum class EEnumDataType : uint8_t
 class CodeEnum
 {
 public:
-	std::map<int, std::string> values;
+	std::string name;
+	THashtable<int, std::string> values;
 	EEnumDataType dataType;
 };

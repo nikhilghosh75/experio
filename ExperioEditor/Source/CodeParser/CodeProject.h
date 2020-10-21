@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "CodeClass.h"
 #include "CodeFunction.h"
+#include "CodeEnum.h"
 
 enum class ECodingLanguage : uint8_t
 {
@@ -32,6 +33,7 @@ public:
 	bool generated = false;
 
 	std::vector<CodeClass> classes;
+	std::vector<CodeEnum> enums;
 	std::vector<CodeFunction> functions;
 
 	CodeProject() = delete;

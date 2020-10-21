@@ -31,4 +31,11 @@ public:
 
 private:
 	std::vector<FVector2Int> GetObjectsInCodeFile(FileBuffer& buffer);
+
+	void ParseObjectsInCodeFile(std::vector<FVector2Int>& objects, FileBuffer& buffer);
+
+	void ParseEnumInCodeFile(FVector2Int location, FileBuffer& buffer);
+	void ParseClassInCodeFile(FVector2Int location, FileBuffer& buffer);
+
+	std::string GetNameFromEnd(size_t endOfName, FileBuffer& buffer);
 };
