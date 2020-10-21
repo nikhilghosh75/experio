@@ -14,6 +14,8 @@
 #include "../Math/FQuaternion.h"
 #include "../Math/FColor.h"
 #include "../Math/FCurve.h"
+#include "../Math/FRect.h"
+#include "../Math/FSphericalPoint.h"
 #include "../Data/Datatable.h"
 #include "../Rendering/Materials/Material.h"
 #include "../Rendering/Shader.h"
@@ -35,6 +37,7 @@ enum class EParamType
 	VECTOR4,
 	COLOR,
 	QUATERNION,
+	RECT,
 	CURVE,
 	AUDIO,
 	DATA,
@@ -63,7 +66,9 @@ FVector3 ParseVector3(std::string str);
 FVector4 ParseVector4(std::string str);
 FColor ParseColor(std::string str);
 FQuaternion ParseQuaternion(std::string str);
+FRect ParseRect(std::string str);
 FCurve ParseCurve(std::string str);
+FSphericalPoint ParseSphericalPoint(std::string str);
 
 FAudioClip ParseAudio(std::string str);
 Datatable ParseData(std::string str);
@@ -75,7 +80,3 @@ Texture* ParseTexture(std::string str);
 
 // ADD VIDEO HERE
 // ADD ARRAY AND STRING HERE IF NECESSARY
-
-/* BOOL, BYTE, SHORT, USHORT, FLOAT, INT, UINT, DOUBLE, LONG, ULONG,
-	VECTOR2, VECTOR3, VECTOR4, COLOR, QUATERNION, CURVE, AUDIO,
-	DATA, FONT, MESH, SHADER, TEXTURE, VIDEO, NARRAY, NSTRING*/

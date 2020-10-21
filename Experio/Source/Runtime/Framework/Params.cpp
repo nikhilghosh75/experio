@@ -166,10 +166,56 @@ FQuaternion ParseQuaternion(std::string str)
 	return FQuaternion(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
 }
 
+FRect ParseRect(std::string str)
+{
+	float coordinates[4];
+	int currentIndex = 0, lastSpace = 0;
+
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (str[i] == ' ')
+		{
+			coordinates[currentIndex] = LString::StringToFloat(str.substr(lastSpace + 1, i));
+			currentIndex++;
+			lastSpace = i;
+		}
+	}
+
+	if (currentIndex < 4)
+	{
+		coordinates[currentIndex] = LString::StringToFloat(str.substr(lastSpace + 1));
+	}
+
+	return FRect(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
+}
+
 FCurve ParseCurve(std::string str)
 {
 	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
 	return FCurve();
+}
+
+FSphericalPoint ParseSphericalPoint(std::string str)
+{
+	float coordinates[3];
+	int currentIndex = 0, lastSpace = 0;
+
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (str[i] == ' ')
+		{
+			coordinates[currentIndex] = LString::StringToFloat(str.substr(lastSpace + 1, i));
+			currentIndex++;
+			lastSpace = i;
+		}
+	}
+
+	if (currentIndex < 3)
+	{
+		coordinates[currentIndex] = LString::StringToFloat(str.substr(lastSpace + 1));
+	}
+
+	return FSphericalPoint(coordinates[0], coordinates[1], coordinates[2]);
 }
 
 FAudioClip ParseAudio(std::string str)
