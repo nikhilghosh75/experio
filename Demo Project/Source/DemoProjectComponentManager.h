@@ -114,7 +114,7 @@ public:
 		}
 	}
 
-	virtual std::vector<unsigned int> GetComponentIDsInGameObject(GameObject* gameObject)
+	virtual std::vector<unsigned int> GetComponentsIDsInGameObject(GameObject* gameObject) override
 	{
 		std::vector<unsigned int> returnVector;
 		for (int i = 0; i < classIds.size(); i++)
@@ -128,7 +128,7 @@ public:
 		return returnVector;
 	}
 
-	virtual std::vector<Component*> GetComponentsInGameObject(GameObject* gameObject)
+	virtual std::vector<Component*> GetComponentsInGameObject(GameObject* gameObject) override
 	{
 		std::vector<Component*> returnVector;
 		for (int i = 0; i < classIds.size(); i++)
