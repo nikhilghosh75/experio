@@ -1,6 +1,7 @@
 #include "DemoProject.h"
 #include "Runtime/Framework/SceneLoader.h"
 #include "Runtime/Core/Window.h"
+#include "ThirdParty/Nameof/nameof.hpp"
 
 std::string projectName = "Test Project";
 
@@ -112,6 +113,12 @@ size_t SizeOfComponent(unsigned int classId)
 	case 104: return sizeof(TextComponent);
 	}
 	return 0;
+}
+
+template <class T>
+std::string DefaultClassTypeToString()
+{
+	return NAMEOF_TYPE(T);
 }
 
 // Game Functions Here
