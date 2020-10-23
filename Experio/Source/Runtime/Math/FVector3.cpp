@@ -137,11 +137,11 @@ bool FVector3::Coincident(const FVector3& V1, const FVector3& V2, float threshol
 
 bool FVector3::IsZero(const FVector3& V, float threshold)
 {
-    if(LMath::Abs(V.x) > threshold && LMath::Abs(V.y) > threshold && LMath::Abs(V.z) > threshold)
+    if(LMath::Abs(V.x) > threshold || LMath::Abs(V.y) > threshold || LMath::Abs(V.z) > threshold)
     {
-        return true;
+        return false;
     }
-    return false;
+    return true;
 }
 
 bool FVector3::IsNormalized(const FVector3& V)
