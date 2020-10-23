@@ -12,6 +12,16 @@ unsigned int DefaultClassStringToInt(std::string name)
 	return 0;
 }
 
+std::string DefaultClassIntToString(unsigned int num)
+{
+	std::string str;
+	if (EditorProject::classes.SafeGet(num, str))
+	{
+		return str;
+	}
+	return "Unknown";
+}
+
 void EditorProject::TempSetup()
 {
 	EditorProject::classes.Insert(100, "VirtualCamera");
