@@ -1,6 +1,7 @@
 #include "LImGui.h"
 #include "../Debug/Debug.h"
 #include "../Containers/LStandard.h"
+#include "imgui_internal.h"
 
 uint64_t LImGui::DisplayBitmask(std::string name, std::vector<std::string>& names, bool* selected)
 {
@@ -252,4 +253,158 @@ void LImGui::DisplayTreeOfType(TTypedTree<T>* tree, std::string name, std::vecto
 		DisplaySubtreeOfType(root->children[i], name + std::to_string(i), selectedItems, convertFunc);
 	}
 	ImGui::TreePop();
+}
+
+void LImGui::DisplayTransform(FVector3& position, FQuaternion& rotation, FVector3& scale)
+{
+	DisplayVector3(position, "Position");
+
+	FVector4 rotationV = FVector4(rotation.w, rotation.x, rotation.y, rotation.z);
+	DisplayVector4(rotationV, "Rotation", FVector4(1, 0, 0, 0));
+	rotation = FQuaternion(rotationV.x, rotationV.y, rotationV.z, rotationV.w);
+
+	DisplayVector3(scale, "Scale", FVector3(1, 1, 1));
+}
+
+void LImGui::DisplayVector3(FVector3& V, const std::string & name, const FVector3 & resetValue, const FButtonColorPalette& xColorPalette, const FButtonColorPalette& yColorPalette, const FButtonColorPalette& zColorPalette)
+{
+	ImGui::PushID(name.c_str());
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 100.f);
+	ImGui::Text(name.c_str());
+	ImGui::NextColumn();
+
+	ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+	
+	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+	ImVec2 buttonSize = ImVec2(lineHeight + 3.f, lineHeight);
+
+	ImGui::PushStyleColor(ImGuiCol_Button, xColorPalette.defaultColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, xColorPalette.hoveredColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, xColorPalette.activeColor);
+
+	if (ImGui::Button("X", buttonSize))
+	{
+		V.x = resetValue.x;
+	}
+	ImGui::PopStyleColor(3);
+
+	ImGui::SameLine();
+	ImGui::DragFloat("##X", &V.x, 0.1f, 0.0f, 0.0f, "%.3f");
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+
+	ImGui::PushStyleColor(ImGuiCol_Button, yColorPalette.defaultColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, yColorPalette.hoveredColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, yColorPalette.activeColor);
+
+	if (ImGui::Button("Y", buttonSize))
+	{
+		V.y = resetValue.y;
+	}
+	ImGui::PopStyleColor(3);
+
+	ImGui::SameLine();
+	ImGui::DragFloat("##Y", &V.y, 0.1f, 0.0f, 0.0f, "%.2f");
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+
+	ImGui::PushStyleColor(ImGuiCol_Button, zColorPalette.defaultColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, zColorPalette.hoveredColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, zColorPalette.activeColor);
+
+	if (ImGui::Button("Z", buttonSize))
+	{
+		V.z = resetValue.z;
+	}
+	ImGui::PopStyleColor(3);
+
+	ImGui::SameLine();
+	ImGui::DragFloat("##Z", &V.z, 0.1f, 0.0f, 0.0f, "%.2f");
+	ImGui::PopItemWidth();
+
+	ImGui::PopStyleVar();
+	ImGui::Columns(1);
+	ImGui::PopID();
+}
+
+void LImGui::DisplayVector4(FVector4 & V, const std::string & name, const FVector4 & resetValue, const FButtonColorPalette & xColorPalette, const FButtonColorPalette & yColorPalette, const FButtonColorPalette & zColorPalette, const FButtonColorPalette & wColorPalette)
+{
+	ImGui::PushID(name.c_str());
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 100.f);
+	ImGui::Text(name.c_str());
+	ImGui::NextColumn();
+
+	ImGui::PushMultiItemsWidths(4, ImGui::CalcItemWidth());
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+
+	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+	ImVec2 buttonSize = ImVec2(lineHeight + 3.f, lineHeight);
+
+	ImGui::PushStyleColor(ImGuiCol_Button, xColorPalette.defaultColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, xColorPalette.hoveredColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, xColorPalette.activeColor);
+
+	if (ImGui::Button("X", buttonSize))
+	{
+		V.x = resetValue.x;
+	}
+	ImGui::PopStyleColor(3);
+
+	ImGui::SameLine();
+	ImGui::DragFloat("##X", &V.x, 0.1f, 0.0f, 0.0f, "%.3f");
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+
+	ImGui::PushStyleColor(ImGuiCol_Button, yColorPalette.defaultColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, yColorPalette.hoveredColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, yColorPalette.activeColor);
+
+	if (ImGui::Button("Y", buttonSize))
+	{
+		V.y = resetValue.y;
+	}
+	ImGui::PopStyleColor(3);
+
+	ImGui::SameLine();
+	ImGui::DragFloat("##Y", &V.y, 0.1f, 0.0f, 0.0f, "%.2f");
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+
+	ImGui::PushStyleColor(ImGuiCol_Button, zColorPalette.defaultColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, zColorPalette.hoveredColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, zColorPalette.activeColor);
+
+	if (ImGui::Button("Z", buttonSize))
+	{
+		V.z = resetValue.z;
+	}
+	ImGui::PopStyleColor(3);
+
+	ImGui::SameLine();
+	ImGui::DragFloat("##Z", &V.z, 0.1f, 0.0f, 0.0f, "%.2f");
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+
+	ImGui::PushStyleColor(ImGuiCol_Button, wColorPalette.defaultColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, wColorPalette.hoveredColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, wColorPalette.activeColor);
+
+	if (ImGui::Button("W", buttonSize))
+	{
+		V.w = resetValue.w;
+	}
+	ImGui::PopStyleColor(3);
+
+	ImGui::SameLine();
+	ImGui::DragFloat("##W", &V.w, 0.1f, 0.0f, 0.0f, "%.2f");
+	ImGui::PopItemWidth();
+
+	ImGui::PopStyleVar();
+	ImGui::Columns(1);
+	ImGui::PopID();
 }
