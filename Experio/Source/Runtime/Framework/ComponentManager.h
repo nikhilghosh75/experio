@@ -8,16 +8,16 @@ class ComponentManager
 public:
 	virtual void Update() {};
 
-	virtual Component* AddComponent(GameObject* gameObject, unsigned int id) { return nullptr; };
+	virtual Component* AddComponent(GameObject* gameObject, unsigned int id) = 0;
 
-	virtual Component* GetComponent(GameObject* gameObject, unsigned int classId) { return nullptr; };
+	virtual Component* GetComponent(GameObject* gameObject, unsigned int classId) = 0;
 
-	virtual Component* GetComponentAtIndex(unsigned int classId, unsigned int index) { return nullptr; }
+	virtual Component* GetComponentAtIndex(unsigned int classId, unsigned int index) = 0;
 
-	virtual void DeleteComponent(GameObject* gameObject, unsigned int classId) {};
+	virtual void DeleteComponent(GameObject* gameObject, unsigned int classId) = 0;
 
-	virtual std::vector<unsigned int> GetComponentsIDsInGameObject(GameObject* gameObject) { return std::vector<unsigned int>(); };
-	virtual std::vector<Component*> GetComponentsInGameObject(GameObject* gameObject) { return std::vector<Component*>(); };
+	virtual std::vector<unsigned int> GetComponentsIDsInGameObject(GameObject* gameObject) = 0;
+	virtual std::vector<Component*> GetComponentsInGameObject(GameObject* gameObject) = 0;
 
 	virtual unsigned int ComponentCount() { return -1; }
 };
