@@ -2,6 +2,7 @@
 #include <string>
 #include "FVector3.h"
 #include "FVector4.h"
+#include "imgui.h"
 
 struct FColor
 {
@@ -36,6 +37,7 @@ struct FColor
 
 	operator FVector3() const;
 	operator FVector4() const;
+	operator ImVec4() const { return ImVec4(this->r, this->g, this->b, this->a); }
 
 	// Colors
 	static const FColor Black;
