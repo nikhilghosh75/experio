@@ -40,4 +40,6 @@ public:
 	static void ForAllActiveScenes(std::function<void(Scene)> func);
 
 	static GameObject* FindGameObjectFromId(uint64_t id);
+
+	static void UpdateGameObject(GameObject& object);
 };

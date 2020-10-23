@@ -77,3 +77,12 @@ GameObject * Scene::FindGameObjectFromId(uint64_t id)
 	}
 	return nullptr;
 }
+
+void Scene::UpdateGameObject(GameObject & object)
+{
+	GameObject* foundObject = FindGameObjectFromId(object.id);
+
+	foundObject->localPosition = object.localPosition;
+	foundObject->localRotation = object.localRotation;
+	foundObject->localScale = object.localScale;
+}
