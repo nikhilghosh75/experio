@@ -66,6 +66,11 @@ float FQuaternion::SqrMagnitude(const FQuaternion & Q)
 	return Q.w * Q.w + Q.x * Q.x + Q.y * Q.y + Q.z * Q.z;
 }
 
+FVector3 FQuaternion::ToEuler()
+{
+	return ToEuler(*this);
+}
+
 glm::quat FQuaternion::ToGLMQuat(const FQuaternion & Q)
 {
 	glm::quat tempQuat = *(glm::quat*)&Q;
@@ -198,7 +203,7 @@ FQuaternion FQuaternion::MakeFromEuler(const FVector3 & Euler)
 
 FVector3 FQuaternion::ToEuler(const FQuaternion & Q)
 {
-	float sinrCosp = 2 * (Q.w * Q.x * Q.y * Q.z);
+	float sinrCosp = 2 * (Q.w * Q.x + Q.y * Q.z);
 	float cosrCosp = 1 - 2 * (Q.x * Q.x + Q.y * Q.y);
 	float roll = LMath::Atan2(sinrCosp, cosrCosp);
 

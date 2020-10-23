@@ -20,6 +20,8 @@ struct FQuaternion
 	FQuaternion operator-(const FQuaternion Q) const;
 	FQuaternion operator-=(const FQuaternion Q);
 
+	FVector3 ToEuler();
+
 	static float Magnitude(const FQuaternion& Q);
 	static float SqrMagnitude(const FQuaternion& Q);
 
