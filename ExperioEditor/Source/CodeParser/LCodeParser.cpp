@@ -107,7 +107,7 @@ EEnumDataType LCodeParser::GetEnumDataType(unsigned int numValues)
 	return EEnumDataType::LONGLONG;
 }
 
-#define PB_COMPARE_DATA_TYPE(_typename_, _type_) if(string.find(_typename_)) return _type_;
+#define PB_COMPARE_DATA_TYPE(_typename_, _type_) if(string.find(_typename_) != std::string::npos) return _type_;
 
 EEnumDataType LCodeParser::GetEnumDataType(std::string string, ECodingLanguage language)
 {
@@ -140,6 +140,13 @@ void LCodeParser::GetEnumNameValue(std::string valueText, int & currentValue, st
 		currentValue++;
 		return;
 	}
+}
+
+std::string LCodeParser::GetClassNameFromDeclaration(std::string className)
+{
+	size_t firstSpace = className.find(' ');
+	size_t secondSpace = className.find(' ', firstSpace + 1);
+	return className.substr(firstSpace + 1, secondSpace);
 }
 
 bool LCodeParser::IsAbstract(const CodeClass & codeClass)

@@ -31,6 +31,8 @@ public:
 
 	static void GetEnumNameValue(std::string valueText, int& currentValue, std::string& name, int& value);
 
+	static std::string GetClassNameFromDeclaration(std::string className);
+
 	static bool IsAbstract(const CodeClass& codeClass);
 
 	static bool IsCompiled(ECodingLanguage language);
