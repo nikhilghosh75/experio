@@ -12,6 +12,11 @@ class THashNode
 
 	THashNode* nextNode;
 public:
+	THashNode()
+	{
+		this->nextNode = nullptr;
+	}
+
 	THashNode(K key, V value)
 	{
 		this->value = value;
@@ -22,6 +27,11 @@ public:
 	K& GetKey() { return key; }
 	V& GetValue() { return value; }
 	THashNode* GetNext() const { return nextNode; }
+
+	void SetKey(K key)
+	{
+		this->key = key;
+	}
 
 	void SetValue(V value)
 	{
@@ -78,6 +88,36 @@ public:
 		}
 	}
 
+	THashtable(const THashtable<K, V, F>& hashtable)
+	{
+		this->capacity = hashtable.capacity;
+		this->arr = new THashNode<K, V>*[this->capacity]();
+		
+		for (int i = 0; i < this->capacity; i++)
+		{
+			this->arr[i] = new THashNode<K, V>();
+			THashNode<K, V>* thisEntry = this->arr[i];
+			THashNode<K, V>* otherEntry = hashtable.arr[i];
+			while (otherEntry != nullptr)
+			{
+				thisEntry->SetKey(otherEntry->GetKey());
+				thisEntry->SetValue(otherEntry->GetValue());
+				if (otherEntry->GetNext() != nullptr)
+				{
+					thisEntry->SetNext(new THashNode<K, V>());
+					otherEntry = otherEntry->GetNext();
+					thisEntry = thisEntry->GetNext();
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+
+		this->size = hashtable.size;
+	}
+
 	~THashtable()
 	{
 		for (int i = 0; i < this->capacity; i++)
@@ -86,6 +126,7 @@ public:
 			while (entry != nullptr)
 			{
 				THashNode<K, V>* prev = entry;
+				if (prev == nullptr) break;
 				entry = prev->GetNext();
 				delete prev;
 			}
