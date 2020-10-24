@@ -149,6 +149,31 @@ std::string LCodeParser::GetClassNameFromDeclaration(std::string className)
 	return className.substr(firstSpace + 1, secondSpace);
 }
 
+std::vector<std::string> LCodeParser::GetInheritanceFromDeclaration(std::string className)
+{
+	size_t colonIndex = className.find(':');
+
+	if (colonIndex == std::string::npos)
+	{
+		return std::vector<std::string>();
+	}
+
+	std::string afterColon = className.substr(colonIndex);
+	std::vector<std::string> tempInheritance = LString::SeperateStringByChar(afterColon, ' ');
+
+	// Cull Public and Private
+	std::vector<std::string> inheritance;
+	inheritance.reserve(tempInheritance.size());
+	for (int i = 0; i < tempInheritance.size(); i++)
+	{
+		if (tempInheritance[i].find("public") != std::string::npos) continue;
+		if (tempInheritance[i].find("private") != std::string::npos) continue;
+		inheritance.push_back(tempInheritance[i]);
+	}
+
+	return inheritance;
+}
+
 bool LCodeParser::IsAbstract(const CodeClass & codeClass)
 {
 	return codeClass.functions.size() > 0 && codeClass.params.size() == 0;
@@ -222,6 +247,11 @@ bool LCodeParser::IsClassToken(const FileBuffer & buffer, size_t currentIndex, E
 	return false;
 }
 
+bool LCodeParser::IsFunctionToken(const std::string & str, ECodingLanguage language)
+{
+	return str.find('(') != std::string::npos;
+}
+
 #define PB_COMPARE_EXT(_language_, _ext_) if(_language_ == language && ext == _ext_) return true;
 
 bool LCodeParser::IsFilepathOfLanguage(ECodingLanguage language, std::string path)
@@ -241,4 +271,107 @@ bool LCodeParser::IsFilepathOfLanguage(ECodingLanguage language, std::string pat
 	PB_COMPARE_EXT(ECodingLanguage::Python, "python");
 
 	return false;
+}
+
+CodeArg LCodeParser::ParseCodeArg(std::string str, ECodingLanguage language)
+{
+	CodeArg arg;
+	str = LString::TrimLeft(str);
+
+	size_t argTypeStart = 0;
+	if (str.find("const ") != std::string::npos)
+	{
+		argTypeStart = str.find("const ") + 6;
+		arg.isConst = true;
+	}
+	else
+	{
+		arg.isConst = false;
+	}
+
+	size_t firstSpace = str.find(' ');
+	arg.type = str.substr(argTypeStart, firstSpace - argTypeStart);
+	arg.name = str.substr(firstSpace + 1);
+
+	return arg;
+}
+
+CodeFunction LCodeParser::ParseCodeFunction(std::string str, ECodingLanguage language)
+{
+	CodeFunction func;
+
+	switch (language)
+	{
+	case ECodingLanguage::CPlusPlus: // C++
+	{
+		func.accessType = ECodeAccessType::Unknown;
+
+		size_t returnTypeStart = 0;
+		if (str.find("static ") != std::string::npos)
+		{
+			returnTypeStart = str.find("static ") + 7;
+			func.keywords = ECodeFunctionKeyword::Static;
+		}
+		size_t firstSpace = str.find(' ', returnTypeStart);
+		func.returnType = str.substr(returnTypeStart, firstSpace - returnTypeStart);
+
+		size_t firstParen = str.find('(');
+		func.functionName = str.substr(firstSpace + 1, firstParen - firstSpace - 1);
+
+		size_t firstRightParen = str.find(')');
+		if (firstRightParen == firstParen + 1)
+		{
+			func.arguments = std::vector<CodeArg>();
+		}
+		else
+		{
+			std::vector<std::string> argStrings = LString::SeperateStringByChar(
+				str.substr(firstParen + 1, firstRightParen - firstParen - 1), ',');
+			std::vector<CodeArg> args;
+			args.reserve(argStrings.size());
+			for (int i = 0; i < argStrings.size(); i++)
+			{
+				args.push_back(ParseCodeArg(argStrings[i], language));
+			}
+			func.arguments = args;
+		}
+	}
+		break;
+	default:
+		Debug::LogError("Language is not supported");
+		break;
+	}
+
+	return func;
+}
+
+CodeParam LCodeParser::ParseCodeParam(std::string str, ECodingLanguage language)
+{
+	CodeParam param;
+
+	switch (language)
+	{
+	case ECodingLanguage::CPlusPlus: // C++
+	{
+		param.accessType = ECodeAccessType::Unknown;
+
+		size_t returnTypeStart = 0;
+		if (str.find("static ") != std::string::npos)
+		{
+			returnTypeStart = str.find("static ") + 7;
+			param.keywords = ECodeParamKeyword::Static;
+		}
+		size_t firstSpace = str.find(' ', returnTypeStart);
+		param.type = str.substr(returnTypeStart, firstSpace - returnTypeStart);
+
+		size_t firstParen = str.find('(');
+		param.name = str.substr(firstSpace + 1, firstParen - firstSpace - 1);
+	}
+	break;
+	default:
+		Debug::LogError("Language is not supported");
+		break;
+	}
+
+	return param;
 }

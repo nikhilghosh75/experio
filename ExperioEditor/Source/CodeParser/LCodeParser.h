@@ -33,6 +33,8 @@ public:
 
 	static std::string GetClassNameFromDeclaration(std::string className);
 
+	static std::vector<std::string> GetInheritanceFromDeclaration(std::string className);
+
 	static bool IsAbstract(const CodeClass& codeClass);
 
 	static bool IsCompiled(ECodingLanguage language);
@@ -41,6 +43,11 @@ public:
 
 	static bool IsEnumToken(const FileBuffer& buffer, size_t currentIndex, ECodingLanguage language);
 	static bool IsClassToken(const FileBuffer& buffer, size_t currentIndex, ECodingLanguage language);
+	static bool IsFunctionToken(const std::string& str, ECodingLanguage language);
 
 	static bool IsFilepathOfLanguage(ECodingLanguage language, std::string path);
+
+	static CodeArg ParseCodeArg(std::string str, ECodingLanguage language);
+	static CodeFunction ParseCodeFunction(std::string str, ECodingLanguage language);
+	static CodeParam ParseCodeParam(std::string str, ECodingLanguage language);
 };

@@ -21,3 +21,10 @@ CodeProject::CodeProject(std::string filepath, FCodeProjectOptions & options)
 		generated = true;
 	}
 }
+
+void CodeProject::Generate()
+{
+	CodeProjectGenerator generator(this);
+	generator.GenerateFullProject();
+	generated = true;
+}
