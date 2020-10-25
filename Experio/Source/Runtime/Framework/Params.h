@@ -20,6 +20,9 @@
 #include "../Rendering/Materials/Material.h"
 #include "../Rendering/Shader.h"
 
+class TextureRef;
+class MeshRef;
+
 enum class EParamType
 {
 	BOOL,
@@ -74,9 +77,9 @@ FAudioClip ParseAudio(std::string str);
 Datatable ParseData(std::string str);
 FontData* ParseFont(std::string str);
 Material* ParseMaterial(std::string str);
-MeshData* ParseMesh(std::string str);
+MeshRef ParseMesh(std::string str);
 Shader* ParseShader(std::string str);
-Texture* ParseTexture(std::string str);
+TextureRef ParseTexture(std::string str);
 
 // ADD VIDEO HERE
 // ADD ARRAY AND STRING HERE IF NECESSARY

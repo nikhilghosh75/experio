@@ -1,5 +1,7 @@
 #include "Params.h"
 #include "Project.h"
+#include "../Rendering/Managers/TextureManager.h"
+#include "../Rendering/Managers/MeshManager.h"
 
 bool ParseBool(std::string str)
 {
@@ -242,10 +244,10 @@ Material* ParseMaterial(std::string str)
 	return Project::materialManager->LoadMaterialFromFile(filePath);
 }
 
-MeshData* ParseMesh(std::string str)
+MeshRef ParseMesh(std::string str)
 {
 	std::string filePath = LFileOperations::GetFullFilePath(str);
-	return MeshReader::ReadFile(filePath.c_str());
+	return MeshManager::LoadMesh(filePath);
 }
 
 Shader* ParseShader(std::string str)
@@ -267,8 +269,8 @@ Shader* ParseShader(std::string str)
 	return nullptr;
 }
 
-Texture* ParseTexture(std::string str)
+TextureRef ParseTexture(std::string str)
 {
 	std::string filePath = LFileOperations::GetFullFilePath(str);
-	return new Texture(ImageReader::ReadFile(filePath.c_str()));
+	return TextureManager::LoadTexture(filePath);
 }
