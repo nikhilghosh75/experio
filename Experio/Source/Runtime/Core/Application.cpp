@@ -3,19 +3,10 @@
 #include <iostream>
 #include "../Debug/TempProfiler.h"
 #include "../Rendering/Renderer.h"
-#include "../Files/Font/FontReader.h"
-#include "../UI/TextComponent.h"
-#include "../Particles/ParticleSystem.h"
-#include "../Containers/TTypedTree.h"
 #include "../Framework/Framework.h"
-#include "../Framework/Project.h"
-#include "../Framework/Scene.h"
 #include "../Time/GameTime.h"
-#include "../Camera/VirtualCamera.h"
 #include "../Framework/SceneLoader.h"
-#include "../Framework/PrefabLoader.h"
-#include "../Files/LFileOperations.h"
-#include "../../ThirdParty/Nameof/nameof.hpp"
+#include "../Rendering/Managers/TextureManager.h"
 
 Application::Application()
 {
