@@ -3,9 +3,9 @@
 #include "Runtime/Debug/Debug.h"
 
 #include "Runtime/Camera/CameraSystem.h"
-#include "Runtime/Particles/ParticleSystem.h"
-#include "Runtime/Rendering/Billboard.h"
-#include "Runtime/Rendering/MeshComponent.h"
+#include "Runtime/Rendering/Particles/ParticleSystem.h"
+#include "Runtime/Rendering/Components/Billboard.h"
+#include "Runtime/Rendering/Components/MeshComponent.h"
 #include "Runtime/UI/TextComponent.h"
 
 __declspec(dllexport) class DemoProjectComponentManager : public ComponentManager
