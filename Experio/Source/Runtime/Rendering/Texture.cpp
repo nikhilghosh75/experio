@@ -1,7 +1,7 @@
 #include "Texture.h"
 #include "../Files/Images/BMPReader.h"
 #include "../Files/Images/LImageOperations.h"
-#include "LOpenGL.h"
+#include "OpenGL/LOpenGL.h"
 #include "GL/glew.h"
 #include "../Debug/Debug.h"
 

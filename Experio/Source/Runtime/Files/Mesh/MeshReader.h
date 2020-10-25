@@ -11,14 +11,6 @@ enum EMeshFileType : uint8_t
 	FBX
 };
 
-class MeshMapData
-{
-public:
-	Texture* albedoMap;
-	Texture* normalMap;
-	Texture* specularMap;
-};
-
 class MeshData
 {
 public:
@@ -28,12 +20,11 @@ public:
 	VertexBuffer* tangents;
 	VertexBuffer* bitangents;
 	IndexBuffer* indexBuffer;
-	MeshMapData* mapData;
 	bool isIndexed;
 
 	EMeshFileType fileType;
 
-	unsigned int GetTriangleCount()
+	unsigned int GetTriangleCount() const
 	{
 		return verticies->GetSize() / sizeof(unsigned int);
 	}

@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "GL/glew.h"
-#include "LOpenGL.h"
+#include "OpenGL/LOpenGL.h"
 
 struct FVertexBufferElement
 {

@@ -140,7 +140,5 @@ IndexBuffer* LMeshOperations::IndexMesh(MeshData & data)
 		newIndices[i] = outIndicies[i];
 	}
 
-	//GDebug::Log("Transformed");
-
 	return new IndexBuffer(newIndices, outIndicies.size());
 }

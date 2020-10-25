@@ -3,7 +3,7 @@
 #include <GL/GL.h>
 #include <stdlib.h>
 #include <string.h>
-#include "LOpenGL.h"
+#include "OpenGL/LOpenGL.h"
 #include "../Data/NumericData.h"
 
 VertexBuffer::VertexBuffer()
