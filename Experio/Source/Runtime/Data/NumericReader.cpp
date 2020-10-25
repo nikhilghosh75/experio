@@ -1,6 +1,6 @@
 #include "NumericReader.h"
 #include "../Files/LFileOperations.h"
-#include "../Rendering/LOpenGL.h"
+#include "../Rendering/OpenGL/LOpenGL.h"
 #include "../Debug/Debug.h"
 
 void NumericReader::ReadSingleData(void * dataLocation, EDataType type, std::ifstream & stream)

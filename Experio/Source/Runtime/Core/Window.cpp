@@ -2,7 +2,7 @@
 #include "../Debug/Debug.h"
 #include "../Debug/TempProfiler.h"
 #include "../Math/LMath.h"
-#include "../Rendering/LOpenGL.h"
+#include "../Rendering/OpenGL/LOpenGL.h"
 #include <GL/glew.h>
 #include <GL/GL.h>
 #include <GL/GLU.h>

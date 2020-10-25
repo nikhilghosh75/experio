@@ -1,5 +1,5 @@
 #include "Inspector.h"
-#include "Runtime/Rendering/LImGui.h"
+#include "Runtime/Rendering/ImGui/LImGui.h"
 #include "Runtime/Framework/Framework.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../Framework/EditorProject.h"

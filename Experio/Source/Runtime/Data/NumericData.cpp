@@ -1,5 +1,5 @@
 #include "NumericData.h"
-#include "../Rendering/LOpenGL.h"
+#include "../Rendering/OpenGL/LOpenGL.h"
 
 NumericData::NumericData()
 {

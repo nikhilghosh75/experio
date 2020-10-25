@@ -1,6 +1,6 @@
 #include "SceneHierarchy.h"
 #include "Runtime/Framework/GameObject.h"
-#include "Runtime/Rendering/LImGui.h"
+#include "Runtime/Rendering/ImGui/LImGui.h"
 #include "Runtime/Framework/Scene.h"
 #include "Runtime/Containers/LStandard.h"
 

@@ -10,7 +10,7 @@
 #include "imgui_internal.h"
 #include "EditorApplication.h"
 #include "Runtime/Debug/Debug.h"
-#include "Runtime/Rendering/LOpenGL.h"
+#include "Runtime/Rendering/OpenGL/LOpenGL.h"
 
 HWND EditorWindow::hwnd;
 int EditorWindow::displayHeight = 0;
