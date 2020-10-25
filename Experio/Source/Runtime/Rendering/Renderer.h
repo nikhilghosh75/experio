@@ -7,8 +7,8 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "Texture.h"
-#include "Billboard.h"
-#include "MeshComponent.h"
+#include "Components/Billboard.h"
+#include "Components/MeshComponent.h"
 #include "FrameBuffer.h"
 #include "../Math/FRect.h"
 

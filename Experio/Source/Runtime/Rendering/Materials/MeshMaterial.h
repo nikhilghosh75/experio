@@ -1,7 +1,7 @@
 #pragma once
 #include "Material.h"
 #include "../../../Dependencies/glm/glm/glm.hpp"
-#include "../Texture.h"
+#include "../Managers/TextureManager.h"
 #include "../LightData.h"
 
 class MeshMaterial : public Material
@@ -10,9 +10,9 @@ public:
 	MeshMaterial();
 	MeshMaterial(Shader* shader);
 
-	Texture* albedo;
-	Texture* normal;
-	Texture* specular;
+	TextureRef albedo;
+	TextureRef normal;
+	TextureRef specular;
 
 	bool useLightingData = true;
 

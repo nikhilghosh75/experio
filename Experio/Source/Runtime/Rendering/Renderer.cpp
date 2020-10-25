@@ -22,6 +22,7 @@
 #include "../Framework/Project.h"
 #include "../Camera/CameraSystem.h"
 #include "../Camera/AdditionalCameras.h"
+#include "Managers/TextureManager.h"
 
 Renderer* Renderer::current;
 
@@ -277,26 +278,19 @@ void Renderer::TempRenderer()
 
 	Clear();
 
-	// REGULAR
-;
-
 	OBJReader objReader;
-	MeshData* tempData = objReader.ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Meshes/suzanne.obj");
-	// MeshData* tempData = objReader.ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Meshes/cylinder.obj");
-	tempData->mapData = new MeshMapData();
-	//tempData->mapData->normalMap = &normalTexture;
-	//tempData->mapData->specularMap = &specularTexture;
+	// MeshData* tempData = objReader.ReadFile("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Meshes/suzanne.obj");
 
 	// MeshComponent suzanneMesh(tempData, &basicShader);
 	GameObject tempObject;
 	MeshComponent suzanneMesh(&tempObject);
-	suzanneMesh.meshData = tempData;
+	suzanneMesh.meshData = MeshManager::LoadMesh("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Meshes/suzanne.obj");
 	suzanneMesh.material = new MeshMaterial();
 	suzanneMesh.material->SetShader("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BasicVertex",
 		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BasicFragment");
-	suzanneMesh.material->albedo = new Texture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/uvmap.bmp");
-	suzanneMesh.material->normal = new Texture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/normal.bmp");
-	suzanneMesh.material->specular = new Texture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/specular.bmp");
+	suzanneMesh.material->albedo = TextureManager::LoadTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/uvmap.bmp");
+	suzanneMesh.material->normal = TextureManager::LoadTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/normal.bmp");
+	suzanneMesh.material->specular = TextureManager::LoadTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/specular.bmp");
 	suzanneMesh.GetGameObject()->localRotation = FQuaternion::MakeFromEuler(FVector3(0, 90, 0));
 	suzanneMesh.GetGameObject()->localScale = FVector3(0.7, 0.7, 0.7);
 	suzanneMesh.RecalculateModelMatrix();
@@ -320,8 +314,6 @@ void Renderer::TempRenderer()
 	//this->DrawBillboard(billboard, camera);
 	
 	LogRenderingError();
-
-	delete tempData;
 }
 
 unsigned int CompileShader(const std::string & source, unsigned int type)
