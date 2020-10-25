@@ -68,19 +68,23 @@
     <ClInclude Include="Source\Runtime\Math\FVector2.h" />
     <ClInclude Include="Source\Runtime\Math\FVector2Int.h" />
     <ClInclude Include="Source\Runtime\Math\FVector4.h" />
+    <ClInclude Include="Source\Runtime\Math\Math.h" />
     <ClInclude Include="Source\Runtime\Math\MatrixTypes.h" />
+    <ClInclude Include="Source\Runtime\Math\Random.h" />
     <ClInclude Include="Source\Runtime\Math\TMatrix.h" />
     <ClInclude Include="Source\Runtime\Memory\TScopePtr.h" />
-    <ClInclude Include="Source\Runtime\Particles\Particle.h" />
-    <ClInclude Include="Source\Runtime\Particles\ParticleSystem.h" />
-    <ClInclude Include="Source\Runtime\Rendering\Billboard.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Managers\MeshManager.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Managers\TextureManager.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Particles\Particle.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleSystem.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Components\Billboard.h" />
     <ClInclude Include="Source\Runtime\Rendering\FrameBuffer.h">
       <DeploymentContent>true</DeploymentContent>
     </ClInclude>
     <ClInclude Include="Source\Runtime\Rendering\IndexBuffer.h" />
     <ClInclude Include="Source\Runtime\Rendering\LightData.h" />
-    <ClInclude Include="Source\Runtime\Rendering\LImGui.h" />
-    <ClInclude Include="Source\Runtime\Rendering\LOpenGL.h" />
+    <ClInclude Include="Source\Runtime\Rendering\ImGui\LImGui.h" />
+    <ClInclude Include="Source\Runtime\Rendering\OpenGL\LOpenGL.h" />
     <ClInclude Include="Source\Runtime\Rendering\Materials\BillboardMaterial.h" />
     <ClInclude Include="Source\Runtime\Rendering\Materials\Material.h" />
     <ClInclude Include="Source\Runtime\Rendering\Materials\MaterialManager.h" />
@@ -88,7 +92,7 @@
     <ClInclude Include="Source\Runtime\Rendering\Materials\SingleColorMaterial.h" />
     <ClInclude Include="Source\Runtime\Rendering\Materials\TestMaterialManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Materials\TextMaterial.h" />
-    <ClInclude Include="Source\Runtime\Rendering\MeshComponent.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Components\MeshComponent.h" />
     <ClInclude Include="Source\Runtime\Rendering\Renderer.h" />
     <ClInclude Include="Source\Runtime\Rendering\Shader.h" />
     <ClInclude Include="Source\Runtime\Rendering\Texture.h" />
@@ -112,6 +116,7 @@
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
+    <ClInclude Include="Source\Runtime\UI\UIColorPalettes.h" />
     <ClInclude Include="Source\ThirdParty\Event System\Event.h" />
     <ClInclude Include="Source\ThirdParty\Magic Enum\magic_enum.hpp" />
     <ClInclude Include="Source\ThirdParty\Nameof\nameof.hpp" />
@@ -185,18 +190,21 @@
     <ClCompile Include="Source\Runtime\Math\FVector2.cpp" />
     <ClCompile Include="Source\Runtime\Math\FVector2Int.cpp" />
     <ClCompile Include="Source\Runtime\Math\FVector4.cpp" />
+    <ClCompile Include="Source\Runtime\Math\Random.cpp" />
     <ClCompile Include="Source\Runtime\Math\TMatrix.cpp" />
-    <ClCompile Include="Source\Runtime\Particles\ParticleSystem.cpp" />
-    <ClCompile Include="Source\Runtime\Rendering\Billboard.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Managers\MeshManager.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Managers\TextureManager.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleSystem.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Components\Billboard.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\FrameBuffer.cpp" />
-    <ClCompile Include="Source\Runtime\Rendering\ImguiBuild.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\ImGui\ImguiBuild.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\IndexBuffer.cpp" />
-    <ClCompile Include="Source\Runtime\Rendering\LImGui.cpp" />
-    <ClCompile Include="Source\Runtime\Rendering\LOpenGL.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\ImGui\LImGui.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\OpenGL\LOpenGL.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Materials\BillboardMaterial.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Materials\MeshMaterial.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Materials\SingleColorMaterial.cpp" />
-    <ClCompile Include="Source\Runtime\Rendering\MeshComponent.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Components\MeshComponent.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Renderer.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Shader.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Texture.cpp" />
@@ -217,6 +225,7 @@
     <ClCompile Include="Source\Runtime\Time\GameTime.cpp" />
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
+    <ClCompile Include="Source\Runtime\UI\UIColorPalettes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Standard\Materials\Test.material" />
