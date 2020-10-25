@@ -1,11 +1,11 @@
 #pragma once
 #include "imgui.h"
-#include "../Containers/TTypedTree.h"
+#include "../../Containers/TTypedTree.h"
 #include <string>
-#include "../Math/FVector3.h"
-#include "../Math/FVector4.h"
-#include "../Math/FQuaternion.h"
-#include "../UI/UIColorPalettes.h"
+#include "../../Math/FVector3.h"
+#include "../../Math/FVector4.h"
+#include "../../Math/FQuaternion.h"
+#include "../../UI/UIColorPalettes.h"
 
 class LImGui
 {

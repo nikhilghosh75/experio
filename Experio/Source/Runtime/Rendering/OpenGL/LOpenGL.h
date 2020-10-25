@@ -1,7 +1,7 @@
 #pragma once
 #include "GL/glew.h"
-#include "../Files/Images/ImageReader.h"
-#include "VertexBuffer.h"
+#include "../../Files/Images/ImageReader.h"
+#include "../VertexBuffer.h"
 
 class LOpenGL
 {

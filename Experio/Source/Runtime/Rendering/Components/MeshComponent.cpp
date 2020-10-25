@@ -3,9 +3,9 @@
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "../Files/Mesh/MeshReader.h"
-#include "../Camera/CameraSystem.h"
-#include "Renderer.h"
+#include "../../Files/Mesh/MeshReader.h"
+#include "../../Camera/CameraSystem.h"
+#include "../Renderer.h"
 
 MeshComponent::MeshComponent()
 {
@@ -18,7 +18,7 @@ MeshComponent::MeshComponent(GameObject * object)
 	this->gameObject = object;
 }
 
-MeshComponent::MeshComponent(MeshData * newMeshData)
+MeshComponent::MeshComponent(MeshRef newMeshData)
 {
 	this->isVisible = true;
 	this->meshData = newMeshData;
@@ -31,10 +31,7 @@ glm::mat4 MeshComponent::GetModelMatrix() const
 
 void MeshComponent::Start()
 {
-	if (this->meshData == nullptr)
-	{
-		this->meshData = MeshReader::ReadFile("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Meshes/suzanne.obj");
-	}
+
 }
 
 void MeshComponent::Update()

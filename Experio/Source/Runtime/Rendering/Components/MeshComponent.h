@@ -1,17 +1,17 @@
 #pragma once
 
-#include "../Math/FTransform.h"
-#include "Materials/MeshMaterial.h"
-#include "../Files/Mesh/MeshReader.h"
-#include "C:\Users\debgh\source\repos\project-bloo\Dependencies\glm\glm\glm.hpp"
-#include "../Framework/Framework.h"
-#include "Shader.h"
+#include "../Materials/MeshMaterial.h"
+#include "../../Files/Mesh/MeshReader.h"
+#include "glm/glm.hpp"
+#include "../../Framework/Framework.h"
+#include "../Shader.h"
+#include "../Managers/MeshManager.h"
 
 class MeshComponent : public Component
 {
 public:
 	MeshMaterial* material = nullptr;
-	MeshData* meshData = nullptr;
+	MeshRef meshData;
 	bool isVisible;
 
 private:
@@ -19,7 +19,7 @@ private:
 public:
 	MeshComponent();
 	MeshComponent(GameObject* object);
-	MeshComponent(MeshData* newMeshData);
+	MeshComponent(MeshRef newMeshData);
 
 	glm::mat4 GetModelMatrix() const;
 

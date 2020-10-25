@@ -1,13 +1,13 @@
 #include "ParticleSystem.h"
-#include "../Rendering/VertexBuffer.h"
-#include "../Rendering/VertexBufferLayout.h"
-#include "../Rendering/VertexArray.h"
-#include "../Camera/CameraSystem.h"
-#include "../Core/Window.h"
-#include "../Core/LWindowOperations.h"
+#include "../VertexBuffer.h"
+#include "../VertexBufferLayout.h"
+#include "../VertexArray.h"
+#include "../../Camera/CameraSystem.h"
+#include "../../Core/Window.h"
+#include "../../Core/LWindowOperations.h"
 #include "glm/gtc/matrix_transform.hpp"
-#include "../Math/LMath.h"
-#include "../Debug/TempProfiler.h"
+#include "../../Math/LMath.h"
+#include "../../Debug/TempProfiler.h"
 
 int particlesPerSecond = 10000;
 

@@ -1,14 +1,14 @@
 #include "Billboard.h"
 #include "GL/glew.h"
 #include <GL/GL.h>
-#include "Shader.h"
-#include "VertexBuffer.h"
-#include "../Core/Window.h"
-#include "../Core/LWindowOperations.h"
-#include "VertexBufferLayout.h"
-#include "VertexArray.h"
-#include "../Camera/CameraSystem.h"
-#include "Renderer.h"
+#include "../Shader.h"
+#include "../VertexBuffer.h"
+#include "../../Core/Window.h"
+#include "../../Core/LWindowOperations.h"
+#include "../VertexBufferLayout.h"
+#include "../VertexArray.h"
+#include "../../Camera/CameraSystem.h"
+#include "../Renderer.h"
 
 Billboard::Billboard(GameObject * object)
 {

@@ -1,6 +1,6 @@
 #pragma once
-#include "../Math/FColor.h"
-#include "../Math/FVector3.h"
+#include "../../Math/FColor.h"
+#include "../../Math/FVector3.h"
 
 struct FParticleData
 {

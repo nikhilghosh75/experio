@@ -1,7 +1,7 @@
 #pragma once
 #include "Particle.h"
-#include "../Rendering/Shader.h"
-#include "../Framework/Framework.h"
+#include "../Shader.h"
+#include "../../Framework/Framework.h"
 
 class ParticleSystem : public Component
 {

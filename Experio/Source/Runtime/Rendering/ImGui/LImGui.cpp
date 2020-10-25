@@ -1,6 +1,6 @@
 #include "LImGui.h"
-#include "../Debug/Debug.h"
-#include "../Containers/LStandard.h"
+#include "../../Debug/Debug.h"
+#include "../../Containers/LStandard.h"
 #include "imgui_internal.h"
 
 uint64_t LImGui::DisplayBitmask(std::string name, std::vector<std::string>& names, bool* selected)
