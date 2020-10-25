@@ -132,6 +132,32 @@ FVector2 FVector2::Abs(const FVector2 & V)
 	return FVector2(LMath::Abs(V.x), LMath::Abs(V.y));
 }
 
+FVector2 FVector2::Reciprocal(const FVector2 & V)
+{
+	return FVector2(1 / V.x, 1 / V.y);
+}
+
+FVector2 FVector2::GetSignVector(const FVector2 & V)
+{
+	FVector2 tempVector(1, 1);
+	if (V.x < 0)
+	{
+		tempVector.x = -1;
+	}
+	if (V.y < 0)
+	{
+		tempVector.y = -1;
+	}
+	return tempVector;
+}
+
+std::string FVector2::ToString(const FVector2 & V, const int numDigits)
+{
+	std::string xString = std::to_string(V.x);
+	std::string yString = std::to_string(V.y);
+	return "[" + xString + ", " + yString + "]";
+}
+
 FVector2 FVector2::Normalized() const
 {
 	float magnitude = this->Magnitude();
@@ -146,6 +172,11 @@ FVector2 FVector2::UVCords() const
 FVector2 FVector2::Clamp(float minLength, float maxLength) const
 {
 	return Clamp(*this, minLength, maxLength);
+}
+
+float FVector2::GetAngle() const
+{
+	return LMath::Atan2(x, y);
 }
 
 float FVector2::Dot(const FVector2 & V1, const FVector2 & V2)
