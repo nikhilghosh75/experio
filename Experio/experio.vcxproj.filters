@@ -533,9 +533,6 @@
     <ClCompile Include="Source\Runtime\Framework\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Runtime\Framework\Project.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Runtime\Time\FDuration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -648,6 +645,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Rendering\Managers\MeshManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Runtime\Framework\Project.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

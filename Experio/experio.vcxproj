@@ -167,6 +167,7 @@
     <ClCompile Include="Source\Runtime\Files\Mesh\MeshReader.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Params.cpp" />
     <ClCompile Include="Source\Runtime\Framework\PrefabLoader.cpp" />
+    <ClCompile Include="Source\Runtime\Framework\Project.cpp" />
     <ClCompile Include="Source\Runtime\Framework\SceneLoader.cpp" />
     <ClCompile Include="Source\Runtime\Framework\TEvent.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\FNTReader.cpp" />
@@ -177,7 +178,6 @@
     <ClCompile Include="Source\Runtime\Files\Mesh\OBJReader.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Component.cpp" />
     <ClCompile Include="Source\Runtime\Framework\GameObject.cpp" />
-    <ClCompile Include="Source\Runtime\Framework\Project.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Scene.cpp" />
     <ClCompile Include="Source\Runtime\Input\Input.cpp" />
     <ClCompile Include="Source\Runtime\Math\FColor.cpp" />
@@ -292,7 +292,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;BUILD_DLL;GLEW_STATIC;_GDI32_;_WINDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
       <EnableModules>false</EnableModules>
