@@ -132,6 +132,7 @@ bool SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 		}
 	}
 	currentScene->isActive = true;
+	currentScene->isLoaded = true;
 	Debug::Log("Scene Loading Finished");
 	return true;
 }

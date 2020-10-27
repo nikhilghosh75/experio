@@ -54,6 +54,11 @@ bool Scene::IsActive(uint8_t sceneIndex)
 	return Scene::scenes[sceneIndex].isActive;
 }
 
+bool Scene::IsLoaded(uint8_t sceneIndex)
+{
+	return Scene::scenes[sceneIndex].isLoaded;
+}
+
 void Scene::ForAllActiveScenes(std::function<void(Scene)> func)
 {
 	for (int i = 0; i < MAX_SCENES; i++)

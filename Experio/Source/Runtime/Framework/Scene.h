@@ -13,6 +13,7 @@ class Scene
 public:
 	GameObject sceneRoot;
 	bool isActive = false;
+	bool isLoaded = false;
 
 private:
 	std::string name;
@@ -36,6 +37,8 @@ public:
 
 	static bool IsActive(GameObject* object);
 	static bool IsActive(uint8_t sceneIndex);
+
+	static bool IsLoaded(uint8_t sceneIndex);
 
 	static void ForAllActiveScenes(std::function<void(Scene)> func);
 
