@@ -12,6 +12,8 @@ extern std::string DefaultTagNumToString(unsigned short num);
 template <class T>
 extern unsigned int DefaultClassTypeToInt();
 
+extern std::string DefaultClassIntToString(unsigned int num);
+
 extern unsigned int DefaultClassStringToInt(std::string name);
 
 template <class T>
@@ -56,12 +58,6 @@ unsigned int Project::ClassTypeToInt()
 #else
 	return DefaultClassTypeToInt<T>();
 #endif // EXPERIO_EDITOR
-}
-
-template<>
-unsigned int Project::ClassTypeToInt<TestComponent>()
-{
-	return 2;
 }
 
 template<class T>
