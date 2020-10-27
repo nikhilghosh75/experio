@@ -1,6 +1,9 @@
 #include "LImGui.h"
 #include "../../Debug/Debug.h"
 #include "../../Containers/LStandard.h"
+#include "../../Files/LFileOperations.h"
+#include "../Managers/MeshManager.h"
+#include "../Managers/TextureManager.h"
 #include "imgui_internal.h"
 
 uint64_t LImGui::DisplayBitmask(std::string name, std::vector<std::string>& names, bool* selected)
@@ -36,7 +39,6 @@ uint64_t LImGui::DisplayBitmask(std::string name, std::vector<std::string>& name
 	{
 		for (int i = 0; i < names.size(); i++)
 		{
-			Debug::Log(names[i]);
 			if (ImGui::Selectable(names[i].c_str(), &(selected[i]), ImGuiSelectableFlags_DontClosePopups))
 			{
 				currentMask = currentMask | (1 << i);
@@ -49,6 +51,67 @@ uint64_t LImGui::DisplayBitmask(std::string name, std::vector<std::string>& name
 		ImGui::EndCombo();
 	}
 	return currentMask;
+}
+
+void LImGui::DisplayBool(bool& boolean, std::string name)
+{
+	ImGui::PushID(name.c_str());
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 100.f);
+	ImGui::Text(name.c_str());
+	ImGui::NextColumn();
+
+	ImGui::Checkbox(("##" + name).c_str(), &boolean);
+
+	ImGui::Columns(1);
+	ImGui::PopID();
+}
+
+void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
+{
+	ImGui::PushID(name.c_str());
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 100.f);
+	ImGui::Text(name.c_str());
+	ImGui::NextColumn();
+
+	std::string meshFileName = MeshManager::GetNameOfMesh(ref);
+	std::string meshName = LFileOperations::StripFilename(meshFileName);
+	ImGui::Text(meshName.c_str());
+
+	ImGui::SameLine();
+	if (ImGui::Button("Switch"))
+	{
+		// Add Later
+	}
+
+	ImGui::Columns(1);
+	ImGui::PopID();
+}
+
+void LImGui::DisplayTextureAsset(TextureRef & ref, std::string name)
+{
+	ImGui::PushID(name.c_str());
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 100.f);
+	ImGui::Text(name.c_str());
+	ImGui::NextColumn();
+
+	std::string meshFileName = TextureManager::GetNameOfTexture(ref);
+	std::string meshName = LFileOperations::StripFilename(meshFileName);
+	ImGui::Text(meshName.c_str());
+
+	ImGui::SameLine();
+	if (ImGui::Button("Switch"))
+	{
+		// Add Later
+	}
+
+	ImGui::Columns(1);
+	ImGui::PopID();
 }
 
 void LImGui::DisplaySubTree(TTypedTreeNode<std::string>* subtree, std::string name)
@@ -264,6 +327,55 @@ void LImGui::DisplayTransform(FVector3& position, FQuaternion& rotation, FVector
 	rotation = FQuaternion(rotationV.x, rotationV.y, rotationV.z, rotationV.w);
 
 	DisplayVector3(scale, "Scale", FVector3(1, 1, 1));
+}
+
+void LImGui::DisplayVector2(FVector2 & V, const std::string & name, const FVector2 & resetValue, const FButtonColorPalette & xColorPalette, const FButtonColorPalette & yColorPalette)
+{
+	ImGui::PushID(name.c_str());
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 100.f);
+	ImGui::Text(name.c_str());
+	ImGui::NextColumn();
+
+	ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+
+	float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+	ImVec2 buttonSize = ImVec2(lineHeight + 3.f, lineHeight);
+
+	ImGui::PushStyleColor(ImGuiCol_Button, xColorPalette.defaultColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, xColorPalette.hoveredColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, xColorPalette.activeColor);
+
+	if (ImGui::Button("X", buttonSize))
+	{
+		V.x = resetValue.x;
+	}
+	ImGui::PopStyleColor(3);
+
+	ImGui::SameLine();
+	ImGui::DragFloat("##X", &V.x, 0.1f, 0.0f, 0.0f, "%.3f");
+	ImGui::PopItemWidth();
+	ImGui::SameLine();
+
+	ImGui::PushStyleColor(ImGuiCol_Button, yColorPalette.defaultColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, yColorPalette.hoveredColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, yColorPalette.activeColor);
+
+	if (ImGui::Button("Y", buttonSize))
+	{
+		V.y = resetValue.y;
+	}
+	ImGui::PopStyleColor(3);
+
+	ImGui::SameLine();
+	ImGui::DragFloat("##Y", &V.y, 0.1f, 0.0f, 0.0f, "%.2f");
+	ImGui::PopItemWidth();
+
+	ImGui::PopStyleVar();
+	ImGui::Columns(1);
+	ImGui::PopID();
 }
 
 void LImGui::DisplayVector3(FVector3& V, const std::string & name, const FVector3 & resetValue, const FButtonColorPalette& xColorPalette, const FButtonColorPalette& yColorPalette, const FButtonColorPalette& zColorPalette)
