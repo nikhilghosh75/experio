@@ -54,7 +54,16 @@
     <ClCompile Include="Source\Inspector\Inspector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ComponentEditor\MeshComponentEditor.cpp">
+    <ClCompile Include="Source\Framework\SceneSaver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ComponentEditor\Renderable\MeshComponentEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ComponentEditor\Renderable\BillboardComponentEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ComponentEditor\Renderable\VirtualCameraEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,10 +122,25 @@
     <ClInclude Include="Source\Inspector\Inspector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ComponentEditor\MeshComponentEditor.h">
+    <ClInclude Include="Source\ComponentEditor\ComponentEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ComponentEditor\ComponentEditor.h">
+    <ClInclude Include="Source\CodeParser\CodeMember.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CodeParser\CodeArg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\SceneSaver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ComponentEditor\Renderable\MeshComponentEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ComponentEditor\Renderable\BillboardComponentEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ComponentEditor\Renderable\VirtualCameraEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,20 +3,34 @@
 #include "Runtime/Framework/Framework.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../Framework/EditorProject.h"
+#include "../ComponentEditor/Renderable/MeshComponentEditor.h"
+#include "../ComponentEditor/Renderable/BillboardComponentEditor.h"
+#include "../ComponentEditor/Renderable/VirtualCameraEditor.h"
 
-Inspector::Inspector()
+void Inspector::DisplayGameObject(uint64_t id)
 {
-	this->category = EEditorModuleCategory::Core;
-	this->name = "Inspector";
+	GameObject* object = Scene::FindGameObjectFromId(id);
+	
+	DisplayTransform(object);
+
+	std::vector<unsigned int> componentIDs = Project::componentManager->GetComponentsIDsInGameObject(object);
+	std::vector<Component*> components = Project::componentManager->GetComponentsInGameObject(object);
+	UpdateComponents(componentIDs);
+
+	for (int i = 0; i < componentEditors.size(); i++)
+	{
+		if (ImGui::TreeNode(EditorProject::classes.Get(componentIDs[i]).c_str()))
+		{
+			componentEditors[i]->Display(components[i]);
+			ImGui::TreePop();
+		}
+	}
 }
 
-void Inspector::Display()
+void Inspector::DisplayTransform(GameObject * object)
 {
-	std::vector<GameObject> objects = SceneHierarchy::hierarchy->GetSelectedItems();
-
-	if (objects.size() == 1)
+	if (ImGui::TreeNode("Transform"))
 	{
-		GameObject* object = Scene::FindGameObjectFromId(objects[0].id);
 		FVector3 position = object->localPosition;
 		FQuaternion rotation = object->localRotation;
 		FVector3 scale = object->localScale;
@@ -27,11 +41,86 @@ void Inspector::Display()
 		object->localRotation = rotation;
 		object->localScale = scale;
 
-		std::vector<unsigned int> components = Project::componentManager->GetComponentsIDsInGameObject(object);
-		for (int i = 0; i < components.size(); i++)
+		ImGui::TreePop();
+	}
+}
+
+void Inspector::UpdateComponents(std::vector<unsigned int> componentIDs)
+{
+	// Delete Components
+	for (int i = 0; i < componentEditors.size(); i++)
+	{
+		bool found = false;
+		unsigned int editorClassID = componentEditors[i]->GetComponentID();
+
+		for (int j = 0; j < componentIDs.size(); j++)
 		{
-			std::string componentName = EditorProject::classes.Get(components[i]);
-			ImGui::Text(componentName.c_str());
+			if (componentIDs[j] == editorClassID)
+			{
+				found = true; break;
+			}
 		}
+
+		if (!found)
+		{
+			delete componentEditors[i];
+			for (int j = i; j < componentEditors.size() - 1; j++)
+			{
+				componentEditors[j] = componentEditors[j + 1];
+			}
+			componentEditors.pop_back();
+		}
+	}
+
+	// Add Components
+	for (int i = 0; i < componentIDs.size(); i++)
+	{
+		bool found = false;
+		
+		for (int j = 0; j < componentEditors.size(); j++)
+		{
+			if (componentEditors[j]->GetComponentID() == componentIDs[i])
+			{
+				found = true;
+				break;
+			}
+		}
+
+		if (!found)
+		{
+			switch (componentIDs[i])
+			{
+			case 100:
+				componentEditors.push_back(new VirtualCameraEditor()); break;
+			case 101:
+				componentEditors.push_back(new MeshEditor()); break;
+			case 103:
+				componentEditors.push_back(new BillboardEditor()); break;
+			}
+		}
+	}
+}
+
+Inspector::Inspector()
+{
+	this->category = EEditorModuleCategory::Core;
+	this->name = "Inspector";
+}
+
+Inspector::~Inspector()
+{
+	for (int i = 0; i < componentEditors.size(); i++)
+	{
+		delete componentEditors[i];
+	}
+}
+
+void Inspector::Display()
+{
+	std::vector<GameObject> objects = SceneHierarchy::hierarchy->GetSelectedItems();
+
+	if (objects.size() == 1)
+	{
+		DisplayGameObject(objects[0].id);
 	}
 }
