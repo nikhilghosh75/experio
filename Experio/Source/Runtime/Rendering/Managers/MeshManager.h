@@ -58,4 +58,6 @@ public:
 	static MeshRef LoadMesh(std::string str);
 
 	static bool IsMeshLoaded(std::string str);
+
+	static std::string GetNameOfMesh(const MeshRef& ref);
 };

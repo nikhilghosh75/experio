@@ -148,3 +148,8 @@ bool TextureManager::IsTextureLoaded(std::string str)
 	}
 	return false;
 }
+
+std::string TextureManager::GetNameOfTexture(const TextureRef & ref)
+{
+	return slotNames[ref.textureID];
+}

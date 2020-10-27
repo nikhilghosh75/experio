@@ -147,3 +147,8 @@ bool MeshManager::IsMeshLoaded(std::string str)
 	}
 	return false;
 }
+
+std::string MeshManager::GetNameOfMesh(const MeshRef & ref)
+{
+	return slotNames[ref.meshID];
+}
