@@ -3,6 +3,7 @@
 #include "../Core/EditorModule.h"
 #include "Runtime/Rendering/Renderer.h"
 #include "Runtime/Files/Mesh/MeshReader.h"
+#include "Runtime/Rendering/Managers/MeshManager.h"
 #include "Runtime/Math/FVector3.h"
 
 enum class ESceneEditMode
@@ -27,9 +28,9 @@ class SceneView : public EditorModule
 
 	Renderer renderer;
 
-	MeshData* translationMesh;
-	MeshData* rotationMesh;
-	MeshData* scaleMesh;
+	MeshRef translationMesh;
+	MeshRef rotationMesh;
+	MeshRef scaleMesh;
 
 	void CreateMenu();
 

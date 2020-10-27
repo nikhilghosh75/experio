@@ -29,7 +29,7 @@ SceneView::SceneView()
 	this->cameraRotateSpeed = 0.0005f;
 	this->currentMode = ESceneEditMode::Translate;
 
-	this->translationMesh = MeshReader::ReadFile("C:/Users/debgh/source/repos/project-bloo/ExperioEditor/Resources/Meshes/translationGizmo.obj");
+	this->translationMesh = MeshManager::LoadMesh("C:/Users/debgh/source/repos/project-bloo/ExperioEditor/Resources/Meshes/translationGizmo.obj");
 	
 	if (singleColorMaterial == nullptr)
 	{
