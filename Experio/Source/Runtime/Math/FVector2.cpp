@@ -158,6 +158,11 @@ std::string FVector2::ToString(const FVector2 & V, const int numDigits)
 	return "[" + xString + ", " + yString + "]";
 }
 
+bool FVector2::IsEqual(FVector2 a, FVector2 b)
+{
+	return LMath::ApproxEquals(a.x, b.x) && LMath::ApproxEquals(a.y, b.y);
+}
+
 FVector2 FVector2::Normalized() const
 {
 	float magnitude = this->Magnitude();
