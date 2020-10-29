@@ -19,6 +19,8 @@
 #include "../Data/Datatable.h"
 #include "../Rendering/Materials/Material.h"
 #include "../Rendering/Shader.h"
+#include "../Rendering/Managers/TextureManager.h"
+#include "../Rendering/Managers/MeshManager.h"
 
 class TextureRef;
 class MeshRef;

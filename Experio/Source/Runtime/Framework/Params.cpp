@@ -1,7 +1,5 @@
 #include "Params.h"
 #include "Project.h"
-#include "../Rendering/Managers/TextureManager.h"
-#include "../Rendering/Managers/MeshManager.h"
 
 bool ParseBool(std::string str)
 {

@@ -1,0 +1,135 @@
+#include "SaveParams.h"
+
+#include "../Core/EditorApplication.h"
+
+void SaveBool(bool param, std::ostream & stream)
+{
+	if (param)
+	{
+		stream << "true";
+	}
+	else
+	{
+		stream << "false";
+	}
+}
+
+void SaveByte(uint8_t param, std::ostream & stream)
+{
+	stream << (unsigned short)param;
+}
+
+void SaveShort(short param, std::ostream & stream)
+{
+	stream << param;
+}
+
+void SaveUShort(uint16_t param, std::ostream & stream)
+{
+	stream << param;
+}
+
+void SaveFloat(float param, std::ostream & stream)
+{
+	stream << param;
+}
+
+void SaveInt(int param, std::ostream & stream)
+{
+	stream << param;
+}
+
+void SaveUInt(unsigned int param, std::ostream & stream)
+{
+	stream << param;
+}
+
+void SaveDouble(double param, std::ostream & stream)
+{
+	stream << param;
+}
+
+void SaveLongLong(long long param, std::ostream & stream)
+{
+	stream << param;
+}
+
+void SaveULongLong(uint64_t param, std::ostream & stream)
+{
+	stream << param;
+}
+
+void SaveVector2(FVector2 param, std::ostream & stream)
+{
+	stream << param.x << " " << param.y;
+}
+
+void SaveVector3(FVector3 param, std::ostream & stream)
+{
+	stream << param.x << " " << param.y << " " << param.z;
+}
+
+void SaveVector4(FVector4 param, std::ostream & stream)
+{
+	stream << param.w << " " << param.x << " " << param.y << " " << param.z;
+}
+
+void SaveColor(FColor param, std::ostream & stream)
+{
+	stream << param.r << " " << param.g << " " << param.b << " " << param.a;
+}
+
+void SaveQuaternion(FQuaternion param, std::ostream & stream)
+{
+	stream << param.x << " " << param.y << " " << param.z << " " << param.w;
+}
+
+void SaveRect(FRect param, std::ostream & stream)
+{
+	stream << param.min.x << " " << param.min.y << " " << param.max.x << " " << param.max.y;
+}
+
+void SaveCurve(FCurve param, std::ostream & stream)
+{
+	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+}
+
+void SaveSphericalPoint(FSphericalPoint param, std::ostream & stream)
+{
+	stream << param.radius << " " << param.polar << " " << param.azimuth;
+}
+
+void SaveAudio(FAudioClip param, std::ostream & stream)
+{
+	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+}
+
+void SaveData(Datatable param, std::ostream & stream)
+{
+	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+}
+
+void SaveFont(FontData * param, std::ostream & stream)
+{
+	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+}
+
+void SaveMaterial(Material * param, std::ostream & stream)
+{
+	stream << "?Standard?/Materials/Test.material";
+	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+}
+
+void SaveMesh(MeshRef param, std::ostream & stream)
+{
+	std::string fullFilePath = MeshManager::GetNameOfMesh(param);
+	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(fullFilePath);
+	stream << shortenedFilePath;
+}
+
+void SaveTexture(TextureRef param, std::ostream & stream)
+{
+	std::string fullFilePath = TextureManager::GetNameOfTexture(param);
+	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(fullFilePath);
+	stream << shortenedFilePath;
+}
