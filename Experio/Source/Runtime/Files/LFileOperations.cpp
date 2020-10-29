@@ -391,3 +391,24 @@ std::string LFileOperations::StripFilename(std::filesystem::path path)
 {
 	return path.stem().string();
 }
+
+std::string LFileOperations::StripFilenameAndExt(std::string filename)
+{
+	int indexOfSlash = 0;
+	int indexOfPeriod = 0;
+
+	for (int i = filename.size() - 2; i >= 2; i--)
+	{
+		if (filename[i] == '\\' || filename[i] == '/' || filename[i] == 92)
+		{
+			indexOfSlash = i;
+			break;
+		}
+		if (filename[i] == '.')
+		{
+			indexOfPeriod = i;
+		}
+	}
+
+	return filename.substr(indexOfSlash, indexOfPeriod - indexOfSlash);
+}

@@ -66,4 +66,6 @@ public:
 	static std::string StripFilename(std::string filename);
 	static std::string StripFilename(std::filesystem::directory_entry entry);
 	static std::string StripFilename(std::filesystem::path path);
+
+	static std::string StripFilenameAndExt(std::string filename);
 };
