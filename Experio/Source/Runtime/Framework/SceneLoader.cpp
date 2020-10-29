@@ -165,6 +165,10 @@ void SceneLoader::AddComponentsToObjects(std::ifstream& stream, int sceneSlot, G
 	char word[256];
 
 	stream >> word;
+	if (strcmp(word, "[]") == 0)
+	{
+		return;
+	}
 	while (strcmp(word, "}]") != 0)
 	{
 		unsigned int classID, numParams;
