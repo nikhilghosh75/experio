@@ -25,7 +25,16 @@ public:
 
 	void LoadProject(std::string dllFilePath); // Change Later
 
+	static std::string assetsFilePath;
+	static std::string configFilePath;
+	static std::string scriptsFilePath;
+	static std::string standardAssetsFilePath;
+
+	static std::string GetShortenedFilePath(std::string& fullFilePath);
+
 private:
+	void TempSetup();
+
 	void BeginFrame();
 	void EndFrame();
 

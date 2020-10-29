@@ -21,9 +21,16 @@
 #include "../CodeParser/CodeProject.h"
 #include "../CodeParser/CodeProjectGenerator.h"
 #include "../Inspector/Inspector.h"
+#include "../Framework/SceneSaver.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
 DllLoader EditorApplication::loader;
+
+std::string EditorApplication::assetsFilePath;
+std::string EditorApplication::configFilePath;
+std::string EditorApplication::scriptsFilePath;
+
+std::string EditorApplication::standardAssetsFilePath;
 
 EditorApplication::EditorApplication()
 {
@@ -39,6 +46,7 @@ EditorApplication::~EditorApplication()
 
 void EditorApplication::Setup()
 {
+	PROFILE_SCOPE("Editor Setup");
 	EditorWindow::InitializeWindow();
 	Project::inEditor = true;
 
@@ -46,6 +54,8 @@ void EditorApplication::Setup()
 	modules.push_back(new FileView());
 	modules.push_back(new SceneHierarchy());
 	modules.push_back(new Inspector());
+
+	TempSetup();
 
 	EditorProject::TempSetup();
 	SceneLoader::LoadSceneFromFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Scenes/TestScene.pbscene", 0);
@@ -60,7 +70,7 @@ void EditorApplication::Run()
 	FCodeProjectOptions options;
 	options.codingLanguage = ECodingLanguage::CPlusPlus;
 	options.generateInstantly = true;
-	CodeProject project("C:/Users/debgh/source/repos/project-bloo/Experio/Source/Runtime", options);
+	// CodeProject project("C:/Users/debgh/source/repos/project-bloo/Experio/Source/Runtime", options);
 	delete profiler;
 
 	while (EditorWindow::isActive)
@@ -75,6 +85,7 @@ void EditorApplication::Run()
 
 	}
 
+	SceneSaver::SaveScene(0, "testSavedScene.pbscene");
 	EditorWindow::CloseWindow();
 }
 
@@ -93,6 +104,35 @@ void EditorApplication::LoadProject(std::string dllFilePath)
 	loader.LoadDll(dllFilePath);
 	loader.CallFunction("SetupProject");
 	loader.CallVoidFunction<VOIDHWNDPROC, HWND>("SetupGraphics", EditorWindow::GetHWND());
+}
+
+std::string EditorApplication::GetShortenedFilePath(std::string & fullFilePath)
+{
+	size_t foundIndex;
+
+	// Compare with Assets Filepath
+	foundIndex = fullFilePath.find(assetsFilePath);
+	if (foundIndex != std::string::npos) return fullFilePath.substr(assetsFilePath.size());
+
+	foundIndex = fullFilePath.find(configFilePath);
+	if (foundIndex != std::string::npos) return "?Config?" + fullFilePath.substr(configFilePath.size());
+
+	foundIndex = fullFilePath.find(scriptsFilePath);
+	if (foundIndex != std::string::npos) return "?Source?" + fullFilePath.substr(scriptsFilePath.size());
+
+	foundIndex = fullFilePath.find(standardAssetsFilePath);
+	if (foundIndex != std::string::npos) return "?Standard?" + fullFilePath.substr(standardAssetsFilePath.size());
+
+	return fullFilePath;
+}
+
+void EditorApplication::TempSetup()
+{
+	assetsFilePath = "C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/";
+	configFilePath = "C:/Users/debgh/source/repos/project-bloo/Demo Project/Config/";
+	scriptsFilePath = "C:/Users/debgh/source/repos/project-bloo/Demo Project/Source/";
+
+	standardAssetsFilePath = "C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard";
 }
 
 void EditorApplication::BeginFrame()
