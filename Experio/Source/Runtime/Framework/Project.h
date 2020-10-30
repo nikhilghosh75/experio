@@ -34,4 +34,10 @@ public:
 	_className_* component = (_className_*)Project::componentManager->AddComponent(gameObject, _classID_);\
 	SetComponentParams<_className_>(params, component);
 
+#define PB_SAVE_COMPONENT(_className_) SaveComponentParams<_className_>((_className_*)component, stream);
+
+#define PB_SAVE_PARAM(_paramName_, _param_, _saveFunction_) stream << "\t\t\t" << _paramName_ << ": "; \
+	_saveFunction_(_param_, stream); \
+	stream << std::endl;
+
 #define PB_START() component->Start();
