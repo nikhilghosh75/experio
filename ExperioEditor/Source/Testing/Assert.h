@@ -148,6 +148,6 @@ struct FAssertionOutcome
 
 #define ASSERT_PASS(statement)
 
-#define ASSERT_FAIL()
+#define ASSERT_FAIL() return FAssertionOutcome(EAssertionStatus::Failure, "", __FILE__, __LINE__);
 
 #define ASSERT_FAIL(statement) return FAssertionOutcome(EAssertionStatus::Failure, statement, __FILE__, __LINE__);
