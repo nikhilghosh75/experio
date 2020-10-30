@@ -93,6 +93,11 @@ FSphericalPoint FSphericalPoint::operator*=(float f)
 	return *this * f;
 }
 
+bool FSphericalPoint::InRegion(float polarStart, float polarEnd, float azimuthStart, float azimuthEnd)
+{
+	return (this->polar > polarStart && this->polar < polarEnd) && (this->azimuth > azimuthStart && this->azimuth < azimuthEnd);
+}
+
 float FSphericalPoint::Distance(const FSphericalPoint sp1, const FSphericalPoint sp2)
 {
 	return LMath::Sqrt(sp1.radius * sp1.radius + sp2.radius * sp2.radius -
