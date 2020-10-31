@@ -20,6 +20,8 @@ public:
 
 	void Run();
 
+	void Shutdown();
+
 	void SetBeginFrameCallback(void(*callback)(float));
 	void SetEndFrameCallback(void(*callback)(float));
 

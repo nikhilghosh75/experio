@@ -85,8 +85,13 @@ void EditorApplication::Run()
 
 	}
 
-	SceneSaver::SaveScene(0, "testSavedScene.pbscene");
 	EditorWindow::CloseWindow();
+}
+
+void EditorApplication::Shutdown()
+{
+	Project::EndGame();
+	Scene::UnloadAllScenes();
 }
 
 void EditorApplication::SetBeginFrameCallback(void(*callback)(float))
