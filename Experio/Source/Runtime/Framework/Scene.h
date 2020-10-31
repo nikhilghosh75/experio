@@ -40,6 +40,10 @@ public:
 
 	static bool IsLoaded(uint8_t sceneIndex);
 
+	static void UnloadScene(uint8_t sceneIndex);
+
+	static void UnloadAllScenes();
+
 	static void ForAllActiveScenes(std::function<void(Scene)> func);
 
 	static GameObject* FindGameObjectFromId(uint64_t id);

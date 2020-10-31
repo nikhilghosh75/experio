@@ -59,6 +59,37 @@ bool Scene::IsLoaded(uint8_t sceneIndex)
 	return Scene::scenes[sceneIndex].isLoaded;
 }
 
+void Scene::UnloadScene(uint8_t sceneIndex)
+{
+	if (!Scene::scenes[sceneIndex].isLoaded)
+	{
+		return;
+	}
+	
+	GameObject& sceneRoot = Scene::scenes[sceneIndex].sceneRoot;
+	if (sceneRoot.children.size() != 0)
+	{
+		for (int i = 0; i < sceneRoot.children.size(); i++)
+		{
+			delete sceneRoot.children[i];
+		}
+		int n = sceneRoot.children.size();
+		for (int i = 0; i < n; i++)
+		{
+			sceneRoot.children.pop_back();
+		}
+	}
+	return;
+}
+
+void Scene::UnloadAllScenes()
+{
+	for (uint8_t i = 0; i < MAX_SCENES; i++)
+	{
+		UnloadScene(i);
+	}
+}
+
 void Scene::ForAllActiveScenes(std::function<void(Scene)> func)
 {
 	for (int i = 0; i < MAX_SCENES; i++)
