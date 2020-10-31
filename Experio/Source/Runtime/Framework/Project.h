@@ -8,6 +8,8 @@ class Project
 public:
 	static bool inEditor;
 
+	static bool projectRunning;
+
 	static std::string projectName;
 
 	static ComponentManager* componentManager;
@@ -18,6 +20,8 @@ public:
 	static void EndFrame();
 
 	static void StartGame();
+
+	static void EndGame();
 
 	static unsigned short TagStringToNum(const char* string);
 

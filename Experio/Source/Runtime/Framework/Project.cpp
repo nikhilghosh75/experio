@@ -20,6 +20,7 @@ template <class T>
 extern std::string DefaultClassTypeToString();
 
 bool Project::inEditor = false;
+bool Project::projectRunning = false;
 std::string Project::projectName = projectName;
 
 ComponentManager* Project::componentManager;
@@ -37,7 +38,13 @@ void Project::EndFrame()
 
 void Project::StartGame()
 {
+	projectRunning = true;
 	GameTime::StartGame();
+}
+
+void Project::EndGame()
+{
+	projectRunning = false;
 }
 
 unsigned short Project::TagStringToNum(const char * string)
