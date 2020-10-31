@@ -99,19 +99,31 @@ public:
 		switch (classId)
 		{
 		case 2:
-			PB_DELETE_COMPONENT(testComponentInstances);
+			PB_DELETE_COMPONENT(testComponentInstances); break;
 		case 100:
 			CameraSystem::DeleteComponent(gameObject);
 			break;
 		case 101:
-			PB_DELETE_COMPONENT(meshInstances);
+			PB_DELETE_COMPONENT(meshInstances); break;
 		case 102:
-			PB_DELETE_COMPONENT(particleSystemInstances);
+			PB_DELETE_COMPONENT(particleSystemInstances); break;
 		case 103:
-			PB_DELETE_COMPONENT(billboardInstances);
+			PB_DELETE_COMPONENT(billboardInstances); break;
 		case 104:
-			PB_DELETE_COMPONENT(textComponentInstances);
+			PB_DELETE_COMPONENT(textComponentInstances); break;
 		}
+	}
+
+	virtual void OnGameObjectDeleted(GameObject* gameObject) override
+	{
+		bool foundComponent = false;
+
+		PB_DELETE_COMPONENT(testComponentInstances); foundComponent = false;
+		CameraSystem::OnGameObjectDeleted(gameObject);
+		PB_DELETE_COMPONENT(meshInstances); foundComponent = false;
+		PB_DELETE_COMPONENT(particleSystemInstances); foundComponent = false;
+		PB_DELETE_COMPONENT(billboardInstances); foundComponent = false;
+		PB_DELETE_COMPONENT(textComponentInstances); foundComponent = false;
 	}
 
 	virtual std::vector<unsigned int> GetComponentsIDsInGameObject(GameObject* gameObject) override

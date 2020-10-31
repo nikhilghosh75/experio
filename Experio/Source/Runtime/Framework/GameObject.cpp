@@ -47,6 +47,11 @@ GameObject::GameObject(std::string name, unsigned short tag, uint8_t layer, uint
 	PB_ASSIGN_DEFAULT_ID()
 }
 
+GameObject::~GameObject()
+{
+	if (Project::componentManager != nullptr && Project::projectRunning) { Project::componentManager->OnGameObjectDeleted(this); }
+}
+
 template<class T>
 void GameObject::AddComponent()
 {

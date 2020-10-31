@@ -23,6 +23,8 @@ public:
 
 	static void DeleteComponent(GameObject* gameObject);
 
+	static void OnGameObjectDeleted(GameObject* gameObject);
+
 	static void Update();
 
 	static VirtualCamera* GetCurrentCamera();

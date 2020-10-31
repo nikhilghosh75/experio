@@ -64,6 +64,11 @@ void CameraSystem::DeleteComponent(GameObject * gameObject)
 	}
 }
 
+void CameraSystem::OnGameObjectDeleted(GameObject * gameObject)
+{
+	DeleteComponent(gameObject);
+}
+
 void CameraSystem::Update()
 {
 	if (cameras.size() == 0)
@@ -113,6 +118,10 @@ VirtualCamera * CameraSystem::GetCurrentCamera()
 	int maxIndex = 0;
 	for (int i = 1; i < cameras.size(); i++)
 	{
+		if (cameras[i].GetGameObject() == nullptr)
+		{
+			continue;
+		}
 		if (cameras[i].priority > cameras[maxIndex].priority)
 		{
 			maxIndex = i;

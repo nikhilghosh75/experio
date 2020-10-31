@@ -26,6 +26,8 @@ public:
 	GameObject(std::string name, unsigned short tag, uint8_t layer);
 	GameObject(std::string name, unsigned short tag, uint8_t layer, uint8_t scene);
 
+	~GameObject();
+
 	template<class T>
 	void AddComponent();
 

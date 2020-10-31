@@ -19,6 +19,8 @@ public:
 	virtual std::vector<unsigned int> GetComponentsIDsInGameObject(GameObject* gameObject) = 0;
 	virtual std::vector<Component*> GetComponentsInGameObject(GameObject* gameObject) = 0;
 
+	virtual void OnGameObjectDeleted(GameObject* gameObject) = 0;
+
 	virtual unsigned int ComponentCount() { return -1; }
 };
 
@@ -51,11 +53,10 @@ public:
 			_vectorName_[i] = _vectorName_[i + 1];\
 		}\
 	}\
-	break;\
 
 #define PB_UPDATE(_vectorName_) for(int i = 0; i < _vectorName_.size(); i++)\
 	{\
-		if(!Scene::IsActive(_vectorName_[i].GetGameObject())) { continue; }\
+		if(!Scene::IsActive(_vectorName_[i].GetGameObject()) || _vectorName_[i].GetGameObject() == nullptr) { continue; }\
 		_vectorName_[i].Update();\
 	}\
 
