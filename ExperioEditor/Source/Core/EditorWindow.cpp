@@ -11,6 +11,10 @@
 #include "EditorApplication.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Rendering/OpenGL/LOpenGL.h"
+#include "FileDialog.h"
+#include "../Framework/SceneSaver.h"
+#include "Runtime/Framework/Scene.h"
+#include "Runtime/Framework/SceneLoader.h"
 
 HWND EditorWindow::hwnd;
 int EditorWindow::displayHeight = 0;
@@ -227,13 +231,37 @@ void EditorWindow::Dockspace()
 	ImGui::End();
 }
 
+void TempFunc() {}
+
 void EditorWindow::CreateUpperMenu()
 {
 	if (ImGui::BeginMenuBar())
 	{
+		// Restructure Later
 		if (ImGui::BeginMenu("File"))
 		{
-			ImGui::Text("There are no items here yet");
+			if (ImGui::MenuItem("New Scene")) 
+			{ 
+				// Add Stuff Here 
+			}
+			if (ImGui::MenuItem("Open Scene")) 
+			{ 
+				FFileDialogInfo dialogInfo = FileDialog::OpenFile("Experio Scene (*.pbscene)\0*.pbscene\0");
+				if (dialogInfo.IsValid())
+				{
+					Scene::UnloadScene(0);
+					SceneLoader::LoadSceneFromFile(dialogInfo.filename, 0);
+				}
+			}
+			if (ImGui::MenuItem("Save Scene")) { TempFunc(); }
+			if (ImGui::MenuItem("Save Scene As")) 
+			{ 
+				FFileDialogInfo dialogInfo = FileDialog::SaveFile("Experio Scene (*.pbscene)\0*.pbscene\0");
+				if (dialogInfo.IsValid())
+				{
+					SceneSaver::SaveScene(0, dialogInfo.filename);
+				}
+			}
 
 			ImGui::EndMenu();
 		}
