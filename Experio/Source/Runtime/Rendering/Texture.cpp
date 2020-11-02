@@ -71,3 +71,8 @@ void Texture::UnBind() const
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+unsigned int Texture::GetRendererID() const
+{
+	return this->rendererID;
+}

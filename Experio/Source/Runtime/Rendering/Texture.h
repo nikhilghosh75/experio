@@ -22,6 +22,8 @@ public:
 	void Bind(unsigned int slot = 0) const;
 	void UnBind() const;
 
+	unsigned int GetRendererID() const;
+
 	unsigned int GetWidth() const;
 	unsigned int GetHeight() const;
 	EImageEncoding GetImageEncoding() const;

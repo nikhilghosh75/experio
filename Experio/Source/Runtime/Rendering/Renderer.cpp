@@ -80,6 +80,11 @@ void Renderer::Clear()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+void Renderer::ClearColor(FColor color)
+{
+	glClearColor(color.r, color.g, color.b, color.a);
+}
+
 void Renderer::OnNewFrame()
 {
 	glEnable(GL_DEPTH_TEST);

@@ -41,6 +41,8 @@ public:
 
 	void Clear();
 
+	void ClearColor(FColor color);
+
 	void OnNewFrame();
 	void OnEndFrame();
 
