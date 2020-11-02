@@ -22,6 +22,7 @@
 #include "../CodeParser/CodeProjectGenerator.h"
 #include "../Inspector/Inspector.h"
 #include "../Framework/SceneSaver.h"
+#include "../GameView/GameView.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
 DllLoader EditorApplication::loader;
@@ -54,6 +55,7 @@ void EditorApplication::Setup()
 	modules.push_back(new FileView());
 	modules.push_back(new SceneHierarchy());
 	modules.push_back(new Inspector());
+	modules.push_back(new GameView());
 
 	TempSetup();
 
