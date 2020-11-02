@@ -44,4 +44,4 @@ public:
 	_saveFunction_(_param_, stream); \
 	stream << std::endl;
 
-#define PB_START() component->Start();
+#define PB_START_COMPONENT() component->Start();
