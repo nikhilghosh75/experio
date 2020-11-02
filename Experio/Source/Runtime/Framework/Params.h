@@ -43,6 +43,7 @@ enum class EParamType
 	COLOR,
 	QUATERNION,
 	RECT,
+	SPHERICALPOINT,
 	CURVE,
 	AUDIO,
 	DATA,
