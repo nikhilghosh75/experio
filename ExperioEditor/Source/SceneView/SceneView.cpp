@@ -124,7 +124,7 @@ void SceneView::Display()
 	FWindowData data = EditorWindow::GetWindowData();
 	Framebuffer framebuffer(data.width, data.height);
 	framebuffer.Bind();
-	Project::componentManager->Update();
+	Project::componentManager->RenderScene();
 	HandleGizmos();
 	framebuffer.Unbind();
 
