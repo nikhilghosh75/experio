@@ -1,5 +1,6 @@
 #include "SceneSaver.h"
 #include "Runtime/Framework/Framework.h"
+#include "Runtime/Debug/TempProfiler.h"
 
 extern void SaveComponentToScene(unsigned int componentID, Component* component, std::ofstream& stream);
 
@@ -80,8 +81,10 @@ bool SceneSaver::SaveScene(uint8_t sceneIndex, const std::string& filename)
 		return false;
 	}
 
+	PROFILE_SCOPE("Save Scene");
+
 	sceneFile << "PROJECT BLOO SCENE" << std::endl;
-	sceneFile << "Name: " << LFileOperations::StripFilenameAndExt(filename) << std::endl; // Fix This
+	sceneFile << "Name: " << LFileOperations::StripFilenameAndExt(filename) << std::endl;
 	sceneFile << "Project: " << Project::projectName << std::endl;
 
 	sceneFile << "{" << std::endl;
