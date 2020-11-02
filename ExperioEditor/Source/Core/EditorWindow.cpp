@@ -259,7 +259,7 @@ void EditorWindow::CreateUpperMenu()
 				FFileDialogInfo dialogInfo = FileDialog::SaveFile("Experio Scene (*.pbscene)\0*.pbscene\0");
 				if (dialogInfo.IsValid())
 				{
-					SceneSaver::SaveScene(0, dialogInfo.filename);
+					SceneSaver::SaveScene(0, dialogInfo.filename + ".pbscene");
 				}
 			}
 
