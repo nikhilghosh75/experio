@@ -94,11 +94,12 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 {
 	switch (classId)
 	{
+	case 2: {PB_EMPLACE_COMPONENT(TestComponent, classId); PB_START_COMPONENT(); } break;
 	case 100: { CameraSystem::AddComponent(params, gameObject); } break;
-	case 101: { PB_EMPLACE_COMPONENT(MeshComponent, classId); PB_START(); } break;
-	case 102: { PB_EMPLACE_COMPONENT(ParticleSystem, classId); PB_START(); } break;
-	case 103: { PB_EMPLACE_COMPONENT(Billboard, classId); PB_START(); } break;
-	case 104: { PB_EMPLACE_COMPONENT(TextComponent, classId); PB_START(); } break;
+	case 101: { PB_EMPLACE_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
+	case 102: { PB_EMPLACE_COMPONENT(ParticleSystem, classId); PB_START_COMPONENT(); } break;
+	case 103: { PB_EMPLACE_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
+	case 104: { PB_EMPLACE_COMPONENT(TextComponent, classId); PB_START_COMPONENT(); } break;
 	}
 }
 
@@ -106,6 +107,7 @@ size_t SizeOfComponent(unsigned int classId)
 {
 	switch (classId)
 	{
+	case 2: return sizeof(TestComponent);
 	case 100: return sizeof(VirtualCamera);
 	case 101: return sizeof(MeshComponent);
 	case 102: return sizeof(ParticleSystem);
