@@ -6,7 +6,11 @@
 class ComponentManager
 {
 public:
+	virtual void Start() {};
+
 	virtual void Update() {};
+
+	virtual void RenderScene() = 0;
 
 	virtual Component* AddComponent(GameObject* gameObject, unsigned int id) = 0;
 
@@ -59,4 +63,9 @@ public:
 		if(!Scene::IsActive(_vectorName_[i].GetGameObject()) || _vectorName_[i].GetGameObject() == nullptr) { continue; }\
 		_vectorName_[i].Update();\
 	}\
+
+#define PB_START(_vectorName_) for(int i = 0; i < _vectorName_.size(); i++)\
+{\
+	_vectorName_[i].Start();\
+}\
 

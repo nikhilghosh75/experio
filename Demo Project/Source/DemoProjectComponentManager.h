@@ -18,12 +18,27 @@ public:
 	std::vector<MeshComponent> meshInstances;
 	std::vector<TextComponent> textComponentInstances;
 
+	virtual void Start() override
+	{
+		PB_START(testComponentInstances);
+		PB_START(meshInstances);
+		PB_START(particleSystemInstances);
+		PB_START(billboardInstances);
+	}
+
 	virtual void Update() override
 	{
 		CameraSystem::Update();
 		PB_UPDATE(testComponentInstances);
 		PB_UPDATE(meshInstances);
 		PB_UPDATE(particleSystemInstances);
+		PB_UPDATE(billboardInstances);
+	}
+
+	virtual void RenderScene() override
+	{
+		CameraSystem::Update();
+		PB_UPDATE(meshInstances);
 		PB_UPDATE(billboardInstances);
 	}
 
