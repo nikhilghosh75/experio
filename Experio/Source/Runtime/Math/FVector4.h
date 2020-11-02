@@ -1,6 +1,7 @@
 #pragma once
 
 #include "imgui.h"
+#include <string>
 
 struct FVector4
 {
@@ -28,6 +29,9 @@ struct FVector4
 	static float Dot(const FVector4& V1, const FVector4 V2);
 
 	static FVector4 Abs(const FVector4& V);
+	static FVector4 Reflect(const FVector4& Incident, const FVector4& Normal);
+	static FVector4 Refract(const FVector4& Incident, const FVector4& Normal, float indexOfRefraction);
+	static FVector4 BoundToTesseract(const FVector4& V, const FVector4& Min, const FVector4& Max);
 
 	FVector4 operator+(const FVector4& V) const;
 	FVector4 operator+=(const FVector4& V);
@@ -39,4 +43,6 @@ struct FVector4
 	FVector4 operator/=(const FVector4& V);
 
 	operator ImVec4() const { return ImVec4(this->x, this->y, this->z, this->w); }
+
+	operator std::string() const;
 };

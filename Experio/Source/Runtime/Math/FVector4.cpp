@@ -86,3 +86,31 @@ FVector4 FVector4::Abs(const FVector4 & V)
 {
 	return FVector4(LMath::Abs(V.w), LMath::Abs(V.x), LMath::Abs(V.y), LMath::Abs(V.z));
 }
+
+FVector4 FVector4::operator+(const FVector4 & V) const
+{
+	return FVector4(this->w + V.w, this->x + V.x, this->y + V.y, this->z + V.z);
+}
+
+FVector4 FVector4::operator+=(const FVector4 & V)
+{
+	this->w += V.w;
+	this->x += V.x;
+	this->y += V.y;
+	this->z += V.z;
+	return *this + V;
+}
+
+FVector4 FVector4::operator-(const FVector4 & V)
+{
+	return FVector4(this->w - V.w, this->x - V.x, this->y - V.y, this->z - V.z);
+}
+
+FVector4 FVector4::operator-=(const FVector4 & V)
+{
+	this->w -= V.w;
+	this->x -= V.x;
+	this->y -= V.y;
+	this->z -= V.z;
+	return *this - V;
+}

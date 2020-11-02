@@ -56,6 +56,11 @@ float FVector2::SqrDistance(const FVector2 & V1, const FVector2 & V2)
 	return V1.SqrDistance(V2);
 }
 
+bool FVector2::operator==(const FVector2 Other) const
+{
+	return IsEqual(*this, Other);
+}
+
 FVector2 FVector2::operator+(const FVector2 Other) const
 {
 	return FVector2(this->x + Other.x, this->y + Other.y);
