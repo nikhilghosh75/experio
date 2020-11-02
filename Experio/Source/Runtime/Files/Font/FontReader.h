@@ -86,4 +86,6 @@ public:
 	FontReader() { };
 
 	static FontData* ReadFile(const char* fileName);
+
+	static FontData* ReadFile(unsigned int assetIndex);
 };

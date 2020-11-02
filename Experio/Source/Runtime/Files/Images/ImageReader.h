@@ -34,4 +34,6 @@ public:
 	ImageReader() { };
 
 	static ImageData* ReadFile(const char* filePath);
+
+	static ImageData* ReadFile(unsigned int assetIndex);
 };

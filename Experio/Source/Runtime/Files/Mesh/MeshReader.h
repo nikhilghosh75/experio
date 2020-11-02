@@ -34,4 +34,6 @@ class MeshReader : FileReader<MeshData>
 {
 public:
 	static MeshData* ReadFile(const char* fileName);
+
+	static MeshData* ReadFile(unsigned int assetIndex);
 };
