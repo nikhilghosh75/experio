@@ -222,7 +222,7 @@ HWND* Window::GetHWND()
 #ifdef PLATFORM_WINDOWS
 LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 {
-	Debug::Log(std::to_string(message));
+	Debug::Log(std::to_string(message), EDebugMessageType::WindowMessage);
 	switch (message)
 	{
 	case WM_CREATE:

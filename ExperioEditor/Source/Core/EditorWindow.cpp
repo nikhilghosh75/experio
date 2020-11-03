@@ -281,7 +281,7 @@ void EditorWindow::CreateUpperMenu()
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT WINAPI WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	Debug::Log(std::to_string(msg));
+	Debug::Log(std::to_string(msg), EDebugMessageType::WindowMessage);
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
 		return true;
 
