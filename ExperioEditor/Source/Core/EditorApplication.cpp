@@ -23,6 +23,7 @@
 #include "../Inspector/Inspector.h"
 #include "../Framework/SceneSaver.h"
 #include "../GameView/GameView.h"
+#include "../Console/Console.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
 DllLoader EditorApplication::loader;
@@ -56,6 +57,7 @@ void EditorApplication::Setup()
 	modules.push_back(new SceneHierarchy());
 	modules.push_back(new Inspector());
 	modules.push_back(new GameView());
+	modules.push_back(new Console());
 
 	TempSetup();
 
@@ -131,6 +133,12 @@ std::string EditorApplication::GetShortenedFilePath(std::string & fullFilePath)
 	if (foundIndex != std::string::npos) return "?Standard?" + fullFilePath.substr(standardAssetsFilePath.size());
 
 	return fullFilePath;
+}
+
+template<class Module>
+void EditorApplication::AddModule()
+{
+	modules.push_back(new Module());
 }
 
 void EditorApplication::TempSetup()
