@@ -35,6 +35,17 @@ void Debug::Log(std::string s)
 	debugInfo.push_back(newInfo);
 }
 
+void Debug::Log(std::string s, EDebugMessageType messageType)
+{
+#ifdef PB_LOG_CONSOLE
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+	std::cout << s << std::endl;
+#endif
+
+	FDebugInfo newInfo(EDebugType::Normal, messageType, s, FDateTime::NowHighRes());
+	debugInfo.push_back(newInfo);
+}
+
 void Debug::LogWarning(std::string s)
 {
 #ifdef PB_LOG_CONSOLE
@@ -46,6 +57,17 @@ void Debug::LogWarning(std::string s)
 	debugInfo.push_back(newInfo);
 }
 
+void Debug::LogWarning(std::string s, EDebugMessageType messageType)
+{
+#ifdef PB_LOG_CONSOLE
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+	std::cout << s << std::endl;
+#endif
+
+	FDebugInfo newInfo(EDebugType::Warning, messageType, s, FDateTime::NowHighRes());
+	debugInfo.push_back(newInfo);
+}
+
 void Debug::LogError(std::string s)
 {
 #ifdef PB_LOG_CONSOLE
@@ -54,6 +76,17 @@ void Debug::LogError(std::string s)
 #endif
 
 	FDebugInfo newInfo(EDebugType::Error, s, FDateTime::NowHighRes());
+	debugInfo.push_back(newInfo);
+}
+
+void Debug::LogError(std::string s, EDebugMessageType messageType)
+{
+#ifdef PB_LOG_CONSOLE
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+	std::cout << s << std::endl;
+#endif
+
+	FDebugInfo newInfo(EDebugType::Error, messageType, s, FDateTime::NowHighRes());
 	debugInfo.push_back(newInfo);
 }
 
@@ -77,6 +110,11 @@ void Debug::FlushToFile()
 
 	debugFile.close();
 #endif
+}
+
+std::vector<FDebugInfo>& Debug::GetDebugInfo()
+{
+	return debugInfo;
 }
 
 void DebugStream::SetType(EDebugType type)

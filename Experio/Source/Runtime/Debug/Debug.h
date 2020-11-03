@@ -3,24 +3,41 @@
 #include <vector>
 #include "../Time/FDateTime.h"
 
-enum EDebugType
+enum class EDebugType : uint8_t
 {
 	Normal,
 	Warning,
 	Error
 };
 
+enum class EDebugMessageType : uint8_t
+{
+	Normal,
+	WindowMessage,
+	ProfilingMessage,
+};
+
 struct FDebugInfo
 {
 	EDebugType type;
+	EDebugMessageType messageType;
 	std::string message;
 	FDateTime time;
 
-	FDebugInfo(EDebugType newType, std::string newMessage, FDateTime newTime)
+	FDebugInfo(EDebugType type, std::string message, FDateTime time)
 	{
-		type = newType;
-		message = newMessage;
-		time = newTime;
+		this->type = type;
+		this->message = message;
+		this->time = time;
+		this->messageType = EDebugMessageType::Normal;
+	}
+
+	FDebugInfo(EDebugType type, EDebugMessageType messageType, std::string message, FDateTime time)
+	{
+		this->type = type;
+		this->message = message;
+		this->time = time;
+		this->messageType = messageType;
 	}
 };
 
@@ -72,8 +89,13 @@ public:
 	static DebugConstant endl;
 
 	static void Log(std::string s);
+	static void Log(std::string s, EDebugMessageType messageType);
 	static void LogWarning(std::string s);
+	static void LogWarning(std::string s, EDebugMessageType messageType);
 	static void LogError(std::string s);
+	static void LogError(std::string s, EDebugMessageType messageType);
 
 	static void FlushToFile();
+
+	static std::vector<FDebugInfo>& GetDebugInfo();
 };
