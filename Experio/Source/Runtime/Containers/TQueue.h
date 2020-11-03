@@ -133,6 +133,24 @@ public:
 		this->count++;
 	}
 
+	template<typename ... Args>
+	T& EmplacePush(Args&& ... args)
+	{
+		TQueueNode<T>* newTail = new TQueueNode<T>(T(std::forward<Args>(Args) ...));
+		if (this->tail != nullptr)
+		{
+			this->tail->next = newTail;
+		}
+		this->tail = newTail;
+
+		if (this->head == nullptr)
+		{
+			this->head = newTail;
+		}
+
+		this->count++;
+	}
+
 	void Empty()
 	{
 		TQueueNode<T>* current = head;
@@ -147,5 +165,5 @@ public:
 	
 	bool IsEmpty() const { return this->count == 0; }
 
-	unsigned int GetCount() const { return count; }
+	unsigned int Count() const { return count; }
 };
