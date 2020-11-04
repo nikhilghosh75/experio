@@ -72,6 +72,72 @@ namespace Experio::Algorithm
 	void RemoveElement(const TUnrolledList<T>& list, const T& element);
 
 	template<typename T>
+	bool AllOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool AllOf(const TArray<T>& array, std::function<bool(const T&)> compFunc);
+
+	template<typename K, typename V, typename F>
+	bool AllOf(const THashtable<K, V, F>& hashtable, std::function<bool(const K&)> compFunc);
+
+	template<typename K, typename V, typename F>
+	bool AllOf(const THashtable<K, V, F>& hashtable, std::function<bool(const K&)> compFunc);
+
+	template<typename T>
+	bool AllOf(const TQueue<T>& queue, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool AllOf(const TTypedTree<T>& tree, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool AllOf(const TUnrolledList<T>& list, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool AnyOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool AnyOf(const TArray<T>& array, std::function<bool(const T&)> compFunc);
+
+	template<typename K, typename V, typename F>
+	bool AnyOf(const THashtable<K, V, F>& hashtable, std::function<bool(const K&)> compFunc);
+
+	template<typename K, typename V, typename F>
+	bool AnyOf(const THashtable<K, V, F>& hashtable, std::function<bool(const K&)> compFunc);
+
+	template<typename T>
+	bool AnyOf(const TQueue<T>& queue, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool AnyOf(const TTypedTree<T>& tree, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool AnyOf(const TUnrolledList<T>& list, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool NoneOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool NoneOf(const TArray<T>& array, std::function<bool(const T&)> compFunc);
+
+	template<typename K, typename V, typename F>
+	bool NoneOf(const THashtable<K, V, F>& hashtable, std::function<bool(const K&)> compFunc);
+
+	template<typename K, typename V, typename F>
+	bool NoneOf(const THashtable<K, V, F>& hashtable, std::function<bool(const K&)> compFunc);
+
+	template<typename T>
+	bool NoneOf(const TQueue<T>& queue, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool NoneOf(const TTypedTree<T>& tree, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool NoneOf(const TUnrolledList<T>& list, std::function<bool(const T&)> compFunc);
+
+
+	// ---------------------------------------------------------------------------------
+
+	template<typename T>
 	bool ExistsIn(const std::vector<T>& vector, const T & element)
 	{
 		for (int i = 0; i < vector.size(); i++)
