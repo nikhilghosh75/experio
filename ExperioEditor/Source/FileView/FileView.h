@@ -22,4 +22,8 @@ public:
 	FileView();
 
 	virtual void Display() override;
+
+	static std::string GetDragDropTypeFromAssetType(EAssetType type);
+
+	static bool IsAssetLoaded(const std::string& filepath, EAssetType type);
 };

@@ -81,6 +81,15 @@ void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
 	std::string meshName = LFileOperations::StripFilename(meshFileName);
 	ImGui::Text(meshName.c_str());
 
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_MESH"))
+		{
+			char* meshName = (char*)payload->Data;
+			ref = MeshManager::LoadMesh(meshName);
+		}
+	}
+
 	ImGui::SameLine();
 	if (ImGui::Button("Switch"))
 	{
@@ -103,6 +112,15 @@ void LImGui::DisplayTextureAsset(TextureRef & ref, std::string name)
 	std::string meshFileName = TextureManager::GetNameOfTexture(ref);
 	std::string meshName = LFileOperations::StripFilename(meshFileName);
 	ImGui::Text(meshName.c_str());
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_IMAGE"))
+		{
+			char* imageName = (char*)payload->Data;
+			ref = TextureManager::LoadTexture(imageName);
+		}
+	}
 
 	ImGui::SameLine();
 	if (ImGui::Button("Switch"))

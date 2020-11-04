@@ -3,7 +3,12 @@
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Rendering/ImGui/LImGui.h"
+#include "Runtime/Rendering/Managers/MeshManager.h"
+#include "Runtime/Rendering/Managers/TextureManager.h"
 #include "Runtime/Math/LMath.h"
+#include "../AssetViewers/MeshViewer.h"
+#include "../AssetViewers/ImageViewer.h"
+#include "../Core/EditorApplication.h"
 namespace fs = std::filesystem;
 
 FileView::FileView()
@@ -85,13 +90,26 @@ void FileView::DisplayContents()
 				switch (type)
 				{
 				case EAssetType::Mesh:
-					// Add Mesh View
+				{
+					MeshViewer* meshViewer = (MeshViewer*)EditorApplication::AddModule(new MeshViewer());
+					meshViewer->loadedRef = MeshManager::LoadMesh(p.path().string());
+				}
 					break;
 				case EAssetType::Image:
-					// Add Image View
+				{
+					ImageViewer* imageViewer = (ImageViewer*)EditorApplication::AddModule(new ImageViewer());
+					imageViewer->loadedRef = TextureManager::LoadTexture(p.path().string());
+				}
 					break;
 				}
 			}
+		}
+		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+		{
+			std::string dragDropType = GetDragDropTypeFromAssetType(type);
+			std::string fullPathString = p.path().string();
+			ImGui::SetDragDropPayload(dragDropType.c_str(), fullPathString.c_str(), fullPathString.size() + 1);
+			ImGui::EndDragDropSource();
 		}
 	}
 
@@ -125,4 +143,26 @@ void FileView::Display()
 {
 	DisplayTree();
 	DisplayContents();
+}
+
+std::string FileView::GetDragDropTypeFromAssetType(EAssetType type)
+{
+	switch (type)
+	{
+	case EAssetType::Mesh: return "EXPERIO_MESH";
+	case EAssetType::Image: return "EXPERIO_IMAGE";
+	}
+	return "";
+}
+
+bool FileView::IsAssetLoaded(const std::string& filepath, EAssetType type)
+{
+	switch (type)
+	{
+	case EAssetType::Mesh:
+		return MeshManager::IsMeshLoaded(filepath);
+	case EAssetType::Image:
+		return TextureManager::IsTextureLoaded(filepath);
+	}
+	return false;
 }
