@@ -34,8 +34,7 @@ public:
 
 	static std::string GetShortenedFilePath(std::string& fullFilePath);
 
-	template<class Module>
-	static void AddModule();
+	static EditorModule* AddModule(EditorModule* module);
 
 private:
 	void TempSetup();

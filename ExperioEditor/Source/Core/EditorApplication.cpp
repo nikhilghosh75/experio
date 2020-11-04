@@ -24,6 +24,7 @@
 #include "../Framework/SceneSaver.h"
 #include "../GameView/GameView.h"
 #include "../Console/Console.h"
+#include "Runtime/Containers/TArray.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
 DllLoader EditorApplication::loader;
@@ -135,10 +136,10 @@ std::string EditorApplication::GetShortenedFilePath(std::string & fullFilePath)
 	return fullFilePath;
 }
 
-template<class Module>
-void EditorApplication::AddModule()
+EditorModule * EditorApplication::AddModule(EditorModule * module)
 {
-	modules.push_back(new Module());
+	modules.push_back(module);
+	return module;
 }
 
 void EditorApplication::TempSetup()
