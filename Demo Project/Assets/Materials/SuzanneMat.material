@@ -2,6 +2,6 @@ MATERIAL
 Type: MeshMaterial
 Shader: ?Standard?/Shaders/BasicVertex.shader ?Standard?/Shaders/BasicFragment.shader
 
-albedo: %Standard%/Textures/uvmap.bmp
-normal: %Standard%/Textures/normal.bmp
-specular: %Standard%/Textures/specular.bmp
+albedo: ?Standard?/Textures/uvmap.bmp
+normal: ?Standard?/Textures/normal.bmp
+specular: ?Standard?/Textures/specular.bmp
