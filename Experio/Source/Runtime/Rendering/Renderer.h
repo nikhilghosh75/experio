@@ -16,7 +16,8 @@ enum class ERenderMode
 {
 	ToCameraSystem,
 	ToEditorSceneView,
-	ToEditorGameView
+	ToEditorGameView,
+	ToEditorAssetView
 };
 
 class Renderer
