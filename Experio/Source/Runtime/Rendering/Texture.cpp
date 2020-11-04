@@ -76,3 +76,29 @@ unsigned int Texture::GetRendererID() const
 {
 	return this->rendererID;
 }
+
+unsigned int Texture::GetWidth() const
+{
+	if (this->data != nullptr)
+	{
+		return this->data->width;
+	}
+
+	int width;
+	glBindTexture(GL_TEXTURE_2D, this->rendererID);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
+	return (unsigned int)width;
+}
+
+unsigned int Texture::GetHeight() const
+{
+	if (this->data != nullptr)
+	{
+		return this->data->height;
+	}
+
+	int height;
+	glBindTexture(GL_TEXTURE_2D, this->rendererID);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
+	return (unsigned int)height;
+}
