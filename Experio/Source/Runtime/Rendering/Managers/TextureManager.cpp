@@ -102,7 +102,7 @@ void TextureManager::Init()
 	}
 }
 
-TextureRef TextureManager::GetTexture(std::string str)
+TextureRef TextureManager::GetTexture(const std::string& str)
 {
 	for (uint16_t i = 0; i < MAX_TEXTURES; i++)
 	{
@@ -114,7 +114,7 @@ TextureRef TextureManager::GetTexture(std::string str)
 	return TextureRef(nullptr, MAX_TEXTURES);
 }
 
-TextureRef TextureManager::LoadTexture(std::string str)
+TextureRef TextureManager::LoadTexture(const std::string& str)
 {
 	for (uint16_t i = 0; i < MAX_TEXTURES; i++)
 	{
@@ -137,7 +137,7 @@ TextureRef TextureManager::LoadTexture(std::string str)
 	return TextureRef(lastAvailibleSlot);
 }
 
-bool TextureManager::IsTextureLoaded(std::string str)
+bool TextureManager::IsTextureLoaded(const std::string& str)
 {
 	for (uint16_t i = 0; i < MAX_TEXTURES; i++)
 	{

@@ -55,11 +55,11 @@ class TextureManager
 public:
 	static void Init();
 
-	static TextureRef GetTexture(std::string str);
+	static TextureRef GetTexture(const std::string& str);
 
-	static TextureRef LoadTexture(std::string str);
+	static TextureRef LoadTexture(const std::string& str);
 
-	static bool IsTextureLoaded(std::string str);
+	static bool IsTextureLoaded(const std::string& str);
 
 	static std::string GetNameOfTexture(const TextureRef& ref);
 };

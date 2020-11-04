@@ -101,7 +101,7 @@ void MeshManager::Init()
 	}
 }
 
-MeshRef MeshManager::GetMesh(std::string str)
+MeshRef MeshManager::GetMesh(const std::string& str)
 {
 	for (uint16_t i = 0; i < MAX_MESHES; i++)
 	{
@@ -113,7 +113,7 @@ MeshRef MeshManager::GetMesh(std::string str)
 	return MeshRef(nullptr, MAX_MESHES);
 }
 
-MeshRef MeshManager::LoadMesh(std::string str)
+MeshRef MeshManager::LoadMesh(const std::string& str)
 {
 	for (uint16_t i = 0; i < MAX_MESHES; i++)
 	{
@@ -136,7 +136,7 @@ MeshRef MeshManager::LoadMesh(std::string str)
 	return MeshRef(lastAvailibleSlot);
 }
 
-bool MeshManager::IsMeshLoaded(std::string str)
+bool MeshManager::IsMeshLoaded(const std::string& str)
 {
 	for (uint16_t i = 0; i < MAX_MESHES; i++)
 	{
@@ -148,7 +148,7 @@ bool MeshManager::IsMeshLoaded(std::string str)
 	return false;
 }
 
-std::string MeshManager::GetNameOfMesh(const MeshRef & ref)
+std::string MeshManager::GetNameOfMesh(const MeshRef& ref)
 {
 	return slotNames[ref.meshID];
 }

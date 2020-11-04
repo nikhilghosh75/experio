@@ -53,11 +53,11 @@ class MeshManager
 public:
 	static void Init();
 
-	static MeshRef GetMesh(std::string str);
+	static MeshRef GetMesh(const std::string& str);
 
-	static MeshRef LoadMesh(std::string str);
+	static MeshRef LoadMesh(const std::string& str);
 
-	static bool IsMeshLoaded(std::string str);
+	static bool IsMeshLoaded(const std::string& str);
 
 	static std::string GetNameOfMesh(const MeshRef& ref);
 };
