@@ -16,6 +16,7 @@
     <ClInclude Include="Source\Runtime\Camera\AdditionalCameras.h" />
     <ClInclude Include="Source\Runtime\Camera\CameraSystem.h" />
     <ClInclude Include="Source\Runtime\Camera\VirtualCamera.h" />
+    <ClInclude Include="Source\Runtime\Containers\Algorithm.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LStandard.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
@@ -33,6 +34,8 @@
     <ClInclude Include="Source\Runtime\Files\FileBuffer.h" />
     <ClInclude Include="Source\Runtime\Files\Filemask.h" />
     <ClInclude Include="Source\Runtime\Files\LFileOperations.h" />
+    <ClInclude Include="Source\Runtime\Framework\AssetMap.h" />
+    <ClInclude Include="Source\Runtime\Framework\BinaryParams.h" />
     <ClInclude Include="Source\Runtime\Framework\GameObjectIterator.h" />
     <ClInclude Include="Source\Runtime\Framework\GUID.h" />
     <ClInclude Include="Source\Runtime\Framework\Params.h" />
@@ -165,6 +168,8 @@
     <ClCompile Include="Source\Runtime\Files\Images\ImageReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\LFileOperations.cpp" />
     <ClCompile Include="Source\Runtime\Files\Mesh\MeshReader.cpp" />
+    <ClCompile Include="Source\Runtime\Framework\AssetMap.cpp" />
+    <ClCompile Include="Source\Runtime\Framework\BinaryParams.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Params.cpp" />
     <ClCompile Include="Source\Runtime\Framework\PrefabLoader.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Project.cpp" />
