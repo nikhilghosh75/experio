@@ -51,7 +51,8 @@ FontData * FNTReader::ReadFile(const char * fileName)
 			std::string imageFileName = StripQuotes(StripAfterEqualSign(word));
 			std::string fileLocation = LString::GetFileLocation(fileName);
 			std::string imageFilePath = (std::string)fileLocation + "/" + imageFileName;
-			returnData->fontTexture = new Texture(imageFilePath.c_str());
+			returnData->fontTexture = TextureManager::LoadTexture(imageFilePath);
+			// returnData->fontTexture = new Texture(imageFilePath.c_str());
 		}
 		else if (word.find("count=") != std::string::npos)
 		{

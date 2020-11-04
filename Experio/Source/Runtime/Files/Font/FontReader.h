@@ -4,6 +4,7 @@
 #include <vector>
 #include "../../Math/FRect.h"
 #include "../../Rendering/Texture.h"
+#include "../../Rendering/Managers/TextureManager.h"
 
 enum class ECharacterSet : uint8_t
 {
@@ -59,7 +60,7 @@ public:
 
 	std::string name;
 
-	Texture* fontTexture;
+	TextureRef fontTexture;
 
 	ECharacterSet charset;
 
