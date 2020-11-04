@@ -5,8 +5,9 @@
 enum class EEditorModuleCategory : uint8_t
 {
 	Core, // Hierarchy, Scene View, etc.
-	Profiling, // Scene Profiler
+	Profiling, // Scene and Frame Profiler
 	Experimental, // For things that are experimental
+	Viewer, // For asset viewer
 	Custom
 };
 

@@ -85,6 +85,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AssetViewers\ImageViewer.cpp" />
+    <ClCompile Include="Source\AssetViewers\MeshViewer.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProject.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectGenerator.cpp" />
     <ClCompile Include="Source\CodeParser\LCodeParser.cpp" />
@@ -109,6 +111,8 @@
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AssetViewers\ImageViewer.h" />
+    <ClInclude Include="Source\AssetViewers\MeshViewer.h" />
     <ClInclude Include="Source\CodeParser\CodeArg.h" />
     <ClInclude Include="Source\CodeParser\CodeClass.h" />
     <ClInclude Include="Source\CodeParser\CodeEnum.h" />
