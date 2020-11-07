@@ -210,6 +210,16 @@ std::string LString::GetFileName(const std::string fileName)
 	return fileName.substr(lastSlash + 1);
 }
 
+std::vector<size_t> LString::FindAllOfChar(const std::string & str)
+{
+	std::vector<size_t> v;
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		v.push_back(i);
+	}
+	return v;
+}
+
 std::string LString::FloatToString(float f, int sigFigs)
 {
 	std::stringstream ss;
@@ -226,4 +236,80 @@ std::string LString::FloatToString(float f, int sigFigs)
 		ss << trunc;
 	}
 	return ss.str();
+}
+
+bool LString::HasAlpha(const std::string & str)
+{
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (IsAlpha(str[i])) return true;
+	}
+	return false;
+}
+
+bool LString::HasAlphaNumeric(const std::string & str)
+{
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (IsAlphaNumeric(str[i])) return true;
+	}
+	return false;
+}
+
+bool LString::HasChar(const std::string & str, char c)
+{
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (str[i] == c) return true;
+	}
+	return false;
+}
+
+bool LString::HasChars(const std::string & str, const std::vector<char>& chars)
+{
+	for (int i = 0; i < str.size(); i++)
+	{
+		for (int j = 0; j < chars.size(); j++)
+		{
+			if (str[i] == chars[j]) return true;
+		}
+	}
+	return false;
+}
+
+bool LString::HasOneOfEachChar(const std::string & str, const std::vector<char>& chars)
+{
+	std::vector<bool> foundChars;
+	foundChars.reserve(chars.size());
+
+	for (int i = 0; i < chars.size(); i++)
+	{
+		foundChars.push_back(false);
+	}
+
+	for (int i = 0; i < str.size(); i++)
+	{
+		for (int j = 0; j < chars.size(); j++)
+		{
+			if (str[i] == chars[j]) foundChars[j] = true; break;
+		}
+
+		bool allFound = true;
+		for (int j = 0; j < chars.size(); j++)
+		{
+			if (!foundChars[j]) allFound = false; break;
+		}
+		
+		if (allFound) return true;
+	}
+	return false;
+}
+
+bool LString::HasNumeric(const std::string & str)
+{
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (IsNumeric(str[i])) return true;
+	}
+	return false;
 }

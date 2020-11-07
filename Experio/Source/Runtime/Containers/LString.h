@@ -16,12 +16,21 @@ public:
 
 	static std::string GetFileName(const std::string fileName);
 
+	static std::vector<size_t> FindAllOfChar(const std::string& str);
+
 	static std::string FloatToString(float f, int sigFigs = 5);
+
+	static bool HasAlpha(const std::string& str);
+	static bool HasAlphaNumeric(const std::string& str);
+	static bool HasChar(const std::string& str, char c);
+	static bool HasChars(const std::string& str, const std::vector<char>& chars);
+	static bool HasOneOfEachChar(const std::string& str, const std::vector<char>& chars);
+	static bool HasNumeric(const std::string& str);
+
+	static unsigned int HexCharToInt(char c);
 
 	static unsigned int HexStringToInt(std::string s);
 	static unsigned long long HexStringToLong(std::string s);
-
-	static unsigned int HexCharToInt(char c);
 
 	constexpr static bool IsAlpha(char c);
 	constexpr static bool IsAlphaNumeric(char c);
