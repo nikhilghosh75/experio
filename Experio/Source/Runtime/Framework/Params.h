@@ -77,7 +77,7 @@ FCurve ParseCurve(std::string str);
 FSphericalPoint ParseSphericalPoint(std::string str);
 
 FAudioClip ParseAudio(std::string str);
-Datatable ParseData(std::string str);
+Datatable* ParseData(std::string str);
 FontData* ParseFont(std::string str);
 Material* ParseMaterial(std::string str);
 MeshRef ParseMesh(std::string str);

@@ -1,6 +1,7 @@
 #include "BinaryParams.h"
 #include "Project.h"
 #include "AssetMap.h"
+#include "../Files/Data/DataReader.h"
 
 bool BinaryParseBool(void * data)
 {
@@ -99,10 +100,10 @@ FAudioClip BinaryParseAudio(void * data)
 	return FAudioClip();
 }
 
-Datatable BinaryParseData(void * data)
+Datatable* BinaryParseData(void * data)
 {
-	Debug::LogError("Function is not complete yet");
-	return Datatable();
+	std::string filepath = AssetMap::assetMap.Get(*(unsigned int*)data);
+	return DataReader::ReadFile(filepath.c_str());
 }
 
 FontData * BinaryParseFont(void * data)

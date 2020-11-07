@@ -1,5 +1,6 @@
 #include "Params.h"
 #include "Project.h"
+#include "../Files/Data/DataReader.h"
 
 bool ParseBool(std::string str)
 {
@@ -224,10 +225,10 @@ FAudioClip ParseAudio(std::string str)
 	return FAudioClip();
 }
 
-Datatable ParseData(std::string str)
+Datatable* ParseData(std::string str)
 {
-	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
-	return Datatable();
+	std::string filePath = LFileOperations::GetFullFilePath(str);
+	return DataReader::ReadFile(filePath.c_str());
 }
 
 FontData* ParseFont(std::string str)
