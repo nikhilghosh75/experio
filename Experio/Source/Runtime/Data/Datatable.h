@@ -1,10 +1,102 @@
 #pragma once
+#include <vector>
+#include <string>
 
-// MOVE LATER
-struct Datatable
+enum class EDataColumnType
 {
-	unsigned int rowCount;
-	unsigned int columnCount;
+	INT,
+	FLOAT,
+	STRING,
+	NONE
+};
 
-	unsigned int GetCount() const { return rowCount * columnCount; }
+class DatatableRow;
+class DatatableEntry;
+
+class Datatable
+{
+	std::vector<std::vector<int32_t>> intColumns;
+	std::vector<std::vector<float>> floatColumns;
+	std::vector<std::vector<std::string>> stringColumns;
+
+	std::vector<std::string> columnTitles;
+	std::vector<EDataColumnType> columnTypes;
+
+public:
+	Datatable();
+	Datatable(std::vector<std::vector<int32_t>> intColumns, std::vector<std::vector<float>> floatColumns,
+		std::vector<std::vector<std::string>> stringColumns, std::vector<std::string> columnTitles, 
+		std::vector<EDataColumnType> columnTypes);
+
+	static const int32_t NotFoundInt;
+	static const float NotFoundFloat;
+	static const std::string NotFoundString;
+
+	uint32_t RowCount() const;
+	uint32_t ColumnCount() const;
+	uint32_t Count() const;
+
+	DatatableRow operator[](uint32_t rowIndex);
+
+	DatatableEntry Get(uint32_t row, uint32_t column);
+
+	std::string& GetString(uint32_t row, uint32_t column);
+	float& GetFloat(uint32_t row, uint32_t column);
+	int32_t& GetInt(uint32_t row, uint32_t column);
+
+	void InsertColumn(std::string columnName, EDataColumnType columnType);
+
+	void InsertFloatColumn(std::string& columnName, std::vector<float>& floatColumn);
+	void InsertIntColumn(std::string& columnName, std::vector<int32_t>& intColumn);
+	void InsertStringColumn(std::string& columnName, std::vector<std::string>& stringColumn);
+
+	friend class DatatableRow;
+	friend class DatatableColumn;
+	friend class DatatableEntry;
+};
+
+class DatatableRow
+{
+	Datatable* table;
+	uint32_t rowIndex;
+
+public:
+	DatatableRow();
+	DatatableRow(Datatable* table, uint32_t rowIndex);
+
+	DatatableEntry operator[](uint32_t columnIndex) const;
+};
+
+class DatatableColumn
+{
+	Datatable* table;
+	uint32_t columnIndex;
+	EDataColumnType columnType;
+
+public:
+	DatatableColumn();
+	DatatableColumn(Datatable* table, uint32_t columnIndex);
+
+	DatatableEntry operator[](uint32_t rowIndex) const;
+};
+
+class DatatableEntry
+{
+	Datatable* table;
+	uint32_t rowIndex;
+	uint32_t internalColumnIndex;
+	EDataColumnType columnType;
+
+public:
+	DatatableEntry();
+	DatatableEntry(Datatable* table, uint32_t rowIndex, uint32_t internalColumnIndex, EDataColumnType columnType);
+
+	operator std::string&();
+	operator float&();
+	operator int32_t&();
+
+	EDataColumnType ColumnType() const { return columnType; }
+	bool IsString() const { return columnType == EDataColumnType::STRING; }
+	bool IsFloat() const { return columnType == EDataColumnType::FLOAT; }
+	bool IsInt() const { return columnType == EDataColumnType::INT; }
 };
