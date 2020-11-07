@@ -18,10 +18,10 @@
     <ClInclude Include="Source\Runtime\Camera\VirtualCamera.h" />
     <ClInclude Include="Source\Runtime\Containers\Algorithm.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
-    <ClInclude Include="Source\Runtime\Containers\LStandard.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
     <ClInclude Include="Source\Runtime\Containers\THashtable.h" />
     <ClInclude Include="Source\Runtime\Containers\TQueue.h" />
+    <ClInclude Include="Source\Runtime\Containers\TStackArray.h" />
     <ClInclude Include="Source\Runtime\Containers\TTypedTree.h" />
     <ClInclude Include="Source\Runtime\Containers\TUnrolledList.h" />
     <ClInclude Include="Source\Runtime\Core\DllLoader.h" />
@@ -30,6 +30,8 @@
     <ClInclude Include="Source\Runtime\Core\LWindowOperations.h" />
     <ClInclude Include="Source\Runtime\Data\NumericData.h" />
     <ClInclude Include="Source\Runtime\Data\NumericReader.h" />
+    <ClInclude Include="Source\Runtime\Files\Data\CSVReader.h" />
+    <ClInclude Include="Source\Runtime\Files\Data\DataReader.h" />
     <ClInclude Include="Source\Runtime\Files\FFileCategory.h" />
     <ClInclude Include="Source\Runtime\Files\FileBuffer.h" />
     <ClInclude Include="Source\Runtime\Files\Filemask.h" />
@@ -63,6 +65,7 @@
     <ClInclude Include="Source\Runtime\Math\FBox.h" />
     <ClInclude Include="Source\Runtime\Math\FColor.h" />
     <ClInclude Include="Source\Runtime\Math\FCurve.h" />
+    <ClInclude Include="Source\Runtime\Math\Fixed.h" />
     <ClInclude Include="Source\Runtime\Math\FQuaternion.h" />
     <ClInclude Include="Source\Runtime\Math\FRay.h" />
     <ClInclude Include="Source\Runtime\Math\FRect.h" />
@@ -161,8 +164,11 @@
     <ClCompile Include="Source\Runtime\Containers\TTypedTree.cpp" />
     <ClCompile Include="Source\Runtime\Core\Window.cpp" />
     <ClCompile Include="Source\Runtime\Core\LWindowOperations.cpp" />
+    <ClCompile Include="Source\Runtime\Data\Datatable.cpp" />
     <ClCompile Include="Source\Runtime\Data\NumericData.cpp" />
     <ClCompile Include="Source\Runtime\Data\NumericReader.cpp" />
+    <ClCompile Include="Source\Runtime\Files\Data\CSVReader.cpp" />
+    <ClCompile Include="Source\Runtime\Files\Data\DataReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\FFileCategory.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\FontReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Images\ImageReader.cpp" />
