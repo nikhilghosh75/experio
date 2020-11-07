@@ -60,16 +60,28 @@ namespace Experio::Algorithm
 	bool ExistsIn(const TUnrolledList<T>& list, const T& element);
 
 	template<typename T>
-	void RemoveElement(const std::vector<T>& v, const T& element);
+	void RemoveElement(std::vector<T>& v, const T& element);
 
 	template<typename T>
-	void RemoveElement(const TArray<T>& array, const T& element);
+	void RemoveElement(TArray<T>& array, const T& element);
 
 	template<typename T>
-	void RemoveElement(const TQueue<T>& queue, const T& element);
+	void RemoveElement(TQueue<T>& queue, const T& element);
 
 	template<typename T>
-	void RemoveElement(const TUnrolledList<T>& list, const T& element);
+	void RemoveElement(TUnrolledList<T>& list, const T& element);
+
+	template<typename T>
+	void RemoveAt(std::vector<T>& v, uint32_t index);
+
+	template<typename T>
+	void RemoveAt(TArray<T>& array, uint32_t index);
+
+	template<typename T>
+	void RemoveAt(TQueue<T>& queue, uint32_t index);
+
+	template<typename T>
+	void RemoveAt(TUnrolledList<T>& list, uint32_t index);
 
 	template<typename T>
 	bool AllOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc);
@@ -134,6 +146,26 @@ namespace Experio::Algorithm
 	template<typename T>
 	bool NoneOf(const TUnrolledList<T>& list, std::function<bool(const T&)> compFunc);
 
+	template<typename T>
+	void ForEach(std::vector<T>& vector, std::function<void(T&)> func);
+
+	template<typename T>
+	void ForEach(TArray<T>& array, std::function<void(T&)> func);
+
+	template<typename K, typename V, typename F>
+	void ForEach(THashtable<K, V, F> hashtable, std::function<void(K&)> func);
+
+	template<typename K, typename V, typename F>
+	void ForEach(THashtable<K, V, F> hashtable, std::function<void(V&)> func);
+
+	template<typename T>
+	void ForEach(TQueue<T>& queue, std::function<void(T&)> func);
+
+	template<typename T>
+	void ForEach(TTypedTree<T>& tree, std::function<void(T&)> func);
+
+	template<typename T>
+	void ForEach(TUnrolledList<T>& list, std::function<void(T&)> func);
 
 	// ---------------------------------------------------------------------------------
 
@@ -142,7 +174,7 @@ namespace Experio::Algorithm
 	{
 		for (int i = 0; i < vector.size(); i++)
 		{
-			if (vector[i] == object)
+			if (vector[i] == element)
 			{
 				return true;
 			}
@@ -151,12 +183,12 @@ namespace Experio::Algorithm
 	}
 
 	template<typename T>
-	void RemoveElement(const std::vector<T>& v, const T & element)
+	void RemoveElement(std::vector<T>& vector, const T & element)
 	{
 		bool found = false;
 		for (int i = 0; i < vector.size(); i++)
 		{
-			if (vector[i] == object)
+			if (vector[i] == element)
 			{
 				found = true;
 			}
@@ -166,6 +198,16 @@ namespace Experio::Algorithm
 			}
 		}
 		if(found) vector.pop_back();
+	}
+
+	template<typename T>
+	void RemoveAt(std::vector<T>& v, uint32_t index)
+	{
+		for (int i = index; i < v.size() - 1; i++)
+		{
+			v[i] = v[i + 1];
+		}
+		v.pop_back();
 	}
 }
 
