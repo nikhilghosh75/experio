@@ -1,10 +1,12 @@
 #include "LImGui.h"
 #include "../../Debug/Debug.h"
-#include "../../Containers/LStandard.h"
+#include "../../Containers/Algorithm.h"
 #include "../../Files/LFileOperations.h"
 #include "../Managers/MeshManager.h"
 #include "../Managers/TextureManager.h"
 #include "imgui_internal.h"
+
+using namespace Experio;
 
 uint64_t LImGui::DisplayBitmask(std::string name, std::vector<std::string>& names, bool* selected)
 {
@@ -181,7 +183,7 @@ void LImGui::DisplaySubTree(TTypedTreeNode<std::string>* subtree, std::string na
 
 void LImGui::DisplaySubTree(TTypedTreeNode<std::string>* subtree, std::string name, std::vector<std::string>& selectedItems)
 {
-	bool isSelected = LStandard::ExistsInVector(selectedItems, subtree->object);
+	bool isSelected = Algorithm::ExistsIn(selectedItems, subtree->object);
 	if (subtree->children.size() == 0)
 	{
 		if (ImGui::Selectable(subtree->object.c_str(), isSelected))
@@ -192,7 +194,7 @@ void LImGui::DisplaySubTree(TTypedTreeNode<std::string>* subtree, std::string na
 			}
 			else
 			{
-				LStandard::RemoveElement(selectedItems, subtree->object);
+				Algorithm::RemoveElement(selectedItems, subtree->object);
 			}
 		}
 	}
@@ -205,7 +207,7 @@ void LImGui::DisplaySubTree(TTypedTreeNode<std::string>* subtree, std::string na
 			{
 				if (isSelected)
 				{
-					LStandard::RemoveElement(selectedItems, subtree->object);
+					Algorithm::RemoveElement(selectedItems, subtree->object);
 				}
 				else
 				{
@@ -257,7 +259,7 @@ void LImGui::DisplayTree(TTypedTree<std::string>* tree, std::string name, std::s
 
 void LImGui::DisplayTree(TTypedTree<std::string>* tree, std::string name, std::vector<std::string>& selectedItems)
 {
-	bool isSelected = LStandard::ExistsInVector(selectedItems, tree->GetRootObject());
+	bool isSelected = Algorithm::ExistsIn(selectedItems, tree->GetRootObject());
 	ImGuiTreeNodeFlags_ flags = isSelected ? ImGuiTreeNodeFlags_Selected : ImGuiTreeNodeFlags_None;
 	if (!ImGui::TreeNodeEx(name.c_str(), flags))
 	{
