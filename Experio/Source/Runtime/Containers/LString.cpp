@@ -220,6 +220,30 @@ std::vector<size_t> LString::FindAllOfChar(const std::string & str)
 	return v;
 }
 
+size_t LString::FindFirstOfChars(const std::string & str, std::vector<char> chars)
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		for (size_t j = 0; j < chars.size(); j++)
+		{
+			if (str[i] == chars[j]) return i;
+		}
+	}
+	return std::string::npos;
+}
+
+size_t LString::FindFirstOfChars(const std::string & str, std::vector<char> chars, size_t firstIndex)
+{
+	for (size_t i = firstIndex; i < str.size(); i++)
+	{
+		for (size_t j = 0; j < chars.size(); j++)
+		{
+			if (str[i] == chars[j]) return i;
+		}
+	}
+	return std::string::npos;
+}
+
 std::string LString::FloatToString(float f, int sigFigs)
 {
 	std::stringstream ss;

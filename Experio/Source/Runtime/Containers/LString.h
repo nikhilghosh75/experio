@@ -18,6 +18,9 @@ public:
 
 	static std::vector<size_t> FindAllOfChar(const std::string& str);
 
+	static size_t FindFirstOfChars(const std::string& str, std::vector<char> chars);
+	static size_t FindFirstOfChars(const std::string& str, std::vector<char> chars, size_t firstIndex);
+
 	static std::string FloatToString(float f, int sigFigs = 5);
 
 	static bool HasAlpha(const std::string& str);
