@@ -2,7 +2,7 @@
 #include "Runtime/Framework/GameObject.h"
 #include "Runtime/Rendering/ImGui/LImGui.h"
 #include "Runtime/Framework/Scene.h"
-#include "Runtime/Containers/LStandard.h"
+#include "Runtime/Containers/Algorithm.h"
 
 SceneHierarchy* SceneHierarchy::hierarchy;
 
@@ -65,7 +65,7 @@ void SceneHierarchy::HandleSwap(uint64_t fromID, uint64_t toID)
 
 void SceneHierarchy::DisplayGameObjectTree(const GameObject * gameObject, std::vector<GameObject>& selectedItems)
 {
-	bool isSelected = LStandard::ExistsInVector(selectedItems, *gameObject);
+	bool isSelected = Experio::Algorithm::ExistsIn(selectedItems, *gameObject);
 	if (gameObject->children.size() == 0)
 	{
 		if (ImGui::Selectable(gameObject->name.c_str(), isSelected))
@@ -76,7 +76,7 @@ void SceneHierarchy::DisplayGameObjectTree(const GameObject * gameObject, std::v
 			}
 			else
 			{
-				LStandard::RemoveElement(selectedItems, *gameObject);
+				Experio::Algorithm::RemoveElement(selectedItems, *gameObject);
 			}
 		}
 		HandleDragDrop(gameObject);
@@ -90,7 +90,7 @@ void SceneHierarchy::DisplayGameObjectTree(const GameObject * gameObject, std::v
 			{
 				if (isSelected)
 				{
-					LStandard::RemoveElement(selectedItems, *gameObject);
+					Experio::Algorithm::RemoveElement(selectedItems, *gameObject);
 				}
 				else
 				{
