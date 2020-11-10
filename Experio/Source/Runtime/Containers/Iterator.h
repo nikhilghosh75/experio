@@ -1,6 +1,6 @@
 #pragma once
 
-template<class Container, class Element>
+template<typename Container, typename Element>
 class TIterator
 {
 public:
@@ -18,7 +18,7 @@ public:
 	}
 };
 
-template<class Container, class Element>
+template<typename Container, typename Element>
 class TForwardIterator : public TIterator<Container, Element>
 {
 public:
@@ -27,7 +27,7 @@ public:
 	virtual void Increment() {}
 };
 
-template <class Container, class Element>
+template<typename Container, typename Element>
 class TBidirectionalIterator : public TForwardIterator<Container, Element>
 {
 public:
@@ -36,7 +36,7 @@ public:
 	virtual TBidirectionalIterator<Container, Element> operator--() {};
 };
 
-template<class Container, class Element>
+template<typename Container, typename Element>
 class TRandomAccessIterator : public TBidirectionalIterator<Container, Element>
 {
 public:

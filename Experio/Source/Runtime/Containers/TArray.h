@@ -13,7 +13,7 @@ public:
 	}
 };
 
-template <class T, class GrowFunc = StandardGrowFunc, int DefaultCapacity = 3> 
+template <typename T, typename GrowFunc = StandardGrowFunc, int DefaultCapacity = 3>
 class TArray
 {
 private:
