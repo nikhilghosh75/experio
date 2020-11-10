@@ -167,6 +167,78 @@ namespace Experio::Algorithm
 	template<typename T>
 	void ForEach(TUnrolledList<T>& list, std::function<void(T&)> func);
 
+	template<typename T>
+	T* Find(std::vector<T>& vector, const T& elem);
+
+	template<typename T>
+	T* Find(TArray<T>& array, const T& elem);
+
+	template<typename K, typename V, typename F>
+	K* Find(THashtable<K, V, F>& hashtable, const K& elem);
+
+	template<typename T>
+	T* Find(TQueue<T> queue, const T& elem);
+
+	template<typename T>
+	T* Find(TTypedTree<T>& tree, const T& elem);
+
+	template<typename T>
+	T* Find(TUnrolledList<T>& list, const T& elem);
+
+	template<typename T>
+	T* Find(std::vector<T>& vector, std::function<bool(T&)> func);
+
+	template<typename T>
+	T* Find(TArray<T>& array, std::function<bool(T&)> func);
+
+	template<typename K, typename V, typename F>
+	K* Find(THashtable<K, V, F>& hashtable, std::function<bool(K&)> func);
+
+	template<typename T>
+	T* Find(TQueue<T> queue, std::function<bool(T&)> func);
+
+	template<typename T>
+	T* Find(TTypedTree<T>& tree, std::function<bool(T&)> func);
+
+	template<typename T>
+	T* Find(TUnrolledList<T>& list, std::function<bool(T&)> func);
+
+	template<typename T>
+	const T* Find(const std::vector<T>& vector, const T& elem);
+
+	template<typename T>
+	const T* Find(const TArray<T>& array, const T& elem);
+
+	template<typename K, typename V, typename F>
+	const K* Find(const THashtable<K, V, F>& hashtable, const K& elem);
+
+	template<typename T>
+	const T* Find(const TQueue<T> queue, const T& elem);
+
+	template<typename T>
+	const T* Find(const TTypedTree<T>& tree, const T& elem);
+
+	template<typename T>
+	const T* Find(const TUnrolledList<T>& list, const T& elem);
+
+	template<typename T>
+	const T* Find(const std::vector<T>& vector, std::function<bool(const T&)> func);
+
+	template<typename T>
+	const T* Find(const TArray<T>& array, std::function<bool(const T&)> func);
+
+	template<typename K, typename V, typename F>
+	const K* Find(const THashtable<K, V, F>& hashtable, std::function<bool(const K&)> func);
+
+	template<typename T>
+	const T* Find(const TQueue<T> queue, std::function<bool(const T&)> func);
+
+	template<typename T>
+	const T* Find(const TTypedTree<T>& tree, std::function<bool(const T&)> func);
+
+	template<typename T>
+	const T* Find(const TUnrolledList<T>& list, std::function<bool(const T&)> func);
+
 	// ---------------------------------------------------------------------------------
 
 	template<typename T>
@@ -180,6 +252,15 @@ namespace Experio::Algorithm
 			}
 		}
 		return false;
+	}
+
+	template<typename T>
+	bool ExistsIn(const TTypedTree<T>& tree, const T & element)
+	{
+		TTypedTreeNode<T>* foundElem = SearchTree(&tree, [element](T elem) {
+			return element == elem;
+		});
+		return foundElem != nullptr;
 	}
 
 	template<typename T>
@@ -208,6 +289,26 @@ namespace Experio::Algorithm
 			v[i] = v[i + 1];
 		}
 		v.pop_back();
+	}
+
+	template<typename T>
+	T * Find(std::vector<T>& vector, std::function<bool(T&)> func)
+	{
+		for (int i = 0; i < vector.size(); i++)
+		{
+			if (func(vector[i])) return &vector[i];
+		}
+		return nullptr;
+	}
+
+	template<typename T>
+	const T* Find(const std::vector<T>& vector, std::function<bool(const T&)> func)
+	{
+		for (int i = 0; i < vector.size(); i++)
+		{
+			if (func(vector[i])) return &vector[i];
+		}
+		return nullptr;
 	}
 }
 
