@@ -21,7 +21,7 @@ struct FValue
 	}
 };
 
-namespace Experio
+namespace ExperioEditor
 {
 	void AddValue(FValue value, EValueType type);
 	void DeleteValue(int index, EValueType type);

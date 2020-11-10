@@ -1,6 +1,6 @@
 #include "Values.h"
 
-namespace Experio 
+namespace ExperioEditor
 {
 THashtable<int, std::string> tags;
 THashtable<int, std::string> layers;
@@ -116,10 +116,10 @@ void ClearValues(EValueType type)
 
 unsigned short DefaultTagStringToNum(const char* string)
 {
-	return (unsigned short)Experio::GetValue(std::string(string), EValueType::Tag).index;
+	return (unsigned short)ExperioEditor::GetValue(std::string(string), EValueType::Tag).index;
 }
 
 std::string DefaultTagNumToString(unsigned short num)
 {
-	return Experio::GetValue((int)num, EValueType::Tag).name;
+	return ExperioEditor::GetValue((int)num, EValueType::Tag).name;
 }

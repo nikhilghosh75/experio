@@ -3,7 +3,7 @@
 #include "Runtime/Debug/Debug.h"
 #include <fstream>
 
-using namespace Experio;
+using namespace ExperioEditor;
 
 void ValueLoader::LoadValues(std::string fileName)
 {
