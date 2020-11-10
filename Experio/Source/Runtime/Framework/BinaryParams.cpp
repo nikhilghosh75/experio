@@ -145,7 +145,7 @@ size_t SizeOfBinaryParam(EParamType type)
 	case EParamType::BYTE: return 1;
 	case EParamType::COLOR: return 16;
 	case EParamType::CURVE: return 0;
-	case EParamType::DATA: return 0;
+	case EParamType::DATA: return 4;
 	case EParamType::DOUBLE: return 8;
 	case EParamType::FLOAT: return 4;
 	case EParamType::FONT: return 4;
