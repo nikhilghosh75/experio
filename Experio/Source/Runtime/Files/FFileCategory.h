@@ -42,5 +42,5 @@ struct FFileCategory
 	bool IsCode() const;
 	bool IsParseable() const; // Modify as more file types become parseable
 	bool IsEngineOnly() const;
-	// Add Previewable once editor previews become availible
+	bool IsPreviwable() const;
 };

@@ -40,7 +40,8 @@ bool FFileCategory::IsParseable() const
 		|| this->type == EAssetType::Image
 		|| this->type == EAssetType::Material
 		|| this->type == EAssetType::Mesh
-		|| this->type == EAssetType::Scene;
+		|| this->type == EAssetType::Scene
+		|| this->type == EAssetType::Data;
 }
 
 bool FFileCategory::IsEngineOnly() const
@@ -49,4 +50,10 @@ bool FFileCategory::IsEngineOnly() const
 		|| this->type == EAssetType::Particle
 		|| this->type == EAssetType::Scene
 		|| this->type == EAssetType::Shader;
+}
+
+bool FFileCategory::IsPreviwable() const
+{
+	return this->type == EAssetType::Mesh
+		|| this->type == EAssetType::Image;
 }
