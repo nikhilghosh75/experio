@@ -10,5 +10,5 @@ public:
 	std::vector<CodeFunction> functions;
 	std::string name;
 	std::string filename;
-	std::vector<CodeClass*> inheritance;
+	std::vector<std::string> inheritance;
 };

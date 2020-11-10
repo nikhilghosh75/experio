@@ -1,9 +1,12 @@
 #include "LCodeParser.h"
+#include "Runtime/Containers/Algorithm.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Containers/LString.h"
 #include "Runtime/Math/LMath.h"
 #include <sstream>
+
+#define PB_SERIALIZED_STRING_SIZE 8
 
 std::string LCodeParser::ConcatenateNamespaces(std::vector<std::string> namespaces, ECodingLanguage language)
 {
@@ -29,6 +32,56 @@ std::string LCodeParser::ConcatenateNamespaces(std::vector<std::string> namespac
 	}
 	Debug::Log("Language Feature Namespaces not supported");
 	return "";
+}
+
+TTypedTree<std::string>* LCodeParser::CreateInheritanceHierarchy(const CodeProject & project)
+{
+	TTypedTree<std::string>* inheritanceHierarchy = new TTypedTree<std::string>("");
+
+	const std::vector<CodeClass>& classes = project.classes;
+	std::vector<bool> hasBeenAdded;
+	hasBeenAdded.reserve(classes.size());
+	size_t numNotAdded = 0;
+	for (size_t i = 0; i < classes.size(); i++)
+	{
+		if (classes[i].inheritance.size() == 0)
+		{
+			inheritanceHierarchy->AddChildToRoot(classes[i].name);
+			hasBeenAdded.push_back(true);
+		}
+		else
+		{
+			hasBeenAdded.push_back(false);
+			numNotAdded++;
+		}
+	}
+
+	size_t lastNumNotAdded = numNotAdded;
+	while (Experio::Algorithm::ExistsIn(hasBeenAdded, false))
+	{
+		numNotAdded = 0;
+		for (size_t i = 0; i < classes.size(); i++)
+		{
+			if (hasBeenAdded[i]) continue;
+			
+			numNotAdded++;
+			std::string base = classes[i].inheritance[0];
+			TTypedTreeNode<std::string>* foundNode = SearchTree<std::string>(inheritanceHierarchy, 
+				[&base](std::string str) {return base == str; });
+			
+			if (foundNode != nullptr)
+			{
+				foundNode->AddChild(classes[i].name);
+				hasBeenAdded[i] = true;
+			}
+		}
+
+		if (numNotAdded == lastNumNotAdded) break;
+
+		lastNumNotAdded = numNotAdded;
+	}
+
+	return inheritanceHierarchy;
 }
 
 bool LCodeParser::DoesLanguageSupport(ECodingLanguage language, ECodingLanguageFeature feature)
@@ -145,8 +198,9 @@ void LCodeParser::GetEnumNameValue(std::string valueText, int & currentValue, st
 std::string LCodeParser::GetClassNameFromDeclaration(std::string className)
 {
 	size_t firstSpace = className.find(' ');
-	size_t secondSpace = className.find(' ', firstSpace + 1);
-	return className.substr(firstSpace + 1, secondSpace);
+	size_t secondSpace = LString::FindFirstOfChars(className, { ' ', '\n', '\t' }, firstSpace + 1);
+	// size_t secondSpace = className.find(' ', firstSpace + 1);
+	return className.substr(firstSpace + 1, secondSpace - firstSpace - 1);
 }
 
 std::vector<std::string> LCodeParser::GetInheritanceFromDeclaration(std::string className)
@@ -168,15 +222,90 @@ std::vector<std::string> LCodeParser::GetInheritanceFromDeclaration(std::string 
 	{
 		if (tempInheritance[i].find("public") != std::string::npos) continue;
 		if (tempInheritance[i].find("private") != std::string::npos) continue;
+		if (tempInheritance[i].find(":") != std::string::npos) continue;
 		inheritance.push_back(tempInheritance[i]);
+	}
+
+	for (int i = 0; i < inheritance.size(); i++)
+	{
+		if (inheritance[i][inheritance[i].size() - 1] == '\n')
+		{
+			inheritance[i] = inheritance[i].substr(0, inheritance[i].size() - 1);
+		}
 	}
 
 	return inheritance;
 }
 
+bool LCodeParser::InheritsFrom(const CodeClass & codeClass, const std::string & baseClass)
+{
+	return Experio::Algorithm::ExistsIn(codeClass.inheritance, baseClass);
+}
+
+bool LCodeParser::InheritsFrom(const CodeClass & codeClass, const CodeClass & baseClass)
+{
+	return Experio::Algorithm::ExistsIn(codeClass.inheritance, baseClass.name);
+}
+
 bool LCodeParser::IsAbstract(const CodeClass & codeClass)
 {
 	return codeClass.functions.size() > 0 && codeClass.params.size() == 0;
+}
+
+bool LCodeParser::IsDefaultType(const std::string & name, ECodingLanguage language)
+{
+	switch (language)
+	{
+	case ECodingLanguage::CPlusPlus:
+		if (name == "char") return true;
+		if (name == "unsigned char") return true;
+		if (name == "short") return true;
+		if (name == "unsigned short") return true;
+		if (name == "int") return true;
+		if (name == "unsigned int") return true;
+		if (name == "long long") return true;
+		if (name == "unsigned long long") return true;
+		if (name == "uint8_t") return true;
+		if (name == "int8_t") return true;
+		if (name == "uint16_t") return true;
+		if (name == "int16_t") return true;
+		if (name == "uint32_t") return true;
+		if (name == "int32_t") return true;
+		if (name == "uint64_t") return true;
+		if (name == "int64_t") return true;
+		if (name == "float") return true;
+		if (name == "double") return true;
+		if (name == "bool") return true;
+		break;
+	case ECodingLanguage::CSharp:
+		if (name == "bool") return true;
+		if (name == "byte") return true;
+		if (name == "char") return true;
+		if (name == "decimal") return true;
+		if (name == "float") return true;
+		if (name == "int") return true;
+		if (name == "long") return true;
+		if (name == "uint") return true;
+		if (name == "ulong") return true;
+		break;
+	}
+	return false;
+}
+
+bool LCodeParser::IsString(const std::string & name, ECodingLanguage language)
+{
+	switch (language)
+	{
+	case ECodingLanguage::None:
+		break;
+	case ECodingLanguage::CPlusPlus:
+		if (name == "string") return true;
+		if (name == "std::string") return true;
+		if (name == "char*") return true;
+		if (name == "char *") return true;
+		break;
+	}
+	return false;
 }
 
 bool LCodeParser::IsCompiled(ECodingLanguage language)
@@ -374,4 +503,141 @@ CodeParam LCodeParser::ParseCodeParam(std::string str, ECodingLanguage language)
 	}
 
 	return param;
+}
+
+size_t LCodeParser::SerializedSizeOf(const CodeClass & codeClass, const CodeProject& codeProject, ECodingLanguage language)
+{
+	const std::vector<CodeParam> params = codeClass.params;
+	size_t size = 0;
+	for (size_t i = 0; i < params.size(); i++)
+	{
+		size += SizeOfParam(params[i], codeProject, language);
+	}
+	return size;
+}
+
+size_t LCodeParser::SizeOfDefaultType(const std::string & name, ECodingLanguage language)
+{
+	switch (language)
+	{
+	case ECodingLanguage::CPlusPlus:
+		if (name == "char") return 1;
+		if (name == "unsigned char") return 1;
+		if (name == "short") return 2;
+		if (name == "unsigned short") return 2;
+		if (name == "int") return 4;
+		if (name == "unsigned int") return 4;
+		if (name == "long long") return 8;
+		if (name == "unsigned long long") return 8;
+		if (name == "uint8_t") return 1;
+		if (name == "int8_t") return 1;
+		if (name == "uint16_t") return 2;
+		if (name == "int16_t") return 2;
+		if (name == "uint32_t") return 4;
+		if (name == "int32_t") return 4;
+		if (name == "uint64_t") return 8;
+		if (name == "int64_t") return 8;
+		if (name == "float") return 4;
+		if (name == "double") return 8;
+		if (name == "bool") return 1;
+		break;
+	case ECodingLanguage::CSharp:
+		if (name == "bool") return 1;
+		if (name == "byte") return 1;
+		if (name == "char") return 1;
+		if (name == "decimal") return 4;
+		if (name == "float") return 4;
+		if (name == "int") return 4;
+		if (name == "long") return 8;
+		if (name == "uint") return 4;
+		if (name == "ulong") return 8;
+		break;
+	}
+	return 0;
+}
+
+size_t LCodeParser::SizeOfParam(const CodeParam& param, const CodeProject & codeProject, ECodingLanguage language)
+{
+	const std::string& paramTypename = param.type;
+
+	// Search for Default Types
+	size_t foundSize = SizeOfDefaultType(paramTypename, language);
+	if (foundSize != 0)
+	{
+		return foundSize;
+	}
+	if (IsString(param.type, language))
+	{
+		return PB_SERIALIZED_STRING_SIZE;
+	}
+
+	// Search for Experio Types that can be serialized
+	foundSize = SizeOfExperioSerializedType(paramTypename);
+	if (foundSize != 0)
+	{
+		return foundSize;
+	}
+
+	// Search for types in dependencies that can be serialized
+	foundSize = SizeOfGLMSerializedType(paramTypename);
+	if (foundSize != 0)
+	{
+		return foundSize;
+	}
+
+	// Search for Enums
+	for (size_t i = 0; i < codeProject.enums.size(); i++)
+	{
+		if (codeProject.enums[i].name == paramTypename)
+		{
+			return SizeOfEnum(codeProject.enums[i]);
+		}
+	}
+
+	return 0;
+}
+
+size_t LCodeParser::SizeOfEnum(const CodeEnum & codeEnum)
+{
+	return SizeOfEnum(codeEnum.dataType);
+}
+
+size_t LCodeParser::SizeOfEnum(EEnumDataType dataType)
+{
+	switch (dataType)
+	{
+	case EEnumDataType::BYTE: return 1;
+	case EEnumDataType::UBYTE: return 1;
+	case EEnumDataType::SHORT: return 2;
+	case EEnumDataType::USHORT: return 2;
+	case EEnumDataType::INT: return 4;
+	case EEnumDataType::UINT: return 4;
+	case EEnumDataType::LONGLONG: return 8;
+	case EEnumDataType::ULONGLONG: return 8;
+	}
+	return 0;
+}
+
+size_t LCodeParser::SizeOfExperioSerializedType(const std::string & name)
+{
+	if (name == "FVector2") return 8;
+	if (name == "FVector3") return 12;
+	if (name == "FVector4") return 16;
+	if (name == "FCurve") return 0;
+	if (name == "MeshRef") return 4;
+	if (name == "FQuaternion") return 16;
+	if (name == "FRect") return 16;
+	if (name == "Shader") return 8;
+	if (name == "FSphericalPoint") return 12;
+	if (name == "TextureRef") return 4;
+	if (name == "Datatable") return 4;
+	return 0;
+}
+
+size_t LCodeParser::SizeOfGLMSerializedType(const std::string & name)
+{
+	if (name == "glm::mat4") return 64;
+	if (name == "glm::mat3") return 16;
+	// Add other types here
+	return 0;
 }

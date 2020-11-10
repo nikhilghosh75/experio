@@ -206,7 +206,7 @@ void CodeProjectGenerator::ParseClassInCodeFile(FVector2Int location, FileBuffer
 	CodeClass codeClass;
 	std::string classDeclaration = buffer.Substr(location.x, i);
 	codeClass.name = LCodeParser::GetClassNameFromDeclaration(classDeclaration);
-	std::vector<std::string> inheritance = LCodeParser::GetInheritanceFromDeclaration(classDeclaration);
+	codeClass.inheritance = LCodeParser::GetInheritanceFromDeclaration(classDeclaration);
 
 	// Get all symbols (members and function)
 	std::vector<FVector2Int> symbols;
@@ -214,7 +214,11 @@ void CodeProjectGenerator::ParseClassInCodeFile(FVector2Int location, FileBuffer
 	i++;
 	for (; i < location.y; i++)
 	{
-		if (buffer[i] == ':' || buffer[i] == '\n' || buffer[i] == '\t')
+		if (buffer[i] == '\n' || buffer[i] == '\t')
+		{
+			lastSymbolPos = i;
+		}
+		else if (buffer[i] == ':' && buffer[i - 1] != ':' && buffer[i + 1] != ':') // guard against '::'
 		{
 			lastSymbolPos = i;
 		}
