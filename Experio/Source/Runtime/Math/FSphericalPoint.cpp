@@ -112,3 +112,8 @@ float FSphericalPoint::SqrDistance(const FSphericalPoint sp1, const FSphericalPo
 		2 * sp1.radius * sp2.radius *
 		(LMath::Sin(sp1.polar) * LMath::Sin(sp2.polar) * LMath::Cos(sp1.azimuth - sp2.azimuth) + LMath::Cos(sp1.polar) * LMath::Cos(sp2.polar));
 }
+
+float FSphericalPoint::DMSToDegrees(float degrees, float minutes, float seconds)
+{
+	return degrees + (minutes / 60.f) + (seconds / 3600.f);
+}
