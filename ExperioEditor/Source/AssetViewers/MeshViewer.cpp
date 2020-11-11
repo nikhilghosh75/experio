@@ -1,7 +1,9 @@
 #include "MeshViewer.h"
 #include "Runtime/Camera/AdditionalCameras.h"
+#include "Runtime/Framework/Project.h"
 #include "Runtime/Input/Input.h"
 #include "Runtime/Rendering/Renderer.h"
+#include <sstream>
 
 void MeshViewer::DisplayStats()
 {
@@ -15,6 +17,18 @@ void MeshViewer::DisplayStats()
 	
 	unsigned int triangleCount = this->loadedRef->GetTriangleCount();
 	ImGui::Text(std::to_string(triangleCount).c_str());
+
+	std::stringstream isIndexedStream;
+	isIndexedStream << "Is Indexed: ";
+	if (this->loadedRef->isIndexed)
+	{
+		isIndexedStream << "True";
+	}
+	else
+	{
+		isIndexedStream << "False";
+	}
+	ImGui::Text(isIndexedStream.str().c_str());
 }
 
 MeshViewer::MeshViewer()
@@ -51,7 +65,7 @@ void MeshViewer::Display()
 
 	ImVec2 windowSize = ImGui::GetWindowSize();
 	ImVec2 currentSize = ImGui::GetWindowSize();
-	currentSize = ImVec2(currentSize.x - 12, currentSize.y - 130); // Change Later
+	currentSize = ImVec2(currentSize.x - 12, currentSize.y - 140); // Change Later
 
 	AdditionalCameras::CalculateViewMatrix(cameraPosition, cameraRotation);
 	AdditionalCameras::CalculateProjectionMatrix(45.f, 0.1f, 1000.f, currentSize.x / currentSize.y);
