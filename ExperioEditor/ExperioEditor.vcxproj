@@ -105,6 +105,7 @@
     <ClCompile Include="Source\Framework\SceneSaver.cpp" />
     <ClCompile Include="Source\Framework\ValueLoader.cpp" />
     <ClCompile Include="Source\Framework\Values.cpp" />
+    <ClCompile Include="Source\Framework\Version.cpp" />
     <ClCompile Include="Source\GameView\GameView.cpp" />
     <ClCompile Include="Source\Inspector\Inspector.cpp" />
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="Source\Framework\SceneSaver.h" />
     <ClInclude Include="Source\Framework\ValueLoader.h" />
     <ClInclude Include="Source\Framework\Values.h" />
+    <ClInclude Include="Source\Framework\Version.h" />
     <ClInclude Include="Source\GameView\GameView.h" />
     <ClInclude Include="Source\Inspector\Inspector.h" />
     <ClInclude Include="Source\SceneHierarchy\SceneHierarchy.h" />
