@@ -1,5 +1,6 @@
 #include "SceneSaver.h"
 #include "Runtime/Framework/Framework.h"
+#include "Runtime/Framework/Project.h"
 #include "Runtime/Debug/TempProfiler.h"
 
 extern void SaveComponentToScene(unsigned int componentID, Component* component, std::ofstream& stream);

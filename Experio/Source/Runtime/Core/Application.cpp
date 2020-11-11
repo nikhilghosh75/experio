@@ -4,6 +4,8 @@
 #include "../Debug/TempProfiler.h"
 #include "../Rendering/Renderer.h"
 #include "../Framework/Framework.h"
+#include "../Framework/Project.h"
+#include "../Framework/Scene.h"
 #include "../Time/GameTime.h"
 #include "../Framework/SceneLoader.h"
 #include "../Rendering/Managers/TextureManager.h"

@@ -3,6 +3,7 @@
 #include "../Core/EditorWindow.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "Runtime/Camera/AdditionalCameras.h"
+#include "Runtime/Framework/Project.h"
 #include "Runtime/Math/LMath.h"
 #include "Runtime/Rendering/Materials/SingleColorMaterial.h"
 

@@ -1,5 +1,6 @@
 #include "GameView.h"
 #include "Runtime/Core/Window.h"
+#include "Runtime/Framework/Project.h"
 #include "../Core/EditorWindow.h"
 #include "../Framework/PlaySystem.h"
 
