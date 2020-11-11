@@ -45,7 +45,7 @@ std::vector<std::string> LString::SeperateStringByChar(std::string str, char c, 
 	return realSeperatedStrings;
 }
 
-float LString::StringToFloat(std::string str)
+float LString::StringToFloat(const std::string& str)
 {
 	float integer = 0.f, fraction = 0.f;
 	uint8_t denominator = 0;
@@ -76,7 +76,7 @@ float LString::StringToFloat(std::string str)
 	return isPositive ? integer + (fraction / (float)LMath::PowOfTen(denominator)) : (integer + (fraction / (float)LMath::PowOfTen(denominator))) * -1.f;
 }
 
-int LString::StringToInt(std::string str)
+int LString::StringToInt(const std::string& str)
 {
 	int integer = 0;
 	bool isPositive = true;
@@ -92,6 +92,24 @@ int LString::StringToInt(std::string str)
 		}
 	}
 	return isPositive ? integer : integer * -1;
+}
+
+unsigned int LString::StringToUInt(const std::string & str)
+{
+	unsigned int unsignedInteger = 0;
+	bool isPositive = true;
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (str[i] == '-')
+		{
+			isPositive = false;
+		}
+		else if (IsNumeric(str[i]))
+		{
+			unsignedInteger = (unsignedInteger * 10) + CharToInt(str[i]);
+		}
+	}
+	return isPositive ? unsignedInteger : unsignedInteger * -1;
 }
 
 std::string LString::Trim(std::string str)
@@ -210,12 +228,13 @@ std::string LString::GetFileName(const std::string fileName)
 	return fileName.substr(lastSlash + 1);
 }
 
-std::vector<size_t> LString::FindAllOfChar(const std::string & str)
+std::vector<size_t> LString::FindAllOfChar(const std::string & str, char c)
 {
 	std::vector<size_t> v;
 	for (size_t i = 0; i < str.size(); i++)
 	{
-		v.push_back(i);
+		if (str[i] == c)
+			v.push_back(i);
 	}
 	return v;
 }

@@ -16,7 +16,7 @@ public:
 
 	static std::string GetFileName(const std::string fileName);
 
-	static std::vector<size_t> FindAllOfChar(const std::string& str);
+	static std::vector<size_t> FindAllOfChar(const std::string& str, char c);
 
 	static size_t FindFirstOfChars(const std::string& str, std::vector<char> chars);
 	static size_t FindFirstOfChars(const std::string& str, std::vector<char> chars, size_t firstIndex);
@@ -51,9 +51,11 @@ public:
 
 	static std::vector<std::string> SeperateStringByChar(std::string str, char c, bool removeZeroLength = true);
 
-	static float StringToFloat(std::string str);
+	static float StringToFloat(const std::string& str);
 
-	static int StringToInt(std::string str);
+	static int StringToInt(const std::string& str);
+
+	static unsigned int StringToUInt(const std::string& str);
 
 	static std::string Trim(std::string str);
 	static std::string TrimLeft(std::string str);
