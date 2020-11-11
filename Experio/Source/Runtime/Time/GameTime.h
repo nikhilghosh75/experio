@@ -1,7 +1,8 @@
 #pragma once
 #include "FDateTime.h"
-#include "../Core/Application.h"
-#include "../Framework/Project.h"
+
+class Application;
+class Project;
 
 const float TICKSPERSECOND = 10000000.f;
 

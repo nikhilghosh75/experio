@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "FDuration.h"
+#include "../../ThirdParty/toml++/toml_date_time.h"
 
 enum class EDayOfWeek
 {
@@ -38,6 +39,9 @@ public:
 	FDateTime();
 	FDateTime(long long inTicks);
 	FDateTime(int year, int month, int day, int hour = 0, int minute = 0, int second = 0, int millisecond = 0, int microsecond = 0);
+	
+	// Conversions
+	FDateTime(toml::v2::date date, toml::v2::time time);
 
 	static FDateTime FromUnixEpoch(long long ticksSinceEpoch);
 	static FDateTime From1601Epoch(long long ticksSinceEpoch);
@@ -61,6 +65,7 @@ public:
 	static bool IsLeapYear(const FDateTime& dateTime);
 	static bool IsLeapYear(int year);
 
+	static int GetNanosecond(const FDateTime& dateTime);
 	static int GetMillisecond(const FDateTime& dateTime);
 	static int GetSecond(const FDateTime& dateTime);
 	static int GetMinute(const FDateTime& dateTime);
@@ -73,17 +78,18 @@ public:
 	static int GetYear(const FDateTime& dateTime);
 	static void GetDate(const FDateTime& dateTime, int& day, int& month, int& year);
 
-	int GetMillisecond();
-	int GetSecond();
-	int GetMinute();
-	int GetHour();
-	int GetHourAM();
-	int GetDay();
-	EDayOfWeek GetDayOfWeek();
-	int GetMonth();
-	EMonthOfYear GetMonthOfYear();
-	int GetYear();
-	void GetDate(int& day, int& month, int& year);
+	int GetNanosecond() const;
+	int GetMillisecond() const;
+	int GetSecond() const;
+	int GetMinute() const;
+	int GetHour() const;
+	int GetHourAM() const;
+	int GetDay() const;
+	EDayOfWeek GetDayOfWeek() const;
+	int GetMonth() const;
+	EMonthOfYear GetMonthOfYear() const;
+	int GetYear() const;
+	void GetDate(int& day, int& month, int& year) const;
 
 	static FDateTime Now();
 	static FDateTime NowHighRes();
@@ -93,6 +99,8 @@ public:
 	static std::string DateToString(const FDateTime& dateTime);
 	static std::string SecondsToString(const FDateTime& dateTime);
 	static std::string TimeToString(const FDateTime& dateTime);
+
+	void TimeToToml(toml::v2::date& date, toml::v2::time& time) const;
 
 	static std::string MonthToThreeChar(int month); // Indexed at 1
 

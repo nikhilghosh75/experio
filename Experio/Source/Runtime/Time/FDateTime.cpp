@@ -16,6 +16,7 @@ const int TICKSPERMILLISECOND = 10000;
 const int TICKSPERMICROSECOND = 10;
 const long long TICKSSINCE1601 = 504912960000000000;
 const long long TICKSSINCEUNIXEPOCH = 621672192000000000;
+const int NANOSECONDSPERTICKS = 100;
 
 void DateTimeTest()
 {
@@ -63,6 +64,12 @@ FDateTime::FDateTime(int year, int month, int day, int hour, int minute, int sec
 	ticks = totalDays * TICKSPERDAY + totalSeconds * TICKSPERSECOND 
 		+ millisecond * TICKSPERMILLISECOND 
 		+ microsecond * TICKSPERMICROSECOND;
+}
+
+FDateTime::FDateTime(toml::v2::date date, toml::v2::time time)
+{
+	*this = FDateTime(date.year, date.month, date.day, 
+		time.hour, time.minute, time.second, time.nanosecond * 1000000, time.nanosecond * 1000);
 }
 
 FDateTime FDateTime::FromUnixEpoch(long long ticksSinceEpoch)
@@ -200,6 +207,11 @@ bool FDateTime::IsLeapYear(int year)
 	return false;
 }
 
+int FDateTime::GetNanosecond(const FDateTime & dateTime)
+{
+	return (dateTime.ticks * NANOSECONDSPERTICKS) % 1000000000;
+}
+
 int FDateTime::GetMillisecond(const FDateTime & dateTime)
 {
 	return (dateTime.ticks/TICKSPERMILLISECOND) % 1000;
@@ -291,57 +303,62 @@ void FDateTime::GetDate(const FDateTime & dateTime, int & day, int & month, int 
 	}
 }
 
-int FDateTime::GetMillisecond()
+int FDateTime::GetNanosecond() const
+{
+	return GetNanosecond(*this);
+}
+
+int FDateTime::GetMillisecond() const
 {
 	return GetMillisecond(*this);
 }
 
-int FDateTime::GetSecond()
+int FDateTime::GetSecond() const
 {
 	return GetSecond(*this);
 }
 
-int FDateTime::GetMinute()
+int FDateTime::GetMinute() const
 {
 	return GetMinute(*this);
 }
 
-int FDateTime::GetHour()
+int FDateTime::GetHour() const
 {
 	return GetHour(*this);
 }
 
-int FDateTime::GetHourAM()
+int FDateTime::GetHourAM() const
 {
 	return GetHourAM(*this);
 }
 
-int FDateTime::GetDay()
+int FDateTime::GetDay() const
 {
 	return GetDay(*this);
 }
 
-EDayOfWeek FDateTime::GetDayOfWeek()
+EDayOfWeek FDateTime::GetDayOfWeek() const
 {
 	return GetDayOfWeek(*this);
 }
 
-int FDateTime::GetMonth()
+int FDateTime::GetMonth() const
 {
 	return GetMonth(*this);
 }
 
-EMonthOfYear FDateTime::GetMonthOfYear()
+EMonthOfYear FDateTime::GetMonthOfYear() const
 {
 	return GetMonthOfYear(*this);
 }
 
-int FDateTime::GetYear()
+int FDateTime::GetYear() const
 {
 	return GetYear(*this);
 }
 
-void FDateTime::GetDate(int & day, int & month, int & year)
+void FDateTime::GetDate(int & day, int & month, int & year) const
 {
 	return GetDate(*this, day, month, year);
 }
@@ -582,6 +599,20 @@ std::string FDateTime::TimeToString(const FDateTime & dateTime)
 	s += ":" + std::to_string(GetSecond(dateTime));
 	s += ":" + std::to_string(GetMillisecond(dateTime));
 	return s;
+}
+
+void FDateTime::TimeToToml(toml::v2::date & date, toml::v2::time & time) const
+{
+	int month, day, year;
+	GetDate(*this, day, month, year);
+	date.day = day;
+	date.month = month;
+	date.year = year;
+
+	time.hour = GetHour();
+	time.minute = GetMinute();
+	time.second = GetSecond();
+	time.nanosecond = GetNanosecond();
 }
 
 std::string FDateTime::MonthToThreeChar(int month)
