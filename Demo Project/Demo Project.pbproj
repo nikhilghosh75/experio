@@ -1,0 +1,18 @@
+[General]
+ProjectName = "Demo Project"
+Experio = "0.9.0"
+
+[Filepaths]
+Assets =  "../Assets"
+Binaries = "../Binaries"
+Config = "../Config"
+Editor = ""
+Generated = "../Generated"
+Source = "../Source"
+
+[Languages]
+Cpp = 17
+GLSL = 460
+
+[Defaults]
+Scene = "../Assets/Scenes/TestScene.pbscene"

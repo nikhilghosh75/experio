@@ -152,6 +152,7 @@
     <None Include="Assets\Scenes\TestScene.pbscene" />
     <None Include="Config\layers.pbvalues" />
     <None Include="Config\tags.pbvalues" />
+    <None Include="Demo Project.pbproj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

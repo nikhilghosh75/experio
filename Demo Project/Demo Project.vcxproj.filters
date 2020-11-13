@@ -20,6 +20,7 @@
     <None Include="Assets\Materials\SuzanneMat.material" />
     <None Include="Config\layers.pbvalues" />
     <None Include="Config\tags.pbvalues" />
+    <None Include="Demo Project.pbproj" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DemoProject.h">
