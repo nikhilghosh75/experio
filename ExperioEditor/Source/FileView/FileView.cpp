@@ -16,7 +16,7 @@ FileView::FileView()
 	this->name = "Files";
 	this->category = EEditorModuleCategory::Core;
 
-	this->assetFilePath = "C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets";
+	this->assetFilePath = EditorApplication::assetsFilePath;
 
 	for (int i = 0; i < 17; i++)
 	{
