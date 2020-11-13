@@ -5,6 +5,8 @@
 
 std::string projectName = "Test Project";
 
+#ifndef EXPERIO_EDITOR
+
 unsigned short DefaultTagStringToNum(const char* string)
 {
 	if (strcmp(string, "Player"))
@@ -29,6 +31,8 @@ std::string DefaultTagNumToString(unsigned short num)
 	}
 	return "";
 }
+
+#endif
 
 template <class T>
 unsigned int DefaultClassTypeToInt()
