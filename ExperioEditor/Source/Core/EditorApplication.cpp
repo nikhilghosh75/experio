@@ -18,6 +18,7 @@
 #include "../FileView/FileView.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "Runtime/Debug/TempProfiler.h"
+#include "../CodeParser/LCodeParser.h"
 #include "../CodeParser/CodeProject.h"
 #include "../CodeParser/CodeProjectGenerator.h"
 #include "../Inspector/Inspector.h"
@@ -30,10 +31,15 @@ std::vector<EditorModule*> EditorApplication::modules;
 DllLoader EditorApplication::loader;
 
 std::string EditorApplication::assetsFilePath;
+std::string EditorApplication::binariesFilePath;
 std::string EditorApplication::configFilePath;
-std::string EditorApplication::scriptsFilePath;
+std::string EditorApplication::editorFilePath;
+std::string EditorApplication::generatedFilePath;
+std::string EditorApplication::sourceFilePath;
 
-std::string EditorApplication::standardAssetsFilePath;
+std::string EditorApplication::defaultScenePath;
+
+std::string EditorApplication::standardAssetsFilePath = "C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard";
 
 EditorApplication::EditorApplication()
 {
@@ -53,17 +59,13 @@ void EditorApplication::Setup()
 	EditorWindow::InitializeWindow();
 	Project::inEditor = true;
 
-	modules.push_back(new SceneView());
-	modules.push_back(new FileView());
-	modules.push_back(new SceneHierarchy());
-	modules.push_back(new Inspector());
-	modules.push_back(new GameView());
-	modules.push_back(new Console());
-
-	TempSetup();
-
 	EditorProject::TempSetup();
-	SceneLoader::LoadSceneFromFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Scenes/TestScene.pbscene", 0);
+	EditorProject::ReadProjectFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Demo Project.pbproj");
+	EditorProject::ReadValueFiles();
+
+	AddDefaultModules();
+
+	SceneLoader::LoadSceneFromFile(defaultScenePath, 0);
 	Scene::Activate(0);
 
 	Project::StartGame();
@@ -71,12 +73,15 @@ void EditorApplication::Setup()
 
 void EditorApplication::Run()
 {
+	/*
 	TempProfiler* profiler = new TempProfiler("Code Parsers");
 	FCodeProjectOptions options;
 	options.codingLanguage = ECodingLanguage::CPlusPlus;
 	options.generateInstantly = true;
-	// CodeProject project("C:/Users/debgh/source/repos/project-bloo/Experio/Source/Runtime", options);
+	CodeProject project("C:/Users/debgh/source/repos/project-bloo/Experio/Source/Runtime", options);
+	size_t audioSize = LCodeParser::SerializedSizeOf(project.classes[114], project, ECodingLanguage::CPlusPlus);
 	delete profiler;
+	*/
 
 	while (EditorWindow::isActive)
 	{
@@ -127,8 +132,8 @@ std::string EditorApplication::GetShortenedFilePath(std::string & fullFilePath)
 	foundIndex = fullFilePath.find(configFilePath);
 	if (foundIndex != std::string::npos) return "?Config?" + fullFilePath.substr(configFilePath.size());
 
-	foundIndex = fullFilePath.find(scriptsFilePath);
-	if (foundIndex != std::string::npos) return "?Source?" + fullFilePath.substr(scriptsFilePath.size());
+	foundIndex = fullFilePath.find(sourceFilePath);
+	if (foundIndex != std::string::npos) return "?Source?" + fullFilePath.substr(sourceFilePath.size());
 
 	foundIndex = fullFilePath.find(standardAssetsFilePath);
 	if (foundIndex != std::string::npos) return "?Standard?" + fullFilePath.substr(standardAssetsFilePath.size());
@@ -142,13 +147,14 @@ EditorModule * EditorApplication::AddModule(EditorModule * module)
 	return module;
 }
 
-void EditorApplication::TempSetup()
+void EditorApplication::AddDefaultModules()
 {
-	assetsFilePath = "C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/";
-	configFilePath = "C:/Users/debgh/source/repos/project-bloo/Demo Project/Config/";
-	scriptsFilePath = "C:/Users/debgh/source/repos/project-bloo/Demo Project/Source/";
-
-	standardAssetsFilePath = "C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard";
+	modules.push_back(new SceneView());
+	modules.push_back(new FileView());
+	modules.push_back(new SceneHierarchy());
+	modules.push_back(new Inspector());
+	modules.push_back(new GameView());
+	modules.push_back(new Console());
 }
 
 void EditorApplication::BeginFrame()
