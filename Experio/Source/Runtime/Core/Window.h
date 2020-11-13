@@ -93,6 +93,4 @@ public:
 #ifdef PLATFORM_WINDOWS
 	HWND* GetHWND();
 #endif
-private:
-	Input input;
 };
