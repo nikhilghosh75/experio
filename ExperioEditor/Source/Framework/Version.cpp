@@ -141,7 +141,7 @@ std::string FVersion::ToString() const
 	case EVersionType::Final:
 		ss << "f"; break;
 	}
-	return ss.str;
+	return ss.str();
 }
 
 FVersion::FVersion(const std::string & str)
