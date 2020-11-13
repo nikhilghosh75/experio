@@ -16,4 +16,7 @@ public:
 	static EDataType StringToDataType(std::string string);
 
 	static bool WGLExtensionSupported(const char* extensionName);
+
+	static uint16_t GLSLVersionToPreprocessor(uint8_t major, uint8_t minor);
+	static std::string GLSLVersionToPreprocessorStr(uint8_t major, uint8_t minor);
 };

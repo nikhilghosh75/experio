@@ -91,3 +91,13 @@ bool LOpenGL::WGLExtensionSupported(const char * extensionName)
 
 	return true;
 }
+
+uint16_t LOpenGL::GLSLVersionToPreprocessor(uint8_t major, uint8_t minor)
+{
+	return major * 100 + minor * 10;
+}
+
+std::string LOpenGL::GLSLVersionToPreprocessorStr(uint8_t major, uint8_t minor)
+{
+	return "#version " + std::to_string(GLSLVersionToPreprocessor(major, minor));
+}
