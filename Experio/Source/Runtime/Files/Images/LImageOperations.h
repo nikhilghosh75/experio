@@ -1,5 +1,6 @@
 #pragma once
 #include "ImageReader.h"
+#include "../../Rendering/Managers/TextureManager.h"
 
 class LImageOperations
 {
@@ -10,5 +11,7 @@ public:
 	static int BitsPerPixel(EImageEncoding encoding);
 	static int BytesPerPixel(EImageEncoding encoding);
 
-	static uint64_t SizeofImage(int width, int height, EImageEncoding encoding);
+	static uint64_t SizeOfImage(int width, int height, EImageEncoding encoding);
+	static uint64_t SizeOfImage(const ImageData* data);
+	static uint64_t SizeOfImage(const TextureRef& ref);
 };

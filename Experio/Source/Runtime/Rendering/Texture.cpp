@@ -102,3 +102,12 @@ unsigned int Texture::GetHeight() const
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
 	return (unsigned int)height;
 }
+
+EImageEncoding Texture::GetImageEncoding() const
+{
+	if (this->data != nullptr)
+	{
+		return this->data->encoding;
+	}
+	return EImageEncoding::Unencoded;
+}

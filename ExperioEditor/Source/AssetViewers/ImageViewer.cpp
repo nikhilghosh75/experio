@@ -1,4 +1,5 @@
 #include "ImageViewer.h"
+#include "Runtime/Files/Images/LImageOperations.h"
 #include <sstream>
 
 void ImageViewer::DisplayStats()
@@ -11,6 +12,10 @@ void ImageViewer::DisplayStats()
 	height = loadedRef->GetHeight();
 	std::stringstream ss;
 	ss << width << "x" << height;
+	ImGui::Text(ss.str().c_str());
+
+	ss.clear();
+	ss << "Size: " << LImageOperations::SizeOfImage(loadedRef) << " bytes";
 	ImGui::Text(ss.str().c_str());
 }
 
@@ -31,7 +36,7 @@ void ImageViewer::Display()
 
 	ImVec2 windowSize = ImGui::GetWindowSize();
 	ImVec2 currentSize = ImGui::GetWindowSize();
-	currentSize = ImVec2(currentSize.x - 12, currentSize.y - 130); // Change Later
+	currentSize = ImVec2(currentSize.x - 12, currentSize.y - 145); // Change Later
 
 	ImGui::Image((void*)loadedRef->GetRendererID(), currentSize, ImVec2(0, 1), ImVec2(1, 0));
 }
