@@ -20,6 +20,7 @@
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
     <ClInclude Include="Source\Runtime\Containers\THashtable.h" />
+    <ClInclude Include="Source\Runtime\Containers\TPair.h" />
     <ClInclude Include="Source\Runtime\Containers\TQueue.h" />
     <ClInclude Include="Source\Runtime\Containers\TStackArray.h" />
     <ClInclude Include="Source\Runtime\Containers\TTypedTree.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="Source\Runtime\Framework\BinaryParams.h" />
     <ClInclude Include="Source\Runtime\Framework\GameObjectIterator.h" />
     <ClInclude Include="Source\Runtime\Framework\GUID.h" />
+    <ClInclude Include="Source\Runtime\Framework\GUID128.h" />
     <ClInclude Include="Source\Runtime\Framework\Params.h" />
     <ClInclude Include="Source\Runtime\Framework\PrefabLoader.h" />
     <ClInclude Include="Source\Runtime\Framework\SceneLoader.h" />
