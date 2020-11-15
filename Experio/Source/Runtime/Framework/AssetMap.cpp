@@ -1,12 +1,24 @@
 #include "AssetMap.h"
 #include <fstream>
+#include "../Debug/Debug.h"
+#include "../Files/LFileOperations.h"
 
 THashtable<unsigned int, std::string> AssetMap::assetMap;
 
 void AssetMap::ReadAssetMap(std::string filepath)
 {
-	// Add checks here
+	if (!LFileOperations::DoesFileHaveExtension(filepath, "pbasm"))
+	{
+		Debug::LogError("Filepath is not a pbasm file");
+		return;
+	}
+
 	std::ifstream inFile(filepath);
+	if (inFile.bad())
+	{
+		Debug::LogError("Asset Map cannot be opened");
+		return;
+	}
 	
 	char word[256];
 	inFile.getline(word, 256);
