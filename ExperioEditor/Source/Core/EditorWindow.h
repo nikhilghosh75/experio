@@ -28,4 +28,7 @@ private:
 	static void Dockspace();
 
 	static void CreateUpperMenu();
+
+	// TO-DO: Move Later
+	static void SaveAll();
 };

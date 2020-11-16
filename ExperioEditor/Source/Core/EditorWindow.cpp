@@ -13,8 +13,11 @@
 #include "Runtime/Rendering/OpenGL/LOpenGL.h"
 #include "FileDialog.h"
 #include "../Framework/SceneSaver.h"
+#include "../Framework/ValueSaver.h"
 #include "Runtime/Framework/Scene.h"
 #include "Runtime/Framework/SceneLoader.h"
+#include "../AssetViewers/LayerEditor.h"
+#include "../AssetViewers/TagEditor.h"
 
 HWND EditorWindow::hwnd;
 int EditorWindow::displayHeight = 0;
@@ -253,7 +256,11 @@ void EditorWindow::CreateUpperMenu()
 					SceneLoader::LoadSceneFromFile(dialogInfo.filename, 0);
 				}
 			}
-			if (ImGui::MenuItem("Save Scene")) { TempFunc(); }
+			ImGui::Separator();
+			if (ImGui::MenuItem("Save Scene")) 
+			{ 
+				SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
+			}
 			if (ImGui::MenuItem("Save Scene As")) 
 			{ 
 				FFileDialogInfo dialogInfo = FileDialog::SaveFile("Experio Scene (*.pbscene)\0*.pbscene\0");
@@ -261,6 +268,10 @@ void EditorWindow::CreateUpperMenu()
 				{
 					SceneSaver::SaveScene(0, dialogInfo.filename + ".pbscene");
 				}
+			}
+			if (ImGui::MenuItem("Save All"))
+			{
+				SaveAll();
 			}
 
 			ImGui::EndMenu();
@@ -273,8 +284,27 @@ void EditorWindow::CreateUpperMenu()
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("Project"))
+		{
+			if (ImGui::MenuItem("Tags"))
+			{
+				EditorApplication::AddModule(new TagEditor());
+			}
+			if (ImGui::MenuItem("Layers"))
+			{
+				EditorApplication::AddModule(new LayerEditor());
+			}
+			ImGui::EndMenu();
+		}
+
 		ImGui::EndMenuBar();
 	}
+}
+
+void EditorWindow::SaveAll()
+{
+	SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
+	ValueSaver::SaveValues();
 }
 
 #ifdef PLATFORM_WINDOWS
