@@ -86,7 +86,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\AssetViewers\ImageViewer.cpp" />
+    <ClCompile Include="Source\AssetViewers\LayerEditor.cpp" />
     <ClCompile Include="Source\AssetViewers\MeshViewer.cpp" />
+    <ClCompile Include="Source\AssetViewers\TagEditor.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProject.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectGenerator.cpp" />
     <ClCompile Include="Source\CodeParser\LCodeParser.cpp" />
@@ -105,15 +107,22 @@
     <ClCompile Include="Source\Framework\SceneSaver.cpp" />
     <ClCompile Include="Source\Framework\ValueLoader.cpp" />
     <ClCompile Include="Source\Framework\Values.cpp" />
+    <ClCompile Include="Source\Framework\ValueSaver.cpp" />
     <ClCompile Include="Source\Framework\Version.cpp" />
     <ClCompile Include="Source\GameView\GameView.cpp" />
     <ClCompile Include="Source\Inspector\Inspector.cpp" />
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
+    <ClCompile Include="Source\Testing\Test.cpp" />
+    <ClCompile Include="Source\Testing\TestingManager.cpp" />
+    <ClCompile Include="Source\Testing\TestManager.cpp" />
+    <ClCompile Include="Source\Testing\UnitTestingFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\AssetViewers\ImageViewer.h" />
+    <ClInclude Include="Source\AssetViewers\LayerEditor.h" />
     <ClInclude Include="Source\AssetViewers\MeshViewer.h" />
+    <ClInclude Include="Source\AssetViewers\TagEditor.h" />
     <ClInclude Include="Source\CodeParser\CodeArg.h" />
     <ClInclude Include="Source\CodeParser\CodeClass.h" />
     <ClInclude Include="Source\CodeParser\CodeEnum.h" />
@@ -139,12 +148,15 @@
     <ClInclude Include="Source\Framework\SceneSaver.h" />
     <ClInclude Include="Source\Framework\ValueLoader.h" />
     <ClInclude Include="Source\Framework\Values.h" />
+    <ClInclude Include="Source\Framework\ValueSaver.h" />
     <ClInclude Include="Source\Framework\Version.h" />
     <ClInclude Include="Source\GameView\GameView.h" />
     <ClInclude Include="Source\Inspector\Inspector.h" />
     <ClInclude Include="Source\SceneHierarchy\SceneHierarchy.h" />
     <ClInclude Include="Source\SceneView\SceneView.h" />
     <ClInclude Include="Source\Testing\Assert.h" />
+    <ClInclude Include="Source\Testing\TestManager.h" />
+    <ClInclude Include="Source\Testing\UnitTestingFramework.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Experio\Experio.vcxproj">
