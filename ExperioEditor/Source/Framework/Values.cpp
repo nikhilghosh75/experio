@@ -2,8 +2,46 @@
 
 namespace ExperioEditor
 {
-THashtable<int, std::string> tags;
-THashtable<int, std::string> layers;
+THashtable<uint16_t, std::string> tags;
+THashtable<uint16_t, std::string> layers;
+
+namespace Internal
+{
+	uint16_t NextAvailible(const THashtable<uint16_t, std::string>& table)
+	{
+		for (uint16_t i = 0; i < 65535; i++)
+		{
+			if (!table.ExistsIn(i))
+			{
+				return i;
+			}
+		}
+		return 65535;
+	}
+}
+
+void AddValue(EValueType type)
+{
+	uint16_t nextAvailible = GetNextAvailibleValue(type);
+	std::string temp;
+	switch (type)
+	{
+	case EValueType::Layer:
+		if (layers.GetSize() >= 64)
+			return;
+		temp = "Layer";
+		temp.resize(32);
+		layers.Insert(nextAvailible, temp);
+		break;
+	case EValueType::Tag:
+		if (tags.GetSize() >= 65535)
+			return;
+		temp = "Tag               ";
+		temp.resize(32);
+		tags.Insert(nextAvailible, temp);
+		break;
+	}
+}
 
 void AddValue(FValue value, EValueType type)
 {
@@ -18,7 +56,7 @@ void AddValue(FValue value, EValueType type)
 	}
 }
 
-void DeleteValue(int index, EValueType type)
+void DeleteValue(uint16_t index, EValueType type)
 {
 	switch (type)
 	{
@@ -44,7 +82,7 @@ void DeleteValue(std::string name, EValueType type)
 	}
 }
 
-FValue GetValue(int index, EValueType type)
+FValue GetValue(uint16_t index, EValueType type)
 {
 	std::string name;
 	bool found;
@@ -70,7 +108,7 @@ FValue GetValue(int index, EValueType type)
 
 FValue GetValue(std::string name, EValueType type)
 {
-	int index;
+	uint16_t index;
 	bool found;
 
 	switch (type)
@@ -112,7 +150,57 @@ void ClearValues(EValueType type)
 	}
 }
 
-} // Experio
+uint16_t GetNextAvailibleValue(EValueType type)
+{
+	switch (type)
+	{
+	case EValueType::Layer:
+		return Internal::NextAvailible(layers);
+	case EValueType::Tag:
+		return Internal::NextAvailible(tags);
+	}
+}
+
+THashtable<uint16_t, std::string>& GetTable(EValueType type)
+{
+	switch (type)
+	{
+	case EValueType::Layer: return layers;
+	case EValueType::Tag: return tags;
+	}
+	return tags;
+}
+
+THashtable<uint16_t, std::string>& GetTags()
+{
+	return tags;
+}
+
+THashtable<uint16_t, std::string>& GetLayers()
+{
+	return layers;
+}
+
+void SetValueName(uint16_t index, std::string& newName, EValueType type)
+{
+	switch (type)
+	{
+	case EValueType::Layer:
+	{
+		std::string& str = layers.Get(index);
+		str.assign(newName.c_str());
+	}
+		break;
+	case EValueType::Tag:
+	{
+		std::string& str = tags.Get(index);
+		str.assign(newName.c_str());
+	}
+		break;
+	}
+}
+
+} // Experio Editor
 
 unsigned short DefaultTagStringToNum(const char* string)
 {

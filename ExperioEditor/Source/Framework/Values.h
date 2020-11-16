@@ -23,13 +23,24 @@ struct FValue
 
 namespace ExperioEditor
 {
+	void AddValue(EValueType type);
 	void AddValue(FValue value, EValueType type);
-	void DeleteValue(int index, EValueType type);
-	void DeleteValue(std::string name, EValueType type);
-
-	FValue GetValue(int index, EValueType type);
-	FValue GetValue(std::string name, EValueType type);
 
 	void ClearValues();
 	void ClearValues(EValueType type);
+
+	void DeleteValue(uint16_t index, EValueType type);
+	void DeleteValue(std::string name, EValueType type);
+
+	FValue GetValue(uint16_t index, EValueType type);
+	FValue GetValue(std::string name, EValueType type);
+
+	uint16_t GetNextAvailibleValue(EValueType type);
+
+	THashtable<uint16_t, std::string>& GetTable(EValueType type);
+
+	THashtable<uint16_t, std::string>& GetTags();
+	THashtable<uint16_t, std::string>& GetLayers();
+
+	void SetValueName(uint16_t index, std::string& newName, EValueType type);
 }
