@@ -41,6 +41,8 @@ public:
 
 	static std::string defaultScenePath;
 
+	static std::string currentScenePath;
+
 	static std::string GetShortenedFilePath(std::string& fullFilePath);
 
 	static EditorModule* AddModule(EditorModule* module);

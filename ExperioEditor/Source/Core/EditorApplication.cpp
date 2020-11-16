@@ -39,6 +39,8 @@ std::string EditorApplication::sourceFilePath;
 
 std::string EditorApplication::defaultScenePath;
 
+std::string EditorApplication::currentScenePath;
+
 std::string EditorApplication::standardAssetsFilePath = "C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard";
 
 EditorApplication::EditorApplication()
@@ -62,6 +64,8 @@ void EditorApplication::Setup()
 	EditorProject::TempSetup();
 	EditorProject::ReadProjectFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Demo Project.pbproj");
 	EditorProject::ReadValueFiles();
+
+	currentScenePath = defaultScenePath;
 
 	AddDefaultModules();
 
