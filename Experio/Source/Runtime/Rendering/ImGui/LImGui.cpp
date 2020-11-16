@@ -70,6 +70,26 @@ void LImGui::DisplayBool(bool& boolean, std::string name)
 	ImGui::PopID();
 }
 
+void LImGui::DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string>& layerTable)
+{
+	uint16_t layer16 = layer;
+	const std::string layerName = layerTable.Get(layer);
+
+	if (ImGui::BeginCombo("Layer", layerName.c_str()))
+	{
+		layerTable.ForEach([&layer16](const uint16_t& index, const std::string& name) {
+			bool isSelected = index == layer16;
+			if (ImGui::Selectable(name.c_str(), &isSelected, ImGuiSelectableFlags_DontClosePopups))
+			{
+				uint16_t temp = index;
+				layer16 = temp;
+			}
+		});
+		layer = layer16;
+		ImGui::EndCombo();
+	}
+}
+
 void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
 {
 	ImGui::PushID(name.c_str());
@@ -100,6 +120,24 @@ void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
 
 	ImGui::Columns(1);
 	ImGui::PopID();
+}
+
+void LImGui::DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable)
+{
+	const std::string tagName = tagTable.Get(tag);
+	
+	if (ImGui::BeginCombo("Tag", tagName.c_str()))
+	{
+		tagTable.ForEach([&tag](const uint16_t& index, const std::string& name) {
+			bool isSelected = index == tag;
+			if (ImGui::Selectable(name.c_str(), &isSelected, ImGuiSelectableFlags_DontClosePopups))
+			{
+				uint16_t temp = index;
+				tag = temp;
+			}
+		});
+		ImGui::EndCombo();
+	}
 }
 
 void LImGui::DisplayTextureAsset(TextureRef & ref, std::string name)

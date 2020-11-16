@@ -1,5 +1,6 @@
 #pragma once
 #include "imgui.h"
+#include "../../Containers/THashtable.h"
 #include "../../Containers/TTypedTree.h"
 #include <string>
 #include "../../Math/FVector2.h"
@@ -23,7 +24,11 @@ public:
 	template<typename T>
 	static void DisplayEnum(T& currentEnum, std::string name);
 
+	static void DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string>& layerTable);
+
 	static void DisplayMeshAsset(MeshRef& ref, std::string name);
+
+	static void DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable);
 
 	static void DisplayTextureAsset(TextureRef& ref, std::string name);
 
