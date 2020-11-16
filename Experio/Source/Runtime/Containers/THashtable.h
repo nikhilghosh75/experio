@@ -1,14 +1,15 @@
 #pragma once
 #include <string>
 #include <functional>
+#include "TPair.h"
 
 #define HASHTABLE_START_CAPACITY 8
 
 template<typename K, typename V>
 class THashNode
 {
-	V value;
 	K key;
+	V value;
 
 	THashNode* nextNode;
 public:
@@ -135,7 +136,55 @@ public:
 		delete[] arr;
 	}
 
+	bool ExistsIn(const K& key) const
+	{
+		unsigned long hashValue = hashFunction(key);
+		THashNode<K, V>* entry = arr[hashValue];
+
+		while (entry != nullptr)
+		{
+			if (entry->GetKey() == key)
+			{
+				return true;
+			}
+			entry = entry->GetNext();
+		}
+		return false;
+	}
+
+	bool ExistsIn(const V& value) const
+	{
+		for (int i = 0; i < this->capacity; i++)
+		{
+			THashNode<K, V>* entry = arr[i];
+			while (entry != nullptr)
+			{
+				if (entry->GetValue() == value)
+				{
+					return true;
+				}
+				entry = entry->GetNext();
+			}
+		}
+		return false;
+	}
+
 	V& Get(const K& key)
+	{
+		unsigned long hashValue = hashFunction(key);
+		THashNode<K, V>* entry = arr[hashValue];
+
+		while (entry != nullptr)
+		{
+			if (entry->GetKey() == key)
+			{
+				return entry->GetValue();
+			}
+			entry = entry->GetNext();
+		}
+	}
+
+	const V& Get(const K& key) const
 	{
 		unsigned long hashValue = hashFunction(key);
 		THashNode<K, V>* entry = arr[hashValue];
@@ -160,6 +209,24 @@ public:
 			if (entry->GetKey() == key)
 			{
 				value = entry->GetValue();
+				return true;
+			}
+			entry = entry->GetNext();
+		}
+
+		return false;
+	}
+
+	bool Set(const K& key, V& newValue)
+	{
+		unsigned long hashValue = hashFunction(key);
+		THashNode<K, V>* entry = arr[hashValue];
+
+		while (entry != nullptr)
+		{
+			if (entry->GetKey() == key)
+			{
+				entry->SetValue(newValue);
 				return true;
 			}
 			entry = entry->GetNext();
@@ -368,6 +435,49 @@ public:
 			}
 		}
 		return false;
+	}
+
+	void ForEach(std::function<void(K&, V&)> func)
+	{
+		for (int i = 0; i < this->capacity; i++)
+		{
+			THashNode<K, V>* entry = arr[i];
+			while (entry != nullptr)
+			{
+				func(entry->GetKey(), entry->GetValue());
+				entry = entry->GetNext();
+			}
+		}
+	}
+
+	void ForEach(std::function<void(const K&, const V&)> func) const
+	{
+		for (int i = 0; i < this->capacity; i++)
+		{
+			THashNode<K, V>* entry = arr[i];
+			while (entry != nullptr)
+			{
+				func(entry->GetKey(), entry->GetValue());
+				entry = entry->GetNext();
+			}
+		}
+	}
+
+	std::vector<TPair<K, V>> GetPairs() const
+	{
+		std::vector<TPair<K, V>> pairs;
+		pairs.reserve(this->size);
+		
+		for (int i = 0; i < this->capacity; i++)
+		{
+			THashNode<K, V>* entry = arr[i];
+			while (entry != nullptr)
+			{
+				pairs.emplace_back(entry->GetKey(), entry->GetValue());
+				entry = entry->GetNext();
+			}
+		}
+		return pairs;
 	}
 
 	unsigned int GetSize() const { return size; }
