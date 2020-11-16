@@ -3,6 +3,7 @@
 #include "Runtime/Framework/Framework.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../Framework/EditorProject.h"
+#include "../Framework/Values.h"
 #include "../ComponentEditor/Renderable/MeshComponentEditor.h"
 #include "../ComponentEditor/Renderable/BillboardComponentEditor.h"
 #include "../ComponentEditor/Renderable/VirtualCameraEditor.h"
@@ -11,6 +12,7 @@ void Inspector::DisplayGameObject(uint64_t id)
 {
 	GameObject* object = Scene::FindGameObjectFromId(id);
 	
+	DisplayGameObjectInfo(object);
 	DisplayTransform(object);
 
 	std::vector<unsigned int> componentIDs = Project::componentManager->GetComponentsIDsInGameObject(object);
@@ -25,6 +27,18 @@ void Inspector::DisplayGameObject(uint64_t id)
 			ImGui::TreePop();
 		}
 	}
+}
+
+void Inspector::DisplayGameObjectInfo(GameObject * object)
+{
+	bool changed = ImGui::InputText("##Name", object->name.data(), 32);
+	if (changed)
+	{
+		// Add stuff
+	}
+
+	LImGui::DisplayTag(object->tag, ExperioEditor::GetTags());
+	LImGui::DisplayLayer(object->layer, ExperioEditor::GetLayers());
 }
 
 void Inspector::DisplayTransform(GameObject * object)

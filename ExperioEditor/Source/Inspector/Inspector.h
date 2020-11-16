@@ -12,6 +12,8 @@ class Inspector : public EditorModule
 
 	void DisplayGameObject(uint64_t id);
 
+	void DisplayGameObjectInfo(GameObject* object);
+
 	void DisplayTransform(GameObject* object);
 
 	void UpdateComponents(std::vector<unsigned int> componentIDs);
