@@ -21,6 +21,9 @@ FRect::FRect(float minX, float minY, float maxX, float maxY)
 
 FRect::FRect(const FVector2 * points, int count)
 {
+	this->min = FVector2(100000, 100000);
+	this->max = FVector2(-100000, -100000);
+
 	for (int i = 0; i < count; i++)
 	{
 		if (points[i].x < min.x)
@@ -47,6 +50,9 @@ FRect::FRect(const FVector2 * points, int count)
 
 FRect::FRect(const std::vector<FVector2> points)
 {
+	this->min = FVector2(100000, 100000);
+	this->max = FVector2(-100000, -100000);
+
 	for (int i = 0; i < points.size(); i++)
 	{
 		if (points[i].x < min.x)
