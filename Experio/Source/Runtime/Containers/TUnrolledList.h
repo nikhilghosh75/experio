@@ -101,7 +101,7 @@ private:
 public:
 	TUnrolledList()
 	{
-		start = new TElement<T>();
+		start = new TUnrolledElement<T>();
 		end = start;
 		numElements = 0;
 		count = 0;
@@ -114,7 +114,7 @@ public:
 
 		for (int i = 0; i < num / 4; i++)
 		{
-			TElement<T>* tempElement = new TElement<T>(object, 4, previous, nullptr);
+			TUnrolledElement<T>* tempElement = new TUnrolledElement<T>(object, 4, previous, nullptr);
 			if (previous != nullptr)
 			{
 				previous->SetNext(tempElement);
@@ -130,7 +130,7 @@ public:
 
 		if (num % 4 != 0)
 		{
-			this->end = new TElement<T>(object, num % 4, previous, nullptr);
+			this->end = new TUnrolledElement<T>(object, num % 4, previous, nullptr);
 			previous->SetNext(this->end);
 			this->numElements++;
 			this->count += num % 4;
@@ -146,7 +146,7 @@ public:
 	{
 		if (count % 4 == 0)
 		{
-			TElement<T>* tempElement = new TElement<T>(object, 1, this->end, nullptr);
+			TUnrolledElement<T>* tempElement = new TUnrolledElement<T>(object, 1, this->end, nullptr);
 			this->end->next = tempElement;
 			this->end = tempElement;
 			this->numElements++;
@@ -255,7 +255,7 @@ public:
 
 	T& First()
 	{
-		return start->data[0]
+		return start->data[0];
 	}
 
 	T& Last()
