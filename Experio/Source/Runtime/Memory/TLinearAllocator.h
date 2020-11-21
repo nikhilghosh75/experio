@@ -18,6 +18,4 @@ public:
 private:
     void* currentPosition;
     size_t offset;
-
-    TLinearAllocator& operator=(const TLinearAllocator&);
 };
