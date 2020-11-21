@@ -12,6 +12,8 @@ struct FBox
 	FBox(FVector3* points, size_t count);
 	FBox(std::vector<FVector3> points);
 
+	FVector3 ClosestPointTo(const FVector3& point) const;
+
 	float DistanceToPoint(const FVector3& point) const;
 	float SqrDistanceToPoint(const FVector3& point) const;
 	
@@ -23,6 +25,4 @@ struct FBox
 
 	FVector3 GetCenter() const;
 	FVector3 GetExtents() const;
-
-	bool operator==(const FBox& other);
 };
