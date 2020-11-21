@@ -154,6 +154,10 @@ bool LFileOperations::DoesFileHaveExtension(std::string filePath, const char * e
 		}
 	}
 
+	if (extension[0] == '.')
+	{
+		return strcmp(&filePath[indexOfDot], extension) == 0;
+	}
 	return strcmp(&filePath[indexOfDot + 1], extension) == 0;
 }
 
