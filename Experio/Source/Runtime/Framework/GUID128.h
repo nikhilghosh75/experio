@@ -23,6 +23,17 @@ struct GUID128
 		this->highWord = highWord;
 	}
 
+	GUID128(const std::string& s)
+	{
+		int numDashes = LString::NumOfChars(s, '-');
+		if (numDashes == 4)
+		{
+			// Add Stuff Here
+		}
+		this->highWord = LString::HexStringToLong(s.substr(0, 16));
+		this->lowWord = LString::HexStringToLong(s.substr(16));
+	}
+
 	static GUID128 Random()
 	{
 		uint64_t subWords[4];
