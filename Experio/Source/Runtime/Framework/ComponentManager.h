@@ -25,7 +25,11 @@ public:
 
 	virtual void OnGameObjectDeleted(GameObject* gameObject) = 0;
 
-	virtual unsigned int ComponentCount() { return -1; }
+	virtual unsigned int ComponentCount() const { return -1; }
+
+	virtual std::vector<Component*> GetAllComponents() = 0;
+
+	virtual void GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds) = 0;
 };
 
 #define PB_ADD_COMPONENT(_vectorName_) _vectorName_.emplace_back(gameObject); return (Component*)(&_vectorName_[_vectorName_.size() - 1]);
@@ -69,3 +73,13 @@ public:
 	_vectorName_[i].Start();\
 }\
 
+#define PB_GET_ALL(_vectorName_) for(int i = 0; i < _vectorName_.size(); i++)\
+{\
+	vector.push_back(&_vectorName_[i]);\
+}
+
+#define PB_GET_ALL_IDS(_vectorName_, _id_) for(int i = 0; i < _vectorName_.size(); i++)\
+{\
+	components.push_back(&_vectorName_[i]);\
+	componentIds.push_back(_id_);\
+}

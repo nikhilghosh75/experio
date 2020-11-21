@@ -170,9 +170,36 @@ public:
 		return returnVector;
 	}
 
-	virtual unsigned int ComponentCount() override
+	virtual std::vector<Component*> GetAllComponents() override
 	{
-		return testComponentInstances.size() + particleSystemInstances.size() + billboardInstances.size()
-			+ meshInstances.size() + textComponentInstances.size();
+		std::vector<Component*> vector;
+		vector.reserve(ComponentCount());
+
+		PB_GET_ALL(testComponentInstances);
+		PB_GET_ALL(particleSystemInstances);
+		PB_GET_ALL(billboardInstances);
+		PB_GET_ALL(meshInstances);
+		PB_GET_ALL(textComponentInstances);
+		
+		return vector;
+	}
+
+	virtual void GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds) override
+	{
+		components.reserve(ComponentCount());
+		componentIds.reserve(ComponentCount());
+
+		PB_GET_ALL_IDS(testComponentInstances, 2);
+		PB_GET_ALL_IDS(meshInstances, 101);
+		PB_GET_ALL_IDS(particleSystemInstances, 102);
+		PB_GET_ALL_IDS(billboardInstances, 103);
+		PB_GET_ALL_IDS(textComponentInstances, 104);
+	}
+
+	virtual unsigned int ComponentCount() const override
+	{
+		return testComponentInstances.size() + particleSystemInstances.size() 
+			+ billboardInstances.size() + meshInstances.size() 
+			+ textComponentInstances.size();
 	}
 };
