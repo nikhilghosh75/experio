@@ -2,6 +2,16 @@
 #include <sstream>
 #include <algorithm>
 
+size_t LString::NumOfChars(const std::string & s, char c)
+{
+	size_t amount = 0;
+	for (size_t i = 0; i < s.size(); i++)
+	{
+		if (s[i] == c) amount++;
+	}
+	return amount;
+}
+
 std::string LString::ReplaceAll(std::string s, char from, char to)
 {
 	std::string returnString = s;
@@ -129,7 +139,7 @@ std::string LString::TrimRight(std::string str)
 	return str;
 }
 
-unsigned int LString::HexStringToInt(std::string s)
+unsigned int LString::HexStringToInt(const std::string& s)
 {
 	unsigned int returnValue = 0;
 	int n = s.size();
@@ -141,7 +151,7 @@ unsigned int LString::HexStringToInt(std::string s)
 	return returnValue;
 }
 
-unsigned long long LString::HexStringToLong(std::string s)
+unsigned long long LString::HexStringToLong(const std::string& s)
 {
 	unsigned long long returnValue = 0;
 	int n = s.size();

@@ -32,8 +32,8 @@ public:
 
 	static unsigned int HexCharToInt(char c);
 
-	static unsigned int HexStringToInt(std::string s);
-	static unsigned long long HexStringToLong(std::string s);
+	static unsigned int HexStringToInt(const std::string& s);
+	static unsigned long long HexStringToLong(const std::string& s);
 
 	constexpr static bool IsAlpha(char c);
 	constexpr static bool IsAlphaNumeric(char c);
@@ -46,6 +46,8 @@ public:
 
 	template<typename Number>
 	static std::string NumberWithCommas(Number n);
+
+	static size_t NumOfChars(const std::string& s, char c);
 
 	static std::string ReplaceAll(std::string s, char from, char to);
 
