@@ -51,6 +51,8 @@ public:
 	void SetTransform(FTransform transform);
 	void SetTransform(FVector3 position, FQuaternion rotation, FVector3 scale);
 
+	void ReserveChildren(uint8_t numChildren);
+
 	bool operator==(const GameObject& object) const;
 	bool operator!=(const GameObject& object) const;
 
