@@ -344,8 +344,8 @@ public:
 	void Resize(unsigned int newCapacity)
 	{
 		// Get all keys
-		K keys[this->size];
-		V values[this->size];
+		K* keys = new K[this->size];
+		V* values = new V[this->size];
 
 		if (this->size != 0)
 		{
@@ -356,7 +356,7 @@ public:
 				while (entry != nullptr)
 				{
 					THashNode<K, V>* prev = entry;
-					entry = prev->nextNode;
+					entry = prev->GetNext();
 					keys[i] = prev->GetKey();
 					values[i] = prev->GetValue();
 					i++;
@@ -379,6 +379,9 @@ public:
 		{
 			this->Insert(keys[i], values[i]);
 		}
+
+		delete keys;
+		delete values;
 	}
 
 	bool Find(const V& value, K& foundKey)
@@ -488,11 +491,21 @@ void THashtableTest();
 
 struct StringHashFunction
 {
-public:
 	unsigned int tableCapacity;
 
 	unsigned long operator()(const std::string& key) const
 	{
 		return (key[0] + key.size()) % tableCapacity;
+	}
+};
+
+template<typename T>
+struct PointerHashFunction
+{
+	unsigned int tableCapacity;
+
+	unsigned long operator()(const T* key) const
+	{
+		return reinterpret_cast<unsigned long>(key) % tableCapacity;
 	}
 };
