@@ -89,6 +89,8 @@
     <ClCompile Include="Source\AssetViewers\LayerEditor.cpp" />
     <ClCompile Include="Source\AssetViewers\MeshViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\TagEditor.cpp" />
+    <ClCompile Include="Source\BuildSystem\AssetMapSaver.cpp" />
+    <ClCompile Include="Source\BuildSystem\BinarySaveParams.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProject.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectGenerator.cpp" />
     <ClCompile Include="Source\CodeParser\LCodeParser.cpp" />
@@ -100,6 +102,7 @@
     <ClCompile Include="Source\Core\EditorModule.cpp" />
     <ClCompile Include="Source\Core\EditorWindow.cpp" />
     <ClCompile Include="Source\Core\FileDialog.cpp" />
+    <ClCompile Include="Source\Files\SceneConverter.cpp" />
     <ClCompile Include="Source\FileView\FileView.cpp" />
     <ClCompile Include="Source\Framework\EditorProject.cpp" />
     <ClCompile Include="Source\Framework\PlaySystem.cpp" />
@@ -111,6 +114,7 @@
     <ClCompile Include="Source\Framework\Version.cpp" />
     <ClCompile Include="Source\GameView\GameView.cpp" />
     <ClCompile Include="Source\Inspector\Inspector.cpp" />
+    <ClCompile Include="Source\ProjectGenerator\VisualStudioProject.cpp" />
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
     <ClCompile Include="Source\Testing\Test.cpp" />
@@ -123,12 +127,15 @@
     <ClInclude Include="Source\AssetViewers\LayerEditor.h" />
     <ClInclude Include="Source\AssetViewers\MeshViewer.h" />
     <ClInclude Include="Source\AssetViewers\TagEditor.h" />
+    <ClInclude Include="Source\BuildSystem\AssetMapSaver.h" />
+    <ClInclude Include="Source\BuildSystem\BinarySaveParams.h" />
     <ClInclude Include="Source\CodeParser\CodeArg.h" />
     <ClInclude Include="Source\CodeParser\CodeClass.h" />
     <ClInclude Include="Source\CodeParser\CodeEnum.h" />
     <ClInclude Include="Source\CodeParser\CodeFunction.h" />
     <ClInclude Include="Source\CodeParser\CodeMember.h" />
     <ClInclude Include="Source\CodeParser\CodeParam.h" />
+    <ClInclude Include="Source\CodeParser\CodeParser.h" />
     <ClInclude Include="Source\CodeParser\CodeProject.h" />
     <ClInclude Include="Source\CodeParser\CodeProjectGenerator.h" />
     <ClInclude Include="Source\CodeParser\LCodeParser.h" />
@@ -141,6 +148,7 @@
     <ClInclude Include="Source\Core\EditorModule.h" />
     <ClInclude Include="Source\Core\EditorWindow.h" />
     <ClInclude Include="Source\Core\FileDialog.h" />
+    <ClInclude Include="Source\Files\SceneConverter.h" />
     <ClInclude Include="Source\FileView\FileView.h" />
     <ClInclude Include="Source\Framework\EditorProject.h" />
     <ClInclude Include="Source\Framework\PlaySystem.h" />
@@ -152,6 +160,7 @@
     <ClInclude Include="Source\Framework\Version.h" />
     <ClInclude Include="Source\GameView\GameView.h" />
     <ClInclude Include="Source\Inspector\Inspector.h" />
+    <ClInclude Include="Source\ProjectGenerator\VisualStudioProject.h" />
     <ClInclude Include="Source\SceneHierarchy\SceneHierarchy.h" />
     <ClInclude Include="Source\SceneView\SceneView.h" />
     <ClInclude Include="Source\Testing\Assert.h" />
