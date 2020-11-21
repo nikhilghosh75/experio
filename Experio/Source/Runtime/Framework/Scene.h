@@ -8,6 +8,11 @@
 
 #define MAX_SCENES 32
 
+/*
+Reserved Scenes:
+29 (MAX_SCENES - 3) - Scene Conversions (in-editor only)
+*/
+
 class Scene
 {
 public:
@@ -30,7 +35,10 @@ public:
 	unsigned int GetNumGameObjects();
 
 	static Scene scenes[MAX_SCENES];
+	static std::string filepaths[MAX_SCENES];
 	static uint8_t sceneCount;
+
+	static void* sceneData;
 
 	static void Activate(uint8_t sceneIndex);
 	static void Deactivate(uint8_t sceneIndex);
@@ -39,6 +47,10 @@ public:
 	static bool IsActive(uint8_t sceneIndex);
 
 	static bool IsLoaded(uint8_t sceneIndex);
+
+	static bool IsSceneLoaded(const std::string& name);
+
+	static bool IsSceneAtFilepathLoaded(const std::string& filepath);
 
 	static void UnloadScene(uint8_t sceneIndex);
 

@@ -2,7 +2,9 @@
 #include "../Containers/TTypedTree.h"
 
 Scene Scene::scenes[MAX_SCENES];
+std::string Scene::filepaths[MAX_SCENES];
 uint8_t Scene::sceneCount = 0;
+void* Scene::sceneData = nullptr;
 
 Scene::Scene()
 {
@@ -59,6 +61,24 @@ bool Scene::IsLoaded(uint8_t sceneIndex)
 	return Scene::scenes[sceneIndex].isLoaded;
 }
 
+bool Scene::IsSceneLoaded(const std::string & name)
+{
+	for (uint8_t i = 0; i < MAX_SCENES; i++)
+	{
+		if (Scene::scenes[i].name == name) return true;
+	}
+	return false;
+}
+
+bool Scene::IsSceneAtFilepathLoaded(const std::string & filepath)
+{
+	for (uint8_t i = 0; i < MAX_SCENES; i++)
+	{
+		if (Scene::filepaths[i] == filepath) return true;
+	}
+	return false;
+}
+
 void Scene::UnloadScene(uint8_t sceneIndex)
 {
 	if (!Scene::scenes[sceneIndex].isLoaded)
@@ -79,7 +99,9 @@ void Scene::UnloadScene(uint8_t sceneIndex)
 			sceneRoot.children.pop_back();
 		}
 	}
-	return;
+	Scene::scenes[sceneIndex].isActive = false;
+	Scene::scenes[sceneIndex].isLoaded = false;
+	Scene::scenes[sceneIndex].name = "";
 }
 
 void Scene::UnloadAllScenes()
