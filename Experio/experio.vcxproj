@@ -81,6 +81,7 @@
     <ClInclude Include="Source\Runtime\Math\Random.h" />
     <ClInclude Include="Source\Runtime\Math\TMatrix.h" />
     <ClInclude Include="Source\Runtime\Memory\TScopePtr.h" />
+    <ClInclude Include="Source\Runtime\Memory\VoidPtr.h" />
     <ClInclude Include="Source\Runtime\Rendering\Managers\MeshManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Managers\TextureManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Particles\Particle.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Source\ThirdParty\toml++\toml_utf8_streams.hpp" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_value.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_version.h" />
+    <ClInclude Include="Source\ThirdParty\Zippy\zippy.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Audio\AudioSystem.cpp" />
@@ -164,6 +166,7 @@
     <ClCompile Include="Source\Runtime\Containers\LString.cpp" />
     <ClCompile Include="Source\Runtime\Containers\THashtable.cpp" />
     <ClCompile Include="Source\Runtime\Containers\TTypedTree.cpp" />
+    <ClCompile Include="Source\Runtime\Core\Platform.cpp" />
     <ClCompile Include="Source\Runtime\Core\Window.cpp" />
     <ClCompile Include="Source\Runtime\Core\LWindowOperations.cpp" />
     <ClCompile Include="Source\Runtime\Data\Datatable.cpp" />
@@ -193,6 +196,7 @@
     <ClCompile Include="Source\Runtime\Framework\GameObject.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Scene.cpp" />
     <ClCompile Include="Source\Runtime\Input\Input.cpp" />
+    <ClCompile Include="Source\Runtime\Math\FBox.cpp" />
     <ClCompile Include="Source\Runtime\Math\FColor.cpp" />
     <ClCompile Include="Source\Runtime\Math\FCurve.cpp" />
     <ClCompile Include="Source\Runtime\Math\FQuaternion.cpp" />
