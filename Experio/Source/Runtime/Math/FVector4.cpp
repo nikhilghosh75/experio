@@ -87,6 +87,18 @@ FVector4 FVector4::Abs(const FVector4 & V)
 	return FVector4(LMath::Abs(V.w), LMath::Abs(V.x), LMath::Abs(V.y), LMath::Abs(V.z));
 }
 
+FVector4 FVector4::Reflect(const FVector4 & Incident, const FVector4 & Normal)
+{
+	return Incident - (Normal * 2.f * Dot(Incident, Normal));
+}
+
+FVector4 FVector4::Refract(const FVector4 & Incident, const FVector4 & Normal, float indexOfRefraction)
+{
+	float dotValue = Dot(Incident, Normal);
+	float k = 1.f - indexOfRefraction * indexOfRefraction * (1 - dotValue * dotValue);
+	return (indexOfRefraction * Incident - (indexOfRefraction * dotValue * LMath::Sqrt(k)) * Normal) * (float)(k >= 0);
+}
+
 FVector4 FVector4::operator+(const FVector4 & V) const
 {
 	return FVector4(this->w + V.w, this->x + V.x, this->y + V.y, this->z + V.z);
@@ -101,7 +113,7 @@ FVector4 FVector4::operator+=(const FVector4 & V)
 	return *this + V;
 }
 
-FVector4 FVector4::operator-(const FVector4 & V)
+FVector4 FVector4::operator-(const FVector4 & V) const
 {
 	return FVector4(this->w - V.w, this->x - V.x, this->y - V.y, this->z - V.z);
 }
@@ -113,4 +125,37 @@ FVector4 FVector4::operator-=(const FVector4 & V)
 	this->y -= V.y;
 	this->z -= V.z;
 	return *this - V;
+}
+
+FVector4 FVector4::operator*(const float f) const
+{
+	return FVector4(this->w * f, this->x * f, this->y * f, this->z * f);
+}
+
+FVector4 FVector4::operator*=(const float f)
+{
+	this->w *= f;
+	this->x *= f;
+	this->y *= f;
+	this->z *= f;
+	return *this * f;
+}
+
+FVector4 FVector4::operator/(const float f) const
+{
+	return FVector4();
+}
+
+FVector4 FVector4::operator/=(const float f)
+{
+	this->w /= f;
+	this->x /= f;
+	this->y /= f;
+	this->z /= f;
+	return *this / f;
+}
+
+FVector4 operator*(float f, const FVector4 & V)
+{
+	return FVector4(V.w * f, V.x * f, V.y * f, V.z * f);
 }

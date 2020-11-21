@@ -35,14 +35,16 @@ struct FVector4
 
 	FVector4 operator+(const FVector4& V) const;
 	FVector4 operator+=(const FVector4& V);
-	FVector4 operator-(const FVector4& V);
+	FVector4 operator-(const FVector4& V) const;
 	FVector4 operator-=(const FVector4& V);
-	FVector4 operator*(const FVector4& V);
-	FVector4 operator*=(const FVector4& V);
-	FVector4 operator/(const FVector4& V);
-	FVector4 operator/=(const FVector4& V);
+	FVector4 operator*(const float f) const;
+	FVector4 operator*=(const float f);
+	FVector4 operator/(const float f) const;
+	FVector4 operator/=(const float f);
 
 	operator ImVec4() const { return ImVec4(this->x, this->y, this->z, this->w); }
 
 	operator std::string() const;
 };
+
+FVector4 operator*(float f, const FVector4& V);
