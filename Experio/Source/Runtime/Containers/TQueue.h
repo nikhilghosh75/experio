@@ -99,7 +99,7 @@ public:
 		{
 			if (current->next == nullptr)
 			{
-				Debug::LogError("Index " + to_string(index) + " is out of range");
+				Debug::LogError("Index " + std::to_string(index) + " is out of range");
 				return current->object;
 			}
 			current = current->next;

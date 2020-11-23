@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <functional>
+#include <vector>
 #include "TPair.h"
 
 #define HASHTABLE_START_CAPACITY 8

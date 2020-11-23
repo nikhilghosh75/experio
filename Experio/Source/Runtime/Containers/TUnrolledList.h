@@ -184,7 +184,7 @@ public:
 	void Insert(T object, int index)
 	{
 		int currentIndex = 0;
-		TElement<T>* currentElement = start;
+		TUnrolledElement<T>* currentElement = start;
 		while (currentElement->Count() + currentIndex <= index)
 		{
 			currentIndex += currentElement->Count();
@@ -244,7 +244,7 @@ public:
 		}
 
 		int currentIndex = 0;
-		TElement<T>* currentElement = start;
+		TUnrolledElement<T>* currentElement = start;
 		while (currentElement->Count() + currentIndex <= i)
 		{
 			currentIndex += currentElement->Count();
@@ -266,7 +266,7 @@ public:
 	int Find(T objectToFind)
 	{
 		int currentIndex = 0;
-		TElement<T>* currentElement = start;
+		TUnrolledElement<T>* currentElement = start;
 
 		while (currentElement != nullptr)
 		{
@@ -320,7 +320,7 @@ public:
 	int FindInRange(T objectToFind, int start, int end)
 	{
 		int currentIndex = 0;
-		TElement<T>* currentElement = this->start;
+		TUnrolledElement<T>* currentElement = this->start;
 
 		while (currentElement != nullptr)
 		{
@@ -359,7 +359,7 @@ public:
 	TUnrolledList<int> FindAllInRange(T objectToFind, int start, int end)
 	{
 		int currentIndex = 0;
-		TElement<T>* currentElement = this->start;
+		TUnrolledElement<T>* currentElement = this->start;
 		TArray<T> foundArray = *(new TArray<T>());
 
 		while (currentElement != nullptr)
@@ -411,7 +411,7 @@ public:
 	void Remove(T item)
 	{
 		int currentIndex = 0;
-		TElement<T>* currentElement = this->start;
+		TUnrolledElement<T>* currentElement = this->start;
 
 		while (currentElement != nullptr)
 		{
@@ -431,7 +431,7 @@ public:
 	void RemoveInRange(T item, int start, int end)
 	{
 		int currentIndex = 0;
-		TElement<T>* currentElement = this->start;
+		TUnrolledElement<T>* currentElement = this->start;
 
 		while (currentElement != nullptr)
 		{
@@ -458,7 +458,7 @@ public:
 	void RemoveAt(int index)
 	{
 		int currentIndex = 0;
-		TElement<T>* currentElement = this->start;
+		TUnrolledElement<T>* currentElement = this->start;
 
 		while (currentElement->Count() + currentIndex <= index)
 		{
@@ -474,7 +474,7 @@ public:
 		int end = index + count - 1;
 
 		int currentIndex = 0;
-		TElement<T>* currentElement = this->start;
+		TUnrolledElement<T>* currentElement = this->start;
 
 		while (currentElement != nullptr)
 		{
@@ -498,7 +498,7 @@ public:
 	void RemoveSingle(T item)
 	{
 		int currentIndex = 0;
-		TElement<T>* currentElement = this->start;
+		TUnrolledElement<T>* currentElement = this->start;
 
 		while (currentElement != nullptr)
 		{
@@ -520,7 +520,7 @@ public:
 	{
 		T elements[this->count];
 		int currentIndex = 0;
-		TElement<T>* currentElement = this->start;
+		TUnrolledElement<T>* currentElement = this->start;
 
 		while (currentElement != nullptr)
 		{
@@ -537,7 +537,7 @@ public:
 	{
 		std::string s = "";
 		int currentIndex = 0;
-		TElement<T>* currentElement = this->start;
+		TUnrolledElement<T>* currentElement = this->start;
 
 		std::stringstream ss;
 		std::string tempString;
@@ -559,13 +559,13 @@ public:
 
 	void Swap(int indexA, int indexB)
 	{
-		TElement<T>* elementA = nullptr;
-		TElement<T>* elementB = nullptr;
+		TUnrolledElement<T>* elementA = nullptr;
+		TUnrolledElement<T>* elementB = nullptr;
 		int elementIndexA = 0;
 		int elementIndexB = 0;
 
 		int currentIndex = 0;
-		TElement<T>* currentElement = this->start;
+		TUnrolledElement<T>* currentElement = this->start;
 
 		while (currentElement != nullptr)
 		{
@@ -599,7 +599,7 @@ public:
 
 	TUnrolledList<T> operator+(const T item)
 	{
-		Append(array);
+		Append(item);
 		return *this;
 	}
 
