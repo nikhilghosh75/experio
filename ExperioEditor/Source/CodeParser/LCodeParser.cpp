@@ -195,6 +195,16 @@ void LCodeParser::GetEnumNameValue(std::string valueText, int & currentValue, st
 	}
 }
 
+std::string LCodeParser::GetLanguageVersionString(ECodingLanguage language, uint16_t version)
+{
+	switch (language)
+	{
+	case ECodingLanguage::CPlusPlus:
+		return "stdcpp" + std::to_string(version);
+	}
+	return std::to_string(version);
+}
+
 std::string LCodeParser::GetClassNameFromDeclaration(std::string className)
 {
 	size_t firstSpace = className.find(' ');

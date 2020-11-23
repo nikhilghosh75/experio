@@ -32,9 +32,11 @@ public:
 	static EEnumDataType GetEnumDataType(unsigned int numValues);
 	static EEnumDataType GetEnumDataType(std::string string, ECodingLanguage language);
 
+	static std::string GetClassNameFromDeclaration(std::string className);
+
 	static void GetEnumNameValue(std::string valueText, int& currentValue, std::string& name, int& value);
 
-	static std::string GetClassNameFromDeclaration(std::string className);
+	static std::string GetLanguageVersionString(ECodingLanguage language, uint16_t version);
 
 	static std::vector<std::string> GetInheritanceFromDeclaration(std::string className);
 
