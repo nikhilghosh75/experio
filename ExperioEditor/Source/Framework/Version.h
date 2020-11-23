@@ -42,9 +42,9 @@ struct FVersion
 	// Increment
 	FVersion& operator++();
 
-	FVersion& NextPatch() const;
-	FVersion& NextMinor() const;
-	FVersion& NextMajor() const;
+	FVersion NextPatch() const;
+	FVersion NextMinor() const;
+	FVersion NextMajor() const;
 
 	// IsInRange
 	bool IsInRange(const FVersionRange& range) const;

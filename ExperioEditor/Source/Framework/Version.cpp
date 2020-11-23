@@ -185,17 +185,17 @@ FVersion & FVersion::operator++()
 	return *this;
 }
 
-FVersion & FVersion::NextPatch() const
+FVersion FVersion::NextPatch() const
 {
 	return FVersion(this->major, this->minor, this->patch + 1, EVersionType::Final);
 }
 
-FVersion & FVersion::NextMinor() const
+FVersion FVersion::NextMinor() const
 {
 	return FVersion(this->major, this->minor + 1, 0, EVersionType::Final);
 }
 
-FVersion & FVersion::NextMajor() const
+FVersion FVersion::NextMajor() const
 {
 	return FVersion(this->major + 1, 0, 0, EVersionType::Final);
 }
