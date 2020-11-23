@@ -74,7 +74,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui;$(SolutionDir)Dependencies\glm</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -118,7 +118,6 @@
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
     <ClCompile Include="Source\Testing\Test.cpp" />
-    <ClCompile Include="Source\Testing\TestingManager.cpp" />
     <ClCompile Include="Source\Testing\TestManager.cpp" />
     <ClCompile Include="Source\Testing\UnitTestingFramework.cpp" />
   </ItemGroup>

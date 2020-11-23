@@ -90,9 +90,6 @@
     <ClCompile Include="Source\Framework\Version.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Testing\TestingManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Testing\UnitTestingFramework.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
