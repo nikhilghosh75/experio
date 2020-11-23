@@ -565,6 +565,19 @@ std::string FDateTime::ToString(const FDateTime & dateTime, const std::string fo
 					}
 				}
 				break;
+			case 's':
+				int seconds = GetSecond(dateTime);
+				if (seconds > 10)
+				{
+					s[i] = LString::DigitToChar(seconds / 10);
+					s[i + 1] = LString::DigitToChar((seconds % 10) / 10);
+				}
+				else
+				{
+					s[i] = '0';
+					s[i + 1] = LString::DigitToChar(seconds);
+				}
+				break;
 			}
 			i++;
 		}
