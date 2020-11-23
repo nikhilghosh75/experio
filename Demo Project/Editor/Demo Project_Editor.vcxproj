@@ -69,6 +69,9 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)ExperioEditor\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui;$(SolutionDir)Demo Project\Source;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\RuntimeCompiledCPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>EXPERIO_EDITOR;PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -76,10 +79,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DemoProjectEditor.cpp" />
+    <ClCompile Include="RCCPP\DemoProjectEditorMainLoop.cpp" />
+    <ClCompile Include="RCCPP\DemoProjectRCCP.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ProjectBuild.cpp" />
+    <ClCompile Include="DemoProjectBuild.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Dependencies\RuntimeCompiledCPP\RuntimeCompiler\RuntimeCompiler.vcxproj">
+      <Project>{790d95ed-c6e6-24e5-345b-37fb1e098082}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Dependencies\RuntimeCompiledCPP\RuntimeObjectSystem\RuntimeObjectSystem.vcxproj">
+      <Project>{fa4e24f1-885c-406b-89a8-436f28d090b2}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\ExperioEditor\ExperioEditor.vcxproj">
       <Project>{fbaf0f06-0bbd-4565-9378-6c95cb3c7296}</Project>
     </ProjectReference>
@@ -98,6 +110,12 @@
     <ProjectReference Include="..\Experio\Experio.vcxproj">
       <Project>{06597ef7-d716-4da4-8727-0daf4e8a67c1}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DemoProjectEditor.h" />
+    <ClInclude Include="RCCPP\DemoProjectEditorMainLoop.h" />
+    <ClInclude Include="RCCPP\DemoProjectLogger.h" />
+    <ClInclude Include="RCCPP\DemoProjectSystemTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
