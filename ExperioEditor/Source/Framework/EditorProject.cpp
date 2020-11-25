@@ -36,10 +36,6 @@ void EditorProject::ReadProjectFile(std::string filepath)
 	// General
 	projectName = table["General"]["ProjectName"].value_or("");
 	experioVersion = FVersion(table["General"]["Experio"].value_or(""));
-
-	// Languages
-	languages.cppVersion = table["Languages"]["Cpp"].value_or(14);
-	languages.glslVersion = table["Languages"]["GLSL"].value_or(330);
 	
 	// Filepaths
 	EditorApplication::assetsFilePath = table["Filepaths"]["Assets"].value_or("/Assets");

@@ -25,6 +25,9 @@
 #include "../Framework/SceneSaver.h"
 #include "../GameView/GameView.h"
 #include "../Console/Console.h"
+#include "../Files/SceneConverter.h"
+#include "../ProjectSettings/ProjectSettings.h"
+#include "../ProjectSettings/SettingsView.h"
 #include "Runtime/Containers/TArray.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
@@ -72,6 +75,8 @@ void EditorApplication::Setup()
 	SceneLoader::LoadSceneFromFile(defaultScenePath, 0);
 	Scene::Activate(0);
 
+	ProjectSettings::Initialize();
+
 	Project::StartGame();
 }
 
@@ -106,6 +111,8 @@ void EditorApplication::Shutdown()
 {
 	Project::EndGame();
 	Scene::UnloadAllScenes();
+
+	ProjectSettings::Shutdown();
 }
 
 void EditorApplication::SetBeginFrameCallback(void(*callback)(float))
@@ -159,6 +166,8 @@ void EditorApplication::AddDefaultModules()
 	modules.push_back(new Inspector());
 	modules.push_back(new GameView());
 	modules.push_back(new Console());
+
+	modules.push_back(new SettingsView());
 }
 
 void EditorApplication::BeginFrame()
