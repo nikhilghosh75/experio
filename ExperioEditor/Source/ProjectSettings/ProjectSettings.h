@@ -12,5 +12,7 @@ public:
 
 	static void AddSettingsModule(ProjectSettingModule* settings);
 
+	static void SaveAll();
+
 	static void Shutdown();
 };

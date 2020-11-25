@@ -31,6 +31,14 @@ void ProjectSettings::AddSettingsModule(ProjectSettingModule * settings)
 	SettingsView::instance->GenerateSettingMenuTree();
 }
 
+void ProjectSettings::SaveAll()
+{
+	for (size_t i = 0; i < settingModules.size(); i++)
+	{
+		settingModules[i]->SaveSettingsFile();
+	}
+}
+
 void ProjectSettings::Shutdown()
 {
 	for (size_t i = 0; i < settingModules.size(); i++)
