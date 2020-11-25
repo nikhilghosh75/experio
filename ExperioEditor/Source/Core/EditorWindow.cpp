@@ -9,15 +9,9 @@
 #include "examples/imgui_impl_opengl3.h"
 #include "imgui_internal.h"
 #include "EditorApplication.h"
+#include "UpperMenu.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Rendering/OpenGL/LOpenGL.h"
-#include "FileDialog.h"
-#include "../Framework/SceneSaver.h"
-#include "../Framework/ValueSaver.h"
-#include "Runtime/Framework/Scene.h"
-#include "Runtime/Framework/SceneLoader.h"
-#include "../AssetViewers/LayerEditor.h"
-#include "../AssetViewers/TagEditor.h"
 
 HWND EditorWindow::hwnd;
 int EditorWindow::displayHeight = 0;
@@ -229,82 +223,9 @@ void EditorWindow::Dockspace()
 	ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 	
-	CreateUpperMenu();
+	UpperMenu::CreateUpperMenu();
 
 	ImGui::End();
-}
-
-void TempFunc() {}
-
-void EditorWindow::CreateUpperMenu()
-{
-	if (ImGui::BeginMenuBar())
-	{
-		// Restructure Later
-		if (ImGui::BeginMenu("File"))
-		{
-			if (ImGui::MenuItem("New Scene")) 
-			{ 
-				// Add Stuff Here 
-			}
-			if (ImGui::MenuItem("Open Scene")) 
-			{ 
-				FFileDialogInfo dialogInfo = FileDialog::OpenFile("Experio Scene (*.pbscene)\0*.pbscene\0");
-				if (dialogInfo.IsValid())
-				{
-					Scene::UnloadScene(0);
-					SceneLoader::LoadSceneFromFile(dialogInfo.filename, 0);
-				}
-			}
-			ImGui::Separator();
-			if (ImGui::MenuItem("Save Scene")) 
-			{ 
-				SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
-			}
-			if (ImGui::MenuItem("Save Scene As")) 
-			{ 
-				FFileDialogInfo dialogInfo = FileDialog::SaveFile("Experio Scene (*.pbscene)\0*.pbscene\0");
-				if (dialogInfo.IsValid())
-				{
-					SceneSaver::SaveScene(0, dialogInfo.filename + ".pbscene");
-				}
-			}
-			if (ImGui::MenuItem("Save All"))
-			{
-				SaveAll();
-			}
-
-			ImGui::EndMenu();
-		}
-
-		if(ImGui::BeginMenu("Edit"))
-		{
-			ImGui::Text("There are no items here yet");
-
-			ImGui::EndMenu();
-		}
-
-		if (ImGui::BeginMenu("Project"))
-		{
-			if (ImGui::MenuItem("Tags"))
-			{
-				EditorApplication::AddModule(new TagEditor());
-			}
-			if (ImGui::MenuItem("Layers"))
-			{
-				EditorApplication::AddModule(new LayerEditor());
-			}
-			ImGui::EndMenu();
-		}
-
-		ImGui::EndMenuBar();
-	}
-}
-
-void EditorWindow::SaveAll()
-{
-	SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
-	ValueSaver::SaveValues();
 }
 
 #ifdef PLATFORM_WINDOWS
