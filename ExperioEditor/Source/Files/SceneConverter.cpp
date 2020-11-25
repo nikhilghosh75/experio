@@ -111,7 +111,7 @@ void SceneConverter::ConvertSceneToBinary(const std::string & fromFilepath, cons
 	std::vector<Component*> components;
 	std::vector<unsigned int> componentIds;
 
-	Project::componentManager->GetAllComponents(components, componentIds);
+	Project::componentManager->GetAllComponents(components, componentIds, MAX_SCENES - 3);
 	for (size_t i = 0; i < components.size(); i++)
 	{
 		outFile.write((char*)&(componentIds[i]), 4);
