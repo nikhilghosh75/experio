@@ -150,7 +150,9 @@
     <None Include="Assets\Materials\SuzanneMat.material" />
     <None Include="Assets\Prefabs\Suzanne.prefab" />
     <None Include="Assets\Scenes\TestScene.pbscene" />
+    <None Include="Config\languages.pbconfig" />
     <None Include="Config\layers.pbvalues" />
+    <None Include="Config\rendering.pbconfig" />
     <None Include="Config\tags.pbvalues" />
     <None Include="Demo Project.pbproj" />
   </ItemGroup>

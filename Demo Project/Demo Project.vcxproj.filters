@@ -21,6 +21,8 @@
     <None Include="Config\layers.pbvalues" />
     <None Include="Config\tags.pbvalues" />
     <None Include="Demo Project.pbproj" />
+    <None Include="Config\languages.pbconfig" />
+    <None Include="Config\rendering.pbconfig" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DemoProject.h">

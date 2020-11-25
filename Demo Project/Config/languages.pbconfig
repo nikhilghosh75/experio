@@ -1,0 +1,6 @@
+[CPP]
+IncludePaths = [ '(SolutionDir)Experio/Source', '(SolutionDir)Dependencies/GLEW/include', '(SolutionDir)Dependencies/imgui' ]
+Version = 17
+
+[GLSL]
+Version = 460
