@@ -33,7 +33,7 @@ unsigned int Scene::GetNumGameObjects()
 {
 	int currentNum = 0;
 	ForEach(&sceneRoot, [&currentNum](GameObject* object) { currentNum++; });
-	return 0;
+	return currentNum;
 }
 
 void Scene::Activate(uint8_t sceneIndex)
