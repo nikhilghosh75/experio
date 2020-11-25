@@ -5,6 +5,8 @@
 #include "../AssetViewers/TagEditor.h"
 #include "../Framework/SceneSaver.h"
 #include "../Framework/ValueSaver.h"
+#include "../ProjectSettings/ProjectSettings.h"
+#include "../ProjectSettings/SettingsView.h"
 #include "Runtime/Framework/Scene.h"
 #include "Runtime/Framework/SceneLoader.h"
 #include "imgui.h"
@@ -85,7 +87,7 @@ void UpperMenu::CreateProjectMenu()
 		ImGui::Separator();
 		if (ImGui::MenuItem("Project Settings"))
 		{
-
+			EditorApplication::AddModule(new SettingsView());
 		}
 		ImGui::EndMenu();
 	}
@@ -95,4 +97,5 @@ void UpperMenu::SaveAll()
 {
 	SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
 	ValueSaver::SaveValues();
+	ProjectSettings::SaveAll();
 }
