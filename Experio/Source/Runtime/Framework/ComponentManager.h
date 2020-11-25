@@ -30,6 +30,8 @@ public:
 	virtual std::vector<Component*> GetAllComponents() = 0;
 
 	virtual void GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds) = 0;
+
+	virtual void GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds, uint8_t sceneIndex) = 0;
 };
 
 #define PB_ADD_COMPONENT(_vectorName_) _vectorName_.emplace_back(gameObject); return (Component*)(&_vectorName_[_vectorName_.size() - 1]);
@@ -82,4 +84,13 @@ public:
 {\
 	components.push_back(&_vectorName_[i]);\
 	componentIds.push_back(_id_);\
+}
+
+#define PB_GET_ALL_SCENE_IDS(_vectorName_, _id_) for(int i = 0; i < _vectorName_.size(); i++)\
+{\
+	if(_vectorName_[i].GetGameObject()->sceneIndex == sceneIndex)\
+	{\
+		components.push_back(&_vectorName_[i]); \
+		componentIds.push_back(_id_); \
+	}\
 }

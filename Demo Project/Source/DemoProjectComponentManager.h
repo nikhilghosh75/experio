@@ -196,6 +196,18 @@ public:
 		PB_GET_ALL_IDS(textComponentInstances, 104);
 	}
 
+	virtual void GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds, uint8_t sceneIndex)
+	{
+		components.reserve(ComponentCount());
+		componentIds.reserve(ComponentCount());
+
+		PB_GET_ALL_SCENE_IDS(testComponentInstances, 2);
+		PB_GET_ALL_SCENE_IDS(meshInstances, 101);
+		PB_GET_ALL_SCENE_IDS(particleSystemInstances, 102);
+		PB_GET_ALL_SCENE_IDS(billboardInstances, 103);
+		PB_GET_ALL_SCENE_IDS(textComponentInstances, 104);
+	}
+
 	virtual unsigned int ComponentCount() const override
 	{
 		return testComponentInstances.size() + particleSystemInstances.size() 
