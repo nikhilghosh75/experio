@@ -14,6 +14,7 @@ void ImageViewer::DisplayStats()
 	ss << width << "x" << height;
 	ImGui::Text(ss.str().c_str());
 
+	ss.str("");
 	ss.clear();
 	ss << "Size: " << LImageOperations::SizeOfImage(loadedRef) << " bytes";
 	ImGui::Text(ss.str().c_str());
