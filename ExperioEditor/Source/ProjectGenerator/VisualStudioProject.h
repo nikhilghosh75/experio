@@ -6,13 +6,20 @@
 
 namespace ExperioEditor::VisualStudio
 {
+enum class EVSConfiguration
+{
+	StaticLibrary,
+	DynamicLibrary,
+	Executable
+};
+
 class VSProject
 {
 public:
 	std::string name;
 	GUID128 id;
 
-	EArchitecture architecture;
+	EArchitecture architecture = EArchitecture::x64;
 
 	std::string outputDirectory;
 	
@@ -25,6 +32,9 @@ public:
 
 	std::vector<std::string> additionalIncludeDirectories;
 
+	EVSConfiguration debugConfiguration;
+	EVSConfiguration releaseConfiguration;
+
 	ECodingLanguage language;
 	uint8_t version;
 
@@ -33,5 +43,7 @@ public:
 private:
 	// Move Later
 	static std::string ArchitectureToString(EArchitecture architecture);
+
+	static std::string ConfigurationToString(EVSConfiguration configuration);
 };
 }
