@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include "FDuration.h"
-#include "../../ThirdParty/toml++/toml_date_time.h"
 
 enum class EDayOfWeek
 {
@@ -39,9 +38,6 @@ public:
 	FDateTime();
 	FDateTime(long long inTicks);
 	FDateTime(int year, int month, int day, int hour = 0, int minute = 0, int second = 0, int millisecond = 0, int microsecond = 0);
-	
-	// Conversions
-	FDateTime(toml::v2::date date, toml::v2::time time);
 
 	static FDateTime FromUnixEpoch(long long ticksSinceEpoch);
 	static FDateTime From1601Epoch(long long ticksSinceEpoch);
@@ -99,8 +95,6 @@ public:
 	static std::string DateToString(const FDateTime& dateTime);
 	static std::string SecondsToString(const FDateTime& dateTime);
 	static std::string TimeToString(const FDateTime& dateTime);
-
-	void TimeToToml(toml::v2::date& date, toml::v2::time& time) const;
 
 	static std::string MonthToThreeChar(int month); // Indexed at 1
 

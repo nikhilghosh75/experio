@@ -66,12 +66,6 @@ FDateTime::FDateTime(int year, int month, int day, int hour, int minute, int sec
 		+ microsecond * TICKSPERMICROSECOND;
 }
 
-FDateTime::FDateTime(toml::v2::date date, toml::v2::time time)
-{
-	*this = FDateTime(date.year, date.month, date.day, 
-		time.hour, time.minute, time.second, time.nanosecond * 1000000, time.nanosecond * 1000);
-}
-
 FDateTime FDateTime::FromUnixEpoch(long long ticksSinceEpoch)
 {
 	return FDateTime(ticksSinceEpoch + TICKSSINCEUNIXEPOCH);
@@ -612,20 +606,6 @@ std::string FDateTime::TimeToString(const FDateTime & dateTime)
 	s += ":" + std::to_string(GetSecond(dateTime));
 	s += ":" + std::to_string(GetMillisecond(dateTime));
 	return s;
-}
-
-void FDateTime::TimeToToml(toml::v2::date & date, toml::v2::time & time) const
-{
-	int month, day, year;
-	GetDate(*this, day, month, year);
-	date.day = day;
-	date.month = month;
-	date.year = year;
-
-	time.hour = GetHour();
-	time.minute = GetMinute();
-	time.second = GetSecond();
-	time.nanosecond = GetNanosecond();
 }
 
 std::string FDateTime::MonthToThreeChar(int month)
