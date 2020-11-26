@@ -46,13 +46,15 @@ public:
 
 	static FDateTime FiletimeToDateTime(std::filesystem::file_time_type time);
 
-	static std::string GetExtension(std::string filePath);
+	static std::string GetDirectory(const std::string& filePath);
+
+	static std::string GetExtension(const std::string& filePath);
 
 	static std::string GetFullFilePath(std::string filePath);
 
 	static std::string GetFileName(std::filesystem::directory_entry entry);
 
-	static EAssetType GetFileType(std::string filePath);
+	static EAssetType GetFileType(const std::string& filePath);
 
 	static EAssetType GetFileTypeOfMeta(std::string filePath);
 

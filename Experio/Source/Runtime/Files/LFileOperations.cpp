@@ -167,7 +167,23 @@ FDateTime LFileOperations::FiletimeToDateTime(std::filesystem::file_time_type ti
 	return FDateTime();
 }
 
-std::string LFileOperations::GetExtension(std::string filePath)
+std::string LFileOperations::GetDirectory(const std::string & filePath)
+{
+	int indexOfSlash = 0;
+
+	for (int i = filePath.size() - 2; i >= 2; i--)
+	{
+		if (filePath[i] == '\\' || filePath[i] == '/' || filePath[i] == 92)
+		{
+			indexOfSlash = i;
+			break;
+		}
+	}
+
+	return filePath.substr(0, indexOfSlash);
+}
+
+std::string LFileOperations::GetExtension(const std::string& filePath)
 {
 	int indexOfDot = 0;
 
@@ -210,7 +226,7 @@ std::string LFileOperations::GetFileName(std::filesystem::directory_entry entry)
 	return StripFilename(entry.path().string());
 }
 
-EAssetType LFileOperations::GetFileType(std::string filePath)
+EAssetType LFileOperations::GetFileType(const std::string& filePath)
 {
 	// TO-DO: Add check for directory
 	std::string ext = GetExtension(filePath);
