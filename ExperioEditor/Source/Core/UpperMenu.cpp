@@ -1,8 +1,10 @@
 #include "UpperMenu.h"
 #include "EditorApplication.h"
+#include "EditorWindow.h"
 #include "FileDialog.h"
 #include "../AssetViewers/LayerEditor.h"
 #include "../AssetViewers/TagEditor.h"
+#include "../Framework/CreateMenu.h"
 #include "../Framework/SceneSaver.h"
 #include "../Framework/ValueSaver.h"
 #include "../ProjectSettings/ProjectSettings.h"
@@ -29,7 +31,9 @@ void UpperMenu::CreateFileMenu()
 	{
 		if (ImGui::MenuItem("New Scene"))
 		{
-			// Add Stuff Here 
+			SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
+			Scene::UnloadAllScenes();
+			Scene::LoadBlankScene(0);
 		}
 		if (ImGui::MenuItem("Open Scene"))
 		{
@@ -56,6 +60,11 @@ void UpperMenu::CreateFileMenu()
 		if (ImGui::MenuItem("Save All"))
 		{
 			SaveAll();
+		}
+		ImGui::Separator();
+		if (ImGui::MenuItem("Close"))
+		{
+			EditorWindow::CloseWindow();
 		}
 
 		ImGui::EndMenu();

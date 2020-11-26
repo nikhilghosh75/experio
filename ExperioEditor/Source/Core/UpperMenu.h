@@ -4,7 +4,6 @@ class UpperMenu
 {
 public:
 	static void CreateUpperMenu();
-
 private:
 	static void CreateFileMenu();
 
