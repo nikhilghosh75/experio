@@ -198,6 +198,11 @@ void GameObject::SetTransform(FVector3 position, FQuaternion rotation, FVector3 
 	this->localScale = scale;
 }
 
+void GameObject::EmptyChildren()
+{
+	this->children.clear();
+}
+
 void GameObject::ReserveChildren(uint8_t numChildren)
 {
 	this->children.reserve(numChildren);
