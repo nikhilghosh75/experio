@@ -222,7 +222,7 @@ void EditorWindow::Dockspace()
 	// DockSpace
 	ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 	ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-	
+
 	UpperMenu::CreateUpperMenu();
 
 	ImGui::End();
