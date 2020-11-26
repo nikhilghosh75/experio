@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Component.h"
 #include <functional>
+#include <stdint.h>
 #include <string>
 
 #define MAX_SCENES 32
@@ -51,6 +52,8 @@ public:
 	static bool IsSceneLoaded(const std::string& name);
 
 	static bool IsSceneAtFilepathLoaded(const std::string& filepath);
+
+	static void LoadBlankScene(uint8_t sceneIndex);
 
 	static void UnloadScene(uint8_t sceneIndex);
 

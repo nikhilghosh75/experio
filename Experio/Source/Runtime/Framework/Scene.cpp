@@ -79,6 +79,15 @@ bool Scene::IsSceneAtFilepathLoaded(const std::string & filepath)
 	return false;
 }
 
+void Scene::LoadBlankScene(uint8_t sceneIndex)
+{
+	Scene::filepaths[sceneIndex] = "Blank Scene";
+	
+	Scene& currentScene = Scene::scenes[sceneIndex];
+	currentScene.name = "Blank Scene";
+	currentScene.sceneRoot.EmptyChildren();
+}
+
 void Scene::UnloadScene(uint8_t sceneIndex)
 {
 	if (!Scene::scenes[sceneIndex].isLoaded)
