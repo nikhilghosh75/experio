@@ -1,6 +1,22 @@
 #include "LOpenGL.h"
 #include "GL/wglext.h"
 
+std::string LOpenGL::ErrorToString(GLenum errorCode)
+{
+	switch (errorCode)
+	{
+	case GL_NO_ERROR: return "";
+	case GL_INVALID_ENUM: return "INVALID ENUM";
+	case GL_INVALID_VALUE: return "INVALID_VALUE";
+	case GL_INVALID_OPERATION: return "INVALID OPERATION";
+	case GL_STACK_OVERFLOW: return "STACK OVERFLOW";
+	case GL_STACK_UNDERFLOW: return "STACK UNDERFLOW";
+	case GL_OUT_OF_MEMORY: return "OUT OF MEMORY";
+	case GL_INVALID_FRAMEBUFFER_OPERATION: return "INVALID FRAMEBUFFER OPERATION";
+	}
+	return "";
+}
+
 size_t LOpenGL::GetSizeOfType(unsigned int type)
 {
 	switch (type)
@@ -61,7 +77,7 @@ size_t LOpenGL::GetInternalFormat(EImageEncoding encoding, EImageFileType fileTy
 			return GL_RGBA8;
 		}
 	}
-	return 0;;
+	return 0;
 }
 
 EDataType LOpenGL::StringToDataType(std::string string)

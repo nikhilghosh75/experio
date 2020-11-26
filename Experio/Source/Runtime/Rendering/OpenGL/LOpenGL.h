@@ -2,10 +2,13 @@
 #include "GL/glew.h"
 #include "../../Files/Images/ImageReader.h"
 #include "../VertexBuffer.h"
+#include <string>
 
 class LOpenGL
 {
 public:
+	static std::string ErrorToString(GLenum errorCode);
+
 	static size_t GetSizeOfType(unsigned int type);
 	static size_t GetSizeOfType(EDataType type);
 
