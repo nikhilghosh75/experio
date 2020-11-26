@@ -1,9 +1,8 @@
 #pragma once
 
-#include "../FileReader.h"
 #include "../../Data/Datatable.h"
 
-class DataReader : FileReader<Datatable>
+class DataReader
 {
 public:
 	static Datatable* ReadFile(const char* filepath);

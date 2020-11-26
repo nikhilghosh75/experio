@@ -5,5 +5,5 @@
 class OBJReader : MeshReader
 {
 public:
-	MeshData* ReadFile(const char* fileName) override;
+	MeshData* ReadFile(const char* fileName);
 };

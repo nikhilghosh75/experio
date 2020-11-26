@@ -6,5 +6,5 @@ class TGAReader : public ImageReader
 public:
 	TGAReader();
 
-	ImageData* ReadFile(const char* fileName) override;
+	ImageData* ReadFile(const char* fileName);
 };

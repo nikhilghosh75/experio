@@ -1,5 +1,5 @@
 #pragma once
-#include "../FileReader.h"
+#include <stdint.h>
 
 enum class EImageFileType : uint8_t
 {
@@ -28,7 +28,7 @@ public:
 	EImageEncoding encoding;
 };
 
-class ImageReader : FileReader<ImageData>
+class ImageReader
 {
 public:
 	ImageReader() { };

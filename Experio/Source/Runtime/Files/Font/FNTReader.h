@@ -9,7 +9,7 @@ class FNTReader : FontReader
 public:
 	FNTReader();
 
-	FontData* ReadFile(const char* fileName) override;
+	FontData* ReadFile(const char* fileName);
 
 private:
 	std::string StripAfterEqualSign(const std::string& s);

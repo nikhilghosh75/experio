@@ -11,5 +11,5 @@ class CSVReader : DataReader
 	EDataColumnType GetColumnType(const std::string& text);
 
 public:
-	Datatable* ReadFile(const char* filename) override;
+	Datatable* ReadFile(const char* filename);
 };

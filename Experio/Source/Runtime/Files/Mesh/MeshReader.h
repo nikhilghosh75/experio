@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../FileReader.h"
 #include "../../Rendering/VertexBuffer.h"
 #include "../../Rendering/IndexBuffer.h"
 #include "../../Rendering/Texture.h"
@@ -30,7 +29,7 @@ public:
 	}
 };
 
-class MeshReader : FileReader<MeshData>
+class MeshReader
 {
 public:
 	static MeshData* ReadFile(const char* fileName);

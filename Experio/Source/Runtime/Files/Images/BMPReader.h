@@ -6,5 +6,5 @@ class BMPReader : ImageReader
 public:
 	BMPReader();
 
-	ImageData* ReadFile(const char* fileName) override;
+	ImageData* ReadFile(const char* fileName);
 };

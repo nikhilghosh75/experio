@@ -78,9 +78,6 @@
     <ClInclude Include="Source\Runtime\Math\MatrixTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Runtime\Files\FileReader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Runtime\Files\Images\ImageReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -451,6 +448,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Runtime\Memory\VoidPtr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\toml++\toml_conversions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

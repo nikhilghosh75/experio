@@ -1,5 +1,4 @@
 #pragma once
-#include "../FileReader.h"
 #include <string>
 #include <vector>
 #include "../../Math/FRect.h"
@@ -81,7 +80,7 @@ public:
 	}
 };
 
-class FontReader : FileReader<FontData>
+class FontReader
 {
 public:
 	FontReader() { };
