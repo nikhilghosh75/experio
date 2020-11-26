@@ -2,14 +2,19 @@
 #include <filesystem>
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Files/LFileOperations.h"
+#include "Runtime/Input/Input.h"
 #include "Runtime/Rendering/ImGui/LImGui.h"
 #include "Runtime/Rendering/Managers/MeshManager.h"
 #include "Runtime/Rendering/Managers/TextureManager.h"
-#include "Runtime/Math/LMath.h"
 #include "../AssetViewers/MeshViewer.h"
 #include "../AssetViewers/ImageViewer.h"
 #include "../Core/EditorApplication.h"
+#include "../Core/FileDialog.h"
+#include "../Framework/CreateMenu.h"
 namespace fs = std::filesystem;
+
+bool openCppMenu = false;
+bool openMaterialMenu = false;
 
 FileView::FileView()
 {
@@ -22,6 +27,71 @@ FileView::FileView()
 	{
 		this->filesSelected[i] = true;
 	}
+}
+
+void FileView::DisplayCreateMenu()
+{
+	if (ImGui::MenuItem("C++ Class"))
+	{
+		openCppMenu = true;
+	}
+	ImGui::Separator();
+	if (ImGui::MenuItem("Material"))
+	{
+		openMaterialMenu = true;
+	}
+	if (ImGui::MenuItem("Shader"))
+	{
+
+	}
+	ImGui::Separator();
+	if (ImGui::MenuItem("Datatable"))
+	{
+		CreateMenu::CreateDatatable(this->selectedFilepath);
+	}
+	ImGui::Separator();
+	if (ImGui::MenuItem("Scene"))
+	{
+		CreateMenu::CreateScene(this->selectedFilepath);
+	}
+}
+
+void FileView::DisplayImportMenu()
+{
+	FFileDialogInfo dialog = FileDialog::OpenFile(nullptr);
+	if (!dialog.IsValid())
+	{
+		return;
+	}
+
+	EAssetType type = LFileOperations::GetFileType(dialog.filename);
+	if (type == EAssetType::Meta || type == EAssetType::NonEngineCode)
+	{
+		return;
+	}
+
+	std::string stripFilename = LFileOperations::StripFilename(dialog.filename);
+	std::string temp = this->selectedFilepath + "/" + stripFilename;
+	fs::copy(dialog.filename, this->selectedFilepath + "/" + stripFilename);
+}
+
+void FileView::DisplayContextMenu()
+{
+	if (ImGui::BeginPopup("##Menu"))
+	{
+		if (ImGui::BeginMenu("Create ..."))
+		{
+			DisplayCreateMenu();
+			ImGui::EndMenu();
+		}
+		if (ImGui::Selectable("Import"))
+		{
+			DisplayImportMenu();
+		}
+		ImGui::EndPopup();
+	}
+
+	OpenCreateMenus();
 }
 
 void FileView::DisplayTree()
@@ -116,6 +186,22 @@ void FileView::DisplayContents()
 	ImGui::EndChild();
 }
 
+void FileView::OpenCreateMenus()
+{
+	if (openCppMenu)
+	{
+		ImGui::OpenPopup("Create C++ Class");
+		openCppMenu = false;
+	}
+	if (openMaterialMenu)
+	{
+		ImGui::OpenPopup("Create Material");
+		openMaterialMenu = false;
+	}
+
+	CreateMenu::DisplayCreateMenu();
+}
+
 std::string FileView::GetSelectedFilepath(TTypedTreeNode<std::string>* selectedNode)
 {
 	if (selectedNode == nullptr)
@@ -141,8 +227,17 @@ std::string FileView::GetSelectedFilepath(TTypedTreeNode<std::string>* selectedN
 
 void FileView::Display()
 {
+	DisplayContextMenu();
 	DisplayTree();
 	DisplayContents();
+}
+
+void FileView::HandleInput()
+{
+	if (Input::GetMouseButtonUp(EMouseButton::Right))
+	{
+		ImGui::OpenPopup("##Menu");
+	}
 }
 
 std::string FileView::GetDragDropTypeFromAssetType(EAssetType type)
