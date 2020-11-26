@@ -105,6 +105,7 @@
     <ClCompile Include="Source\Core\UpperMenu.cpp" />
     <ClCompile Include="Source\Files\SceneConverter.cpp" />
     <ClCompile Include="Source\FileView\FileView.cpp" />
+    <ClCompile Include="Source\Framework\CreateMenu.cpp" />
     <ClCompile Include="Source\Framework\EditorProject.cpp" />
     <ClCompile Include="Source\Framework\PlaySystem.cpp" />
     <ClCompile Include="Source\Framework\SaveParams.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Source\Core\UpperMenu.h" />
     <ClInclude Include="Source\Files\SceneConverter.h" />
     <ClInclude Include="Source\FileView\FileView.h" />
+    <ClInclude Include="Source\Framework\CreateMenu.h" />
     <ClInclude Include="Source\Framework\EditorProject.h" />
     <ClInclude Include="Source\Framework\PlaySystem.h" />
     <ClInclude Include="Source\Framework\SaveParams.h" />
