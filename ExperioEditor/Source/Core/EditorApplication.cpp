@@ -28,6 +28,7 @@
 #include "../Files/SceneConverter.h"
 #include "../ProjectSettings/ProjectSettings.h"
 #include "../ProjectSettings/SettingsView.h"
+#include "../Framework/CreateMenu.h"
 #include "Runtime/Containers/TArray.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
@@ -197,7 +198,7 @@ void EditorApplication::RenderModules()
 	{
 		ImGui::Begin(modules[i]->name.c_str());
 
-		if (ImGui::IsWindowFocused())
+		if (ImGui::IsWindowFocused() || ImGui::IsWindowHovered())
 		{
 			modules[i]->HandleInput();
 		}
