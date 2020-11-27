@@ -4,8 +4,8 @@
 class LStatistics
 {
 public:
-	static float Average(float* data, size_t count);
-	static float Average(std::vector<float> data);
+	static float Average(const float* data, size_t count);
+	static float Average(const std::vector<float> data);
 
 	static float Max(float* data, size_t count);
 	static float Max(std::vector<float> data);
@@ -28,6 +28,9 @@ public:
 	static float StandardDeviation(float* data, size_t count);
 	static float StandardDeviation(std::vector<float> data);
 
-	static float WeightedAverage(float* data, size_t count);
-	static float WeightedAverage(std::vector<float> data);
+	static float Sum(const float* data, size_t count);
+	static float Sum(const std::vector<float> data);
+
+	static float WeightedAverage(float* data, float* weights, size_t count);
+	static float WeightedAverage(std::vector<float> data, std::vector<float> weights);
 };
