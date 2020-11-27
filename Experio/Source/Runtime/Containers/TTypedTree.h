@@ -99,6 +99,15 @@ public:
 		this->count = 1;
 	}
 
+	TTypedTree(const TTypedTree<T>& other)
+	{
+		this->root = new TTypedTreeNode<T>(root, this);
+		for (int i = 0; i < other.root->children.count; i++)
+		{
+			CopyNodeRecursive(other.root->children[i], this->root);
+		}
+	}
+
 	~TTypedTree()
 	{
 		DeleteNode(this->root);
@@ -133,6 +142,19 @@ public:
 	void AddChildToRoot(T item)
 	{
 		this->root->AddChild(item);
+	}
+
+	void CopyNodeRecursive(const TTypedTreeNode<T>* other, TTypedTreeNode<T>* parent)
+	{
+		TTypedTreeNode<T>* node = new TTypedTreeNode<T>(other->object, this);
+		node->parentNode = parent;
+		parent->children.push_back(node);
+		node->depth = other->depth;
+		
+		for (int i = 0; i < other->children.size(); i++)
+		{
+			CopyNodeRecursive(other->children[i], node);
+		}
 	}
 
 	void DeleteNode(TTypedTreeNode<T>* node)
