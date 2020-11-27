@@ -16,7 +16,7 @@ extern size_t SerializedSizeOfComponent(unsigned int classId);
 
 extern std::vector<std::string> GetParamsList(unsigned int classId);
 
-uint32_t SizeOfGameObject(GameObject* object)
+uint32_t SizeOfGameObject(const GameObject* object)
 {
 	return sizeOfBaseGameObject + object->name.size();
 }
