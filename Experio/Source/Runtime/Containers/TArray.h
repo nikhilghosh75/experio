@@ -3,6 +3,7 @@
 #include <array>
 #include <sstream>
 #include <functional>
+#include <initializer_list>
 
 struct StandardGrowFunc
 {
@@ -66,6 +67,18 @@ public:
 		this->capacity = count;
 	}
 
+	TArray(std::initializer_list<T> list)
+	{
+		data = new T[list.size()];
+		this->count = 0;
+		for (auto elem : list)
+		{
+			data[this->count] = *elem;
+			this->count = 0;
+		}
+		this->capacity = list.size();
+	}
+
 	TArray(TArray<T>& objects)
 	{
 		data = new T[objects.count]();
@@ -77,7 +90,7 @@ public:
 		this->capacity = objects.count;
 	}
 
-	// Move Constructor
+	// Add Move Constructor
 
 	~TArray()
 	{
