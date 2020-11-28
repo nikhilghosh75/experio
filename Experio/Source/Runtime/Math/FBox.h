@@ -9,6 +9,7 @@ struct FBox
 
 	FBox();
 	FBox(FVector3 min, FVector3 max);
+	FBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
 	FBox(FVector3* points, size_t count);
 	FBox(std::vector<FVector3> points);
 

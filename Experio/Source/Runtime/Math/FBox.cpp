@@ -12,6 +12,12 @@ FBox::FBox(FVector3 min, FVector3 max)
 	this->max = max;
 }
 
+FBox::FBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
+{
+	this->min = FVector3(minX, minY, minZ);
+	this->max = FVector3(maxX, maxY, maxZ);
+}
+
 FBox::FBox(FVector3 * points, size_t count)
 {
 	this->min = FVector3(1000000, 1000000, 1000000);
