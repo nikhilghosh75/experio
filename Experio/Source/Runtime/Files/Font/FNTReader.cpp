@@ -1,4 +1,5 @@
 #include "FNTReader.h"
+#include "LFontOperations.h"
 #include "../../Rendering/Texture.h"
 #include "../../Debug/Debug.h"
 #include "../../Debug/TempProfiler.h"
@@ -13,7 +14,6 @@ FontData * FNTReader::ReadFile(const char * fileName)
 {
 	TempProfiler profiler("FNT Reader");
 	FontData* returnData = new FontData();
-	returnData->fileType = EFontFileType::FNT;
 
 	std::ifstream fntStream(fileName);
 	if (fntStream.fail())
@@ -52,7 +52,6 @@ FontData * FNTReader::ReadFile(const char * fileName)
 			std::string fileLocation = LString::GetFileLocation(fileName);
 			std::string imageFilePath = (std::string)fileLocation + "/" + imageFileName;
 			returnData->fontTexture = TextureManager::LoadTexture(imageFilePath);
-			// returnData->fontTexture = new Texture(imageFilePath.c_str());
 		}
 		else if (word.find("count=") != std::string::npos)
 		{
@@ -67,6 +66,8 @@ FontData * FNTReader::ReadFile(const char * fileName)
 			currentCharacter++;
 		}
 	}
+
+	returnData->encoding = LFontOperations::GetEncoding(*returnData);
 
 	return returnData;
 }

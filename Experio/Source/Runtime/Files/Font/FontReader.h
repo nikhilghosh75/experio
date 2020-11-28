@@ -63,9 +63,9 @@ public:
 
 	ECharacterSet charset;
 
-	std::vector<FCharacterInfo> characters;
+	ETextEncoding encoding;
 
-	EFontFileType fileType;
+	std::vector<FCharacterInfo> characters;
 
 	FCharacterInfo GetCharacterFromCode(unsigned int code)
 	{
