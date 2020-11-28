@@ -2,8 +2,8 @@
 #include "../../Files/Mesh/MeshReader.h"
 #include <string>
 
-// This defines the maximum amount of textures that can be loaded at one time
-#define MAX_MESHES 64
+// This defines the maximum amount of meshes that can be loaded at one time
+#define MAX_MESHES 96
 
 class MeshManager;
 
