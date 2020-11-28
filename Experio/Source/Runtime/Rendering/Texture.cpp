@@ -61,6 +61,16 @@ void Texture::SetData(ImageData * data)
 	ConfigureData();
 }
 
+void Texture::SetData(void * data, int width, int height, EImageEncoding encoding, bool invertedPixels)
+{
+	this->data = new ImageData();
+	this->data->data = (char*)data;
+	this->data->encoding = encoding;
+	this->data->width = width;
+	this->data->height = height;
+	// Add functionality for inverted pixels
+}
+
 void Texture::Bind(unsigned int slot) const
 {
 	glActiveTexture(GL_TEXTURE0 + slot);

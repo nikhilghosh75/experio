@@ -27,7 +27,4 @@ public:
 	unsigned int GetWidth() const;
 	unsigned int GetHeight() const;
 	EImageEncoding GetImageEncoding() const;
-
-	bool operator==(const Texture& other) const;
-	bool operator!=(const Texture& other) const;
 };
