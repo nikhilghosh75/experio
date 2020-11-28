@@ -3,6 +3,7 @@
 #include <string>
 #include "../Files/Font/FontReader.h"
 #include "../Rendering/Shader.h"
+#include "../Rendering/Managers/FontManager.h"
 #include "../Framework/Framework.h"
 
 enum class ETextRenderMode
@@ -27,7 +28,7 @@ public:
 
 	int fontSize;
 	std::string text;
-	FontData* font;
+	FontRef font;
 	Shader* shader;
 
 	void SetDefaultShader();

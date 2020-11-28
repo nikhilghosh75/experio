@@ -33,7 +33,7 @@ void TextComponent::SetDefaultShader()
 
 void TextComponent::RenderText()
 {
-	if (font == nullptr)
+	if (font.IsNull())
 	{
 		Debug::LogError("Text could not be rendered due to it not having a font");
 		return;
