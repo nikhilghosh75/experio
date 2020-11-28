@@ -4,15 +4,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define NO_RENDERER_ID 4294967294
+
 IndexBuffer::IndexBuffer()
 {
-	this->rendererID = 4294967294;
+	this->rendererID = NO_RENDERER_ID;
 	this->count = 0;
+	this->data = nullptr;
 }
 
 IndexBuffer::IndexBuffer(const unsigned int * data, unsigned int count)
 {
-	this->data = (void*)malloc(count * sizeof(unsigned int));
+	this->data = (unsigned int*)malloc(count * sizeof(unsigned int));
 	memcpy(this->data, data, count * sizeof(unsigned int));
 	this->count = count;
 	glGenBuffers(1, &rendererID);
@@ -24,6 +27,31 @@ IndexBuffer::~IndexBuffer()
 {
 	delete this->data;
 	glDeleteBuffers(1, &rendererID);
+}
+
+void IndexBuffer::SetData(unsigned int * data, unsigned int count)
+{
+	this->data = (unsigned int*)malloc(count * sizeof(unsigned int));
+	memcpy(this->data, data, count * sizeof(unsigned int));
+	this->count = count;
+	if (this->rendererID == NO_RENDERER_ID)
+	{
+		glGenBuffers(1, &rendererID);
+	}
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), this->data, GL_STATIC_DRAW);
+}
+
+void IndexBuffer::MoveData(unsigned int * data, unsigned int count)
+{
+	this->data = data;
+	this->count = count;
+	if (this->rendererID == NO_RENDERER_ID)
+	{
+		glGenBuffers(1, &rendererID);
+	}
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), this->data, GL_STATIC_DRAW);
 }
 
 void IndexBuffer::Bind() const
@@ -39,4 +67,9 @@ void IndexBuffer::Unbind() const
 unsigned int IndexBuffer::GetCount() const
 {
 	return this->count;
+}
+
+unsigned int* IndexBuffer::GetData() const
+{
+	return this->data;
 }
