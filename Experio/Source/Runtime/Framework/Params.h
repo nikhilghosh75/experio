@@ -12,6 +12,7 @@
 #include "../Math/FVector3.h"
 #include "../Math/FVector4.h"
 #include "../Math/FQuaternion.h"
+#include "../Math/FBox.h"
 #include "../Math/FColor.h"
 #include "../Math/FCurve.h"
 #include "../Math/FRect.h"
@@ -21,6 +22,7 @@
 #include "../Rendering/Shader.h"
 #include "../Rendering/Managers/TextureManager.h"
 #include "../Rendering/Managers/MeshManager.h"
+#include "../Rendering/Managers/FontManager.h"
 
 class TextureRef;
 class MeshRef;
@@ -43,6 +45,7 @@ enum class EParamType
 	COLOR,
 	QUATERNION,
 	RECT,
+	BOX,
 	SPHERICALPOINT,
 	CURVE,
 	AUDIO,
@@ -73,12 +76,13 @@ FVector4 ParseVector4(std::string str);
 FColor ParseColor(std::string str);
 FQuaternion ParseQuaternion(std::string str);
 FRect ParseRect(std::string str);
+FBox ParseBox(std::string str);
 FCurve ParseCurve(std::string str);
 FSphericalPoint ParseSphericalPoint(std::string str);
 
 FAudioClip ParseAudio(std::string str);
 Datatable* ParseData(std::string str);
-FontData* ParseFont(std::string str);
+FontRef ParseFont(std::string str);
 Material* ParseMaterial(std::string str);
 MeshRef ParseMesh(std::string str);
 Shader* ParseShader(std::string str);

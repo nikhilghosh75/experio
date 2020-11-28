@@ -190,6 +190,29 @@ FRect ParseRect(std::string str)
 	return FRect(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
 }
 
+FBox ParseBox(std::string str)
+{
+	float coordinates[6];
+	int currentIndex = 0, lastSpace = 0;
+
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (str[i] == ' ')
+		{
+			coordinates[currentIndex] = LString::StringToFloat(str.substr(lastSpace + 1, i));
+			currentIndex++;
+			lastSpace = i;
+		}
+	}
+
+	if (currentIndex < 6)
+	{
+		coordinates[currentIndex] = LString::StringToFloat(str.substr(lastSpace + 1));
+	}
+	
+	return FBox(coordinates[0], coordinates[1], coordinates[2], coordinates[3], coordinates[4], coordinates[5]);
+}
+
 FCurve ParseCurve(std::string str)
 {
 	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
@@ -231,10 +254,10 @@ Datatable* ParseData(std::string str)
 	return DataReader::ReadFile(filePath.c_str());
 }
 
-FontData* ParseFont(std::string str)
+FontRef ParseFont(std::string str)
 {
 	std::string filePath = LFileOperations::GetFullFilePath(str);
-	return FontReader::ReadFile(filePath.c_str());
+	return FontManager::LoadFont(filePath);
 }
 
 Material* ParseMaterial(std::string str)

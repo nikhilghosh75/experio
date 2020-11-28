@@ -89,6 +89,12 @@ void SaveRect(FRect param, std::ostream & stream)
 	stream << param.min.x << " " << param.min.y << " " << param.max.x << " " << param.max.y;
 }
 
+void SaveBox(FBox param, std::ostream & stream)
+{
+	stream << param.min.x << " " << param.min.y << " " << param.min.z 
+		<< " " << param.max.x << " " << param.max.y << " " << param.max.z;
+}
+
 void SaveCurve(FCurve param, std::ostream & stream)
 {
 	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");

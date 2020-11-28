@@ -83,6 +83,12 @@ FRect BinaryParseRect(void * data)
 	return FRect(*(float*)data, *((float*)(data)+1), *((float*)data + 2), *((float*)data + 3));
 }
 
+FBox BinaryParseBox(void * data)
+{
+	return FBox(*(float*)data, *((float*)(data)+1), *((float*)data + 2), 
+		*((float*)data + 3), *((float*)data + 4), *((float*)data + 5));
+}
+
 FCurve BinaryParseCurve(void * data)
 {
 	Debug::LogError("Function is not complete yet");
@@ -106,9 +112,10 @@ Datatable* BinaryParseData(void * data)
 	return DataReader::ReadFile(filepath.c_str());
 }
 
-FontData * BinaryParseFont(void * data)
+FontRef BinaryParseFont(void * data)
 {
-	return FontReader::ReadFile(*(unsigned int*)data);
+	std::string filepath = AssetMap::assetMap.Get(*(unsigned int*)data);
+	return FontManager::LoadFont(filepath);
 }
 
 Material * BinaryParseMaterial(void * data)
@@ -142,6 +149,7 @@ size_t SizeOfBinaryParam(EParamType type)
 	{
 	case EParamType::AUDIO: return 0;
 	case EParamType::BOOL: return 1;
+	case EParamType::BOX: return 24;
 	case EParamType::BYTE: return 1;
 	case EParamType::COLOR: return 16;
 	case EParamType::CURVE: return 0;

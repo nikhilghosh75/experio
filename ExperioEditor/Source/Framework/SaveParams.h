@@ -19,6 +19,7 @@ void SaveVector4(FVector4 param, std::ostream& stream);
 void SaveColor(FColor param, std::ostream& stream);
 void SaveQuaternion(FQuaternion param, std::ostream& stream);
 void SaveRect(FRect param, std::ostream& stream);
+void SaveBox(FBox param, std::ostream& stream);
 void SaveCurve(FCurve param, std::ostream& stream);
 void SaveSphericalPoint(FSphericalPoint param, std::ostream& stream);
 

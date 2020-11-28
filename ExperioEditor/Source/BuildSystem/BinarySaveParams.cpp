@@ -81,6 +81,11 @@ void BinarySaveRect(FRect param, std::ostream & stream)
 	stream.write((char*)&param, 16);
 }
 
+void BinarySaveBox(FBox param, std::ostream & stream)
+{
+	stream.write((char*)&param, 24);
+}
+
 void BinarySaveCurve(FCurve param, std::ostream & stream)
 {
 	Debug::LogError("Save Function has not been implemented");
@@ -101,9 +106,10 @@ void BinarySaveData(Datatable param, std::ostream & stream)
 	Debug::LogError("Save Function has not been implemented");
 }
 
-void BinarySaveFont(FontData * param, std::ostream & stream)
+void BinarySaveFont(FontRef param, std::ostream & stream)
 {
-	Debug::LogError("Save Function has not been implemented");
+	uint32_t assetId = AssetMapSaver::GetIndexOfAsset(FontManager::GetNameOfFont(param));
+	stream.write((char*)&assetId, 4);
 }
 
 void BinarySaveMaterial(Material * param, std::ostream & stream)

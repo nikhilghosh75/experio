@@ -18,12 +18,13 @@ void BinarySaveVector4(FVector4 param, std::ostream& stream);
 void BinarySaveColor(FColor param, std::ostream& stream);
 void BinarySaveQuaternion(FQuaternion param, std::ostream& stream);
 void BinarySaveRect(FRect param, std::ostream& stream);
+void BinarySaveBox(FBox param, std::ostream& stream);
 void BinarySaveCurve(FCurve param, std::ostream& stream);
 void BinarySaveSphericalPoint(FSphericalPoint param, std::ostream& stream);
 
 void BinarySaveAudio(FAudioClip param, std::ostream& stream);
 void BinarySaveData(Datatable param, std::ostream& stream);
-void BinarySaveFont(FontData* param, std::ostream& stream);
+void BinarySaveFont(FontRef param, std::ostream& stream);
 void BinarySaveMaterial(Material* param, std::ostream& stream);
 void BinarySaveMesh(MeshRef param, std::ostream& stream);
 void BinarySaveTexture(TextureRef param, std::ostream& stream);
