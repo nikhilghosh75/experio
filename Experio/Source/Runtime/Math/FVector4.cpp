@@ -99,6 +99,12 @@ FVector4 FVector4::Refract(const FVector4 & Incident, const FVector4 & Normal, f
 	return (indexOfRefraction * Incident - (indexOfRefraction * dotValue * LMath::Sqrt(k)) * Normal) * (float)(k >= 0);
 }
 
+FVector4 FVector4::BoundToTesseract(const FVector4 & V, const FVector4 & Min, const FVector4 & Max)
+{
+	return FVector4(LMath::Clamp(V.w, Min.w, Max.w), LMath::Clamp(V.x, Min.x, Max.x), 
+		LMath::Clamp(V.y, Min.y, Max.y), LMath::Clamp(V.z, Min.z, Max.z));
+}
+
 FVector4 FVector4::operator+(const FVector4 & V) const
 {
 	return FVector4(this->w + V.w, this->x + V.x, this->y + V.y, this->z + V.z);
@@ -143,7 +149,7 @@ FVector4 FVector4::operator*=(const float f)
 
 FVector4 FVector4::operator/(const float f) const
 {
-	return FVector4();
+	return FVector4(this->w / f, this->x / f, this->y / f, this->z / f);
 }
 
 FVector4 FVector4::operator/=(const float f)
