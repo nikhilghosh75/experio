@@ -6,6 +6,7 @@ class Material
 {
 protected:
 	Shader* shader;
+	uint64_t id;
 
 public:
 	Material()
@@ -18,6 +19,12 @@ public:
 		this->shader = shader;
 	}
 
+	Material(Shader* shader, uint64_t id)
+	{
+		this->shader = shader;
+		this->id = id;
+	}
+
 	void SetShader(std::string vertex, std::string fragment)
 	{
 		shader = new Shader(vertex, fragment);
@@ -26,6 +33,11 @@ public:
 	void Bind()
 	{
 		shader->Bind();
+	}
+
+	uint64_t GetID() const
+	{
+		return id;
 	}
 
 	virtual void SetInternalUniforms() {}

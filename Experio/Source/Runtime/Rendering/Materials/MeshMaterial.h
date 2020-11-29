@@ -9,6 +9,7 @@ class MeshMaterial : public Material
 public:
 	MeshMaterial();
 	MeshMaterial(Shader* shader);
+	MeshMaterial(Shader* shader, uint32_t id);
 
 	TextureRef albedo;
 	TextureRef normal;

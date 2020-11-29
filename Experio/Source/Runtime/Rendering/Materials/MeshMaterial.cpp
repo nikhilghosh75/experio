@@ -10,6 +10,12 @@ MeshMaterial::MeshMaterial(Shader * shader)
 	this->shader = shader;
 }
 
+MeshMaterial::MeshMaterial(Shader * shader, uint32_t id)
+{
+	this->shader = shader;
+	this->id = id;
+}
+
 void MeshMaterial::SetMVP(const glm::mat4 M, const glm::mat4 V, const glm::mat4 P)
 {
 	glm::mat4 MVP = P * V * M;

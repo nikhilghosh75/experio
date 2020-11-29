@@ -5,6 +5,12 @@ BillboardMaterial::BillboardMaterial(Shader * shader)
 	this->shader = shader;
 }
 
+BillboardMaterial::BillboardMaterial(Shader * shader, uint32_t id)
+{
+	this->shader = shader;
+	this->id = id;
+}
+
 void BillboardMaterial::SetCameraVP(glm::mat4 V, glm::mat4 P, FVector3 cameraUp, FVector3 cameraRight)
 {
 	glm::mat4 VP = P * V;
