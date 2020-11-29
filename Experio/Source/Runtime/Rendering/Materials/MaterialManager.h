@@ -9,7 +9,12 @@
 
 class MaterialManager
 {
+protected:
+	uint64_t currentIndex = 0;
+
 public:
+	std::vector<uint32_t> materialTypes;
+
 	Material* LoadMaterialFromFile(std::string filePath)
 	{
 		if (!LFileOperations::DoesFileHaveExtension(filePath, "material"))
@@ -33,8 +38,7 @@ public:
 		std::vector<std::string> params;
 
 		materialFile >> word;
-		materialFile.getline(word, 256);
-		materialType = std::string(word);
+		materialFile >> materialType;
 
 		materialFile >> word;
 		materialFile.getline(word, 256);
@@ -46,8 +50,16 @@ public:
 			params.push_back(std::string(word));
 		}
 
-		return AddMaterial(materialType, shader, params);
+		return AddMaterial(GetMaterialType(materialType), shader, params);
 	}
 
-	virtual Material* AddMaterial(std::string materialType, std::string shader, std::vector<std::string> params) { return nullptr; }
+	virtual uint32_t GetMaterialType(const std::string& materialType) = 0;
+
+	virtual Material* AddMaterial(uint32_t materialType, std::string shader, std::vector<std::string> params) = 0;
+
+	virtual void PopMaterial(uint32_t materialType) = 0;
+
+	virtual uint32_t MaterialCount() const = 0;;
 };
+
+#define COMPARE_MATERIAL_TYPE(_materialName_, _materialIndex_) if(materialType == _materialName_) return _materialIndex_

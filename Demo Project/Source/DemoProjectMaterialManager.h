@@ -14,26 +14,63 @@ __declspec(dllexport) class DemoProjectMaterialManager : public MaterialManager
 	std::vector<BillboardMaterial> billboardMaterials;
 	std::vector<TextMaterial> textMaterials;
 
-	virtual Material* AddMaterial(std::string materialType, std::string shader, std::vector<std::string> params)
+public:
+	DemoProjectMaterialManager()
+	{
+		meshMaterials.reserve(96);
+		billboardMaterials.reserve(32);
+		textMaterials.reserve(8);
+
+		materialTypes.reserve(256);
+		currentIndex = 0;
+	}
+
+	virtual uint32_t GetMaterialType(const std::string& materialType) override
+	{
+		COMPARE_MATERIAL_TYPE("MeshMaterial", 1);
+		COMPARE_MATERIAL_TYPE("BillboardMaterial", 2);
+		COMPARE_MATERIAL_TYPE("SingleColorMaterial", 3);
+		return 0;
+	}
+
+	virtual Material* AddMaterial(uint32_t materialType, std::string shader, std::vector<std::string> params) override
 	{
 		Shader* matShader = ParseShader(shader);
-		if (materialType.find("MeshMaterial") != std::string::npos)
+		this->currentIndex++;
+		this->materialTypes.push_back(materialType);
+
+		switch (materialType)
 		{
-			MeshMaterial* newMaterial = new MeshMaterial(matShader);
-			newMaterial->albedo = ParseTexture(params[0]);
-			newMaterial->normal = ParseTexture(params[1]);
-			newMaterial->specular = ParseTexture(params[2]);
-			meshMaterials.push_back(*newMaterial);
-			return newMaterial;
+		case 1:
+		{
+			MeshMaterial& newMaterial = meshMaterials.emplace_back(matShader, currentIndex);
+			newMaterial.albedo = ParseTexture(params[0]);
+			newMaterial.normal = ParseTexture(params[1]);
+			newMaterial.specular = ParseTexture(params[2]);
+			return &newMaterial;
 		}
-		if (materialType.find("BillboardMaterial") != std::string::npos)
+		case 2:
 		{
-			BillboardMaterial* newMaterial = new BillboardMaterial(matShader);
-			billboardMaterials.push_back(*newMaterial);
-			return newMaterial;
+			BillboardMaterial newMaterial = billboardMaterials.emplace_back(matShader, currentIndex);
+			return &newMaterial;
+		}
 		}
 
 		Debug::LogError("MATERIAL TYPE COULD NOT BE FOUND");
 		return nullptr;
+	}
+
+	virtual void PopMaterial(uint32_t materialType) override
+	{
+		switch (materialType)
+		{
+		case 1: meshMaterials.pop_back(); return;
+		case 2: billboardMaterials.pop_back(); return;
+		}
+	}
+
+	virtual uint32_t MaterialCount() const override
+	{
+		return meshMaterials.size() + billboardMaterials.size();
 	}
 };
