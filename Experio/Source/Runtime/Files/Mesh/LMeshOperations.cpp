@@ -91,7 +91,6 @@ IndexBuffer* LMeshOperations::IndexMesh(MeshData & data)
 		if (index == -1)
 		{
 			// NOT FOUND
-			//GDebug::Log("NOT FOUND");
 			outVertices.push_back(vertices[i]);
 			outUVs.push_back(uvs[i]);
 			outNormals.push_back(normals[i]);
@@ -102,14 +101,11 @@ IndexBuffer* LMeshOperations::IndexMesh(MeshData & data)
 		else
 		{
 			// FOUND
-			//GDebug::Log("FOUND");
 			outIndicies.push_back(index);
 			outTangents[index] += tangents[i];
 			outBitangents[index] += bitangents[i];
 		}
 	}
-
-	//GDebug::Log("Indexed");
 
 	unsigned int newVertexCount = outVertices.size();
 
@@ -141,4 +137,10 @@ IndexBuffer* LMeshOperations::IndexMesh(MeshData & data)
 	}
 
 	return new IndexBuffer(newIndices, outIndicies.size());
+}
+
+size_t LMeshOperations::SizeOfMesh(const MeshData & data)
+{
+	return data.verticies->GetSize() + data.uv->GetSize() + data.normals->GetSize()
+		+ data.bitangents->GetSize() + data.tangents->GetSize() + data.indexBuffer->GetSize();
 }

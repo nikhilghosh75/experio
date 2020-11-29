@@ -13,5 +13,8 @@ public:
 	);
 
 	static IndexBuffer* IndexMesh(MeshData& data);
+
 	static IndexBuffer IndexMesh(VertexBuffer& verticies, VertexBuffer& uvs, VertexBuffer& normals);
+
+	static size_t SizeOfMesh(const MeshData& data);
 };
