@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DemoProjectEditor.cpp" />
+    <ClCompile Include="DemoProjectMaterialEditor.cpp" />
     <ClCompile Include="RCCPP\DemoProjectEditorMainLoop.cpp" />
     <ClCompile Include="RCCPP\DemoProjectRCCP.cpp" />
     <ClCompile Include="Main.cpp" />
