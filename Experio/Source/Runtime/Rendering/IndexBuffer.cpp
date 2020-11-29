@@ -69,6 +69,11 @@ unsigned int IndexBuffer::GetCount() const
 	return this->count;
 }
 
+unsigned int IndexBuffer::GetSize() const
+{
+	return this->count * sizeof(unsigned int);
+}
+
 unsigned int* IndexBuffer::GetData() const
 {
 	return this->data;

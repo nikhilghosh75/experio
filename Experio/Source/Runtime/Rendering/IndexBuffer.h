@@ -19,5 +19,7 @@ public:
 
 	unsigned int GetCount() const;
 
+	unsigned int GetSize() const;
+
 	unsigned int* GetData() const;
 };
