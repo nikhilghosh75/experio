@@ -103,6 +103,9 @@
     <ClCompile Include="Source\Core\EditorWindow.cpp" />
     <ClCompile Include="Source\Core\FileDialog.cpp" />
     <ClCompile Include="Source\Core\UpperMenu.cpp" />
+    <ClCompile Include="Source\Files\FontConverter.cpp" />
+    <ClCompile Include="Source\Files\MaterialConverter.cpp" />
+    <ClCompile Include="Source\Files\MeshConverter.cpp" />
     <ClCompile Include="Source\Files\SceneConverter.cpp" />
     <ClCompile Include="Source\FileView\FileView.cpp" />
     <ClCompile Include="Source\Framework\CreateMenu.cpp" />
@@ -117,6 +120,7 @@
     <ClCompile Include="Source\GameView\GameView.cpp" />
     <ClCompile Include="Source\Inspector\Inspector.cpp" />
     <ClCompile Include="Source\ProjectGenerator\VisualStudioProject.cpp" />
+    <ClCompile Include="Source\ProjectGenerator\VisualStudioSolution.cpp" />
     <ClCompile Include="Source\ProjectSettings\LanguageSettings.cpp" />
     <ClCompile Include="Source\ProjectSettings\ProjectSettings.cpp" />
     <ClCompile Include="Source\ProjectSettings\RenderingSettings.cpp" />
@@ -154,6 +158,9 @@
     <ClInclude Include="Source\Core\EditorWindow.h" />
     <ClInclude Include="Source\Core\FileDialog.h" />
     <ClInclude Include="Source\Core\UpperMenu.h" />
+    <ClInclude Include="Source\Files\FontConverter.h" />
+    <ClInclude Include="Source\Files\MaterialConverter.h" />
+    <ClInclude Include="Source\Files\MeshConverter.h" />
     <ClInclude Include="Source\Files\SceneConverter.h" />
     <ClInclude Include="Source\FileView\FileView.h" />
     <ClInclude Include="Source\Framework\CreateMenu.h" />
@@ -168,6 +175,7 @@
     <ClInclude Include="Source\GameView\GameView.h" />
     <ClInclude Include="Source\Inspector\Inspector.h" />
     <ClInclude Include="Source\ProjectGenerator\VisualStudioProject.h" />
+    <ClInclude Include="Source\ProjectGenerator\VisualStudioSolution.h" />
     <ClInclude Include="Source\ProjectSettings\LanguageSettings.h" />
     <ClInclude Include="Source\ProjectSettings\ProjectSettingModule.h" />
     <ClInclude Include="Source\ProjectSettings\ProjectSettings.h" />
