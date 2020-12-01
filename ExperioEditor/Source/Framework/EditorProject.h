@@ -15,11 +15,14 @@ public:
 	static THashtable<unsigned int, std::string> classes;
 
 	static std::string projectName;
+	static std::string username;
 	static FVersion experioVersion;
 
 	static FEditorProjectLanguages languages;
 
-	static void ReadProjectFile(std::string filepath);
+	static void ReadProjectFile(const std::string& filepath);
+
+	static void ReadUserFile(const std::string& userFilepath);
 
 	static void ReadValueFiles();
 

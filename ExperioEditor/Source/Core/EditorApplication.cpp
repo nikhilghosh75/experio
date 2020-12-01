@@ -29,6 +29,7 @@
 #include "../ProjectSettings/ProjectSettings.h"
 #include "../ProjectSettings/SettingsView.h"
 #include "../Framework/CreateMenu.h"
+#include "../Files/MeshConverter.h"
 #include "Runtime/Containers/TArray.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
@@ -45,6 +46,11 @@ std::string EditorApplication::defaultScenePath;
 
 std::string EditorApplication::currentScenePath;
 
+std::string EditorApplication::experioFilePath;
+std::string EditorApplication::experioEditorFilePath;
+std::string EditorApplication::experioDependenciesFilePath;
+std::string EditorApplication::experioBinariesFilePath;
+
 std::string EditorApplication::standardAssetsFilePath = "C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard";
 
 EditorApplication::EditorApplication()
@@ -59,15 +65,16 @@ EditorApplication::~EditorApplication()
 	}
 }
 
-void EditorApplication::Setup()
+void EditorApplication::Setup(const std::string& projectFilepath)
 {
 	PROFILE_SCOPE("Editor Setup");
 	EditorWindow::InitializeWindow();
 	Project::inEditor = true;
 
 	EditorProject::TempSetup();
-	EditorProject::ReadProjectFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Demo Project.pbproj");
+	EditorProject::ReadProjectFile(projectFilepath);
 	EditorProject::ReadValueFiles();
+	EditorProject::ReadUserFile("../user.pbuser");
 
 	currentScenePath = defaultScenePath;
 
@@ -124,13 +131,6 @@ void EditorApplication::SetBeginFrameCallback(void(*callback)(float))
 void EditorApplication::SetEndFrameCallback(void(*callback)(float))
 {
 	endFrameCallback = callback;
-}
-
-void EditorApplication::LoadProject(std::string dllFilePath)
-{
-	loader.LoadDll(dllFilePath);
-	loader.CallFunction("SetupProject");
-	loader.CallVoidFunction<VOIDHWNDPROC, HWND>("SetupGraphics", EditorWindow::GetHWND());
 }
 
 std::string EditorApplication::GetShortenedFilePath(std::string & fullFilePath)

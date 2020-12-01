@@ -7,6 +7,7 @@
 THashtable<unsigned int, std::string> EditorProject::classes;
 FVersion EditorProject::experioVersion;
 std::string EditorProject::projectName;
+std::string EditorProject::username;
 FEditorProjectLanguages EditorProject::languages;
 
 unsigned int DefaultClassStringToInt(std::string name)
@@ -29,7 +30,7 @@ std::string DefaultClassIntToString(unsigned int num)
 	return "Unknown";
 }
 
-void EditorProject::ReadProjectFile(std::string filepath)
+void EditorProject::ReadProjectFile(const std::string& filepath)
 {
 	toml::table table = toml::parse_file(filepath);
 	
@@ -47,6 +48,20 @@ void EditorProject::ReadProjectFile(std::string filepath)
 
 	// Defaults
 	EditorApplication::defaultScenePath = table["Defaults"]["Scene"].value_or("");
+}
+
+void EditorProject::ReadUserFile(const std::string & userFilepath)
+{
+	toml::table table = toml::parse_file(userFilepath);
+
+	// General
+	username = table["General"]["Username"].value_or("");
+
+	// Filepaths
+	EditorApplication::experioFilePath = table["Filepaths"]["Experio"].value_or("");
+	EditorApplication::experioEditorFilePath = table["Filepaths"]["ExperioEditor"].value_or("");
+	EditorApplication::experioBinariesFilePath = table["Filepaths"]["Binaries"].value_or("");
+	EditorApplication::experioDependenciesFilePath = table["Filepaths"]["Dependencies"].value_or("");
 }
 
 void EditorProject::ReadValueFiles()

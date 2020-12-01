@@ -20,7 +20,7 @@ public:
 	EditorApplication();
 	~EditorApplication();
 
-	void Setup();
+	void Setup(const std::string& projectFilepath);
 
 	void Run();
 
@@ -29,14 +29,17 @@ public:
 	void SetBeginFrameCallback(void(*callback)(float));
 	void SetEndFrameCallback(void(*callback)(float));
 
-	void LoadProject(std::string dllFilePath); // Change Later
-
 	static std::string assetsFilePath;
 	static std::string binariesFilePath;
 	static std::string configFilePath;
 	static std::string editorFilePath;
 	static std::string generatedFilePath;
 	static std::string sourceFilePath;
+
+	static std::string experioFilePath;
+	static std::string experioEditorFilePath;
+	static std::string experioDependenciesFilePath;
+	static std::string experioBinariesFilePath;
 	static std::string standardAssetsFilePath;
 
 	static std::string defaultScenePath;

@@ -34,7 +34,7 @@ int main(int argc, char** argv)
 {
 	SetupProjectEditor();
 	EditorApplication application;
-	application.Setup();
+	application.Setup("../Demo Project.pbproj");
 	RCCppInit();
 
 	application.SetBeginFrameCallback(OnBeginFrame);
