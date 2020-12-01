@@ -28,7 +28,15 @@ struct GUID128
 		int numDashes = LString::NumOfChars(s, '-');
 		if (numDashes == 4)
 		{
-			// Add Stuff Here
+			uint64_t subwords[5];
+			subwords[0] = LString::HexStringToLong(s.substr(0, 8));
+			subwords[1] = LString::HexStringToLong(s.substr(9, 4));
+			subwords[2] = LString::HexStringToLong(s.substr(14, 4));
+			subwords[3] = LString::HexStringToLong(s.substr(19, 4));
+			subwords[4] = LString::HexStringToLong(s.substr(24));
+			this->lowWord = (subwords[0] << 32 | subwords[1] << 16 | subwords[2]);
+			this->highWord = (subwords[3] << 48 | subwords[4]);
+			return;
 		}
 		this->highWord = LString::HexStringToLong(s.substr(0, 16));
 		this->lowWord = LString::HexStringToLong(s.substr(16));
