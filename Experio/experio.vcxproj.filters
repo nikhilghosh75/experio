@@ -75,9 +75,6 @@
     <ClInclude Include="Source\Runtime\Core\LWindowOperations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Runtime\Math\MatrixTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Runtime\Files\Images\ImageReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -453,6 +450,24 @@
     <ClInclude Include="Source\ThirdParty\toml++\toml_conversions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Runtime\Containers\TBiMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Containers\TBinarySearchTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Rendering\Managers\FontManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Files\Font\LFontOperations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Files\Font\BinFontReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Containers\TArray.cpp">
@@ -708,6 +723,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Files\Mesh\BinMeshReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tests\Math\Vector3Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Runtime\Data\LStatistics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Runtime\Rendering\Managers\FontManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Runtime\Files\Font\LFontOperations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Runtime\Files\Font\BinFontReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
