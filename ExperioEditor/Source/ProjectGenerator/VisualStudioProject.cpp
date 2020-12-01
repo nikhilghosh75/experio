@@ -6,6 +6,11 @@
 
 namespace ExperioEditor::VisualStudio 
 {
+VSProject::VSProject(const std::string & name)
+{
+	this->name = name;
+	this->id = GUID128::Random();
+}
 
 void VSProject::GenerateProjectFile(std::string & filepath)
 {

@@ -6,6 +6,15 @@
 
 namespace ExperioEditor::VisualStudio
 {
+enum class EVSProjectType
+{
+	CSharp,
+	Cpp,
+	Database,
+	MicroFramework,
+	ProjectFolder
+};
+
 enum class EVSConfiguration
 {
 	StaticLibrary,
@@ -16,9 +25,14 @@ enum class EVSConfiguration
 class VSProject
 {
 public:
+	VSProject(const std::string& name);
+
 	std::string name;
 	GUID128 id;
 
+	std::string filepath;
+
+	EVSProjectType projectType = EVSProjectType::Cpp;
 	EArchitecture architecture = EArchitecture::x64;
 
 	std::string outputDirectory;
