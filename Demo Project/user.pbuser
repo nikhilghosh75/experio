@@ -1,0 +1,8 @@
+[General]
+Username = "Nikhilbot75"
+
+[Filepaths]
+Experio = "C:/Users/debgh/source/repos/project-bloo/Experio"
+ExperioEditor = "C:/Users/debgh/source/repos/project-bloo/ExperioEditor"
+Binaries = "C:/Users/debgh/source/repos/project-bloo/bin"
+Dependencies = "C:/Users/debgh/source/repos/project-bloo/Dependencies"

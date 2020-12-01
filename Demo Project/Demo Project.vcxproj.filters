@@ -23,6 +23,7 @@
     <None Include="Demo Project.pbproj" />
     <None Include="Config\languages.pbconfig" />
     <None Include="Config\rendering.pbconfig" />
+    <None Include="user.pbuser" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DemoProject.h">
