@@ -13,7 +13,6 @@ FNTReader::FNTReader()
 FontData * FNTReader::ReadFile(const char * fileName)
 {
 	TempProfiler profiler("FNT Reader");
-	FontData* returnData = new FontData();
 
 	std::ifstream fntStream(fileName);
 	if (fntStream.fail())
@@ -21,6 +20,8 @@ FontData * FNTReader::ReadFile(const char * fileName)
 		Debug::LogError("FNT File " + (std::string)fileName + " could not be opened");
 		return 0;
 	}
+
+	FontData* returnData = new FontData();
 
 	float textureWidth;
 	float textureHeight;
