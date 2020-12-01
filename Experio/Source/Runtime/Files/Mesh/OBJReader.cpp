@@ -105,7 +105,6 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 	}
 
 	MeshData* meshData = new MeshData();
-	meshData->fileType = EMeshFileType::OBJ;
 	meshData->verticies = new VertexBuffer(vertexData, vertexIndicies.size() * sizeof(glm::vec3), EDataType::FLOAT);
 	meshData->uv = new VertexBuffer(uvData, uvIndicies.size() * sizeof(glm::vec2), EDataType::FLOAT);
 	meshData->normals = new VertexBuffer(normalData, normalIndicies.size() * sizeof(glm::vec3), EDataType::FLOAT);

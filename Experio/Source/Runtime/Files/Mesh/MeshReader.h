@@ -21,8 +21,6 @@ public:
 	IndexBuffer* indexBuffer;
 	bool isIndexed;
 
-	EMeshFileType fileType;
-
 	unsigned int GetTriangleCount() const
 	{
 		return verticies->GetSize() / sizeof(unsigned int);
