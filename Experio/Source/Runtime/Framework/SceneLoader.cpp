@@ -155,7 +155,7 @@ bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESc
 
 bool SceneLoader::LoadSceneFromBinaryFile(std::string filePath, int sceneSlot)
 {
-	std::ifstream sceneFile(filePath);
+	std::ifstream sceneFile(filePath, std::ios::binary);
 	if (sceneFile.fail())
 	{
 		Debug::LogError("File " + filePath + " could not be opened");
