@@ -1,0 +1,101 @@
+#pragma once
+#include <stdint.h>
+#include "LMath.h"
+
+template<size_t I>
+class IntOfSize
+{
+	static constexpr bool is_specialized = false;
+
+	using ValueType = int;
+	using UnsignedType = unsigned int;
+
+	static const UnsignedType MaxUnsigned = 4294967295;
+};
+
+template<> class IntOfSize<8>
+{
+	static constexpr bool is_specialized = true;
+
+	using ValueType = int8_t;
+	using UnsignedType = uint8_t;
+
+	static const UnsignedType MaxUnsigned = 255;
+};
+
+template<> class IntOfSize<16>
+{
+	static constexpr bool is_specialized = true;
+
+	using ValueType = int16_t;
+	using UnsignedType = uint16_t;
+
+	static const UnsignedType MaxUnsigned = 65535;
+};
+
+template<> class IntOfSize<32>
+{
+	static constexpr bool is_specialized = true;
+
+	using ValueType = int32_t;
+	using UnsignedType = uint32_t;
+
+	static const UnsignedType MaxUnsigned = 4294967295;
+};
+
+template<> class IntOfSize<64>
+{
+	static constexpr bool is_specialized = true;
+
+	using ValueType = int64_t;
+	using UnsignedType = uint64_t;
+
+	static const UnsignedType MaxUnsigned = 18446744073709551615;
+};
+
+template<size_t I, size_t F>
+class FixedBase
+{
+	using IntegerType = IntOfSize<I>::ValueType;
+	using FractionType = IntOfSize<F>::UnsignedType;
+
+	IntegerType integer;
+	FractionType fraction;
+
+	static const FixedBase Epsilon(0, 1);
+
+	FixedBase()
+	{
+		this->integer = 0;
+		this->fraction = 0;
+	}
+
+	FixedBase(IntegerType integer, FractionType fraction)
+	{
+		this->integer = integer;
+		this->fraction = fraction;
+	}
+
+	FixedBase(int i)
+	{
+		this->integer = i;
+		this->fraction = 0;
+	}
+
+	// (8-bit): 14.945 == {14, 242}
+	FixedBase(float f)
+	{
+		this->integer = (IntegerType)f;
+		this->fraction = LMath::FMod(f, 1) * IntOfSize<F>::MaxUnsigned;
+	}
+
+	FixedBase(double d)
+	{
+		this->integer = (IntegerType)d;
+		this->fraction = LMath::FMod((float)d, 1) * IntOfSize<F>::MaxUnsigned;
+	}
+};
+
+using FixedHalf = FixedBase<8, 8>;
+using Fixed = FixedBase<16, 16>;
+using FixedDouble = FixedBase<32, 32>;
