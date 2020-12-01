@@ -50,6 +50,16 @@ struct FCharacterInfo
 	int xAdvance;
 	FRect uvCoordinates;
 	FVector2 offset;
+
+	bool operator<(const FCharacterInfo& other) const
+	{
+		return this->charCode < other.charCode;
+	}
+
+	bool operator>(const FCharacterInfo& other) const
+	{
+		return this->charCode > other.charCode;
+	}
 };
 
 class FontData
@@ -67,7 +77,7 @@ public:
 
 	std::vector<FCharacterInfo> characters;
 
-	FCharacterInfo GetCharacterFromCode(unsigned int code)
+	FCharacterInfo& GetCharacterFromCode(unsigned int code)
 	{
 		for (int i = 0; i < characters.size(); i++)
 		{
