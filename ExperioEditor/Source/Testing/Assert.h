@@ -54,6 +54,11 @@ struct FAssertionOutcome
 	return FAssertionOutcome(EAssertionStatus::Failure, statement, __FILE__, __LINE__);\
 }
 
+#define ASSERT_ALMOST_EQUAL(x, y) if(!LMath::ApproxEquals(x, y))\
+{\
+	return FAssertionOutcome(EAssertionStatus::Failure, "", __FILE__, __LINE__);\
+}
+
 #define ASSERT_NOT_EQUAL(x, y) if(x == y)\
 {\
 	return FAssertionOutcome(EAssertionStatus::Failure, "", __FILE__, __LINE__);\
