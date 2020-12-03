@@ -1,4 +1,7 @@
+#language GLSL
 #version 330 core
+
+#shader vertex
 
 layout(location = 0) in vec4 position;
 layout(location = 1) in vec2 vertexUV;
@@ -21,4 +24,16 @@ void main()
 
 	WorldPosition = (M * position).xyz;
 	WorldColor = color;
+}
+
+#shader fragment
+
+in vec3 WorldPosition;
+in vec4 WorldColor;
+
+layout(location = 0) out vec3 color;
+
+void main()
+{
+	color = vec3(WorldColor);
 }

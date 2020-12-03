@@ -1,4 +1,7 @@
+#language GLSL
 #version 330 core
+
+#shader vertex
 
 layout(location = 0) in vec3 position;
 
@@ -43,4 +46,17 @@ void main()
 	}
 
 	UV = position.xy + vec2(0.5, 0.5);
+}
+
+#shader fragment
+
+in vec2 UV;
+
+out vec4 color;
+
+uniform sampler2D albedoTexture;
+
+void main()
+{
+	color = texture(albedoTexture, UV);
 }

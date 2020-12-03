@@ -1,4 +1,7 @@
+#language GLSL
 #version 330 core
+
+#shader vertex
 
 layout(location = 0) in vec3 vertex; // Modelspace
 layout(location = 1) in vec3 position; // Worldspace
@@ -34,4 +37,15 @@ void main()
 	gl_Position = VP * M * vec4(vertex, 1.0);
 
 	particleColor = color;
+}
+
+#shader fragment
+
+in vec4 particleColor;
+
+layout(location = 0) out vec4 color;
+
+void main()
+{
+	color = particleColor;
 }
