@@ -76,6 +76,8 @@ class FixedBase
 		this->fraction = fraction;
 	}
 
+	FixedBase(const FixedBase& other) = default;
+
 	FixedBase(int i)
 	{
 		this->integer = i;
@@ -93,6 +95,21 @@ class FixedBase
 	{
 		this->integer = (IntegerType)d;
 		this->fraction = LMath::FMod((float)d, 1) * IntOfSize<F>::MaxUnsigned;
+	}
+
+	float operator()
+	{
+		return (float)this->integer + (float)this->fraction / (float)IntOfSize<F>::MaxUnsigned;
+	}
+
+	double operator()
+	{
+		return (double)this->integer + (double)this->fraction / (double)IntOfSize<F>::MaxUnsigned;
+	}
+
+	FixedBase<I, F> operator-() const
+	{
+		return FixedBase(-this->integer, this->fraction);
 	}
 };
 
