@@ -1,10 +1,12 @@
 #include "RuntimeObjectSystem/RuntimeObjectSystem.h"
+#include "RuntimeObjectSystem/RuntimeLinkLibrary.h"
 #include "RuntimeCompiler/ICompilerLogger.h"
 #include "RuntimeObjectSystem/IObject.h"
 #include "RuntimeObjectSystem/ObjectInterfacePerModule.h"
 #include "DemoProjectEditorMainLoop.h"
 #include "DemoProjectSystemTable.h"
 #include "DemoProjectLogger.h"
+#include "Core/EditorApplication.h"
 #include "Runtime/Time/GameTime.h"
 #include "Runtime/Framework/Project.h"
 #include "imgui.h"
@@ -25,8 +27,16 @@ bool RCCppInit()
 	}
 	
 	systemTable.runtimeObjectSystem->CleanObjectFiles();
-	systemTable.runtimeObjectSystem->AddIncludeDir("C:/Users/debgh/source/repos/project-bloo/Experio/Source/Runtime/Debug");
-	systemTable.runtimeObjectSystem->AddIncludeDir("C:/Users/debgh/source/repos/project-bloo/Dependencies/RuntimeCompiledCPP");
+
+	systemTable.runtimeObjectSystem->AddIncludeDir((EditorApplication::experioFilePath + "/Source").c_str());
+	systemTable.runtimeObjectSystem->AddIncludeDir((EditorApplication::experioEditorFilePath + "/Source").c_str());
+	systemTable.runtimeObjectSystem->AddIncludeDir((EditorApplication::experioDependenciesFilePath + "/RuntimeCompiledCPP").c_str());
+	systemTable.runtimeObjectSystem->AddIncludeDir((EditorApplication::experioDependenciesFilePath + "/glm").c_str());
+	systemTable.runtimeObjectSystem->AddIncludeDir((EditorApplication::experioDependenciesFilePath + "/GLEW/include").c_str());
+	systemTable.runtimeObjectSystem->AddIncludeDir((EditorApplication::experioDependenciesFilePath + "/imgui").c_str());
+
+	systemTable.runtimeObjectSystem->AddLibraryDir((EditorApplication::experioBinariesFilePath + "/x64/Debug/Engine").c_str());
+
 	systemTable.runtimeObjectSystem->SetAdditionalCompileOptions("-std=c++17");
 	return true;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
-// #include "RuntimeObjectSystem/RuntimeInclude.h"
+#include "RuntimeObjectSystem\RuntimeLinkLibrary.h"
+RUNTIME_COMPILER_LINKLIBRARY("C:/Users/debgh/source/repos/project-bloo/bin/x64/Debug/Engine/Engine.lib");
 
 struct IRCCppMainLoop
 {

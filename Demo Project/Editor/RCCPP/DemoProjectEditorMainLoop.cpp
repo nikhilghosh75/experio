@@ -7,6 +7,7 @@
 #include "RuntimeObjectSystem/IRuntimeObjectSystem.h"
 #include "RuntimeObjectSystem/IObjectFactorySystem.h"
 #include "RuntimeObjectSystem/RuntimeSourceDependency.h"
+#include "Runtime/Debug/Debug.h"
 #include <iostream>
 
 struct RCCppMainLoop : IRCCppMainLoop, TInterface<IID_ENDInterfaceID, IObject>
@@ -24,7 +25,7 @@ struct RCCppMainLoop : IRCCppMainLoop, TInterface<IID_ENDInterfaceID, IObject>
 
 	void MainLoop() override
 	{
-		std::cout << "TEST 2" << std::endl;
+		Debug::Log("TEST 2");
 	}
 };
 
