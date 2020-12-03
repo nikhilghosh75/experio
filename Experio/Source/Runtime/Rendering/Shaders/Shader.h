@@ -1,23 +1,31 @@
 #pragma once
 #include <string>
-#include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/glm.hpp"
-#include "C:/Users/debgh/source/repos/project-bloo/Dependencies/glm/glm/mat4x4.hpp"
+#include "glm/glm.hpp"
+#include "glm/mat4x4.hpp"
 
 enum class EShaderType
 {
-	Vertex = 0,
-	Fragment = 1,
-	None = 400
+	None = 0,
+	Vertex = 1,
+	Fragment = 2,
+};
+
+enum class EShaderLanguage
+{
+	None = 0,
+	GLSL = 1,
+	HLSL = 2
 };
 
 class Shader
 {
 private:
-	std::string vertexShaderFilepath, fragmentShaderFilepath;
 	unsigned int rendererID;
+
 public:
 	Shader();
-	Shader(const std::string& vertexShaderFilepath, const std::string& fragmentShaderFilepath);
+	Shader(unsigned int rendererID);
+
 	~Shader();
 
 	void Bind() const;
@@ -32,9 +40,6 @@ public:
 	void SetUniformMatrix3(const std::string& name, glm::mat3 mat) const;
 	void SetUniformMatrix4(const std::string& name, glm::mat4 mat) const;
 
-	static unsigned int CompileShader(const std::string & source, unsigned int type);
-	static unsigned int CreateShader(const std::string & vertexShader, const std::string & fragmentShader);
-	static std::string ParseShader(const std::string& filepath);
 	unsigned int GetUniformLocation(const std::string& name) const;
 	bool DoesUniformExist(const std::string& name) const;
 };
