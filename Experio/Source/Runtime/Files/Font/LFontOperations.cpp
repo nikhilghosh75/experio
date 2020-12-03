@@ -51,6 +51,16 @@ uint32_t LFontOperations::GetMaxCharacterCode(const FontData& data)
 	return max;
 }
 
+uint32_t LFontOperations::SerializedSizeOf(const FontData & data)
+{
+	return 60 + data.characters.size() * 32;
+}
+
+uint32_t LFontOperations::SizeOf(const FontData & data)
+{
+	return 36 + data.characters.size() * 32;
+}
+
 void LFontOperations::SortCharacters(FontData& data)
 {
 	std::sort(data.characters.begin(), data.characters.end());
