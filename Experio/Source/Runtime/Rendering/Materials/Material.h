@@ -1,5 +1,5 @@
 #pragma once
-#include "../Shader.h"
+#include "../Shaders/ShaderReader.h"
 #include "../VertexArray.h"
 
 class Material
@@ -25,9 +25,9 @@ public:
 		this->id = id;
 	}
 
-	void SetShader(std::string vertex, std::string fragment)
+	void SetShader(std::string filepath)
 	{
-		shader = new Shader(vertex, fragment);
+		shader = ShaderReader::ReadShader(filepath);
 	}
 
 	void Bind()

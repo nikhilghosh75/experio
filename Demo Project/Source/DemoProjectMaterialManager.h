@@ -2,6 +2,7 @@
 
 #include "Runtime/Rendering/Materials/MaterialManager.h"
 #include "Runtime/Debug/Debug.h"
+#include "Runtime/Framework/BinaryParams.h"
 #include "Runtime/Framework/Params.h"
 
 #include "Runtime/Rendering/Materials/MeshMaterial.h"
@@ -47,6 +48,33 @@ public:
 			newMaterial.albedo = ParseTexture(params[0]);
 			newMaterial.normal = ParseTexture(params[1]);
 			newMaterial.specular = ParseTexture(params[2]);
+			return &newMaterial;
+		}
+		case 2:
+		{
+			BillboardMaterial newMaterial = billboardMaterials.emplace_back(matShader, currentIndex);
+			return &newMaterial;
+		}
+		}
+
+		Debug::LogError("MATERIAL TYPE COULD NOT BE FOUND");
+		return nullptr;
+	}
+
+	virtual Material* AddMaterial(uint32_t materialType, std::string shader, char* data) override
+	{
+		Shader* matShader = ParseShader(shader);
+		this->currentIndex++;
+		this->materialTypes.push_back(materialType);
+
+		switch (materialType)
+		{
+		case 1:
+		{
+			MeshMaterial& newMaterial = meshMaterials.emplace_back(matShader, currentIndex);
+			newMaterial.albedo = BinaryParseTexture(data);
+			newMaterial.normal = BinaryParseTexture(data + 4);
+			newMaterial.specular = BinaryParseTexture(data + 8);
 			return &newMaterial;
 		}
 		case 2:
