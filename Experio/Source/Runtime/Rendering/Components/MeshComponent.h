@@ -4,7 +4,7 @@
 #include "../../Files/Mesh/MeshReader.h"
 #include "glm/glm.hpp"
 #include "../../Framework/Framework.h"
-#include "../Shader.h"
+#include "../Shaders/Shader.h"
 #include "../Managers/MeshManager.h"
 
 class MeshComponent : public Component

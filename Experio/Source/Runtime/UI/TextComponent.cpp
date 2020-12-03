@@ -5,6 +5,7 @@
 #include "../Core/LWindowOperations.h"
 #include "../Rendering/VertexArray.h"
 #include "../Rendering/VertexBufferLayout.h"
+#include "../Rendering/Shaders/ShaderReader.h"
 
 TextComponent::TextComponent()
 {
@@ -27,7 +28,7 @@ void TextComponent::Update()
 
 void TextComponent::SetDefaultShader()
 {
-	shader = new Shader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Text2DVertex.shader", "C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Text2DFragment.shader");
+	shader = ShaderReader::ReadShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Text2D.shader");
 	shader->Bind();
 }
 

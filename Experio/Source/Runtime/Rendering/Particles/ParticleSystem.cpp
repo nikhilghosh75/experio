@@ -1,4 +1,5 @@
 #include "ParticleSystem.h"
+#include "../Shaders/ShaderReader.h"
 #include "../VertexBuffer.h"
 #include "../VertexBufferLayout.h"
 #include "../VertexArray.h"
@@ -27,9 +28,8 @@ void ParticleSystem::Start()
 {
 	maxParticles = GetMaxParticles();
 	particles = new FParticleData[maxParticles];
-	particleShader = new Shader(
-		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/ParticleVertex.shader",
-		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/ParticleFragment.shader"
+	particleShader = ShaderReader::ReadShader(
+		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Particle.shader"
 	);
 }
 

@@ -2,7 +2,7 @@
 #include "RectTransform.h"
 #include <string>
 #include "../Files/Font/FontReader.h"
-#include "../Rendering/Shader.h"
+#include "../Rendering/Shaders/Shader.h"
 #include "../Rendering/Managers/FontManager.h"
 #include "../Framework/Framework.h"
 

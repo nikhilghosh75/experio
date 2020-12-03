@@ -5,7 +5,7 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "VertexBufferLayout.h"
-#include "Shader.h"
+#include "Shaders/Shader.h"
 #include "Texture.h"
 #include "Components/Billboard.h"
 #include "Components/MeshComponent.h"

@@ -1,6 +1,6 @@
 #pragma once
 #include "Particle.h"
-#include "../Shader.h"
+#include "../Shaders/Shader.h"
 #include "../../Framework/Framework.h"
 
 class ParticleSystem : public Component

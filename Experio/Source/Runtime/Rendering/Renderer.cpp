@@ -23,6 +23,7 @@
 #include "../Camera/CameraSystem.h"
 #include "../Camera/AdditionalCameras.h"
 #include "Managers/TextureManager.h"
+#include "Shaders/ShaderReader.h"
 
 Renderer* Renderer::current;
 
@@ -108,14 +109,12 @@ void Renderer::DrawBillboard(const Billboard & billboard)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	Shader billboardShader(
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BillboardVertex.shader",
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BillboardFragment.shader"
-	);
-	billboardShader.Bind();
+	Shader* billboardShader = ShaderReader::ReadShader(
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/Billboard.shader");
+	billboardShader->Bind();
 
 	billboard.billboardTexture->Bind(0);
-	billboardShader.SetUniformInt("albedoTexture", 0);
+	billboardShader->SetUniformInt("albedoTexture", 0);
 
 	static const float billboardBufferData[] = {
 		-0.5f, -0.5f, 0.0f,
@@ -133,13 +132,13 @@ void Renderer::DrawBillboard(const Billboard & billboard)
 
 	glm::mat4 VP = projectionMatrix * viewMatrix;
 
-	billboardShader.SetUniformVec3("cameraRightWorldSpace", glm::vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]));
-	billboardShader.SetUniformVec3("cameraUpWorldSpace", glm::vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]));
-	billboardShader.SetUniformVec3("billboardPosition", billboard.GetGameObject()->GetPosition());
-	billboardShader.SetUniformVec2("billboardSize", billboard.billboardSize);
-	billboardShader.SetUniformMatrix4("VP", VP);
-	billboardShader.SetUniformInt("billboardSizeType", (int)billboard.sizeType);
-	billboardShader.SetUniformInt("billboardOrientation", (int)billboard.orientation);
+	billboardShader->SetUniformVec3("cameraRightWorldSpace", glm::vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]));
+	billboardShader->SetUniformVec3("cameraUpWorldSpace", glm::vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]));
+	billboardShader->SetUniformVec3("billboardPosition", billboard.GetGameObject()->GetPosition());
+	billboardShader->SetUniformVec2("billboardSize", billboard.billboardSize);
+	billboardShader->SetUniformMatrix4("VP", VP);
+	billboardShader->SetUniformInt("billboardSizeType", (int)billboard.sizeType);
+	billboardShader->SetUniformInt("billboardOrientation", (int)billboard.orientation);
 
 	VertexBufferLayout billboardLayout;
 	billboardLayout.PushFloat(3);
@@ -295,8 +294,7 @@ void Renderer::TempRenderer()
 	MeshComponent suzanneMesh(&tempObject);
 	suzanneMesh.meshData = MeshManager::LoadMesh("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Meshes/suzanne.obj");
 	suzanneMesh.material = new MeshMaterial();
-	suzanneMesh.material->SetShader("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BasicVertex",
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/BasicFragment");
+	suzanneMesh.material->SetShader("C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/Basic.shader");
 	suzanneMesh.material->albedo = TextureManager::LoadTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/uvmap.bmp");
 	suzanneMesh.material->normal = TextureManager::LoadTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/normal.bmp");
 	suzanneMesh.material->specular = TextureManager::LoadTexture("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Textures/specular.bmp");
@@ -409,11 +407,10 @@ void Renderer::TempFramebufferRenderer()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Use our shader
-	Shader framebufferShader(
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/InvertedScreenVertex.shader",
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/InvertedScreenFragment.shader"
+	Shader* framebufferShader = ShaderReader::ReadShader(
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/InvertedScreen.shader"
 	);
-	framebufferShader.Bind();
+	framebufferShader->Bind();
 
 	framebuffer.Unbind();
 
@@ -421,7 +418,7 @@ void Renderer::TempFramebufferRenderer()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, framebuffer.GetColorAttachment());
 	
-	framebufferShader.SetUniformInt("textureSampler", 0);
+	framebufferShader->SetUniformInt("textureSampler", 0);
 
 	static const GLfloat g_quad_vertex_buffer_data[] = {
 		-1.0f, -1.0f,
@@ -619,17 +616,16 @@ void Renderer::TempPostProcessingRenderer(Framebuffer & framebuffer)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Use our shader
-	Shader framebufferShader(
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/InvertedScreenVertex.shader",
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/InvertedScreenFragment.shader"
+	Shader* framebufferShader = ShaderReader::ReadShader(
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/InvertedScreen.shader"
 	);
-	framebufferShader.Bind();
+	framebufferShader->Bind();
 
 	// Bind our texture in Texture Unit 0
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, framebuffer.GetColorAttachment());
 
-	framebufferShader.SetUniformInt("textureSampler", 0);
+	framebufferShader->SetUniformInt("textureSampler", 0);
 
 	static const GLfloat g_quad_vertex_buffer_data[] = {
 		-1.0f, -1.0f,
