@@ -132,9 +132,8 @@ MeshRef BinaryParseMesh(void * data)
 
 Shader * BinaryParseShader(void * data)
 {
-	std::string vertexFilepath = AssetMap::assetMap.Get(*(unsigned int*)data);
-	std::string fragmentFilepath = AssetMap::assetMap.Get(*((unsigned int*)data + 1));
-	return new Shader(vertexFilepath, fragmentFilepath);
+	std::string filepath = AssetMap::assetMap.Get(*(unsigned int*)data);
+	return ShaderReader::ReadShader(filepath);
 }
 
 TextureRef BinaryParseTexture(void * data)
@@ -164,7 +163,7 @@ size_t SizeOfBinaryParam(EParamType type)
 	case EParamType::NSTRING: return 0;
 	case EParamType::QUATERNION: return 16;
 	case EParamType::RECT: return 16;
-	case EParamType::SHADER: return 8;
+	case EParamType::SHADER: return 4;
 	case EParamType::SHORT: return 2;
 	case EParamType::SPHERICALPOINT: return 12;
 	case EParamType::TEXTURE: return 4;

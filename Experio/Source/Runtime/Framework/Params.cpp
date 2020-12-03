@@ -274,21 +274,8 @@ MeshRef ParseMesh(std::string str)
 
 Shader* ParseShader(std::string str)
 {
-	std::vector<std::string> filePaths = LString::SeperateStringByChar(str, ' ');
-
-	std::vector<std::string> fullPaths;
-	fullPaths.reserve(filePaths.size());
-
-	for (int i = 0; i < filePaths.size(); i++)
-	{
-		fullPaths.push_back(LFileOperations::GetFullFilePath(filePaths[i]));
-	}
-
-	if (filePaths.size() == 2)
-	{
-		return new Shader(fullPaths[0], fullPaths[1]);
-	}
-	return nullptr;
+	std::string filePath = LFileOperations::GetFullFilePath(str);
+	return ShaderReader::ReadShader(filePath);
 }
 
 TextureRef ParseTexture(std::string str)
