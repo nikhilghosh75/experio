@@ -168,6 +168,15 @@ namespace Experio::Algorithm
 	void ForEach(TUnrolledList<T>& list, std::function<void(T&)> func);
 
 	template<typename T>
+	const uint32_t Mismatch(std::vector<T>& vector1, std::vector<T>& vector2);
+
+	template<typename T>
+	const uint32_t Mismatch(TArray<T>& array1, std::vector<T>& array2);
+
+	template<typename T>
+	const uint32_t Mismatch(TUnrolledList<T>& array1, TUnrolledList<T>& array2);
+
+	template<typename T>
 	T* Find(std::vector<T>& vector, const T& elem);
 
 	template<typename T>
@@ -240,6 +249,31 @@ namespace Experio::Algorithm
 	const T* Find(const TUnrolledList<T>& list, std::function<bool(const T&)> func);
 
 	// ---------------------------------------------------------------------------------
+
+	template<typename T>
+	std::vector<T> GetUnique(const std::vector<T>& v)
+	{
+		std::vector<T> unique;
+		unique.reserve(v.size());
+		unique.push_back(v[0]);
+
+		for (uint32_t i = 1; i < v.size(); i++)
+		{
+			bool found = false;
+			for (uint32_t j = 0; j < unique.size(); j++)
+			{
+				if (unique[j] == v[i])
+				{
+					found = true; break;
+				}
+			}
+			if (!found)
+			{
+				unique.push_back(v[i]);
+			}
+		}
+		return unique;
+	}
 
 	template<typename T>
 	bool ExistsIn(const std::vector<T>& vector, const T & element)
