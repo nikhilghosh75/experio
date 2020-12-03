@@ -27,6 +27,7 @@
     <ClInclude Include="Source\Runtime\Containers\TStackArray.h" />
     <ClInclude Include="Source\Runtime\Containers\TTypedTree.h" />
     <ClInclude Include="Source\Runtime\Containers\TUnrolledList.h" />
+    <ClInclude Include="Source\Runtime\Core\Base.h" />
     <ClInclude Include="Source\Runtime\Core\DllLoader.h" />
     <ClInclude Include="Source\Runtime\Core\Platform.h" />
     <ClInclude Include="Source\Runtime\Core\Window.h" />
@@ -110,7 +111,8 @@
     <ClInclude Include="Source\Runtime\Rendering\Materials\TextMaterial.h" />
     <ClInclude Include="Source\Runtime\Rendering\Components\MeshComponent.h" />
     <ClInclude Include="Source\Runtime\Rendering\Renderer.h" />
-    <ClInclude Include="Source\Runtime\Rendering\Shader.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Shaders\Shader.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Shaders\ShaderReader.h" />
     <ClInclude Include="Source\Runtime\Rendering\Texture.h" />
     <ClInclude Include="Source\Runtime\Rendering\VertexArray.h" />
     <ClInclude Include="Source\Runtime\Rendering\VertexBuffer.h" />
@@ -136,6 +138,7 @@
     <ClInclude Include="Source\ThirdParty\Magic Enum\magic_enum.hpp" />
     <ClInclude Include="Source\ThirdParty\Nameof\nameof.hpp" />
     <ClInclude Include="Source\ThirdParty\Periodic Function\periodic_function.hpp" />
+    <ClInclude Include="Source\ThirdParty\RCCPP.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_array.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_array.hpp" />
@@ -235,7 +238,8 @@
     <ClCompile Include="Source\Runtime\Rendering\Materials\SingleColorMaterial.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Components\MeshComponent.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Renderer.cpp" />
-    <ClCompile Include="Source\Runtime\Rendering\Shader.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Shaders\Shader.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Shaders\ShaderReader.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Texture.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\VertexArray.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\VertexBuffer.cpp" />
@@ -259,22 +263,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Standard\Materials\Test.material" />
-    <None Include="Resources\Standard\Shaders\BasicFragment.shader" />
-    <None Include="Resources\Standard\Shaders\BasicVertex.shader" />
-    <None Include="Resources\Standard\Shaders\BillboardFragment.shader" />
-    <None Include="Resources\Standard\Shaders\BillboardVertex.shader" />
-    <None Include="Resources\Standard\Shaders\FullScreenFragment.shader" />
-    <None Include="Resources\Standard\Shaders\FullScreenVertex.shader" />
-    <None Include="Resources\Standard\Shaders\InvertedScreenFragment.shader" />
-    <None Include="Resources\Standard\Shaders\InvertedScreenVertex.shader" />
-    <None Include="Resources\Standard\Shaders\ParticleFragment.shader" />
-    <None Include="Resources\Standard\Shaders\ParticleVertex.shader" />
-    <None Include="Resources\Standard\Shaders\SingleColorFragment.shader" />
-    <None Include="Resources\Standard\Shaders\SingleColorVertex.shader" />
-    <None Include="Resources\Standard\Shaders\StandardFragment.shader" />
-    <None Include="Resources\Standard\Shaders\StandardVertex.shader" />
-    <None Include="Resources\Standard\Shaders\Text2DFragment.shader" />
-    <None Include="Resources\Standard\Shaders\Text2DVertex.shader" />
+    <None Include="Resources\Standard\Shaders\Basic.shader" />
+    <None Include="Resources\Standard\Shaders\Billboard.shader" />
+    <None Include="Resources\Standard\Shaders\FullScreen.shader" />
+    <None Include="Resources\Standard\Shaders\InvertedScreen.shader" />
+    <None Include="Resources\Standard\Shaders\Particle.shader" />
+    <None Include="Resources\Standard\Shaders\Red.shader" />
+    <None Include="Resources\Standard\Shaders\SingleColor.shader" />
+    <None Include="Resources\Standard\Shaders\Text2D.shader" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

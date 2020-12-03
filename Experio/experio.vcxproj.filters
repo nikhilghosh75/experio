@@ -63,9 +63,6 @@
     <ClInclude Include="Source\Runtime\Rendering\VertexBufferLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Runtime\Rendering\Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Runtime\Math\FQuaternion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -468,6 +465,18 @@
     <ClInclude Include="Source\Runtime\Files\Font\BinFontReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ThirdParty\RCCPP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Core\Base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Rendering\Shaders\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Rendering\Shaders\ShaderReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Containers\TArray.cpp">
@@ -510,9 +519,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Rendering\VertexArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Runtime\Rendering\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Math\FTransform.cpp">
@@ -740,24 +746,22 @@
     <ClCompile Include="Source\Runtime\Files\Font\BinFontReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Runtime\Rendering\Shaders\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Runtime\Rendering\Shaders\ShaderReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Standard\Shaders\BasicFragment.shader" />
-    <None Include="Resources\Standard\Shaders\BasicVertex.shader" />
-    <None Include="Resources\Standard\Shaders\Text2DFragment.shader" />
-    <None Include="Resources\Standard\Shaders\Text2DVertex.shader" />
-    <None Include="Resources\Standard\Shaders\FullScreenFragment.shader" />
-    <None Include="Resources\Standard\Shaders\FullScreenVertex.shader" />
-    <None Include="Resources\Standard\Shaders\BillboardFragment.shader" />
-    <None Include="Resources\Standard\Shaders\BillboardVertex.shader" />
-    <None Include="Resources\Standard\Shaders\ParticleFragment.shader" />
-    <None Include="Resources\Standard\Shaders\ParticleVertex.shader" />
     <None Include="Resources\Standard\Materials\Test.material" />
-    <None Include="Resources\Standard\Shaders\StandardVertex.shader" />
-    <None Include="Resources\Standard\Shaders\StandardFragment.shader" />
-    <None Include="Resources\Standard\Shaders\InvertedScreenFragment.shader" />
-    <None Include="Resources\Standard\Shaders\InvertedScreenVertex.shader" />
-    <None Include="Resources\Standard\Shaders\SingleColorFragment.shader" />
-    <None Include="Resources\Standard\Shaders\SingleColorVertex.shader" />
+    <None Include="Resources\Standard\Shaders\Basic.shader" />
+    <None Include="Resources\Standard\Shaders\Billboard.shader" />
+    <None Include="Resources\Standard\Shaders\FullScreen.shader" />
+    <None Include="Resources\Standard\Shaders\InvertedScreen.shader" />
+    <None Include="Resources\Standard\Shaders\Particle.shader" />
+    <None Include="Resources\Standard\Shaders\SingleColor.shader" />
+    <None Include="Resources\Standard\Shaders\Red.shader" />
+    <None Include="Resources\Standard\Shaders\Text2D.shader" />
   </ItemGroup>
 </Project>
