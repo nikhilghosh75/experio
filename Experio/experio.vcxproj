@@ -19,6 +19,9 @@
     <ClInclude Include="Source\Runtime\Containers\Algorithm.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
+    <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
+    <ClInclude Include="Source\Runtime\Math\ColorPalette.h" />
+    <ClInclude Include="Source\Runtime\Math\Range.h" />
     <ClInclude Include="Source\Runtime\Containers\TBiMap.h" />
     <ClInclude Include="Source\Runtime\Containers\TBinarySearchTree.h" />
     <ClInclude Include="Source\Runtime\Containers\THashtable.h" />
@@ -44,7 +47,6 @@
     <ClInclude Include="Source\Runtime\Files\Font\LFontOperations.h" />
     <ClInclude Include="Source\Runtime\Files\LFileOperations.h" />
     <ClInclude Include="Source\Runtime\Files\Mesh\BinMeshReader.h" />
-    <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
     <ClInclude Include="Source\Runtime\Framework\AssetMap.h" />
     <ClInclude Include="Source\Runtime\Framework\BinaryParams.h" />
     <ClInclude Include="Source\Runtime\Framework\GameObjectIterator.h" />

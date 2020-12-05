@@ -453,9 +453,6 @@
     <ClInclude Include="Source\Runtime\Containers\TBinarySearchTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Runtime\Rendering\Managers\FontManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -475,6 +472,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Runtime\Rendering\Shaders\ShaderReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Math\Range.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Math\ColorPalette.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
