@@ -79,6 +79,8 @@ public:
 
 	FCharacterInfo& GetCharacterFromCode(unsigned int code)
 	{
+		return characters[BinarySearchForChar(code, 0, characters.size())];
+		/*
 		for (int i = 0; i < characters.size(); i++)
 		{
 			if (characters[i].charCode == code)
@@ -87,6 +89,32 @@ public:
 			}
 		}
 		return characters[0];
+		*/
+	}
+
+	uint32_t IndexOfCharacterCode(unsigned int code) const
+	{
+		return BinarySearchForChar(code, 0, characters.size());
+	}
+
+	bool HasCharacter(unsigned int code) const
+	{
+		return characters[BinarySearchForChar(code, 0, characters.size())].charCode == code;
+	}
+
+private:
+	uint32_t BinarySearchForChar(unsigned int charCode, uint32_t lower, uint32_t range) const
+	{
+		if (range == 0)
+		{
+			return lower;
+		}
+
+		uint32_t mid = lower + (range / 2);
+		if (characters[mid].charCode == charCode) return mid;
+		
+		if (characters[mid].charCode > charCode) return BinarySearchForChar(charCode, lower, (range / 2));
+		return BinarySearchForChar(charCode, mid + 1, (range / 2));
 	}
 };
 

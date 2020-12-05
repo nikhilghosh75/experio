@@ -34,9 +34,9 @@ public:
 
 	static uint32_t GetMaxCharacterCode(const FontData& data);
 
-	static bool IsAlphabetSupported(const FontData& data, EAlphabet charSet);
+	static bool HasAllCharsInRange(const FontData& data, uint32_t rangeStart, uint32_t rangeEnd);
 
-	static bool IsCharsetSupported(const FontData& data, ECharacterSet charSet);
+	static bool IsAlphabetSupported(const FontData& data, EAlphabet alphabet);
 
 	static uint32_t SerializedSizeOf(const FontData& data);
 

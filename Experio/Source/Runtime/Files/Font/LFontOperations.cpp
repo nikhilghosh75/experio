@@ -51,6 +51,58 @@ uint32_t LFontOperations::GetMaxCharacterCode(const FontData& data)
 	return max;
 }
 
+bool LFontOperations::HasAllCharsInRange(const FontData & data, uint32_t rangeStart, uint32_t rangeEnd)
+{
+	uint32_t startIndex = data.IndexOfCharacterCode(rangeStart);
+	uint32_t endIndex = data.IndexOfCharacterCode(rangeEnd);
+
+	if ((endIndex - startIndex) != (rangeEnd - rangeStart)) 
+		return false;
+
+	for (uint32_t i = 0; i < (endIndex - startIndex) + 1; i++)
+	{
+		if (data.characters[i + startIndex].charCode != rangeStart + i) 
+			return false;
+	}
+	return true;
+}
+
+bool LFontOperations::IsAlphabetSupported(const FontData & data, EAlphabet alphabet)
+{
+	switch (alphabet)
+	{
+	case EAlphabet::Basic:
+		return HasAllCharsInRange(data, 33, 125);
+	case EAlphabet::Latin:
+		return HasAllCharsInRange(data, 161, 591);
+	case EAlphabet::Greek:
+		return HasAllCharsInRange(data, 880, 1022);
+	case EAlphabet::Cyrillic:
+		return HasAllCharsInRange(data, 1024, 1327);
+	case EAlphabet::Armenian:
+		return HasAllCharsInRange(data, 1328, 1423);
+	case EAlphabet::Hebrew:
+		return HasAllCharsInRange(data, 1424, 1524);
+	case EAlphabet::Arabic:
+		return HasAllCharsInRange(data, 1536, 1791);
+	case EAlphabet::Syriac:
+		return HasAllCharsInRange(data, 1824, 1871);
+	case EAlphabet::Thaana:
+		return HasAllCharsInRange(data, 1920, 1969);
+	case EAlphabet::NKo:
+		return HasAllCharsInRange(data, 1984, 2042);
+	case EAlphabet::Samaritan:
+		return HasAllCharsInRange(data, 2048, 2110);
+	case EAlphabet::Mandaic:
+		return HasAllCharsInRange(data, 2112, 2139);
+	case EAlphabet::Devanagari:
+		return HasAllCharsInRange(data, 2304, 2431);
+	case EAlphabet::Bengali:
+		return HasAllCharsInRange(data, 2432, 2557);
+	}
+	return false;
+}
+
 uint32_t LFontOperations::SerializedSizeOf(const FontData & data)
 {
 	return 60 + data.characters.size() * 32;

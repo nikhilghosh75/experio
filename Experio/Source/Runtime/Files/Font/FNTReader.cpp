@@ -69,6 +69,7 @@ FontData * FNTReader::ReadFile(const char * fileName)
 	}
 
 	returnData->encoding = LFontOperations::GetEncoding(*returnData);
+	LFontOperations::SortCharacters(*returnData);
 
 	return returnData;
 }
