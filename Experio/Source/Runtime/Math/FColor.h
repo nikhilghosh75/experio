@@ -6,10 +6,10 @@
 
 struct FColor
 {
-	float r;
-	float g;
-	float b;
-	float a;
+	float r; // stored between 0 and 1
+	float g; // stored between 0 and 1
+	float b; // stored between 0 and 1
+	float a; // stored between 0 and 1
 
 	FColor();
 	FColor(float r, float g, float b);
@@ -38,13 +38,4 @@ struct FColor
 	operator FVector3() const;
 	operator FVector4() const;
 	operator ImVec4() const { return ImVec4(this->r, this->g, this->b, this->a); }
-
-	// Colors
-	static const FColor Black;
-	static const FColor Charcoal;
-	static const FColor Gunmetal;
-	static const FColor Midnight;
-	static const FColor Night;
-	static const FColor Red;
-	static const FColor White;
 };

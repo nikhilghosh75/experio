@@ -21,7 +21,7 @@ struct FLightData
 	{
 		this->worldPosition = FVector3();
 		this->worldRotation = FQuaternion();
-		this->color = FColor::White;
+		this->color = FColor(1, 1, 1, 1);
 		this->power = 1;
 		this->lightType = ELightType::Spotlight;
 	}

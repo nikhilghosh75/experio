@@ -1,14 +1,8 @@
 #include "FColor.h"
 #include "LMath.h"
 #include "../Containers/LString.h"
-
-const FColor FColor::Black(0.f, 0.f, 0.f);
-const FColor FColor::Charcoal(52, 40, 44);
-const FColor FColor::Gunmetal(44, 53, 57);
-const FColor FColor::Midnight(43, 27, 23);
-const FColor FColor::Night(12, 9, 10);
-const FColor FColor::Red(1.f, 0.f, 0.f);
-const FColor FColor::White(1.f, 1.f, 1.f);
+#include <sstream>
+#include <iomanip>
 
 FColor::FColor()
 {
@@ -23,7 +17,7 @@ FColor::FColor(float r, float g, float b)
 	this->r = r;
 	this->g = g;
 	this->b = b;
-	this->a = 1;
+	this->a = 1.f;
 }
 
 FColor::FColor(float r, float g, float b, float a)
@@ -122,6 +116,16 @@ FColor FColor::FromRGBString(std::string s)
 	}
 
 	return FColor(data[0], data[1], data[2], data[3]);
+}
+
+std::string FColor::Hex() const
+{
+	std::stringstream ss;
+	ss << "#" << std::hex << (int)(this->r * 255)
+		<< std::hex << (int)(this->g * 255)
+		<< std::hex << (int)(this->b * 255)
+		<< std::hex << (int)(this->a * 255);
+	return ss.str();
 }
 
 FColor FColor::Lerp(FColor start, FColor end, float t)
