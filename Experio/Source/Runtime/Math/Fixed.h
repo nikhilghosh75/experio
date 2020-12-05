@@ -59,6 +59,7 @@ class FixedBase
 	using IntegerType = IntOfSize<I>::ValueType;
 	using FractionType = IntOfSize<F>::UnsignedType;
 
+public:
 	IntegerType integer;
 	FractionType fraction;
 
