@@ -36,9 +36,7 @@ SceneView::SceneView()
 	{
 		singleColorMaterial = new SingleColorMaterial();
 		singleColorMaterial->SetShader(
-			"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/SingleColorVertex.shader",
-			"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/SingleColorFragment.shader"
-		);
+			"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/SingleColor.shader");
 
 		for (int i = 0; i < PB_TRANSLATION_GIZMOS_VERTICIES; i++)
 		{
