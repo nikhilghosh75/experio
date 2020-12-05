@@ -70,6 +70,17 @@ void CreateMenu::DisplayCPPCreateMenu()
 			);
 		}
 
+		if (ImGui::Button("Library"))
+		{
+			// Add Stuff Here
+		}
+		if (ImGui::IsItemHovered())
+		{
+			ImGui::SetTooltip(
+				"This is a library of static function, which will interface well with Experio's scripted languages"
+			);
+		}
+
 		if (ImGui::Button("Create"))
 		{
 			// Add Stuff Here
