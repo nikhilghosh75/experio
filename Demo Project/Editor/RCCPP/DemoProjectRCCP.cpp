@@ -7,6 +7,7 @@
 #include "DemoProjectSystemTable.h"
 #include "DemoProjectLogger.h"
 #include "Core/EditorApplication.h"
+#include "Framework/CompilationInfo.h"
 #include "Runtime/Time/GameTime.h"
 #include "Runtime/Framework/Project.h"
 #include "imgui.h"
@@ -63,4 +64,9 @@ void RCCUpdate()
 		float deltaTime = 1.0f / ImGui::GetIO().Framerate;
 		systemTable.runtimeObjectSystem->GetFileChangeNotifier()->Update(deltaTime);
 	}
+}
+
+FCompilationInfo GetCompilationInfo()
+{
+	return FCompilationInfo(systemTable.runtimeObjectSystem->GetIsCompiling(), 0.0f);
 }
