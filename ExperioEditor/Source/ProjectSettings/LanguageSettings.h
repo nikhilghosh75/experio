@@ -5,8 +5,12 @@
 class LanguageSettings : public ProjectSettingModule
 {
 public:
+	static LanguageSettings* languageSettings;
+
 	uint8_t cppVersion;
 	uint16_t glslVersion;
+
+	float showAfterCompileTime = 3.f;
 
 	std::vector<std::string> cppIncludePaths;
 

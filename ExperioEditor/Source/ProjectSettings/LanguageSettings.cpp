@@ -3,6 +3,8 @@
 #include "ThirdParty\toml++\toml_conversions.h"
 #include <fstream>
 
+LanguageSettings* LanguageSettings::languageSettings;
+
 constexpr uint8_t validCPPVersions[] = { 17, 20 };
 constexpr uint8_t numCPPVersions = 2;
 constexpr uint8_t firstExperimentalCPPVersion = 20;
@@ -10,12 +12,14 @@ constexpr uint8_t firstExperimentalCPPVersion = 20;
 LanguageSettings::LanguageSettings()
 {
 	this->settingsFile = "languages.pbconfig";
+	languageSettings = this;
 }
 
 void LanguageSettings::ReadFromTable(toml::table table)
 {
 	this->cppVersion = table["CPP"]["Version"].value_or(17);
 	this->cppIncludePaths = TomlToVector<std::string>(table["CPP"]["IncludePaths"].as_array());
+	this->showAfterCompileTime = table["Cpp"]["ShowAfterCompileTime"].value_or(3.0f);
 
 	this->glslVersion = table["GLSL"]["Version"].value_or(460);
 }
@@ -27,6 +31,7 @@ void LanguageSettings::GenerateSettingsFile()
 	toml::table cppTable;
 	cppTable.insert("Version", 17);
 	cppTable.insert("IncludePaths", toml::array{ "(SolutionDir)Experio\Source", "(SolutionDir)Dependencies\GLEW\include", "(SolutionDir)Dependencies\imgui" });
+	cppTable.insert("ShowAfterCompileTime", 3.0f);
 	table.insert("CPP", cppTable);
 
 	toml::table glslTable;
@@ -44,6 +49,7 @@ void LanguageSettings::SaveSettingsFile()
 	toml::table cppTable;
 	cppTable.insert("Version", this->cppVersion);
 	cppTable.insert("IncludePaths", VectorToToml(this->cppIncludePaths));
+	cppTable.insert("ShowAfterCompileTime", this->showAfterCompileTime);
 	table.insert("CPP", cppTable);
 
 	toml::table glslTable;
@@ -115,6 +121,8 @@ void LanguageSettings::DisplaySettings(const std::string & displayCategory)
 			}
 			ImGui::EndPopup();
 		}
+
+		ImGui::DragFloat("Show After Compile Time", &this->showAfterCompileTime, 2, 60);
 
 		return;
 	}
