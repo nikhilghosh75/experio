@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <string>
+#include "Runtime/Math/FVector3.h"
 
 enum class EAssertionStatus : uint8_t
 {
