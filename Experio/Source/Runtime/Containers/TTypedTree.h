@@ -115,7 +115,24 @@ public:
 
 	void CreateRoot(T object)
 	{
+		if (this->root != nullptr)
+		{
+			delete this->root;
+		}
+
 		this->root = new TTypedTreeNode<T>(object, this);
+		this->count = 1;
+	}
+
+	template<typename ... Args>
+	void EmplaceRoot(Args&& ... args)
+	{
+		if (this->root != nullptr)
+		{
+			delete this->root;
+		}
+
+		this->root = new TTypedTreeNode<T>(T(std::forward<Args>(args)...));
 		this->count = 1;
 	}
 
