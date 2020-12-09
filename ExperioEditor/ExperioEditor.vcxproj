@@ -93,6 +93,9 @@
     <ClCompile Include="Source\BuildSystem\BinarySaveParams.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProject.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectGenerator.cpp" />
+    <ClCompile Include="Source\CodeParser\Cpp\CppCodeStream.cpp" />
+    <ClCompile Include="Source\CodeParser\Cpp\CppCompilationError.cpp" />
+    <ClCompile Include="Source\CodeParser\Cpp\LCpp.cpp" />
     <ClCompile Include="Source\CodeParser\LCodeParser.cpp" />
     <ClCompile Include="Source\ComponentEditor\Renderable\BillboardComponentEditor.cpp" />
     <ClCompile Include="Source\ComponentEditor\Renderable\MeshComponentEditor.cpp" />
@@ -110,6 +113,7 @@
     <ClCompile Include="Source\FileView\FileView.cpp" />
     <ClCompile Include="Source\Framework\CreateMenu.cpp" />
     <ClCompile Include="Source\Framework\EditorProject.cpp" />
+    <ClCompile Include="Source\Framework\NotificationSystem.cpp" />
     <ClCompile Include="Source\Framework\PlaySystem.cpp" />
     <ClCompile Include="Source\Framework\SaveParams.cpp" />
     <ClCompile Include="Source\Framework\SceneSaver.cpp" />
@@ -127,7 +131,6 @@
     <ClCompile Include="Source\ProjectSettings\SettingsView.cpp" />
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
-    <ClCompile Include="Source\Testing\Test.cpp" />
     <ClCompile Include="Source\Testing\TestManager.cpp" />
     <ClCompile Include="Source\Testing\UnitTestingFramework.cpp" />
   </ItemGroup>
@@ -147,6 +150,11 @@
     <ClInclude Include="Source\CodeParser\CodeParser.h" />
     <ClInclude Include="Source\CodeParser\CodeProject.h" />
     <ClInclude Include="Source\CodeParser\CodeProjectGenerator.h" />
+    <ClInclude Include="Source\CodeParser\CodeStream.h" />
+    <ClInclude Include="Source\CodeParser\CompilationError.h" />
+    <ClInclude Include="Source\CodeParser\Cpp\CppCodeStream.h" />
+    <ClInclude Include="Source\CodeParser\Cpp\CppCompilationError.h" />
+    <ClInclude Include="Source\CodeParser\Cpp\LCpp.h" />
     <ClInclude Include="Source\CodeParser\LCodeParser.h" />
     <ClInclude Include="Source\ComponentEditor\ComponentEditor.h" />
     <ClInclude Include="Source\ComponentEditor\Renderable\BillboardComponentEditor.h" />
@@ -163,8 +171,10 @@
     <ClInclude Include="Source\Files\MeshConverter.h" />
     <ClInclude Include="Source\Files\SceneConverter.h" />
     <ClInclude Include="Source\FileView\FileView.h" />
+    <ClInclude Include="Source\Framework\CompilationInfo.h" />
     <ClInclude Include="Source\Framework\CreateMenu.h" />
     <ClInclude Include="Source\Framework\EditorProject.h" />
+    <ClInclude Include="Source\Framework\NotificationSystem.h" />
     <ClInclude Include="Source\Framework\PlaySystem.h" />
     <ClInclude Include="Source\Framework\SaveParams.h" />
     <ClInclude Include="Source\Framework\SceneSaver.h" />
