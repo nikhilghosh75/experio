@@ -263,11 +263,11 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	PB_COMPARE_EXT("csv", EAssetType::Data);
 	PB_COMPARE_EXT("xlsx", EAssetType::Data);
 
-	// TO-DO: Database
 	// Font
 	PB_COMPARE_EXT("fnt", EAssetType::Font);
 	PB_COMPARE_EXT("otf", EAssetType::Font);
 	PB_COMPARE_EXT("ttf", EAssetType::Font);
+	PB_COMPARE_EXT("pbbfont", EAssetType::Font);
 
 	// H
 	PB_COMPARE_EXT("h", EAssetType::H);
@@ -280,6 +280,9 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	PB_COMPARE_EXT("png", EAssetType::Image);
 	PB_COMPARE_EXT("tga", EAssetType::Image);
 
+	// Markup
+	PB_COMPARE_EXT("xml", EAssetType::Markup);
+
 	// Material
 	PB_COMPARE_EXT("material", EAssetType::Material);
 	
@@ -287,6 +290,7 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	PB_COMPARE_EXT("obj", EAssetType::Mesh);
 	PB_COMPARE_EXT("fbx", EAssetType::Mesh);
 	PB_COMPARE_EXT("3ds", EAssetType::Mesh);
+	PB_COMPARE_EXT("pbbmesh", EAssetType::Mesh);
 
 	// Non-Engine Code
 	PB_COMPARE_EXT("java", EAssetType::NonEngineCode); // Java
@@ -307,6 +311,7 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	PB_COMPARE_EXT("shader", EAssetType::Shader);
 
 	// Scene
+	PB_COMPARE_EXT("pbbscene", EAssetType::Scene);
 	PB_COMPARE_EXT("pbscene", EAssetType::Scene);
 
 	// Text
@@ -317,7 +322,6 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	PB_COMPARE_EXT("mp4", EAssetType::Video);
 	PB_COMPARE_EXT("webm", EAssetType::Video);
 	PB_COMPARE_EXT("ogg", EAssetType::Video);
-
 
 	return EAssetType::Unknown;
 }
