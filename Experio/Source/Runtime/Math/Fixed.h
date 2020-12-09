@@ -112,6 +112,47 @@ public:
 	{
 		return FixedBase(-this->integer, this->fraction);
 	}
+
+	FixedBase<I, F> operator+() const
+	{
+		return FixedBase(+this->integer, this->fraction);
+	}
+
+	bool operator==(const FixedBase<I, F>& other) const
+	{
+		return this->integer == other.integer && this->fraction == other.fraction;
+	}
+
+	bool operator!=(const FixedBase<I, F>& other) const
+	{
+		return this->integer != other.integer || this->fraction != other.fraction;
+	}
+
+	bool operator>(const FixedBase<I, F>& other) const
+	{
+		if (this->integer == other.integer)
+		{
+			if (this->integer < 0)
+			{
+				return this->fraction < other.fraction;
+			}
+			return this->fraction > other.fraction;
+		}
+		return this->integer > other.integer;
+	}
+
+	bool operator<(const FixedBase<I, F>& other) const
+	{
+		if (this->integer == other.integer)
+		{
+			if (this->integer < 0)
+			{
+				return this->fraction > other.fraction;
+			}
+			return this->fraction < other.fraction;
+		}
+		return this->integer < other.integer;
+	}
 };
 
 using FixedHalf = FixedBase<8, 8>;
