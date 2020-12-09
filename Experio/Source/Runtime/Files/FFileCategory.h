@@ -10,6 +10,7 @@ enum class EAssetType : uint8_t
 	Font,
 	Image,
 	H,
+	Markup,
 	Material,
 	Mesh,
 	Meta,
