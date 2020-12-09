@@ -1,4 +1,5 @@
 #include "LCodeParser.h"
+#include "Cpp/LCpp.h"
 #include "Runtime/Containers/Algorithm.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Debug/Debug.h"
@@ -89,16 +90,7 @@ bool LCodeParser::DoesLanguageSupport(ECodingLanguage language, ECodingLanguageF
 	switch (language)
 	{
 	case ECodingLanguage::CPlusPlus:
-		switch (feature)
-		{
-		case ECodingLanguageFeature::Async:
-		case ECodingLanguageFeature::Classes:
-		case ECodingLanguageFeature::Enums:
-		case ECodingLanguageFeature::Foreach:
-		case ECodingLanguageFeature::Namespaces:
-			return true;
-		}
-		break;
+		return LCpp::DoesCppSupport(feature);
 	case ECodingLanguage::CSharp:
 		switch (feature)
 		{
@@ -120,18 +112,7 @@ bool LCodeParser::DoesLanguageSupport(ECodingLanguage language, ECodingLanguageF
 	switch (language)
 	{
 	case ECodingLanguage::CPlusPlus:
-		switch (feature)
-		{
-		case ECodingLanguageFeature::Classes:
-		case ECodingLanguageFeature::Enums:
-		case ECodingLanguageFeature::Namespaces:
-			return true;
-		case ECodingLanguageFeature::Async: return version >= 11;
-		case ECodingLanguageFeature::Coroutines: return version >= 20;
-		case ECodingLanguageFeature::Foreach: return version >= 11;
-		case ECodingLanguageFeature::Modules: return version >= 23;
-		}
-		break;
+		return LCpp::DoesCppSupport(feature, version);
 	case ECodingLanguage::CSharp:
 		switch (feature)
 		{
@@ -162,7 +143,7 @@ EEnumDataType LCodeParser::GetEnumDataType(unsigned int numValues)
 
 #define PB_COMPARE_DATA_TYPE(_typename_, _type_) if(string.find(_typename_) != std::string::npos) return _type_;
 
-EEnumDataType LCodeParser::GetEnumDataType(std::string string, ECodingLanguage language)
+EEnumDataType LCodeParser::GetEnumDataType(const std::string& string, ECodingLanguage language)
 {
 	switch (language)
 	{
@@ -183,7 +164,7 @@ EEnumDataType LCodeParser::GetEnumDataType(std::string string, ECodingLanguage l
 	return EEnumDataType::NONE;
 }
 
-void LCodeParser::GetEnumNameValue(std::string valueText, int & currentValue, std::string & name, int & value)
+void LCodeParser::GetEnumNameValue(const std::string& valueText, int & currentValue, std::string & name, int & value)
 {
 	size_t equalsPosition = valueText.find('=');
 	if (equalsPosition == std::string::npos)
@@ -412,10 +393,10 @@ bool LCodeParser::IsFilepathOfLanguage(ECodingLanguage language, std::string pat
 	return false;
 }
 
-CodeArg LCodeParser::ParseCodeArg(std::string str, ECodingLanguage language)
+CodeArg LCodeParser::ParseCodeArg(const std::string& originalStr, ECodingLanguage language)
 {
 	CodeArg arg;
-	str = LString::TrimLeft(str);
+	std::string str = LString::TrimLeft(originalStr);
 
 	size_t argTypeStart = 0;
 	if (str.find("const ") != std::string::npos)
@@ -435,47 +416,14 @@ CodeArg LCodeParser::ParseCodeArg(std::string str, ECodingLanguage language)
 	return arg;
 }
 
-CodeFunction LCodeParser::ParseCodeFunction(std::string str, ECodingLanguage language)
+CodeFunction LCodeParser::ParseCodeFunction(const std::string& str, ECodingLanguage language)
 {
 	CodeFunction func;
 
 	switch (language)
 	{
 	case ECodingLanguage::CPlusPlus: // C++
-	{
-		func.accessType = ECodeAccessType::Unknown;
-
-		size_t returnTypeStart = 0;
-		if (str.find("static ") != std::string::npos)
-		{
-			returnTypeStart = str.find("static ") + 7;
-			func.keywords = ECodeFunctionKeyword::Static;
-		}
-		size_t firstSpace = str.find(' ', returnTypeStart);
-		func.returnType = str.substr(returnTypeStart, firstSpace - returnTypeStart);
-
-		size_t firstParen = str.find('(');
-		func.functionName = str.substr(firstSpace + 1, firstParen - firstSpace - 1);
-
-		size_t firstRightParen = str.find(')');
-		if (firstRightParen == firstParen + 1)
-		{
-			func.arguments = std::vector<CodeArg>();
-		}
-		else
-		{
-			std::vector<std::string> argStrings = LString::SeperateStringByChar(
-				str.substr(firstParen + 1, firstRightParen - firstParen - 1), ',');
-			std::vector<CodeArg> args;
-			args.reserve(argStrings.size());
-			for (int i = 0; i < argStrings.size(); i++)
-			{
-				args.push_back(ParseCodeArg(argStrings[i], language));
-			}
-			func.arguments = args;
-		}
-	}
-		break;
+		return LCpp::ParseCodeFunction(str);
 	default:
 		Debug::LogError("Language is not supported");
 		break;
@@ -484,29 +432,14 @@ CodeFunction LCodeParser::ParseCodeFunction(std::string str, ECodingLanguage lan
 	return func;
 }
 
-CodeParam LCodeParser::ParseCodeParam(std::string str, ECodingLanguage language)
+CodeParam LCodeParser::ParseCodeParam(const std::string& str, ECodingLanguage language)
 {
 	CodeParam param;
 
 	switch (language)
 	{
-	case ECodingLanguage::CPlusPlus: // C++
-	{
-		param.accessType = ECodeAccessType::Unknown;
-
-		size_t returnTypeStart = 0;
-		if (str.find("static ") != std::string::npos)
-		{
-			returnTypeStart = str.find("static ") + 7;
-			param.keywords = ECodeParamKeyword::Static;
-		}
-		size_t firstSpace = str.find(' ', returnTypeStart);
-		param.type = str.substr(returnTypeStart, firstSpace - returnTypeStart);
-
-		size_t firstParen = str.find('(');
-		param.name = str.substr(firstSpace + 1, firstParen - firstSpace - 1);
-	}
-	break;
+	case ECodingLanguage::CPlusPlus:
+		return LCpp::ParseCodeParam(str);
 	default:
 		Debug::LogError("Language is not supported");
 		break;
@@ -531,26 +464,7 @@ size_t LCodeParser::SizeOfDefaultType(const std::string & name, ECodingLanguage 
 	switch (language)
 	{
 	case ECodingLanguage::CPlusPlus:
-		if (name == "char") return 1;
-		if (name == "unsigned char") return 1;
-		if (name == "short") return 2;
-		if (name == "unsigned short") return 2;
-		if (name == "int") return 4;
-		if (name == "unsigned int") return 4;
-		if (name == "long long") return 8;
-		if (name == "unsigned long long") return 8;
-		if (name == "uint8_t") return 1;
-		if (name == "int8_t") return 1;
-		if (name == "uint16_t") return 2;
-		if (name == "int16_t") return 2;
-		if (name == "uint32_t") return 4;
-		if (name == "int32_t") return 4;
-		if (name == "uint64_t") return 8;
-		if (name == "int64_t") return 8;
-		if (name == "float") return 4;
-		if (name == "double") return 8;
-		if (name == "bool") return 1;
-		break;
+		return LCpp::SizeOfDefeaultType(name);
 	case ECodingLanguage::CSharp:
 		if (name == "bool") return 1;
 		if (name == "byte") return 1;
@@ -637,7 +551,7 @@ size_t LCodeParser::SizeOfExperioSerializedType(const std::string & name)
 	if (name == "MeshRef") return 4;
 	if (name == "FQuaternion") return 16;
 	if (name == "FRect") return 16;
-	if (name == "Shader") return 8;
+	if (name == "Shader") return 4;
 	if (name == "FSphericalPoint") return 12;
 	if (name == "TextureRef") return 4;
 	if (name == "Datatable") return 4;

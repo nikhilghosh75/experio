@@ -30,11 +30,11 @@ public:
 	static bool DoesLanguageSupport(ECodingLanguage language, ECodingLanguageFeature feature, uint16_t version);
 
 	static EEnumDataType GetEnumDataType(unsigned int numValues);
-	static EEnumDataType GetEnumDataType(std::string string, ECodingLanguage language);
+	static EEnumDataType GetEnumDataType(const std::string& string, ECodingLanguage language);
 
 	static std::string GetClassNameFromDeclaration(std::string className);
 
-	static void GetEnumNameValue(std::string valueText, int& currentValue, std::string& name, int& value);
+	static void GetEnumNameValue(const std::string& valueText, int& currentValue, std::string& name, int& value);
 
 	static std::string GetLanguageVersionString(ECodingLanguage language, uint16_t version);
 
@@ -58,9 +58,9 @@ public:
 
 	static bool IsFilepathOfLanguage(ECodingLanguage language, std::string path);
 
-	static CodeArg ParseCodeArg(std::string str, ECodingLanguage language);
-	static CodeFunction ParseCodeFunction(std::string str, ECodingLanguage language);
-	static CodeParam ParseCodeParam(std::string str, ECodingLanguage language);
+	static CodeArg ParseCodeArg(const std::string& str, ECodingLanguage language);
+	static CodeFunction ParseCodeFunction(const std::string& str, ECodingLanguage language);
+	static CodeParam ParseCodeParam(const std::string& str, ECodingLanguage language);
 
 	static size_t SerializedSizeOf(const CodeClass& codeClass, const CodeProject& codeProject, ECodingLanguage language);
 	static size_t SizeOfDefaultType(const std::string& name, ECodingLanguage language);
