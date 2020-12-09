@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <string>
-#include "Runtime/Math/FVector3.h"
+#include "Runtime/Math/LMath.h"
 
 enum class EAssertionStatus : uint8_t
 {
@@ -55,7 +55,7 @@ struct FAssertionOutcome
 	return FAssertionOutcome(EAssertionStatus::Failure, statement, __FILE__, __LINE__);\
 }
 
-#define ASSERT_ALMOST_EQUAL(x, y) if(!LMath::ApproxEquals(x, y))\
+#define ASSERT_ALMOST_EQUAL(x, y) if(!LMath::ApproxEquals(x, y, 0.001f))\
 {\
 	return FAssertionOutcome(EAssertionStatus::Failure, "", __FILE__, __LINE__);\
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Assert.h"
 #include <functional>
+#include <vector>
 
 struct FUnitTestingOutcome
 {
@@ -46,5 +47,5 @@ public:
 
 #define UNIT_TEST(_name_, _category_) \
 FAssertionOutcome _name_(); \
-UnitTestRegisterer _name_Register(_name_, "_name_", _category_);\
+UnitTestRegisterer Register##_name_(##_name_, (#_name_), _category_);\
 FAssertionOutcome _name_()
