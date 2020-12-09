@@ -125,8 +125,8 @@ void FileView::DisplayContents()
 	ImGui::BeginChild("Contents", ImVec2(rect.GetWidth() - 300, 0), true);
 
 	static std::vector<std::string> fileTypes = { "Audio", "Animation", "Code",
-		"Data", "Font", "Image", "H", "Material", "Mesh", "Meta", "NonEngineCode", 
-		"Particle", "Prefab", "Shader", "Scene", "Text","Video" 
+		"Data", "Font", "Image", "H", "Markup", "Material", "Mesh", "Meta", 
+		"NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Text","Video" 
 	};
 	Filemask fileMask = LImGui::DisplayBitmask("Filters", fileTypes, filesSelected);
 	fileMask.SetBitTrue((uint8_t)EAssetType::Directory);
