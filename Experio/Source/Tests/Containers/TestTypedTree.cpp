@@ -1,15 +1,14 @@
-#include "TTypedTree.h"
-#include <string>
-#include "../Debug/TempProfiler.h"
+#include "../../ExperioEditor/Source/Testing/UnitTestingFramework.h"
+#include "Runtime/Containers/TTypedTree.h"
 
-void TTypedTreeTest()
+TEST_SUITE("TypedTree", "Experio/Containers");
+
+UNIT_TEST(TestTypedTreeGeneral, "TypedTree")
 {
-	TempProfiler profiler("Typed Tree Test");
-
 	TTypedTree<std::string> typedTree("Animal");
 	typedTree.AddChildToRoot("Mammal");
 	typedTree.AddChildToRoot("Amphibian");
-	
+
 	TTypedTreeNode<std::string>* mammal = typedTree.GetRoot()->children[0];
 	mammal->AddChild("Artiodactyla");
 	mammal->AddChild("Carnivore");
@@ -28,7 +27,7 @@ void TTypedTreeTest()
 	primate->AddChild("Ape");
 	primate->AddChild("Monkey");
 	primate->AddChild("Orangutan");
-	
+
 	TTypedTreeNode<std::string>* insect = mammal->children[2];
 	insect->AddChild("Cockroaches");
 	insect->AddChild("Beetles");
@@ -39,12 +38,5 @@ void TTypedTreeTest()
 	insect->AddChild("Dragonflies");
 	insect->AddChild("Crickets");
 
-	TTypedTreeIterator<std::string> typedTreeIterator(&typedTree);
-
-	for (int i = 0; i < typedTree.GetCount(); i++)
-	{
-		typedTreeIterator.Increment();
-	}
-
-	mammal->DeleteChild(1);
+	TEST_END();
 }

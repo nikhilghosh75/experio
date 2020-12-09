@@ -399,5 +399,3 @@ public:
 		data[indexB] = temp;
 	}
 };
-
-void TestArray();

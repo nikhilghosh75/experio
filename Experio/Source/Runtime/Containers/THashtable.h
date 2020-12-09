@@ -488,8 +488,6 @@ public:
 	unsigned int GetCapacity() const { return capacity; }
 };
 
-void THashtableTest();
-
 struct StringHashFunction
 {
 	unsigned int tableCapacity;
