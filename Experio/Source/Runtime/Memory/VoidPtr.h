@@ -12,7 +12,7 @@ public:
 		this->ptr = nullptr;
 	}
 
-	VoidPtr(void* ptr)
+	explicit VoidPtr(void* ptr)
 	{
 		this->ptr = ptr;
 	}
@@ -32,32 +32,32 @@ public:
 		return (char*)this->ptr;
 	}
 
-	VoidPtr& operator+(const VoidPtr& other)
+	VoidPtr operator+(const VoidPtr& other)
 	{
 		return VoidPtr((char*)this->ptr + (uint32_t)other.ptr);
 	}
 
-	VoidPtr& operator+(size_t n)
+	VoidPtr operator+(size_t n)
 	{
 		return VoidPtr((char*)this->ptr + n);
 	}
 
-	VoidPtr& operator+(void* other)
+	VoidPtr operator+(void* other)
 	{
 		return VoidPtr((char*)this->ptr + (uint32_t)other);
 	}
 
-	VoidPtr& operator-(const VoidPtr& other)
+	VoidPtr operator-(const VoidPtr& other)
 	{
 		return VoidPtr((char*)this->ptr - (uint32_t)other.ptr);
 	}
 
-	VoidPtr& operator-(size_t n)
+	VoidPtr operator-(size_t n)
 	{
 		return VoidPtr((char*)this->ptr - n);
 	}
 
-	VoidPtr& operator-(void* other)
+	VoidPtr operator-(void* other)
 	{
 		return VoidPtr((char*)this->ptr - (uint32_t)other);
 	}
@@ -128,12 +128,12 @@ public:
 	{
 		return this->ptr == other.ptr;
 	}
-
+	/*
 	bool operator==(const void* other) const
 	{
 		return this->ptr == other;
 	}
-
+	*/
 	bool operator!=(const VoidPtr& other) const
 	{
 		return this->ptr != other.ptr;
@@ -184,10 +184,3 @@ public:
 		return this->ptr >= other;
 	}
 };
-
-void TestVoidPtr()
-{
-	VoidPtr voidPtr = VoidPtr((void*)204);
-	voidPtr = voidPtr + 5;
-	char* str = voidPtr;
-}
