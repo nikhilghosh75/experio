@@ -485,9 +485,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Runtime\Containers\TArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -551,9 +548,6 @@
     <ClCompile Include="Source\Runtime\Containers\LString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Runtime\Containers\THashtable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Runtime\Math\FRect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -567,9 +561,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Runtime\Containers\TTypedTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Files\Mesh\LMeshOperations.cpp">
@@ -735,9 +726,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Files\Mesh\BinMeshReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Tests\Math\Vector3Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Data\LStatistics.cpp">

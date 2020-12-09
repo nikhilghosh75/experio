@@ -176,8 +176,6 @@
     <ClCompile Include="Source\Runtime\Camera\CameraSystem.cpp" />
     <ClCompile Include="Source\Runtime\Camera\VirtualCamera.cpp" />
     <ClCompile Include="Source\Runtime\Containers\LString.cpp" />
-    <ClCompile Include="Source\Runtime\Containers\THashtable.cpp" />
-    <ClCompile Include="Source\Runtime\Containers\TTypedTree.cpp" />
     <ClCompile Include="Source\Runtime\Core\Platform.cpp" />
     <ClCompile Include="Source\Runtime\Core\Window.cpp" />
     <ClCompile Include="Source\Runtime\Core\LWindowOperations.cpp" />
@@ -247,7 +245,6 @@
     <ClCompile Include="Source\Runtime\Rendering\VertexBuffer.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\VertexBufferLayout.cpp" />
     <ClCompile Include="Source\Runtime\Time\FDateTime.cpp" />
-    <ClCompile Include="Source\Runtime\Containers\TArray.cpp" />
     <ClCompile Include="Source\Runtime\Core\Application.cpp" />
     <ClCompile Include="Source\Runtime\Debug\Debug.cpp" />
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp" />
@@ -261,7 +258,6 @@
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\UIColorPalettes.cpp" />
-    <ClCompile Include="Source\Tests\Math\Vector3Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Standard\Materials\Test.material" />
