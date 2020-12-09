@@ -11,26 +11,25 @@
 #include "imgui_internal.h"
 
 #include "EditorWindow.h"
-#include "../Framework/ValueLoader.h"
-#include "Runtime/Framework/SceneLoader.h"
-#include "../Framework/EditorProject.h"
-#include "../SceneView/SceneView.h"
-#include "../FileView/FileView.h"
-#include "../SceneHierarchy/SceneHierarchy.h"
-#include "Runtime/Debug/TempProfiler.h"
 #include "../CodeParser/LCodeParser.h"
 #include "../CodeParser/CodeProject.h"
 #include "../CodeParser/CodeProjectGenerator.h"
-#include "../Inspector/Inspector.h"
-#include "../Framework/SceneSaver.h"
-#include "../GameView/GameView.h"
 #include "../Console/Console.h"
-#include "../Files/SceneConverter.h"
+#include "../FileView/FileView.h"
+#include "../Framework/CreateMenu.h"
+#include "../Framework/EditorProject.h"
+#include "../Framework/NotificationSystem.h"
+#include "../Framework/SceneSaver.h"
+#include "../Framework/ValueLoader.h"
+#include "../GameView/GameView.h"
+#include "../Inspector/Inspector.h"
 #include "../ProjectSettings/ProjectSettings.h"
 #include "../ProjectSettings/SettingsView.h"
-#include "../Framework/CreateMenu.h"
-#include "../Files/MeshConverter.h"
+#include "../SceneHierarchy/SceneHierarchy.h"
+#include "../SceneView/SceneView.h"
 #include "Runtime/Containers/TArray.h"
+#include "Runtime/Debug/TempProfiler.h"
+#include "Runtime/Framework/SceneLoader.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
 DllLoader EditorApplication::loader;
@@ -80,12 +79,13 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 
 	AddDefaultModules();
 
+	ProjectSettings::Initialize();
+}
+
+void EditorApplication::LoadScenes()
+{
 	SceneLoader::LoadSceneFromFile(defaultScenePath, 0);
 	Scene::Activate(0);
-
-	ProjectSettings::Initialize();
-
-	Project::StartGame();
 }
 
 void EditorApplication::Run()
@@ -100,12 +100,14 @@ void EditorApplication::Run()
 	delete profiler;
 	*/
 
+	Project::StartGame();
+
 	while (EditorWindow::isActive)
 	{
 		PROFILE_SCOPE("Editor Loop");
 		
 		BeginFrame();
-		RenderModules();
+		Update();
 		// bool temp = true;
 		// ImGui::ShowDemoWindow(&temp);
 		EndFrame();
@@ -180,6 +182,12 @@ void EditorApplication::BeginFrame()
 	{
 		beginFrameCallback(GameTime::deltaTime);
 	}
+}
+
+void EditorApplication::Update()
+{
+	RenderModules();
+	NotificationSystem::RenderNotifications();
 }
 
 void EditorApplication::EndFrame()

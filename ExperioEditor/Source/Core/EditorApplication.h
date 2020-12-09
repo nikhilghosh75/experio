@@ -22,6 +22,8 @@ public:
 
 	void Setup(const std::string& projectFilepath);
 
+	void LoadScenes();
+
 	void Run();
 
 	void Shutdown();
@@ -54,6 +56,9 @@ private:
 	static void AddDefaultModules();
 
 	void BeginFrame();
+
+	void Update();
+
 	void EndFrame();
 
 	void RenderModules();
