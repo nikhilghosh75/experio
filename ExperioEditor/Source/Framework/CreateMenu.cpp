@@ -1,10 +1,20 @@
 #include "CreateMenu.h"
+#include "CreateSystem.h"
+#include "../FileView/FileView.h"
 #include "imgui.h"
-#include "EditorProject.h"
 #include <fstream>
 
 bool CreateMenu::cppCreateMenu = false;
 bool CreateMenu::materialCreateMenu = false;
+
+ECodeClassBase CreateMenu::currentClassType;
+
+static std::string className = "NewClass";
+
+void CreateMenu::Initialize()
+{
+	className.reserve(64);
+}
 
 void CreateMenu::DisplayCreateMenu()
 {
@@ -12,83 +22,47 @@ void CreateMenu::DisplayCreateMenu()
 	DisplayMaterialCreateMenu();
 }
 
-void CreateMenu::CreateDatatable(const std::string& filepath)
-{
-	std::ofstream outFile(filepath + "/data.csv");
-}
-
-void CreateMenu::CreateScene(const std::string & filepath)
-{
-	std::ofstream outFile(filepath + "/scene.pbscene");
-	outFile << "PROJECT BLOO SCENE" << std::endl;
-	outFile << "Name: New Scene" << std::endl;
-	outFile << "Project: " << EditorProject::projectName << std::endl;
-	outFile << "{ " << std::endl;
-	outFile << "	Name: Scene Root" << std::endl;
-	outFile << "	Transform : 0 0 0 0 0 0 1 1 1 1" << std::endl;
-	outFile << "	Tag : 0" << std::endl;
-	outFile << "	Layer : 0" << std::endl;
-	outFile << "	Components : [{" << std::endl;
-	outFile << "		ClassID: 99" << std::endl;
-	outFile << "		Params :" << std::endl;
-	outFile << "	Children: []" << std::endl;
-	outFile << "}]" << std::endl;
-}
-
 void CreateMenu::DisplayCPPCreateMenu()
 {
 	if (ImGui::BeginPopupModal("Create C++ Class", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 	{
+		std::string filepath = FileView::fileView->GetSelectedFilepath() + "/" + className;
+
 		ImGui::Text("Select a C++ class to derive from");
 
-		if (ImGui::Button("None"))
-		{
-			// Add Stuff Here
-		}
-		if (ImGui::IsItemHovered())
-		{
-			ImGui::SetTooltip("This class is not derived from any class or struct");
-		}
+		ImGui::Separator();
 
-		if (ImGui::Button("Component"))
-		{
-			// Add Stuff Here
-		}
-		if (ImGui::IsItemHovered())
-		{
-			ImGui::SetTooltip("This is a component that goes on a Game Object");
-		}
+		DisplayClassType("None", "This class is not derived from any class or struct", ECodeClassBase::None);
+		DisplayClassType("Component", "This is a component that goes on a Game Object", ECodeClassBase::Component);
+		DisplayClassType("System", "This is a system that updates on components. It doesn't go on a game object, but is updated each frame", ECodeClassBase::System);
+		DisplayClassType("Library", "This is a library of static functions, which will interface well with Experio's scripting langagues", ECodeClassBase::Library);
 
-		if (ImGui::Button("System"))
-		{
-			// Add Stuff Here
-		}
-		if (ImGui::IsItemHovered())
-		{
-			ImGui::SetTooltip(
-				"This is a system that updates on components. It doesn't go on a game object, but is updated each frame"
-			);
-		}
+		ImGui::Separator();
 
-		if (ImGui::Button("Library"))
-		{
-			// Add Stuff Here
-		}
-		if (ImGui::IsItemHovered())
-		{
-			ImGui::SetTooltip(
-				"This is a library of static function, which will interface well with Experio's scripted languages"
-			);
-		}
+		ImGui::Text("Base Class: ");
+		ImGui::SameLine();
+		ImGui::Text(CodeClassBaseToString(currentClassType).c_str());
+
+		ImGui::Text("C++ Filepath: ");
+		ImGui::SameLine();
+		ImGui::Text((filepath + ".cpp").c_str());
+
+		ImGui::Text("H Filepath: ");
+		ImGui::SameLine();
+		ImGui::Text((filepath + ".h").c_str());
+
+		ImGui::InputText("Class Name: ", className.data(), className.capacity());
 
 		if (ImGui::Button("Create"))
 		{
-			// Add Stuff Here
+			CreateSystem::CreateCppClass(filepath + ".h", currentClassType, className);
+			CreateSystem::CreateCppClass(filepath + ".cpp", currentClassType, className);
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Cancel"))
 		{
+			currentClassType = ECodeClassBase::None;
 			ImGui::CloseCurrentPopup();
 		}
 
@@ -108,4 +82,28 @@ void CreateMenu::DisplayMaterialCreateMenu()
 
 		ImGui::EndPopup();
 	}
+}
+
+void CreateMenu::DisplayClassType(const std::string & name, const std::string & tooltipName, ECodeClassBase classBase)
+{
+	if (ImGui::Button(name.c_str()))
+	{
+		currentClassType = classBase;
+	}
+	if (ImGui::IsItemHovered())
+	{
+		ImGui::SetTooltip(tooltipName.c_str());
+	}
+}
+
+std::string CreateMenu::CodeClassBaseToString(ECodeClassBase base)
+{
+	switch (base)
+	{
+	case ECodeClassBase::None: return "None";
+	case ECodeClassBase::Component: return "Component";
+	case ECodeClassBase::Library: return "Library";
+	case ECodeClassBase::System: return "System";
+	}
+	return "";
 }
