@@ -80,7 +80,7 @@ size_t LOpenGL::GetInternalFormat(EImageEncoding encoding, EImageFileType fileTy
 	return 0;
 }
 
-EDataType LOpenGL::StringToDataType(std::string string)
+EDataType LOpenGL::StringToDataType(const std::string& string)
 {
 	if (string == "FLOAT") return EDataType::FLOAT;
 
