@@ -68,6 +68,14 @@ UNIT_TEST(TestMathBinomial, "LMath")
 	TEST_END();
 }
 
+UNIT_TEST(TestMathClamp, "LMath")
+{
+	ASSERT_ALMOST_EQUAL(LMath::Clamp(10, 0, 5), 5);
+	ASSERT_ALMOST_EQUAL(LMath::Clamp(10, 15, 20), 15);
+	
+	TEST_END();
+}
+
 FUnitTestingOutcome RunLMathTests()
 {
 	return suite.RunTests();

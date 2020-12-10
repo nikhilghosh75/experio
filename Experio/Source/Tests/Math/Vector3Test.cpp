@@ -158,6 +158,18 @@ UNIT_TEST(TestVector3Operations, "Vector3")
 	TEST_END();
 }
 
+UNIT_TEST(TestVector3Bound, "Vector3")
+{
+	FVector3 v(3, 4, 5);
+
+	FVector3 cubeBound = FVector3::BoundToCube(FVector3(2, 2, 2), 2, v);
+	ASSERT_ALMOST_EQUAL(v.x, 3);
+	ASSERT_ALMOST_EQUAL(v.y, 4);
+	ASSERT_ALMOST_EQUAL(v.z, 4);
+
+	TEST_END();
+}
+
 FUnitTestingOutcome RunVector3Tests()
 {
 	return suite.RunTests();
