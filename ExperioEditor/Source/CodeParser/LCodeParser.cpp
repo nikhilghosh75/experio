@@ -132,6 +132,26 @@ bool LCodeParser::DoesLanguageSupport(ECodingLanguage language, ECodingLanguageF
 	return false;
 }
 
+std::string LCodeParser::EnumDataTypeToString(EEnumDataType dataType, ECodingLanguage language)
+{
+	switch (language)
+	{
+	case ECodingLanguage::CPlusPlus:
+		switch (dataType)
+		{
+		case EEnumDataType::BYTE: return "char";
+		case EEnumDataType::UBYTE: return "uint8_t";
+		case EEnumDataType::SHORT: return "short";
+		case EEnumDataType::USHORT: return "uint16_t";
+		case EEnumDataType::INT: return "int";
+		case EEnumDataType::UINT: return "uint32_t";
+		case EEnumDataType::LONGLONG: return "long long";
+		case EEnumDataType::ULONGLONG: return "uint64_t";
+		}
+		break;
+	}
+}
+
 EEnumDataType LCodeParser::GetEnumDataType(unsigned int numValues)
 {
 	// Note that the following is based on the face that the underlying type is the smallest possible type

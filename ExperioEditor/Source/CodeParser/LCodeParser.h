@@ -29,6 +29,8 @@ public:
 	static bool DoesLanguageSupport(ECodingLanguage langauge, ECodingLanguageFeature feature);
 	static bool DoesLanguageSupport(ECodingLanguage language, ECodingLanguageFeature feature, uint16_t version);
 
+	static std::string EnumDataTypeToString(EEnumDataType dataType, ECodingLanguage language);
+
 	static EEnumDataType GetEnumDataType(unsigned int numValues);
 	static EEnumDataType GetEnumDataType(const std::string& string, ECodingLanguage language);
 
