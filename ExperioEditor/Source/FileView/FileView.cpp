@@ -11,7 +11,10 @@
 #include "../Core/EditorApplication.h"
 #include "../Core/FileDialog.h"
 #include "../Framework/CreateMenu.h"
+#include "../Framework/CreateSystem.h"
 namespace fs = std::filesystem;
+
+FileView* FileView::fileView = nullptr;
 
 bool openCppMenu = false;
 bool openMaterialMenu = false;
@@ -27,6 +30,8 @@ FileView::FileView()
 	{
 		this->filesSelected[i] = true;
 	}
+
+	fileView = this;
 }
 
 void FileView::DisplayCreateMenu()
@@ -47,12 +52,12 @@ void FileView::DisplayCreateMenu()
 	ImGui::Separator();
 	if (ImGui::MenuItem("Datatable"))
 	{
-		CreateMenu::CreateDatatable(this->selectedFilepath);
+		CreateSystem::CreateDatatable(this->selectedFilepath);
 	}
 	ImGui::Separator();
 	if (ImGui::MenuItem("Scene"))
 	{
-		CreateMenu::CreateScene(this->selectedFilepath);
+		CreateSystem::CreateScene(this->selectedFilepath);
 	}
 }
 

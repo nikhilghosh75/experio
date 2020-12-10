@@ -12,7 +12,7 @@ class FileView : public EditorModule
 	std::string selectedFilepath = "";
 
 	// Change Later
-	bool filesSelected[17];
+	bool filesSelected[18];
 
 	void DisplayCreateMenu();
 	void DisplayImportMenu();
@@ -25,11 +25,16 @@ class FileView : public EditorModule
 
 	std::string GetSelectedFilepath(TTypedTreeNode<std::string>* selectedNode);
 public:
+	static FileView* fileView;
+
 	FileView();
 
 	virtual void Display() override;
 
 	virtual void HandleInput() override;
+
+	std::string GetSelectedItem() const { return this->selectedItem; }
+	std::string GetSelectedFilepath() const { return this->selectedFilepath; }
 
 	static std::string GetDragDropTypeFromAssetType(EAssetType type);
 

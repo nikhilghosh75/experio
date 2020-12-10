@@ -80,6 +80,7 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	AddDefaultModules();
 
 	ProjectSettings::Initialize();
+	CreateMenu::Initialize();
 }
 
 void EditorApplication::LoadScenes()
@@ -111,7 +112,6 @@ void EditorApplication::Run()
 		// bool temp = true;
 		// ImGui::ShowDemoWindow(&temp);
 		EndFrame();
-
 	}
 
 	EditorWindow::CloseWindow();
