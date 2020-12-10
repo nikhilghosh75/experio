@@ -11,7 +11,7 @@ class CodeOStream
 public:
 	CodeOStream() {};
 
-	virtual ~CodeOStream() = 0;
+	virtual ~CodeOStream() {};
 
 	virtual void Open(const std::string& filepath) = 0;
 
