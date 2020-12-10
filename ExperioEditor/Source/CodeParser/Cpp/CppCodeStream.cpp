@@ -1,4 +1,5 @@
 #include "CppCodeStream.h"
+#include "LCpp.h"
 #include "Runtime/Files/LFileOperations.h"
 
 CppCodeOStream::CppCodeOStream()
@@ -9,6 +10,12 @@ CppCodeOStream::CppCodeOStream()
 CppCodeOStream::CppCodeOStream(const std::string & filepath)
 {
 	outFile.open(filepath);
+	fileType = GetFileTypeFromString(filepath);
+
+	if (fileType == ECppFileType::H)
+	{
+		outFile << "#pragma once" << std::endl;
+	}
 }
 
 CppCodeOStream::~CppCodeOStream()
@@ -19,6 +26,12 @@ CppCodeOStream::~CppCodeOStream()
 void CppCodeOStream::Open(const std::string & filepath)
 {
 	outFile.open(filepath);
+	fileType = GetFileTypeFromString(filepath);
+
+	if (fileType == ECppFileType::H)
+	{
+		outFile << "#pragma once" << std::endl;
+	}
 }
 
 bool CppCodeOStream::IsOpen() const
@@ -62,7 +75,11 @@ CodeOStream & CppCodeOStream::operator<<(const CodeClass & codeClass)
 
 CodeOStream & CppCodeOStream::operator<<(const CodeEnum & codeEnum)
 {
-	Debug::LogError("This function is not implemented yet");
+	outFile << "enum class " << codeEnum.name << " : " << 
+		LCodeParser::EnumDataTypeToString(codeEnum.dataType, ECodingLanguage::CPlusPlus) << std::endl;
+	outFile << "{" << std::endl;
+
+	outFile << "}" << std::endl;
 	return *this;
 }
 
@@ -72,7 +89,7 @@ CodeOStream & CppCodeOStream::operator<<(const CodeFunction & codeFunction)
 	return *this;
 }
 
-ECppFileType CppCodeOStream::GetFileTypeFromString(const std::string & str)
+ECppFileType CppCodeOStream::GetFileTypeFromString(const std::string& str)
 {
 	if (LFileOperations::DoesFileHaveExtension(str, "h")) return ECppFileType::H;
 	if (LFileOperations::DoesFileHaveExtension(str, "hpp")) return ECppFileType::H;
@@ -137,6 +154,8 @@ void CppCodeOStream::StreamClassToH(const CodeClass & codeClass)
 			currentAccessType = function.accessType;
 		}
 
+		if (function.keywords == ECodeFunctionKeyword::Virtual) { outFile << "virtual "; }
+
 		outFile << function.returnType << " " << function.functionName << "(";
 		for (int j = 0; j < function.arguments.size(); j++)
 		{
@@ -145,7 +164,11 @@ void CppCodeOStream::StreamClassToH(const CodeClass & codeClass)
 			outFile << function.arguments[j].type << " " << function.arguments[j].name;
 			if (j < function.arguments.size() - 1) { outFile << ","; }
 		}
-		outFile << ");" << std::endl;
+		outFile << ")";
+
+		if (function.keywords == ECodeFunctionKeyword::Virtual) { outFile << " override"; }
+		
+		outFile << ";" << std::endl;
 	}
 
 	outFile << std::endl << "}" << std::endl;
