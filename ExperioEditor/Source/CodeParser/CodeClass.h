@@ -11,4 +11,11 @@ public:
 	std::string name;
 	std::string filename;
 	std::vector<std::string> inheritance;
+
+	CodeClass() = default;
+
+	CodeClass(const std::string& name)
+	{
+		this->name = name;
+	}
 };

@@ -13,6 +13,8 @@ enum class ECodeFunctionKeyword : uint8_t
 	StaticConst = 5,
 	StaticConstexpr = 6,
 	StaticConstexprConst = 7,
+	Virtual = 8,
+	VirtualConst = 9
 };
 
 class CodeFunction
@@ -23,4 +25,14 @@ public:
 	std::vector<CodeArg> arguments;
 	ECodeAccessType accessType;
 	ECodeFunctionKeyword keywords;
+
+	CodeFunction() = default;
+
+	CodeFunction(const std::string& returnType, const std::string& functionName)
+	{
+		this->returnType = returnType;
+		this->functionName = functionName;
+		this->accessType = ECodeAccessType::Unknown;
+		this->keywords = ECodeFunctionKeyword::None;
+	}
 };
