@@ -3,3 +3,4 @@
 #endif
 
 #include "DemoProject.cpp"
+#include "DemoProjectTag.cpp"
