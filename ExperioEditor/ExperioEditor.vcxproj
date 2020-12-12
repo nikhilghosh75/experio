@@ -91,6 +91,7 @@
     <ClCompile Include="Source\AssetViewers\TagEditor.cpp" />
     <ClCompile Include="Source\BuildSystem\AssetMapSaver.cpp" />
     <ClCompile Include="Source\BuildSystem\BinarySaveParams.cpp" />
+    <ClCompile Include="Source\BuildSystem\CodeGenerator.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProject.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectGenerator.cpp" />
     <ClCompile Include="Source\CodeParser\Cpp\CppCodeStream.cpp" />
@@ -112,7 +113,9 @@
     <ClCompile Include="Source\Files\SceneConverter.cpp" />
     <ClCompile Include="Source\FileView\FileView.cpp" />
     <ClCompile Include="Source\Framework\CreateMenu.cpp" />
+    <ClCompile Include="Source\Framework\CreateSystem.cpp" />
     <ClCompile Include="Source\Framework\EditorProject.cpp" />
+    <ClCompile Include="Source\Framework\ImportSystem.cpp" />
     <ClCompile Include="Source\Framework\NotificationSystem.cpp" />
     <ClCompile Include="Source\Framework\PlaySystem.cpp" />
     <ClCompile Include="Source\Framework\SaveParams.cpp" />
@@ -141,6 +144,7 @@
     <ClInclude Include="Source\AssetViewers\TagEditor.h" />
     <ClInclude Include="Source\BuildSystem\AssetMapSaver.h" />
     <ClInclude Include="Source\BuildSystem\BinarySaveParams.h" />
+    <ClInclude Include="Source\BuildSystem\CodeGenerator.h" />
     <ClInclude Include="Source\CodeParser\CodeArg.h" />
     <ClInclude Include="Source\CodeParser\CodeClass.h" />
     <ClInclude Include="Source\CodeParser\CodeEnum.h" />
@@ -173,7 +177,9 @@
     <ClInclude Include="Source\FileView\FileView.h" />
     <ClInclude Include="Source\Framework\CompilationInfo.h" />
     <ClInclude Include="Source\Framework\CreateMenu.h" />
+    <ClInclude Include="Source\Framework\CreateSystem.h" />
     <ClInclude Include="Source\Framework\EditorProject.h" />
+    <ClInclude Include="Source\Framework\ImportSystem.h" />
     <ClInclude Include="Source\Framework\NotificationSystem.h" />
     <ClInclude Include="Source\Framework\PlaySystem.h" />
     <ClInclude Include="Source\Framework\SaveParams.h" />

@@ -10,6 +10,7 @@
 #include "imgui_internal.h"
 #include "EditorApplication.h"
 #include "UpperMenu.h"
+#include "../Framework/ImportSystem.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Rendering/OpenGL/LOpenGL.h"
 
@@ -83,6 +84,8 @@ void EditorWindow::InitializeWindow()
 
 	SetSwapInterval(1);
 	glewInit();
+
+	DragAcceptFiles(EditorWindow::hwnd, TRUE);
 
 	// IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -230,6 +233,7 @@ void EditorWindow::Dockspace()
 
 #ifdef PLATFORM_WINDOWS
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT WINAPI WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	Debug::Log(std::to_string(msg), EDebugMessageType::WindowMessage);
@@ -244,6 +248,21 @@ LRESULT WINAPI WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		EditorWindow::isActive = false;
 		PostQuitMessage(0);
+		return 0;
+	case WM_DROPFILES:
+	{
+		HDROP hdrop = (HDROP)wParam;
+		TCHAR nextFile[256];
+		UINT numFiles = DragQueryFile(hdrop, -1, NULL, 0);
+		for (UINT i = 0; i < numFiles; i++)
+		{
+			if (DragQueryFile(hdrop, i, nextFile, 256))
+			{
+				ImportSystem::Import(std::string(nextFile), EditorApplication::assetsFilePath);
+			}
+		}
+		DragFinish(hdrop);
+	}
 		return 0;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);

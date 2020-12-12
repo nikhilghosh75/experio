@@ -12,6 +12,7 @@
 #include "../Core/FileDialog.h"
 #include "../Framework/CreateMenu.h"
 #include "../Framework/CreateSystem.h"
+#include "../Framework/ImportSystem.h"
 namespace fs = std::filesystem;
 
 FileView* FileView::fileView = nullptr;
@@ -78,15 +79,7 @@ void FileView::DisplayImportMenu()
 		return;
 	}
 
-	EAssetType type = LFileOperations::GetFileType(dialog.filename);
-	if (type == EAssetType::Meta || type == EAssetType::NonEngineCode)
-	{
-		return;
-	}
-
-	std::string stripFilename = LFileOperations::StripFilename(dialog.filename);
-	std::string temp = this->selectedFilepath + "/" + stripFilename;
-	fs::copy(dialog.filename, this->selectedFilepath + "/" + stripFilename);
+	ImportSystem::Import(dialog.filename, this->selectedFilepath);
 }
 
 void FileView::DisplayContextMenu()
