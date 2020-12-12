@@ -18,6 +18,8 @@ public:
 
 	static std::vector<size_t> FindAllOfChar(const std::string& str, char c);
 
+	static size_t FindFirstOfChar(const std::string& str, char c);
+
 	static size_t FindFirstOfChars(const std::string& str, std::vector<char> chars);
 	static size_t FindFirstOfChars(const std::string& str, std::vector<char> chars, size_t firstIndex);
 

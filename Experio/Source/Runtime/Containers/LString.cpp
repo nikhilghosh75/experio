@@ -249,6 +249,15 @@ std::vector<size_t> LString::FindAllOfChar(const std::string & str, char c)
 	return v;
 }
 
+size_t LString::FindFirstOfChar(const std::string & str, char c)
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (str[i] == c) return i;
+	}
+	return str.size();
+}
+
 size_t LString::FindFirstOfChars(const std::string & str, std::vector<char> chars)
 {
 	for (size_t i = 0; i < str.size(); i++)
