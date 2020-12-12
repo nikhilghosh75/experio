@@ -38,5 +38,14 @@ UNIT_TEST(TestTypedTreeGeneral, "TypedTree")
 	insect->AddChild("Dragonflies");
 	insect->AddChild("Crickets");
 
+	ASSERT_EQUAL(typedTree.GetCount(), 24, "");
+	ASSERT_EQUAL(mammal->object, "Mammal", "");
+
+	TTypedTreeIterator<std::string> it(&typedTree);
+	ASSERT_EQUAL(it.current->object, "Animal", "");
+	it.Increment();
+	ASSERT_EQUAL(it.current->object, "Mammal", "");
+	it.Increment();
+
 	TEST_END();
 }

@@ -170,6 +170,23 @@ UNIT_TEST(TestVector3Bound, "Vector3")
 	TEST_END();
 }
 
+UNIT_TEST(TestVector3Abs, "Vector3")
+{
+	FVector3 v(-3, -4, 5);
+
+	FVector3 abs = FVector3::Abs(v);
+	ASSERT_ALMOST_EQUAL(abs.x, 3);
+	ASSERT_ALMOST_EQUAL(abs.y, 4);
+	ASSERT_ALMOST_EQUAL(abs.z, 5);
+
+	FVector3 sign = FVector3::GetSignVector(v);
+	ASSERT_ALMOST_EQUAL(sign.x, -1);
+	ASSERT_ALMOST_EQUAL(sign.y, -1);
+	ASSERT_ALMOST_EQUAL(sign.z, 1);
+
+	TEST_END();
+}
+
 FUnitTestingOutcome RunVector3Tests()
 {
 	return suite.RunTests();

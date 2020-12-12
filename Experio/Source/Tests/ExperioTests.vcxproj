@@ -118,6 +118,7 @@
   <ItemGroup>
     <ClCompile Include="Containers\TestArray.cpp" />
     <ClCompile Include="Containers\TestHashtable.cpp" />
+    <ClCompile Include="Containers\TestString.cpp" />
     <ClCompile Include="Containers\TestTypedTree.cpp" />
     <ClCompile Include="ExperioTests.cpp" />
     <ClCompile Include="Math\LMathTest.cpp" />

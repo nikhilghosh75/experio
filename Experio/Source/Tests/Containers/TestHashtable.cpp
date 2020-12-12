@@ -61,5 +61,19 @@ UNIT_TEST(TestHashtableLarge, "Hashtable")
 	populations.Insert("Detroit", 670);
 	populations.Insert("Oklahoma City", 655);
 
+	ASSERT_EQUAL(populations.GetSize(), 19, "");
+
+	int temp;
+	ASSERT_EQUAL(populations.Get("Detroit"), 670, "");
+	ASSERT_TRUE(populations.SafeGet("Charlotte", temp), "");
+	ASSERT_EQUAL(temp, 886, "");
+	ASSERT_FALSE(populations.SafeGet("Newark", temp), "");
+
+	int numOverMillion = 0;
+	populations.ForEach([&numOverMillion](const std::string& key, const int& value) {
+		if (value > 1000) { numOverMillion++; }
+	});
+	ASSERT_EQUAL(numOverMillion, 9, "");
+
 	TEST_END();
 }
