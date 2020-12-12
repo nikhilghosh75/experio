@@ -77,6 +77,9 @@ struct TTypedTreeNode
 	}
 };
 
+template <class T>
+class TTypedTreeIterator;
+
 // TTypedTree
 
 template <class T>
@@ -101,8 +104,8 @@ public:
 
 	TTypedTree(const TTypedTree<T>& other)
 	{
-		this->root = new TTypedTreeNode<T>(root, this);
-		for (int i = 0; i < other.root->children.count; i++)
+		this->root = new TTypedTreeNode<T>(other.root->object, this);
+		for (int i = 0; i < other.root->children.size(); i++)
 		{
 			CopyNodeRecursive(other.root->children[i], this->root);
 		}
@@ -369,5 +372,3 @@ TTypedTreeNode<B>* SearchCorrespondingTrees(TTypedTree<A>* treeOne, TTypedTree<B
 		}
 	}
 }
-
-void TTypedTreeTest();
