@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DemoProject.cpp" />
+    <ClCompile Include="Source\DemoProjectTag.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DemoProject.h" />

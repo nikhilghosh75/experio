@@ -6,35 +6,6 @@
 
 std::string projectName = "Test Project";
 
-#ifndef EXPERIO_EDITOR
-
-unsigned short DefaultTagStringToNum(const char* string)
-{
-	if (strcmp(string, "Player"))
-	{
-		return 1;
-	}
-	if (strcmp(string, "Enemy"))
-	{
-		return 2;
-	}
-	return 0;
-}
-
-std::string DefaultTagNumToString(unsigned short num)
-{
-	switch (num)
-	{
-	case 1:
-		return "Player";
-	case 2:
-		return "Enemy";
-	}
-	return "";
-}
-
-#endif
-
 template <class T>
 unsigned int DefaultClassTypeToInt()
 {
@@ -117,7 +88,7 @@ template<> void SetComponentBinaryParams(void* data, TextComponent* component)
 {
 	component->margins = BinaryParseFloat(data);
 	component->fontSize = BinaryParseInt((void*)((char*)data + 4));
-	component->text = BinaryParseString((void*)((char*)data + 8));
+	// component->text = BinaryParseString((void*)((char*)data + 8));
 	component->font = BinaryParseFont((void*)((char*)data + 16));
 	component->shader = BinaryParseShader((void*)((char*)data + 20));
 }
