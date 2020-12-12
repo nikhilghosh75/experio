@@ -2,12 +2,14 @@
 #include "ValueLoader.h"
 #include <fstream>
 #include "../Core/EditorApplication.h"
+#include "Runtime/Files/LFileOperations.h"
 #include "ThirdParty/toml++/toml.h"
 
 THashtable<unsigned int, std::string> EditorProject::classes;
 FVersion EditorProject::experioVersion;
 std::string EditorProject::projectName;
 std::string EditorProject::username;
+std::vector<std::string> EditorProject::gameCompileFiles;
 FEditorProjectLanguages EditorProject::languages;
 
 unsigned int DefaultClassStringToInt(std::string name)
@@ -68,6 +70,11 @@ void EditorProject::ReadValueFiles()
 {
 	ValueLoader::LoadValues(EditorApplication::configFilePath + "/layers.pbvalues");
 	ValueLoader::LoadValues(EditorApplication::configFilePath + "/tags.pbvalues");
+}
+
+void EditorProject::SetupRuntimeCompilation()
+{
+	gameCompileFiles = LFileOperations::GetAllFilepathsOfExt(EditorApplication::sourceFilePath, "cpp");
 }
 
 void EditorProject::TempSetup()

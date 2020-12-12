@@ -14,6 +14,8 @@ class EditorProject
 public:
 	static THashtable<unsigned int, std::string> classes;
 
+	static std::vector<std::string> gameCompileFiles;
+
 	static std::string projectName;
 	static std::string username;
 	static FVersion experioVersion;
@@ -25,6 +27,8 @@ public:
 	static void ReadUserFile(const std::string& userFilepath);
 
 	static void ReadValueFiles();
+
+	static void SetupRuntimeCompilation();
 
 	static void TempSetup();
 };

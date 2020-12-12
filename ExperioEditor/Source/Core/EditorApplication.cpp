@@ -74,6 +74,7 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	EditorProject::ReadProjectFile(projectFilepath);
 	EditorProject::ReadValueFiles();
 	EditorProject::ReadUserFile("../user.pbuser");
+	EditorProject::SetupRuntimeCompilation();
 
 	currentScenePath = defaultScenePath;
 
