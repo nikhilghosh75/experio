@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <filesystem>
 #include <fstream>
+#include <vector>
 #include "FFileCategory.h"
 #include "FileBuffer.h"
 #include "../Time/FDateTime.h"
@@ -46,6 +47,8 @@ public:
 
 	static FDateTime FiletimeToDateTime(std::filesystem::file_time_type time);
 
+	static std::vector<std::string> GetAllFilepathsOfExt(const std::string& root, const char* extension);
+
 	static std::string GetDirectory(const std::string& filePath);
 
 	static std::string GetExtension(const std::string& filePath);
@@ -65,9 +68,9 @@ public:
 	static FileBuffer ReadFileToBuffer(std::ifstream& stream, size_t maxLineLength);
 	static FileBuffer ReadTrimmedFileToBuffer(std::ifstream& stream);
 
-	static std::string StripFilename(std::string filename);
-	static std::string StripFilename(std::filesystem::directory_entry entry);
-	static std::string StripFilename(std::filesystem::path path);
+	static std::string StripFilename(const std::string& filename);
+	static std::string StripFilename(const std::filesystem::directory_entry& entry);
+	static std::string StripFilename(const std::filesystem::path& path);
 
-	static std::string StripFilenameAndExt(std::string filename);
+	static std::string StripFilenameAndExt(const std::string& filename);
 };

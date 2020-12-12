@@ -167,6 +167,21 @@ FDateTime LFileOperations::FiletimeToDateTime(std::filesystem::file_time_type ti
 	return FDateTime();
 }
 
+std::vector<std::string> LFileOperations::GetAllFilepathsOfExt(const std::string & root, const char * extension)
+{
+	std::vector<std::string> files;
+
+	for (auto& p : fs::recursive_directory_iterator(root))
+	{
+		if (GetExtension(p.path().string()) == extension)
+		{
+			files.push_back(p.path().string());
+		}
+	}
+
+	return files;
+}
+
 std::string LFileOperations::GetDirectory(const std::string & filePath)
 {
 	int indexOfSlash = 0;
@@ -390,7 +405,7 @@ FileBuffer LFileOperations::ReadTrimmedFileToBuffer(std::ifstream & stream)
 	return FileBuffer(output.data(), output.length());
 }
 
-std::string LFileOperations::StripFilename(std::string filename)
+std::string LFileOperations::StripFilename(const std::string& filename)
 {
 	int indexOfSlash = 0;
 
@@ -406,17 +421,17 @@ std::string LFileOperations::StripFilename(std::string filename)
 	return filename.substr(indexOfSlash + 1);
 }
 
-std::string LFileOperations::StripFilename(std::filesystem::directory_entry entry)
+std::string LFileOperations::StripFilename(const std::filesystem::directory_entry& entry)
 {
 	return entry.path().stem().string();
 }
 
-std::string LFileOperations::StripFilename(std::filesystem::path path)
+std::string LFileOperations::StripFilename(const std::filesystem::path& path)
 {
 	return path.stem().string();
 }
 
-std::string LFileOperations::StripFilenameAndExt(std::string filename)
+std::string LFileOperations::StripFilenameAndExt(const std::string& filename)
 {
 	int indexOfSlash = 0;
 	int indexOfPeriod = 0;
