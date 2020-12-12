@@ -11,6 +11,8 @@ class FileView : public EditorModule
 	std::string selectedItem = "Assets";
 	std::string selectedFilepath = "";
 
+	TTypedTree<std::string>* directories;
+
 	// Change Later
 	bool filesSelected[18];
 
@@ -29,9 +31,13 @@ public:
 
 	FileView();
 
+	~FileView();
+
 	virtual void Display() override;
 
 	virtual void HandleInput() override;
+
+	void Reload();
 
 	std::string GetSelectedItem() const { return this->selectedItem; }
 	std::string GetSelectedFilepath() const { return this->selectedFilepath; }

@@ -26,12 +26,21 @@ FileView::FileView()
 
 	this->assetFilePath = EditorApplication::assetsFilePath;
 
-	for (int i = 0; i < 17; i++)
+	this->directories = LFileOperations::CreateFileNamesTree(this->assetFilePath, EFileTreeOptions::DisplayDirectories);
+
+	for (int i = 0; i < 18; i++)
 	{
 		this->filesSelected[i] = true;
 	}
 
 	fileView = this;
+}
+
+FileView::~FileView()
+{
+	delete directories;
+
+	fileView = nullptr;
 }
 
 void FileView::DisplayCreateMenu()
@@ -103,7 +112,6 @@ void FileView::DisplayTree()
 {
 	ImGui::BeginChild("Directories", ImVec2(200, 0), true);
 
-	TTypedTree<std::string>* directories = LFileOperations::CreateFileNamesTree(this->assetFilePath, EFileTreeOptions::DisplayDirectories);
 	LImGui::DisplayTree(directories, "Assets", this->selectedItem);
 
 	std::string tempSelectedItem = selectedItem;
@@ -119,8 +127,6 @@ void FileView::DisplayTree()
 	}
 
 	ImGui::EndChild();
-
-	delete directories;
 }
 
 void FileView::DisplayContents()
@@ -243,6 +249,13 @@ void FileView::HandleInput()
 	{
 		ImGui::OpenPopup("##Menu");
 	}
+}
+
+void FileView::Reload()
+{
+	delete directories;
+
+	this->directories = LFileOperations::CreateFileNamesTree(this->assetFilePath, EFileTreeOptions::DisplayDirectories);
 }
 
 std::string FileView::GetDragDropTypeFromAssetType(EAssetType type)
