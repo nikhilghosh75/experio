@@ -11,5 +11,7 @@ namespace ColorPalette
 	FColor Midnight(43, 27, 23);
 	FColor Charcoal(52, 40, 44);
 	FColor DarkSlateGrey(37, 56, 60);
+	FColor Oil(59, 49, 49);
+	FColor BlackCat(65, 56, 57);
 	FColor Red(1.f, 0.f, 0.f);
 }

@@ -71,6 +71,15 @@ FVector3 FQuaternion::ToEuler()
 	return ToEuler(*this);
 }
 
+std::string FQuaternion::ToString(const FQuaternion & Q)
+{
+	std::string wString = std::to_string(Q.w);
+	std::string xString = std::to_string(Q.x);
+	std::string yString = std::to_string(Q.y);
+	std::string zString = std::to_string(Q.z);
+	return "[" + wString + ", " + xString + ", " + yString + ", " + zString + "]";
+}
+
 glm::quat FQuaternion::ToGLMQuat(const FQuaternion & Q)
 {
 	glm::quat tempQuat = *(glm::quat*)&Q;

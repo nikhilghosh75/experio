@@ -26,4 +26,6 @@ public:
 	void Translate(FVector3 translationAmount);
 	void Rotate(FQuaternion rotation);
 	void Scale(float scale);
+
+	bool operator==(const FTransform& T) const;
 };

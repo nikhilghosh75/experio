@@ -1,4 +1,5 @@
 #include "FTransform.h"
+#include "LMath.h"
 
 FTransform::FTransform()
 {
@@ -56,4 +57,13 @@ void FTransform::Rotate(FQuaternion rotation)
 void FTransform::Scale(float scale)
 {
 	this->scale *= scale;
+}
+
+bool FTransform::operator==(const FTransform & T) const
+{
+	return LMath::ApproxEquals(this->position.x, T.position.x) && LMath::ApproxEquals(this->position.y, T.position.y)
+		&& LMath::ApproxEquals(this->position.z, T.position.z) && LMath::ApproxEquals(this->rotation.w, T.rotation.w)
+		&& LMath::ApproxEquals(this->rotation.x, T.rotation.x) && LMath::ApproxEquals(this->rotation.y, T.rotation.y)
+		&& LMath::ApproxEquals(this->rotation.z, T.rotation.z) && LMath::ApproxEquals(this->scale.x, T.scale.x)
+		&& LMath::ApproxEquals(this->scale.y, T.scale.y) && LMath::ApproxEquals(this->scale.z, T.scale.z);
 }
