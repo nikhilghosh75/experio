@@ -76,6 +76,17 @@ UNIT_TEST(TestMathClamp, "LMath")
 	TEST_END();
 }
 
+UNIT_TEST(TestMathConversion, "LMath")
+{
+	ASSERT_ALMOST_EQUAL(LMath::DegreesToRadians(0), 0);
+	ASSERT_ALMOST_EQUAL(LMath::RadiansToDegrees(0), 0);
+
+	ASSERT_ALMOST_EQUAL(LMath::DegreesToRadians(90), HALFPI);
+	ASSERT_ALMOST_EQUAL(LMath::RadiansToDegrees(HALFPI), 90);
+
+	TEST_END();
+}
+
 FUnitTestingOutcome RunLMathTests()
 {
 	return suite.RunTests();
