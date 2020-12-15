@@ -23,6 +23,14 @@ void CodeGenerator::GenerateTagFile()
 	
 	outFile << "std::string DefaultTagNumToString(unsigned short num)" << Debug::endl;
 	outFile << "{" << Debug::endl;
+	outFile << "	switch(num)" << Debug::endl;
+	outFile << "	{" << Debug::endl;
+
+	ExperioEditor::GetTags().ForEach([&outFile](const uint16_t& key, const std::string& value) {
+		outFile << "case " << key << ": " << "return \"" << value << "\";" << Debug::endl;
+	});
+
+	outFile << "	}" << Debug::endl;
 	outFile << "	return \"Tag\";" << Debug::endl;
 	outFile << "}" << Debug::endl;
 
