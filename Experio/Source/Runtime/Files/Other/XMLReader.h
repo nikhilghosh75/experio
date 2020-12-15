@@ -27,12 +27,13 @@ struct XMLNode
 };
 
 using XMLTree = TTypedTree<XMLNode>;
+using XMLTreeNode = TTypedTreeNode<XMLNode>;
 
 class XMLReader
 {
 	THashtable<std::string, std::function<void(const XMLNode&)>, StringHashFunction> callbacks;
 public:
-	void AddCallback(std::string nodeType, std::function<void(const XMLNode)> callback);
+	void AddCallback(std::string nodeType, std::function<void(const XMLNode&)> callback);
 
 	void ClearCallbacks();
 

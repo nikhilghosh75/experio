@@ -3,7 +3,7 @@
 #include "../LFileOperations.h"
 #include "../../Containers/LString.h"
 
-void XMLReader::AddCallback(std::string nodeType, std::function<void(const XMLNode)> callback)
+void XMLReader::AddCallback(std::string nodeType, std::function<void(const XMLNode&)> callback)
 {
 	callbacks.Insert(nodeType, callback);
 }
