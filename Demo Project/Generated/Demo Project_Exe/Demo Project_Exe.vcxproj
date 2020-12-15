@@ -122,6 +122,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui;$(SolutionDir)Dependencies\glm</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
