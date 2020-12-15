@@ -6,8 +6,9 @@ struct FParticleData
 {
 	FVector3 position;
 	FVector3 speed;
+	FVector3 scale;
 	FColor color;
-	float life;
+	float life; // 0 to max life
 
 	FParticleData()
 	{
