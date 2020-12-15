@@ -103,7 +103,7 @@ ECharacterSet FNTReader::ParseCharacterSet(const std::string& s)
 	std::string charSet = StripAfterEqualSign(s);
 	if (charSet.length() == 2)
 	{
-		return ECharacterSet::UNICODE;
+		return ECharacterSet::ANSI;
 	}
 	return ECharacterSet();
 }

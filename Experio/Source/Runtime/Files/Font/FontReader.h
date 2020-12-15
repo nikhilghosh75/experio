@@ -9,8 +9,8 @@ enum class ECharacterSet : uint8_t
 {
 	ANSI = 0x00,
 	DEFAULT = 0x01,
-	SYMBOL = 0x02,
-	UNICODE = 0x03,
+	SYMBOLSET = 0x02,
+	// UNICODE = 0x03,
 	MAC = 0x4D,
 	SHIFTJIS = 0x80,
 	HANGUL = 0x81,

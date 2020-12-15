@@ -20,10 +20,10 @@ std::string LFontOperations::CharsetToString(ECharacterSet charSet)
 	case ECharacterSet::OEMCHARSET: return "WINDOWS";
 	case ECharacterSet::RUSSIAN: return "RUSSIAN";
 	case ECharacterSet::SHIFTJIS: return "JAPANESE";
-	case ECharacterSet::SYMBOL: return "SYMBOL";
+	case ECharacterSet::SYMBOLSET: return "SYMBOL";
 	case ECharacterSet::THAI: return "THAI";
 	case ECharacterSet::TURKISH: return "TURKISH";
-	case ECharacterSet::UNICODE: return "UNICODE";
+	// case ECharacterSet::UNICODE: return "UNICODE";
 	case ECharacterSet::VIETNAMESE: return "VIETNAMESE";
 	}
 	return "";
