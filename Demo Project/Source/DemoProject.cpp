@@ -178,6 +178,16 @@ extern "C" __declspec(dllexport) void Update()
 	renderer.LogRenderingError();
 }
 
+extern "C" __declspec(dllexport) ComponentManager* CreateComponentManager()
+{
+	return new DemoProjectComponentManager();
+}
+
+extern "C" __declspec(dllexport) MaterialManager* CreateMaterialManager()
+{
+	return new DemoProjectMaterialManager();
+}
+
 extern "C" __declspec(dllexport) bool LoadScene(std::string filename, int sceneSlot)
 {
 	bool returnValue = SceneLoader::LoadSceneFromFile(filename, sceneSlot, ESceneProjectCompareType::None);
