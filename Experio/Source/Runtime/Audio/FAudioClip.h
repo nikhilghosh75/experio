@@ -4,8 +4,8 @@
 struct FAudioClip
 {
 	// To-Do: Add Implementation
-	int sampleRate;
-	int frequency;
+	uint32_t sampleRate;
+	uint32_t numSamples;
 	float* data;
 
 	FDuration GetDuration() const;

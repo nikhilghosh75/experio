@@ -5,6 +5,7 @@
 enum class EAudioSystemInitStatus : uint8_t
 {
 	InitFailed,
+	IrrKlangNotFound,
 	NoSpeakers,
 	Successful
 };
