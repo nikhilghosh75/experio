@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Runtime\Audio\FAudioClip.h" />
     <ClInclude Include="Source\Runtime\Audio\AudioSystem.h" />
+    <ClInclude Include="Source\Runtime\Audio\Soundbank.h" />
     <ClInclude Include="Source\Runtime\Camera\AdditionalCameras.h" />
     <ClInclude Include="Source\Runtime\Camera\CameraSystem.h" />
     <ClInclude Include="Source\Runtime\Camera\VirtualCamera.h" />
@@ -20,6 +21,7 @@
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
     <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
+    <ClInclude Include="Source\Runtime\Framework\System.h" />
     <ClInclude Include="Source\Runtime\Math\ColorPalette.h" />
     <ClInclude Include="Source\Runtime\Math\Range.h" />
     <ClInclude Include="Source\Runtime\Containers\TBiMap.h" />
@@ -95,6 +97,8 @@
     <ClInclude Include="Source\Runtime\Rendering\Managers\MeshManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Managers\TextureManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Particles\Particle.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleModifier.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleReader.h" />
     <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleSystem.h" />
     <ClInclude Include="Source\Runtime\Rendering\Components\Billboard.h" />
     <ClInclude Include="Source\Runtime\Rendering\FrameBuffer.h">
@@ -193,6 +197,7 @@
     <ClCompile Include="Source\Runtime\Files\LFileOperations.cpp" />
     <ClCompile Include="Source\Runtime\Files\Mesh\BinMeshReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Mesh\MeshReader.cpp" />
+    <ClCompile Include="Source\Runtime\Files\Other\XMLReader.cpp" />
     <ClCompile Include="Source\Runtime\Framework\AssetMap.cpp" />
     <ClCompile Include="Source\Runtime\Framework\BinaryParams.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Params.cpp" />
@@ -226,6 +231,7 @@
     <ClCompile Include="Source\Runtime\Rendering\Managers\FontManager.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Managers\MeshManager.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Managers\TextureManager.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleReader.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleSystem.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Components\Billboard.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\FrameBuffer.cpp" />
@@ -335,10 +341,13 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
       <EnableModules>false</EnableModules>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

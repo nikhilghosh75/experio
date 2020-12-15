@@ -120,6 +120,7 @@
     <ClCompile Include="Containers\TestHashtable.cpp" />
     <ClCompile Include="Containers\TestString.cpp" />
     <ClCompile Include="Containers\TestTypedTree.cpp" />
+    <ClCompile Include="Core\TestDebug.cpp" />
     <ClCompile Include="ExperioTests.cpp" />
     <ClCompile Include="Math\LMathTest.cpp" />
     <ClCompile Include="Math\Vector3Test.cpp" />
