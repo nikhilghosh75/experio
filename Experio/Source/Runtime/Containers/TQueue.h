@@ -76,6 +76,14 @@ public:
 		this->count = objects->size();
 	}
 
+	TQueue(std::initializer_list<T> list)
+	{
+		for (auto elem : list)
+		{
+			Push(*elem);
+		}
+	}
+
 	~TQueue()
 	{
 		TQueueNode<T>* current = head;
