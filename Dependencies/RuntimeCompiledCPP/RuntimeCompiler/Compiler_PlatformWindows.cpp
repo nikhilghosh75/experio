@@ -256,7 +256,11 @@ void Compiler::RunCompile(	const std::vector<FileSystemUtils::Path>&	filesToComp
 	}
 	
 
-
+	std::string strPreprocessors;
+	for (size_t i = 0; i < compilerOptions_.preproccessorMacros.size(); i++)
+	{
+		strPreprocessors += "/D \"" + compilerOptions_.preproccessorMacros[i] + "\" ";
+	}
 
 char* pCharTypeFlags = "";
 #ifdef UNICODE
@@ -267,7 +271,7 @@ char* pCharTypeFlags = "";
 	std::string cmdToSend = "cl " + flags + pCharTypeFlags
 		+ " /MP /Fo\"" + compilerOptions_.intermediatePath.m_string + "\\\\\" "
 		+ "/D WIN32 /EHa /Fe" + moduleName_.m_string;
-	cmdToSend += " " + strIncludeFiles + " " + strFilesToCompile + strLinkLibraries + linkOptions
+	cmdToSend += " " + strPreprocessors + strIncludeFiles + " " + strFilesToCompile + strLinkLibraries + linkOptions
 		+ "\necho ";
 	if( m_pImplData->m_pLogger ) m_pImplData->m_pLogger->LogInfo( "%s", cmdToSend.c_str() ); // use %s to prevent any tokens in compile string being interpreted as formating
 	cmdToSend += c_CompletionToken + "\n";

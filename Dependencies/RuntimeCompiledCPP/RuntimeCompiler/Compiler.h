@@ -32,6 +32,7 @@ struct CompilerOptions
 	std::vector<FileSystemUtils::Path>	libraryDirList;
 	std::string							compileOptions;
 	std::string							linkOptions;
+	std::vector<std::string>			preproccessorMacros;
   	RCppOptimizationLevel				optimizationLevel;
 	FileSystemUtils::Path				baseIntermediatePath;
 	FileSystemUtils::Path				intermediatePath;
