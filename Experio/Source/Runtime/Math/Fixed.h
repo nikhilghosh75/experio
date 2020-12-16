@@ -118,6 +118,36 @@ public:
 		return FixedBase(+this->integer, this->fraction);
 	}
 
+	FixedBase<I, F> operator+(const FixedBase<I, F>& other)
+	{
+		int overflow = 0;
+		if (this->fraction > IntOfSize<F>::MaxUnsigned - other.fraction)
+		{
+			overflow = 1;
+		}
+		return FixedBase(this->integer + other.integer + overflow, this->fraction + other.fraction);
+	}
+
+	FixedBase<I, F> operator-(const FixedBase<I, F>& other)
+	{
+		int underflow = 0;
+		if (this->fraction < other.fraction)
+		{
+			underflow = 1;
+		}
+		return FixedBase(this->integer - other.integer - underflow, this->fraction - other.fraction);
+	}
+
+	FixedBase<I, F> operator*(const FixedBase<I, F>& other)
+	{
+		
+	}
+
+	FixedBase<I, F> operator/(const FixedBase<I, F>& other)
+	{
+
+	}
+
 	bool operator==(const FixedBase<I, F>& other) const
 	{
 		return this->integer == other.integer && this->fraction == other.fraction;
