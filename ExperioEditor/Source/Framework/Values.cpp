@@ -183,17 +183,20 @@ THashtable<uint16_t, std::string>& GetLayers()
 
 void SetValueName(uint16_t index, std::string& newName, EValueType type)
 {
+	std::string temp = "TEST";
+	std::string& str = temp;
+
 	switch (type)
 	{
 	case EValueType::Layer:
 	{
-		std::string& str = layers.Get(index);
+		str = layers.Get(index);
 		str.assign(newName.c_str());
 	}
 		break;
 	case EValueType::Tag:
 	{
-		std::string& str = tags.Get(index);
+		str = tags.Get(index);
 		str.assign(newName.c_str());
 	}
 		break;
