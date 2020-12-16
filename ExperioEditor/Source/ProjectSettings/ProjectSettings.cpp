@@ -28,7 +28,10 @@ void ProjectSettings::AddSettingsModule(ProjectSettingModule * settings)
 	}
 	settingModules.push_back(settings);
 
-	SettingsView::instance->GenerateSettingMenuTree();
+	if (SettingsView::instance != nullptr)
+	{
+		SettingsView::instance->GenerateSettingMenuTree();
+	}
 }
 
 void ProjectSettings::SaveAll()
