@@ -22,4 +22,18 @@ public:
 	std::string name;
 	THashtable<int, std::string> values;
 	EEnumDataType dataType;
+
+	CodeEnum() = default;
+	
+	CodeEnum(const std::string& name)
+	{
+		this->name = name;
+		this->dataType = EEnumDataType::INT;
+	}
+
+	CodeEnum(const std::string& name, EEnumDataType dataType)
+	{
+		this->name = name;
+		this->dataType = dataType;
+	}
 };

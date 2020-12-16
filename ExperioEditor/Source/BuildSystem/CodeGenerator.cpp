@@ -2,6 +2,13 @@
 #include "../CodeParser/Cpp/CppCodeStream.h"
 #include "../Framework/Values.h"
 
+void CodeGenerator::GenerateComponentManager()
+{
+	CppCodeOStream outFile("DemoProjectComponentManager.h");
+
+
+}
+
 void CodeGenerator::GenerateTagFile()
 {
 	CppCodeOStream outFile("DemoProjectTag.cpp");

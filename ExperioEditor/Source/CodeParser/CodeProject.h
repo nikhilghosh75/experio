@@ -40,4 +40,18 @@ public:
 	CodeProject(std::string filepath, FCodeProjectOptions& options = FCodeProjectOptions::defaultOptions);
 
 	void Generate();
+
+	void PushClass(const CodeClass& codeClass);
+	void PushEnum(const CodeEnum& codeEnum);
+	void PushFunction(const CodeFunction& function);
+
+	CodeClass& EmplaceClass();
+	CodeClass& EmplaceClass(const std::string& name);
+
+	CodeEnum& EmplaceEnum();
+	CodeEnum& EmplaceEnum(const std::string& name);
+	CodeEnum& EmplaceEnum(const std::string& name, EEnumDataType dataType);
+
+	CodeFunction& EmplaceFunction();
+	CodeFunction& EmplaceFunction(const std::string& returnType, const std::string& functionName);
 };

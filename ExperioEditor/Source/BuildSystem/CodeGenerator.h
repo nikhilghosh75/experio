@@ -5,7 +5,8 @@ class CodeGenerator
 public:
 	static void GenerateAllFiles();
 
-private:
+// private:
+public:
 	static void GenerateComponentManager();
 
 	static void GenerateProjectFile();
