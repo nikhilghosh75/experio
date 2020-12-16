@@ -3,17 +3,20 @@
 MeshMaterial::MeshMaterial()
 {
 	this->shader = nullptr;
+	this->useLightingData = true;
 }
 
 MeshMaterial::MeshMaterial(Shader * shader)
 {
 	this->shader = shader;
+	this->useLightingData = true;
 }
 
 MeshMaterial::MeshMaterial(Shader * shader, uint32_t id)
 {
 	this->shader = shader;
 	this->id = id;
+	this->useLightingData = true;
 }
 
 void MeshMaterial::SetMVP(const glm::mat4 M, const glm::mat4 V, const glm::mat4 P)
