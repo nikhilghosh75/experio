@@ -1,4 +1,5 @@
 #include "FontReader.h"
+#include "BinFontReader.h"
 #include "FNTReader.h"
 #include "../LFileOperations.h"
 #include "../../Framework/AssetMap.h"
@@ -11,6 +12,11 @@ FontData * FontReader::ReadFile(const char * fileName)
 	if (extension == "fnt")
 	{
 		FNTReader reader;
+		return reader.ReadFile(fileName);
+	}
+	else if (extension == "pbbfont")
+	{
+		BinFontReader reader;
 		return reader.ReadFile(fileName);
 	}
 

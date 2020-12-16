@@ -1,4 +1,5 @@
 #include "MeshReader.h"
+#include "BinMeshReader.h"
 #include "OBJReader.h"
 #include "../LFileOperations.h"
 #include "../../Debug/Debug.h"
@@ -11,6 +12,11 @@ MeshData * MeshReader::ReadFile(const char * fileName)
 	if (extension == "obj")
 	{
 		OBJReader reader;
+		return reader.ReadFile(fileName);
+	}
+	else if (extension == "pbbmesh")
+	{
+		BinMeshReader reader;
 		return reader.ReadFile(fileName);
 	}
 

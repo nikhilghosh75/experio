@@ -52,5 +52,7 @@ private:
 
 	XMLModifier ParseModifier(const FileBuffer& buffer, int start, int end);
 
-	bool Within(const FVector2Int& v1, const FVector2Int& v2) const; // Is V1 within V2
+	// Is V1 within V2
+	// Note that this function did not make sense to put in the FVector2Int class, as they may not always represent a range
+	bool Within(const FVector2Int& v1, const FVector2Int& v2) const;
 };
