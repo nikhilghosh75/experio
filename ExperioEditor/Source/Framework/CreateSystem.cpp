@@ -1,5 +1,6 @@
 #include "CreateSystem.h"
 #include "EditorProject.h"
+#include "Runtime/Files/LFileOperations.h"
 #include "../CodeParser/Cpp/CppCodeStream.h"
 #include <fstream>
 
@@ -15,6 +16,11 @@ void CreateSystem::CreateCppClass(const std::string & filepath, ECodeClassBase c
 		CreateLibraryClass(filepath, className, ECodingLanguage::CPlusPlus); break;
 	case ECodeClassBase::System:
 		CreateSystemClass(filepath, className, ECodingLanguage::CPlusPlus); break;
+	}
+
+	if (LFileOperations::DoesFileHaveExtension(filepath, "cpp"))
+	{
+		EditorProject::gameCompileFiles.push_back(filepath);
 	}
 }
 
