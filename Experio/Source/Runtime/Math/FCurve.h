@@ -10,6 +10,13 @@ enum class EEasingFuncType : uint8_t
 	Step
 };
 
+enum class ERiemannSumType
+{
+	Left,
+	Right,
+	Midpoint
+};
+
 struct FCurve
 {
 	unsigned int curvePointCount;
@@ -20,6 +27,8 @@ struct FCurve
 	FCurve(FVector2* points, EEasingFuncType* easingTypes, unsigned int curvePointCount);
 
 	float GetY(float x);
+
+	float RiemannSum(float start, float end, float delta);
 
 private:
 	// b - start value

@@ -41,6 +41,16 @@ float FCurve::GetY(float x)
 	);
 }
 
+float FCurve::RiemannSum(float start, float end, float delta)
+{
+	float sum = 0;
+	for (float f = start; f < end; f += delta)
+	{
+		sum += GetY(f) * delta;
+	}
+	return sum;
+}
+
 float FCurve::GetEaseValue(float b, float c, float d, float t, EEasingFuncType easingType)
 {
 	switch (easingType)
