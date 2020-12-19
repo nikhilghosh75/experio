@@ -75,6 +75,11 @@ public:
 	_vectorName_[i].Start();\
 }\
 
+#define PB_GET_COMPONENT_GAMEOBJECT(_classID_) component = GetComponent(gameObject, _classID_);\
+	if(component != nullptr) returnVector.push_back(component);	
+
+#define PB_GET_COMPONENT_IDS(_classID_) if(GetComponent(gameObject, _classID_) != nullptr) returnVector.push_back(_classID_);
+
 #define PB_GET_ALL(_vectorName_) for(int i = 0; i < _vectorName_.size(); i++)\
 {\
 	vector.push_back(&_vectorName_[i]);\
