@@ -17,4 +17,6 @@ public:
 	std::vector<std::string> sounds;
 
 	void Load();
+
+	static Soundbank ReadFromFile();
 };
