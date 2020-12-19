@@ -25,6 +25,8 @@ public:
 	static float Quartile(float* data, size_t count, float elem);
 	static float Quartile(std::vector<float> data, float elem);
 
+	static void Sort(std::vector<float>& data);
+
 	static float StandardDeviation(float* data, size_t count);
 	static float StandardDeviation(std::vector<float> data);
 
