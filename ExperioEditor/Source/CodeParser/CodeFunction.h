@@ -35,4 +35,22 @@ public:
 		this->accessType = ECodeAccessType::Unknown;
 		this->keywords = ECodeFunctionKeyword::None;
 	}
+
+	static bool IsKeywordConst(ECodeFunctionKeyword keyword)
+	{
+		return keyword == ECodeFunctionKeyword::Const || keyword == ECodeFunctionKeyword::ConstexprConst
+			|| keyword == ECodeFunctionKeyword::StaticConst || keyword == ECodeFunctionKeyword::StaticConstexprConst
+			|| keyword == ECodeFunctionKeyword::VirtualConst;
+	}
+
+	static bool IsKeywordStatic(ECodeFunctionKeyword keyword)
+	{
+		return keyword == ECodeFunctionKeyword::Static || keyword == ECodeFunctionKeyword::StaticConst
+			|| keyword == ECodeFunctionKeyword::StaticConstexpr || keyword == ECodeFunctionKeyword::StaticConstexprConst;
+	}
+
+	static bool IsKeywordVirtual(ECodeFunctionKeyword keyword)
+	{
+		return keyword == ECodeFunctionKeyword::Virtual || keyword == ECodeFunctionKeyword::VirtualConst;
+	}
 };
