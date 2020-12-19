@@ -13,6 +13,8 @@
 #include "Runtime/Framework/SceneLoader.h"
 #include "imgui.h"
 
+extern void RCCCompileProject();
+
 void UpperMenu::CreateUpperMenu()
 {
 	if (ImGui::BeginMenuBar())
@@ -65,6 +67,10 @@ void UpperMenu::CreateFileMenu()
 		if (ImGui::MenuItem("Close"))
 		{
 			EditorWindow::CloseWindow();
+		}
+		if (ImGui::MenuItem("Test Compile"))
+		{
+			RCCCompileProject();
 		}
 
 		ImGui::EndMenu();
