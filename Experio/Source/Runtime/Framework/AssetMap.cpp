@@ -35,3 +35,8 @@ void AssetMap::ReadAssetMap(std::string filepath)
 		assetMap.Insert(assetIndex, assetFilepath);
 	}
 }
+
+uint32_t AssetMap::SerializedSizeOfAssetMap()
+{
+	return assetMap.GetSize() * 4;
+}
