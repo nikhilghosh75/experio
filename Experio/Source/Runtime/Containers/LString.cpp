@@ -122,6 +122,19 @@ unsigned int LString::StringToUInt(const std::string & str)
 	return isPositive ? unsignedInteger : unsignedInteger * -1;
 }
 
+std::string LString::ToCamelCase(const std::string& str)
+{
+	std::string camelCaseStr = str;
+	camelCaseStr[0] = UpperToLower(camelCaseStr[0]);
+	return camelCaseStr;
+}
+
+char LString::UpperToLower(char c)
+{
+	if (c >= 'A' && c <= 'Z') return c + 32;
+	return c;
+}
+
 std::string LString::Trim(std::string str)
 {
 	return TrimLeft(TrimRight(str));

@@ -61,6 +61,10 @@ public:
 
 	static unsigned int StringToUInt(const std::string& str);
 
+	static std::string ToCamelCase(const std::string& str);
+
+	static char UpperToLower(char c);
+
 	static std::string Trim(std::string str);
 	static std::string TrimLeft(std::string str);
 	static std::string TrimRight(std::string str);
