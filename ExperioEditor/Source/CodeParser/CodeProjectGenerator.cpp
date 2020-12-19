@@ -76,6 +76,17 @@ void CodeProjectGenerator::StepGenerate()
 	}
 }
 
+void CodeProjectGenerator::RegenerateProject()
+{
+	// Add stuff here
+}
+
+void CodeProjectGenerator::RegnerateFullProject()
+{
+	project->Empty();
+	GenerateFullProject();
+}
+
 // Start and Stop of Enums, Classes, Structs
 std::vector<FVector2Int> CodeProjectGenerator::GetObjectsInCodeFile(FileBuffer & buffer)
 {

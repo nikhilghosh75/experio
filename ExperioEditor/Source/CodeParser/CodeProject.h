@@ -45,6 +45,8 @@ public:
 	void PushEnum(const CodeEnum& codeEnum);
 	void PushFunction(const CodeFunction& function);
 
+	void Empty();
+		
 	CodeClass& EmplaceClass();
 	CodeClass& EmplaceClass(const std::string& name);
 

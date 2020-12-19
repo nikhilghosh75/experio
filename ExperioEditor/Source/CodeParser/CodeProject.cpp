@@ -16,9 +16,7 @@ CodeProject::CodeProject(std::string filepath, FCodeProjectOptions & options)
 	
 	if (options.generateInstantly)
 	{
-		CodeProjectGenerator generator(this);
-		generator.GenerateFullProject();
-		generated = true;
+		Generate();
 	}
 }
 
@@ -42,6 +40,14 @@ void CodeProject::PushEnum(const CodeEnum & codeEnum)
 void CodeProject::PushFunction(const CodeFunction & function)
 {
 	this->functions.push_back(function);
+}
+
+void CodeProject::Empty()
+{
+	generated = false;
+	this->classes.clear();
+	this->enums.clear();
+	this->functions.clear();
 }
 
 CodeClass & CodeProject::EmplaceClass()

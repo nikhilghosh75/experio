@@ -29,6 +29,10 @@ public:
 
 	bool IsGenerating() const { return currentlyGenerating; }
 
+	void RegenerateProject();
+
+	void RegnerateFullProject();
+
 private:
 	std::vector<FVector2Int> GetObjectsInCodeFile(FileBuffer& buffer);
 
