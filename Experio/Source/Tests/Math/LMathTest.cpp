@@ -87,6 +87,28 @@ UNIT_TEST(TestMathConversion, "LMath")
 	TEST_END();
 }
 
+UNIT_TEST(TestMathFactorial, "LMath")
+{
+	ASSERT_EQUAL(LMath::Factorial(4), 24, "");
+	ASSERT_EQUAL(LMath::Factorial(0), 1, "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestMathRound, "LMath")
+{
+	ASSERT_EQUAL(LMath::Ceil(2.0), 2, "");
+	ASSERT_EQUAL(LMath::Ceil(2.4), 3, "");
+
+	ASSERT_EQUAL(LMath::Floor(3.1), 3, "");
+	ASSERT_EQUAL(LMath::Floor(3.0), 3, "");
+
+	ASSERT_EQUAL(LMath::Round(4.2), 4, "");
+	ASSERT_EQUAL(LMath::Round(4.8), 5, "");
+
+	TEST_END();
+}
+
 FUnitTestingOutcome RunLMathTests()
 {
 	return suite.RunTests();
