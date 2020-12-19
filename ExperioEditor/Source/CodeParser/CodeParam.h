@@ -24,4 +24,30 @@ public:
 	std::string name;
 	ECodeAccessType accessType;
 	ECodeParamKeyword keywords;
+
+	CodeParam() = default;
+
+	CodeParam(const std::string& type, const std::string& name)
+	{
+		this->type = type;
+		this->name = name;
+		this->accessType = ECodeAccessType::Private;
+		this->keywords = ECodeParamKeyword::None;
+	}
+
+	CodeParam(const std::string& type, const std::string& name, ECodeAccessType accessType)
+	{
+		this->type = type;
+		this->name = name;
+		this->accessType = accessType;
+		this->keywords = ECodeParamKeyword::None;
+	}
+
+	CodeParam(const std::string& type, const std::string& name, ECodeAccessType accessType, ECodeParamKeyword keyword)
+	{
+		this->type = type;
+		this->name = name;
+		this->accessType = accessType;
+		this->keywords = keyword;
+	}
 };
