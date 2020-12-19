@@ -113,6 +113,11 @@ void CameraSystem::Update()
 	}
 }
 
+unsigned int CameraSystem::Size()
+{
+	return cameras.size();
+}
+
 VirtualCamera * CameraSystem::GetCurrentCamera()
 {
 	int maxIndex = 0;

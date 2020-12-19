@@ -27,6 +27,8 @@ public:
 
 	static void Update();
 
+	static unsigned int Size();
+
 	static VirtualCamera* GetCurrentCamera();
 
 	static glm::mat4 currentViewMatrix;
