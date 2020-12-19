@@ -16,6 +16,9 @@ namespace ColorPalette
 	FColor Iridium(61, 60, 58);
 	FColor BlackEel(70, 62, 63);
 	FColor BlackCow(77, 70, 70);
-	FColor GrayWold(80, 74, 75);
+	FColor GrayWolf(80, 74, 75);
+	FColor VampireGray(86, 88, 88);
+	FColor GrayDolphin(92, 88, 88);
+	FColor CarbonGray(98, 93, 93);
 	FColor Red(1.f, 0.f, 0.f);
 }
