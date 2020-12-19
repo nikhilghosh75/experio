@@ -154,7 +154,14 @@ void CppCodeOStream::StreamClassToH(const CodeClass & codeClass)
 			currentAccessType = function.accessType;
 		}
 
-		if (function.keywords == ECodeFunctionKeyword::Virtual) { outFile << "virtual "; }
+		if (CodeFunction::IsKeywordVirtual(function.keywords))
+		{ 
+			outFile << "virtual "; 
+		}
+		else if (CodeFunction::IsKeywordStatic(function.keywords))
+		{
+			outFile << "static ";
+		}
 
 		outFile << function.returnType << " " << function.functionName << "(";
 		for (int j = 0; j < function.arguments.size(); j++)
@@ -166,7 +173,9 @@ void CppCodeOStream::StreamClassToH(const CodeClass & codeClass)
 		}
 		outFile << ")";
 
-		if (function.keywords == ECodeFunctionKeyword::Virtual) { outFile << " override"; }
+		if (CodeFunction::IsKeywordVirtual(function.keywords)) { outFile << " override"; }
+
+		if (CodeFunction::IsKeywordConst(function.keywords)) { outFile << " const"; }
 		
 		outFile << ";" << std::endl;
 	}
