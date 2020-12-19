@@ -1,7 +1,10 @@
 #pragma once
 #include <string>
+#include "ComponentInfo.h"
 #include "Runtime/Containers/THashtable.h"
-#include "Version.h"
+
+class CodeProject;
+struct FVersion;
 
 struct FEditorProjectLanguages
 {
@@ -12,9 +15,10 @@ struct FEditorProjectLanguages
 class EditorProject
 {
 public:
-	static THashtable<unsigned int, std::string> classes;
+	static THashtable<unsigned int, FComponentInfo> componentClasses;
 
 	static std::vector<std::string> gameCompileFiles;
+	static CodeProject gameProject;
 
 	static std::string projectName;
 	static std::string username;

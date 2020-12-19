@@ -2,11 +2,15 @@
 #include "ValueLoader.h"
 #include <fstream>
 #include "../Core/EditorApplication.h"
+#include "../CodeParser/CodeParser.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "ThirdParty/toml++/toml.h"
+#include "Version.h"
 
-THashtable<unsigned int, std::string> EditorProject::classes;
+THashtable<unsigned int, FComponentInfo> EditorProject::componentClasses;
 FVersion EditorProject::experioVersion;
+// CodeProject EditorProject::gameProject;
+
 std::string EditorProject::projectName;
 std::string EditorProject::username;
 std::vector<std::string> EditorProject::gameCompileFiles;
@@ -15,7 +19,8 @@ FEditorProjectLanguages EditorProject::languages;
 unsigned int DefaultClassStringToInt(std::string name)
 {
 	unsigned int classId;
-	if (EditorProject::classes.Find(name, classId))
+	FComponentInfo componentInfo;
+	if (EditorProject::componentClasses.SearchValues(classId, componentInfo, [name](const FComponentInfo& info) {return info.name == name;}))
 	{
 		return classId;
 	}
@@ -24,10 +29,10 @@ unsigned int DefaultClassStringToInt(std::string name)
 
 std::string DefaultClassIntToString(unsigned int num)
 {
-	std::string str;
-	if (EditorProject::classes.SafeGet(num, str))
+	FComponentInfo componentInfo;
+	if (EditorProject::componentClasses.SafeGet(num, componentInfo))
 	{
-		return str;
+		return componentInfo.name;
 	}
 	return "Unknown";
 }
@@ -79,9 +84,9 @@ void EditorProject::SetupRuntimeCompilation()
 
 void EditorProject::TempSetup()
 {
-	EditorProject::classes.Insert(100, "VirtualCamera");
-	EditorProject::classes.Insert(101, "MeshComponent");
-	EditorProject::classes.Insert(102, "ParticleSystem");
-	EditorProject::classes.Insert(103, "Billboard");
-	EditorProject::classes.Insert(104, "TextComponent");
+	EditorProject::componentClasses.Insert(100, FComponentInfo("VirtualCamera", false));
+	EditorProject::componentClasses.Insert(101, FComponentInfo("MeshComponent", true));
+	EditorProject::componentClasses.Insert(102, FComponentInfo("ParticleSystem", true));
+	EditorProject::componentClasses.Insert(103, FComponentInfo("Billboard", true));
+	EditorProject::componentClasses.Insert(104, FComponentInfo("TextComponent", true));
 }
