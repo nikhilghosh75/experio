@@ -20,6 +20,7 @@
     <ClInclude Include="Source\Runtime\Containers\Algorithm.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
+    <ClInclude Include="Source\Runtime\DefaultComponents.h" />
     <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
     <ClInclude Include="Source\Runtime\Framework\System.h" />
     <ClInclude Include="Source\Runtime\Math\ColorPalette.h" />
@@ -141,6 +142,7 @@
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
     <ClInclude Include="Source\Runtime\UI\UIColorPalettes.h" />
     <ClInclude Include="Source\ThirdParty\Event System\Event.h" />
+    <ClInclude Include="Source\ThirdParty\Lodepng\Lodepng.h" />
     <ClInclude Include="Source\ThirdParty\Magic Enum\magic_enum.hpp" />
     <ClInclude Include="Source\ThirdParty\Nameof\nameof.hpp" />
     <ClInclude Include="Source\ThirdParty\Periodic Function\periodic_function.hpp" />
@@ -176,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Audio\AudioSystem.cpp" />
+    <ClCompile Include="Source\Runtime\Audio\Soundbank.cpp" />
     <ClCompile Include="Source\Runtime\Camera\AdditionalCameras.cpp" />
     <ClCompile Include="Source\Runtime\Camera\CameraSystem.cpp" />
     <ClCompile Include="Source\Runtime\Camera\VirtualCamera.cpp" />
@@ -264,6 +267,7 @@
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\UIColorPalettes.cpp" />
+    <ClCompile Include="Source\ThirdParty\Lodepng\Lodepng.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Standard\Materials\Test.material" />
@@ -291,7 +295,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>

@@ -362,5 +362,8 @@
     <ClInclude Include="Source\Framework\ImportSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\ComponentInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

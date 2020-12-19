@@ -495,6 +495,12 @@
     <ClInclude Include="Source\Runtime\Audio\Soundbank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Lodepng\Lodepng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\DefaultComponents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp">
@@ -762,6 +768,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Lodepng\Lodepng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Runtime\Audio\Soundbank.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

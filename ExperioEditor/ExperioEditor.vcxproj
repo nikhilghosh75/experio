@@ -24,7 +24,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -176,6 +176,7 @@
     <ClInclude Include="Source\Files\SceneConverter.h" />
     <ClInclude Include="Source\FileView\FileView.h" />
     <ClInclude Include="Source\Framework\CompilationInfo.h" />
+    <ClInclude Include="Source\Framework\ComponentInfo.h" />
     <ClInclude Include="Source\Framework\CreateMenu.h" />
     <ClInclude Include="Source\Framework\CreateSystem.h" />
     <ClInclude Include="Source\Framework\EditorProject.h" />
