@@ -1,12 +1,41 @@
 #include "CodeGenerator.h"
 #include "../CodeParser/Cpp/CppCodeStream.h"
+#include "../Framework/EditorProject.h"
 #include "../Framework/Values.h"
+#include "Runtime/Containers/LString.h"
 
 void CodeGenerator::GenerateComponentManager()
 {
-	CppCodeOStream outFile("DemoProjectComponentManager.h");
+	CodeClass componentManager = GenerateComponentManagerClass();
 
+	// Generate .h file
+	CppCodeOStream hFile("DemoProjectComponentManager.h");
+	hFile << "#include \"Runtime/Framework/ComponentManager.h\"" << Debug::endl;
+	hFile << "#include \"Runtime/DefaultComponents.h\"" << Debug::endl << Debug::endl;
+	hFile << componentManager;
+	hFile.Close();
 
+	// Generate .cpp file
+	CppCodeOStream cppFile("DemoProjectComponentManager.cpp");
+	cppFile << "#include \"DemoProjectComponentManager.h\"" << Debug::endl;
+	cppFile << "#include \"Runtime/Debug/Debug.h\"" << Debug::endl << Debug::endl;
+
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		if (!info.isDefaultComponent)
+		{
+			cppFile << "#include \"" << info.filepath << "\"" << Debug::endl;
+		}
+	});
+
+	GenerateComponentManagerStartImpl(cppFile, componentManager);
+	GenerateComponentManagerUpdateImpl(cppFile, componentManager);
+	GenerateComponentManagerRenderSceneImpl(cppFile, componentManager);
+	GenerateComponentManagerDeleteComponentImpl(cppFile, componentManager);
+	GenerateComponentManagerGetComponentAtIndexImpl(cppFile, componentManager);
+	GenerateComponentManagerOnGameObjectDeletedImpl(cppFile, componentManager);
+	GenerateComponentManagerGetComponentIDsImpl(cppFile, componentManager);
+	GenerateComponentManagerGetAllComponentsImpl(cppFile, componentManager);
+	GenerateComponentManagerCountImpl(cppFile, componentManager);
 }
 
 void CodeGenerator::GenerateTagFile()
@@ -42,4 +71,303 @@ void CodeGenerator::GenerateTagFile()
 	outFile << "}" << Debug::endl;
 
 	outFile << "#endif" << Debug::endl;
+}
+
+CodeClass CodeGenerator::GenerateComponentManagerClass()
+{
+	CodeClass codeClass("DemoProjectComponentManager");
+	codeClass.inheritance.push_back("ComponentManager");
+
+	CodeFunction start("void", "Start");
+	start.accessType = ECodeAccessType::Public;
+	start.keywords = ECodeFunctionKeyword::Virtual;
+	codeClass.functions.push_back(start);
+	
+	CodeFunction update("void", "Update");
+	update.keywords = ECodeFunctionKeyword::Virtual;
+	codeClass.functions.push_back(update);
+
+	CodeFunction renderScene("void", "RenderScene");
+	renderScene.keywords = ECodeFunctionKeyword::Virtual;
+	codeClass.functions.push_back(renderScene);
+
+	CodeFunction addComponent("Component*", "AddComponent");
+	addComponent.keywords = ECodeFunctionKeyword::Virtual;
+	addComponent.arguments.emplace_back("GameObject*", "gameObject", false);
+	addComponent.arguments.emplace_back("unsigned int", "classId", false);
+	codeClass.functions.push_back(addComponent);
+
+	CodeFunction getComponent("Component*", "GetComponent");
+	getComponent.keywords = ECodeFunctionKeyword::Virtual;
+	getComponent.arguments.emplace_back("GameObject*", "gameObject", false);
+	getComponent.arguments.emplace_back("unsigned int", "classId", false);
+	codeClass.functions.push_back(getComponent);
+
+	CodeFunction getComponentIndex("Component*", "GetComponentAtIndex");
+	getComponentIndex.keywords = ECodeFunctionKeyword::Virtual;
+	getComponentIndex.arguments.emplace_back("GameObject*", "gameObject", false);
+	getComponentIndex.arguments.emplace_back("unsigned int", "classId", false);
+	codeClass.functions.push_back(getComponentIndex);
+
+	CodeFunction deleteComponent("void", "DeleteComponent");
+	deleteComponent.keywords = ECodeFunctionKeyword::Virtual;
+	deleteComponent.arguments.emplace_back("GameObject*", "gameObject", false);
+	deleteComponent.arguments.emplace_back("unsigned int", "classId", false);
+	codeClass.functions.push_back(deleteComponent);
+
+	CodeFunction onGameObjectDeleted("void", "OnGameObjectDeleted");
+	onGameObjectDeleted.keywords = ECodeFunctionKeyword::Virtual;
+	onGameObjectDeleted.arguments.emplace_back("GameObject*", "gameObject", false);
+	codeClass.functions.push_back(onGameObjectDeleted);
+
+	CodeFunction getComponentIDs("std::vector<unsigned int>", "GetComponentsIDsInGameObject");
+	getComponentIDs.keywords = ECodeFunctionKeyword::Virtual;
+	getComponentIDs.arguments.emplace_back("GameObject*", "gameObject", false);
+	codeClass.functions.push_back(getComponentIDs);
+
+	CodeFunction getComponents("std::vector<Component*>", "GetComponentsInGameObject");
+	getComponents.keywords = ECodeFunctionKeyword::Virtual;
+	getComponents.arguments.emplace_back("GameObject*", "gameObject", false);
+	codeClass.functions.push_back(getComponents);
+
+	CodeFunction getAllComponents("std::vector<Component*>", "GetAllComponents");
+	getAllComponents.keywords = ECodeFunctionKeyword::Virtual;
+	codeClass.functions.push_back(getAllComponents);
+
+	getAllComponents.arguments.emplace_back("std::vector<Component*>&", "components", false);
+	getAllComponents.arguments.emplace_back("std::vector<unsigned int>&", "componentIds", false);
+	codeClass.functions.push_back(getAllComponents);
+
+	getAllComponents.arguments.emplace_back("uint8_t", "sceneIndex", false);
+	codeClass.functions.push_back(getAllComponents);
+
+	CodeFunction componentCount("unsigned int", "ComponentCount");
+	componentCount.keywords = ECodeFunctionKeyword::VirtualConst;
+	codeClass.functions.push_back(componentCount);
+
+	EditorProject::componentClasses.ForEach([&codeClass](const unsigned int& id, const FComponentInfo& info) {
+		if (!info.isStandaloneComponent) return;
+
+		std::string paramType = "std::vector<" + info.name + ">";
+		std::string paramName = LString::ToCamelCase(info.name) + "Instances";
+		codeClass.params.emplace_back(paramType, paramName, ECodeAccessType::Public);
+	});
+
+	return codeClass;
+}
+
+void CodeGenerator::GenerateComponentManagerStartImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	cppFile << "void " << codeClass.name << "::Start()" << Debug::endl << "{" << Debug::endl;
+
+	for (int i = 0; i < codeClass.params.size(); i++)
+	{
+		cppFile << "PB_START(" << codeClass.params[i].name << ");" << Debug::endl;
+	}
+
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateComponentManagerUpdateImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	cppFile << "void " << codeClass.name << "::Update()" << Debug::endl << "{" << Debug::endl;
+	cppFile << "CameraSystem::Update();" << Debug::endl;
+
+	for (int i = 0; i < codeClass.params.size(); i++)
+	{
+		cppFile << "PB_UPDATE(" << codeClass.params[i].name << ");" << Debug::endl;
+	}
+
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateComponentManagerRenderSceneImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	cppFile << "void " << codeClass.name << "::RenderScene()" << Debug::endl << "{" << Debug::endl;
+	cppFile << "CameraSystem::Update();" << Debug::endl;
+	cppFile << "PB_UPDATE(meshComponentInstances);" << Debug::endl;
+	cppFile << "PB_UPDATE(particleSystemInstances);" << Debug::endl;
+	cppFile << "PB_UPDATE(billboardInstances);" << Debug::endl;
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateComponentManagerAddComponentImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	cppFile << "Component* " << codeClass.name << "::AddComponent(GameObject* gameObject, unsigned int classId)"
+		<< Debug::endl << "{" << Debug::endl;
+	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
+	cppFile << "case 100: return CameraSystem::AddComponent(gameObject);" << Debug::endl;
+	
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		if (info.isStandaloneComponent)
+		{
+			std::string paramName = LString::ToCamelCase(info.name) + "Instances";
+			cppFile << "case " << std::to_string(id) << ": PB_ADD_COMPONENT(" << paramName << ");" << Debug::endl;
+		}
+	});
+
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateComponentManagerGetComponentImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	cppFile << "Component* " << codeClass.name << "::GetComponent(GameObject* gameObject, unsigned int classId)"
+		<< Debug::endl << "{" << Debug::endl;
+	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
+	cppFile << "case 100: return CameraSystem::GetComponent(gameObject);" << Debug::endl;
+
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		if (info.isStandaloneComponent)
+		{
+			std::string paramName = LString::ToCamelCase(info.name) + "Instances";
+			cppFile << "case " << std::to_string(id) << ": PB_GET_COMPONENT(" << paramName << ");" << Debug::endl;
+		}
+	});
+
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateComponentManagerGetComponentAtIndexImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	cppFile << "Component* " << codeClass.name << "::GetComponentAtIndex(unsigned int classId, unsigned int index)"
+		<< Debug::endl << "{" << Debug::endl;
+	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
+	cppFile << "case 100: Debug::Log(\"CameraSystem has not implemented GetComponentAtIndex\"); return nullptr;" << Debug::endl;
+
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		if (info.isStandaloneComponent)
+		{
+			std::string paramName = LString::ToCamelCase(info.name) + "Instances";
+			cppFile << "case " << std::to_string(id) << ": PB_GET_COMPONENT_INDEX(" << paramName << ");" << Debug::endl;
+		}
+	});
+
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateComponentManagerDeleteComponentImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	cppFile << "Component* " << codeClass.name << "::DeleteComponent(GameObject* gameObject, unsigned int classId)"
+		<< Debug::endl << "{" << Debug::endl;
+	cppFile << "bool foundComponent = false;" << Debug::endl << Debug::endl;
+	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
+	cppFile << "case 100: return CameraSystem::DeleteComponent(gameObject);" << Debug::endl;
+
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		if (info.isStandaloneComponent)
+		{
+			std::string paramName = LString::ToCamelCase(info.name) + "Instances";
+			cppFile << "case " << std::to_string(id) << ": PB_DELETE_COMPONENT(" << paramName << ");" << Debug::endl;
+		}
+	});
+
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateComponentManagerOnGameObjectDeletedImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	cppFile << "Component* " << codeClass.name << "::OnGameObjectDeleted(GameObject* gameObject, unsigned int classId)"
+		<< Debug::endl << "{" << Debug::endl;
+	cppFile << "bool foundComponent = false;" << Debug::endl << Debug::endl;
+	cppFile << "CameraSystem::OnGameObjectDeleted(gameObject);" << Debug::endl;
+
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		if (info.isStandaloneComponent)
+		{
+			std::string paramName = LString::ToCamelCase(info.name) + "Instances";
+			cppFile << "PB_DELETE_COMPONENT(" << paramName << "); foundComponent = false;" << Debug::endl;
+		}
+	});
+
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateComponentManagerGetComponentIDsImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	cppFile << "std::vector<unsigned int> " << codeClass.name << "::GetComponentsIDsInGameObject(GameObject* gameObject)"
+		<< Debug::endl << "{" << Debug::endl;
+	cppFile << "std::vector<unsigned int> returnVector;" << Debug::endl << Debug::endl;
+
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		cppFile << "PB_GET_COMPONENT_IDS(" << std::to_string(id) << ");" << Debug::endl;
+	});
+
+	cppFile << "return returnVector;" << Debug::endl;
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateComponentManagerGetComponentPointersImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	cppFile << "std::vector<Component*> " << codeClass.name << "::GetComponentsInGameObject(GameObject * gameObject)"
+		<< Debug::endl << "{" << Debug::endl;
+	cppFile << "std::vector<unsigned int> returnVector;" << Debug::endl << Debug::endl;
+	cppFile << "returnVector.reserve(ComponentCount());" << Debug::endl;
+
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		cppFile << "PB_GET_COMPONENT_GAMEOBJECT(" << std::to_string(id) << ");" << Debug::endl;
+	});
+
+	cppFile << "return returnVector;" << Debug::endl;
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateComponentManagerGetAllComponentsImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	// 0 args
+	cppFile << "std::vector<Component*> " << codeClass.name << "::GetAllComponents()" << Debug::endl << "{" << Debug::endl;
+	cppFile << "std::vector<Component*> returnVector;" << Debug::endl;
+	cppFile << "returnVector.reserve(ComponentCount());" << Debug::endl;
+
+	for (int i = 0; i < codeClass.params.size(); i++)
+	{
+		cppFile << "PB_GET_ALL(" << codeClass.params[i].name << ");" << Debug::endl;
+	}
+
+	cppFile << "return returnVector;" << Debug::endl;
+	cppFile << "}" << Debug::endl;
+
+	// 2 arg
+	cppFile << "void " << codeClass.name 
+		<< "::GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds)" 
+		<< Debug::endl << "{" << Debug::endl;
+	cppFile << "components.reserve(ComponentCount());" << Debug::endl;
+	cppFile << "componentIds.reserve(ComponentCount());" << Debug::endl << Debug::endl;
+
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		if (info.isStandaloneComponent)
+		{
+			std::string paramName = LString::ToCamelCase(info.name) + "Instances";
+			cppFile << "PB_GET_ALL_IDS(" << paramName << ", " << std::to_string(id) << ");" << Debug::endl;
+		}
+	});
+
+	cppFile << "}" << Debug::endl;
+
+	// 2 arg
+	cppFile << "void " << codeClass.name
+		<< "::GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds)"
+		<< Debug::endl << "{" << Debug::endl;
+	cppFile << "components.reserve(ComponentCount());" << Debug::endl;
+	cppFile << "componentIds.reserve(ComponentCount());" << Debug::endl << Debug::endl;
+
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		if (info.isStandaloneComponent)
+		{
+			std::string paramName = LString::ToCamelCase(info.name) + "Instances";
+			cppFile << "PB_GET_ALL_SCENE_IDS(" << paramName << ", " << std::to_string(id) << ");" << Debug::endl;
+		}
+	});
+
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateComponentManagerCountImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
+{
+	cppFile << "unsigned int " << codeClass.name << "::ComponentCount() const" << Debug::endl << "{" << Debug::endl;
+	cppFile << "return CameraSystem::Size()";
+	for (int i = 0; i < codeClass.params.size(); i++)
+	{
+		cppFile << " + " << codeClass.params[i].name << ".size()";
+	}
+	cppFile << ";" << Debug::endl << "}";
 }
