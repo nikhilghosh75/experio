@@ -4,3 +4,4 @@
 
 #include "DemoProject.cpp"
 #include "DemoProjectTag.cpp"
+#include "DemoProjectComponentManager.cpp"
