@@ -21,7 +21,7 @@ void Inspector::DisplayGameObject(uint64_t id)
 
 	for (int i = 0; i < componentEditors.size(); i++)
 	{
-		if (ImGui::TreeNode(EditorProject::classes.Get(componentIDs[i]).c_str()))
+		if (ImGui::TreeNode(EditorProject::componentClasses.Get(componentIDs[i]).name.c_str()))
 		{
 			componentEditors[i]->Display(components[i]);
 			ImGui::TreePop();
