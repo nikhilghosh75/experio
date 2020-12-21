@@ -140,7 +140,11 @@ public:
 
 	FixedBase<I, F> operator*(const FixedBase<I, F>& other)
 	{
-		
+		float aTerm = this->integer * other.integer;
+		float bTerm = this->integer * (float)(other.fraction / IntOfSize<F>::MaxUnsigned);
+		float cTerm = other.integer * (float)(this->fraction / IntOfSize<F>::MaxUnsigned);
+		float dTerm = (((float)(this->fraction * other.fraction)) / (float)IntOfSize<F>::MaxUnsigned) / (float)IntOfSize<F>::MaxUnsigned;
+		return FixedBase<I, F>(aTerm + bTerm + cTerm + dTerm);
 	}
 
 	FixedBase<I, F> operator/(const FixedBase<I, F>& other)
