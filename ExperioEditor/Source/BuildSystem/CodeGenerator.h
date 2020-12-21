@@ -10,9 +10,9 @@ public:
 
 	static void GenerateComponentManager();
 
-	// static void GenerateProjectFile();
+	static void GenerateProjectFile();
 
-	// static void GenerateComponentParsers();
+	static void GenerateComponentSerializers();
 
 	static void GenerateTagFile();
 
@@ -31,4 +31,12 @@ private:
 	static void GenerateComponentManagerGetComponentPointersImpl(CppCodeOStream& cppFile, const CodeClass& codeClass);
 	static void GenerateComponentManagerGetAllComponentsImpl(CppCodeOStream& cppFile, const CodeClass& codeClass);
 	static void GenerateComponentManagerCountImpl(CppCodeOStream& cppFile, const CodeClass& codeClass);
+
+	static void GenerateProjectHFile();
+	static void GenerateProjectCppFile();
+
+	static void GenerateSetupProjectImpl(CppCodeOStream& cppFile);
+	static void GenerateRunProjectImpl(CppCodeOStream& cppFile);
+	static void GenerateCreateComponentManagerImpl(CppCodeOStream& cppFile);
+	static void GenerateCreateMaterialManagerImpl(CppCodeOStream& cppFile);
 };

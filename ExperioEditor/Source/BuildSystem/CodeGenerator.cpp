@@ -1,8 +1,17 @@
 #include "CodeGenerator.h"
+#include "LSerializationOperations.h"
 #include "../CodeParser/Cpp/CppCodeStream.h"
 #include "../Framework/EditorProject.h"
 #include "../Framework/Values.h"
 #include "Runtime/Containers/LString.h"
+
+void CodeGenerator::GenerateAllFiles()
+{
+	GenerateTagFile();
+	GenerateComponentManager();
+	GenerateProjectFile();
+	GenerateComponentSerializers();
+}
 
 void CodeGenerator::GenerateComponentManager()
 {
@@ -36,6 +45,16 @@ void CodeGenerator::GenerateComponentManager()
 	GenerateComponentManagerGetComponentIDsImpl(cppFile, componentManager);
 	GenerateComponentManagerGetAllComponentsImpl(cppFile, componentManager);
 	GenerateComponentManagerCountImpl(cppFile, componentManager);
+}
+
+void CodeGenerator::GenerateProjectFile()
+{
+	GenerateProjectHFile();
+	GenerateProjectCppFile();
+}
+
+void CodeGenerator::GenerateComponentSerializers()
+{
 }
 
 void CodeGenerator::GenerateTagFile()
@@ -370,4 +389,90 @@ void CodeGenerator::GenerateComponentManagerCountImpl(CppCodeOStream & cppFile, 
 		cppFile << " + " << codeClass.params[i].name << ".size()";
 	}
 	cppFile << ";" << Debug::endl << "}";
+}
+
+void CodeGenerator::GenerateProjectHFile()
+{
+	CppCodeOStream hFile("DemoProject.h");
+
+	hFile << "#include \"Runtime/Core/Application.h\"" << Debug::endl;
+	hFile << "#include \"Runtime/Framework/Project.h\"" << Debug::endl;
+	hFile << "#include \"Runtime/Rendering/Renderer.h\"" << Debug::endl;
+	hFile << "#include \"Runtime/Time/GameTime.h\"" << Debug::endl;
+	hFile << Debug::endl;
+	hFile << "#include \"DemoProjectComponentManager.h\"" << Debug::endl;
+	hFile << "#include \"DemoProjectMaterialManager.h\"" << Debug::endl;
+	hFile << "#include <Windows.h>" << Debug::endl;
+	hFile << Debug::endl;
+
+	CodeFunction setupProject("void", "SetupProject");
+	CodeFunction runProject("void", "Runtime");
+	CodeFunction update("void", "Update");
+	CodeFunction createComponentManager("ComponentManager*", "CreateComponentManager");
+	CodeFunction createMaterialManager("MaterialManager*", "CreateMaterialManager");
+
+	hFile << "extern \"C\" __declspec(dllexport) " << setupProject << Debug::endl;
+	hFile << "extern \"C\" __declspec(dllexport) " << runProject << Debug::endl;
+	hFile << "extern \"C\" __declspec(dllexport) " << update << Debug::endl;
+	hFile << "extern \"C\" __declspec(dllexport) " << createComponentManager << Debug::endl;
+	hFile << "extern \"C\" __declspec(dllexport) " << createMaterialManager << Debug::endl;
+}
+
+void CodeGenerator::GenerateProjectCppFile()
+{
+	CppCodeOStream cppFile("DemoProject.cpp");
+
+	cppFile << "#include \"DemoProject.h\"" << Debug::endl;
+	cppFile << "#include \"Runtime/Core/Window.h\"" << Debug::endl;
+	cppFile << "#include \"Runtime/Framework/BinaryParams.h\"" << Debug::endl;
+	cppFile << "#include \"Runtime/Framework/Params.h\"" << Debug::endl;
+	cppFile << "#include \"ThirdParty/Nameof/nameof.hpp\"" << Debug::endl << Debug::endl;
+
+	cppFile << "std::string projectName = \"" << EditorProject::projectName << "\";" << Debug::endl << Debug::endl;
+
+	cppFile << "template <class T> unsigned int DefaultClassTypeToInt() { return 0; }" << Debug::endl << Debug::endl;
+
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		cppFile << "template<> unsigned int DefaultClassTypeToInt<" << info.name << ">() "
+			<< "{ return " << std::to_string(id) << "; }" << Debug::endl;
+	});
+	cppFile << Debug::endl;
+
+	cppFile << "template <class T> std::string DefaultClassTypeToString() { return NAMEOF_TYPE(T); }" << Debug::endl;
+	cppFile << Debug::endl;
+
+	GenerateSetupProjectImpl(cppFile);
+	GenerateRunProjectImpl(cppFile);
+	GenerateCreateComponentManagerImpl(cppFile);
+	GenerateCreateMaterialManagerImpl(cppFile);
+}
+
+void CodeGenerator::GenerateSetupProjectImpl(CppCodeOStream & cppFile)
+{
+	cppFile << "extern \"C\" __declspec(dllexport) void SetupProject()" << Debug::endl << "{" << Debug::endl;
+	cppFile << "Project::componentManager = new DemoProjectComponentManager();" << Debug::endl;
+	cppFile << "Project::materialManager = new DemoProjectMaterialManager();" << Debug::endl;
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateRunProjectImpl(CppCodeOStream & cppFile)
+{
+	cppFile << "extern \"C\" __declspec(dllexport) void RunProject()" << Debug::endl << "{" << Debug::endl;
+	cppFile << "Application app;" << Debug::endl;
+	cppFile << "app.Run();" << Debug::endl;
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateCreateComponentManagerImpl(CppCodeOStream & cppFile)
+{
+	cppFile << "extern \"C\" __declspec(dllexport) ComponentManager* CreateComponentManager()" << Debug::endl << "{" << Debug::endl;
+	cppFile << "return new DemoProjectComponentManager();" << Debug::endl;
+	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateCreateMaterialManagerImpl(CppCodeOStream & cppFile)
+{
+	cppFile << "extern \"C\" __declspec(dllexport) MaterialManager* CreateMaterialManager()" << Debug::endl << "{" << Debug::endl;
+	cppFile << "return new DemoProjectMaterialManager();" << Debug::endl;
+	cppFile << "}" << Debug::endl;
 }
