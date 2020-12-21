@@ -85,7 +85,13 @@ CodeOStream & CppCodeOStream::operator<<(const CodeEnum & codeEnum)
 
 CodeOStream & CppCodeOStream::operator<<(const CodeFunction & codeFunction)
 {
-	Debug::LogError("This function is not implemented yet");
+	switch (fileType)
+	{
+	case ECppFileType::Cpp:
+		StreamFunctionToCpp(codeFunction); break;
+	case ECppFileType::H:
+		StreamFunctionToH(codeFunction); break;
+	}
 	return *this;
 }
 
@@ -208,4 +214,36 @@ void CppCodeOStream::StreamClassToCpp(const CodeClass & codeClass)
 		}
 		outFile << ")" << std::endl << "{" << std::endl << std::endl << "}" << std::endl << std::endl;
 	}
+}
+
+void CppCodeOStream::StreamFunctionToH(const CodeFunction & function)
+{
+	if (CodeFunction::IsKeywordStatic(function.keywords))
+	{
+		outFile << "static ";
+	}
+
+	outFile << function.returnType << " " << function.functionName << "(";
+	for (int j = 0; j < function.arguments.size(); j++)
+	{
+		if (function.arguments[j].isConst) { outFile << "const "; }
+
+		outFile << function.arguments[j].type << " " << function.arguments[j].name;
+		if (j < function.arguments.size() - 1) { outFile << ","; }
+	}
+	outFile << ");";
+}
+
+void CppCodeOStream::StreamFunctionToCpp(const CodeFunction & function)
+{
+	outFile << function.returnType << " " << function.functionName << "(";
+
+	for (int j = 0; j < function.arguments.size(); j++)
+	{
+		if (function.arguments[j].isConst) { outFile << "const "; }
+
+		outFile << function.arguments[j].type << " " << function.arguments[j].name;
+		if (j < function.arguments.size() - 1) { outFile << ","; }
+	}
+	outFile << ")" << std::endl << "{" << std::endl << std::endl << "}" << std::endl << std::endl;
 }

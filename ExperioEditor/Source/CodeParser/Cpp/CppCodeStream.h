@@ -46,4 +46,8 @@ private:
 	void StreamClassToH(const CodeClass& codeClass);
 
 	void StreamClassToCpp(const CodeClass& codeClass);
+
+	void StreamFunctionToH(const CodeFunction& codeFunction);
+
+	void StreamFunctionToCpp(const CodeFunction& codeFunction);
 };
