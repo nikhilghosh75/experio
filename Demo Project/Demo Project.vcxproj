@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="Source\DemoProject.cpp" />
     <ClCompile Include="Source\DemoProjectComponentManager.cpp" />
+    <ClCompile Include="Source\DemoProjectSerializers.cpp" />
     <ClCompile Include="Source\DemoProjectTag.cpp" />
   </ItemGroup>
   <ItemGroup>
