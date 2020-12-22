@@ -8,6 +8,8 @@ public:
 
 	static bool DoesCppSupport(ECodingLanguageFeature feature, uint16_t version);
 
+	static bool IsIntegerType(const std::string& typeName);
+
 	static CodeFunction ParseCodeFunction(const std::string& str);
 
 	static CodeParam ParseCodeParam(const std::string& str);

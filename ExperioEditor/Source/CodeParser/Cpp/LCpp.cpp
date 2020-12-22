@@ -31,6 +31,27 @@ bool LCpp::DoesCppSupport(ECodingLanguageFeature feature, uint16_t version)
 	return false;
 }
 
+bool LCpp::IsIntegerType(const std::string & typeName)
+{
+	if (typeName == "int8_t") return true;
+	if (typeName == "int16_t") return true;
+	if (typeName == "int32_t") return true;
+	if (typeName == "int64_t") return true;
+	if (typeName == "uint8_t") return true;
+	if (typeName == "uint16_t") return true;
+	if (typeName == "uint32_t") return true;
+	if (typeName == "uint64_t") return true;
+	if (typeName == "char") return true;
+	if (typeName == "short") return true;
+	if (typeName == "int") return true;
+	if (typeName == "long long") return true;
+	if (typeName == "unsigned char") return true;
+	if (typeName == "unsigned short") return true;
+	if (typeName == "unsigned int") return true;
+	if (typeName == "unsigned long long") return true;
+	return false;
+}
+
 CodeFunction LCpp::ParseCodeFunction(const std::string & str)
 {
 	CodeFunction func;
