@@ -32,6 +32,7 @@ enum class EParamType
 {
 	BOOL,
 	BYTE,
+	UBYTE,
 	SHORT,
 	USHORT,
 	FLOAT,
@@ -49,6 +50,7 @@ enum class EParamType
 	BOX,
 	SPHERICALPOINT,
 	CURVE,
+	MATERIAL,
 	AUDIO,
 	DATA,
 	FONT,
@@ -61,7 +63,8 @@ enum class EParamType
 };
 
 bool ParseBool(std::string str);
-uint8_t ParseByte(std::string str);
+int8_t ParseByte(std::string str);
+uint8_t ParseUByte(std::string str);
 int16_t ParseShort(std::string str);
 uint16_t ParseUShort(std::string str);
 float ParseFloat(std::string str);

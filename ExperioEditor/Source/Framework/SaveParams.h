@@ -3,7 +3,8 @@
 #include <fstream>
 
 void SaveBool(bool param, std::ostream& stream);
-void SaveByte(uint8_t param, std::ostream& stream);
+void SaveByte(int8_t param, std::ostream& stream);
+void SaveUByte(uint8_t param, std::ostream& stream);
 void SaveShort(short param, std::ostream& stream);
 void SaveUShort(uint16_t param, std::ostream& stream);
 void SaveFloat(float param, std::ostream& stream);

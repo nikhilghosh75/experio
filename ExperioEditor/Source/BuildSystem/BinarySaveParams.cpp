@@ -6,7 +6,12 @@ void BinarySaveBool(bool param, std::ostream & stream)
 	stream.write((char*)&param, 1);
 }
 
-void BinarySaveByte(uint8_t param, std::ostream & stream)
+void BinarySaveByte(int8_t param, std::ostream & stream)
+{
+	stream.write((char*)&param, 1);
+}
+
+void BinarySaveUByte(uint8_t param, std::ostream & stream)
 {
 	stream.write((char*)&param, 1);
 }

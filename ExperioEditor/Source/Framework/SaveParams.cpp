@@ -14,7 +14,12 @@ void SaveBool(bool param, std::ostream & stream)
 	}
 }
 
-void SaveByte(uint8_t param, std::ostream & stream)
+void SaveByte(int8_t param, std::ostream & stream)
+{
+	stream << (unsigned short)param;
+}
+
+void SaveUByte(uint8_t param, std::ostream & stream)
 {
 	stream << (unsigned short)param;
 }

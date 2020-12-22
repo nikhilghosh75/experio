@@ -3,7 +3,8 @@
 #include "Params.h"
 
 bool BinaryParseBool(void* data);
-uint8_t BinaryParseByte(void* data);
+int8_t BinaryParseByte(void* data);
+uint8_t BinaryParseUByte(void* data);
 int16_t BinaryParseShort(void* data);
 uint16_t BinaryParseUShort(void* data);
 float BinaryParseFloat(void* data);

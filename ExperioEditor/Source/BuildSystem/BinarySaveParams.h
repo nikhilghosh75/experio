@@ -2,7 +2,8 @@
 #include "../Framework/SaveParams.h"
 
 void BinarySaveBool(bool param, std::ostream& stream);
-void BinarySaveByte(uint8_t param, std::ostream& stream);
+void BinarySaveByte(int8_t param, std::ostream& stream);
+void BinarySaveUByte(uint8_t param, std::ostream& stream);
 void BinarySaveShort(short param, std::ostream& stream);
 void BinarySaveUShort(uint16_t param, std::ostream& stream);
 void BinarySaveFloat(float param, std::ostream& stream);

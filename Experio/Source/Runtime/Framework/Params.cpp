@@ -7,7 +7,12 @@ bool ParseBool(std::string str)
 	return str.find("true") != std::string::npos;
 }
 
-uint8_t ParseByte(std::string str)
+int8_t ParseByte(std::string str)
+{
+	return (int8_t)std::stoi(str);
+}
+
+uint8_t ParseUByte(std::string str)
 {
 	return (uint8_t)std::stoi(str);
 }

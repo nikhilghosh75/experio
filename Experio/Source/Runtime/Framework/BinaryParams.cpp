@@ -8,7 +8,12 @@ bool BinaryParseBool(void * data)
 	return *(uint8_t*)data != 0;
 }
 
-uint8_t BinaryParseByte(void * data)
+int8_t BinaryParseByte(void * data)
+{
+	return *(int8_t*)data;
+}
+
+uint8_t BinaryParseUByte(void* data)
 {
 	return *(uint8_t*)data;
 }
@@ -158,6 +163,7 @@ size_t SizeOfBinaryParam(EParamType type)
 	case EParamType::FONT: return 4;
 	case EParamType::INT: return 4;
 	case EParamType::LONG: return 8;
+	case EParamType::MATERIAL: return 4;
 	case EParamType::MESH: return 4;
 	case EParamType::NARRAY: return 0;
 	case EParamType::NSTRING: return 0;
@@ -167,6 +173,7 @@ size_t SizeOfBinaryParam(EParamType type)
 	case EParamType::SHORT: return 2;
 	case EParamType::SPHERICALPOINT: return 12;
 	case EParamType::TEXTURE: return 4;
+	case EParamType::UBYTE: return 1;
 	case EParamType::UINT: return 4;
 	case EParamType::ULONG: return 8;
 	case EParamType::USHORT: return 2;
@@ -175,4 +182,5 @@ size_t SizeOfBinaryParam(EParamType type)
 	case EParamType::VECTOR4: return 16;
 	case EParamType::VIDEO: return 0;
 	}
+	return 0;
 }
