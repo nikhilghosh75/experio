@@ -27,12 +27,6 @@ public:
 	EBilboardOrientation orientation;
 	FVector2 billboardSize;
 
-	union
-	{
-		FVector3 rotationAxis;
-		FVector3 eulerRotation;
-	};
-
 	Billboard(GameObject* object);
 
 	virtual void Start() override;

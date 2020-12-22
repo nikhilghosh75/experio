@@ -17,9 +17,9 @@ Billboard::Billboard(GameObject * object)
 
 void Billboard::Start()
 {
-	this->sizeType = EBillboardSizeType::World;
-	this->orientation = EBilboardOrientation::TowardCamera;
-	this->billboardSize = FVector2(1.0f, 0.125f);
+	// this->sizeType = EBillboardSizeType::World;
+	// this->orientation = EBilboardOrientation::TowardCamera;
+	// this->billboardSize = FVector2(1.0f, 0.125f);
 }
 
 void Billboard::Update()
