@@ -9,6 +9,18 @@ FCodeProjectOptions::FCodeProjectOptions()
 	this->generateInstantly = false;
 }
 
+CodeProject::CodeProject()
+{
+	this->filepath = "";
+	this->codingLanguage = ECodingLanguage::None;
+}
+
+CodeProject::CodeProject(ECodingLanguage language)
+{
+	this->filepath = "";
+	this->codingLanguage = language;
+}
+
 CodeProject::CodeProject(std::string filepath, FCodeProjectOptions & options)
 {
 	this->filepath = filepath;
@@ -83,4 +95,22 @@ CodeFunction & CodeProject::EmplaceFunction()
 CodeFunction & CodeProject::EmplaceFunction(const std::string & returnType, const std::string & functionName)
 {
 	return this->functions.emplace_back(returnType, functionName);
+}
+
+uint32_t CodeProject::FindIndexOfClass(const std::string & str) const
+{
+	for (uint32_t i = 0; i < this->classes.size(); i++)
+	{
+		if (str == this->classes[i].name) return i;
+	}
+	return CODE_OBJECT_NOT_FOUND;
+}
+
+uint32_t CodeProject::FindIndexOfEnum(const std::string & str) const
+{
+	for (uint32_t i = 0; i < this->enums.size(); i++)
+	{
+		if (str == this->enums[i].name) return i;
+	}
+	return CODE_OBJECT_NOT_FOUND;
 }

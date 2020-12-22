@@ -4,6 +4,8 @@
 #include "CodeFunction.h"
 #include "CodeEnum.h"
 
+#define CODE_OBJECT_NOT_FOUND 1953185832
+
 enum class ECodingLanguage : uint8_t
 {
 	None,
@@ -36,7 +38,8 @@ public:
 	std::vector<CodeEnum> enums;
 	std::vector<CodeFunction> functions;
 
-	CodeProject() = delete;
+	CodeProject();
+	CodeProject(ECodingLanguage language);
 	CodeProject(std::string filepath, FCodeProjectOptions& options = FCodeProjectOptions::defaultOptions);
 
 	void Generate();
@@ -56,4 +59,7 @@ public:
 
 	CodeFunction& EmplaceFunction();
 	CodeFunction& EmplaceFunction(const std::string& returnType, const std::string& functionName);
+
+	uint32_t FindIndexOfClass(const std::string& str) const;
+	uint32_t FindIndexOfEnum(const std::string& str) const;
 };
