@@ -1,6 +1,7 @@
 #include "CodeGenerator.h"
 #include "LSerializationOperations.h"
 #include "../CodeParser/Cpp/CppCodeStream.h"
+#include "../Core/EditorApplication.h"
 #include "../Framework/EditorProject.h"
 #include "../Framework/Values.h"
 #include "Runtime/Containers/LString.h"
@@ -18,19 +19,20 @@ void CodeGenerator::GenerateComponentManager()
 	CodeClass componentManager = GenerateComponentManagerClass();
 
 	// Generate .h file
-	CppCodeOStream hFile("DemoProjectComponentManager.h");
+	CppCodeOStream hFile(EditorApplication::sourceFilePath + "/DemoProjectComponentManager.h");
 	hFile << "#include \"Runtime/Framework/ComponentManager.h\"" << Debug::endl;
 	hFile << "#include \"Runtime/DefaultComponents.h\"" << Debug::endl << Debug::endl;
 	hFile << componentManager;
 	hFile.Close();
 
 	// Generate .cpp file
-	CppCodeOStream cppFile("DemoProjectComponentManager.cpp");
+	CppCodeOStream cppFile(EditorApplication::sourceFilePath + "/DemoProjectComponentManager.cpp");
 	cppFile << "#include \"DemoProjectComponentManager.h\"" << Debug::endl;
+	cppFile << "#include \"Runtime/Containers/Algorithm.h\"" << Debug::endl;
 	cppFile << "#include \"Runtime/Debug/Debug.h\"" << Debug::endl << Debug::endl;
 
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
-		if (!info.isDefaultComponent)
+		if (!info.isDefaultComponent && info.filepath.size() != 0)
 		{
 			cppFile << "#include \"" << info.filepath << "\"" << Debug::endl;
 		}
@@ -39,9 +41,12 @@ void CodeGenerator::GenerateComponentManager()
 	GenerateComponentManagerStartImpl(cppFile, componentManager);
 	GenerateComponentManagerUpdateImpl(cppFile, componentManager);
 	GenerateComponentManagerRenderSceneImpl(cppFile, componentManager);
+	GenerateComponentManagerAddComponentImpl(cppFile, componentManager);
+	GenerateComponentManagerGetComponentImpl(cppFile, componentManager);
 	GenerateComponentManagerDeleteComponentImpl(cppFile, componentManager);
 	GenerateComponentManagerGetComponentAtIndexImpl(cppFile, componentManager);
 	GenerateComponentManagerOnGameObjectDeletedImpl(cppFile, componentManager);
+	GenerateComponentManagerGetComponentPointersImpl(cppFile, componentManager);
 	GenerateComponentManagerGetComponentIDsImpl(cppFile, componentManager);
 	GenerateComponentManagerGetAllComponentsImpl(cppFile, componentManager);
 	GenerateComponentManagerCountImpl(cppFile, componentManager);
@@ -55,11 +60,24 @@ void CodeGenerator::GenerateProjectFile()
 
 void CodeGenerator::GenerateComponentSerializers()
 {
+	CppCodeOStream outFile(EditorApplication::sourceFilePath + "/DemoProjectSerializers.cpp");
+
+	outFile << "#include \"DemoProject.h\"" << Debug::endl;
+	outFile << "#include \"Runtime/Framework/BinaryParams.h\"" << Debug::endl;
+	outFile << "#include \"Runtime/Framework/SceneLoader.h\"" << Debug::endl;
+	outFile << Debug::endl;
+
+	GenerateParamsListImpl(outFile);
+	GenerateSetComponentParamsImpl(outFile);
+	GenerateSetComponentBinaryParamsImpl(outFile);
+	GenerateAddComponentToSceneImpl(outFile);
+	GenerateSizeOfImpl(outFile);
+	GenerateSerializedSizeOfImpl(outFile);
 }
 
 void CodeGenerator::GenerateTagFile()
 {
-	CppCodeOStream outFile("DemoProjectTag.cpp");
+	CppCodeOStream outFile(EditorApplication::sourceFilePath + "/DemoProjectTag.cpp");
 
 	outFile << "#include <cstring>" << Debug::endl;
 	outFile << "#include <string>" << Debug::endl << Debug::endl;
@@ -73,20 +91,20 @@ void CodeGenerator::GenerateTagFile()
 		outFile << "if(strcmp(string, \"" << value << "\")) { return " << std::to_string(key) << "; }" << Debug::endl;
 	});
 
-	outFile << "	return 0;" << Debug::endl;
+	outFile << "return 0;" << Debug::endl;
 	outFile << "}" << Debug::endl;
 	
 	outFile << "std::string DefaultTagNumToString(unsigned short num)" << Debug::endl;
 	outFile << "{" << Debug::endl;
-	outFile << "	switch(num)" << Debug::endl;
-	outFile << "	{" << Debug::endl;
+	outFile << "switch(num)" << Debug::endl;
+	outFile << "{" << Debug::endl;
 
 	ExperioEditor::GetTags().ForEach([&outFile](const uint16_t& key, const std::string& value) {
-		outFile << "case " << key << ": " << "return \"" << value << "\";" << Debug::endl;
+		outFile << "case " << std::to_string(key) << ": " << "return \"" << value << "\";" << Debug::endl;
 	});
 
-	outFile << "	}" << Debug::endl;
-	outFile << "	return \"Tag\";" << Debug::endl;
+	outFile << "}" << Debug::endl;
+	outFile << "return \"Tag\";" << Debug::endl;
 	outFile << "}" << Debug::endl;
 
 	outFile << "#endif" << Debug::endl;
@@ -121,11 +139,12 @@ CodeClass CodeGenerator::GenerateComponentManagerClass()
 	getComponent.arguments.emplace_back("GameObject*", "gameObject", false);
 	getComponent.arguments.emplace_back("unsigned int", "classId", false);
 	codeClass.functions.push_back(getComponent);
-
+	
+	// unsigned int classId, unsigned int index
 	CodeFunction getComponentIndex("Component*", "GetComponentAtIndex");
 	getComponentIndex.keywords = ECodeFunctionKeyword::Virtual;
-	getComponentIndex.arguments.emplace_back("GameObject*", "gameObject", false);
 	getComponentIndex.arguments.emplace_back("unsigned int", "classId", false);
+	getComponentIndex.arguments.emplace_back("unsigned int", "index", false);
 	codeClass.functions.push_back(getComponentIndex);
 
 	CodeFunction deleteComponent("void", "DeleteComponent");
@@ -153,6 +172,7 @@ CodeClass CodeGenerator::GenerateComponentManagerClass()
 	getAllComponents.keywords = ECodeFunctionKeyword::Virtual;
 	codeClass.functions.push_back(getAllComponents);
 
+	getAllComponents.returnType = "void";
 	getAllComponents.arguments.emplace_back("std::vector<Component*>&", "components", false);
 	getAllComponents.arguments.emplace_back("std::vector<unsigned int>&", "componentIds", false);
 	codeClass.functions.push_back(getAllComponents);
@@ -184,7 +204,7 @@ void CodeGenerator::GenerateComponentManagerStartImpl(CppCodeOStream & cppFile, 
 		cppFile << "PB_START(" << codeClass.params[i].name << ");" << Debug::endl;
 	}
 
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << Debug::endl;
 }
 
 void CodeGenerator::GenerateComponentManagerUpdateImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
@@ -197,7 +217,7 @@ void CodeGenerator::GenerateComponentManagerUpdateImpl(CppCodeOStream & cppFile,
 		cppFile << "PB_UPDATE(" << codeClass.params[i].name << ");" << Debug::endl;
 	}
 
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << Debug::endl;
 }
 
 void CodeGenerator::GenerateComponentManagerRenderSceneImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
@@ -207,7 +227,7 @@ void CodeGenerator::GenerateComponentManagerRenderSceneImpl(CppCodeOStream & cpp
 	cppFile << "PB_UPDATE(meshComponentInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(particleSystemInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(billboardInstances);" << Debug::endl;
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << Debug::endl;
 }
 
 void CodeGenerator::GenerateComponentManagerAddComponentImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
@@ -225,7 +245,7 @@ void CodeGenerator::GenerateComponentManagerAddComponentImpl(CppCodeOStream & cp
 		}
 	});
 
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << "}" << Debug::endl << Debug::endl;
 }
 
 void CodeGenerator::GenerateComponentManagerGetComponentImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
@@ -243,7 +263,7 @@ void CodeGenerator::GenerateComponentManagerGetComponentImpl(CppCodeOStream & cp
 		}
 	});
 
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << "}" << Debug::endl << Debug::endl;
 }
 
 void CodeGenerator::GenerateComponentManagerGetComponentAtIndexImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
@@ -261,12 +281,12 @@ void CodeGenerator::GenerateComponentManagerGetComponentAtIndexImpl(CppCodeOStre
 		}
 	});
 
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << "}" << Debug::endl << Debug::endl;
 }
 
 void CodeGenerator::GenerateComponentManagerDeleteComponentImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
 {
-	cppFile << "Component* " << codeClass.name << "::DeleteComponent(GameObject* gameObject, unsigned int classId)"
+	cppFile << "void " << codeClass.name << "::DeleteComponent(GameObject* gameObject, unsigned int classId)"
 		<< Debug::endl << "{" << Debug::endl;
 	cppFile << "bool foundComponent = false;" << Debug::endl << Debug::endl;
 	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
@@ -280,12 +300,12 @@ void CodeGenerator::GenerateComponentManagerDeleteComponentImpl(CppCodeOStream &
 		}
 	});
 
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << "}" << Debug::endl << Debug::endl;
 }
 
 void CodeGenerator::GenerateComponentManagerOnGameObjectDeletedImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
 {
-	cppFile << "Component* " << codeClass.name << "::OnGameObjectDeleted(GameObject* gameObject, unsigned int classId)"
+	cppFile << "void " << codeClass.name << "::OnGameObjectDeleted(GameObject* gameObject)"
 		<< Debug::endl << "{" << Debug::endl;
 	cppFile << "bool foundComponent = false;" << Debug::endl << Debug::endl;
 	cppFile << "CameraSystem::OnGameObjectDeleted(gameObject);" << Debug::endl;
@@ -298,7 +318,7 @@ void CodeGenerator::GenerateComponentManagerOnGameObjectDeletedImpl(CppCodeOStre
 		}
 	});
 
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << Debug::endl;
 }
 
 void CodeGenerator::GenerateComponentManagerGetComponentIDsImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
@@ -312,38 +332,40 @@ void CodeGenerator::GenerateComponentManagerGetComponentIDsImpl(CppCodeOStream &
 	});
 
 	cppFile << "return returnVector;" << Debug::endl;
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << Debug::endl;
 }
 
 void CodeGenerator::GenerateComponentManagerGetComponentPointersImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
 {
 	cppFile << "std::vector<Component*> " << codeClass.name << "::GetComponentsInGameObject(GameObject * gameObject)"
 		<< Debug::endl << "{" << Debug::endl;
-	cppFile << "std::vector<unsigned int> returnVector;" << Debug::endl << Debug::endl;
-	cppFile << "returnVector.reserve(ComponentCount());" << Debug::endl;
+	cppFile << "std::vector<Component*> returnVector;" << Debug::endl;
+	cppFile << "Component* component;" << Debug::endl;
+	cppFile << "returnVector.reserve(ComponentCount());" << Debug::endl << Debug::endl;
 
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
 		cppFile << "PB_GET_COMPONENT_GAMEOBJECT(" << std::to_string(id) << ");" << Debug::endl;
 	});
 
 	cppFile << "return returnVector;" << Debug::endl;
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << Debug::endl;
 }
 
 void CodeGenerator::GenerateComponentManagerGetAllComponentsImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
 {
 	// 0 args
 	cppFile << "std::vector<Component*> " << codeClass.name << "::GetAllComponents()" << Debug::endl << "{" << Debug::endl;
-	cppFile << "std::vector<Component*> returnVector;" << Debug::endl;
-	cppFile << "returnVector.reserve(ComponentCount());" << Debug::endl;
+	cppFile << "std::vector<Component*> vector;" << Debug::endl;
+	cppFile << "vector.reserve(ComponentCount());" << Debug::endl;
 
+	cppFile << "CameraSystem::GetAll(vector);" << Debug::endl;
 	for (int i = 0; i < codeClass.params.size(); i++)
 	{
 		cppFile << "PB_GET_ALL(" << codeClass.params[i].name << ");" << Debug::endl;
 	}
 
-	cppFile << "return returnVector;" << Debug::endl;
-	cppFile << "}" << Debug::endl;
+	cppFile << "return vector;" << Debug::endl;
+	cppFile << "}" << Debug::endl << Debug::endl;
 
 	// 2 arg
 	cppFile << "void " << codeClass.name 
@@ -352,6 +374,8 @@ void CodeGenerator::GenerateComponentManagerGetAllComponentsImpl(CppCodeOStream 
 	cppFile << "components.reserve(ComponentCount());" << Debug::endl;
 	cppFile << "componentIds.reserve(ComponentCount());" << Debug::endl << Debug::endl;
 
+	cppFile << "CameraSystem::GetAll(components);" << Debug::endl;
+	cppFile << "Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::Size());" << Debug::endl;
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
 		if (info.isStandaloneComponent)
 		{
@@ -360,15 +384,17 @@ void CodeGenerator::GenerateComponentManagerGetAllComponentsImpl(CppCodeOStream 
 		}
 	});
 
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << Debug::endl;
 
-	// 2 arg
+	// 3 arg
 	cppFile << "void " << codeClass.name
-		<< "::GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds)"
+		<< "::GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds, uint8_t sceneIndex)"
 		<< Debug::endl << "{" << Debug::endl;
 	cppFile << "components.reserve(ComponentCount());" << Debug::endl;
 	cppFile << "componentIds.reserve(ComponentCount());" << Debug::endl << Debug::endl;
 
+	cppFile << "CameraSystem::GetAll(components);" << Debug::endl;
+	cppFile << "Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::Size());" << Debug::endl;
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
 		if (info.isStandaloneComponent)
 		{
@@ -377,7 +403,7 @@ void CodeGenerator::GenerateComponentManagerGetAllComponentsImpl(CppCodeOStream 
 		}
 	});
 
-	cppFile << "}" << Debug::endl;
+	cppFile << "}" << Debug::endl << Debug::endl;
 }
 
 void CodeGenerator::GenerateComponentManagerCountImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
@@ -388,12 +414,12 @@ void CodeGenerator::GenerateComponentManagerCountImpl(CppCodeOStream & cppFile, 
 	{
 		cppFile << " + " << codeClass.params[i].name << ".size()";
 	}
-	cppFile << ";" << Debug::endl << "}";
+	cppFile << ";" << Debug::endl << "}" << Debug::endl;
 }
 
 void CodeGenerator::GenerateProjectHFile()
 {
-	CppCodeOStream hFile("DemoProject.h");
+	CppCodeOStream hFile(EditorApplication::sourceFilePath + "/DemoProject.h");
 
 	hFile << "#include \"Runtime/Core/Application.h\"" << Debug::endl;
 	hFile << "#include \"Runtime/Framework/Project.h\"" << Debug::endl;
@@ -420,7 +446,7 @@ void CodeGenerator::GenerateProjectHFile()
 
 void CodeGenerator::GenerateProjectCppFile()
 {
-	CppCodeOStream cppFile("DemoProject.cpp");
+	CppCodeOStream cppFile(EditorApplication::sourceFilePath + "/DemoProject.cpp");
 
 	cppFile << "#include \"DemoProject.h\"" << Debug::endl;
 	cppFile << "#include \"Runtime/Core/Window.h\"" << Debug::endl;
@@ -475,4 +501,106 @@ void CodeGenerator::GenerateCreateMaterialManagerImpl(CppCodeOStream & cppFile)
 	cppFile << "extern \"C\" __declspec(dllexport) MaterialManager* CreateMaterialManager()" << Debug::endl << "{" << Debug::endl;
 	cppFile << "return new DemoProjectMaterialManager();" << Debug::endl;
 	cppFile << "}" << Debug::endl;
+}
+
+void CodeGenerator::GenerateParamsListImpl(CppCodeOStream & cppFile)
+{
+	cppFile << "std::vector<std::string> GetParamsList(unsigned int classId)" << Debug::endl << "{" << Debug::endl;
+	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
+	CodeProject& project = EditorProject::gameProject;
+	EditorProject::componentClasses.ForEach([&cppFile, &project](const unsigned int& id, const FComponentInfo& info){
+		CodeClass& codeClass = project.classes[project.FindIndexOfClass(info.name)];
+		cppFile << "case " << std::to_string(id) << ": return std::vector<std::string>({ ";
+		for (uint32_t i = 0; i < codeClass.params.size(); i++)
+		{
+			cppFile << "\"" << codeClass.params[i].name << "\"";
+
+			if (i < codeClass.params.size() - 1) cppFile << ", ";
+		}
+		cppFile << "});" << Debug::endl;
+	});
+	cppFile << "}" << Debug::endl << "return std::vector<std::string>();" << Debug::endl << "}" << Debug::endl << Debug::endl;
+}
+
+void CodeGenerator::GenerateSetComponentParamsImpl(CppCodeOStream & cppFile)
+{
+	cppFile << "template<class T> void SetComponentParams(std::vector<std::string> params, T* component) { }" 
+		<< Debug::endl << Debug::endl;
+
+	CodeProject& project = EditorProject::gameProject;
+	EditorProject::componentClasses.ForEach([&cppFile, &project](const unsigned int& id, const FComponentInfo& info) {
+		cppFile << "template<> void SetComponentParams(std::vector<std::string> params, "
+			<< info.name << "* component)" << Debug::endl << "{" << Debug::endl;
+
+		CodeClass& codeClass = project.classes[project.FindIndexOfClass(info.name)];
+		LSerializationOperations::GenerateParser(codeClass, project, cppFile);
+		cppFile << "}" << Debug::endl << Debug::endl;
+	});
+}
+
+void CodeGenerator::GenerateSetComponentBinaryParamsImpl(CppCodeOStream & cppFile)
+{
+	cppFile << "template<class T> void SetComponentBinaryParams(void* data, T* component) { }"
+		<< Debug::endl << Debug::endl;
+
+	CodeProject& project = EditorProject::gameProject;
+	EditorProject::componentClasses.ForEach([&cppFile, &project](const unsigned int& id, const FComponentInfo& info) {
+		cppFile << "template<> void SetComponentBinaryParams(void* data, "
+			<< info.name << "* component)" << Debug::endl << "{" << Debug::endl;
+
+		CodeClass& codeClass = project.classes[project.FindIndexOfClass(info.name)];
+		LSerializationOperations::GenerateBinaryParser(codeClass, project, cppFile);
+		cppFile << "}" << Debug::endl << Debug::endl;
+	});
+}
+
+void CodeGenerator::GenerateAddComponentToSceneImpl(CppCodeOStream & cppFile)
+{
+	cppFile << "void AddComponentToScene(unsigned int classId, std::vector<std::string> params, "
+		<< "GameObject* gameObject, uint8_t sceneId)" << Debug::endl << "{" << Debug::endl;
+	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
+	cppFile << "case 100: CameraSystem::AddComponent(params, gameObject); break;" << Debug::endl;
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		if (!info.isStandaloneComponent) return;
+
+		cppFile << "case " << std::to_string(id) << ": { PB_EMPLACE_COMPONENT(" << info.name
+			<< ", classId); PB_START_COMPONENT(); } break;" << Debug::endl;
+	});
+	cppFile << "}" << Debug::endl << "}" << Debug::endl << Debug::endl;
+
+	cppFile << "void AddComponentToScene(unsigned int classId, void* params, size_t paramSize, "
+		<< "GameObject* gameObject, uint8_t sceneId)" << Debug::endl << "{" << Debug::endl;
+	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
+	cppFile << "case 100: CameraSystem::AddComponent(params, paramSize, gameObject); break;" << Debug::endl;
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		if (!info.isStandaloneComponent) return;
+
+		cppFile << "case " << std::to_string(id) << ": { PB_EMPLACE_BINARY_COMPONENT(" << info.name
+			<< ", classId); PB_START_COMPONENT(); } break;" << Debug::endl;
+	});
+	cppFile << "}" << Debug::endl << "}" << Debug::endl << Debug::endl;
+}
+
+void CodeGenerator::GenerateSizeOfImpl(CppCodeOStream & cppFile)
+{
+	cppFile << "size_t SizeOfComponent(unsigned int classId)" << Debug::endl << "{" << Debug::endl;
+	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
+	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
+		cppFile << "case " << std::to_string(id) << ": return sizeof(" << info.name << ");" << Debug::endl;
+	});
+	cppFile << "}" << Debug::endl << "return 0;" << Debug::endl << "}" << Debug::endl << Debug::endl;
+}
+
+void CodeGenerator::GenerateSerializedSizeOfImpl(CppCodeOStream & cppFile)
+{
+	cppFile << "size_t SerializedSizeOfComponent(unsigned int classId)" << Debug::endl << "{" << Debug::endl;
+	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
+
+	CodeProject& project = EditorProject::gameProject;
+	EditorProject::componentClasses.ForEach([&cppFile, &project](const unsigned int& id, const FComponentInfo& info) {
+		CodeClass& codeClass = project.classes[project.FindIndexOfClass(info.name)];
+		size_t serializedSizeOf = LSerializationOperations::SerializedSizeOf(codeClass, project, ECodingLanguage::CPlusPlus);
+		cppFile << "case " << std::to_string(id) << ": return " << std::to_string(serializedSizeOf) << ";" << Debug::endl;
+	});
+	cppFile << "}" << Debug::endl << "return 0;" << Debug::endl << "}" << Debug::endl << Debug::endl;
 }

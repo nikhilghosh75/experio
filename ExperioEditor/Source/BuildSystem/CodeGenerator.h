@@ -39,4 +39,11 @@ private:
 	static void GenerateRunProjectImpl(CppCodeOStream& cppFile);
 	static void GenerateCreateComponentManagerImpl(CppCodeOStream& cppFile);
 	static void GenerateCreateMaterialManagerImpl(CppCodeOStream& cppFile);
+
+	static void GenerateParamsListImpl(CppCodeOStream& cppFile);
+	static void GenerateSetComponentParamsImpl(CppCodeOStream& cppFile);
+	static void GenerateSetComponentBinaryParamsImpl(CppCodeOStream& cppFile);
+	static void GenerateAddComponentToSceneImpl(CppCodeOStream& cppFile);
+	static void GenerateSizeOfImpl(CppCodeOStream& cppFile);
+	static void GenerateSerializedSizeOfImpl(CppCodeOStream& cppFile);
 };
