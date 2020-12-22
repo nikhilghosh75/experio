@@ -1,6 +1,7 @@
 #include "CameraSystem.h"
 #include "../Math/LMath.h"
 #include "../Debug/Debug.h"
+#include "../Framework/BinaryParams.h"
 #include "../Framework/Params.h"
 
 float CameraSystem::timeInTransition = 0.f;
@@ -29,6 +30,18 @@ VirtualCamera* CameraSystem::AddComponent(std::vector<std::string> params, GameO
 	tempCamera.Start();
 	cameras.push_back(tempCamera);
 	return &cameras[cameras.size() - 1];
+}
+
+VirtualCamera * CameraSystem::AddComponent(void * params, size_t paramSize, GameObject * gameObject)
+{
+	VirtualCamera tempCamera(gameObject);
+	tempCamera.priority = BinaryParseFloat((char*)params + 0);
+	tempCamera.fieldOfView = BinaryParseFloat((char*)params + 4);
+	tempCamera.nearClipPlane = BinaryParseFloat((char*)params + 8);
+	tempCamera.farClipPlane = BinaryParseFloat((char*)params + 12);
+	tempCamera.Start();
+	cameras.push_back(tempCamera);
+	return &cameras[cameras.size() - 1];;
 }
 
 VirtualCamera* CameraSystem::GetComponent(GameObject* gameObject)
@@ -61,6 +74,14 @@ void CameraSystem::DeleteComponent(GameObject * gameObject)
 			}
 			cameras[i] = cameras[i + 1];
 		}
+	}
+}
+
+void CameraSystem::GetAll(std::vector<Component*>& components)
+{
+	for (int i = 0; i < cameras.size(); i++)
+	{
+		components.push_back(&cameras[i]);
 	}
 }
 

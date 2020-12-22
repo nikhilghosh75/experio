@@ -18,10 +18,13 @@ public:
 
 	static VirtualCamera* AddComponent(GameObject* gameObject);
 	static VirtualCamera* AddComponent(std::vector<std::string> params, GameObject* gameObject);
+	static VirtualCamera* AddComponent(void* params, size_t paramSize, GameObject* gameObject);
 
 	static VirtualCamera* GetComponent(GameObject* gameObject);
 
 	static void DeleteComponent(GameObject* gameObject);
+
+	static void GetAll(std::vector<Component*>& components);
 
 	static void OnGameObjectDeleted(GameObject* gameObject);
 
