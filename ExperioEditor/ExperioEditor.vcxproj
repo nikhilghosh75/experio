@@ -92,6 +92,7 @@
     <ClCompile Include="Source\BuildSystem\AssetMapSaver.cpp" />
     <ClCompile Include="Source\BuildSystem\BinarySaveParams.cpp" />
     <ClCompile Include="Source\BuildSystem\CodeGenerator.cpp" />
+    <ClCompile Include="Source\BuildSystem\LSerializationOperations.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProject.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectGenerator.cpp" />
     <ClCompile Include="Source\CodeParser\Cpp\CppCodeStream.cpp" />
@@ -145,6 +146,8 @@
     <ClInclude Include="Source\BuildSystem\AssetMapSaver.h" />
     <ClInclude Include="Source\BuildSystem\BinarySaveParams.h" />
     <ClInclude Include="Source\BuildSystem\CodeGenerator.h" />
+    <ClInclude Include="Source\BuildSystem\LSerializationOperations.h" />
+    <ClInclude Include="Source\BuildSystem\SerializationInfo.h" />
     <ClInclude Include="Source\CodeParser\CodeArg.h" />
     <ClInclude Include="Source\CodeParser\CodeClass.h" />
     <ClInclude Include="Source\CodeParser\CodeEnum.h" />
