@@ -248,6 +248,9 @@ namespace Experio::Algorithm
 	template<typename T>
 	const T* Find(const TUnrolledList<T>& list, std::function<bool(const T&)> func);
 
+	template<typename T>
+	void AddNumOf(std::vector<T>& vector, T elem, size_t num);
+
 	// ---------------------------------------------------------------------------------
 
 	template<typename T>
@@ -343,6 +346,15 @@ namespace Experio::Algorithm
 			if (func(vector[i])) return &vector[i];
 		}
 		return nullptr;
+	}
+
+	template<typename T>
+	void AddNumOf(std::vector<T>& vector, T elem, size_t num)
+	{
+		for (size_t i = 0; i < num; i++)
+		{
+			vector.push_back(elem);
+		}
 	}
 }
 
