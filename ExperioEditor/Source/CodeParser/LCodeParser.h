@@ -63,12 +63,4 @@ public:
 	static CodeArg ParseCodeArg(const std::string& str, ECodingLanguage language);
 	static CodeFunction ParseCodeFunction(const std::string& str, ECodingLanguage language);
 	static CodeParam ParseCodeParam(const std::string& str, ECodingLanguage language);
-
-	static size_t SerializedSizeOf(const CodeClass& codeClass, const CodeProject& codeProject, ECodingLanguage language);
-	static size_t SizeOfDefaultType(const std::string& name, ECodingLanguage language);
-	static size_t SizeOfParam(const CodeParam& param, const CodeProject& codeProject, ECodingLanguage language);
-	static size_t SizeOfEnum(const CodeEnum& codeEnum);
-	static size_t SizeOfEnum(EEnumDataType dataType);
-	static size_t SizeOfExperioSerializedType(const std::string& name);
-	static size_t SizeOfGLMSerializedType(const std::string& name);
 };
