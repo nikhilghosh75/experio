@@ -3,5 +3,6 @@
 #endif
 
 #include "DemoProject.cpp"
+#include "DemoProjectSerializers.cpp"
 #include "DemoProjectTag.cpp"
 #include "DemoProjectComponentManager.cpp"
