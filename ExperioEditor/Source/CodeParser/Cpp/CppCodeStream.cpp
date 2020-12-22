@@ -16,6 +16,9 @@ CppCodeOStream::CppCodeOStream(const std::string & filepath)
 	{
 		outFile << "#pragma once" << std::endl;
 	}
+	
+	levelInward = 0;
+	lineEnded = false;
 }
 
 CppCodeOStream::~CppCodeOStream()
@@ -32,6 +35,9 @@ void CppCodeOStream::Open(const std::string & filepath)
 	{
 		outFile << "#pragma once" << std::endl;
 	}
+
+	levelInward = 0;
+	lineEnded = false;
 }
 
 bool CppCodeOStream::IsOpen() const
@@ -46,7 +52,23 @@ void CppCodeOStream::Close()
 
 CodeOStream & CppCodeOStream::operator<<(const std::string & str)
 {
+	if (lineEnded)
+	{
+		if (str == "}")
+		{
+			levelInward--;
+		}
+		for (int i = 0; i < levelInward; i++)
+		{
+			outFile << "\t";
+		}
+		lineEnded = false;
+	}
 	outFile << str;
+	if (str == "{")
+	{
+		levelInward++;
+	}
 	return *this;
 }
 
@@ -55,7 +77,7 @@ CodeOStream & CppCodeOStream::operator<<(const DebugConstant & constant)
 	switch (constant.constant)
 	{
 	case 5807:
-		outFile << std::endl; break;
+		outFile << std::endl; lineEnded = true; break;
 	}
 
 	return *this;
@@ -124,6 +146,7 @@ void CppCodeOStream::StreamClassToH(const CodeClass & codeClass)
 	for (int i = 0; i < codeClass.params.size(); i++)
 	{
 		const CodeParam& param = codeClass.params[i];
+		outFile << "\t";
 
 		if (param.accessType != currentAccessType)
 		{
@@ -136,15 +159,17 @@ void CppCodeOStream::StreamClassToH(const CodeClass & codeClass)
 			case ECodeAccessType::Public:
 				outFile << "public:" << std::endl; break;
 			}
+			outFile << "\t";
 			currentAccessType = param.accessType;
 		}
 
-		outFile << param.type << " " << param.name << ";" << std::endl;
+		outFile << param.type << " " << param.name << ";" << std::endl << std::endl;
 	}
 
 	for (int i = 0; i < codeClass.functions.size(); i++)
 	{
 		const CodeFunction& function = codeClass.functions[i];
+		outFile << "\t";
 
 		if (function.accessType != currentAccessType)
 		{
@@ -179,14 +204,14 @@ void CppCodeOStream::StreamClassToH(const CodeClass & codeClass)
 		}
 		outFile << ")";
 
-		if (CodeFunction::IsKeywordVirtual(function.keywords)) { outFile << " override"; }
-
 		if (CodeFunction::IsKeywordConst(function.keywords)) { outFile << " const"; }
+
+		if (CodeFunction::IsKeywordVirtual(function.keywords)) { outFile << " override"; }
 		
 		outFile << ";" << std::endl;
 	}
 
-	outFile << std::endl << "}" << std::endl;
+	outFile << std::endl << "};" << std::endl;
 }
 
 void CppCodeOStream::StreamClassToCpp(const CodeClass & codeClass)

@@ -17,6 +17,10 @@ private:
 
 	ECppFileType fileType;
 
+	int levelInward = 0;
+
+	bool lineEnded = false;
+
 public:
 	CppCodeOStream();
 
