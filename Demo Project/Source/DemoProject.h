@@ -9,12 +9,7 @@
 #include <Windows.h>
 
 extern "C" __declspec(dllexport) void SetupProject();
-extern "C" __declspec(dllexport) void RunProject();
+extern "C" __declspec(dllexport) void Runtime();
 extern "C" __declspec(dllexport) void Update();
 extern "C" __declspec(dllexport) ComponentManager* CreateComponentManager();
 extern "C" __declspec(dllexport) MaterialManager* CreateMaterialManager();
-/*
-extern "C" __declspec(dllexport) bool LoadScene(std::string filename, int sceneSlot);
-extern "C" __declspec(dllexport) void SetupGraphics(HWND hwnd);
-extern "C" __declspec(dllexport) void SetWindowSize(int width, int height);
-*/

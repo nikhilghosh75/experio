@@ -1,43 +1,31 @@
 #pragma once
-
 #include "Runtime/Framework/ComponentManager.h"
 #include "Runtime/DefaultComponents.h"
 
-__declspec(dllexport) class DemoProjectComponentManager : public ComponentManager
+class DemoProjectComponentManager : public ComponentManager
 {
-	const std::vector<unsigned int> classIds = { 2, 100, 101, 102, 103, 104 };
-public:
-	std::vector<TestComponent> testComponentInstances;
-	std::vector<ParticleSystem> particleSystemInstances;
-	std::vector<Billboard> billboardInstances;
-	std::vector<MeshComponent> meshInstances;
+	public:
 	std::vector<TextComponent> textComponentInstances;
 
+	std::vector<MeshComponent> meshComponentInstances;
+
+	std::vector<ParticleSystem> particleSystemInstances;
+
+	std::vector<Billboard> billboardInstances;
+
 	virtual void Start() override;
-
 	virtual void Update() override;
-
 	virtual void RenderScene() override;
-
-	virtual Component* AddComponent(GameObject* gameObject, unsigned int classId) override;
-
-	virtual Component* GetComponent(GameObject* gameObject, unsigned int classId) override;
-
-	virtual Component* GetComponentAtIndex(unsigned int classId, unsigned index) override;
-
-	virtual void DeleteComponent(GameObject* gameObject, unsigned int classId) override;
-
+	virtual Component* AddComponent(GameObject* gameObject,unsigned int classId) override;
+	virtual Component* GetComponent(GameObject* gameObject,unsigned int classId) override;
+	virtual Component* GetComponentAtIndex(unsigned int classId,unsigned int index) override;
+	virtual void DeleteComponent(GameObject* gameObject,unsigned int classId) override;
 	virtual void OnGameObjectDeleted(GameObject* gameObject) override;
-
 	virtual std::vector<unsigned int> GetComponentsIDsInGameObject(GameObject* gameObject) override;
-
 	virtual std::vector<Component*> GetComponentsInGameObject(GameObject* gameObject) override;
-
 	virtual std::vector<Component*> GetAllComponents() override;
-
-	virtual void GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds) override;
-
-	virtual void GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds, uint8_t sceneIndex) override;
-
+	virtual void GetAllComponents(std::vector<Component*>& components,std::vector<unsigned int>& componentIds) override;
+	virtual void GetAllComponents(std::vector<Component*>& components,std::vector<unsigned int>& componentIds,uint8_t sceneIndex) override;
 	virtual unsigned int ComponentCount() const override;
+
 };
