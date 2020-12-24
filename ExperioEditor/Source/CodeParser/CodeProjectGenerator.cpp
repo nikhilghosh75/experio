@@ -216,6 +216,7 @@ void CodeProjectGenerator::ParseClassInCodeFile(FVector2Int location, FileBuffer
 
 	CodeClass codeClass;
 	std::string classDeclaration = buffer.Substr(location.x, i);
+	bool isStruct = classDeclaration.find("struct ") != std::string::npos;
 	codeClass.name = LCodeParser::GetClassNameFromDeclaration(classDeclaration);
 	codeClass.inheritance = LCodeParser::GetInheritanceFromDeclaration(classDeclaration);
 
@@ -231,6 +232,7 @@ void CodeProjectGenerator::ParseClassInCodeFile(FVector2Int location, FileBuffer
 		}
 		else if (buffer[i] == ':' && buffer[i - 1] != ':' && buffer[i + 1] != ':') // guard against '::'
 		{
+			symbols.emplace_back(lastSymbolPos, i);
 			lastSymbolPos = i;
 		}
 		else if (buffer[i] == ';')
@@ -252,6 +254,10 @@ void CodeProjectGenerator::ParseClassInCodeFile(FVector2Int location, FileBuffer
 		}
 	}
 
+	ECodeAccessType currentAccessType = ECodeAccessType::Private;
+	if (isStruct)
+		currentAccessType = ECodeAccessType::Public;
+
 	// Figure out if member or function
 	for (int j = 0; j < symbols.size(); j++)
 	{
@@ -262,12 +268,26 @@ void CodeProjectGenerator::ParseClassInCodeFile(FVector2Int location, FileBuffer
 		{
 			// Function parsing
 			CodeFunction func = LCodeParser::ParseCodeFunction(symbol, this->project->codingLanguage);
+			func.accessType = currentAccessType;
 			codeClass.functions.push_back(func);
+		}
+		else if (symbol == "private")
+		{
+			currentAccessType = ECodeAccessType::Private;
+		}
+		else if (symbol == "protected")
+		{
+			currentAccessType = ECodeAccessType::Protected;
+		}
+		else if (symbol == "public")
+		{
+			currentAccessType = ECodeAccessType::Public;
 		}
 		else
 		{
 			// Member parsing
 			CodeParam param = LCodeParser::ParseCodeParam(symbol, this->project->codingLanguage);
+			param.accessType = currentAccessType;
 			codeClass.params.push_back(param);
 		}
 	}
