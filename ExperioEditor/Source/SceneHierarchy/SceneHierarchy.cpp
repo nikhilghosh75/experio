@@ -124,7 +124,7 @@ void SceneHierarchy::Display()
 {
 	std::vector<GameObject>& selectedItems = this->currentlySelectedItems;
 
-	Scene::ForAllActiveScenes([&selectedItems](Scene scene) {
+	Scene::ForAllActiveScenes([&selectedItems](Scene& scene) {
 		SceneHierarchy::DisplayGameObjectTree(&scene.sceneRoot, selectedItems);
 	});
 }
