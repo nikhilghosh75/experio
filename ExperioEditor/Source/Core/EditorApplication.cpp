@@ -11,9 +11,11 @@
 #include "imgui_internal.h"
 
 #include "EditorWindow.h"
+#include "../BuildSystem/CodeGenerator.h"
 #include "../CodeParser/LCodeParser.h"
 #include "../CodeParser/CodeProject.h"
 #include "../CodeParser/CodeProjectGenerator.h"
+#include "../ComponentEditor/GeneratedEditor.h"
 #include "../Console/Console.h"
 #include "../FileView/FileView.h"
 #include "../Framework/CreateMenu.h"
@@ -70,11 +72,11 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	EditorWindow::InitializeWindow();
 	Project::inEditor = true;
 
-	EditorProject::TempSetup();
 	EditorProject::ReadProjectFile(projectFilepath);
 	EditorProject::ReadValueFiles();
 	EditorProject::ReadUserFile("../user.pbuser");
 	EditorProject::SetupRuntimeCompilation();
+	EditorProject::TempSetup();
 
 	currentScenePath = defaultScenePath;
 
@@ -101,6 +103,8 @@ void EditorApplication::Run()
 	size_t audioSize = LCodeParser::SerializedSizeOf(project.classes[114], project, ECodingLanguage::CPlusPlus);
 	delete profiler;
 	*/
+
+	CodeGenerator::GenerateAllFiles();
 
 	Project::StartGame();
 
