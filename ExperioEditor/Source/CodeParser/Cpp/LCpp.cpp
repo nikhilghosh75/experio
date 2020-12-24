@@ -1,6 +1,35 @@
 #include "LCpp.h"
 #include "Runtime/Containers/LString.h"
 
+size_t LCpp::AlignForward(size_t offset, size_t size)
+{
+	if (size == 1)
+		return offset;
+
+	if (size == 2)
+	{
+		if (offset % 2 == 0)
+			return offset;
+		return offset + 1;
+	}
+
+	if (size == 4)
+	{
+		if (offset % 4 == 0)
+			return offset;
+		return offset + (4 - (offset % 4));
+	}
+
+	if (size == 8)
+	{
+		if (offset % 8 == 0)
+			return offset;
+		return offset + (8 - (offset % 8));
+	}
+
+	return AlignForward(offset, 4);
+}
+
 bool LCpp::DoesCppSupport(ECodingLanguageFeature feature)
 {
 	switch (feature)

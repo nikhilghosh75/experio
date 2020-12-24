@@ -4,6 +4,8 @@
 class LCpp
 {
 public:
+	static size_t AlignForward(size_t offset, size_t size);
+
 	static bool DoesCppSupport(ECodingLanguageFeature feature);
 
 	static bool DoesCppSupport(ECodingLanguageFeature feature, uint16_t version);
