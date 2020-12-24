@@ -124,6 +124,16 @@ void EditorProject::TempSetup()
 	textComponent.params.emplace_back("FontRef", "font", ECodeAccessType::Public);
 	textComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 
+	// Delete Later
+	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
+
+	CodeEnum spaceshipType("ESpaceshipType", EEnumDataType::INT);
+	spaceshipType.values.Insert(0, "Red");
+	spaceshipType.values.Insert(1, "Blue");
+	spaceshipType.values.Insert(2, "Green");
+	gameProject.PushEnum(spaceshipType);
+	// End Delete Later
+
 	gameProject.PushClass(virtualCamera);
 	gameProject.PushClass(meshComponent);
 	gameProject.PushClass(particleSystem);
