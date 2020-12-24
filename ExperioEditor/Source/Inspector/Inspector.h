@@ -1,6 +1,7 @@
 #pragma once
 #include "../Core/EditorModule.h"
 #include "../ComponentEditor/ComponentEditor.h"
+#include "Runtime/Framework/Framework.h"
 #include <vector>
 
 class GameObject;
@@ -16,7 +17,11 @@ class Inspector : public EditorModule
 
 	void DisplayTransform(GameObject* object);
 
-	void UpdateComponents(std::vector<unsigned int> componentIDs);
+	void UpdateComponents(std::vector<unsigned int> componentIDs, std::vector<Component*> components);
+
+	void DisplayAddComponentMenu();
+
+	void AddComponentToGameObjects(unsigned int componentId);
 public:
 	Inspector();
 

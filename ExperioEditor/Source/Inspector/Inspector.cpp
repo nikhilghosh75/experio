@@ -1,12 +1,18 @@
 #include "Inspector.h"
-#include "Runtime/Rendering/ImGui/LImGui.h"
+#include "Runtime/Containers/Algorithm.h"
 #include "Runtime/Framework/Framework.h"
+#include "Runtime/Rendering/ImGui/LImGui.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../Framework/EditorProject.h"
 #include "../Framework/Values.h"
+#include "../ComponentEditor/GeneratedEditor.h"
 #include "../ComponentEditor/Renderable/MeshComponentEditor.h"
 #include "../ComponentEditor/Renderable/BillboardComponentEditor.h"
 #include "../ComponentEditor/Renderable/VirtualCameraEditor.h"
+
+using namespace Experio::Algorithm;
+
+GeneratedEditor generatedEditor;
 
 void Inspector::DisplayGameObject(uint64_t id)
 {
@@ -17,7 +23,7 @@ void Inspector::DisplayGameObject(uint64_t id)
 
 	std::vector<unsigned int> componentIDs = Project::componentManager->GetComponentsIDsInGameObject(object);
 	std::vector<Component*> components = Project::componentManager->GetComponentsInGameObject(object);
-	UpdateComponents(componentIDs);
+	UpdateComponents(componentIDs, components);
 
 	for (int i = 0; i < componentEditors.size(); i++)
 	{
@@ -59,7 +65,7 @@ void Inspector::DisplayTransform(GameObject * object)
 	}
 }
 
-void Inspector::UpdateComponents(std::vector<unsigned int> componentIDs)
+void Inspector::UpdateComponents(std::vector<unsigned int> componentIDs, std::vector<Component*> components)
 {
 	// Delete Components
 	for (int i = 0; i < componentEditors.size(); i++)
@@ -105,14 +111,73 @@ void Inspector::UpdateComponents(std::vector<unsigned int> componentIDs)
 			switch (componentIDs[i])
 			{
 			case 100:
-				componentEditors.push_back(new VirtualCameraEditor()); break;
+				InsertAt(componentEditors, (ComponentEditorBase*)(new VirtualCameraEditor()), i);
+				break;
+				// componentEditors.push_back(new VirtualCameraEditor()); break;
 			case 101:
-				componentEditors.push_back(new MeshEditor()); break;
+				InsertAt(componentEditors, (ComponentEditorBase*)(new MeshEditor()), i);
+				break;
+				// componentEditors.push_back(new MeshEditor()); break;
 			case 103:
-				componentEditors.push_back(new BillboardEditor()); break;
+				InsertAt(componentEditors, (ComponentEditorBase*)(new BillboardEditor()), i);
+				// componentEditors.push_back(new BillboardEditor()); break;
+			default:
+				InsertAt(componentEditors, (ComponentEditorBase*)(new GeneratedEditor(componentIDs[i], components[i])), i);
+				break;
+				// componentEditors.push_back(new GeneratedEditor(componentIDs[i], components[i])); break;
 			}
 		}
 	}
+}
+
+// Move this later
+void Inspector::DisplayAddComponentMenu()
+{
+	if (ImGui::Button("+"))
+	{
+		ImGui::OpenPopup("##AddComponent");
+	}
+
+	if (ImGui::BeginPopup("##AddComponent"))
+	{
+		if (ImGui::BeginMenu("Rendering"))
+		{
+			if (ImGui::MenuItem("Virtual Camera"))
+				AddComponentToGameObjects(100);
+			if (ImGui::MenuItem("Mesh"))
+				AddComponentToGameObjects(101);
+			if (ImGui::MenuItem("Particle System"))
+				AddComponentToGameObjects(102);
+			if (ImGui::MenuItem("Billboard"))
+				AddComponentToGameObjects(103);
+			
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("UI"))
+		{
+			if (ImGui::MenuItem("Text Component"))
+				AddComponentToGameObjects(104);
+
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Custom"))
+		{
+			if (ImGui::MenuItem("Spaceship"))
+				AddComponentToGameObjects(1024);
+
+			ImGui::EndMenu();
+		}
+		ImGui::EndPopup();
+	}
+}
+
+void Inspector::AddComponentToGameObjects(unsigned int componentId)
+{
+	std::vector<GameObject> objects = SceneHierarchy::hierarchy->GetSelectedItems();
+	if (objects.size() == 0) return;
+
+	GameObject* object = Scene::FindGameObjectFromId(objects[0].id);
+	object->AddComponentByComponentID(componentId);
 }
 
 Inspector::Inspector()
@@ -137,4 +202,6 @@ void Inspector::Display()
 	{
 		DisplayGameObject(objects[0].id);
 	}
+
+	DisplayAddComponentMenu();
 }
