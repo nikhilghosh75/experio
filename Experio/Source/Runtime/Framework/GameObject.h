@@ -31,6 +31,8 @@ public:
 	template<class T>
 	void AddComponent();
 
+	void AddComponentByComponentID(unsigned int id);
+
 	template<class T>
 	T* GetComponent();
 

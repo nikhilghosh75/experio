@@ -52,6 +52,11 @@ GameObject::~GameObject()
 	if (Project::componentManager != nullptr && Project::projectRunning) { Project::componentManager->OnGameObjectDeleted(this); }
 }
 
+void GameObject::AddComponentByComponentID(unsigned int id)
+{
+	Project::componentManager->AddComponent(this, id);
+}
+
 template<class T>
 void GameObject::AddComponent()
 {

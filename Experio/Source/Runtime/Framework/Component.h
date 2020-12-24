@@ -36,3 +36,9 @@ public:
 
 	virtual void Update() override { Debug::Log("Updating"); }
 };
+
+#define SETUP_COMPONENT(_type_)\
+_type_(GameObject* object)\
+{\
+	this->gameObject = object;\
+}
