@@ -6,7 +6,8 @@
 
 class BillboardEditor : COMPONENTEDITOR(Billboard)
 {
-	virtual unsigned int GetComponentID() const override { return 103; }
 public:
+	virtual unsigned int GetComponentID() const override { return 103; }
+	
 	virtual void Display(Component* billboard) override;
 };
