@@ -143,12 +143,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Components\Spaceship.cpp" />
     <ClCompile Include="Source\DemoProject.cpp" />
     <ClCompile Include="Source\DemoProjectComponentManager.cpp" />
     <ClCompile Include="Source\DemoProjectSerializers.cpp" />
     <ClCompile Include="Source\DemoProjectTag.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Components\Spaceship.h" />
     <ClInclude Include="Source\DemoProject.h" />
     <ClInclude Include="Source\DemoProjectComponentManager.h" />
     <ClInclude Include="Source\DemoProjectMaterialManager.h" />

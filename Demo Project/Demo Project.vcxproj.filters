@@ -35,6 +35,9 @@
     <ClInclude Include="Source\DemoProjectMaterialManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Components\Spaceship.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DemoProject.cpp">
@@ -47,6 +50,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\DemoProjectSerializers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Components\Spaceship.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
