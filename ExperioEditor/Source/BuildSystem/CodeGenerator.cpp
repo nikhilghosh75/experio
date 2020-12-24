@@ -22,6 +22,14 @@ void CodeGenerator::GenerateComponentManager()
 	CppCodeOStream hFile(EditorApplication::sourceFilePath + "/DemoProjectComponentManager.h");
 	hFile << "#include \"Runtime/Framework/ComponentManager.h\"" << Debug::endl;
 	hFile << "#include \"Runtime/DefaultComponents.h\"" << Debug::endl << Debug::endl;
+
+	EditorProject::componentClasses.ForEach([&hFile](const unsigned int& id, const FComponentInfo& info) {
+		if (!info.isDefaultComponent && info.filepath.size() != 0)
+		{
+			hFile << "#include \"" << info.filepath << "\"" << Debug::endl;
+		}
+	});
+
 	hFile << componentManager;
 	hFile.Close();
 
@@ -30,13 +38,6 @@ void CodeGenerator::GenerateComponentManager()
 	cppFile << "#include \"DemoProjectComponentManager.h\"" << Debug::endl;
 	cppFile << "#include \"Runtime/Containers/Algorithm.h\"" << Debug::endl;
 	cppFile << "#include \"Runtime/Debug/Debug.h\"" << Debug::endl << Debug::endl;
-
-	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
-		if (!info.isDefaultComponent && info.filepath.size() != 0)
-		{
-			cppFile << "#include \"" << info.filepath << "\"" << Debug::endl;
-		}
-	});
 
 	GenerateComponentManagerStartImpl(cppFile, componentManager);
 	GenerateComponentManagerUpdateImpl(cppFile, componentManager);
