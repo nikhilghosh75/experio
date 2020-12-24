@@ -99,6 +99,7 @@
     <ClCompile Include="Source\CodeParser\Cpp\CppCompilationError.cpp" />
     <ClCompile Include="Source\CodeParser\Cpp\LCpp.cpp" />
     <ClCompile Include="Source\CodeParser\LCodeParser.cpp" />
+    <ClCompile Include="Source\ComponentEditor\GeneratedEditor.cpp" />
     <ClCompile Include="Source\ComponentEditor\Renderable\BillboardComponentEditor.cpp" />
     <ClCompile Include="Source\ComponentEditor\Renderable\MeshComponentEditor.cpp" />
     <ClCompile Include="Source\ComponentEditor\Renderable\VirtualCameraEditor.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Source\CodeParser\Cpp\LCpp.h" />
     <ClInclude Include="Source\CodeParser\LCodeParser.h" />
     <ClInclude Include="Source\ComponentEditor\ComponentEditor.h" />
+    <ClInclude Include="Source\ComponentEditor\GeneratedEditor.h" />
     <ClInclude Include="Source\ComponentEditor\Renderable\BillboardComponentEditor.h" />
     <ClInclude Include="Source\ComponentEditor\Renderable\MeshComponentEditor.h" />
     <ClInclude Include="Source\ComponentEditor\Renderable\VirtualCameraEditor.h" />
