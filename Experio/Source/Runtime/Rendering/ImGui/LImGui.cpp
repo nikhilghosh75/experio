@@ -2,6 +2,7 @@
 #include "../../Debug/Debug.h"
 #include "../../Containers/Algorithm.h"
 #include "../../Files/LFileOperations.h"
+#include "../Managers/FontManager.h"
 #include "../Managers/MeshManager.h"
 #include "../Managers/TextureManager.h"
 #include "imgui_internal.h"
@@ -70,6 +71,48 @@ void LImGui::DisplayBool(bool& boolean, std::string name)
 	ImGui::PopID();
 }
 
+void LImGui::DisplayBox(FBox & box, std::string name)
+{
+	if (ImGui::TreeNode(name.c_str()))
+	{
+		LImGui::DisplayVector3(box.min, "Min");
+		LImGui::DisplayVector3(box.max, "Max");
+		ImGui::TreePop();
+	}
+}
+
+void LImGui::DisplayFontAsset(FontRef & ref, std::string name)
+{
+	ImGui::PushID(name.c_str());
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 100.f);
+	ImGui::Text(name.c_str());
+	ImGui::NextColumn();
+
+	std::string fontFileName = FontManager::GetNameOfFont(ref);
+	std::string fontName = LFileOperations::StripFilename(fontFileName);
+	ImGui::Text(fontName.c_str());
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_FONT"))
+		{
+			char* fontName = (char*)payload->Data;
+			ref = FontManager::LoadFont(fontName);
+		}
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Switch"))
+	{
+		// Add Later
+	}
+
+	ImGui::Columns(1);
+	ImGui::PopID();
+}
+
 void LImGui::DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string>& layerTable)
 {
 	uint16_t layer16 = layer;
@@ -120,6 +163,23 @@ void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
 
 	ImGui::Columns(1);
 	ImGui::PopID();
+}
+
+void LImGui::DisplayQuaternion(FQuaternion& quat, std::string name)
+{
+	FVector4 rotationV = FVector4(quat.w, quat.x, quat.y, quat.z);
+	DisplayVector4(rotationV, "Rotation", FVector4(1, 0, 0, 0));
+	quat = FQuaternion(rotationV.x, rotationV.y, rotationV.z, rotationV.w);
+}
+
+void LImGui::DisplayRect(FRect& rect, const std::string & name)
+{
+	if (ImGui::TreeNode(name.c_str()))
+	{
+		LImGui::DisplayVector2(rect.min, "Min");
+		LImGui::DisplayVector2(rect.max, "Max");
+		ImGui::TreePop();
+	}
 }
 
 void LImGui::DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable)

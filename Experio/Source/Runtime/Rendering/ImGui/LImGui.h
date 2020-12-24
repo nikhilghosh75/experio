@@ -3,6 +3,8 @@
 #include "../../Containers/THashtable.h"
 #include "../../Containers/TTypedTree.h"
 #include <string>
+#include "../../Math/FBox.h"
+#include "../../Math/FRect.h"
 #include "../../Math/FVector2.h"
 #include "../../Math/FVector3.h"
 #include "../../Math/FVector4.h"
@@ -11,6 +13,7 @@
 #include "../../../ThirdParty/Magic Enum/magic_enum.hpp"
 #include "../../../ThirdParty/Nameof/nameof.hpp"
 
+class FontRef;
 class MeshRef;
 class TextureRef;
 
@@ -21,12 +24,20 @@ public:
 
 	static void DisplayBool(bool& boolean, std::string name);
 
+	static void DisplayBox(FBox& box, std::string name);
+
 	template<typename T>
 	static void DisplayEnum(T& currentEnum, std::string name);
+
+	static void DisplayFontAsset(FontRef& ref, std::string name);
 
 	static void DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string>& layerTable);
 
 	static void DisplayMeshAsset(MeshRef& ref, std::string name);
+
+	static void DisplayQuaternion(FQuaternion& quat, std::string name);
+
+	static void DisplayRect(FRect& rect, const std::string& name);
 
 	static void DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable);
 
