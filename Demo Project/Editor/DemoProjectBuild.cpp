@@ -6,3 +6,5 @@
 #include "DemoProjectSerializers.cpp"
 #include "DemoProjectTag.cpp"
 #include "DemoProjectComponentManager.cpp"
+
+#include "Components/Spaceship.cpp"

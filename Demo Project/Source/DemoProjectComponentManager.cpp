@@ -5,6 +5,7 @@
 void DemoProjectComponentManager::Start()
 {
 	PB_START(textComponentInstances);
+	PB_START(spaceshipInstances);
 	PB_START(meshComponentInstances);
 	PB_START(particleSystemInstances);
 	PB_START(billboardInstances);
@@ -14,6 +15,7 @@ void DemoProjectComponentManager::Update()
 {
 	CameraSystem::Update();
 	PB_UPDATE(textComponentInstances);
+	PB_UPDATE(spaceshipInstances);
 	PB_UPDATE(meshComponentInstances);
 	PB_UPDATE(particleSystemInstances);
 	PB_UPDATE(billboardInstances);
@@ -33,6 +35,7 @@ Component* DemoProjectComponentManager::AddComponent(GameObject* gameObject, uns
 	{
 		case 100: return CameraSystem::AddComponent(gameObject);
 		case 104: PB_ADD_COMPONENT(textComponentInstances);
+		case 1024: PB_ADD_COMPONENT(spaceshipInstances);
 		case 101: PB_ADD_COMPONENT(meshComponentInstances);
 		case 102: PB_ADD_COMPONENT(particleSystemInstances);
 		case 103: PB_ADD_COMPONENT(billboardInstances);
@@ -45,6 +48,7 @@ Component* DemoProjectComponentManager::GetComponent(GameObject* gameObject, uns
 	{
 		case 100: return CameraSystem::GetComponent(gameObject);
 		case 104: PB_GET_COMPONENT(textComponentInstances);
+		case 1024: PB_GET_COMPONENT(spaceshipInstances);
 		case 101: PB_GET_COMPONENT(meshComponentInstances);
 		case 102: PB_GET_COMPONENT(particleSystemInstances);
 		case 103: PB_GET_COMPONENT(billboardInstances);
@@ -59,6 +63,7 @@ void DemoProjectComponentManager::DeleteComponent(GameObject* gameObject, unsign
 	{
 		case 100: return CameraSystem::DeleteComponent(gameObject);
 		case 104: PB_DELETE_COMPONENT(textComponentInstances);
+		case 1024: PB_DELETE_COMPONENT(spaceshipInstances);
 		case 101: PB_DELETE_COMPONENT(meshComponentInstances);
 		case 102: PB_DELETE_COMPONENT(particleSystemInstances);
 		case 103: PB_DELETE_COMPONENT(billboardInstances);
@@ -71,6 +76,7 @@ Component* DemoProjectComponentManager::GetComponentAtIndex(unsigned int classId
 	{
 		case 100: Debug::Log("CameraSystem has not implemented GetComponentAtIndex"); return nullptr;
 		case 104: PB_GET_COMPONENT_INDEX(textComponentInstances);
+		case 1024: PB_GET_COMPONENT_INDEX(spaceshipInstances);
 		case 101: PB_GET_COMPONENT_INDEX(meshComponentInstances);
 		case 102: PB_GET_COMPONENT_INDEX(particleSystemInstances);
 		case 103: PB_GET_COMPONENT_INDEX(billboardInstances);
@@ -83,6 +89,7 @@ void DemoProjectComponentManager::OnGameObjectDeleted(GameObject* gameObject)
 
 	CameraSystem::OnGameObjectDeleted(gameObject);
 	PB_DELETE_COMPONENT(textComponentInstances); foundComponent = false;
+	PB_DELETE_COMPONENT(spaceshipInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(meshComponentInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(particleSystemInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(billboardInstances); foundComponent = false;
@@ -95,6 +102,7 @@ std::vector<Component*> DemoProjectComponentManager::GetComponentsInGameObject(G
 	returnVector.reserve(ComponentCount());
 
 	PB_GET_COMPONENT_GAMEOBJECT(104);
+	PB_GET_COMPONENT_GAMEOBJECT(1024);
 	PB_GET_COMPONENT_GAMEOBJECT(100);
 	PB_GET_COMPONENT_GAMEOBJECT(101);
 	PB_GET_COMPONENT_GAMEOBJECT(102);
@@ -107,6 +115,7 @@ std::vector<unsigned int> DemoProjectComponentManager::GetComponentsIDsInGameObj
 	std::vector<unsigned int> returnVector;
 
 	PB_GET_COMPONENT_IDS(104);
+	PB_GET_COMPONENT_IDS(1024);
 	PB_GET_COMPONENT_IDS(100);
 	PB_GET_COMPONENT_IDS(101);
 	PB_GET_COMPONENT_IDS(102);
@@ -120,6 +129,7 @@ std::vector<Component*> DemoProjectComponentManager::GetAllComponents()
 	vector.reserve(ComponentCount());
 	CameraSystem::GetAll(vector);
 	PB_GET_ALL(textComponentInstances);
+	PB_GET_ALL(spaceshipInstances);
 	PB_GET_ALL(meshComponentInstances);
 	PB_GET_ALL(particleSystemInstances);
 	PB_GET_ALL(billboardInstances);
@@ -134,6 +144,7 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 	CameraSystem::GetAll(components);
 	Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::Size());
 	PB_GET_ALL_IDS(textComponentInstances, 104);
+	PB_GET_ALL_IDS(spaceshipInstances, 1024);
 	PB_GET_ALL_IDS(meshComponentInstances, 101);
 	PB_GET_ALL_IDS(particleSystemInstances, 102);
 	PB_GET_ALL_IDS(billboardInstances, 103);
@@ -147,6 +158,7 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 	CameraSystem::GetAll(components);
 	Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::Size());
 	PB_GET_ALL_SCENE_IDS(textComponentInstances, 104);
+	PB_GET_ALL_SCENE_IDS(spaceshipInstances, 1024);
 	PB_GET_ALL_SCENE_IDS(meshComponentInstances, 101);
 	PB_GET_ALL_SCENE_IDS(particleSystemInstances, 102);
 	PB_GET_ALL_SCENE_IDS(billboardInstances, 103);
@@ -154,5 +166,5 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 
 unsigned int DemoProjectComponentManager::ComponentCount() const
 {
-	return CameraSystem::Size() + textComponentInstances.size() + meshComponentInstances.size() + particleSystemInstances.size() + billboardInstances.size();
+	return CameraSystem::Size() + textComponentInstances.size() + spaceshipInstances.size() + meshComponentInstances.size() + particleSystemInstances.size() + billboardInstances.size();
 }
