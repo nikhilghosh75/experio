@@ -1,15 +1,26 @@
 #include "CppCompilationError.h"
+#include "Runtime/Containers/LString.h"
 #include <sstream>
+
+CppCompilationError::CppCompilationError()
+{
+	this->errorCode = 0;
+	this->errorStr = "";
+	this->errorType = ECppErrorType::Fatal;
+	this->filepath = "";
+	this->language = ECodingLanguage::CPlusPlus;
+	this->lineNumber = 0;
+}
+
+CppCompilationError::CppCompilationError(const std::string & str)
+{
+	this->language = ECodingLanguage::CPlusPlus;
+	MakeFromString(str);
+}
 
 std::string CppCompilationError::GetErrorExplanation() const
 {
-	switch (this->errorType)
-	{
-	case ECppErrorType::Fatal:
-	case ECppErrorType::Compile:
-		return GetCompilerErrorExplanation();
-	}
-	return "";
+	return this->errorStr;
 }
 
 std::string CppCompilationError::GetErrorLink() const
@@ -18,25 +29,32 @@ std::string CppCompilationError::GetErrorLink() const
 	switch (this->errorType)
 	{
 	case ECppErrorType::Fatal:
-		ss << "https://docs.microsoft.com/en-us/cpp/error-messages/compiler-errors-1/fatal-error-" << this->errorCode << "?view=msvc-160";
+		ss << "https://docs.microsoft.com/en-us/cpp/error-messages/compiler-errors-1/fatal-error-" 
+			<< this->errorCode << "?view=msvc-160";
 		break;
 	}
 	return ss.str();
 }
 
-std::string CppCompilationError::GetCompilerErrorExplanation() const
+void CppCompilationError::MakeFromString(const std::string & str)
 {
-	switch (this->errorCode)
+	size_t indexOfFirstNumber = LString::FindFirstOfChars(str, { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
+	this->errorCode = LString::StringToUInt(str.substr(indexOfFirstNumber, 4));
+	this->errorStr = str.substr(indexOfFirstNumber + 6);
+	
+	if (LString::FindFirstOfChar(str, 'C') < indexOfFirstNumber)
 	{
-	case 999: return "Unknowned Error";
-	case 1001: return "An Internal Error has occurred in the compiler";
-	case 1002: return "Compiler is out of heap space in pass 2, possibly due to a program with too many symbols or complex expressions";
-	case 1003: return "Too many errors. Stopping compilation.";
-	case 1004: return "Unexpected end-of-file found. You may be missing a closing brace, parenthesis, comment marker, or semicolon.";
-	case 1005: return "String too big for buffer";
-	case 1007: return "Command-line option contains an invalid string. Check environment variable for errors";
-	case 1008: return "No input file specified. Compiler was not given a source file";
-	case 1009: return "Macros nested too deeply. Compiler is limited to 256 nested macros.";
+		if (errorCode < 2000)
+		{
+			this->errorType = ECppErrorType::Fatal;
+		}
+		else
+		{
+			this->errorType = ECppErrorType::Compile;
+		}
 	}
-	return "";
+	else if (LString::FindFirstOfChar(str, 'L') < indexOfFirstNumber)
+	{
+		this->errorType = ECppErrorType::Linker;
+	}
 }
