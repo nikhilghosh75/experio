@@ -121,7 +121,7 @@ void Scene::UnloadAllScenes()
 	}
 }
 
-void Scene::ForAllActiveScenes(std::function<void(Scene)> func)
+void Scene::ForAllActiveScenes(std::function<void(Scene&)> func)
 {
 	for (int i = 0; i < MAX_SCENES; i++)
 	{

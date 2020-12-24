@@ -59,7 +59,7 @@ public:
 
 	static void UnloadAllScenes();
 
-	static void ForAllActiveScenes(std::function<void(Scene)> func);
+	static void ForAllActiveScenes(std::function<void(Scene&)> func);
 
 	static GameObject* FindGameObjectFromId(uint64_t id);
 
