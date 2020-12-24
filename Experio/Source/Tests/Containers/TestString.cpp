@@ -20,3 +20,16 @@ UNIT_TEST(TestStringHas, "String")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestStringConversions, "String")
+{
+	ASSERT_EQUAL(LString::FloatToString(4.304, 2), "4.30", "Float to String Failed");
+	ASSERT_EQUAL(LString::FloatToString(0.5, 4), "0.5000", "Float to String Failed");
+	ASSERT_EQUAL(LString::FloatToString(-14.245, 3), "-14.245", "Float to String Failed");
+
+	ASSERT_ALMOST_EQUAL(LString::StringToFloat("14.954"), 14.954);
+	ASSERT_EQUAL(LString::StringToInt("45"), 45, "String to Int Failed");
+	ASSERT_EQUAL(LString::StringToUInt("990"), 990, "String to UInt Failed");
+
+	TEST_END();
+}

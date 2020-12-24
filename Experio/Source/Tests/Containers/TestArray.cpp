@@ -70,3 +70,26 @@ UNIT_TEST(TestArrayFind, "Array")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestArrayResize, "Array")
+{
+	TArray<int> array = { 3, 4,5 };
+	
+	array.Resize(30);
+
+	ASSERT_EQUAL(array.Capacity(), 30, "Capacity is not what is expected");
+
+	for (int i = 0; i < 26; i++)
+	{
+		array.Append(i + 5);
+	}
+
+	ASSERT_EQUAL(array.Count(), 29, "Count is not what is expected");
+	array.Append(32);
+	ASSERT_EQUAL(array.Count(), 30, "");
+	array.Append(33);
+	ASSERT_EQUAL(array.Count(), 31, "");
+	ASSERT_GREATER_THAN(array.Capacity(), 30, "");
+
+	TEST_END();
+}

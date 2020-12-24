@@ -77,3 +77,23 @@ UNIT_TEST(TestHashtableLarge, "Hashtable")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestHashtableSearcg, "Hashtable")
+{
+	THashtable<std::string, int, StringHashFunction> populations;
+
+	populations.Insert("Istanbul", 16000);
+	populations.Insert("London", 14800);
+	populations.Insert("Paris", 11400);
+	populations.Insert("Madrid", 6550);
+
+	std::string easternEuropeanCity = " ";
+	int easternEuropeanPopulation = 0;
+	bool inEasternEurope = populations.SearchKeys(easternEuropeanCity, easternEuropeanPopulation, [](std::string& str) {
+		return str == "Istanbul";
+	});
+
+	ASSERT_TRUE(inEasternEurope, "Search Keys does not work");
+
+	TEST_END();
+}

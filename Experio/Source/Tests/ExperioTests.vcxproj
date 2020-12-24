@@ -116,6 +116,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Containers\TestAlgorithm.cpp" />
     <ClCompile Include="Containers\TestArray.cpp" />
     <ClCompile Include="Containers\TestHashtable.cpp" />
     <ClCompile Include="Containers\TestString.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="Core\TestWindowOperations.cpp" />
     <ClCompile Include="ExperioTests.cpp" />
     <ClCompile Include="Math\LMathTest.cpp" />
+    <ClCompile Include="Math\Vector2Test.cpp" />
     <ClCompile Include="Math\Vector3Test.cpp" />
     <ClCompile Include="Memory\VoidPtrTest.cpp" />
   </ItemGroup>
