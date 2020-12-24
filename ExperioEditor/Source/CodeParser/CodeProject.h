@@ -38,6 +38,8 @@ public:
 	std::vector<CodeEnum> enums;
 	std::vector<CodeFunction> functions;
 
+	std::vector<CodeProject*> dependencies;
+
 	CodeProject();
 	CodeProject(ECodingLanguage language);
 	CodeProject(std::string filepath, FCodeProjectOptions& options = FCodeProjectOptions::defaultOptions);
