@@ -251,6 +251,18 @@ namespace Experio::Algorithm
 	template<typename T>
 	void AddNumOf(std::vector<T>& vector, T elem, size_t num);
 
+	template<typename T>
+	void AddNumOf(TArray<T>& array, T elem, size_t num);
+
+	template<typename T>
+	void AddNumOf(TQueue<T>& queue, T elem, size_t num);
+
+	template<typename T>
+	void AddNumOf(TUnrolledList<T>& list, T elem, size_t num);
+
+	template<typename T>
+	void InsertAt(std::vector<T>& vector, T elem, size_t position);
+
 	// ---------------------------------------------------------------------------------
 
 	template<typename T>
@@ -273,6 +285,31 @@ namespace Experio::Algorithm
 			if (!found)
 			{
 				unique.push_back(v[i]);
+			}
+		}
+		return unique;
+	}
+
+	template<typename T>
+	TArray<T> GetUnique(const TArray<T>& array)
+	{
+		TArray<T> unique;
+		unique.Resize(array.Count());
+		unique.Append(array[0]);
+
+		for (uint32_t i = 1; i < array.Count(); i++)
+		{
+			bool found = false;
+			for (uint32_t j = 0; j < unique.Count(); j++)
+			{
+				if (unique[j] == v[i])
+				{
+					found = true; break;
+				}
+			}
+			if (!found)
+			{
+				unique.Append(v[i]);
 			}
 		}
 		return unique;
@@ -355,6 +392,25 @@ namespace Experio::Algorithm
 		{
 			vector.push_back(elem);
 		}
+	}
+
+	template<typename T>
+	void InsertAt(std::vector<T>& vector, T elem, size_t position)
+	{
+		if (vector.size() == 0)
+		{
+			vector.push_back(elem);
+			return;
+		}
+
+		vector.push_back(vector[vector.size() - 1]);
+
+		for (size_t i = vector.size() - 1; i > position ; i--)
+		{
+			vector[i] = vector[i - 1];
+		}
+
+		vector[position] = elem;
 	}
 }
 
