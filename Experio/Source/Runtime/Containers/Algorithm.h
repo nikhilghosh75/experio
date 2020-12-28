@@ -302,16 +302,44 @@ namespace Experio::Algorithm
 			bool found = false;
 			for (uint32_t j = 0; j < unique.Count(); j++)
 			{
-				if (unique[j] == v[i])
+				if (unique[j] == array[i])
 				{
 					found = true; break;
 				}
 			}
 			if (!found)
 			{
-				unique.Append(v[i]);
+				unique.Append(array[i]);
 			}
 		}
+
+		return unique;
+	}
+
+	template<typename T>
+	std::vector<std::pair<T, uint32_t>> UniqueCount(const std::vector<T>& v)
+	{
+		std::vector<std::pair<T, uint32_t>> unique;
+		unique.reserve(v.size());
+		unique.emplace_back(v[0], 1);
+
+		for (uint32_t i = 1; i < v.Count(); i++)
+		{
+			bool found = false;
+			size_t foundIndex = 0;
+			for (uint32_t j = 0; j < unique.Count(); j++)
+			{
+				if (unique[j] == v[i])
+				{
+					found = true; foundIndex = i; break;
+				}
+			}
+			if (found)
+				unique[foundIndex].second++;
+			else
+				unique.emplace_back(v[i], 1);
+		}
+
 		return unique;
 	}
 
