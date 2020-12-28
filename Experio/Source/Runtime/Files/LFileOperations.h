@@ -65,6 +65,10 @@ public:
 
 	constexpr static uint64_t MultipleToBytes(float bytes, EDataUnit unit);
 
+	static uint32_t NumFilesInFolder(const std::string& filepath, bool shouldIncludeMetas = false);
+
+	static uint32_t NumFilesInFolderRecursive(const std::string& filepath, bool shouldIncludeMetas = false);
+
 	static FileBuffer ReadFileToBuffer(std::ifstream& stream, size_t maxLineLength);
 	static FileBuffer ReadTrimmedFileToBuffer(std::ifstream& stream);
 

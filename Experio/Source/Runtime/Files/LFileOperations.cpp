@@ -377,6 +377,42 @@ constexpr uint64_t LFileOperations::MultipleToBytes(float bytes, EDataUnit unit)
 	return 0;
 }
 
+uint32_t LFileOperations::NumFilesInFolder(const std::string & filepath, bool shouldIncludeMetas)
+{
+	uint32_t numFiles = 0;
+
+	for (auto& p : fs::directory_iterator(filepath))
+	{
+		std::string pathString = p.path().filename().string();
+		EAssetType type = LFileOperations::GetFileType(pathString);
+
+		if (type == EAssetType::Meta && !shouldIncludeMetas)
+			continue;
+
+		numFiles++;
+	}
+
+	return numFiles;
+}
+
+uint32_t LFileOperations::NumFilesInFolderRecursive(const std::string & filepath, bool shouldIncludeMetas)
+{
+	uint32_t numFiles = 0;
+
+	for (auto& p : fs::recursive_directory_iterator(filepath))
+	{
+		std::string pathString = p.path().filename().string();
+		EAssetType type = LFileOperations::GetFileType(pathString);
+
+		if (type == EAssetType::Meta && !shouldIncludeMetas)
+			continue;
+
+		numFiles++;
+	}
+
+	return numFiles;
+}
+
 FileBuffer LFileOperations::ReadFileToBuffer(std::ifstream & stream, size_t maxLineLength)
 {
 	std::stringstream ss;
