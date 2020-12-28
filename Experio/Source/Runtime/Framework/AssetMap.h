@@ -9,5 +9,7 @@ public:
 
 	static void ReadAssetMap(std::string filepath);
 
+	static void Clear();
+
 	static uint32_t SerializedSizeOfAssetMap();
 };

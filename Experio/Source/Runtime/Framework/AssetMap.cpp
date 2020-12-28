@@ -36,6 +36,11 @@ void AssetMap::ReadAssetMap(std::string filepath)
 	}
 }
 
+void AssetMap::Clear()
+{
+	assetMap.Empty();
+}
+
 uint32_t AssetMap::SerializedSizeOfAssetMap()
 {
 	return assetMap.GetSize() * 4;
