@@ -8,7 +8,9 @@ enum class ECppErrorType
 	Compile,
 	Linker,
 	Math,
-	ExpressionEvaluator
+	ExpressionEvaluator,
+	Warning,
+	None
 };
 
 struct CppCompilationError : public CompilationError
@@ -22,6 +24,11 @@ struct CppCompilationError : public CompilationError
 
 	virtual std::string GetErrorLink() const override;
 
+	bool IsValid() const;
+
+	bool IsError() const;
+	bool IsWarning() const;
+
 private:
-	void MakeFromString(const std::string& str);
+	bool MakeFromString(const std::string& str);
 };
