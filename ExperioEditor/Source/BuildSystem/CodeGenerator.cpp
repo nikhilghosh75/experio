@@ -433,7 +433,7 @@ void CodeGenerator::GenerateProjectHFile()
 	hFile << Debug::endl;
 
 	CodeFunction setupProject("void", "SetupProject");
-	CodeFunction runProject("void", "Runtime");
+	CodeFunction runProject("void", "RunProject");
 	CodeFunction update("void", "Update");
 	CodeFunction createComponentManager("ComponentManager*", "CreateComponentManager");
 	CodeFunction createMaterialManager("MaterialManager*", "CreateMaterialManager");
