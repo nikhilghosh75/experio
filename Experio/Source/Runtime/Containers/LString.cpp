@@ -12,6 +12,19 @@ size_t LString::NumOfChars(const std::string & s, char c)
 	return amount;
 }
 
+size_t LString::NumOfCharsFront(const std::string & s, char c)
+{
+	size_t amount = 0;
+	for (size_t i = 0; i < s.size(); i++)
+	{
+		if (s[i] == c)
+			amount++;
+		else
+			return amount;
+	}
+	return amount;
+}
+
 std::string LString::ReplaceAll(std::string s, char from, char to)
 {
 	std::string returnString = s;

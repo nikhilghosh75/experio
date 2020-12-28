@@ -51,6 +51,8 @@ public:
 
 	static size_t NumOfChars(const std::string& s, char c);
 
+	static size_t NumOfCharsFront(const std::string& s, char c);
+
 	static std::string ReplaceAll(std::string s, char from, char to);
 
 	static std::vector<std::string> SeperateStringByChar(std::string str, char c, bool removeZeroLength = true);
