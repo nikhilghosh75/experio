@@ -33,3 +33,14 @@ UNIT_TEST(TestStringConversions, "String")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestStringTrim, "String")
+{
+	ASSERT_EQUAL(LString::Trim(" Experio "), "Experio", "");
+	ASSERT_EQUAL(LString::TrimLeft(" Experio "), "Experio ", "");
+	ASSERT_EQUAL(LString::TrimRight(" Experio "), " Experio", "");
+
+	ASSERT_EQUAL("Experio Editor    ", "Experio Editor", "");
+	
+	TEST_END();
+}

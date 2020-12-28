@@ -73,12 +73,12 @@ UNIT_TEST(TestHashtableLarge, "Hashtable")
 	populations.ForEach([&numOverMillion](const std::string& key, const int& value) {
 		if (value > 1000) { numOverMillion++; }
 	});
-	ASSERT_EQUAL(numOverMillion, 9, "");
+	ASSERT_EQUAL(numOverMillion, 9, "For Each does not work");
 
 	TEST_END();
 }
 
-UNIT_TEST(TestHashtableSearcg, "Hashtable")
+UNIT_TEST(TestHashtableSearch, "Hashtable")
 {
 	THashtable<std::string, int, StringHashFunction> populations;
 

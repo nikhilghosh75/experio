@@ -93,3 +93,10 @@ UNIT_TEST(TestArrayResize, "Array")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestArrayEmplace, "Array")
+{
+	// Add something here
+
+	TEST_END();
+}

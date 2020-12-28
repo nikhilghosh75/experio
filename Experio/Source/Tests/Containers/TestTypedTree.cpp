@@ -22,7 +22,7 @@ UNIT_TEST(TestTypedTreeGeneral, "TypedTree")
 	amphibian->AddChild("Earthworm");
 	amphibian->AddChild("Salamander");
 
-	TTypedTreeNode<std::string>* primate = mammal->children[3];
+	TTypedTreeNode<std::string>* primate = mammal->children[4];
 	primate->AddChild("Human");
 	primate->AddChild("Ape");
 	primate->AddChild("Monkey");
@@ -46,6 +46,9 @@ UNIT_TEST(TestTypedTreeGeneral, "TypedTree")
 	it.Increment();
 	ASSERT_EQUAL(it.current->object, "Mammal", "");
 	it.Increment();
+	ASSERT_EQUAL(it.current->object, "Artiodactyla", "");
+	it.Increment();
+	ASSERT_EQUAL(it.current->object, "Carnivore", "");
 
 	TEST_END();
 }
