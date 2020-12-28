@@ -149,7 +149,10 @@ public:
 
 	FixedBase<I, F> operator/(const FixedBase<I, F>& other)
 	{
+		float numerator = (float)(*this);
+		float demoninator = (float)other;
 
+		return numerator / demoninator;
 	}
 
 	bool operator==(const FixedBase<I, F>& other) const
