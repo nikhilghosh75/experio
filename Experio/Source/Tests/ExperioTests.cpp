@@ -7,5 +7,5 @@ std::vector<FUnitTestingOutcome> RunExperioTests()
 	outcomes.push_back(RunVector3Tests());
 	outcomes.push_back(RunLMathTests());
 
-	return std::vector<FUnitTestingOutcome>();
+	return outcomes;
 }

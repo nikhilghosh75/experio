@@ -77,6 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -121,9 +122,10 @@
     <ClCompile Include="Containers\TestHashtable.cpp" />
     <ClCompile Include="Containers\TestString.cpp" />
     <ClCompile Include="Containers\TestTypedTree.cpp" />
-    <ClCompile Include="Core\TestDebug.cpp" />
-    <ClCompile Include="Core\TestWindowOperations.cpp" />
+    <ClCompile Include="Core\DebugTest.cpp" />
+    <ClCompile Include="Core\WindowOperationsTest.cpp" />
     <ClCompile Include="ExperioTests.cpp" />
+    <ClCompile Include="Framework\BinaryParamsTest.cpp" />
     <ClCompile Include="Math\LMathTest.cpp" />
     <ClCompile Include="Math\Vector2Test.cpp" />
     <ClCompile Include="Math\Vector3Test.cpp" />
