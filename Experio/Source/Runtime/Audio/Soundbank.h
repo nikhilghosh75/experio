@@ -18,5 +18,5 @@ public:
 
 	void Load();
 
-	static Soundbank ReadFromFile();
+	static Soundbank ReadFromFile(const std::string& filepath);
 };
