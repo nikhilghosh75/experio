@@ -20,5 +20,9 @@ namespace ColorPalette
 	FColor VampireGray(86, 88, 88);
 	FColor GrayDolphin(92, 88, 88);
 	FColor CarbonGray(98, 93, 93);
+	FColor AshGray(102, 99, 98);
+	FColor CloudyGray(109, 105, 104);
+	FColor SmokeyGray(114, 110, 109);
+	FColor Gray(115, 111, 110);
 	FColor Red(1.f, 0.f, 0.f);
 }
