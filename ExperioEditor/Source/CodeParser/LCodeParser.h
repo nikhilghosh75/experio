@@ -63,4 +63,6 @@ public:
 	static CodeArg ParseCodeArg(const std::string& str, ECodingLanguage language);
 	static CodeFunction ParseCodeFunction(const std::string& str, ECodingLanguage language);
 	static CodeParam ParseCodeParam(const std::string& str, ECodingLanguage language);
+
+	static ECodingLanguage StringToCodingLanguage(const std::string& str);
 };

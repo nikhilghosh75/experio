@@ -466,3 +466,21 @@ CodeParam LCodeParser::ParseCodeParam(const std::string& str, ECodingLanguage la
 	return param;
 }
 
+ECodingLanguage LCodeParser::StringToCodingLanguage(const std::string & str)
+{
+	if (str == "C++") return ECodingLanguage::CPlusPlus;
+	if (str == "Cpp") return ECodingLanguage::CPlusPlus;
+	if (str == "CPP") return ECodingLanguage::CPlusPlus;
+	if (str == "CPlusPlus") return ECodingLanguage::CPlusPlus;
+	
+	if (str == "C#") return ECodingLanguage::CSharp;
+	if (str == "CSharp") return ECodingLanguage::CSharp;
+
+	if (str == "Java") return ECodingLanguage::Java;
+	
+	if (str == "Python") return ECodingLanguage::Python;
+	if (str == "py") return ECodingLanguage::Python;
+
+	return ECodingLanguage::None;
+}
+
