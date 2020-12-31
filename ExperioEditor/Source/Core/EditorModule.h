@@ -8,6 +8,7 @@ enum class EEditorModuleCategory : uint8_t
 	Profiling, // Scene and Frame Profiler
 	Experimental, // For things that are experimental
 	Viewer, // For asset viewer
+	Testing, // For testing
 	Custom
 };
 
