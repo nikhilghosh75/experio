@@ -1,5 +1,6 @@
 #include "MaterialConverter.h"
 #include "Runtime/Framework/Project.h"
+#include <iostream>
 
 std::ofstream MaterialConverter::outFile;
 
@@ -27,10 +28,13 @@ void MaterialConverter::MaterialToBinaryMaterial(const std::string & fromFilepat
 {
 	Material* material = Project::materialManager->LoadMaterialFromFile(fromFilepath);
 
-	uint32_t materialType = Project::materialManager->materialTypes[material->GetID()];
+	uint64_t materialId = material->GetID();
+	std::cout << materialId << " " << Project::materialManager->materialTypes.size() << std::endl;
+	uint32_t materialType = Project::materialManager->materialTypes[materialId];
 	size_t materialSize = SerializedSizeOfMaterial(materialType);
-	outFile.write((char*)materialType, 4);
-	outFile.write((char*)materialSize, 4);
+
+	outFile.write((char*)&materialType, 4);
+	outFile.write((char*)&materialSize, 4);
 	outFile.write("ABCDEFGH", 8);
 
 	BinarySaveMaterialToStream(material, materialType, outFile);
