@@ -72,7 +72,7 @@ void FileView::DisplayCreateMenu()
 	ImGui::Separator();
 	if (ImGui::MenuItem("Text"))
 	{
-		CreateSystem::CreateDatatable(this->selectedFilepath);
+		CreateSystem::CreateText(this->selectedFilepath);
 	}
 }
 

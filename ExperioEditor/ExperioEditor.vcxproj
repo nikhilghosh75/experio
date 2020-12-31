@@ -91,10 +91,12 @@
     <ClCompile Include="Source\AssetViewers\TagEditor.cpp" />
     <ClCompile Include="Source\BuildSystem\AssetMapSaver.cpp" />
     <ClCompile Include="Source\BuildSystem\BinarySaveParams.cpp" />
+    <ClCompile Include="Source\BuildSystem\BuildSystem.cpp" />
     <ClCompile Include="Source\BuildSystem\CodeGenerator.cpp" />
     <ClCompile Include="Source\BuildSystem\LSerializationOperations.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProject.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectGenerator.cpp" />
+    <ClCompile Include="Source\CodeParser\CodeProjectReader.cpp" />
     <ClCompile Include="Source\CodeParser\Cpp\CppCodeStream.cpp" />
     <ClCompile Include="Source\CodeParser\Cpp\CppCompilationError.cpp" />
     <ClCompile Include="Source\CodeParser\Cpp\LCpp.cpp" />
@@ -114,6 +116,8 @@
     <ClCompile Include="Source\Files\MeshConverter.cpp" />
     <ClCompile Include="Source\Files\SceneConverter.cpp" />
     <ClCompile Include="Source\FileView\FileView.cpp" />
+    <ClCompile Include="Source\Framework\Compilation\CompilationParser.cpp" />
+    <ClCompile Include="Source\Framework\Compilation\CompilationSystem.cpp" />
     <ClCompile Include="Source\Framework\CreateMenu.cpp" />
     <ClCompile Include="Source\Framework\CreateSystem.cpp" />
     <ClCompile Include="Source\Framework\EditorProject.cpp" />
@@ -137,6 +141,7 @@
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
     <ClCompile Include="Source\Testing\TestManager.cpp" />
+    <ClCompile Include="Source\Testing\TestRunner.cpp" />
     <ClCompile Include="Source\Testing\UnitTestingFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +151,7 @@
     <ClInclude Include="Source\AssetViewers\TagEditor.h" />
     <ClInclude Include="Source\BuildSystem\AssetMapSaver.h" />
     <ClInclude Include="Source\BuildSystem\BinarySaveParams.h" />
+    <ClInclude Include="Source\BuildSystem\BuildSystem.h" />
     <ClInclude Include="Source\BuildSystem\CodeGenerator.h" />
     <ClInclude Include="Source\BuildSystem\LSerializationOperations.h" />
     <ClInclude Include="Source\BuildSystem\SerializationInfo.h" />
@@ -158,6 +164,7 @@
     <ClInclude Include="Source\CodeParser\CodeParser.h" />
     <ClInclude Include="Source\CodeParser\CodeProject.h" />
     <ClInclude Include="Source\CodeParser\CodeProjectGenerator.h" />
+    <ClInclude Include="Source\CodeParser\CodeProjectReader.h" />
     <ClInclude Include="Source\CodeParser\CodeStream.h" />
     <ClInclude Include="Source\CodeParser\CompilationError.h" />
     <ClInclude Include="Source\CodeParser\Cpp\CppCodeStream.h" />
@@ -175,12 +182,16 @@
     <ClInclude Include="Source\Core\EditorWindow.h" />
     <ClInclude Include="Source\Core\FileDialog.h" />
     <ClInclude Include="Source\Core\UpperMenu.h" />
+    <ClInclude Include="Source\Files\FileConverters.h" />
     <ClInclude Include="Source\Files\FontConverter.h" />
     <ClInclude Include="Source\Files\MaterialConverter.h" />
     <ClInclude Include="Source\Files\MeshConverter.h" />
     <ClInclude Include="Source\Files\SceneConverter.h" />
     <ClInclude Include="Source\FileView\FileView.h" />
-    <ClInclude Include="Source\Framework\CompilationInfo.h" />
+    <ClInclude Include="Source\Framework\Compilation\CompilationInfo.h" />
+    <ClInclude Include="Source\Framework\Compilation\CompilationParser.h" />
+    <ClInclude Include="Source\Framework\Compilation\CompilationResult.h" />
+    <ClInclude Include="Source\Framework\Compilation\CompilationSystem.h" />
     <ClInclude Include="Source\Framework\ComponentInfo.h" />
     <ClInclude Include="Source\Framework\CreateMenu.h" />
     <ClInclude Include="Source\Framework\CreateSystem.h" />
@@ -207,6 +218,7 @@
     <ClInclude Include="Source\SceneView\SceneView.h" />
     <ClInclude Include="Source\Testing\Assert.h" />
     <ClInclude Include="Source\Testing\TestManager.h" />
+    <ClInclude Include="Source\Testing\TestRunner.h" />
     <ClInclude Include="Source\Testing\UnitTestingFramework.h" />
   </ItemGroup>
   <ItemGroup>
