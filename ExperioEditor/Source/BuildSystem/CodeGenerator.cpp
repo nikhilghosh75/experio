@@ -394,8 +394,8 @@ void CodeGenerator::GenerateComponentManagerGetAllComponentsImpl(CppCodeOStream 
 	cppFile << "components.reserve(ComponentCount());" << Debug::endl;
 	cppFile << "componentIds.reserve(ComponentCount());" << Debug::endl << Debug::endl;
 
-	cppFile << "CameraSystem::GetAll(components);" << Debug::endl;
-	cppFile << "Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::Size());" << Debug::endl;
+	cppFile << "CameraSystem::GetAllOfScene(components, sceneIndex);" << Debug::endl;
+	cppFile << "Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::NumInScene(sceneIndex));" << Debug::endl;
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
 		if (info.isStandaloneComponent)
 		{

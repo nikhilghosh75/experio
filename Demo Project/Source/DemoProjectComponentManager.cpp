@@ -155,8 +155,8 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 	components.reserve(ComponentCount());
 	componentIds.reserve(ComponentCount());
 
-	CameraSystem::GetAll(components);
-	Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::Size());
+	CameraSystem::GetAllOfScene(components, sceneIndex);
+	Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::NumInScene(sceneIndex));
 	PB_GET_ALL_SCENE_IDS(textComponentInstances, 104);
 	PB_GET_ALL_SCENE_IDS(spaceshipInstances, 1024);
 	PB_GET_ALL_SCENE_IDS(meshComponentInstances, 101);

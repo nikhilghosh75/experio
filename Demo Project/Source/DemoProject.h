@@ -9,7 +9,7 @@
 #include <Windows.h>
 
 extern "C" __declspec(dllexport) void SetupProject();
-extern "C" __declspec(dllexport) void Runtime();
+extern "C" __declspec(dllexport) void RunProject();
 extern "C" __declspec(dllexport) void Update();
 extern "C" __declspec(dllexport) ComponentManager* CreateComponentManager();
 extern "C" __declspec(dllexport) MaterialManager* CreateMaterialManager();
