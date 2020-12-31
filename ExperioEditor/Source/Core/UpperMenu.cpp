@@ -9,6 +9,8 @@
 #include "../Framework/ValueSaver.h"
 #include "../ProjectSettings/ProjectSettings.h"
 #include "../ProjectSettings/SettingsView.h"
+#include "../Testing/TestRunner.h"
+#include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Framework/Scene.h"
 #include "Runtime/Framework/SceneLoader.h"
 #include "imgui.h"
@@ -22,6 +24,7 @@ void UpperMenu::CreateUpperMenu()
 		CreateFileMenu();
 		CreateEditMenu();
 		CreateProjectMenu();
+		CreateWindowMenu();
 
 		ImGui::EndMenuBar();
 	}
@@ -103,6 +106,18 @@ void UpperMenu::CreateProjectMenu()
 		if (ImGui::MenuItem("Project Settings"))
 		{
 			EditorApplication::AddModule(new SettingsView());
+		}
+		ImGui::EndMenu();
+	}
+}
+
+void UpperMenu::CreateWindowMenu()
+{
+	if (ImGui::BeginMenu("Window"))
+	{
+		if (ImGui::MenuItem("Test Runner"))
+		{
+			EditorApplication::AddModule(new TestRunner());
 		}
 		ImGui::EndMenu();
 	}
