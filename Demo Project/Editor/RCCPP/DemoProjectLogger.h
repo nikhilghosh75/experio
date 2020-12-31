@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RuntimeCompiler/ICompilerLogger.h"
+#include "Framework/Compilation/CompilationParser.h"
 #include <string>
 #include <stdio.h>
 #include <iostream>
@@ -25,6 +26,7 @@ class DemoProjectLogger : public ICompilerLogger
 #ifdef _WIN32
 		OutputDebugStringA(m_buff);
 #endif
+		CompilationParser::Read(m_buff);
 	}
 
 public:
