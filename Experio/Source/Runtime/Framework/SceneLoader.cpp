@@ -88,6 +88,7 @@ bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESc
 			{
 				currentNode = &currentScene->sceneRoot;
 				currentNode->name = (std::string)(&word[1]); // Account for space
+				currentNode->sceneIndex = sceneSlot;
 				isRoot = false;
 			}
 			else
@@ -234,6 +235,7 @@ bool SceneLoader::LoadSceneFromBinaryFile(std::string filePath, int sceneSlot)
 			currentGameObject = parent->AddChild(std::string(gameObjectName));
 		}
 
+		currentGameObject->sceneIndex = sceneSlot;
 		currentGameObject->layer = layer;
 		currentGameObject->tag = tag;
 		currentGameObject->ReserveChildren(numChildren);
