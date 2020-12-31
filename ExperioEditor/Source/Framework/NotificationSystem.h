@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include "CompilationInfo.h"
+#include "Compilation/CompilationInfo.h"
 
 class NotificationSystem
 {
