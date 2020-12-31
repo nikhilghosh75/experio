@@ -3,5 +3,6 @@
 
 class FontConverter
 {
-	void ConvertFontToBinary(const std::string& fromFilepath, const std::string& toFilepath);
+public:
+	static void ConvertFontToBinary(const std::string& fromFilepath, const std::string& toFilepath);
 };
