@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "Project.h"
 #include "../Containers/TTypedTree.h"
 
 Scene Scene::scenes[MAX_SCENES];
@@ -31,9 +32,23 @@ void Scene::SetName(std::string name)
 
 unsigned int Scene::GetNumGameObjects()
 {
-	int currentNum = 0;
+	unsigned int currentNum = 0;
 	ForEach(&sceneRoot, [&currentNum](GameObject* object) { currentNum++; });
 	return currentNum;
+}
+
+size_t Scene::GetNumComponents()
+{
+	size_t numComponents = 0;
+
+	std::vector<Component*> components = Project::componentManager->GetAllComponents();
+	for (size_t i = 0; i < components.size(); i++)
+	{
+		if (components[i]->GetGameObject()->sceneIndex == this->id)
+			numComponents++;
+	}
+
+	return numComponents;
 }
 
 void Scene::Activate(uint8_t sceneIndex)
@@ -79,6 +94,15 @@ bool Scene::IsSceneAtFilepathLoaded(const std::string & filepath)
 	return false;
 }
 
+uint8_t Scene::IndexOfLoadedScene(const std::string & filepath)
+{
+	for (uint8_t i = 0; i < MAX_SCENES; i++)
+	{
+		if (Scene::filepaths[i] == filepath) return i;
+	}
+	return MAX_SCENES;
+}
+
 void Scene::LoadBlankScene(uint8_t sceneIndex)
 {
 	Scene::filepaths[sceneIndex] = "Blank Scene";
@@ -108,6 +132,7 @@ void Scene::UnloadScene(uint8_t sceneIndex)
 			sceneRoot.children.pop_back();
 		}
 	}
+
 	Scene::scenes[sceneIndex].isActive = false;
 	Scene::scenes[sceneIndex].isLoaded = false;
 	Scene::scenes[sceneIndex].name = "";

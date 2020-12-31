@@ -35,6 +35,8 @@ public:
 
 	unsigned int GetNumGameObjects();
 
+	size_t GetNumComponents();
+
 	static Scene scenes[MAX_SCENES];
 	static std::string filepaths[MAX_SCENES];
 	static uint8_t sceneCount;
@@ -52,6 +54,8 @@ public:
 	static bool IsSceneLoaded(const std::string& name);
 
 	static bool IsSceneAtFilepathLoaded(const std::string& filepath);
+
+	static uint8_t IndexOfLoadedScene(const std::string& filepath);
 
 	static void LoadBlankScene(uint8_t sceneIndex);
 
