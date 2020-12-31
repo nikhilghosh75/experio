@@ -395,6 +395,22 @@ uint32_t LFileOperations::NumFilesInFolder(const std::string & filepath, bool sh
 	return numFiles;
 }
 
+uint32_t LFileOperations::NumFilesInFolderOfType(const std::string & filepath, const std::string & ext)
+{
+	uint32_t numFiles = 0;
+
+	for (auto& p : fs::directory_iterator(filepath))
+	{
+		std::string pathString = p.path().filename().string();
+		if (LFileOperations::GetExtension(pathString) == ext)
+		{
+			numFiles++;
+		}
+	}
+
+	return numFiles;
+}
+
 uint32_t LFileOperations::NumFilesInFolderRecursive(const std::string & filepath, bool shouldIncludeMetas)
 {
 	uint32_t numFiles = 0;
@@ -408,6 +424,22 @@ uint32_t LFileOperations::NumFilesInFolderRecursive(const std::string & filepath
 			continue;
 
 		numFiles++;
+	}
+
+	return numFiles;
+}
+
+uint32_t LFileOperations::NumFilesInFolderOfTypeRecursive(const std::string & filepath, const std::string & ext)
+{
+	uint32_t numFiles = 0;
+
+	for (auto& p : fs::recursive_directory_iterator(filepath))
+	{
+		std::string pathString = p.path().filename().string();
+		if (LFileOperations::GetExtension(pathString) == ext)
+		{
+			numFiles++;
+		}
 	}
 
 	return numFiles;
@@ -485,5 +517,5 @@ std::string LFileOperations::StripFilenameAndExt(const std::string& filename)
 		}
 	}
 
-	return filename.substr(indexOfSlash, indexOfPeriod - indexOfSlash);
+	return filename.substr(indexOfSlash + 1, indexOfPeriod - indexOfSlash);
 }
