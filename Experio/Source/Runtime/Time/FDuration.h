@@ -14,12 +14,21 @@ struct FDuration
 	FDuration operator-(const FDuration& other);
 	FDuration operator-=(const FDuration& other);
 
+	bool operator==(const FDuration& other);
+	bool operator!=(const FDuration& other);
+	bool operator>(const FDuration& other);
+	bool operator<(const FDuration& other);
+	bool operator>=(const FDuration& other);
+	bool operator<=(const FDuration& other);
+
 	static int GetMillisecond(const FDuration& duration);
 	static int GetSecond(const FDuration& duration);
 	static int GetMinute(const FDuration& duration);
 	static int GetHour(const FDuration& duration);
 	static int GetDay(const FDuration& duration);
 	static int GetYear(const FDuration& duration);
+
+	static FDuration microsecond;
 
 	static std::string ToString(const FDuration& duration);
 	static std::string ToString(const FDuration& duration, const std::string& format);

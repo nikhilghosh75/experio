@@ -13,6 +13,8 @@ const int TICKSPERMICROSECOND = 10;
 const long long TICKSSINCE1601 = 504912960000000000;
 const long long TICKSINCEUNIXEPOCH = 621672192000000000;
 
+FDuration FDuration::microsecond(TICKSPERMICROSECOND);
+
 FDuration::FDuration()
 {
 	this->ticks = 0;
@@ -53,6 +55,36 @@ FDuration FDuration::operator-=(const FDuration & other)
 {
 	this->ticks -= other.ticks;
 	return FDuration(this->ticks - other.ticks);
+}
+
+bool FDuration::operator==(const FDuration & other)
+{
+	return this->ticks == other.ticks;
+}
+
+bool FDuration::operator!=(const FDuration & other)
+{
+	return this->ticks != other.ticks;
+}
+
+bool FDuration::operator>(const FDuration & other)
+{
+	return this->ticks > other.ticks;
+}
+
+bool FDuration::operator<(const FDuration & other)
+{
+	return this->ticks < other.ticks;
+}
+
+bool FDuration::operator>=(const FDuration & other)
+{
+	return this->ticks >= other.ticks;
+}
+
+bool FDuration::operator<=(const FDuration & other)
+{
+	return this->ticks <= other.ticks;
 }
 
 int FDuration::GetMillisecond(const FDuration & duration)
