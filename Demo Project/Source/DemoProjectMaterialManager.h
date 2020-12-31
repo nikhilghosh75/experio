@@ -23,7 +23,7 @@ public:
 		textMaterials.reserve(8);
 
 		materialTypes.reserve(256);
-		currentIndex = 0;
+		currentIndex = -1;
 	}
 
 	virtual uint32_t GetMaterialType(const std::string& materialType) override
