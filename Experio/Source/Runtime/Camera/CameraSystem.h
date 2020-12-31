@@ -26,11 +26,15 @@ public:
 
 	static void GetAll(std::vector<Component*>& components);
 
+	static void GetAllOfScene(std::vector<Component*>& components, uint8_t sceneId);
+
 	static void OnGameObjectDeleted(GameObject* gameObject);
 
 	static void Update();
 
 	static unsigned int Size();
+
+	static unsigned int NumInScene(uint8_t sceneId);
 
 	static VirtualCamera* GetCurrentCamera();
 

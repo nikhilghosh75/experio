@@ -64,6 +64,10 @@ void CameraSystem::DeleteComponent(GameObject * gameObject)
 		if (gameObject == cameras[i].GetGameObject())
 		{
 			foundComponent = true;
+			if (&cameras[i] == currentCamera)
+			{
+				currentCamera = nullptr;
+			}
 		}
 		if (foundComponent)
 		{
@@ -82,6 +86,17 @@ void CameraSystem::GetAll(std::vector<Component*>& components)
 	for (int i = 0; i < cameras.size(); i++)
 	{
 		components.push_back(&cameras[i]);
+	}
+}
+
+void CameraSystem::GetAllOfScene(std::vector<Component*>& components, uint8_t sceneId)
+{
+	for (int i = 0; i < cameras.size(); i++)
+	{
+		if (cameras[i].GetGameObject()->sceneIndex == sceneId)
+		{
+			components.push_back(&cameras[i]);
+		}
 	}
 }
 
@@ -137,6 +152,19 @@ void CameraSystem::Update()
 unsigned int CameraSystem::Size()
 {
 	return cameras.size();
+}
+
+unsigned int CameraSystem::NumInScene(uint8_t sceneId)
+{
+	unsigned int num = 0;
+
+	for (int i = 0; i < cameras.size(); i++)
+	{
+		if (cameras[i].GetGameObject()->sceneIndex == sceneId)
+			num++;
+	}
+
+	return num;
 }
 
 VirtualCamera * CameraSystem::GetCurrentCamera()
