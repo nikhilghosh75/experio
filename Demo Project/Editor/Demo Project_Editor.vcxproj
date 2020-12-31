@@ -83,11 +83,11 @@
   <ItemGroup>
     <ClCompile Include="DemoProjectEditor.cpp" />
     <ClCompile Include="DemoProjectMaterialEditor.cpp" />
-    <ClCompile Include="DemoProjectTests.cpp" />
     <ClCompile Include="RCCPP\DemoProjectEditorMainLoop.cpp" />
     <ClCompile Include="RCCPP\DemoProjectRCCP.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DemoProjectBuild.cpp" />
+    <ClCompile Include="Tests\SpaceshipTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Dependencies\RuntimeCompiledCPP\RuntimeCompiler\RuntimeCompiler.vcxproj">
