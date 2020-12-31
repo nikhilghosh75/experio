@@ -47,6 +47,12 @@ void CreateSystem::CreateScene(const std::string & filepath)
 	outFile << "}]" << std::endl;
 }
 
+void CreateSystem::CreateText(const std::string & filepath)
+{
+	std::ofstream outFile(filepath + "/text.txt");
+	outFile << " ";
+}
+
 void CreateSystem::CreateEmptyClass(const std::string & filepath, const std::string & className, ECodingLanguage langauge)
 {
 	CodeClass codeClass(className);

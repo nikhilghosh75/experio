@@ -69,6 +69,11 @@ void FileView::DisplayCreateMenu()
 	{
 		CreateSystem::CreateScene(this->selectedFilepath);
 	}
+	ImGui::Separator();
+	if (ImGui::MenuItem("Text"))
+	{
+		CreateSystem::CreateDatatable(this->selectedFilepath);
+	}
 }
 
 void FileView::DisplayImportMenu()

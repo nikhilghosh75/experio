@@ -13,6 +13,8 @@ public:
 
 	static void CreateScene(const std::string& filepath);
 
+	static void CreateText(const std::string& filepath);
+
 private:
 	static void CreateEmptyClass(const std::string& filepath, const std::string& className, ECodingLanguage langauge);
 
