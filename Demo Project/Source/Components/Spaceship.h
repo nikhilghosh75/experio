@@ -16,4 +16,6 @@ public:
 	virtual void Start() override;
 
 	virtual void Update() override;
+
+	static float CalculateAcceleration(float power, float currentFuel);
 };
