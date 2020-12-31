@@ -40,3 +40,15 @@ bool UnitTestSuite::CompareName(const std::string & str)
 {
 	return name == str;
 }
+
+size_t NumTestsPassed(const std::vector<FUnitTestingOutcome> outcomes)
+{
+	size_t numPassed = 0;
+
+	for (size_t i = 0; i < outcomes.size(); i++)
+	{
+		if (outcomes[i].success) numPassed++;
+	}
+
+	return numPassed;
+}

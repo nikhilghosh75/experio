@@ -30,6 +30,8 @@ public:
 	void RegisterTest(std::function<FAssertionOutcome(void)> func, std::string name);
 
 	bool CompareName(const std::string& str);
+
+	std::string GetName() const { return name; }
 };
 
 class UnitTestRegisterer
@@ -49,3 +51,5 @@ public:
 FAssertionOutcome _name_(); \
 UnitTestRegisterer Register##_name_(##_name_, (#_name_), _category_);\
 FAssertionOutcome _name_()
+
+size_t NumTestsPassed(const std::vector<FUnitTestingOutcome> outcomes);

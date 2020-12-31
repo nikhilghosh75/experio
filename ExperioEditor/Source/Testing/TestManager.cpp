@@ -19,6 +19,30 @@ std::vector<FUnitTestingOutcome> TestingManager::RunTests()
 	return outcomes;
 }
 
+std::vector<std::string> TestingManager::GetTestNames()
+{
+	std::vector<std::string> v;
+
+	for (size_t i = 0; i < unitTestSuites.size(); i++)
+	{
+		v.push_back(unitTestSuites[i]->GetName());
+	}
+
+	return v;
+}
+
+size_t TestingManager::GetNumTests()
+{
+	size_t numTests = 0;
+
+	for (int i = 0; i < unitTestSuites.size(); i++)
+	{
+		numTests += unitTestSuites[i]->testFunctions.size();
+	}
+
+	return numTests;
+}
+
 void RegisterUnitTest(std::function<FAssertionOutcome(void)> func, std::string name, std::string category)
 {
 	for (int i = 0; i < TestingManager::unitTestSuites.size(); i++)
