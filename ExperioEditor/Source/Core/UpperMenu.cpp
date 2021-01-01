@@ -4,6 +4,7 @@
 #include "FileDialog.h"
 #include "../AssetViewers/LayerEditor.h"
 #include "../AssetViewers/TagEditor.h"
+#include "../BuildSystem/BuildSystem.h"
 #include "../Framework/CreateMenu.h"
 #include "../Framework/SceneSaver.h"
 #include "../Framework/ValueSaver.h"
@@ -14,6 +15,8 @@
 #include "Runtime/Framework/Scene.h"
 #include "Runtime/Framework/SceneLoader.h"
 #include "imgui.h"
+
+using namespace ExperioEditor;
 
 extern void RCCCompileProject();
 
@@ -71,7 +74,17 @@ void UpperMenu::CreateFileMenu()
 		{
 			EditorWindow::CloseWindow();
 		}
-		if (ImGui::MenuItem("Test Compile"))
+		ImGui::Separator();
+		if (ImGui::MenuItem("Build"))
+		{
+			FFileDialogInfo dialogInfo = FileDialog::OpenFile(nullptr);
+			if (dialogInfo.IsValid())
+			{
+				BuildSystem::StartBuildForWindows(LFileOperations::GetDirectory(dialogInfo.filename), BuildSystem::DefaultWindowsBuildSettings());
+			}
+		}
+		ImGui::Separator();
+		if (ImGui::MenuItem("Compile Project"))
 		{
 			RCCCompileProject();
 		}
