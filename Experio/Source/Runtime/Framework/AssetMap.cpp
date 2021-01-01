@@ -4,10 +4,11 @@
 #include "../Files/LFileOperations.h"
 
 THashtable<unsigned int, std::string> AssetMap::assetMap;
+std::string AssetMap::defaultScenePath;
 
 void AssetMap::ReadAssetMap(std::string filepath)
 {
-	if (!LFileOperations::DoesFileHaveExtension(filepath, "pbasm"))
+	if (!LFileOperations::DoesFileHaveExtension(filepath, "pbasmap"))
 	{
 		Debug::LogError("Filepath is not a pbasm file");
 		return;
@@ -25,6 +26,8 @@ void AssetMap::ReadAssetMap(std::string filepath)
 
 	unsigned int numAssets;
 	inFile >> numAssets;
+	inFile >> word >> word;
+	inFile >> defaultScenePath;
 
 	for (int i = 0; i < numAssets; i++)
 	{

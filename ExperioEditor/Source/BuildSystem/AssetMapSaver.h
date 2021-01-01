@@ -15,7 +15,7 @@ public:
 
 	static uint32_t GetIndexOfAsset(const std::string& filepath);
 
-	static void PushBack(std::string asset);
+	static void Insert(const std::string& filepath);
 
 	static std::vector<TPair<uint32_t, std::string>>& GetCurrentMap();
 

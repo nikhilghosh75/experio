@@ -1,4 +1,6 @@
 #include "AssetMapSaver.h"
+#include "../Core/EditorApplication.h"
+#include "Runtime/Files/LFileOperations.h"
 #include <fstream>
 
 std::vector<TPair<uint32_t, std::string>> AssetMapSaver::currentMap;
@@ -27,12 +29,19 @@ uint32_t AssetMapSaver::GetIndexOfAsset(const std::string & filepath)
 			return currentMap[i].first;
 		}
 	}
-	return 0;
+	return currentMap.size();
 }
 
-void AssetMapSaver::PushBack(std::string asset)
+void AssetMapSaver::Insert(const std::string & filepath)
 {
-	currentMap.emplace_back((uint32_t)currentMap.size(), asset);
+	for (size_t i = 0; i < currentMap.size(); i++)
+	{
+		if (currentMap[i].second == filepath)
+		{
+			return;
+		}
+	}
+	currentMap.emplace_back(currentMap.size(), filepath);
 }
 
 std::vector<TPair<uint32_t, std::string>>& AssetMapSaver::GetCurrentMap()
@@ -46,6 +55,7 @@ void AssetMapSaver::SaveToAssetMap(const std::string & filepath)
 
 	outFile << "EXPERIO ASSET MAP" << std::endl;
 	outFile << currentMap.size() << std::endl;
+	outFile << "Default Scene: " << LFileOperations::StripFilename(EditorApplication::defaultScenePath) << std::endl;
 
 	for (uint32_t i = 0; i < currentMap.size(); i++)
 	{

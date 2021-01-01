@@ -6,6 +6,7 @@ class AssetMap
 {
 public:
 	static THashtable<unsigned int, std::string> assetMap;
+	static std::string defaultScenePath;
 
 	static void ReadAssetMap(std::string filepath);
 
