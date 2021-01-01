@@ -13,7 +13,12 @@ const int TICKSPERMICROSECOND = 10;
 const long long TICKSSINCE1601 = 504912960000000000;
 const long long TICKSINCEUNIXEPOCH = 621672192000000000;
 
-FDuration FDuration::microsecond(TICKSPERMICROSECOND);
+const FDuration FDuration::microsecond(TICKSPERMICROSECOND);
+const FDuration FDuration::millisecond(TICKSPERMILLISECOND);
+const FDuration FDuration::second(TICKSPERSECOND);
+const FDuration FDuration::minute(TICKSPERMINUTE);
+const FDuration FDuration::hour(TICKSPERHOUR);
+const FDuration FDuration::year(TICKSPERYEAR);
 
 FDuration::FDuration()
 {

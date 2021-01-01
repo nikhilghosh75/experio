@@ -28,7 +28,12 @@ struct FDuration
 	static int GetDay(const FDuration& duration);
 	static int GetYear(const FDuration& duration);
 
-	static FDuration microsecond;
+	static const FDuration microsecond;
+	static const FDuration millisecond;
+	static const FDuration second;
+	static const FDuration minute;
+	static const FDuration hour;
+	static const FDuration year;
 
 	static std::string ToString(const FDuration& duration);
 	static std::string ToString(const FDuration& duration, const std::string& format);
