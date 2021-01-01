@@ -12,12 +12,11 @@
 
 #include "EditorWindow.h"
 #include "../BuildSystem/CodeGenerator.h"
-#include "../CodeParser/LCodeParser.h"
-#include "../CodeParser/CodeProject.h"
 #include "../CodeParser/CodeProjectGenerator.h"
 #include "../ComponentEditor/GeneratedEditor.h"
 #include "../Console/Console.h"
 #include "../FileView/FileView.h"
+#include "../Framework/Compilation/CompilationParser.h"
 #include "../Framework/CreateMenu.h"
 #include "../Framework/EditorProject.h"
 #include "../Framework/NotificationSystem.h"
@@ -29,7 +28,6 @@
 #include "../ProjectSettings/SettingsView.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../SceneView/SceneView.h"
-#include "Runtime/Containers/TArray.h"
 #include "Runtime/Debug/TempProfiler.h"
 #include "Runtime/Framework/SceneLoader.h"
 
@@ -84,6 +82,7 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 
 	ProjectSettings::Initialize();
 	CreateMenu::Initialize();
+	CompilationParser::Initialize();
 }
 
 void EditorApplication::LoadScenes()
@@ -94,16 +93,6 @@ void EditorApplication::LoadScenes()
 
 void EditorApplication::Run()
 {
-	/*
-	TempProfiler* profiler = new TempProfiler("Code Parsers");
-	FCodeProjectOptions options;
-	options.codingLanguage = ECodingLanguage::CPlusPlus;
-	options.generateInstantly = true;
-	CodeProject project("C:/Users/debgh/source/repos/project-bloo/Experio/Source/Runtime", options);
-	size_t audioSize = LCodeParser::SerializedSizeOf(project.classes[114], project, ECodingLanguage::CPlusPlus);
-	delete profiler;
-	*/
-
 	CodeGenerator::GenerateAllFiles();
 
 	Project::StartGame();
