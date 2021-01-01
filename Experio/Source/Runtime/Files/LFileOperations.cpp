@@ -517,5 +517,5 @@ std::string LFileOperations::StripFilenameAndExt(const std::string& filename)
 		}
 	}
 
-	return filename.substr(indexOfSlash + 1, indexOfPeriod - indexOfSlash);
+	return filename.substr(indexOfSlash + 1, indexOfPeriod - indexOfSlash - 1);
 }
