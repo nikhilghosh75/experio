@@ -17,5 +17,7 @@ class FileDialog
 public:
 	// Restructure Dialog
 	static FFileDialogInfo OpenFile(const char* filter);
+	static FFileDialogInfo OpenFolder();
+
 	static FFileDialogInfo SaveFile(const char* filter);
 };
