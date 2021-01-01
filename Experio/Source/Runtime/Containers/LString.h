@@ -10,6 +10,8 @@ class LString
 public:
 	constexpr static int CharToInt(char c);
 
+	static bool CompareSubstr(const std::string& original, const std::string& substr, size_t offset);
+
 	static char DigitToChar(int i);
 
 	static std::string GetFileLocation(const std::string fileName);

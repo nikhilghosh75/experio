@@ -247,6 +247,16 @@ constexpr int LString::CharToInt(char c)
 	return c - 48;
 }
 
+bool LString::CompareSubstr(const std::string & original, const std::string & substr, size_t offset)
+{
+	for (size_t i = 0; i < substr.size(); i++)
+	{
+		if (substr[i] != original[i + offset])
+			return false;
+	}
+	return true;
+}
+
 char LString::DigitToChar(int i)
 {
 	return (i % 10) + '0';
