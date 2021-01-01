@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../Debug/TempProfiler.h"
 #include "../Rendering/Renderer.h"
+#include "../Framework/AssetMap.h"
 #include "../Framework/Framework.h"
 #include "../Framework/Project.h"
 #include "../Framework/Scene.h"
@@ -21,19 +22,17 @@ Application::~Application()
 
 void Application::Run()
 {
-	TempProfiler* windowProfiler = new TempProfiler();
 	Window newWindow;
 	newWindow.InstantiateWindow();
-	delete windowProfiler;
 
 	Renderer tempRenderer;
 	tempRenderer.MakeCurrent();
 
-	GameTime::StartGame();
-
-	SceneLoader::LoadSceneFromFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Scenes/TestScene.pbscene", 0);
-
+	AssetMap::ReadAssetMap("map.pbasmap");
+	SceneLoader::LoadSceneFromFile(AssetMap::defaultScenePath, 0);
 	Scene::Activate(0);
+
+	GameTime::StartGame();
 
 	while (newWindow.isActive)
 	{
@@ -45,11 +44,11 @@ void Application::Run()
 		}
 		tempRenderer.Clear();
 		Project::componentManager->Update();
-		tempRenderer.LogRenderingError();
 		tempRenderer.OnEndFrame();
 		GameTime::OnEndFrame();
-		Debug::log << "DeltaTime = " << GameTime::deltaTime << Debug::endl;
+		// Debug::log << "DeltaTime = " << GameTime::deltaTime << Debug::endl;
 	}
+
 	Debug::FlushToFile();
 	std::cin.get();
 }
