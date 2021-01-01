@@ -15,6 +15,7 @@ enum class EArchitecture
 
 #include <stdint.h>
 #include <string>
+
 #ifdef PLATFORM_WINDOWS
 #include <Windows.h>
 #endif
@@ -27,6 +28,8 @@ enum class EArchitecture
 	#define OWNER_APPLE
 #elif defined PLATFORM_LINUX
 	#define PLATFORM_DESKTOP
+#elif defined PLATFORM_WEBGL
+	#define PLATFORM_WEB
 #endif
 
 std::string GetVersionString();
