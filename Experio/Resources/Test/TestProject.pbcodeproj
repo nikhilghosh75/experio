@@ -1,0 +1,14 @@
+Language: C++
+Filepath: None
+Classes: [{
+	Name: AudioSystem
+	Filename: Audio/AudioSystem
+	Params: {}
+	Functions: { "static EAudioSystemInitStatus Initialize()" , "static std::string GetDriverName()" }
+	InheritsFrom: 
+}]
+Enums: [{
+	Name: EAudioSystemInitStatus
+	Values: [ {InitFailed, 0}, {IrrKlangNotFound, 1}, {NoSpeakers, 2}, {Successful, 3} ]
+	Datatype: INT
+}]
