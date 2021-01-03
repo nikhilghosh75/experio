@@ -60,6 +60,8 @@ public:
 
 	static bool IsFilepathOfLanguage(ECodingLanguage language, std::string path);
 
+	static std::string LanguageToString(ECodingLanguage language);
+
 	static CodeArg ParseCodeArg(const std::string& str, ECodingLanguage language);
 	static CodeFunction ParseCodeFunction(const std::string& str, ECodingLanguage language);
 	static CodeParam ParseCodeParam(const std::string& str, ECodingLanguage language);

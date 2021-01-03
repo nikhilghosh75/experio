@@ -411,6 +411,18 @@ bool LCodeParser::IsFilepathOfLanguage(ECodingLanguage language, std::string pat
 	return false;
 }
 
+std::string LCodeParser::LanguageToString(ECodingLanguage language)
+{
+	switch (language)
+	{
+	case ECodingLanguage::CPlusPlus: return "C++";
+	case ECodingLanguage::CSharp: return "C#";
+	case ECodingLanguage::Java: return "Java";
+	case ECodingLanguage::Python: return "Python";
+	}
+	return "";
+}
+
 CodeArg LCodeParser::ParseCodeArg(const std::string& originalStr, ECodingLanguage language)
 {
 	CodeArg arg;

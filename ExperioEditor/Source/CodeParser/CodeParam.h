@@ -50,4 +50,9 @@ public:
 		this->accessType = accessType;
 		this->keywords = keyword;
 	}
+
+	static bool IsStatic(ECodeParamKeyword keyword)
+	{
+		return keyword == ECodeParamKeyword::Static || keyword == ECodeParamKeyword::StaticConst;
+	}
 };
