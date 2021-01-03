@@ -97,6 +97,7 @@
     <ClCompile Include="Source\CodeParser\CodeProject.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectGenerator.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectReader.cpp" />
+    <ClCompile Include="Source\CodeParser\CodeProjectWriter.cpp" />
     <ClCompile Include="Source\CodeParser\Cpp\CppCodeStream.cpp" />
     <ClCompile Include="Source\CodeParser\Cpp\CppCompilationError.cpp" />
     <ClCompile Include="Source\CodeParser\Cpp\LCpp.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Source\CodeParser\CodeProject.h" />
     <ClInclude Include="Source\CodeParser\CodeProjectGenerator.h" />
     <ClInclude Include="Source\CodeParser\CodeProjectReader.h" />
+    <ClInclude Include="Source\CodeParser\CodeProjectWriter.h" />
     <ClInclude Include="Source\CodeParser\CodeStream.h" />
     <ClInclude Include="Source\CodeParser\CompilationError.h" />
     <ClInclude Include="Source\CodeParser\Cpp\CppCodeStream.h" />
@@ -201,6 +203,7 @@
     <ClInclude Include="Source\Framework\PlaySystem.h" />
     <ClInclude Include="Source\Framework\SaveParams.h" />
     <ClInclude Include="Source\Framework\SceneSaver.h" />
+    <ClInclude Include="Source\Framework\UndoCommand.h" />
     <ClInclude Include="Source\Framework\ValueLoader.h" />
     <ClInclude Include="Source\Framework\Values.h" />
     <ClInclude Include="Source\Framework\ValueSaver.h" />
