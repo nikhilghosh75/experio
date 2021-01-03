@@ -94,6 +94,21 @@ UNIT_TEST(TestArrayResize, "Array")
 	TEST_END();
 }
 
+UNIT_TEST(TestArraySwap, "Algorithm")
+{
+	TArray<int> array = { 3, 4, 5, 6 };
+	
+	ASSERT_EQUAL(array[0], 3, "");
+	ASSERT_EQUAL(array[2], 5, "");
+
+	array.Swap(0, 2);
+
+	ASSERT_EQUAL(array[0], 5, "");
+	ASSERT_EQUAL(array[0], 3, "");
+
+	TEST_END();
+}
+
 UNIT_TEST(TestArrayEmplace, "Array")
 {
 	// Add something here

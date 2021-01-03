@@ -34,3 +34,13 @@ UNIT_TEST(TestAlgorithmGetUnique, "Algorithm")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestAlgorithmExistsAt, "Algorithm")
+{
+	std::vector<int> vector = { 1, 2, 3, 5, 6, 11, 4, 9 };
+
+	ASSERT_TRUE(Algorithm::ExistsIn(vector, 3), "");
+	ASSERT_FALSE(Algorithm::ExistsIn(vector, 12), "");
+
+	TEST_END();
+}

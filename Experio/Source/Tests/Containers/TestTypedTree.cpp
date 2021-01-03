@@ -49,6 +49,10 @@ UNIT_TEST(TestTypedTreeGeneral, "TypedTree")
 	ASSERT_EQUAL(it.current->object, "Artiodactyla", "");
 	it.Increment();
 	ASSERT_EQUAL(it.current->object, "Carnivore", "");
+	it.Increment();
+	ASSERT_EQUAL(it.current->object, "Edentata", "");
+	it.Increment();
+	ASSERT_EQUAL(it.current->object, "Insectivora", "");
 
 	TEST_END();
 }

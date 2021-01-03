@@ -44,3 +44,19 @@ UNIT_TEST(TestStringTrim, "String")
 	
 	TEST_END();
 }
+
+UNIT_TEST(TestStringDigit, "String")
+{
+	ASSERT_EQUAL(LString::DigitToChar('0'), 0, "");
+	ASSERT_EQUAL(LString::DigitToChar('7'), 7, "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestStringNumCommas, "String")
+{
+	ASSERT_EQUAL(LString::NumberWithCommas(204), "204", "");
+	ASSERT_EQUAL(LString::NumberWithCommas(12468), "12,468", "");
+
+	TEST_END();
+}

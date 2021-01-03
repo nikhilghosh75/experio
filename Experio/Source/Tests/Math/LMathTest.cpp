@@ -109,6 +109,25 @@ UNIT_TEST(TestMathRound, "LMath")
 	TEST_END();
 }
 
+UNIT_TEST(TestMathCos, "LMath")
+{
+	ASSERT_ALMOST_EQUAL(LMath::Cos(0), 1);
+	ASSERT_ALMOST_EQUAL(LMath::Cos(0.29), 0.9582f);
+	ASSERT_ALMOST_EQUAL(LMath::Cos(0.68), 0.7775f);
+	ASSERT_ALMOST_EQUAL(LMath::Cos(1.13), 0.4266f);
+	ASSERT_ALMOST_EQUAL(LMath::Cos(HALFPI), 0.f);
+
+	TEST_END();
+}
+
+UNIT_TEST(TestMathGCD, "LMath")
+{
+	ASSERT_EQUAL(LMath::GCD(8, 12), 4, "");
+	ASSERT_EQUAL(LMath::GCD(13, 29), 1, "");
+
+	TEST_END();
+}
+
 FUnitTestingOutcome RunLMathTests()
 {
 	return suite.RunTests();
