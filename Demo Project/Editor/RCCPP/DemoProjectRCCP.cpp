@@ -3,7 +3,8 @@
 #include "DemoProjectSystemTable.h"
 #include "DemoProjectLogger.h"
 #include "Core/EditorApplication.h"
-#include "Framework/CompilationInfo.h"
+#include "Framework/Compilation/CompilationInfo.h"
+#include "Framework/Compilation/CompilationSystem.h"
 #include "Framework/EditorProject.h"
 #include "Framework/SceneSaver.h"
 #include "Runtime/Time/GameTime.h"
@@ -141,6 +142,8 @@ namespace DemoProject::RCCPP
 
 void RCCCompileProject()
 {
+	CompilationSystem::StartCompilation();
+
 	FileSystemUtils::Path dllBuildPath = EditorApplication::binariesFilePath + "/Intermediate/Temp.dll";
 	// FileSystemUtils::Path dllBuildPath = "'C:/Users/debgh/source/repos/project-bloo/Demo Project/Binaries/Intermediate/Temp.dll'";
 
@@ -163,6 +166,8 @@ bool IsCompileComplete()
 
 void LoadCompiledProject()
 {
+	CompilationSystem::FinishCompilation();
+
 	std::string dllBuildPath = EditorApplication::binariesFilePath + "/Intermediate/Temp.dll";
 	HINSTANCE hinstLib = LoadLibraryA(TEXT(dllBuildPath.c_str()));
 
