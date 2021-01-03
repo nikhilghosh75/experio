@@ -1,4 +1,6 @@
 #include "LStatistics.h"
+#include "../Containers/Algorithm.h"
+#include <algorithm>
 
 float LStatistics::Average(const float * data, size_t count)
 {
@@ -38,6 +40,29 @@ float LStatistics::Min(float * data, size_t count)
 float LStatistics::Min(std::vector<float> data)
 {
 	return Min(data.data(), data.size());
+}
+
+void LStatistics::Sort(std::vector<float>& data)
+{
+	std::sort(data.begin(), data.end());
+}
+
+float LStatistics::StandardDeviation(float * data, size_t count)
+{
+	float average = Average(data, count);
+	
+	float standardDeviation = 0;
+	for (size_t i = 0; i < count; i++)
+	{
+		standardDeviation += (data[i] - average) * (data[i] - average);
+	}
+
+	return standardDeviation;
+}
+
+float LStatistics::StandardDeviation(std::vector<float> data)
+{
+	return StandardDeviation(data.data(), data.size());
 }
 
 float LStatistics::Sum(const float * data, size_t count)
