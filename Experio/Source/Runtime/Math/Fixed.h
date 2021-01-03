@@ -53,13 +53,13 @@ template<> class IntOfSize<64>
 	static const UnsignedType MaxUnsigned = 18446744073709551615;
 };
 
-template<size_t I, size_t F>
+template<typename IntegerType, typename FractionType>
 class FixedBase
 {
-	using IntegerType = IntOfSize<I>::ValueType;
-	using FractionType = IntOfSize<F>::UnsignedType;
-
 public:
+	using I = IntegerType;
+	using F = FractionType;
+
 	IntegerType integer;
 	FractionType fraction;
 
@@ -69,6 +69,12 @@ public:
 	{
 		this->integer = 0;
 		this->fraction = 0;
+	}
+
+	FixedBase(int integer, int fraction)
+	{
+		this->integer = (IntegerType)integer;
+		this->fraction = (FractionType)fraction;
 	}
 
 	FixedBase(IntegerType integer, FractionType fraction)
@@ -128,6 +134,12 @@ public:
 		return FixedBase(this->integer + other.integer + overflow, this->fraction + other.fraction);
 	}
 
+	FixedBase<I, F>& operator+=(const FixedBase<I, F>& other)
+	{
+		*this = *this->other;
+		return *this;
+	}
+
 	FixedBase<I, F> operator-(const FixedBase<I, F>& other)
 	{
 		int underflow = 0;
@@ -136,6 +148,12 @@ public:
 			underflow = 1;
 		}
 		return FixedBase(this->integer - other.integer - underflow, this->fraction - other.fraction);
+	}
+
+	FixedBase<I, F>& operator-=(const FixedBase<I, F>& other)
+	{
+		*this = *this - other;
+		return *this;
 	}
 
 	FixedBase<I, F> operator*(const FixedBase<I, F>& other)
@@ -147,12 +165,24 @@ public:
 		return FixedBase<I, F>(aTerm + bTerm + cTerm + dTerm);
 	}
 
+	FixedBase<I, F>& operator*=(const FixedBase<I, F>& other)
+	{
+		*this = *this * other;
+		return *this;
+	}
+
 	FixedBase<I, F> operator/(const FixedBase<I, F>& other)
 	{
 		float numerator = (float)(*this);
 		float demoninator = (float)other;
 
 		return numerator / demoninator;
+	}
+
+	FixedBase<I, F> operator/=(const FixedBase<I, F>& other)
+	{
+		*this = *this / other;
+		return *this;
 	}
 
 	bool operator==(const FixedBase<I, F>& other) const
@@ -190,8 +220,24 @@ public:
 		}
 		return this->integer < other.integer;
 	}
+
+	bool operator>=(const FixedBase<I, F>& other) const
+	{
+		if (this->integer == other.integer)
+			return this->fraction >= other.fraction;
+
+		return this->integer >= other.integer;
+	}
+
+	bool operator<=(const FixedBase<I, F>& other) const
+	{
+		if (this->integer == other.integer)
+			return this->fraction <= other.fraction;
+
+		return this->integer <= other.integer;
+	}
 };
 
-using FixedHalf = FixedBase<8, 8>;
-using Fixed = FixedBase<16, 16>;
-using FixedDouble = FixedBase<32, 32>;
+using FixedHalf = FixedBase<int8_t, uint8_t>;
+using Fixed = FixedBase<int16_t, uint16_t>;
+using FixedDouble = FixedBase<int32_t, uint32_t>;
