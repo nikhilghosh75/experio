@@ -3,12 +3,25 @@ Filepath: None
 Classes: [{
 	Name: AudioSystem
 	Filename: Audio/AudioSystem
-	Params: {}
-	Functions: { "static EAudioSystemInitStatus Initialize()" , "static std::string GetDriverName()" }
-	InheritsFrom: 
+	Params: []
+	Functions: [ "static EAudioSystemInitStatus Initialize()" , "static std::string GetDriverName()" ]
+	InheritsFrom: 0
+},{
+	Name: FAudioClip
+	Filename: Audio/FAudioClip
+	Params: [ "uint32_t sampleRate" , "uint32_t numSamples" , "float* data" ]
+	Functions: [ "FDuration GetDuration() const" ]
+	InheritsFrom: 0
+},{
+	Name: AudioSource
+	Filename: Audio/AudioSource
+	Params: [ "FAudioClip clip" , "float volume" ]
+	Functions: []
+	InheritsFrom: 1 Component
 }]
 Enums: [{
 	Name: EAudioSystemInitStatus
 	Values: [ {InitFailed, 0}, {IrrKlangNotFound, 1}, {NoSpeakers, 2}, {Successful, 3} ]
 	Datatype: INT
 }]
+Functions: [ "bool IsImplemented()" ]

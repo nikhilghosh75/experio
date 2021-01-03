@@ -1,5 +1,5 @@
 <ParticleSystem>
-    <Properties count=0>
+    <Properties count='0'>
     These are properties
     <MaxCount>130</MaxCount>
     <Name>Snowflake</Name>

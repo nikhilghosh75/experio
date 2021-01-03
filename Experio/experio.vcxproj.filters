@@ -501,6 +501,9 @@
     <ClInclude Include="Source\Runtime\DefaultComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Runtime\Input\Shortcut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp">
@@ -787,5 +790,7 @@
     <None Include="Resources\Standard\Shaders\SingleColor.shader" />
     <None Include="Resources\Standard\Shaders\Red.shader" />
     <None Include="Resources\Standard\Shaders\Text2D.shader" />
+    <None Include="Resources\Test\TestAssetMap.pbasmap" />
+    <None Include="Resources\Test\TestProject.pbcodeproj" />
   </ItemGroup>
 </Project>

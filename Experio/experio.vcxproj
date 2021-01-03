@@ -23,6 +23,7 @@
     <ClInclude Include="Source\Runtime\DefaultComponents.h" />
     <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
     <ClInclude Include="Source\Runtime\Framework\System.h" />
+    <ClInclude Include="Source\Runtime\Input\Shortcut.h" />
     <ClInclude Include="Source\Runtime\Math\ColorPalette.h" />
     <ClInclude Include="Source\Runtime\Math\Range.h" />
     <ClInclude Include="Source\Runtime\Containers\TBiMap.h" />
@@ -279,6 +280,8 @@
     <None Include="Resources\Standard\Shaders\Red.shader" />
     <None Include="Resources\Standard\Shaders\SingleColor.shader" />
     <None Include="Resources\Standard\Shaders\Text2D.shader" />
+    <None Include="Resources\Test\TestAssetMap.pbasmap" />
+    <None Include="Resources\Test\TestProject.pbcodeproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
