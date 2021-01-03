@@ -272,6 +272,11 @@ public:
 		}
 	}
 
+	void Insert(const TPair<K, V>& pair)
+	{
+		Insert(pair.first, pair.second);
+	}
+
 	void Remove(const K& key)
 	{
 		unsigned long hashValue = hashFunction(key);

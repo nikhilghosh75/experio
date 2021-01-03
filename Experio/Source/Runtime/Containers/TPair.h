@@ -7,6 +7,12 @@ public:
 	T1 first;
 	T2 second;
 
+	TPair()
+	{
+		this->first = T1();
+		this->second = T2();
+	}
+
 	TPair(const T1& first, const T2& second)
 	{
 		this->first = first;
