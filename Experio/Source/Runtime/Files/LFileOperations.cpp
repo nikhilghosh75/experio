@@ -452,7 +452,7 @@ FileBuffer LFileOperations::ReadFileToBuffer(std::ifstream & stream, size_t maxL
 
 	while (stream.getline(s, maxLineLength))
 	{
-		ss << s << std::endl;
+		ss << s << "\n";
 	}
 
 	std::string output = ss.str();

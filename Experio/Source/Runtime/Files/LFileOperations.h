@@ -73,7 +73,7 @@ public:
 
 	static uint32_t NumFilesInFolderOfTypeRecursive(const std::string& filepath, const std::string& ext);
 
-	static FileBuffer ReadFileToBuffer(std::ifstream& stream, size_t maxLineLength);
+	static FileBuffer ReadFileToBuffer(std::ifstream& stream, size_t maxLineLength = 512);
 	static FileBuffer ReadTrimmedFileToBuffer(std::ifstream& stream);
 
 	static std::string StripFilename(const std::string& filename);
