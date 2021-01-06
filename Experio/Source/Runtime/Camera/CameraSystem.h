@@ -3,41 +3,41 @@
 #include "VirtualCamera.h"
 #include <vector>
 
-class CameraSystem
+class CameraSystem : public System<VirtualCamera>
 {
-	static std::vector<VirtualCamera> cameras;
+	std::vector<VirtualCamera> cameras;
 
-	static float timeInTransition;
+	float timeInTransition;
 
-	static VirtualCamera* currentCamera;
+	VirtualCamera* currentCamera;
 
 	static glm::mat4 LerpCamerasViewMatrix(VirtualCamera* c1, VirtualCamera* c2, float t);
 	static glm::mat4 LerpCamerasProjectionMatrix(VirtualCamera* c1, VirtualCamera* c2, float t);
 public:
-	static float transitionTime;
+	SETUP_SYSTEM(CameraSystem, VirtualCamera);
 
-	static VirtualCamera* AddComponent(GameObject* gameObject);
-	static VirtualCamera* AddComponent(std::vector<std::string> params, GameObject* gameObject);
-	static VirtualCamera* AddComponent(void* params, size_t paramSize, GameObject* gameObject);
+	float transitionTime;
 
-	static VirtualCamera* GetComponent(GameObject* gameObject);
+	virtual void Start() override;
 
-	static void DeleteComponent(GameObject* gameObject);
+	virtual VirtualCamera* AddComponent(GameObject* gameObject) override;
 
-	static void GetAll(std::vector<Component*>& components);
+	virtual VirtualCamera* GetComponent(GameObject* gameObject) override;
 
-	static void GetAllOfScene(std::vector<Component*>& components, uint8_t sceneId);
+	virtual void DeleteComponent(GameObject* gameObject) override;
 
-	static void OnGameObjectDeleted(GameObject* gameObject);
+	virtual void GetAll(std::vector<Component*>& components) override;
 
-	static void Update();
+	virtual void GetAllOfScene(std::vector<Component*>& components, uint8_t sceneId) override;
 
-	static unsigned int Size();
+	virtual void Update() override;
 
-	static unsigned int NumInScene(uint8_t sceneId);
+	virtual unsigned int Size() const override;
 
-	static VirtualCamera* GetCurrentCamera();
+	virtual unsigned int NumInScene(uint8_t sceneId) const override;
 
-	static glm::mat4 currentViewMatrix;
-	static glm::mat4 currentProjectionMatrix;
+	VirtualCamera* GetCurrentCamera();
+
+	glm::mat4 currentViewMatrix;
+	glm::mat4 currentProjectionMatrix;
 };

@@ -4,12 +4,12 @@
 #include "../Framework/BinaryParams.h"
 #include "../Framework/Params.h"
 
-float CameraSystem::timeInTransition = 0.f;
-float CameraSystem::transitionTime = 1.5f;
-std::vector<VirtualCamera> CameraSystem::cameras;
-glm::mat4 CameraSystem::currentViewMatrix;
-glm::mat4 CameraSystem::currentProjectionMatrix;
-VirtualCamera* CameraSystem::currentCamera;
+SETUP_SYSTEM_CPP(CameraSystem, VirtualCamera);
+
+void CameraSystem::Start()
+{
+
+}
 
 VirtualCamera* CameraSystem::AddComponent(GameObject* gameObject)
 {
@@ -18,30 +18,6 @@ VirtualCamera* CameraSystem::AddComponent(GameObject* gameObject)
 	tempCamera.fieldOfView = 45.f;
 	cameras.push_back(tempCamera);
 	return &cameras[cameras.size() - 1];
-}
-
-VirtualCamera* CameraSystem::AddComponent(std::vector<std::string> params, GameObject* gameObject)
-{
-	VirtualCamera tempCamera(gameObject);
-	tempCamera.priority = ParseFloat(params[0]);
-	tempCamera.fieldOfView = ParseFloat(params[1]);
-	tempCamera.nearClipPlane = ParseFloat(params[2]);
-	tempCamera.farClipPlane = ParseFloat(params[3]);
-	tempCamera.Start();
-	cameras.push_back(tempCamera);
-	return &cameras[cameras.size() - 1];
-}
-
-VirtualCamera * CameraSystem::AddComponent(void * params, size_t paramSize, GameObject * gameObject)
-{
-	VirtualCamera tempCamera(gameObject);
-	tempCamera.priority = BinaryParseFloat((char*)params + 0);
-	tempCamera.fieldOfView = BinaryParseFloat((char*)params + 4);
-	tempCamera.nearClipPlane = BinaryParseFloat((char*)params + 8);
-	tempCamera.farClipPlane = BinaryParseFloat((char*)params + 12);
-	tempCamera.Start();
-	cameras.push_back(tempCamera);
-	return &cameras[cameras.size() - 1];;
 }
 
 VirtualCamera* CameraSystem::GetComponent(GameObject* gameObject)
@@ -100,11 +76,6 @@ void CameraSystem::GetAllOfScene(std::vector<Component*>& components, uint8_t sc
 	}
 }
 
-void CameraSystem::OnGameObjectDeleted(GameObject * gameObject)
-{
-	DeleteComponent(gameObject);
-}
-
 void CameraSystem::Update()
 {
 	if (cameras.size() == 0)
@@ -149,12 +120,12 @@ void CameraSystem::Update()
 	}
 }
 
-unsigned int CameraSystem::Size()
+unsigned int CameraSystem::Size() const
 {
 	return cameras.size();
 }
 
-unsigned int CameraSystem::NumInScene(uint8_t sceneId)
+unsigned int CameraSystem::NumInScene(uint8_t sceneId) const
 {
 	unsigned int num = 0;
 
