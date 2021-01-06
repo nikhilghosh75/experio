@@ -16,6 +16,8 @@ class DemoProjectComponentManager : public ComponentManager
 
 	std::vector<Billboard> billboardInstances;
 
+	CameraSystem cameraSystem;
+
 	virtual void Start() override;
 	virtual void Update() override;
 	virtual void RenderScene() override;

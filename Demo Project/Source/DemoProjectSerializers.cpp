@@ -104,9 +104,9 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 {
 	switch(classId)
 	{
-		case 100: CameraSystem::AddComponent(params, gameObject); break;
 		case 104: { PB_EMPLACE_COMPONENT(TextComponent, classId); PB_START_COMPONENT(); } break;
 		case 1024: { PB_EMPLACE_COMPONENT(Spaceship, classId); PB_START_COMPONENT(); } break;
+		case 100: { PB_EMPLACE_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_COMPONENT(ParticleSystem, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
@@ -117,9 +117,9 @@ void AddComponentToScene(unsigned int classId, void* params, size_t paramSize, G
 {
 	switch(classId)
 	{
-		case 100: CameraSystem::AddComponent(params, paramSize, gameObject); break;
 		case 104: { PB_EMPLACE_BINARY_COMPONENT(TextComponent, classId); PB_START_COMPONENT(); } break;
 		case 1024: { PB_EMPLACE_BINARY_COMPONENT(Spaceship, classId); PB_START_COMPONENT(); } break;
+		case 100: { PB_EMPLACE_BINARY_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_BINARY_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_BINARY_COMPONENT(ParticleSystem, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_BINARY_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;

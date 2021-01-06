@@ -4,6 +4,7 @@
 
 void DemoProjectComponentManager::Start()
 {
+	cameraSystem.Start();
 	PB_START(textComponentInstances);
 	PB_START(spaceshipInstances);
 	PB_START(meshComponentInstances);
@@ -13,7 +14,7 @@ void DemoProjectComponentManager::Start()
 
 void DemoProjectComponentManager::Update()
 {
-	CameraSystem::Update();
+	cameraSystem.Update();
 	PB_UPDATE(textComponentInstances);
 	PB_UPDATE(spaceshipInstances);
 	PB_UPDATE(meshComponentInstances);
@@ -23,7 +24,7 @@ void DemoProjectComponentManager::Update()
 
 void DemoProjectComponentManager::RenderScene()
 {
-	CameraSystem::Update();
+	cameraSystem.Update();
 	PB_UPDATE(meshComponentInstances);
 	PB_UPDATE(particleSystemInstances);
 	PB_UPDATE(billboardInstances);
@@ -33,7 +34,7 @@ Component* DemoProjectComponentManager::AddComponent(GameObject* gameObject, uns
 {
 	switch(classId)
 	{
-		case 100: return CameraSystem::AddComponent(gameObject);
+		case 100: return cameraSystem.AddComponent(gameObject);
 		case 104: PB_ADD_COMPONENT(textComponentInstances);
 		case 1024: PB_ADD_COMPONENT(spaceshipInstances);
 		case 101: PB_ADD_COMPONENT(meshComponentInstances);
@@ -46,7 +47,7 @@ Component* DemoProjectComponentManager::GetComponent(GameObject* gameObject, uns
 {
 	switch(classId)
 	{
-		case 100: return CameraSystem::GetComponent(gameObject);
+		case 100: return cameraSystem.GetComponent(gameObject);
 		case 104: PB_GET_COMPONENT(textComponentInstances);
 		case 1024: PB_GET_COMPONENT(spaceshipInstances);
 		case 101: PB_GET_COMPONENT(meshComponentInstances);
@@ -61,7 +62,7 @@ void DemoProjectComponentManager::DeleteComponent(GameObject* gameObject, unsign
 
 	switch(classId)
 	{
-		case 100: return CameraSystem::DeleteComponent(gameObject);
+		case 100: return cameraSystem.DeleteComponent(gameObject);
 		case 104: PB_DELETE_COMPONENT(textComponentInstances);
 		case 1024: PB_DELETE_COMPONENT(spaceshipInstances);
 		case 101: PB_DELETE_COMPONENT(meshComponentInstances);
@@ -87,7 +88,7 @@ void DemoProjectComponentManager::OnGameObjectDeleted(GameObject* gameObject)
 {
 	bool foundComponent = false;
 
-	CameraSystem::OnGameObjectDeleted(gameObject);
+	cameraSystem.OnGameObjectDeleted(gameObject);
 	PB_DELETE_COMPONENT(textComponentInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(spaceshipInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(meshComponentInstances); foundComponent = false;
@@ -127,7 +128,7 @@ std::vector<Component*> DemoProjectComponentManager::GetAllComponents()
 {
 	std::vector<Component*> vector;
 	vector.reserve(ComponentCount());
-	CameraSystem::GetAll(vector);
+	cameraSystem.GetAll(vector);
 	PB_GET_ALL(textComponentInstances);
 	PB_GET_ALL(spaceshipInstances);
 	PB_GET_ALL(meshComponentInstances);
@@ -141,8 +142,8 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 	components.reserve(ComponentCount());
 	componentIds.reserve(ComponentCount());
 
-	CameraSystem::GetAll(components);
-	Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::Size());
+	cameraSystem.GetAll(components);
+	Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, cameraSystem.Size());
 	PB_GET_ALL_IDS(textComponentInstances, 104);
 	PB_GET_ALL_IDS(spaceshipInstances, 1024);
 	PB_GET_ALL_IDS(meshComponentInstances, 101);
@@ -155,8 +156,8 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 	components.reserve(ComponentCount());
 	componentIds.reserve(ComponentCount());
 
-	CameraSystem::GetAllOfScene(components, sceneIndex);
-	Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::NumInScene(sceneIndex));
+	cameraSystem.GetAllOfScene(components, sceneIndex);
+	Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, cameraSystem.NumInScene(sceneIndex));
 	PB_GET_ALL_SCENE_IDS(textComponentInstances, 104);
 	PB_GET_ALL_SCENE_IDS(spaceshipInstances, 1024);
 	PB_GET_ALL_SCENE_IDS(meshComponentInstances, 101);
@@ -166,5 +167,5 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 
 unsigned int DemoProjectComponentManager::ComponentCount() const
 {
-	return CameraSystem::Size() + textComponentInstances.size() + spaceshipInstances.size() + meshComponentInstances.size() + particleSystemInstances.size() + billboardInstances.size();
+	return cameraSystem.Size() + textComponentInstances.size() + spaceshipInstances.size() + meshComponentInstances.size() + particleSystemInstances.size() + billboardInstances.size();
 }
