@@ -23,6 +23,10 @@ struct FVector2
 	static float Distance(const FVector2& V1, const FVector2& V2);
 	static float SqrDistance(const FVector2& V1, const FVector2& V2);
 
+	bool IsNormalized() const;
+	bool IsZero() const;
+	bool IsUnit() const;
+
 	FVector2 Normalized() const;
 	FVector2 UVCords() const;
 	FVector2 Clamp(float minLength, float maxLength) const;

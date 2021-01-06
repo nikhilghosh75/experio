@@ -56,6 +56,21 @@ float FVector2::SqrDistance(const FVector2 & V1, const FVector2 & V2)
 	return V1.SqrDistance(V2);
 }
 
+bool FVector2::IsNormalized() const
+{
+	return LMath::ApproxEquals(this->SqrMagnitude(), 1);
+}
+
+bool FVector2::IsZero() const
+{
+	return this->SqrMagnitude() < 0.0001f;
+}
+
+bool FVector2::IsUnit() const
+{
+	return LMath::ApproxEquals(this->SqrMagnitude(), 1);
+}
+
 bool FVector2::operator==(const FVector2 Other) const
 {
 	return IsEqual(*this, Other);
