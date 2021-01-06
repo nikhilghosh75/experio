@@ -99,6 +99,49 @@ float LString::StringToFloat(const std::string& str)
 	return isPositive ? integer + (fraction / (float)LMath::PowOfTen(denominator)) : (integer + (fraction / (float)LMath::PowOfTen(denominator))) * -1.f;
 }
 
+std::vector<float> LString::StringToFloatVector(const std::string & str, char seperator)
+{
+	std::vector<float> v;
+	v.reserve(LString::NumOfChars(str, seperator));
+
+	float integer = 0.f, fraction = 0.f;
+	uint8_t denominator = 0;
+	bool beforeDecimal = true, isPositive = true;
+
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (str[i] == seperator)
+		{
+			v.push_back(isPositive ? integer + (fraction / (float)LMath::PowOfTen(denominator)) : (integer + (fraction / (float)LMath::PowOfTen(denominator))) * -1.f);
+			beforeDecimal = true, isPositive = true;
+			denominator = 0;
+			integer = 0.f, fraction = 0.f;
+		}
+		else if (str[i] == '-')
+		{
+			isPositive = false;
+		}
+		else if (str[i] == '.')
+		{
+			beforeDecimal = false;
+		}
+		else if (IsNumeric(str[i]))
+		{
+			if (beforeDecimal)
+			{
+				integer = (integer * 10) + CharToInt(str[i]);
+			}
+			else
+			{
+				fraction = (fraction * 10) + CharToInt(str[i]);
+				denominator++;
+			}
+		}
+	}
+	v.push_back(isPositive ? integer + (fraction / (float)LMath::PowOfTen(denominator)) : (integer + (fraction / (float)LMath::PowOfTen(denominator))) * -1.f);
+	return v;
+}
+
 int LString::StringToInt(const std::string& str)
 {
 	int integer = 0;
@@ -233,6 +276,15 @@ constexpr bool LString::IsUpper(char c)
 bool LString::IsWhitespace(char c)
 {
 	return c == ' ' || c == '\n' || c == '\t';
+}
+
+bool LString::IsOnlyWhitespace(const std::string & str)
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (str[i] != '\n' && str[i] != '\t' && str[i] != '\r') return false;
+	}
+	return true;
 }
 
 std::string LString::LongLongToHexString(uint64_t n)

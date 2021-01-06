@@ -46,6 +46,8 @@ public:
 	constexpr static bool IsUpper(char c);
 	static bool IsWhitespace(char c);
 
+	static bool IsOnlyWhitespace(const std::string& str);
+
 	static std::string LongLongToHexString(uint64_t n);
 
 	template<typename Number>
@@ -60,6 +62,8 @@ public:
 	static std::vector<std::string> SeperateStringByChar(std::string str, char c, bool removeZeroLength = true);
 
 	static float StringToFloat(const std::string& str);
+
+	static std::vector<float> StringToFloatVector(const std::string& str, char seperator = ' ');
 
 	static int StringToInt(const std::string& str);
 
