@@ -3,7 +3,7 @@
 #include "../../Files/Font/FontReader.h"
 #include <string>
 
-// This defines the maximum amount of meshes that can be loaded at one time
+// This defines the maximum amount of fonts that can be loaded at one time
 #define MAX_FONTS 32
 
 class FontManager;
