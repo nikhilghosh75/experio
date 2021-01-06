@@ -25,7 +25,7 @@ void SaveCurve(FCurve param, std::ostream& stream);
 void SaveSphericalPoint(FSphericalPoint param, std::ostream& stream);
 
 void SaveAudio(FAudioClip param, std::ostream& stream);
-void SaveData(Datatable param, std::ostream& stream);
+void SaveData(DataRef param, std::ostream& stream);
 void SaveFont(FontData* param, std::ostream& stream);
 void SaveMaterial(Material* param, std::ostream& stream);
 void SaveMesh(MeshRef param, std::ostream& stream);

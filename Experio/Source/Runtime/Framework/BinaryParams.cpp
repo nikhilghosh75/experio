@@ -111,10 +111,10 @@ FAudioClip BinaryParseAudio(void * data)
 	return FAudioClip();
 }
 
-Datatable* BinaryParseData(void * data)
+DataRef BinaryParseData(void * data)
 {
 	std::string filepath = AssetMap::assetMap.Get(*(unsigned int*)data);
-	return DataReader::ReadFile(filepath.c_str());
+	return DataManager::LoadData(filepath);
 }
 
 FontRef BinaryParseFont(void * data)

@@ -115,7 +115,7 @@ void SaveAudio(FAudioClip param, std::ostream & stream)
 	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
 }
 
-void SaveData(Datatable param, std::ostream & stream)
+void SaveData(DataRef param, std::ostream & stream)
 {
 	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
 }

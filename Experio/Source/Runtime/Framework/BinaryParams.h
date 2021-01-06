@@ -25,7 +25,7 @@ FCurve BinaryParseCurve(void* data);
 FSphericalPoint BinaryParseSphericalPoint(void* data);
 
 FAudioClip BinaryParseAudio(void* data);
-Datatable* BinaryParseData(void* data);
+DataRef BinaryParseData(void* data);
 FontRef BinaryParseFont(void* data);
 Material* BinaryParseMaterial(void* data);
 MeshRef BinaryParseMesh(void* data);

@@ -253,10 +253,10 @@ FAudioClip ParseAudio(std::string str)
 	return FAudioClip();
 }
 
-Datatable* ParseData(std::string str)
+DataRef ParseData(std::string str)
 {
 	std::string filePath = LFileOperations::GetFullFilePath(str);
-	return DataReader::ReadFile(filePath.c_str());
+	return DataManager::LoadData(filePath);
 }
 
 FontRef ParseFont(std::string str)

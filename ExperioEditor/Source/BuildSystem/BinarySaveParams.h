@@ -24,7 +24,7 @@ void BinarySaveCurve(FCurve param, std::ostream& stream);
 void BinarySaveSphericalPoint(FSphericalPoint param, std::ostream& stream);
 
 void BinarySaveAudio(FAudioClip param, std::ostream& stream);
-void BinarySaveData(Datatable param, std::ostream& stream);
+void BinarySaveData(DataRef param, std::ostream& stream);
 void BinarySaveFont(FontRef param, std::ostream& stream);
 void BinarySaveMaterial(Material* param, std::ostream& stream);
 void BinarySaveMesh(MeshRef param, std::ostream& stream);

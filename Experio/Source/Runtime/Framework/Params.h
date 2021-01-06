@@ -17,7 +17,7 @@
 #include "../Math/FCurve.h"
 #include "../Math/FRect.h"
 #include "../Math/FSphericalPoint.h"
-#include "../Data/Datatable.h"
+#include "../Data/DataManager.h"
 #include "../Rendering/Materials/Material.h"
 #include "../Rendering/Shaders/Shader.h"
 #include "../Rendering/Shaders/ShaderReader.h"
@@ -85,7 +85,7 @@ FCurve ParseCurve(std::string str);
 FSphericalPoint ParseSphericalPoint(std::string str);
 
 FAudioClip ParseAudio(std::string str);
-Datatable* ParseData(std::string str);
+DataRef ParseData(std::string str);
 FontRef ParseFont(std::string str);
 Material* ParseMaterial(std::string str);
 MeshRef ParseMesh(std::string str);
