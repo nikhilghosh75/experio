@@ -218,7 +218,7 @@ public:
 		return false;
 	}
 
-	bool Set(const K& key, V& newValue)
+	bool Set(const K& key, const V& newValue)
 	{
 		unsigned long hashValue = hashFunction(key);
 		THashNode<K, V>* entry = arr[hashValue];
