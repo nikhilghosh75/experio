@@ -148,9 +148,7 @@ bool FVector3::IsNormalized(const FVector3& V)
 {
     float sqrMag = SqrMagnitude(V);
     if(sqrMag > 0.99999f && sqrMag < 1.000001f)
-    {
         return true;
-    }
     return false;
 }
 
@@ -201,17 +199,11 @@ FVector3 FVector3::GetSignVector(const FVector3 & V)
 {
 	FVector3 tempVector(1, 1, 1);
 	if (V.x < 0)
-	{
 		tempVector.x = -1;
-	}
 	if (V.y < 0)
-	{
 		tempVector.y = -1;
-	}
 	if (V.z < 0)
-	{
 		tempVector.z = -1;
-	}
 	return tempVector;
 }
 
