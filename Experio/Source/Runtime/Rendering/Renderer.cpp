@@ -43,7 +43,7 @@ glm::mat4 Renderer::GetViewMatrix()
 	switch (currentMode)
 	{
 	case ERenderMode::ToCameraSystem:
-		return CameraSystem::currentViewMatrix;
+		return CameraSystem::Get()->currentViewMatrix;
 	case ERenderMode::ToEditorSceneView:
 		return AdditionalCameras::viewMatrix;
 	case ERenderMode::ToEditorAssetView:
@@ -57,7 +57,7 @@ glm::mat4 Renderer::GetProjectionMatrix()
 	switch (currentMode)
 	{
 	case ERenderMode::ToCameraSystem:
-		return CameraSystem::currentProjectionMatrix;
+		return CameraSystem::Get()->currentProjectionMatrix;
 	case ERenderMode::ToEditorSceneView:
 		return AdditionalCameras::projectionMatrix;
 	case ERenderMode::ToEditorAssetView:

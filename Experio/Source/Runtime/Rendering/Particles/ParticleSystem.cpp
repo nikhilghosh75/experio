@@ -130,10 +130,10 @@ void ParticleSystem::Update()
 
 	GLenum error = glGetError();
 
-	glm::mat4 viewMatrix = CameraSystem::currentViewMatrix;
+	glm::mat4 viewMatrix = CameraSystem::Get()->currentViewMatrix;
 	FWindowData data = Window::GetWindowData();
 	float aspectRatio = LWindowOperations::GetAspectRatio(data);
-	glm::mat4 projectionMatrix = CameraSystem::currentProjectionMatrix;
+	glm::mat4 projectionMatrix = CameraSystem::Get()->currentProjectionMatrix;
 
 	particleShader->Bind();
 	particleShader->SetUniformMatrix4("VP", projectionMatrix * viewMatrix);
