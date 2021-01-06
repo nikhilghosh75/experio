@@ -41,10 +41,13 @@ public:
 	// Start inclusive, end exclusive
 	std::string Substr(size_t start, size_t end) const
 	{
+		if (end == std::string::npos)
+			end = this->size;
+
 		std::string str;
 		str.reserve(end - start);
 		
-		for (int i = start; i < end; i++)
+		for (size_t i = start; i < end; i++)
 		{
 			str.append({ this->data[i] });
 		}
@@ -78,12 +81,48 @@ public:
 			bool compare = true;
 			for (size_t j = 0; j < substr.size(); j++)
 			{
-				if (data[i] != substr[j])
+				if (data[i + j] != substr[j])
+				{
+					compare = false; break;
+				}
+			}
+			if (compare)
+				return i;
+		}
+		return std::string::npos;
+	}
+
+	size_t ReverseFind(char c, size_t offset = 0) const
+	{
+		if(offset == 0)
+			offset = size - 1;
+
+		for (size_t i = offset; i >= 0; i--)
+		{
+			if (data[i] == c)
+				return i;
+		}
+
+		return std::string::npos;
+	}
+
+	size_t ReverseFind(const std::string& substr, size_t offset = 0) const
+	{
+		if (offset == 0 || offset > size - substr.size())
+			offset = size - 1 - substr.size();
+
+		for (size_t i = offset; i >= 0; i--)
+		{
+			bool compare = true;
+			for (size_t j = 0; j < substr.size(); j++)
+			{
+				if (data[i + j] != substr[j])
 					compare = false; break;
 			}
 			if (compare)
 				return i;
 		}
+
 		return std::string::npos;
 	}
 };
