@@ -207,21 +207,20 @@ bool SceneLoader::LoadSceneFromBinaryFile(std::string filePath, int sceneSlot)
 		currentPosition += 56;
 
 		// Parse Game Object Header
-		uint8_t nameLength = *(uint8_t*)&(header[0]);
-		uint8_t layer = *(uint8_t*)&(header[1]);
-		uint16_t tag = *(uint16_t*)&(header[2]);
-		uint32_t parentID = *(uint32_t*)&(header[4]);
-		uint8_t numChildren = *(uint8_t*)&(header[8]);
-		bool isActive = *(bool*)&(header[9]);
-		FVector3 position = *(FVector3*)&(header[12]);
-		FQuaternion rotation = *(FQuaternion*)&(header[24]);
-		FVector3 scale = *(FVector3*)&(header[40]);
-		uint32_t gameObjectID = *(uint32_t*)&(header[52]);
+		uint8_t nameLength = *(uint8_t*)&(gameObjectHeader[0]);
+		uint8_t layer = *(uint8_t*)&(gameObjectHeader[1]);
+		uint16_t tag = *(uint16_t*)&(gameObjectHeader[2]);
+		uint32_t parentID = *(uint32_t*)&(gameObjectHeader[4]);
+		uint8_t numChildren = *(uint8_t*)&(gameObjectHeader[8]);
+		bool isActive = *(bool*)&(gameObjectHeader[9]);
+		FVector3 position = *(FVector3*)&(gameObjectHeader[12]);
+		FQuaternion rotation = *(FQuaternion*)&(gameObjectHeader[24]);
+		FVector3 scale = *(FVector3*)&(gameObjectHeader[40]);
+		uint32_t gameObjectID = *(uint32_t*)&(gameObjectHeader[52]);
 
-		char gameObjectName[128];
-		sceneFile.read(gameObjectName, nameLength);
-		currentPosition += nameLength;
-		gameObjectName[nameLength] = 0; // Ensure null terminator
+		char gameObjectName[32];
+		sceneFile.read(gameObjectName, 32);
+		currentPosition += 32;
 
 		GameObject* currentGameObject = nullptr;
 		if (i == 0) // Scene Root
