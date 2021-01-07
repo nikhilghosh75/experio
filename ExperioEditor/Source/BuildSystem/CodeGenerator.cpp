@@ -193,16 +193,21 @@ CodeClass CodeGenerator::GenerateComponentManagerClass()
 		codeClass.params.emplace_back(paramType, paramName, ECodeAccessType::Public);
 	});
 
+	codeClass.params.emplace_back("CameraSystem", "cameraSystem", ECodeAccessType::Public);
+
 	return codeClass;
 }
 
 void CodeGenerator::GenerateComponentManagerStartImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
 {
 	cppFile << "void " << codeClass.name << "::Start()" << Debug::endl << "{" << Debug::endl;
-
+	cppFile << "cameraSystem.Start();" << Debug::endl;
 	for (int i = 0; i < codeClass.params.size(); i++)
 	{
-		cppFile << "PB_START(" << codeClass.params[i].name << ");" << Debug::endl;
+		if (codeClass.params[i].type.find("std::vector") == 0)
+		{
+			cppFile << "PB_START(" << codeClass.params[i].name << ");" << Debug::endl;
+		}
 	}
 
 	cppFile << "}" << Debug::endl << Debug::endl;
@@ -211,11 +216,14 @@ void CodeGenerator::GenerateComponentManagerStartImpl(CppCodeOStream & cppFile, 
 void CodeGenerator::GenerateComponentManagerUpdateImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
 {
 	cppFile << "void " << codeClass.name << "::Update()" << Debug::endl << "{" << Debug::endl;
-	cppFile << "CameraSystem::Update();" << Debug::endl;
+	cppFile << "cameraSystem.Update();" << Debug::endl;
 
 	for (int i = 0; i < codeClass.params.size(); i++)
 	{
-		cppFile << "PB_UPDATE(" << codeClass.params[i].name << ");" << Debug::endl;
+		if (codeClass.params[i].type.find("std::vector") == 0)
+		{
+			cppFile << "PB_UPDATE(" << codeClass.params[i].name << ");" << Debug::endl;
+		}
 	}
 
 	cppFile << "}" << Debug::endl << Debug::endl;
@@ -224,7 +232,7 @@ void CodeGenerator::GenerateComponentManagerUpdateImpl(CppCodeOStream & cppFile,
 void CodeGenerator::GenerateComponentManagerRenderSceneImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
 {
 	cppFile << "void " << codeClass.name << "::RenderScene()" << Debug::endl << "{" << Debug::endl;
-	cppFile << "CameraSystem::Update();" << Debug::endl;
+	cppFile << "cameraSystem.Update();" << Debug::endl;
 	cppFile << "PB_UPDATE(meshComponentInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(particleSystemInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(billboardInstances);" << Debug::endl;
@@ -236,7 +244,7 @@ void CodeGenerator::GenerateComponentManagerAddComponentImpl(CppCodeOStream & cp
 	cppFile << "Component* " << codeClass.name << "::AddComponent(GameObject* gameObject, unsigned int classId)"
 		<< Debug::endl << "{" << Debug::endl;
 	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
-	cppFile << "case 100: return CameraSystem::AddComponent(gameObject);" << Debug::endl;
+	cppFile << "case 100: return cameraSystem.AddComponent(gameObject);" << Debug::endl;
 	
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
 		if (info.isStandaloneComponent)
@@ -254,7 +262,7 @@ void CodeGenerator::GenerateComponentManagerGetComponentImpl(CppCodeOStream & cp
 	cppFile << "Component* " << codeClass.name << "::GetComponent(GameObject* gameObject, unsigned int classId)"
 		<< Debug::endl << "{" << Debug::endl;
 	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
-	cppFile << "case 100: return CameraSystem::GetComponent(gameObject);" << Debug::endl;
+	cppFile << "case 100: return cameraSystem.GetComponent(gameObject);" << Debug::endl;
 
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
 		if (info.isStandaloneComponent)
@@ -291,7 +299,7 @@ void CodeGenerator::GenerateComponentManagerDeleteComponentImpl(CppCodeOStream &
 		<< Debug::endl << "{" << Debug::endl;
 	cppFile << "bool foundComponent = false;" << Debug::endl << Debug::endl;
 	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
-	cppFile << "case 100: return CameraSystem::DeleteComponent(gameObject);" << Debug::endl;
+	cppFile << "case 100: return cameraSystem.DeleteComponent(gameObject);" << Debug::endl;
 
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
 		if (info.isStandaloneComponent)
@@ -309,7 +317,7 @@ void CodeGenerator::GenerateComponentManagerOnGameObjectDeletedImpl(CppCodeOStre
 	cppFile << "void " << codeClass.name << "::OnGameObjectDeleted(GameObject* gameObject)"
 		<< Debug::endl << "{" << Debug::endl;
 	cppFile << "bool foundComponent = false;" << Debug::endl << Debug::endl;
-	cppFile << "CameraSystem::OnGameObjectDeleted(gameObject);" << Debug::endl;
+	cppFile << "cameraSystem.OnGameObjectDeleted(gameObject);" << Debug::endl;
 
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
 		if (info.isStandaloneComponent)
@@ -359,10 +367,13 @@ void CodeGenerator::GenerateComponentManagerGetAllComponentsImpl(CppCodeOStream 
 	cppFile << "std::vector<Component*> vector;" << Debug::endl;
 	cppFile << "vector.reserve(ComponentCount());" << Debug::endl;
 
-	cppFile << "CameraSystem::GetAll(vector);" << Debug::endl;
+	cppFile << "cameraSystem.GetAll(vector);" << Debug::endl;
 	for (int i = 0; i < codeClass.params.size(); i++)
 	{
-		cppFile << "PB_GET_ALL(" << codeClass.params[i].name << ");" << Debug::endl;
+		if (codeClass.params[i].type.find("std::vector") == 0)
+		{
+			cppFile << "PB_GET_ALL(" << codeClass.params[i].name << ");" << Debug::endl;
+		}
 	}
 
 	cppFile << "return vector;" << Debug::endl;
@@ -375,8 +386,8 @@ void CodeGenerator::GenerateComponentManagerGetAllComponentsImpl(CppCodeOStream 
 	cppFile << "components.reserve(ComponentCount());" << Debug::endl;
 	cppFile << "componentIds.reserve(ComponentCount());" << Debug::endl << Debug::endl;
 
-	cppFile << "CameraSystem::GetAll(components);" << Debug::endl;
-	cppFile << "Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::Size());" << Debug::endl;
+	cppFile << "cameraSystem.GetAll(components);" << Debug::endl;
+	cppFile << "Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, cameraSystem.Size());" << Debug::endl;
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
 		if (info.isStandaloneComponent)
 		{
@@ -394,8 +405,8 @@ void CodeGenerator::GenerateComponentManagerGetAllComponentsImpl(CppCodeOStream 
 	cppFile << "components.reserve(ComponentCount());" << Debug::endl;
 	cppFile << "componentIds.reserve(ComponentCount());" << Debug::endl << Debug::endl;
 
-	cppFile << "CameraSystem::GetAllOfScene(components, sceneIndex);" << Debug::endl;
-	cppFile << "Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, CameraSystem::NumInScene(sceneIndex));" << Debug::endl;
+	cppFile << "cameraSystem.GetAllOfScene(components, sceneIndex);" << Debug::endl;
+	cppFile << "Experio::Algorithm::AddNumOf(componentIds, (unsigned int)100, cameraSystem.NumInScene(sceneIndex));" << Debug::endl;
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
 		if (info.isStandaloneComponent)
 		{
@@ -410,10 +421,13 @@ void CodeGenerator::GenerateComponentManagerGetAllComponentsImpl(CppCodeOStream 
 void CodeGenerator::GenerateComponentManagerCountImpl(CppCodeOStream & cppFile, const CodeClass & codeClass)
 {
 	cppFile << "unsigned int " << codeClass.name << "::ComponentCount() const" << Debug::endl << "{" << Debug::endl;
-	cppFile << "return CameraSystem::Size()";
+	cppFile << "return cameraSystem.Size()";
 	for (int i = 0; i < codeClass.params.size(); i++)
 	{
-		cppFile << " + " << codeClass.params[i].name << ".size()";
+		if (codeClass.params[i].type.find("std::vector") == 0)
+		{
+			cppFile << " + " << codeClass.params[i].name << ".size()";
+		}
 	}
 	cppFile << ";" << Debug::endl << "}" << Debug::endl;
 }
@@ -560,10 +574,7 @@ void CodeGenerator::GenerateAddComponentToSceneImpl(CppCodeOStream & cppFile)
 	cppFile << "void AddComponentToScene(unsigned int classId, std::vector<std::string> params, "
 		<< "GameObject* gameObject, uint8_t sceneId)" << Debug::endl << "{" << Debug::endl;
 	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
-	cppFile << "case 100: CameraSystem::AddComponent(params, gameObject); break;" << Debug::endl;
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
-		if (!info.isStandaloneComponent) return;
-
 		cppFile << "case " << std::to_string(id) << ": { PB_EMPLACE_COMPONENT(" << info.name
 			<< ", classId); PB_START_COMPONENT(); } break;" << Debug::endl;
 	});
@@ -572,10 +583,7 @@ void CodeGenerator::GenerateAddComponentToSceneImpl(CppCodeOStream & cppFile)
 	cppFile << "void AddComponentToScene(unsigned int classId, void* params, size_t paramSize, "
 		<< "GameObject* gameObject, uint8_t sceneId)" << Debug::endl << "{" << Debug::endl;
 	cppFile << "switch(classId)" << Debug::endl << "{" << Debug::endl;
-	cppFile << "case 100: CameraSystem::AddComponent(params, paramSize, gameObject); break;" << Debug::endl;
 	EditorProject::componentClasses.ForEach([&cppFile](const unsigned int& id, const FComponentInfo& info) {
-		if (!info.isStandaloneComponent) return;
-
 		cppFile << "case " << std::to_string(id) << ": { PB_EMPLACE_BINARY_COMPONENT(" << info.name
 			<< ", classId); PB_START_COMPONENT(); } break;" << Debug::endl;
 	});
