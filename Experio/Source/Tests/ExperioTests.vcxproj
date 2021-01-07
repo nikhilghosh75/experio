@@ -126,6 +126,7 @@
     <ClCompile Include="Core\WindowOperationsTest.cpp" />
     <ClCompile Include="ExperioTests.cpp" />
     <ClCompile Include="Framework\BinaryParamsTest.cpp" />
+    <ClCompile Include="Files\ImageOperationsTest.cpp" />
     <ClCompile Include="Math\LMathTest.cpp" />
     <ClCompile Include="Math\Vector2Test.cpp" />
     <ClCompile Include="Math\Vector3Test.cpp" />
