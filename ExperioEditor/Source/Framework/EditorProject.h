@@ -2,8 +2,10 @@
 #include <string>
 #include "ComponentInfo.h"
 #include "Runtime/Containers/THashtable.h"
+#include "Version.h"
 
 class CodeProject;
+class CodeClass;
 struct FVersion;
 
 struct FEditorProjectLanguages
@@ -25,6 +27,8 @@ public:
 	static FVersion experioVersion;
 
 	static FEditorProjectLanguages languages;
+
+	static CodeClass& GetClassOfId(unsigned int id);
 
 	static void ReadProjectFile(const std::string& filepath);
 

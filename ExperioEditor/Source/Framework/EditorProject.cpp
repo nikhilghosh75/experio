@@ -5,7 +5,6 @@
 #include "../CodeParser/CodeParser.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "ThirdParty/toml++/toml.h"
-#include "Version.h"
 
 THashtable<unsigned int, FComponentInfo> EditorProject::componentClasses;
 FVersion EditorProject::experioVersion;
@@ -35,6 +34,11 @@ std::string DefaultClassIntToString(unsigned int num)
 		return componentInfo.name;
 	}
 	return "Unknown";
+}
+
+CodeClass & EditorProject::GetClassOfId(unsigned int id)
+{
+	return gameProject.classes[gameProject.FindIndexOfClass(componentClasses.Get(id).name)];
 }
 
 void EditorProject::ReadProjectFile(const std::string& filepath)
