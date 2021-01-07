@@ -13,6 +13,8 @@ public:
 	static std::string BinarySaveFunctionFromType(EParamType type);
 
 	static std::string CastString(const std::string& type, EParamType paramType);
+
+	static void ConvertToBinary(const std::vector<std::string>& params, CodeClass& codeClass, const CodeProject& project, std::ofstream& outFile);
 	
 	static EParamType EnumDataTypeToParamType(EEnumDataType dataType);
 

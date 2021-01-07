@@ -1,6 +1,8 @@
 #include "LSerializationOperations.h"
 #include "../CodeParser/Cpp/LCpp.h"
+#include "BinarySaveParams.h"
 #include "Runtime/Framework/BinaryParams.h"
+#include "Runtime/Framework/Params.h"
 
 #define PB_SERIALIZED_STRING_SIZE 8
 #define PB_SERIALIZED_MATERIAL_SIZE 4
@@ -84,6 +86,57 @@ std::string LSerializationOperations::CastString(const std::string & type, EPara
 	if(type.find("Material*") != std::string::npos) return "(" + type + ")";
 
 	return "";
+}
+
+#define PB_CONVERT_PARAM(_varName_, _parseFunc_, _saveFunc_) \
+	auto _varName_ = _parseFunc_(paramData);\
+	_saveFunc_(_varName_, outFile);
+
+void LSerializationOperations::ConvertToBinary(const std::vector<std::string>& params, CodeClass & codeClass, const CodeProject& project, std::ofstream & outFile)
+{
+	int currentParam = 0;
+	for (int i = 0; i < codeClass.params.size(); i++)
+	{
+		CodeParam& param = codeClass.params[i];
+		
+		if (param.accessType != ECodeAccessType::Private) continue;
+		std::string paramData = params[currentParam].substr(params[currentParam].find(':') + 1);
+
+		EParamType paramType = TypenameToParamType(param.name, project).value();
+		
+		switch (paramType)
+		{
+		case EParamType::AUDIO: { PB_CONVERT_PARAM(audioClip, ParseAudio, BinarySaveAudio); break; }
+		case EParamType::BOOL: { PB_CONVERT_PARAM(tempBool, ParseBool, BinarySaveBool); break; }
+		case EParamType::BOX: { PB_CONVERT_PARAM(box, ParseBox, BinarySaveBox); break; }
+		case EParamType::BYTE: { PB_CONVERT_PARAM(tempByte, ParseByte, BinarySaveByte); break; }
+		case EParamType::COLOR: { PB_CONVERT_PARAM(color, ParseColor, BinarySaveColor); break; }
+		case EParamType::CURVE: { PB_CONVERT_PARAM(curve, ParseCurve, BinarySaveCurve); break; }
+		case EParamType::DATA: { PB_CONVERT_PARAM(datatable, ParseData, BinarySaveData); break; }
+		case EParamType::DOUBLE: { PB_CONVERT_PARAM(tempDouble, ParseDouble, BinarySaveDouble); break; }
+		case EParamType::FLOAT: { PB_CONVERT_PARAM(tempFloat, ParseFloat, BinarySaveFloat); break; }
+		case EParamType::FONT: { PB_CONVERT_PARAM(font, ParseFont, BinarySaveFont); break; }
+		case EParamType::INT: { PB_CONVERT_PARAM(tempInt, ParseInt, BinarySaveInt); break; }
+		case EParamType::LONG: { PB_CONVERT_PARAM(tempLong, ParseLongLong, BinarySaveLongLong); break; }
+		case EParamType::MATERIAL: { PB_CONVERT_PARAM(material, ParseMaterial, BinarySaveMaterial); break; }
+		case EParamType::MESH: { PB_CONVERT_PARAM(mesh, ParseMesh, BinarySaveMesh); break; }
+		case EParamType::QUATERNION: { PB_CONVERT_PARAM(quat, ParseQuaternion, BinarySaveQuaternion); break; }
+		case EParamType::RECT: { PB_CONVERT_PARAM(rect, ParseRect, BinarySaveRect); break; }
+		// case EParamType::SHADER: { PB_CONVERT_PARAM(shader, ParseShader, BinarySaveShader); break; }
+		case EParamType::SHORT: { PB_CONVERT_PARAM(tempShort, ParseShort, BinarySaveShort); break; }
+		case EParamType::SPHERICALPOINT: { PB_CONVERT_PARAM(sphere, ParseSphericalPoint, BinarySaveSphericalPoint); break; }
+		case EParamType::TEXTURE: { PB_CONVERT_PARAM(texture, ParseTexture, BinarySaveTexture); break; }
+		case EParamType::UBYTE: { PB_CONVERT_PARAM(tempUByte, ParseUByte, BinarySaveUByte); break; }
+		case EParamType::UINT: { PB_CONVERT_PARAM(tempUInt, ParseUInt, BinarySaveUInt); break; }
+		case EParamType::ULONG: { PB_CONVERT_PARAM(tempULong, ParseULongLong, BinarySaveLongLong); break; }
+		case EParamType::USHORT: { PB_CONVERT_PARAM(tempUShort, ParseUShort, BinarySaveUShort); break; }
+		case EParamType::VECTOR2: { PB_CONVERT_PARAM(v2, ParseVector2, BinarySaveVector2); break; }
+		case EParamType::VECTOR3: { PB_CONVERT_PARAM(v3, ParseVector3, BinarySaveVector3); break; }
+		case EParamType::VECTOR4: { PB_CONVERT_PARAM(v4, ParseVector4, BinarySaveVector4); break; }
+		}
+
+		currentParam++;
+	}
 }
 
 EParamType LSerializationOperations::EnumDataTypeToParamType(EEnumDataType dataType)
