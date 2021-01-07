@@ -14,5 +14,8 @@ void CompilationSystem::FinishCompilation()
 
 	FCompilationResult result(CompilationParser::compilationErrors, 
 		CompilationParser::CompilationSuccessful());
-	finishCompilationCallback(result);
+	if (finishCompilationCallback)
+	{
+		finishCompilationCallback(result);
+	}
 }
