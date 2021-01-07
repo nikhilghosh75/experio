@@ -1,11 +1,15 @@
 #include "SceneConverter.h"
 #include "../BuildSystem/AssetMapSaver.h"
-#include "Runtime\Containers\THashtable.h"
-#include "Runtime\Debug\Debug.h"
-#include "Runtime\Files\LFileOperations.h"
-#include "Runtime\Framework\Project.h"
-#include "Runtime\Framework\Scene.h"
-#include "Runtime\Framework\SceneLoader.h"
+#include "../BuildSystem/LSerializationOperations.h"
+#include "../CodeParser/CodeProject.h"
+#include "../Framework/EditorProject.h"
+#include "Runtime/Containers/THashtable.h"
+#include "Runtime/Debug/Debug.h"
+#include "Runtime/Files/LFileOperations.h"
+#include "Runtime/Framework/Project.h"
+#include "Runtime/Framework/Scene.h"
+#include "Runtime/Framework/SceneLoader.h"
+#include "Runtime/Containers/LString.h"
 
 const uint32_t sizeOfGameObject = 88;
 
@@ -17,7 +21,7 @@ extern size_t SerializedSizeOfComponent(unsigned int classId);
 
 extern std::vector<std::string> GetParamsList(unsigned int classId);
 
-void SceneConverter::ConvertSceneToBinary(const std::string & fromFilepath, const std::string & toFilepath)
+void SceneConverter::LegacyConvertSceneToBinary(const std::string & fromFilepath, const std::string & toFilepath)
 {
 	if (!LFileOperations::DoesFileHaveExtension(fromFilepath, ".pbscene"))
 	{
@@ -123,7 +127,7 @@ void SceneConverter::ConvertSceneToBinary(const std::string & fromFilepath, cons
 	Scene::UnloadScene(MAX_SCENES - 3);
 }
 
-void SceneConverter::ExperimentalConvertSceneToBinary(const std::string & fromFilepath, const std::string & toFilepath)
+void SceneConverter::ConvertSceneToBinary(const std::string & fromFilepath, const std::string & toFilepath)
 {
 	if (!LFileOperations::DoesFileHaveExtension(fromFilepath, ".pbscene"))
 	{
@@ -138,13 +142,13 @@ void SceneConverter::ExperimentalConvertSceneToBinary(const std::string & fromFi
 	}
 
 	std::ifstream inFile(fromFilepath);
-	FileBuffer buffer = LFileOperations::ReadTrimmedFileToBuffer(inFile);
+	FileBuffer buffer = LFileOperations::ReadFileToBuffer(inFile);
 
 	std::ofstream outFile(toFilepath, std::ios::out | std::ios::binary);
 
 	GenerateHeader(buffer, outFile);
-
-
+	GenerateGameObject(buffer, outFile);
+	GenerateComponent(buffer, outFile);
 }
 
 void SceneConverter::GenerateHeader(const FileBuffer & buffer, std::ofstream & outFile)
@@ -207,5 +211,187 @@ std::string SceneConverter::GetName(const FileBuffer & buffer)
 
 void SceneConverter::GenerateGameObject(const FileBuffer & buffer, std::ofstream & outFile)
 {
-	
+	std::vector<GameObjectInfo> gameObjectInfos = GenerateGameObjectInfos(buffer);
+
+	for (size_t i = 0; i < gameObjectInfos.size(); i++)
+	{
+		SaveGameObject(gameObjectInfos[i], outFile);
+	}
+}
+
+std::vector<SceneConverter::GameObjectInfo> SceneConverter::GenerateGameObjectInfos(const FileBuffer & buffer)
+{
+	std::vector<GameObjectInfo> gameObjects;
+
+	// Generate Game Objects
+	size_t firstBrace = buffer.Find('{');
+	size_t lastBrace = buffer.ReverseFind('}');
+	ParseGameObject(buffer, gameObjects, 0, firstBrace, lastBrace);
+
+	return gameObjects;
+}
+
+void SceneConverter::ParseGameObject(const FileBuffer & buffer, std::vector<GameObjectInfo>& gameObjects, size_t parentIndex, size_t start, size_t end)
+{
+	GameObjectInfo info;
+	info.parentIndex = parentIndex;
+	info.tempID = gameObjects.size();
+	std::string str = "Name: ";
+
+	size_t currentPosition = buffer.Find("Name: ", start);
+	info.name = buffer.Substr(currentPosition + 6, buffer.Find('\n', currentPosition));
+
+	currentPosition = buffer.Find("Transform: ", currentPosition);
+	std::vector<float> transform = LString::StringToFloatVector(buffer.Substr(currentPosition + 11, buffer.Find('\n', currentPosition)));
+	info.position = FVector3(transform[0], transform[1], transform[2]);
+	info.rotation = FQuaternion(transform[3], transform[4], transform[5], transform[6]);
+	info.scale = FVector3(transform[7], transform[8], transform[9]);
+
+	currentPosition = buffer.Find("Tag: ", currentPosition);
+	info.tag = (uint16_t)LString::StringToUInt(buffer.Substr(currentPosition + 5, buffer.Find('\n', currentPosition)));
+
+	currentPosition = buffer.Find("Layer: ", currentPosition);
+	info.layer = (uint16_t)LString::StringToUInt(buffer.Substr(currentPosition + 7, buffer.Find('\n', currentPosition)));
+
+	currentPosition = buffer.Find("Children: ", currentPosition);
+
+	size_t namePosition = buffer.Find("Name: ", currentPosition);
+	size_t bracketPosition = buffer.Find("[]", currentPosition);
+	bool hasChildren = bracketPosition > namePosition;
+
+	if (hasChildren)
+	{
+		currentPosition += 10;
+		gameObjects.push_back(info);
+		size_t endPosition = 0;
+		size_t childrenEndPosition = FindEndBrace(buffer, currentPosition);
+		while (endPosition + 12 < childrenEndPosition)
+		{
+			endPosition = (size_t)LMath::Min((int)buffer.Find("},{", currentPosition), (int)buffer.Find("}\n", currentPosition));
+			if (endPosition > buffer.Size()) 
+				return;
+			ParseGameObject(buffer, gameObjects, info.tempID, currentPosition + 4, endPosition);
+			currentPosition = endPosition + 4;
+		}
+	}
+	else
+	{
+		info.numChildren = 0;
+		gameObjects.push_back(info);
+	}
+}
+
+void SceneConverter::SaveGameObject(const GameObjectInfo & info, std::ofstream & outFile)
+{
+	char trueChar = 1;
+	outFile.write("A", 1);
+	outFile.write((char*)&info.layer, 1);
+	outFile.write((char*)&info.tag, 2);
+	outFile.write((char*)&info.parentIndex, 4);
+	outFile.write((char*)&info.numChildren, 1);
+	outFile.write(&trueChar, 1);
+	outFile.write("AA", 2);
+	outFile.write((char*)&info.position, 12);
+	outFile.write((char*)&info.rotation, 16);
+	outFile.write((char*)&info.scale, 12);
+	outFile.write((char*)&info.tempID, 4);
+	outFile.write(info.name.c_str(), 32);
+}
+
+size_t SceneConverter::FindEndBrace(const FileBuffer & buffer, size_t start)
+{
+	uint8_t levelsDeep = 0;
+	for (size_t i = start; i < buffer.Size(); i++)
+	{
+		if (buffer[i] == '[')
+		{
+			levelsDeep++;
+		}
+		else if (buffer[i] == ']')
+		{
+			levelsDeep--;
+			if (levelsDeep == 0) return i;
+		}
+	}
+
+	return std::string::npos;
+}
+
+void SceneConverter::GenerateComponent(const FileBuffer & buffer, std::ofstream & outFile)
+{
+	size_t currentPosition = 0;
+	size_t currentGameObject = 0;
+
+	while (currentPosition < buffer.Size())
+	{
+		currentPosition = buffer.Find("Components: ", currentPosition);
+		if (currentPosition == std::string::npos) break;
+
+		if (buffer.CompareSubstr("[]", currentPosition + 12))
+		{
+			currentGameObject++;
+			currentPosition += 20;
+			continue;
+		}
+
+		size_t startPosition = currentPosition + 11;
+		size_t endPosition = FindEndBrace(buffer, currentPosition);
+		ParseComponents(buffer, outFile, currentGameObject, startPosition, endPosition);
+
+		currentPosition += 20;
+		currentGameObject++;
+	}
+}
+
+void SceneConverter::ParseComponents(const FileBuffer & buffer, std::ofstream & outFile, uint32_t gameObject, size_t start, size_t end)
+{
+	size_t currentPosition = start;
+
+	while (currentPosition < end)
+	{
+		size_t bracePosition = FindEndCurlyBrace(buffer, currentPosition);
+		currentPosition = buffer.Find("ClassID: ", currentPosition);
+		if (currentPosition >= end) break;
+
+		size_t newLinePosition = buffer.Find('\n', currentPosition);
+		unsigned int classID = LString::StringToUInt(buffer.Substr(currentPosition + 8, newLinePosition));
+		CodeClass& componentClass = EditorProject::GetClassOfId(classID);
+		currentPosition = buffer.Find("Params:", currentPosition);
+
+		std::string paramString = buffer.Substr(currentPosition + 8, bracePosition);
+		std::vector<std::string> params = LString::SeperateStringByChar(paramString, '\n', true);
+		uint16_t numParams = params.size();
+		uint16_t paramSize = LSerializationOperations::SerializedSizeOf(componentClass, EditorProject::gameProject, ECodingLanguage::CPlusPlus);
+		
+		outFile.write((char*)&classID, 4);
+		outFile.write((char*)&gameObject, 4);
+		outFile.write((char*)&numParams, 2);
+		outFile.write((char*)&paramSize, 2);
+
+		if (LString::IsOnlyWhitespace(params[params.size() - 1])) 
+			params.pop_back();
+
+		LSerializationOperations::ConvertToBinary(params, componentClass, EditorProject::gameProject, outFile);
+
+		currentPosition = buffer.Find('}', currentPosition) + 1;
+	}
+}
+
+size_t SceneConverter::FindEndCurlyBrace(const FileBuffer & buffer, size_t start)
+{
+	uint8_t levelsDeep = 0;
+	for (size_t i = start; i < buffer.Size(); i++)
+	{
+		if (buffer[i] == '{')
+		{
+			levelsDeep++;
+		}
+		else if (buffer[i] == '}')
+		{
+			levelsDeep--;
+			if (levelsDeep == 0) return i;
+		}
+	}
+
+	return std::string::npos;
 }
