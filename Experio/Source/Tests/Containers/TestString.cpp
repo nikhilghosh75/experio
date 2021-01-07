@@ -60,3 +60,19 @@ UNIT_TEST(TestStringNumCommas, "String")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestStringFloatVector, "String")
+{
+	std::string str = "1.1 2.2 3.3 14.5 6.7 9.4";
+	std::vector<float> floats = LString::StringToFloatVector(str);
+
+	ASSERT_EQUAL(floats.size(), 6, "");
+	ASSERT_ALMOST_EQUAL(floats[0], 1.1f);
+	ASSERT_ALMOST_EQUAL(floats[1], 2.2f);
+	ASSERT_ALMOST_EQUAL(floats[2], 3.3f);
+	ASSERT_ALMOST_EQUAL(floats[3], 14.5f);
+	ASSERT_ALMOST_EQUAL(floats[4], 6.7f);
+	ASSERT_ALMOST_EQUAL(floats[5], 9.4f);
+
+	TEST_END();
+}

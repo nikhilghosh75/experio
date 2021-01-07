@@ -97,3 +97,22 @@ UNIT_TEST(TestHashtableSearch, "Hashtable")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestHashtableFloat, "Hashtable")
+{
+	THashtable<int, float> scores;
+
+	scores.Insert(1, 24.5);
+	scores.Insert(2, 45.6);
+	scores.Insert(3, 38.4);
+	scores.Insert(4, 28.7);
+
+	ASSERT_ALMOST_EQUAL(scores.Get(1), 24.5f);
+	ASSERT_ALMOST_EQUAL(scores.Get(3), 38.4f);
+
+	scores.Set(1, 34.5f);
+	
+	ASSERT_ALMOST_EQUAL(scores.Get(1), 34.5f);
+
+	TEST_END();
+}

@@ -109,9 +109,66 @@ UNIT_TEST(TestArraySwap, "Algorithm")
 	TEST_END();
 }
 
+struct TestArrayStruct
+{
+public:
+	int i;
+	int j;
+	std::string str;
+
+	TestArrayStruct()
+	{
+		i = 0;
+		j = 0;
+		str = "";
+	}
+
+	TestArrayStruct(int i, int j)
+	{
+		this->i = i;
+		this->j = j;
+		str = "";
+	}
+
+	TestArrayStruct(int i, int j, std::string str)
+	{
+		this->i = i;
+		this->j = j;
+		this->str = str;
+	}
+};
+
 UNIT_TEST(TestArrayEmplace, "Array")
 {
-	// Add something here
+	TArray<TestArrayStruct> arr;
+	
+	TestArrayStruct testStruct;
+	testStruct.i = 1;
+	testStruct.j = 2;
+	testStruct.str = "Wolvey";
+	arr.Append(testStruct);
+
+	arr.EmplaceAppend();
+	arr.EmplaceAppend(4, 5);
+	arr.EmplaceAt(2, 8, 9, "Spain");
+
+	ASSERT_EQUAL(arr.Count(), 4, "");
+
+	ASSERT_EQUAL(arr[0].i, 1, "");
+	ASSERT_EQUAL(arr[0].j, 2, "");
+	ASSERT_EQUAL(arr[0].str, "Wolvey", "");
+
+	ASSERT_EQUAL(arr[1].i, 0, "");
+	ASSERT_EQUAL(arr[1].j, 0, "");
+	ASSERT_EQUAL(arr[1].str, "", "");
+
+	ASSERT_EQUAL(arr[2].i, 8, "");
+	ASSERT_EQUAL(arr[2].j, 9, "");
+	ASSERT_EQUAL(arr[2].str, "Spain", "");
+
+	ASSERT_EQUAL(arr[3].i, 4, "");
+	ASSERT_EQUAL(arr[3].j, 5, "");
+	ASSERT_EQUAL(arr[3].str, "", "");
 
 	TEST_END();
 }
