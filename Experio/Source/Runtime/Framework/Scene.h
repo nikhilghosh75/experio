@@ -37,6 +37,8 @@ public:
 
 	size_t GetNumComponents();
 
+	size_t SizeOf();
+
 	static Scene scenes[MAX_SCENES];
 	static std::string filepaths[MAX_SCENES];
 	static uint8_t sceneCount;
@@ -68,4 +70,6 @@ public:
 	static GameObject* FindGameObjectFromId(uint64_t id);
 
 	static void UpdateGameObject(GameObject& object);
+
+	static size_t SizeOfLoadedScenes();
 };
