@@ -29,6 +29,18 @@ void Inspector::DisplayGameObject(uint64_t id)
 	{
 		if (ImGui::TreeNode(EditorProject::componentClasses.Get(componentIDs[i]).name.c_str()))
 		{
+			if (ImGui::BeginPopupContextItem())
+			{
+				if (ImGui::Selectable("Delete"))
+				{
+					object->DeleteComponentByComponentID(componentIDs[i]);
+					UndoSystem::AddCommand(new AddComponentCommand(object, componentIDs[i], false));
+					ImGui::EndPopup(); ImGui::TreePop();
+					break;
+				}
+				componentEditors[i]->ContextMenu(components[i]);
+				ImGui::EndPopup();
+			}
 			componentEditors[i]->Display(components[i]);
 			ImGui::TreePop();
 		}
