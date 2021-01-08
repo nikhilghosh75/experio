@@ -1,9 +1,11 @@
 #include "Inspector.h"
+#include "InspectorUndo.h"
 #include "Runtime/Containers/Algorithm.h"
 #include "Runtime/Framework/Framework.h"
 #include "Runtime/Rendering/ImGui/LImGui.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../Framework/EditorProject.h"
+#include "../Framework/UndoSystem.h"
 #include "../Framework/Values.h"
 #include "../ComponentEditor/GeneratedEditor.h"
 #include "../ComponentEditor/Renderable/MeshComponentEditor.h"
@@ -49,14 +51,26 @@ void Inspector::DisplayGameObject(uint64_t id)
 
 void Inspector::DisplayGameObjectInfo(GameObject * object)
 {
+	std::string oldName = object->name;
 	bool changed = ImGui::InputText("##Name", object->name.data(), 32);
 	if (changed)
 	{
-		// Add stuff
+		UndoSystem::AddCommand(new SetNameCommand(object, oldName, object->name));
 	}
 
+	uint16_t lastTag = object->tag;
 	LImGui::DisplayTag(object->tag, ExperioEditor::GetTags());
+	if (lastTag != object->tag)
+	{
+		UndoSystem::AddCommand(new SetTagCommand(object, lastTag, object->tag));
+	}
+
+	uint8_t lastLayer = object->layer;
 	LImGui::DisplayLayer(object->layer, ExperioEditor::GetLayers());
+	if (lastLayer != object->layer)
+	{
+		UndoSystem::AddCommand(new SetLayerCommand(object, lastLayer, object->layer));
+	}
 }
 
 void Inspector::DisplayTransform(GameObject * object)
@@ -69,9 +83,23 @@ void Inspector::DisplayTransform(GameObject * object)
 
 		LImGui::DisplayTransform(position, rotation, scale);
 
-		object->localPosition = position;
-		object->localRotation = rotation;
-		object->localScale = scale;
+		if (position != object->localPosition)
+		{
+			UndoSystem::AddCommand(new MoveCommand(object, position - object->localPosition));
+			object->localPosition = position;
+		}
+
+		if (rotation != object->localRotation)
+		{
+			UndoSystem::AddCommand(new RotateCommand(object, rotation / object->localRotation));
+			object->localRotation = rotation;
+		}
+
+		if (scale != object->localScale)
+		{
+			UndoSystem::AddCommand(new ScaleCommand(object, scale / object->localScale));
+			object->localScale = scale;
+		}
 
 		ImGui::TreePop();
 	}
@@ -125,18 +153,14 @@ void Inspector::UpdateComponents(std::vector<unsigned int> componentIDs, std::ve
 			case 100:
 				InsertAt(componentEditors, (ComponentEditorBase*)(new VirtualCameraEditor()), i);
 				break;
-				// componentEditors.push_back(new VirtualCameraEditor()); break;
 			case 101:
 				InsertAt(componentEditors, (ComponentEditorBase*)(new MeshEditor()), i);
 				break;
-				// componentEditors.push_back(new MeshEditor()); break;
 			case 103:
 				InsertAt(componentEditors, (ComponentEditorBase*)(new BillboardEditor()), i);
-				// componentEditors.push_back(new BillboardEditor()); break;
 			default:
 				InsertAt(componentEditors, (ComponentEditorBase*)(new GeneratedEditor(componentIDs[i], components[i])), i);
 				break;
-				// componentEditors.push_back(new GeneratedEditor(componentIDs[i], components[i])); break;
 			}
 		}
 	}
@@ -190,6 +214,7 @@ void Inspector::AddComponentToGameObjects(unsigned int componentId)
 
 	GameObject* object = Scene::FindGameObjectFromId(objects[0].id);
 	object->AddComponentByComponentID(componentId);
+	UndoSystem::AddCommand(new AddComponentCommand(object, componentId));
 }
 
 Inspector::Inspector()
