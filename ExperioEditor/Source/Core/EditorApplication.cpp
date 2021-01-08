@@ -19,6 +19,7 @@
 #include "../Framework/Compilation/CompilationParser.h"
 #include "../Framework/CreateMenu.h"
 #include "../Framework/EditorProject.h"
+#include "../Framework/EditorShortcuts.h"
 #include "../Framework/NotificationSystem.h"
 #include "../Framework/SceneSaver.h"
 #include "../Framework/ValueLoader.h"
@@ -83,6 +84,7 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	ProjectSettings::Initialize();
 	CreateMenu::Initialize();
 	CompilationParser::Initialize();
+	EditorShortcuts::Initialize();
 }
 
 void EditorApplication::LoadScenes()
