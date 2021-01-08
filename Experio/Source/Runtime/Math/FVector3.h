@@ -52,6 +52,9 @@ public:
 	operator glm::vec3() const { return ToGLMVector(*this); }
 	operator glm::vec4() const { return ToGLMVector4(*this); }
 
+	bool operator==(const FVector3& other) const;
+	bool operator!=(const FVector3& other) const;
+
 	FVector3 operator+() const;
     FVector3 operator+(const FVector3& V) const;
     FVector3 operator+=(const FVector3& V);
@@ -63,7 +66,9 @@ public:
     FVector3 operator*=(float f);
 	FVector3 operator*=(const FVector3& V);
     FVector3 operator/(const float f) const;
+	FVector3 operator/(const FVector3& V);
     FVector3 operator/=(float f);
+	FVector3 operator/=(const FVector3& V);
 };
 
 FVector3 operator*(float f, const FVector3& V);

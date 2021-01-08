@@ -30,6 +30,9 @@ struct FQuaternion
 	//static mat4 ToMat4(const FQuaternion& Q);
 	static glm::mat4 ToGLMMat4(const FQuaternion& Q);
 
+	bool operator==(const FQuaternion& other) const;
+	bool operator!=(const FQuaternion& other) const;
+
 	operator std::string() const { return ToString(*this); };
 	operator glm::quat() const { return ToGLMQuat(*this); };
 	operator glm::mat4() const { return ToGLMMat4(*this); }
@@ -39,7 +42,9 @@ struct FQuaternion
 	FQuaternion operator*=(float f);
 	FQuaternion operator*=(const FQuaternion& Q);
 	FQuaternion operator/(const float f) const;
+	FQuaternion operator/(const FQuaternion& Q) const;
 	FQuaternion operator/=(float f);
+	FQuaternion operator/=(const FQuaternion& Q);
 
 	static FQuaternion GetConjugate(const FQuaternion& Q);
 
@@ -58,6 +63,8 @@ struct FQuaternion
 	static FQuaternion BiLerp(const FQuaternion& Q00, const FQuaternion& Q10, const FQuaternion& Q01, const FQuaternion& Q11, float t1, float t2);
 	static FQuaternion Slerp(const FQuaternion& Q1, const FQuaternion& Q2, float t);
 	static FQuaternion FindBetweenNormals(const FVector3& N1, const FVector3& N2);
+
+	static FQuaternion Inverse(const FQuaternion& Q);
 
 	static FQuaternion LookAt(const FVector3 eye, const FVector3 center, const FVector3 up);
 

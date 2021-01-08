@@ -227,6 +227,18 @@ glm::vec4 FVector3::ToGLMVector4(const FVector3 & V)
 	return glm::vec4(V.x, V.y, V.z, 0.f);
 }
 
+bool FVector3::operator==(const FVector3 & other) const
+{
+	return LMath::ApproxEquals(this->x, other.x) && LMath::ApproxEquals(this->y, other.y)
+		&& LMath::ApproxEquals(this->z, other.z);
+}
+
+bool FVector3::operator!=(const FVector3 & other) const
+{
+	return !LMath::ApproxEquals(this->x, other.x) || !LMath::ApproxEquals(this->y, other.y)
+		|| !LMath::ApproxEquals(this->z, other.z);
+}
+
 FVector3 FVector3::operator+() const
 {
 	return FVector3(this->x, this->y, this->z);
@@ -294,12 +306,25 @@ FVector3 FVector3::operator/(const float f) const
 	return FVector3(this->x / f, this->y / f, this->z / f);
 }
 
+FVector3 FVector3::operator/(const FVector3 & V)
+{
+	return FVector3(this->x / V.x, this->y / V.y, this->z / V.z);
+}
+
 FVector3 FVector3::operator/=(float f)
 {
 	this->x /= f;
 	this->y /= f;
 	this->z /= f;
 	return *this / f;
+}
+
+FVector3 FVector3::operator/=(const FVector3 & V)
+{
+	this->x / V.x;
+	this->y / V.y;
+	this->z / V.z;
+	return *this / V;
 }
 
 FVector3 operator*(float f, const FVector3 & V)
