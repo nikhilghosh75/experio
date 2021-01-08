@@ -6,8 +6,10 @@
 #include "../AssetViewers/TagEditor.h"
 #include "../BuildSystem/BuildSystem.h"
 #include "../Framework/CreateMenu.h"
+#include "../Framework/UndoSystem.h"
 #include "../Framework/SceneSaver.h"
 #include "../Framework/ValueSaver.h"
+#include "../Profilers/MemoryProfiler.h"
 #include "../ProjectSettings/ProjectSettings.h"
 #include "../ProjectSettings/SettingsView.h"
 #include "../Testing/TestRunner.h"
@@ -97,7 +99,14 @@ void UpperMenu::CreateEditMenu()
 {
 	if (ImGui::BeginMenu("Edit"))
 	{
-		ImGui::Text("There are no items here yet");
+		if (ImGui::MenuItem("Undo"))
+		{
+			UndoSystem::Undo();
+		}
+		if (ImGui::MenuItem("Redo"))
+		{
+			UndoSystem::Redo();
+		}
 
 		ImGui::EndMenu();
 	}
@@ -128,6 +137,14 @@ void UpperMenu::CreateWindowMenu()
 {
 	if (ImGui::BeginMenu("Window"))
 	{
+		if (ImGui::BeginMenu("Profiling"))
+		{
+			if (ImGui::MenuItem("Memory Profiler"))
+			{
+				EditorApplication::AddModule(new MemoryProfiler());
+			}
+			ImGui::EndMenu();
+		}
 		if (ImGui::MenuItem("Test Runner"))
 		{
 			EditorApplication::AddModule(new TestRunner());
