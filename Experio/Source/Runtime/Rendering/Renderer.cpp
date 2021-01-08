@@ -31,11 +31,14 @@ Shader* basicShader = nullptr;
 
 Renderer::Renderer()
 {
+	billboardShader = ShaderReader::ReadShader(
+		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/Billboard.shader");
 	defaultVertexLayout.PushFloat(3);
 }
 
 Renderer::~Renderer()
 {
+	delete billboardShader;
 }
 
 glm::mat4 Renderer::GetViewMatrix()
@@ -109,8 +112,6 @@ void Renderer::DrawBillboard(const Billboard & billboard)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	Shader* billboardShader = ShaderReader::ReadShader(
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/Billboard.shader");
 	billboardShader->Bind();
 
 	billboard.billboardTexture->Bind(0);
