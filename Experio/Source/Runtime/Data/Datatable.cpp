@@ -123,6 +123,23 @@ void Datatable::InsertStringColumn(std::string & columnName, std::vector<std::st
 	this->stringColumns.push_back(stringColumn);
 }
 
+uint32_t Datatable::GetSize() const
+{
+	uint32_t floatSize = floatColumns.size() * sizeof(float) * RowCount();
+	uint32_t intSize = intColumns.size() * sizeof(int) * RowCount();
+
+	uint32_t stringSize = 0;
+	for (size_t i = 0; i < stringColumns.size(); i++)
+	{
+		for (size_t j = 0; j < stringColumns[i].size(); i++)
+		{
+			stringSize += stringColumns[i][j].capacity();
+		}
+	}
+
+	return floatSize + intSize + stringSize;
+}
+
 DatatableRow::DatatableRow()
 {
 	this->table = nullptr;
