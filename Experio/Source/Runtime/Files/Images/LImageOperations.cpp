@@ -30,6 +30,11 @@ uint64_t LImageOperations::SizeOfImage(const ImageData * data)
 	return SizeOfImage(data->width, data->height, data->encoding);
 }
 
+uint64_t LImageOperations::SizeOfImage(const Texture * texture)
+{
+	return SizeOfImage(texture->GetWidth(), texture->GetHeight(), texture->GetImageEncoding());
+}
+
 uint64_t LImageOperations::SizeOfImage(const TextureRef & ref)
 {
 	return SizeOfImage(ref->GetWidth(), ref->GetHeight(), ref->GetImageEncoding());
