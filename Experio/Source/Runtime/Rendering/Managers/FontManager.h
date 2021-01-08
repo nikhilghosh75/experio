@@ -62,4 +62,6 @@ public:
 	static bool IsFontLoaded(const std::string& str);
 
 	static std::string GetNameOfFont(const FontRef& ref);
+
+	static size_t SizeOfLoadedFonts();
 };
