@@ -72,7 +72,7 @@ T * GameObject::GetComponent()
 template<class T>
 void GameObject::DeleteComponent()
 {
-	return Project::componentManager->DeleteComponent(this, Project::ClassTypeToInt<T>());
+	Project::componentManager->DeleteComponent(this, Project::ClassTypeToInt<T>());
 }
 
 template<typename T>
@@ -129,6 +129,11 @@ std::vector<T*> GameObject::GetComponentsInChildren(GameObject * gameObject)
 		iterator.Increment();
 	}
 	return components;
+}
+
+void GameObject::DeleteComponentByComponentID(unsigned int id)
+{
+	Project::componentManager->DeleteComponent(this, id);
 }
 
 GameObject * GameObject::AddChild(std::string name)

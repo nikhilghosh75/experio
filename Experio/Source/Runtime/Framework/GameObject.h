@@ -39,6 +39,8 @@ public:
 	template<class T>
 	void DeleteComponent();
 
+	void DeleteComponentByComponentID(unsigned int id);
+
 	GameObject* AddChild(std::string name);
 
 	// WORLD POSITION
