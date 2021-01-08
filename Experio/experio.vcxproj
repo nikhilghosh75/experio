@@ -20,9 +20,11 @@
     <ClInclude Include="Source\Runtime\Containers\Algorithm.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
+    <ClInclude Include="Source\Runtime\Data\DataManager.h" />
     <ClInclude Include="Source\Runtime\DefaultComponents.h" />
     <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
     <ClInclude Include="Source\Runtime\Framework\System.h" />
+    <ClInclude Include="Source\Runtime\Input\InputCodes.h" />
     <ClInclude Include="Source\Runtime\Input\Shortcut.h" />
     <ClInclude Include="Source\Runtime\Math\ColorPalette.h" />
     <ClInclude Include="Source\Runtime\Math\Range.h" />
@@ -187,6 +189,7 @@
     <ClCompile Include="Source\Runtime\Core\Platform.cpp" />
     <ClCompile Include="Source\Runtime\Core\Window.cpp" />
     <ClCompile Include="Source\Runtime\Core\LWindowOperations.cpp" />
+    <ClCompile Include="Source\Runtime\Data\DataManager.cpp" />
     <ClCompile Include="Source\Runtime\Data\Datatable.cpp" />
     <ClCompile Include="Source\Runtime\Data\LStatistics.cpp" />
     <ClCompile Include="Source\Runtime\Data\NumericData.cpp" />
