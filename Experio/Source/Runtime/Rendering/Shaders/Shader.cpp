@@ -7,6 +7,8 @@
 #include "../../Debug/Debug.h"
 #include "ShaderReader.h"
 
+uint32_t Shader::numShadersLoaded = 0;
+
 Shader::Shader()
 {
 	this->rendererID = 0;
@@ -15,11 +17,13 @@ Shader::Shader()
 Shader::Shader(unsigned int rendererID)
 {
 	this->rendererID = rendererID;
+	numShadersLoaded++;
 }
 
 Shader::~Shader()
 {
 	glDeleteProgram(this->rendererID);
+	numShadersLoaded--;
 }
 
 void Shader::Bind() const
@@ -81,4 +85,9 @@ unsigned int Shader::GetUniformLocation(const std::string & name) const
 bool Shader::DoesUniformExist(const std::string & name) const
 {
 	return glGetUniformLocation(rendererID, name.c_str()) != -1;
+}
+
+size_t Shader::SizeOfLoadedShaders()
+{
+	return numShadersLoaded * sizeof(Shader);
 }

@@ -22,6 +22,8 @@ class Shader
 private:
 	unsigned int rendererID;
 
+	static uint32_t numShadersLoaded;
+
 public:
 	Shader();
 	Shader(unsigned int rendererID);
@@ -42,4 +44,6 @@ public:
 
 	unsigned int GetUniformLocation(const std::string& name) const;
 	bool DoesUniformExist(const std::string& name) const;
+
+	static size_t SizeOfLoadedShaders();
 };
