@@ -55,6 +55,8 @@ FVector2 Input::lastMousePosition = FVector2(0, 0);
 float Input::mouseScrollDelta = 0.f;
 float Input::mouseScrollHDelta = 0.f;
 
+std::vector<Shortcut> Input::shortcuts;
+
 void Input::Init()
 {
 	for (int i = 0; i < PB_NUM_KEY_CODES; i++)
@@ -198,6 +200,28 @@ void Input::Reset()
 	mouseScrollHDelta = 0;
 }
 
+void Input::CheckShortcuts()
+{
+	for (int i = 0; i < shortcuts.size(); i++)
+	{
+		bool canExecute = true;
+		bool shouldExecute = false;
+		for (uint8_t j = 0; j < 4; j++)
+		{
+			if (shortcuts[i][j] == EKeyCode::None) break;
+			
+			if (!GetKey(shortcuts[i][j])) { canExecute = false; break; }
+
+			if (GetKeyDown(shortcuts[i][j])) { shouldExecute = true; }
+		}
+
+		if (canExecute && shouldExecute)
+		{
+			shortcuts[i].shortcutFunction();
+		}
+	}
+}
+
 void Input::SetGameRect(FRect rect)
 {
 	mousePosition = mousePosition - rect.min;
@@ -263,6 +287,8 @@ bool Input::GetMouseButtonUp(EMouseButton button)
 
 void Input::OnFrameEnd()
 {
+	CheckShortcuts();
+
 	for (int i = 0; i < PB_NUM_KEY_CODES; i++)
 	{
 		if (keyStatuses[i] == EKeyStatus::PressedThisFrame)
