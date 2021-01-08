@@ -1,4 +1,5 @@
 #include "TextureManager.h"
+#include "../../Files/Images/LImageOperations.h"
 #include "../../Files/Images/ImageReader.h"
 
 TextureSlot TextureManager::slots[MAX_TEXTURES];
@@ -152,4 +153,19 @@ bool TextureManager::IsTextureLoaded(const std::string& str)
 std::string TextureManager::GetNameOfTexture(const TextureRef & ref)
 {
 	return slotNames[ref.textureID];
+}
+
+size_t TextureManager::SizeOfLoadedTextures()
+{
+	size_t loadedSize = 0;
+
+	for (size_t i = 0; i < MAX_TEXTURES; i++)
+	{
+		if (slots[i].texture != nullptr)
+		{
+			loadedSize += LImageOperations::SizeOfImage(slots[i].texture);
+		}
+	}
+
+	return loadedSize;
 }

@@ -62,4 +62,6 @@ public:
 	static bool IsTextureLoaded(const std::string& str);
 
 	static std::string GetNameOfTexture(const TextureRef& ref);
+
+	static size_t SizeOfLoadedTextures();
 };
