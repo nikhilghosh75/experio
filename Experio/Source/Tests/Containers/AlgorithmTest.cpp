@@ -44,3 +44,16 @@ UNIT_TEST(TestAlgorithmExistsAt, "Algorithm")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestAlgorithmRemove, "Algorithm")
+{
+	std::vector<int> vector = { 1, 2, 3, 5, 6, 11, 4, 9 };
+
+	Algorithm::RemoveElement(vector, 5);
+	ASSERT_FALSE(Algorithm::ExistsIn(vector, 5), "");
+
+	Algorithm::RemoveAt(vector, 2);
+	ASSERT_FALSE(Algorithm::ExistsIn(vector, 3), "");
+
+	TEST_END();
+}
