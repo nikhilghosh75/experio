@@ -1027,6 +1027,19 @@ namespace lodepng {
 #endif /*LODEPNG_COMPILE_CPP*/
 
 /*
+	The following section of code is added by Nikhil Ghosh
+*/
+
+#ifdef LODEPNG_COMPILE_CPP
+#ifdef LODEPNG_COMPILE_ERROR_TEXT
+namespace lodepng
+{
+	std::string error_text(unsigned error);
+} /*namespace lodepng*/
+#endif
+#endif
+
+/*
 TODO:
 [.] test if there are no memory leaks or security exploits - done a lot but needs to be checked often
 [.] check compatibility with various compilers  - done but needs to be redone for every newer version
