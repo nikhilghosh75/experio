@@ -1,5 +1,6 @@
 #include "ImageReader.h"
 #include "BMPReader.h"
+#include "PNGReader.h"
 #include "TGAReader.h"
 #include "../LFileOperations.h"
 #include "../../Debug/Debug.h"
@@ -17,6 +18,11 @@ ImageData * ImageReader::ReadFile(const char * fileName)
 	else if (extension == "tga")
 	{
 		TGAReader reader;
+		return reader.ReadFile(fileName);
+	}
+	else if (extension == "png")
+	{
+		PNGReader reader;
 		return reader.ReadFile(fileName);
 	}
 
