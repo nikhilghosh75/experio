@@ -5,7 +5,10 @@
 #include "../AssetViewers/LayerEditor.h"
 #include "../AssetViewers/TagEditor.h"
 #include "../BuildSystem/BuildSystem.h"
+#include "../FileView/FileView.h"
 #include "../Framework/CreateMenu.h"
+#include "../Framework/ImportSystem.h"
+#include "../Framework/PlaySystem.h"
 #include "../Framework/UndoSystem.h"
 #include "../Framework/SceneSaver.h"
 #include "../Framework/ValueSaver.h"
@@ -28,6 +31,7 @@ void UpperMenu::CreateUpperMenu()
 	{
 		CreateFileMenu();
 		CreateEditMenu();
+		CreateAssetMenu();
 		CreateProjectMenu();
 		CreateWindowMenu();
 
@@ -106,6 +110,41 @@ void UpperMenu::CreateEditMenu()
 		if (ImGui::MenuItem("Redo"))
 		{
 			UndoSystem::Redo();
+		}
+		ImGui::Separator();
+		if (ImGui::MenuItem("Play"))
+		{
+			PlaySystem::StartGame();
+		}
+		if (ImGui::MenuItem("Pause"))
+		{
+			PlaySystem::PauseGame();
+		}
+		if (ImGui::MenuItem("Stop"))
+		{
+			PlaySystem::StopGame();
+		}
+
+		ImGui::EndMenu();
+	}
+}
+
+void UpperMenu::CreateAssetMenu()
+{
+	if (ImGui::BeginMenu("Assets"))
+	{
+		if (ImGui::MenuItem("Import"))
+		{
+			FFileDialogInfo dialogInfo = FileDialog::OpenFile(nullptr);
+			if (dialogInfo)
+			{
+				ImportSystem::Import(dialogInfo.filename, FileView::fileView->GetSelectedFilepath());
+			}
+		}
+		ImGui::Separator();
+		if (ImGui::MenuItem("Refresh"))
+		{
+			FileView::fileView->Reload();
 		}
 
 		ImGui::EndMenu();
