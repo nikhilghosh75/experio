@@ -12,9 +12,9 @@ public:
 	static size_t GetSizeOfType(unsigned int type);
 	static size_t GetSizeOfType(EDataType type);
 
-	static size_t GetImageFormat(EImageEncoding encoding, EImageFileType fileType);
+	static size_t GetImageFormat(EImageInternalFormat format);
 
-	static size_t GetInternalFormat(EImageEncoding encoding, EImageFileType fileType);
+	static size_t GetInternalFormat(EImageEncoding encoding);
 
 	static EDataType StringToDataType(const std::string& string);
 

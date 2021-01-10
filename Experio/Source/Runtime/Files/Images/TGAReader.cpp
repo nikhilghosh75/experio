@@ -7,6 +7,8 @@ TGAReader::TGAReader()
 {
 }
 
+// https://stackoverflow.com/questions/20595340/loading-a-tga-bmp-file-in-c-opengl
+
 ImageData* TGAReader::ReadFile(const char * fileName)
 {
 	TempProfiler("Reading TGA");
@@ -22,7 +24,7 @@ ImageData* TGAReader::ReadFile(const char * fileName)
 	std::uint8_t bitsPerPixel;
 	unsigned int width, height;
 	EImageEncoding encoding;
-	char* pixelData;
+	unsigned char* pixelData;
 
 	if (!std::memcmp(decompressed, &header, 12))
 	{
@@ -44,8 +46,8 @@ ImageData* TGAReader::ReadFile(const char * fileName)
 		}
 
 		unsigned int size = ((width * bitsPerPixel + 31) / 32) * 4 * height;
-		pixelData = new char[size];
-		tgaFile.read(pixelData, size);
+		pixelData = new unsigned char[size];
+		tgaFile.read(reinterpret_cast<char*>(pixelData), size);
 	}
 	else if (!std::memcmp(iscompressed, &header, sizeof(12)))
 	{
@@ -74,7 +76,7 @@ ImageData* TGAReader::ReadFile(const char * fileName)
 		std::size_t currentPixel = 0;
 		std::uint8_t chunckHeader = 0;
 		int bytesPerPixel = (bitsPerPixel / 8);
-		pixelData = new char[width * height * 4];
+		pixelData = new unsigned char[width * height * 4];
 
 		do
 		{
@@ -128,7 +130,6 @@ ImageData* TGAReader::ReadFile(const char * fileName)
 	}
 	ImageData* returnData = new ImageData();
 	returnData->encoding = encoding;
-	returnData->fileType = EImageFileType::TGA;
 	returnData->height = height;
 	returnData->width = width;
 	returnData->data = pixelData;
