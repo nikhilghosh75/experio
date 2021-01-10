@@ -119,7 +119,34 @@ public:
 		}
 	}
 
-	T* Find(const T& item);
+	T* Find(const T& item)
+	{
+		TBinarySearchNode<T>* current = &this->root;
+
+		while (true)
+		{
+			if (comp(item, current->object))
+			{
+				if (current->left == nullptr)
+				{
+					return nullptr;
+				}
+				current = current->left;
+			}
+			else if (comp(current->object, item))
+			{
+				if (current->right == nullptr)
+				{
+					return nullptr;
+				}
+				current = current->right;
+			}
+			else
+			{
+				return &(current->object);
+			}
+		}
+	}
 
 	void ForEachPreOrder(std::function<void(T&)> func);
 
