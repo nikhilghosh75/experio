@@ -1,5 +1,6 @@
 #include "EditorShortcuts.h"
 #include "UndoSystem.h"
+#include "../SceneView/SceneView.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Input/Input.h"
 
@@ -15,5 +16,27 @@ void EditorShortcuts::Initialize()
 
 	// Add Copy and Paste here
 
-	// Add Scene Controls Here
+	Shortcut switchToTranslate(EKeyCode::W);
+	switchToTranslate.shortcutFunction = std::function<void()>([]() {
+		if (SceneView::sceneView != nullptr)
+		{
+			SceneView::sceneView->SetEditMode(ESceneEditMode::Translate);
+		}});
+	Input::shortcuts.push_back(switchToTranslate);
+
+	Shortcut switchToRotate(EKeyCode::E);
+	switchToRotate.shortcutFunction = std::function<void()>([]() {
+		if (SceneView::sceneView != nullptr)
+		{
+			SceneView::sceneView->SetEditMode(ESceneEditMode::Rotate);
+		}});
+	Input::shortcuts.push_back(switchToRotate);
+
+	Shortcut switchToScale(EKeyCode::W);
+	switchToScale.shortcutFunction = std::function<void()>([]() {
+		if (SceneView::sceneView != nullptr)
+		{
+			SceneView::sceneView->SetEditMode(ESceneEditMode::Scale);
+		}});
+	Input::shortcuts.push_back(switchToScale);
 }

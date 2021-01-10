@@ -37,8 +37,12 @@ class SceneView : public EditorModule
 	void HandleGizmos();
 	void HandleTranslation();
 public:
+	static SceneView* sceneView;
+
 	SceneView();
 
 	virtual void Display() override;
 	virtual void HandleInput() override;
+
+	void SetEditMode(ESceneEditMode sceneEditMode);
 };

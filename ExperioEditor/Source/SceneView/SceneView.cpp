@@ -16,8 +16,12 @@
 SingleColorMaterial* singleColorMaterial;
 float translationColors[4 * PB_TRANSLATION_GIZMOS_VERTICIES];
 
+SceneView* SceneView::sceneView;
+
 SceneView::SceneView()
 {
+	sceneView = this;
+
 	this->name = "Scene View";
 	this->category = EEditorModuleCategory::Core;
 
@@ -163,4 +167,9 @@ void SceneView::HandleInput()
 		this->cameraPosition = this->cameraCenter + difference;
 		this->cameraRotation = glm::lookAt((glm::vec3)this->cameraPosition, (glm::vec3)this->cameraCenter, glm::vec3(0, 1, 0));
 	}
+}
+
+void SceneView::SetEditMode(ESceneEditMode sceneEditMode)
+{
+	currentMode = sceneEditMode;
 }
