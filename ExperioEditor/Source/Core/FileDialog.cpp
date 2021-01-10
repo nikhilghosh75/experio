@@ -30,6 +30,12 @@ bool FFileDialogInfo::IsValid() const
 	return !this->canceled && this->filename.size() != 0;
 }
 
+FFileDialogInfo::operator bool()
+{
+	return IsValid();
+}
+
+
 FFileDialogInfo FileDialog::OpenFile(const char * filter)
 {
 #ifdef PLATFORM_WINDOWS

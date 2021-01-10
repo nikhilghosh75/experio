@@ -10,6 +10,8 @@ struct FFileDialogInfo
 	FFileDialogInfo(const std::string& filename, bool canceled = false);
 
 	bool IsValid() const;
+
+	operator bool();
 };
 
 class FileDialog
