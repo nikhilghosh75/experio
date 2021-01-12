@@ -38,3 +38,14 @@ UNIT_TEST(TestVector2Zero, "Vector2")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestVector2Products, "Vector2")
+{
+	FVector2 v1(1, 2);
+	FVector2 v2(3, 4);
+
+	ASSERT_ALMOST_EQUAL(FVector2::Dot(v1, v2), 11);
+	ASSERT_ALMOST_EQUAL(FVector2::Cross(v1, v2), -2);
+
+	TEST_END();
+}

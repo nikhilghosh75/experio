@@ -117,16 +117,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Containers\TestAlgorithm.cpp" />
-    <ClCompile Include="Containers\TestArray.cpp" />
-    <ClCompile Include="Containers\TestHashtable.cpp" />
-    <ClCompile Include="Containers\TestString.cpp" />
-    <ClCompile Include="Containers\TestTypedTree.cpp" />
+    <ClCompile Include="Containers\AlgorithmTest.cpp" />
+    <ClCompile Include="Containers\ArrayTest.cpp" />
+    <ClCompile Include="Containers\HashtableTest.cpp" />
+    <ClCompile Include="Containers\QueueTest.cpp" />
+    <ClCompile Include="Containers\StringTest.cpp" />
+    <ClCompile Include="Containers\TypedTreeTest.cpp" />
     <ClCompile Include="Core\DebugTest.cpp" />
     <ClCompile Include="Core\WindowOperationsTest.cpp" />
     <ClCompile Include="ExperioTests.cpp" />
+    <ClCompile Include="Files\FileOperationsTest.cpp" />
     <ClCompile Include="Framework\BinaryParamsTest.cpp" />
     <ClCompile Include="Files\ImageOperationsTest.cpp" />
+    <ClCompile Include="Framework\ParamsTest.cpp" />
     <ClCompile Include="Math\LMathTest.cpp" />
     <ClCompile Include="Math\Vector2Test.cpp" />
     <ClCompile Include="Math\Vector3Test.cpp" />

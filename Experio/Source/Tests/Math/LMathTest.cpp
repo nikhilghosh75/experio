@@ -120,6 +120,17 @@ UNIT_TEST(TestMathCos, "LMath")
 	TEST_END();
 }
 
+UNIT_TEST(TestMathCsc, "LMath")
+{
+	ASSERT_ALMOST_EQUAL(LMath::Csc(0.15), 6.692f);
+	ASSERT_ALMOST_EQUAL(LMath::Csc(0.37), 2.765f);
+	ASSERT_ALMOST_EQUAL(LMath::Csc(0.61), 1.746f);
+	ASSERT_ALMOST_EQUAL(LMath::Csc(1.36), 1.022f);
+	ASSERT_ALMOST_EQUAL(LMath::Csc(HALFPI), 1.0f);
+
+	TEST_END();
+}
+
 UNIT_TEST(TestMathGCD, "LMath")
 {
 	ASSERT_EQUAL(LMath::GCD(8, 12), 4, "");

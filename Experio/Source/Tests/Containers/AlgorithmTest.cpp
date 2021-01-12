@@ -57,3 +57,16 @@ UNIT_TEST(TestAlgorithmRemove, "Algorithm")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestAlgorithmAdd, "Algorithm")
+{
+	std::vector<int> vector = { 1, 2, 3, 5 };
+	Algorithm::AddNumOf(vector, 8, 3);
+
+	ASSERT_EQUAL(vector.size(), 7, "");
+	ASSERT_EQUAL(vector[4], 8, "");
+	ASSERT_EQUAL(vector[5], 8, "");
+	ASSERT_EQUAL(vector[6], 8, "");
+
+	TEST_END();
+}
