@@ -22,6 +22,7 @@
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
     <ClInclude Include="Source\Runtime\Data\DataManager.h" />
     <ClInclude Include="Source\Runtime\DefaultComponents.h" />
+    <ClInclude Include="Source\Runtime\Files\Images\PNGReader.h" />
     <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
     <ClInclude Include="Source\Runtime\Framework\System.h" />
     <ClInclude Include="Source\Runtime\Input\InputCodes.h" />
@@ -148,6 +149,9 @@
     <ClInclude Include="Source\ThirdParty\Lodepng\Lodepng.h" />
     <ClInclude Include="Source\ThirdParty\Magic Enum\magic_enum.hpp" />
     <ClInclude Include="Source\ThirdParty\Nameof\nameof.hpp" />
+    <ClInclude Include="Source\ThirdParty\Native File Dialog\common.h" />
+    <ClInclude Include="Source\ThirdParty\Native File Dialog\include\nfd.h" />
+    <ClInclude Include="Source\ThirdParty\Native File Dialog\nfd_common.h" />
     <ClInclude Include="Source\ThirdParty\Periodic Function\periodic_function.hpp" />
     <ClInclude Include="Source\ThirdParty\RCCPP.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml.h" />
@@ -201,6 +205,7 @@
     <ClCompile Include="Source\Runtime\Files\Font\FontReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\LFontOperations.cpp" />
     <ClCompile Include="Source\Runtime\Files\Images\ImageReader.cpp" />
+    <ClCompile Include="Source\Runtime\Files\Images\PNGReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\LFileOperations.cpp" />
     <ClCompile Include="Source\Runtime\Files\Mesh\BinMeshReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Mesh\MeshReader.cpp" />
