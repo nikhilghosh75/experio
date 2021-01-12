@@ -94,9 +94,9 @@ std::string LString::NumberWithCommas(Number n)
 
 	n = LMath::Abs((float)n);
 	std::string numberString = std::to_string(n);
-	for (int i = numberString.size() - 1; i >= 0; i--)
+	for (int i = 0; i < numberString.size(); i++)
 	{
-		if (i % 3 == 2 && i != numberString.size() - 1)
+		if ((numberString.size() - i) % 3 == 0 && i != 0)
 		{
 			result += ',';
 		}
