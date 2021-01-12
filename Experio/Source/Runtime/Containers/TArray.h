@@ -79,7 +79,7 @@ public:
 		this->capacity = list.size();
 	}
 
-	TArray(TArray<T>& objects)
+	TArray(const TArray<T>& objects)
 	{
 		data = new T[objects.count]();
 		for (uint32_t i = 0; i < objects.count; i++)
