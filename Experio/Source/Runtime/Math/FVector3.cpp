@@ -75,6 +75,11 @@ FVector3 FVector3::Cross(const FVector3& V1, const FVector3& V2)
     return FVector3(V1.y * V2.z - V1.z * V2.y, V1.z * V2.x - V1.x * V2.z, V1.x * V2.y - V1.y * V2.x);
 }
 
+float FVector3::Angle(const FVector3 & V1, const FVector3 & V2)
+{
+	return LMath::Acos(Dot(V1, V2) / (Magnitude(V1) * Magnitude(V2)));
+}
+
 FVector3 FVector3::Lerp(const FVector3 & V1, const FVector3 & V2, float t)
 {
 	return FVector3(
