@@ -59,6 +59,8 @@ public:
 
 	void ReserveChildren(uint8_t numChildren);
 
+	Scene* GetScene() const;
+
 	bool operator==(const GameObject& object) const;
 	bool operator!=(const GameObject& object) const;
 

@@ -218,6 +218,11 @@ void GameObject::ReserveChildren(uint8_t numChildren)
 	this->children.reserve(numChildren);
 }
 
+Scene * GameObject::GetScene() const
+{
+	return &Scene::scenes[this->sceneIndex];
+}
+
 bool GameObject::operator==(const GameObject & object) const
 {
 	return (name == object.name) && (this->layer == object.layer)

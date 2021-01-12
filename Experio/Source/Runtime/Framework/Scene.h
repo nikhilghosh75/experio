@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Containers/TArray.h"
 #include "../Containers/TTypedTree.h"
 #include "GameObject.h"
 #include "Component.h"
@@ -39,6 +40,12 @@ public:
 
 	size_t SizeOf();
 
+	// template<typename T>
+	// std::vector<T*> GetAllComponents() const;
+	
+	template<typename T>
+	TArray<T*> GetAllComponents() const;
+
 	static Scene scenes[MAX_SCENES];
 	static std::string filepaths[MAX_SCENES];
 	static uint8_t sceneCount;
@@ -73,3 +80,47 @@ public:
 
 	static size_t SizeOfLoadedScenes();
 };
+
+#include "Project.h"
+
+/*
+template<typename T>
+inline std::vector<T*> Scene::GetAllComponents() const
+{
+	std::vector<Component*> components;
+	std::vector<unsigned int> componentIds;
+	Project::componentManager->GetAllComponents(components, componentIds, this->id);
+
+	std::vector<T*> returnVector;
+	unsigned int typeId = Project::ClassTypeToInt<T>();
+	for (size_t i = 0; i < components.size(); i++)
+	{
+		if (componentIds[i] == typeId)
+		{
+			returnVector.push_back((T*)components[i]);
+		}
+	}
+
+	return returnVector;
+}
+*/
+
+template<typename T>
+inline TArray<T*> Scene::GetAllComponents() const
+{
+	std::vector<Component*> components;
+	std::vector<unsigned int> componentIds;
+	Project::componentManager->GetAllComponents(components, componentIds, this->id);
+
+	TArray<T*> returnArray;
+	unsigned int typeId = Project::ClassTypeToInt<T>();
+	for (size_t i = 0; i < components.size(); i++)
+	{
+		if (componentIds[i] == typeId)
+		{
+			returnArray.Append((T*)components[i]);
+		}
+	}
+
+	return returnArray;
+}
