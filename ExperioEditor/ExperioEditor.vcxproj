@@ -135,6 +135,7 @@
     <ClCompile Include="Source\Framework\Version.cpp" />
     <ClCompile Include="Source\GameView\GameView.cpp" />
     <ClCompile Include="Source\Inspector\Inspector.cpp" />
+    <ClCompile Include="Source\Materials\MaterialEditor.cpp" />
     <ClCompile Include="Source\Profilers\MemoryProfiler.cpp" />
     <ClCompile Include="Source\ProjectGenerator\VisualStudioProject.cpp" />
     <ClCompile Include="Source\ProjectGenerator\VisualStudioSolution.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="Source\Framework\PlaySystem.h" />
     <ClInclude Include="Source\Framework\SaveParams.h" />
     <ClInclude Include="Source\Framework\SceneSaver.h" />
+    <ClInclude Include="Source\Framework\ShaderInfo.h" />
     <ClInclude Include="Source\Framework\UndoCommand.h" />
     <ClInclude Include="Source\Framework\UndoSystem.h" />
     <ClInclude Include="Source\Framework\ValueLoader.h" />
@@ -216,7 +218,9 @@
     <ClInclude Include="Source\GameView\GameView.h" />
     <ClInclude Include="Source\Inspector\Inspector.h" />
     <ClInclude Include="Source\Inspector\InspectorUndo.h" />
+    <ClInclude Include="Source\Materials\MaterialEditor.h" />
     <ClInclude Include="Source\Profilers\MemoryProfiler.h" />
+    <ClInclude Include="Source\ProjectGenerator\ProjectGenerator.h" />
     <ClInclude Include="Source\ProjectGenerator\VisualStudioProject.h" />
     <ClInclude Include="Source\ProjectGenerator\VisualStudioSolution.h" />
     <ClInclude Include="Source\ProjectSettings\LanguageSettings.h" />

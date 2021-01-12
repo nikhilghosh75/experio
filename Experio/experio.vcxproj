@@ -28,6 +28,8 @@
     <ClInclude Include="Source\Runtime\Input\InputCodes.h" />
     <ClInclude Include="Source\Runtime\Input\Shortcut.h" />
     <ClInclude Include="Source\Runtime\Math\ColorPalette.h" />
+    <ClInclude Include="Source\Runtime\Math\FPlane.h" />
+    <ClInclude Include="Source\Runtime\Math\Frustum.h" />
     <ClInclude Include="Source\Runtime\Math\Range.h" />
     <ClInclude Include="Source\Runtime\Containers\TBiMap.h" />
     <ClInclude Include="Source\Runtime\Containers\TBinarySearchTree.h" />
@@ -277,6 +279,8 @@
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\UIColorPalettes.cpp" />
     <ClCompile Include="Source\ThirdParty\Lodepng\Lodepng.cpp" />
+    <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_common.c" />
+    <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Standard\Materials\Test.material" />
