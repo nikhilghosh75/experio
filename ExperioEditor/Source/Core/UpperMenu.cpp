@@ -83,7 +83,7 @@ void UpperMenu::CreateFileMenu()
 		ImGui::Separator();
 		if (ImGui::MenuItem("Build"))
 		{
-			FFileDialogInfo dialogInfo = FileDialog::OpenFile(nullptr);
+			FFileDialogInfo dialogInfo = FileDialog::OpenFolder();
 			if (dialogInfo.IsValid())
 			{
 				BuildSystem::StartBuildForWindows(LFileOperations::GetDirectory(dialogInfo.filename), BuildSystem::DefaultWindowsBuildSettings());

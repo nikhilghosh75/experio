@@ -15,5 +15,6 @@ private:
 
 	static void CreateWindowMenu();
 
+public:
 	static void SaveAll();
 };
