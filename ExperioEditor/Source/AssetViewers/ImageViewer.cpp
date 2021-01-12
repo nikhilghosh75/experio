@@ -1,10 +1,14 @@
 #include "ImageViewer.h"
+#include "Runtime/Containers/LString.h"
 #include "Runtime/Files/Images/LImageOperations.h"
 #include <sstream>
 
 void ImageViewer::DisplayStats()
 {
-	std::string filepath = TextureManager::GetNameOfTexture(loadedRef);
+	if (filepath.size() < 2)
+	{
+		filepath = TextureManager::GetNameOfTexture(loadedRef).substr(3);
+	}
 	ImGui::Text(filepath.c_str());
 
 	unsigned int width, height;
@@ -16,7 +20,8 @@ void ImageViewer::DisplayStats()
 
 	ss.str("");
 	ss.clear();
-	ss << "Size: " << LImageOperations::SizeOfImage(loadedRef) << " bytes";
+	size_t sizeOfImage = LImageOperations::SizeOfImage(loadedRef);
+	ss << "Size: " << LString::NumberWithCommas(sizeOfImage) << " bytes";
 	ImGui::Text(ss.str().c_str());
 }
 
@@ -24,6 +29,7 @@ ImageViewer::ImageViewer()
 {
 	this->name = "Image Viewer";
 	this->category = EEditorModuleCategory::Viewer;
+	this->filepath = "";
 }
 
 void ImageViewer::Display()

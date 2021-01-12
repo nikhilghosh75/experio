@@ -5,6 +5,8 @@
 class ImageViewer : public EditorModule
 {
 	void DisplayStats();
+
+	std::string filepath;
 public:
 	TextureRef loadedRef;
 
