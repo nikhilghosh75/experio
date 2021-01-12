@@ -167,6 +167,13 @@ void SceneView::HandleInput()
 		this->cameraPosition = this->cameraCenter + difference;
 		this->cameraRotation = glm::lookAt((glm::vec3)this->cameraPosition, (glm::vec3)this->cameraCenter, glm::vec3(0, 1, 0));
 	}
+
+	if (Input::GetKeyDown(EKeyCode::T))
+		SetEditMode(ESceneEditMode::Translate);
+	else if (Input::GetKeyDown(EKeyCode::Y))
+		SetEditMode(ESceneEditMode::Rotate);
+	else if (Input::GetKeyDown(EKeyCode::U))
+		SetEditMode(ESceneEditMode::Scale);
 }
 
 void SceneView::SetEditMode(ESceneEditMode sceneEditMode)

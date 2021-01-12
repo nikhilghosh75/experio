@@ -1,6 +1,7 @@
 #include "EditorShortcuts.h"
+#include "PlaySystem.h"
 #include "UndoSystem.h"
-#include "../SceneView/SceneView.h"
+#include "../Core/UpperMenu.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Input/Input.h"
 
@@ -14,29 +15,16 @@ void EditorShortcuts::Initialize()
 	redo.shortcutFunction = std::function<void()>([]() { UndoSystem::Redo(); });
 	Input::shortcuts.push_back(redo);
 
-	// Add Copy and Paste here
+	Shortcut play(EKeyCode::LeftControl, EKeyCode::P);
+	play.shortcutFunction = std::function<void()>([]() {
+		if (PlaySystem::GetPlaySystemState() == EPlaySystemState::NotPlaying)
+			PlaySystem::StartGame();
+		else
+			PlaySystem::StopGame();
+	});
+	Input::shortcuts.push_back(play);
 
-	Shortcut switchToTranslate(EKeyCode::W);
-	switchToTranslate.shortcutFunction = std::function<void()>([]() {
-		if (SceneView::sceneView != nullptr)
-		{
-			SceneView::sceneView->SetEditMode(ESceneEditMode::Translate);
-		}});
-	Input::shortcuts.push_back(switchToTranslate);
-
-	Shortcut switchToRotate(EKeyCode::E);
-	switchToRotate.shortcutFunction = std::function<void()>([]() {
-		if (SceneView::sceneView != nullptr)
-		{
-			SceneView::sceneView->SetEditMode(ESceneEditMode::Rotate);
-		}});
-	Input::shortcuts.push_back(switchToRotate);
-
-	Shortcut switchToScale(EKeyCode::W);
-	switchToScale.shortcutFunction = std::function<void()>([]() {
-		if (SceneView::sceneView != nullptr)
-		{
-			SceneView::sceneView->SetEditMode(ESceneEditMode::Scale);
-		}});
-	Input::shortcuts.push_back(switchToScale);
+	Shortcut saveAll(EKeyCode::LeftControl, EKeyCode::S);
+	saveAll.shortcutFunction = std::function<void()>([]() {	UpperMenu::SaveAll(); });
+	Input::shortcuts.push_back(saveAll);
 }
