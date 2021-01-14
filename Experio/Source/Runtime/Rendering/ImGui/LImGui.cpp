@@ -200,6 +200,13 @@ void LImGui::DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& 
 	}
 }
 
+void LImGui::DisplayTexture(TextureRef & ref, const std::string & name, unsigned int width, unsigned int height)
+{
+	ImGui::Text(name.c_str());
+	ImGui::SameLine();
+	ImGui::Image((void*)ref->GetRendererID(), ImVec2(width, height));
+}
+
 void LImGui::DisplayTextureAsset(TextureRef & ref, std::string name)
 {
 	ImGui::PushID(name.c_str());

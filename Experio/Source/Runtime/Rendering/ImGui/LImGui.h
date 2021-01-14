@@ -1,5 +1,6 @@
 #pragma once
 #include "imgui.h"
+#include "../Renderer.h"
 #include "../../Containers/THashtable.h"
 #include "../../Containers/TTypedTree.h"
 #include <string>
@@ -40,6 +41,8 @@ public:
 	static void DisplayRect(FRect& rect, const std::string& name);
 
 	static void DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable);
+
+	static void DisplayTexture(TextureRef& ref, const std::string& name, unsigned int width = 100, unsigned int height = 100);
 
 	static void DisplayTextureAsset(TextureRef& ref, std::string name);
 
