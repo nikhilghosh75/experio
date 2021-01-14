@@ -32,3 +32,30 @@ public:
 			sizeZCurve.GetY(particle.life));
 	}
 };
+
+class ColorOverLife: ParticleModifier
+{
+public:
+	FCurve redCurve;
+	FCurve greenCurve;
+	FCurve blueCurve;
+
+	virtual void Update(FParticleData& particle) override
+	{
+		particle.color = FColor(redCurve.GetY(particle.life), greenCurve.GetY(particle.life), 
+			blueCurve.GetY(particle.life));
+	}
+};
+
+class VelocityOverLife : ParticleModifier
+{
+	FCurve speedXCurve;
+	FCurve speedYCurve;
+	FCurve speedZCurve;
+
+	virtual void Update(FParticleData& particle) override
+	{
+		particle.speed = FVector3(speedXCurve.GetY(particle.life), speedYCurve.GetY(particle.life),
+			speedZCurve.GetY(particle.life));
+	}
+};
