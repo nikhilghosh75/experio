@@ -59,14 +59,16 @@ FWindowsBuildSettings DefaultWindowsBuildSettings()
 void Detail::DoBuildForWindows(const std::string & buildFolder, const FWindowsBuildSettings & buildSettings)
 {
 	currentProgress = 0;
+	EditorProgressBar progressBar((unsigned int)totalProgress, "Building");
 
 	// Step 1: Regenerate All Files
-	Detail::RegenerateFiles();
+	Detail::RegenerateFiles(progressBar);
 
 	// Step 2: Recompile Project
 	RCCCompileProject();
 	Detail::BlockUntilCompilationComplete();
 	currentProgress += 40;
+	progressBar.Step(40);
 
 	// Step 3: Move Files
 	Detail::MoveFilesToBuildFolder(buildFolder);
@@ -75,16 +77,23 @@ void Detail::DoBuildForWindows(const std::string & buildFolder, const FWindowsBu
 	Detail::MoveBuildFiles(buildFolder);
 }
 
-void Detail::RegenerateFiles()
+void Detail::RegenerateFiles(EditorProgressBar& progressBar)
 {
 	CodeGenerator::GenerateComponentManager();
 	currentProgress += 5;
+	progressBar.Step(5);
+
 	CodeGenerator::GenerateProjectFile();
 	currentProgress += 1;
+	progressBar.Step(1);
+
 	CodeGenerator::GenerateComponentSerializers();
 	currentProgress += 3;
+	progressBar.Step(3);
+
 	CodeGenerator::GenerateTagFile();
 	currentProgress += 1;
+	progressBar.Step(1);
 }
 
 void Detail::BlockUntilCompilationComplete()

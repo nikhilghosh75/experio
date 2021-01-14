@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <stdint.h>
+#include "../Core/EditorProgressBar.h"
 #include "../Framework/Compilation/CompilationSystem.h"
 
 enum class EAssetType : uint8_t;
@@ -38,7 +39,7 @@ namespace ExperioEditor::BuildSystem
 	{
 		void DoBuildForWindows(const std::string& buildFolder, const FWindowsBuildSettings& buildSettings);
 
-		void RegenerateFiles();
+		void RegenerateFiles(EditorProgressBar& progressBar);
 
 		void BlockUntilCompilationComplete();
 
