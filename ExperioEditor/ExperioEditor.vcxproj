@@ -107,8 +107,10 @@
     <ClCompile Include="Source\ComponentEditor\Renderable\MeshComponentEditor.cpp" />
     <ClCompile Include="Source\ComponentEditor\Renderable\VirtualCameraEditor.cpp" />
     <ClCompile Include="Source\Console\Console.cpp" />
+    <ClCompile Include="Source\Core\DialogBox.cpp" />
     <ClCompile Include="Source\Core\EditorApplication.cpp" />
     <ClCompile Include="Source\Core\EditorModule.cpp" />
+    <ClCompile Include="Source\Core\EditorProgressBar.cpp" />
     <ClCompile Include="Source\Core\EditorWindow.cpp" />
     <ClCompile Include="Source\Core\FileDialog.cpp" />
     <ClCompile Include="Source\Core\UpperMenu.cpp" />
@@ -183,8 +185,10 @@
     <ClInclude Include="Source\ComponentEditor\Renderable\MeshComponentEditor.h" />
     <ClInclude Include="Source\ComponentEditor\Renderable\VirtualCameraEditor.h" />
     <ClInclude Include="Source\Console\Console.h" />
+    <ClInclude Include="Source\Core\DialogBox.h" />
     <ClInclude Include="Source\Core\EditorApplication.h" />
     <ClInclude Include="Source\Core\EditorModule.h" />
+    <ClInclude Include="Source\Core\EditorProgressBar.h" />
     <ClInclude Include="Source\Core\EditorWindow.h" />
     <ClInclude Include="Source\Core\FileDialog.h" />
     <ClInclude Include="Source\Core\UpperMenu.h" />
@@ -219,6 +223,7 @@
     <ClInclude Include="Source\Inspector\Inspector.h" />
     <ClInclude Include="Source\Inspector\InspectorUndo.h" />
     <ClInclude Include="Source\Materials\MaterialEditor.h" />
+    <ClInclude Include="Source\Materials\ShaderParser.h" />
     <ClInclude Include="Source\Profilers\MemoryProfiler.h" />
     <ClInclude Include="Source\ProjectGenerator\ProjectGenerator.h" />
     <ClInclude Include="Source\ProjectGenerator\VisualStudioProject.h" />
