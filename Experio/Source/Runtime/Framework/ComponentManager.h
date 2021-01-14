@@ -1,7 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "Scene.h"
-#include "../Debug/Debug.h"
 
 class ComponentManager
 {
