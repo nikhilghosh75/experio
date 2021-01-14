@@ -7,6 +7,7 @@
 #include "ThirdParty/toml++/toml.h"
 
 THashtable<unsigned int, FComponentInfo> EditorProject::componentClasses;
+std::vector<FShaderInfo> EditorProject::shaders;
 FVersion EditorProject::experioVersion;
 CodeProject EditorProject::gameProject(ECodingLanguage::CPlusPlus);
 
@@ -88,6 +89,12 @@ void EditorProject::SetupRuntimeCompilation()
 
 void EditorProject::TempSetup()
 {
+	TempSetupClasses();
+	TempSetupMaterials();
+}
+
+void EditorProject::TempSetupClasses()
+{
 	EditorProject::componentClasses.Insert(100, FComponentInfo("VirtualCamera", false));
 	EditorProject::componentClasses.Insert(101, FComponentInfo("MeshComponent", true));
 	EditorProject::componentClasses.Insert(102, FComponentInfo("ParticleSystem", true));
@@ -146,4 +153,13 @@ void EditorProject::TempSetup()
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
+}
+
+void EditorProject::TempSetupMaterials()
+{
+	FShaderInfo basic("Basic");
+	basic.EmplaceUniform(EShaderParamType::TEXTURE, "albedo");
+	basic.EmplaceUniform(EShaderParamType::TEXTURE, "normal");
+	basic.EmplaceUniform(EShaderParamType::TEXTURE, "specular");
+	shaders.push_back(basic);
 }
