@@ -7,6 +7,13 @@
 SELECT name FROM meshes WHERE (serializedSize > 1000000 AND UsedIn(TestScene.pbscene))
 */
 
+enum class ESQLCommandType
+{
+	None,
+	Exists,
+	Select
+};
+
 enum class ESQLConditionType
 {
 	GreaterThan,
@@ -25,7 +32,9 @@ public:
 
 class SQLCommand
 {
+public:
 	std::vector<std::string> columnsToSelect;
 	std::vector<std::string> tables;
 	std::vector<SQLCondition> conditions;
+	ESQLCommandType commandType;
 };
