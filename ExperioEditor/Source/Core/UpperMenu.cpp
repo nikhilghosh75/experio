@@ -86,7 +86,7 @@ void UpperMenu::CreateFileMenu()
 			FFileDialogInfo dialogInfo = FileDialog::OpenFolder();
 			if (dialogInfo.IsValid())
 			{
-				BuildSystem::StartBuildForWindows(LFileOperations::GetDirectory(dialogInfo.filename), BuildSystem::DefaultWindowsBuildSettings());
+				BuildSystem::StartBuildForWindows(dialogInfo.filename, BuildSystem::DefaultWindowsBuildSettings());
 			}
 		}
 		ImGui::Separator();
