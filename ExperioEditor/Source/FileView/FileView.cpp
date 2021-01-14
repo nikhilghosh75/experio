@@ -1,9 +1,11 @@
 #include "FileView.h"
 #include <filesystem>
+#include "Runtime/Data/DataManager.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Input/Input.h"
 #include "Runtime/Rendering/ImGui/LImGui.h"
+#include "Runtime/Rendering/Managers/FontManager.h"
 #include "Runtime/Rendering/Managers/MeshManager.h"
 #include "Runtime/Rendering/Managers/TextureManager.h"
 #include "../AssetViewers/MeshViewer.h"
@@ -13,6 +15,7 @@
 #include "../Framework/CreateMenu.h"
 #include "../Framework/CreateSystem.h"
 #include "../Framework/ImportSystem.h"
+#include "../Materials/MaterialEditor.h"
 namespace fs = std::filesystem;
 
 FileView* FileView::fileView = nullptr;
@@ -163,24 +166,11 @@ void FileView::DisplayContents()
 			if (p.is_directory())
 			{
 				this->selectedItem = pathString;
+				break;
 			}
 			else
 			{
-				switch (type)
-				{
-				case EAssetType::Mesh:
-				{
-					MeshViewer* meshViewer = (MeshViewer*)EditorApplication::AddModule(new MeshViewer());
-					meshViewer->loadedRef = MeshManager::LoadMesh(p.path().string());
-				}
-					break;
-				case EAssetType::Image:
-				{
-					ImageViewer* imageViewer = (ImageViewer*)EditorApplication::AddModule(new ImageViewer());
-					imageViewer->loadedRef = TextureManager::LoadTexture(p.path().string());
-				}
-					break;
-				}
+				this->OpenFile(p.path().string(), type);
 			}
 		}
 		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
@@ -234,6 +224,35 @@ std::string FileView::GetSelectedFilepath(TTypedTreeNode<std::string>* selectedN
 	return filePath;
 }
 
+void FileView::OpenFile(const std::string & str, EAssetType type)
+{
+	switch (type)
+	{
+	case EAssetType::Mesh:
+	{
+		MeshViewer* meshViewer = (MeshViewer*)EditorApplication::AddModule(new MeshViewer());
+		meshViewer->loadedRef = MeshManager::LoadMesh(str);
+	}
+	break;
+	case EAssetType::Image:
+	{
+		ImageViewer* imageViewer = (ImageViewer*)EditorApplication::AddModule(new ImageViewer());
+		imageViewer->loadedRef = TextureManager::LoadTexture(str);
+	}
+	break;
+	case EAssetType::Scene:
+	{
+		// Add stuff here
+	}
+	break;
+	case EAssetType::Material:
+	{
+		MaterialEditor* materialEditor = (MaterialEditor*)EditorApplication::AddModule(new MaterialEditor());
+		materialEditor->SetMaterial(str);
+	}
+	}
+}
+
 void FileView::Display()
 {
 	DisplayContextMenu();
@@ -274,6 +293,10 @@ bool FileView::IsAssetLoaded(const std::string& filepath, EAssetType type)
 		return MeshManager::IsMeshLoaded(filepath);
 	case EAssetType::Image:
 		return TextureManager::IsTextureLoaded(filepath);
+	case EAssetType::Font:
+		return FontManager::IsFontLoaded(filepath);
+	case EAssetType::Data:
+		return DataManager::IsDataLoaded(filepath);
 	}
 	return false;
 }
