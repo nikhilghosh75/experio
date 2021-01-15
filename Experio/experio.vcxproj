@@ -22,6 +22,7 @@
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
     <ClInclude Include="Source\Runtime\Data\DataManager.h" />
     <ClInclude Include="Source\Runtime\DefaultComponents.h" />
+    <ClInclude Include="Source\Runtime\Files\FileRef.h" />
     <ClInclude Include="Source\Runtime\Files\Images\PNGReader.h" />
     <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
     <ClInclude Include="Source\Runtime\Framework\System.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="Source\Runtime\Files\Data\CSVReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Data\DataReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\FFileCategory.cpp" />
+    <ClCompile Include="Source\Runtime\Files\FileRef.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\BinFontReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\FontReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\LFontOperations.cpp" />
@@ -232,9 +234,11 @@
     <ClCompile Include="Source\Runtime\Math\FBox.cpp" />
     <ClCompile Include="Source\Runtime\Math\FColor.cpp" />
     <ClCompile Include="Source\Runtime\Math\FCurve.cpp" />
+    <ClCompile Include="Source\Runtime\Math\FPlane.cpp" />
     <ClCompile Include="Source\Runtime\Math\FQuaternion.cpp" />
     <ClCompile Include="Source\Runtime\Math\FRay.cpp" />
     <ClCompile Include="Source\Runtime\Math\FRect.cpp" />
+    <ClCompile Include="Source\Runtime\Math\Frustum.cpp" />
     <ClCompile Include="Source\Runtime\Math\FSphericalPoint.cpp" />
     <ClCompile Include="Source\Runtime\Math\FTransform.cpp" />
     <ClCompile Include="Source\Runtime\Math\FVector2.cpp" />
