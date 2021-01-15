@@ -144,3 +144,8 @@ size_t LMeshOperations::SizeOfMesh(const MeshData & data)
 	return data.verticies->GetSize() + data.uv->GetSize() + data.normals->GetSize()
 		+ data.bitangents->GetSize() + data.tangents->GetSize() + data.indexBuffer->GetSize();
 }
+
+size_t LMeshOperations::SizeOfMesh(const MeshRef & ref)
+{
+	return SizeOfMesh(*ref.meshData);
+}
