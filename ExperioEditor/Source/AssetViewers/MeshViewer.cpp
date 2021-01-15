@@ -1,5 +1,7 @@
 #include "MeshViewer.h"
 #include "Runtime/Camera/AdditionalCameras.h"
+#include "Runtime/Containers/LString.h"
+#include "Runtime/Files/Mesh/LMeshOperations.h"
 #include "Runtime/Framework/Project.h"
 #include "Runtime/Input/Input.h"
 #include "Runtime/Rendering/Renderer.h"
@@ -12,11 +14,15 @@ void MeshViewer::DisplayStats()
 		return;
 	}
 
-	std::string meshName = MeshManager::GetNameOfMesh(this->loadedRef);
-	ImGui::Text(meshName.c_str());
+	if (filepath.size() < 2)
+	{
+		filepath = MeshManager::GetNameOfMesh(loadedRef).substr(3);
+	}
+	ImGui::Text(filepath.c_str());
 	
 	unsigned int triangleCount = this->loadedRef->GetTriangleCount();
-	ImGui::Text(std::to_string(triangleCount).c_str());
+
+	ImGui::Text((std::to_string(triangleCount) + " Triangles").c_str());
 
 	std::stringstream isIndexedStream;
 	isIndexedStream << "Is Indexed: ";
@@ -29,6 +35,11 @@ void MeshViewer::DisplayStats()
 		isIndexedStream << "False";
 	}
 	ImGui::Text(isIndexedStream.str().c_str());
+
+	std::stringstream sizeStream;
+	size_t sizeOfImage = LMeshOperations::SizeOfMesh(loadedRef);
+	sizeStream << "Size: " << LString::NumberWithCommas(sizeOfImage) << " bytes";
+	ImGui::Text(sizeStream.str().c_str());
 }
 
 MeshViewer::MeshViewer()
