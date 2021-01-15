@@ -139,6 +139,7 @@
     <ClCompile Include="Source\Inspector\Inspector.cpp" />
     <ClCompile Include="Source\Materials\MaterialEditor.cpp" />
     <ClCompile Include="Source\Profilers\MemoryProfiler.cpp" />
+    <ClCompile Include="Source\ProjectGenerator\ProjectGenerator.cpp" />
     <ClCompile Include="Source\ProjectGenerator\VisualStudioProject.cpp" />
     <ClCompile Include="Source\ProjectGenerator\VisualStudioSolution.cpp" />
     <ClCompile Include="Source\ProjectSettings\LanguageSettings.cpp" />

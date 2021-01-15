@@ -8,7 +8,7 @@ class VSSolution
 public:
 	std::vector<VSProject> projects;
 
-	void GenerateSolutionFile(std::string& filepath);
+	void GenerateSolutionFile(const std::string& filepath);
 
 private:
 	static GUID128 GetProjectTypeGUID(EVSProjectType type);
