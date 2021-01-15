@@ -38,6 +38,8 @@ void MaterialEditor::DisplayUniform(ShaderParamInfo paramInfo)
 {
 	switch (paramInfo.type)
 	{
+	case EShaderParamType::BOOL:
+		ImGui::Checkbox(paramInfo.name.c_str(), (bool*)((char*)material + paramInfo.offset)); break;
 	case EShaderParamType::TEXTURE:
 		TextureRef& ref = *(TextureRef*)((char*)material + paramInfo.offset);
 		LImGui::DisplayTextureAsset(*(TextureRef*)((char*)material + paramInfo.offset), paramInfo.name); 
