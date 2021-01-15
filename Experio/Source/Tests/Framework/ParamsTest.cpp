@@ -15,3 +15,26 @@ UNIT_TEST(TestParamsVector2, "Params")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestParamsVector3, "Params")
+{
+	std::string str1 = "{3.00 0.45 4.60}";
+
+	ASSERT_ALMOST_EQUAL(ParseVector3(str1).x, 3);
+	ASSERT_ALMOST_EQUAL(ParseVector3(str1).y, 0.45);
+	ASSERT_ALMOST_EQUAL(ParseVector3(str1).z, 4.60);
+
+	TEST_END();
+}
+
+UNIT_TEST(TestParamsVector4, "Params")
+{
+	std::string str1 = "{5.714 3.00 0.45 4.60}";
+
+	ASSERT_ALMOST_EQUAL(ParseVector4(str1).w, 5.714);
+	ASSERT_ALMOST_EQUAL(ParseVector4(str1).x, 3);
+	ASSERT_ALMOST_EQUAL(ParseVector4(str1).y, 0.45);
+	ASSERT_ALMOST_EQUAL(ParseVector4(str1).z, 4.60);
+
+	TEST_END();
+}

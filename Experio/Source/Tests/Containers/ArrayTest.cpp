@@ -68,6 +68,12 @@ UNIT_TEST(TestArrayFind, "Array")
 	ASSERT_EQUAL(array.FindIndex([](const int& i) {return i % 7 == 5; }), 4, "");
 	ASSERT_EQUAL(array.FindIndex([](const int& i) {return i % 9 == 8; }), TArray<int>::NotFound, "");
 
+	array.Append(2);
+	TArray<uint32_t> allFound = array.FindAll(2);
+	ASSERT_EQUAL(allFound.Count(), 2, "");
+	ASSERT_EQUAL(allFound[0], 0, "");
+	ASSERT_EQUAL(allFound[1], 6, "");
+
 	TEST_END();
 }
 
