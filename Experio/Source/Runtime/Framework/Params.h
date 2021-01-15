@@ -5,6 +5,8 @@
 #include "../Files/LFileOperations.h"
 
 #include "../Audio/FAudioClip.h"
+#include "../Data/DataManager.h"
+#include "../Files/FileRef.h"
 #include "../Files/Font/FontReader.h"
 #include "../Files/Images/ImageReader.h"
 #include "../Files/Mesh/MeshReader.h"
@@ -17,7 +19,6 @@
 #include "../Math/FCurve.h"
 #include "../Math/FRect.h"
 #include "../Math/FSphericalPoint.h"
-#include "../Data/DataManager.h"
 #include "../Rendering/Materials/Material.h"
 #include "../Rendering/Shaders/Shader.h"
 #include "../Rendering/Shaders/ShaderReader.h"
@@ -53,6 +54,7 @@ enum class EParamType
 	MATERIAL,
 	AUDIO,
 	DATA,
+	FILE,
 	FONT,
 	MESH,
 	SHADER,
@@ -86,6 +88,7 @@ FSphericalPoint ParseSphericalPoint(std::string str);
 
 FAudioClip ParseAudio(std::string str);
 DataRef ParseData(std::string str);
+FileRef ParseFile(std::string str);
 FontRef ParseFont(std::string str);
 Material* ParseMaterial(std::string str);
 MeshRef ParseMesh(std::string str);

@@ -117,12 +117,22 @@ void SaveAudio(FAudioClip param, std::ostream & stream)
 
 void SaveData(DataRef param, std::ostream & stream)
 {
-	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+	std::string fullFilePath = DataManager::GetNameOfFont(param);
+	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(fullFilePath);
+	stream << shortenedFilePath;
 }
 
-void SaveFont(FontData * param, std::ostream & stream)
+void SaveFile(FileRef param, std::ostream & stream)
 {
-	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(param.filepath);
+	stream << shortenedFilePath;
+}
+
+void SaveFont(FontRef param, std::ostream & stream)
+{
+	std::string fullFilePath = FontManager::GetNameOfFont(param);
+	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(fullFilePath);
+	stream << shortenedFilePath;
 }
 
 void SaveMaterial(Material * param, std::ostream & stream)

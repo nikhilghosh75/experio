@@ -19,6 +19,7 @@ std::string LSerializationOperations::BinaryParseFunctionFromType(EParamType typ
 	case EParamType::CURVE: return "BinaryParseCurve";
 	case EParamType::DATA: return "BinaryParseData";
 	case EParamType::DOUBLE: return "BinaryParseDouble";
+	case EParamType::FILE: return "BinaryParseFile";
 	case EParamType::FLOAT: return "BinaryParseFloat";
 	case EParamType::FONT: return "BinaryParseFont";
 	case EParamType::INT: return "BinaryParseInt";
@@ -55,6 +56,7 @@ std::string LSerializationOperations::BinarySaveFunctionFromType(EParamType type
 	case EParamType::CURVE: return "BinarySaveCurve";
 	case EParamType::DATA: return "BinarySaveData";
 	case EParamType::DOUBLE: return "BinarySaveDouble";
+	case EParamType::FILE: return "BinarySaveFile";
 	case EParamType::FLOAT: return "BinarySaveFloat";
 	case EParamType::FONT: return "BinarySaveFont";
 	case EParamType::INT: return "BinarySaveInt";
@@ -114,6 +116,7 @@ void LSerializationOperations::ConvertToBinary(const std::vector<std::string>& p
 		case EParamType::CURVE: { PB_CONVERT_PARAM(curve, ParseCurve, BinarySaveCurve); break; }
 		case EParamType::DATA: { PB_CONVERT_PARAM(datatable, ParseData, BinarySaveData); break; }
 		case EParamType::DOUBLE: { PB_CONVERT_PARAM(tempDouble, ParseDouble, BinarySaveDouble); break; }
+		case EParamType::FILE: { PB_CONVERT_PARAM(file, ParseFile, BinarySaveFile); break; }
 		case EParamType::FLOAT: { PB_CONVERT_PARAM(tempFloat, ParseFloat, BinarySaveFloat); break; }
 		case EParamType::FONT: { PB_CONVERT_PARAM(font, ParseFont, BinarySaveFont); break; }
 		case EParamType::INT: { PB_CONVERT_PARAM(tempInt, ParseInt, BinarySaveInt); break; }
@@ -242,6 +245,7 @@ std::string LSerializationOperations::ParseFunctionFromType(EParamType type)
 	case EParamType::CURVE: return "ParseCurve";
 	case EParamType::DATA: return "ParseData";
 	case EParamType::DOUBLE: return "ParseDouble";
+	case EParamType::FILE: return "ParseFile";
 	case EParamType::FLOAT: return "ParseFloat";
 	case EParamType::FONT: return "ParseFont";
 	case EParamType::INT: return "ParseInt";
@@ -404,6 +408,7 @@ std::string LSerializationOperations::SaveFunctionFromType(EParamType type)
 	case EParamType::CURVE: return "SaveCurve";
 	case EParamType::DATA: return "SaveData";
 	case EParamType::DOUBLE: return "SaveDouble";
+	case EParamType::FILE: return "SaveFile";
 	case EParamType::FLOAT: return "SaveFloat";
 	case EParamType::FONT: return "SaveFont";
 	case EParamType::INT: return "SaveInt";
@@ -439,6 +444,7 @@ std::optional<EParamType> LSerializationOperations::TypenameToParamType(const st
 	if (name == "FCurve") return EParamType::CURVE;
 	if (name == "DatatableRef") return EParamType::DATA;
 	if (name == "double") return EParamType::DOUBLE;
+	if (name == "FileRef") return EParamType::FILE;
 	if (name == "float") return EParamType::FLOAT;
 	if (name == "int") return EParamType::INT;
 	if (name == "int32_t") return EParamType::INT;

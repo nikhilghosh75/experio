@@ -259,6 +259,12 @@ DataRef ParseData(std::string str)
 	return DataManager::LoadData(filePath);
 }
 
+FileRef ParseFile(std::string str)
+{
+	std::string filePath = LFileOperations::GetFullFilePath(str);
+	return FileRef(filePath);
+}
+
 FontRef ParseFont(std::string str)
 {
 	std::string filePath = LFileOperations::GetFullFilePath(str);
