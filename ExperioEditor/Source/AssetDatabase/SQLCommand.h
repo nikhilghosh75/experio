@@ -5,6 +5,7 @@
 
 /*
 SELECT name FROM meshes WHERE (serializedSize > 1000000 AND UsedIn(TestScene.pbscene))
+EXISTS ANY FROM meshes WHERE (serializedSize > 1000000 AND UsedIn(TestScene.pbscene))
 */
 
 enum class ESQLCommandType
