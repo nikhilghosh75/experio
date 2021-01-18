@@ -384,6 +384,7 @@ size_t LSerializationOperations::SizeOfExperioSerializedType(const std::string &
 	if (name == "FSphericalPoint") return 12;
 	if (name == "TextureRef") return 4;
 	if (name == "Datatable") return 4;
+	if (name == "FileRef") return 4;
 	return 0;
 }
 
@@ -392,6 +393,7 @@ size_t LSerializationOperations::SizeOfGLMSerializedType(const std::string & nam
 	if (name == "glm::mat4") return 64;
 	if (name == "glm::mat3") return 36;
 	if (name == "glm::mat2") return 16;
+	if (name == "Frustum") return 96;
 	// Add other types here
 	return 0;
 }
@@ -446,6 +448,7 @@ std::optional<EParamType> LSerializationOperations::TypenameToParamType(const st
 	if (name == "double") return EParamType::DOUBLE;
 	if (name == "FileRef") return EParamType::FILE;
 	if (name == "float") return EParamType::FLOAT;
+	if (name == "FontRef") return EParamType::FONT;
 	if (name == "int") return EParamType::INT;
 	if (name == "int32_t") return EParamType::INT;
 	if (name == "long") return EParamType::LONG;
