@@ -116,13 +116,12 @@ void SceneView::Display()
 {
 	renderer.MakeCurrent();
 
-	ImVec2 currentSize = ImGui::GetWindowSize();
-	currentSize = ImVec2(currentSize.x - 12, currentSize.y - 130); // Change Later
+	CreateMenu();
+
+	ImVec2 currentSize = ImGui::GetContentRegionAvail();
 
 	AdditionalCameras::CalculateViewMatrix(cameraPosition, cameraRotation);
 	AdditionalCameras::CalculateProjectionMatrix(45.f, 0.1f, 1000.f, currentSize.x / currentSize.y);
-
-	CreateMenu();
 
 	FWindowData data = EditorWindow::GetWindowData();
 	Framebuffer framebuffer(data.width, data.height);
