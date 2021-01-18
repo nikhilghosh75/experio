@@ -12,6 +12,12 @@ VSProject::VSProject(const std::string & name)
 	this->id = GUID128::Random();
 }
 
+void VSProject::SetConfiguration(EVSConfiguration configuration)
+{
+	this->debugConfiguration = configuration;
+	this->releaseConfiguration = configuration;
+}
+
 void VSProject::GenerateProjectFile(std::string & filepath)
 {
 	std::ofstream outFile(filepath);
