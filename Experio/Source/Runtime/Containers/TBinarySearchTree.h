@@ -148,6 +148,11 @@ public:
 		}
 	}
 
+	bool Exists(const T& item)
+	{
+		return Find(item) != nullptr;
+	}
+
 	void ForEachPreOrder(std::function<void(T&)> func);
 
 	void ForEachInOrder(std::function<void(T&)> func);
