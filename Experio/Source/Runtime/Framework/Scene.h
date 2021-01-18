@@ -39,9 +39,6 @@ public:
 	size_t GetNumComponents();
 
 	size_t SizeOf();
-
-	// template<typename T>
-	// std::vector<T*> GetAllComponents() const;
 	
 	template<typename T>
 	TArray<T*> GetAllComponents() const;
@@ -82,28 +79,6 @@ public:
 };
 
 #include "Project.h"
-
-/*
-template<typename T>
-inline std::vector<T*> Scene::GetAllComponents() const
-{
-	std::vector<Component*> components;
-	std::vector<unsigned int> componentIds;
-	Project::componentManager->GetAllComponents(components, componentIds, this->id);
-
-	std::vector<T*> returnVector;
-	unsigned int typeId = Project::ClassTypeToInt<T>();
-	for (size_t i = 0; i < components.size(); i++)
-	{
-		if (componentIds[i] == typeId)
-		{
-			returnVector.push_back((T*)components[i]);
-		}
-	}
-
-	return returnVector;
-}
-*/
 
 template<typename T>
 inline TArray<T*> Scene::GetAllComponents() const
