@@ -20,8 +20,4 @@ struct Frustum
 	Frustum(const glm::mat4& mat);
 
 	bool PointInFrustum(FVector3 point) const;
-
-	float SurfaceArea() const;
-
-	float Volume() const;
 };
