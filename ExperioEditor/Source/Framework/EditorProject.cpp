@@ -8,7 +8,7 @@
 
 THashtable<unsigned int, FComponentInfo> EditorProject::componentClasses;
 std::vector<FShaderInfo> EditorProject::shaders;
-FVersion EditorProject::experioVersion;
+FVersion EditorProject::experioVersion(0, 11, 0);
 CodeProject EditorProject::gameProject(ECodingLanguage::CPlusPlus);
 
 std::string EditorProject::projectName;
