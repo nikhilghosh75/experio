@@ -5,7 +5,7 @@
 
 /*
 SELECT name FROM meshes WHERE (serializedSize > 1000000 AND UsedIn(TestScene.pbscene))
-EXISTS ANY FROM meshes WHERE (serializedSize > 1000000 AND UsedIn(TestScene.pbscene))
+EXISTS ANY FROM meshes WHERE (serializedSize > 1000000 OR UsedIn(TestScene.pbscene))
 */
 
 enum class ESQLCommandType
@@ -15,8 +15,17 @@ enum class ESQLCommandType
 	Select
 };
 
+enum class EBoolOperatorType
+{
+	None,
+	And,
+	Or,
+	Xor
+};
+
 enum class ESQLConditionType
 {
+	None,
 	GreaterThan,
 	GreaterThanOrEqualTo,
 	Equal,
@@ -37,5 +46,6 @@ public:
 	std::vector<std::string> columnsToSelect;
 	std::vector<std::string> tables;
 	std::vector<SQLCondition> conditions;
+	EBoolOperatorType boolOperator;
 	ESQLCommandType commandType;
 };
