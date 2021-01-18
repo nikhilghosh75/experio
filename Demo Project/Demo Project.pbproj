@@ -1,6 +1,6 @@
 [General]
 ProjectName = "Demo Project"
-Experio = "0.9.0"
+Experio = "0.11.0"
 
 [Filepaths]
 Assets =  "../Assets"
