@@ -45,6 +45,7 @@ struct FShaderInfo
 {
 	std::string name;
 	bool isCustom;
+	std::string type;
 	size_t sizeOfShader;
 
 	std::vector<ShaderParamInfo> uniforms;
@@ -54,6 +55,7 @@ struct FShaderInfo
 	FShaderInfo(std::string name)
 	{
 		this->name = name;
+		this->type = "MeshMaterial";
 		this->isCustom = false;
 		this->sizeOfShader = sizeof(Material);
 	}
@@ -62,6 +64,8 @@ struct FShaderInfo
 	{
 		this->name = name;
 		this->isCustom = isCustom;
+		this->type = "MeshMaterial";
+		this->sizeOfShader = sizeof(Material);
 	}
 
 	static size_t SizeOfParam(EShaderParamType paramType)
@@ -69,6 +73,10 @@ struct FShaderInfo
 		switch (paramType)
 		{
 		case EShaderParamType::BOOL: return 1;
+		case EShaderParamType::BOOL2: return 2;
+		case EShaderParamType::BOOL3: return 3;
+		case EShaderParamType::BOOL4: return 4;
+		case EShaderParamType::FLOAT: return 4;
 		case EShaderParamType::TEXTURE: return sizeof(TextureRef);
 		}
 		return 0;

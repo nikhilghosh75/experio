@@ -12,7 +12,9 @@
 #include "../Framework/UndoSystem.h"
 #include "../Framework/SceneSaver.h"
 #include "../Framework/ValueSaver.h"
+#include "../Materials/MaterialEditor.h"
 #include "../Profilers/MemoryProfiler.h"
+#include "../Profilers/TimeProfiler.h"
 #include "../ProjectSettings/ProjectSettings.h"
 #include "../ProjectSettings/SettingsView.h"
 #include "../Testing/TestRunner.h"
@@ -197,4 +199,6 @@ void UpperMenu::SaveAll()
 	SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
 	ValueSaver::SaveValues();
 	ProjectSettings::SaveAll();
+
+	if (MaterialEditor::materialEditor != nullptr) MaterialEditor::materialEditor->SaveMaterial();
 }

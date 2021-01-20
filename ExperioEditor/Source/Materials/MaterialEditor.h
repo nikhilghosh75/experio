@@ -10,13 +10,18 @@ class MaterialEditor : public EditorModule
 	uint32_t materialType;
 	FShaderInfo shaderInfo;
 	std::string materialName;
+	std::string filepath;
 
 public:
+	static MaterialEditor* materialEditor;
+
 	MaterialEditor();
 
 	virtual void Display() override;
 
-	void SetMaterial(const std::string& str);
+	void SaveMaterial();
+
+	void SetMaterial(const std::string& filepath);
 	void SetMaterial(Material* material, uint32_t materialType);
 
 private:
