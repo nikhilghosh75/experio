@@ -49,3 +49,25 @@ UNIT_TEST(TestVector2Products, "Vector2")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestVector2Operators, "Vector2")
+{
+	FVector2 v1(1, 2);
+	FVector2 v2(3, 4);
+
+	FVector2 addResult = v1 + v2;
+	FVector2 subResult = v1 - v2;
+
+	ASSERT_ALMOST_EQUAL(addResult.x, 4);
+	ASSERT_ALMOST_EQUAL(addResult.y, 6);
+
+	ASSERT_ALMOST_EQUAL(subResult.x, -2);
+	ASSERT_ALMOST_EQUAL(subResult.y, -2);
+
+	FVector2 multiplyResult = v2 * 5.f;
+
+	ASSERT_ALMOST_EQUAL(multiplyResult.x, 5);
+	ASSERT_ALMOST_EQUAL(multiplyResult.y, 10);
+
+	TEST_END();
+}

@@ -100,7 +100,7 @@ UNIT_TEST(TestArrayResize, "Array")
 	TEST_END();
 }
 
-UNIT_TEST(TestArraySwap, "Algorithm")
+UNIT_TEST(TestArraySwap, "Array")
 {
 	TArray<int> array = { 3, 4, 5, 6 };
 	
@@ -111,6 +111,26 @@ UNIT_TEST(TestArraySwap, "Algorithm")
 
 	ASSERT_EQUAL(array[0], 5, "");
 	ASSERT_EQUAL(array[0], 3, "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestArrayRemove, "Array")
+{
+	TArray<int> array = { 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42 };
+
+	array.RemoveBack();
+	ASSERT_EQUAL(array.Count(), 10, "");
+	ASSERT_EQUAL(array.Last(), 39, "");
+	// 12, 15, 18, 21, 24, 27, 30, 36, 39
+	array.Remove(33);
+	ASSERT_EQUAL(array.Count(), 9, "");
+	ASSERT_EQUAL(array[7], 36, "");
+	ASSERT_EQUAL(array[8], 39, "");
+
+	array.RemoveAt(3);
+	ASSERT_EQUAL(array.Count(), 8, "");
+	ASSERT_EQUAL(array[3], 24, "");
 
 	TEST_END();
 }
