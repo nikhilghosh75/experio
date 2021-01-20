@@ -131,6 +131,7 @@
     <ClCompile Include="Files\ImageOperationsTest.cpp" />
     <ClCompile Include="Framework\ParamsTest.cpp" />
     <ClCompile Include="Math\LMathTest.cpp" />
+    <ClCompile Include="Math\QuaternionTest.cpp" />
     <ClCompile Include="Math\Vector2Test.cpp" />
     <ClCompile Include="Math\Vector3Test.cpp" />
     <ClCompile Include="Memory\VoidPtrTest.cpp" />
