@@ -386,6 +386,7 @@ public:
 
 	void RemoveAt(uint32_t index)
 	{
+		this->data[index].~T();
 		for (int i = index + 1; i < this->count; i++)
 		{
 			data[i - 1] = data[i];
