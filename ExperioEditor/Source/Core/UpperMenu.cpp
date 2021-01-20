@@ -184,6 +184,10 @@ void UpperMenu::CreateWindowMenu()
 			{
 				EditorApplication::AddModule(new MemoryProfiler());
 			}
+			if (ImGui::MenuItem("Time Profiler"))
+			{
+				EditorApplication::AddModule(new TimeProfiler());
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::MenuItem("Test Runner"))
