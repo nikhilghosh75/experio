@@ -14,6 +14,8 @@ class MemoryProfiler : public EditorModule
 
 	void Calculate();
 
+	size_t GetTotalSize() const;
+
 public:
 	MemoryProfiler();
 

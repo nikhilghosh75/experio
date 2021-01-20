@@ -1,4 +1,5 @@
 #include "MemoryProfiler.h"
+#include "Runtime/Containers/LString.h"
 #include "Runtime/Data/DataManager.h"
 #include "Runtime/Framework/Scene.h"
 #include "Runtime/Rendering/Managers/FontManager.h"
@@ -14,6 +15,12 @@ void MemoryProfiler::Calculate()
 	this->meshSize = MeshManager::SizeOfLoadedMeshes();
 	this->shaderSize = Shader::SizeOfLoadedShaders();
 	this->textureSize = TextureManager::SizeOfLoadedTextures();
+}
+
+size_t MemoryProfiler::GetTotalSize() const
+{
+	return datatableSize + fontSize + gameObjectSize + meshSize
+		+ shaderSize + textureSize;
 }
 
 MemoryProfiler::MemoryProfiler()
@@ -37,11 +44,16 @@ void MemoryProfiler::Display()
 	ImGui::Checkbox("Calculating", &shouldCalculate);
 
 	ImGui::Text("Current Memory Usage (in bytes)");
+	ImGui::Separator();
 
-	ImGui::Text("Datatables: "); ImGui::SameLine(); ImGui::Text(std::to_string(datatableSize).c_str());
-	ImGui::Text("Fonts: "); ImGui::SameLine(); ImGui::Text(std::to_string(fontSize).c_str());
-	ImGui::Text("Game Objects: "); ImGui::SameLine(); ImGui::Text(std::to_string(gameObjectSize).c_str());
-	ImGui::Text("Meshes: "); ImGui::SameLine(); ImGui::Text(std::to_string(meshSize).c_str());
-	ImGui::Text("Shaders: "); ImGui::SameLine(); ImGui::Text(std::to_string(shaderSize).c_str());
-	ImGui::Text("Textures: "); ImGui::SameLine(); ImGui::Text(std::to_string(textureSize).c_str());
+	ImGui::Text("Datatables: "); ImGui::SameLine(); ImGui::Text(LString::NumberWithCommas(datatableSize).c_str());
+	ImGui::Text("Fonts: "); ImGui::SameLine(); ImGui::Text(LString::NumberWithCommas(fontSize).c_str());
+	ImGui::Text("Game Objects: "); ImGui::SameLine(); ImGui::Text(LString::NumberWithCommas(gameObjectSize).c_str());
+	ImGui::Text("Meshes: "); ImGui::SameLine(); ImGui::Text(LString::NumberWithCommas(meshSize).c_str());
+	ImGui::Text("Shaders: "); ImGui::SameLine(); ImGui::Text(LString::NumberWithCommas(shaderSize).c_str());
+	ImGui::Text("Textures: "); ImGui::SameLine(); ImGui::Text(LString::NumberWithCommas(textureSize).c_str());
+	
+	ImGui::Separator();
+
+	ImGui::Text("Total: "); ImGui::SameLine(); ImGui::Text(LString::NumberWithCommas(GetTotalSize()).c_str());
 }
