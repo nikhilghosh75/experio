@@ -4,6 +4,7 @@
 #include "../../Containers/THashtable.h"
 #include "../../Containers/TTypedTree.h"
 #include <string>
+#include "../../Files/FileRef.h"
 #include "../../Math/FBox.h"
 #include "../../Math/FRect.h"
 #include "../../Math/FVector2.h"
@@ -29,6 +30,8 @@ public:
 
 	template<typename T>
 	static void DisplayEnum(T& currentEnum, std::string name);
+
+	static void DisplayFileAsset(FileRef& ref, std::string name);
 
 	static void DisplayFontAsset(FontRef& ref, std::string name);
 

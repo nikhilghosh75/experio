@@ -94,6 +94,8 @@ void GeneratedEditor::DisplayParamType(FSerializationInfo & serializedField, Com
 	case EParamType::DOUBLE:
 		// This will not work
 		ImGui::DragFloat(name, (float*)(double*)((char*)component + serializedField.offset)); break;
+	case EParamType::FILE:
+		LImGui::DisplayFileAsset(*(FileRef*)((char*)component + serializedField.offset), serializedField.name); break;
 	case EParamType::FLOAT:
 		ImGui::DragFloat(name, (float*)((char*)component + serializedField.offset), 10, -10000000, 10000000); break;
 	case EParamType::FONT:

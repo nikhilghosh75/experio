@@ -81,6 +81,48 @@ void LImGui::DisplayBox(FBox & box, std::string name)
 	}
 }
 
+void LImGui::DisplayFileAsset(FileRef & ref, std::string name)
+{
+	ImGui::PushID(name.c_str());
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 100.f);
+	ImGui::Text(name.c_str());
+	ImGui::NextColumn();
+
+	std::string fileName = LFileOperations::StripFilename(ref.filepath);
+	ImGui::Text(fileName.c_str());
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_FILE"))
+		{
+			ref.filepath = (char*)payload->Data;
+		}
+		else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_FONT"))
+		{
+			ref.filepath = (char*)payload->Data;
+		}
+		else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_MESH"))
+		{
+			ref.filepath = (char*)payload->Data;
+		}
+		else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_IMAGE"))
+		{
+			ref.filepath = (char*)payload->Data;
+		}
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Switch"))
+	{
+		// Add Later
+	}
+
+	ImGui::Columns(1);
+	ImGui::PopID();
+}
+
 void LImGui::DisplayFontAsset(FontRef & ref, std::string name)
 {
 	ImGui::PushID(name.c_str());

@@ -282,7 +282,7 @@ std::string FileView::GetDragDropTypeFromAssetType(EAssetType type)
 	case EAssetType::Mesh: return "EXPERIO_MESH";
 	case EAssetType::Image: return "EXPERIO_IMAGE";
 	}
-	return "";
+	return "EXPERIO_FILE";
 }
 
 bool FileView::IsAssetLoaded(const std::string& filepath, EAssetType type)
