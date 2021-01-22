@@ -2,6 +2,11 @@
 #include "FVector3.h"
 #include "LMath.h"
 
+const FVector2 const FVector2::left = FVector2(-1.f, 0.f);
+const FVector2 const FVector2::right = FVector2(1.f, 0.f);
+const FVector2 const FVector2::down = FVector2(0.f, -1.f);
+const FVector2 const FVector2::up = FVector2(0.f, 1.f);
+
 FVector2::FVector2()
 {
 	this->x = 0;

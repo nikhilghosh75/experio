@@ -70,6 +70,13 @@ public:
 	FVector3 operator/(const FVector3& V);
     FVector3 operator/=(float f);
 	FVector3 operator/=(const FVector3& V);
+
+	static const FVector3 const left;
+	static const FVector3 const right;
+	static const FVector3 const down;
+	static const FVector3 const up;
+	static const FVector3 const back;
+	static const FVector3 const forward;
 };
 
 FVector3 operator*(float f, const FVector3& V);

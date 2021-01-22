@@ -2,14 +2,12 @@
 #include "LMath.h"
 #include <iostream>
 
-void TestVector()
-{
-    FVector3 testVector(3.0f, 4.0f);
-
-	std::cout << FVector3::Magnitude(testVector) << std::endl; // 5
-	std::cout << FVector3::SqrMagnitude(testVector) << std::endl; // 25
-	std::cout << (std::string)testVector << std::endl;
-}
+const FVector3 const FVector3::left;
+const FVector3 const FVector3::right;
+const FVector3 const FVector3::down;
+const FVector3 const FVector3::up;
+const FVector3 const FVector3::back;
+const FVector3 const FVector3::forward;
 
 FVector3::FVector3()
 {
