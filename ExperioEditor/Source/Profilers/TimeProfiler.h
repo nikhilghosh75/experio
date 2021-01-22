@@ -7,6 +7,8 @@ class TimeProfiler : public EditorModule
 {
 	float zoom = 2;
 	float position = 0;
+	float endPosition = 0;
+	float millisecondWidth = 0;
 
 	ImVec2 canvasStart;
 	ImVec2 canvasSize;
@@ -15,7 +17,7 @@ class TimeProfiler : public EditorModule
 	void DisplayCanvas();
 	void DisplayLines();
 
-	void ProfilerBar(const std::string& name, FColor color, int level, float start, float end);
+	void ProfilerBar(const std::string& name, ImU32 color, int level, float start, float end);
 
 public:
 	TimeProfiler();
