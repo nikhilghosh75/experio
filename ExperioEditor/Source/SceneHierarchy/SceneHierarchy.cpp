@@ -129,7 +129,7 @@ void SceneHierarchy::Display()
 	});
 }
 
-std::vector<GameObject> SceneHierarchy::GetSelectedItems() const
+const std::vector<GameObject>& SceneHierarchy::GetSelectedItems() const
 {
 	return this->currentlySelectedItems;
 }

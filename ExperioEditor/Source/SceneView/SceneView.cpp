@@ -3,6 +3,7 @@
 #include "../Core/EditorWindow.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "Runtime/Camera/AdditionalCameras.h"
+#include "Runtime/Camera/VirtualCamera.h"
 #include "Runtime/Framework/Project.h"
 #include "Runtime/Math/LMath.h"
 #include "Runtime/Rendering/Materials/SingleColorMaterial.h"
@@ -13,10 +14,12 @@
 
 #define PB_TRANSLATION_GIZMOS_VERTICIES 912
 
-SingleColorMaterial* singleColorMaterial;
-float translationColors[4 * PB_TRANSLATION_GIZMOS_VERTICIES];
-
 SceneView* SceneView::sceneView;
+
+static const ImU32 planeColor[3] = { 0x610000AA, 0x6100AA00, 0x61AA0000 };
+static const ImU32 selectionColor = 0x8A1080FF;
+
+static const FVector3 directions[3] = { FVector3::right, FVector3::up, FVector3::forward };
 
 SceneView::SceneView()
 {
@@ -26,32 +29,17 @@ SceneView::SceneView()
 	this->category = EEditorModuleCategory::Core;
 
 	this->renderer.currentMode = ERenderMode::ToEditorSceneView;
+
 	this->cameraPosition = FVector3(4, 3, -3);
 	this->cameraRotation = FQuaternion(0.11938, -0.86197, -0.23875, 0.42099);
 	this->cameraCenter = FVector3();
+
 	this->cameraMoveSpeed = 0.01f;
 	this->cameraScrollSpeed = 0.005f;
 	this->cameraRotateSpeed = 0.0005f;
+	this->fieldOfView = 45.f;
+
 	this->currentMode = ESceneEditMode::Translate;
-
-	this->translationMesh = MeshManager::LoadMesh("C:/Users/debgh/source/repos/project-bloo/ExperioEditor/Resources/Meshes/translationGizmo.obj");
-	
-	if (singleColorMaterial == nullptr)
-	{
-		singleColorMaterial = new SingleColorMaterial();
-		singleColorMaterial->SetShader(
-			"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/SingleColor.shader");
-
-		for (int i = 0; i < PB_TRANSLATION_GIZMOS_VERTICIES; i++)
-		{
-			// FIGURE THIS OUT LATER
-			translationColors[i * 4] = (float)i / PB_TRANSLATION_GIZMOS_VERTICIES;
-			translationColors[i * 4 + 1] = (float)i / PB_TRANSLATION_GIZMOS_VERTICIES;
-			translationColors[i * 4 + 2] = 0.0f;
-			translationColors[i * 4 + 3] = 1.0f;
-		}
-
-	}
 }
 
 void SceneView::CreateMenu()
@@ -78,9 +66,43 @@ void SceneView::CreateMenu()
 	this->cameraScrollSpeed = displayCameraScrollSpeed / PB_CAMERA_SCROLL_SCALE_FACTOR;
 }
 
+void SceneView::ComputeContext()
+{
+	this->viewMatrix = VirtualCamera::CalculateViewMatrix(this->cameraPosition, this->cameraRotation);
+	this->projectionMatrix = VirtualCamera::CalculateProjectionMatrix(this->fieldOfView, 0.00001f, 1000.f);
+	this->modelMatrix = MeshComponent::CalculateModelMatrix(SceneHierarchy::hierarchy->GetSelectedItems()[0]);
+	this->MVP = projectionMatrix * viewMatrix * modelMatrix;
+
+	this->modelInverse = glm::inverse(this->modelMatrix);
+	this->viewInverse = glm::inverse(this->viewMatrix);
+	this->projectionInverse = glm::inverse(this->projectionInverse);
+
+	this->cameraRight = glm::vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]);
+	this->cameraUp = glm::vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]);
+	this->cameraEye = glm::vec3(viewMatrix[0][3], viewMatrix[1][3], viewMatrix[2][3]);
+}
+
+FVector2 SceneView::WorldToPos(glm::vec3 position, glm::mat4 matrix)
+{
+	FVector2 size = this->GetWindowSize();
+	FVector2 windowPosition = this->GetWindowPosition();
+
+	glm::vec4 transPosition = matrix * glm::vec4(position, 0);
+	transPosition *= 0.5f / transPosition.w;
+	transPosition += glm::vec4(0.5f, 0.5f, 0.f, 0.f);
+	transPosition.y = 1.f - transPosition.y;
+	transPosition.x *= size.x;
+	transPosition.y *= size.y;
+	transPosition.x += windowPosition.x;
+	transPosition.y += windowPosition.y;
+	return FVector2(transPosition.x, transPosition.y);
+}
+
 void SceneView::HandleGizmos()
 {
-	return;
+	if (SceneHierarchy::hierarchy->GetSelectedItems().size() == 0) return;
+
+	ComputeContext();
 	switch (currentMode)
 	{
 	case ESceneEditMode::Translate:
@@ -93,23 +115,52 @@ void SceneView::HandleTranslation()
 {
 	glDisable(GL_DEPTH);
 	
-	GameObject tempObject = GameObject("Temp");
-	std::vector<GameObject> selectedObjects = SceneHierarchy::hierarchy->GetSelectedItems();
-	VertexBuffer colorBuffer = VertexBuffer(translationColors, 4 * PB_TRANSLATION_GIZMOS_VERTICIES);
-	singleColorMaterial->colorBuffer = &colorBuffer;
-
-	for (int i = 0; i < selectedObjects.size(); i++)
+	// 0 - X, 1 - Y, 2 - Z
+	for (int i = 0; i < 3; i++)
 	{
-		tempObject.localPosition = selectedObjects[i].localPosition;
-		tempObject.localScale = FVector3(0.9, 0.9, 0.9);
-		MeshComponent meshComponent(&tempObject);
-		meshComponent.meshData = translationMesh;
-		meshComponent.material = singleColorMaterial;
-		meshComponent.RecalculateModelMatrix();
-		renderer.DrawMesh(meshComponent);
+		glm::vec3 planeX, planeY, planeAxis;
+		ComputeTripodAxis(i, planeAxis, planeX, planeY);
+
+
 	}
 
 	glEnable(GL_DEPTH);
+}
+
+void SceneView::ComputeTripodAxis(int axisIndex, glm::vec3 & dirAxis, glm::vec3 & dirPlaneX, glm::vec3 & dirPlaneY)
+{
+	dirAxis = directions[axisIndex];
+	dirPlaneX = directions[(axisIndex + 1) % 3];
+	dirPlaneY = directions[(axisIndex + 2) % 3];
+
+	float lenDir = GetSegmentLengthClipSpace(glm::vec3(0.f, 0.f, 0.f), dirAxis);
+	float lenDirMinus = GetSegmentLengthClipSpace(glm::vec3(0.f, 0.f, 0.f), -dirAxis);
+
+	float lenDirPlaneX = GetSegmentLengthClipSpace(glm::vec3(0.f, 0.f, 0.f), dirPlaneX);
+	float lenDirMinusPlaneX = GetSegmentLengthClipSpace(glm::vec3(0.f, 0.f, 0.f), -dirPlaneX);
+
+	float lenDirPlaneY = GetSegmentLengthClipSpace(glm::vec3(0.f, 0.f, 0.f), dirPlaneY);
+	float lenDirMinusPlaneY = GetSegmentLengthClipSpace(glm::vec3(0.f, 0.f, 0.f), -dirPlaneY);
+
+	float mulAxis = (lenDir < lenDirMinus&& fabsf(lenDir - lenDirMinus) > FLT_EPSILON) ? -1.f : 1.f;
+	float mulAxisX = (lenDirPlaneX < lenDirMinusPlaneX&& fabsf(lenDirPlaneX - lenDirMinusPlaneX) > FLT_EPSILON) ? -1.f : 1.f;
+	float mulAxisY = (lenDirPlaneY < lenDirMinusPlaneY&& fabsf(lenDirPlaneY - lenDirMinusPlaneY) > FLT_EPSILON) ? -1.f : 1.f;
+	dirAxis *= mulAxis;
+	dirPlaneX *= mulAxisX;
+	dirPlaneY *= mulAxisY;
+}
+
+float SceneView::GetSegmentLengthClipSpace(glm::vec3 start, glm::vec3 end)
+{
+	glm::vec3 startOfSegment = (glm::vec3)(this->MVP * glm::vec4(start, 0.f));
+	glm::vec3 endOfSegment = (glm::vec3)(this->MVP * glm::vec4(end, 0.f));
+
+	// If scene gizmos don't work, you know why
+
+	glm::vec3 clipSpaceAxis = endOfSegment - startOfSegment;
+	clipSpaceAxis.y /= this->GetAspectRatio();
+	float segmentLengthInClipSpace = LMath::Sqrt(clipSpaceAxis.x * clipSpaceAxis.x + clipSpaceAxis.y * clipSpaceAxis.y);
+	return segmentLengthInClipSpace;
 }
 
 void SceneView::Display()
