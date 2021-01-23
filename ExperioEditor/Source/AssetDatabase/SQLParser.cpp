@@ -73,6 +73,8 @@ void SQLParser::ParseSelectCommand(const std::string & str, SQLCommand& command)
 
 void SQLParser::ParseExistsCommand(const std::string & str, SQLCommand& command)
 {
+	// Because Select and Exists commands are the same, this can be parsed as a SELECT command
+	ParseSelectCommand(str, command);
 }
 
 FVector2Int SQLParser::GetConditionBounds(const std::string & str, size_t startPosition)
