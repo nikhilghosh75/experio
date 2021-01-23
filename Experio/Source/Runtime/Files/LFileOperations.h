@@ -33,6 +33,8 @@ enum class EFileTreeOptions
 class LFileOperations
 {
 public:
+	static std::string AssetTypeToString(EAssetType type);
+
 	static float BytesToMultiple(uint64_t bytes, EDataUnit unit);
 
 	static std::string BytesToString(uint64_t bytes, int sigFigs, bool truncate = false);
@@ -75,6 +77,8 @@ public:
 
 	static FileBuffer ReadFileToBuffer(std::ifstream& stream, size_t maxLineLength = 512);
 	static FileBuffer ReadTrimmedFileToBuffer(std::ifstream& stream);
+
+	static EAssetType StringToAssetType(const std::string& str);
 
 	static std::string StripFilename(const std::string& filename);
 	static std::string StripFilename(const std::filesystem::directory_entry& entry);
