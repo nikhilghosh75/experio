@@ -142,6 +142,7 @@
     <ClCompile Include="Source\Materials\MaterialSaver.cpp" />
     <ClCompile Include="Source\Profilers\MemoryProfiler.cpp" />
     <ClCompile Include="Source\Profilers\TimeProfiler.cpp" />
+    <ClCompile Include="Source\ProjectGenerator\EditorCodeGenerator.cpp" />
     <ClCompile Include="Source\ProjectGenerator\ProjectGenerator.cpp" />
     <ClCompile Include="Source\ProjectGenerator\VisualStudioProject.cpp" />
     <ClCompile Include="Source\ProjectGenerator\VisualStudioSolution.cpp" />

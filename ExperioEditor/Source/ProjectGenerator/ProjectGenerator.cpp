@@ -1,5 +1,6 @@
 #include "ProjectGenerator.h"
 #include "VisualStudioProject.h"
+#include "EditorCodeGenerator.h"
 #include "../Core/EditorApplication.h"
 #include "../Framework/EditorProject.h"
 #include "ThirdParty/toml++/toml.h"
@@ -22,6 +23,8 @@ void GenerateWindowsProject(const std::string & projectPath, const FNewProjectSe
 	GenerateProjectFile(projectPath, settings);
 	GenerateFolders(projectPath);
 	GenerateConfig(projectPath, settings.projectName, settings.version);
+	
+	GenerateCode(projectPath);
 }
 
 void GenerateGameProject(const std::string & gamePath, const std::string& projectName, VisualStudio::VSSolution& solution)
@@ -194,6 +197,15 @@ void GenerateLayerFile(const std::string & filepath, const std::string& projectN
 	outFile << std::endl;
 	outFile << "Layers 1" << std::endl;
 	outFile << "0 Default" << std::endl;
+}
+
+void GenerateCode(const std::string & projectPath)
+{
+	EditorCodeGenerator::GenerateBuild(projectPath + "/Editor");
+	EditorCodeGenerator::GenerateRCCPP(projectPath + "/Editor");
+	EditorCodeGenerator::GenerateMain(projectPath + "/Editor");
+
+	EditorCodeGenerator::GenerateExecutable(projectPath + "/Generated");
 }
 
 }

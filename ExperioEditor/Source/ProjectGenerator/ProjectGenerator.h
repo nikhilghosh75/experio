@@ -34,4 +34,6 @@ namespace ExperioEditor::ProjectGenerator
 
 	void GenerateTagFile(const std::string& filepath, const std::string& projectName, FVersion version);
 	void GenerateLayerFile(const std::string& filepath, const std::string& projectName, FVersion version);
+
+	void GenerateCode(const std::string& projectPath);
 }
