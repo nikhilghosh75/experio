@@ -15,8 +15,6 @@ const uint32_t sizeOfGameObject = 88;
 
 #define PB_HEADER_LENGTH 68
 
-extern void SaveBinaryComponentToScene(unsigned int componentID, Component* component, std::ofstream& stream);
-
 extern size_t SerializedSizeOfComponent(unsigned int classId);
 
 extern std::vector<std::string> GetParamsList(unsigned int classId);
@@ -106,6 +104,7 @@ void SceneConverter::LegacyConvertSceneToBinary(const std::string & fromFilepath
 	std::vector<Component*> components;
 	std::vector<unsigned int> componentIds;
 
+	// Components
 	Project::componentManager->GetAllComponents(components, componentIds, MAX_SCENES - 3);
 	for (size_t i = 0; i < components.size(); i++)
 	{
@@ -120,7 +119,7 @@ void SceneConverter::LegacyConvertSceneToBinary(const std::string & fromFilepath
 		uint16_t componentSize = SerializedSizeOfComponent(componentIds[i]);
 		outFile.write((char*)&(componentSize), 2);
 
-		SaveBinaryComponentToScene(componentIds[i], components[i], outFile);
+		LSerializationOperations::SaveToBinary(components[i], componentIds[i], EditorProject::gameProject, outFile);
 	}
 
 	outFile.close();

@@ -4,6 +4,7 @@
 #include "../CodeParser/LCodeParser.h"
 #include "../CodeParser/Cpp/CppCodeStream.h"
 #include "Runtime/Framework/Params.h"
+#include "SerializationInfo.h"
 
 class LSerializationOperations
 {
@@ -26,9 +27,17 @@ public:
 
 	static void GenerateSerializer(const CodeClass& codeClass, const CodeProject& codeProject, CppCodeOStream& os);
 
+	static std::vector<FSerializationInfo> GenerateSerializedFields(unsigned int classId, const CodeProject& project);
+
 	static bool IsIntegerParamType(EParamType paramType);
 
 	static std::string ParseFunctionFromType(EParamType type);
+
+	static void SaveToBinary(void* component, unsigned int componentId, const CodeProject& project, std::ofstream& outFile);
+	static void SaveParamToBinary(void* component, FSerializationInfo& serializedField, std::ofstream & outFile);
+
+	static void SaveToText(void* component, unsigned int componentId, const CodeProject& project, std::ofstream& outFile);
+	static void SaveParamToText(void* component, FSerializationInfo& serializedField, std::ofstream & outFile);
 
 	static std::string SaveFunctionFromType(EParamType type);
 

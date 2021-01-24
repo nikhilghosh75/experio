@@ -1,7 +1,9 @@
 #include "LSerializationOperations.h"
 #include "../CodeParser/Cpp/LCpp.h"
+#include "../Framework/EditorProject.h"
 #include "BinarySaveParams.h"
 #include "Runtime/Framework/BinaryParams.h"
+#include "Runtime/Framework/Component.h"
 #include "Runtime/Framework/Params.h"
 
 #define PB_SERIALIZED_STRING_SIZE 8
@@ -101,7 +103,8 @@ void LSerializationOperations::ConvertToBinary(const std::vector<std::string>& p
 	{
 		CodeParam& param = codeClass.params[i];
 		
-		if (param.accessType != ECodeAccessType::Private) continue;
+		if (param.accessType != ECodeAccessType::Public) 
+			continue;
 		std::string paramData = params[currentParam].substr(params[currentParam].find(':') + 1);
 
 		EParamType paramType = TypenameToParamType(param.name, project).value();
@@ -226,6 +229,39 @@ void LSerializationOperations::GenerateSerializer(const CodeClass & codeClass, c
 	}
 }
 
+std::vector<FSerializationInfo> LSerializationOperations::GenerateSerializedFields(unsigned int classId, const CodeProject& project)
+{
+	FComponentInfo componentInfo = EditorProject::componentClasses.Get(classId);
+	const CodeClass& codeClass = project.classes[project.FindIndexOfClass(componentInfo.name)];
+	std::vector<FSerializationInfo> serializedFields;
+
+	size_t currentOffset = sizeof(Component);
+	for (size_t i = 0; i < codeClass.params.size(); i++)
+	{
+		auto optionalParamType = LSerializationOperations::TypenameToParamType(codeClass.params[i].type, project);
+
+		// If can't figure out type, ignore it
+		if (!optionalParamType)
+		{
+			continue;
+		}
+
+		size_t paramSize = LSerializationOperations::SizeOfParam(codeClass.params[i], project, ECodingLanguage::CPlusPlus);
+		currentOffset = LCpp::AlignForward(currentOffset, paramSize);
+		currentOffset += paramSize;
+
+		if (codeClass.params[i].accessType != ECodeAccessType::Public) continue;
+
+		FSerializationInfo& info = serializedFields.emplace_back();
+		info.type = optionalParamType.value();
+		info.typeName = codeClass.params[i].type;
+		info.offset = currentOffset - paramSize;
+		info.name = codeClass.params[i].name;
+	}
+
+	return serializedFields;
+}
+
 bool LSerializationOperations::IsIntegerParamType(EParamType paramType)
 {
 	return paramType == EParamType::BYTE || paramType == EParamType::INT || paramType == EParamType::LONG
@@ -268,6 +304,96 @@ std::string LSerializationOperations::ParseFunctionFromType(EParamType type)
 	case EParamType::VIDEO: return "ParseVideo";
 	}
 	return "";
+}
+
+void LSerializationOperations::SaveToBinary(void * component, unsigned int componentId, const CodeProject & project, std::ofstream & outFile)
+{
+	FComponentInfo componentInfo = EditorProject::componentClasses.Get(componentId);
+	const CodeClass& codeClass = project.classes[project.FindIndexOfClass(componentInfo.name)];
+
+	std::vector<FSerializationInfo> serializedFields = LSerializationOperations::GenerateSerializedFields(componentId, project);
+	for (size_t i = 0; i < serializedFields.size(); i++)
+	{
+		outFile << "\t\t\t" << serializedFields[i].name << ": ";
+		SaveParamToText(component, serializedFields[i], outFile);
+		outFile << std::endl;
+	}
+}
+
+#define PB_SAVE_PARAM(_typename_, _funcname_) _funcname_(*( _typename_*)((char*)component + serializedField.offset), outFile)
+
+void LSerializationOperations::SaveParamToBinary(void * component, FSerializationInfo & serializedField, std::ofstream & outFile)
+{
+	switch (serializedField.type)
+	{
+	case EParamType::AUDIO: PB_SAVE_PARAM(FAudioClip, BinarySaveAudio); break;
+	case EParamType::BOOL: PB_SAVE_PARAM(bool, BinarySaveBool); break;
+	case EParamType::BOX: PB_SAVE_PARAM(FBox, BinarySaveBox); break;
+	case EParamType::BYTE: PB_SAVE_PARAM(int8_t, BinarySaveByte); break;
+	case EParamType::COLOR: PB_SAVE_PARAM(FColor, BinarySaveColor); break;
+	case EParamType::CURVE: PB_SAVE_PARAM(FCurve, BinarySaveCurve); break;
+	case EParamType::DATA: PB_SAVE_PARAM(DataRef, BinarySaveData); break;
+	case EParamType::DOUBLE: PB_SAVE_PARAM(double, BinarySaveDouble); break;
+	case EParamType::FILE: PB_SAVE_PARAM(FileRef, BinarySaveFile); break;
+	case EParamType::FLOAT: PB_SAVE_PARAM(float, BinarySaveFloat); break;
+	case EParamType::FONT: PB_SAVE_PARAM(FontRef, BinarySaveFont); break;
+	case EParamType::INT: PB_SAVE_PARAM(int, BinarySaveInt); break;
+	case EParamType::LONG: PB_SAVE_PARAM(long long, BinarySaveLongLong); break;
+	case EParamType::MATERIAL: BinarySaveMaterial((Material*)((char*)component + serializedField.offset), outFile); break;
+	case EParamType::MESH: PB_SAVE_PARAM(MeshRef, BinarySaveMesh); break;
+	case EParamType::QUATERNION: PB_SAVE_PARAM(FQuaternion, BinarySaveQuaternion); break;
+	case EParamType::RECT: PB_SAVE_PARAM(FRect, BinarySaveRect); break;
+	case EParamType::SHORT: PB_SAVE_PARAM(short, BinarySaveShort); break;
+	case EParamType::SPHERICALPOINT: PB_SAVE_PARAM(FSphericalPoint, BinarySaveSphericalPoint); break;
+	case EParamType::TEXTURE: PB_SAVE_PARAM(TextureRef, BinarySaveTexture); break;
+	case EParamType::VECTOR2: PB_SAVE_PARAM(FVector2, BinarySaveVector2); break;
+	case EParamType::VECTOR3: PB_SAVE_PARAM(FVector3, BinarySaveVector3); break;
+	case EParamType::VECTOR4: PB_SAVE_PARAM(FVector4, BinarySaveVector4); break;
+	}
+}
+
+void LSerializationOperations::SaveToText(void * component, unsigned int componentId, const CodeProject & project, std::ofstream & outFile)
+{
+	FComponentInfo componentInfo = EditorProject::componentClasses.Get(componentId);
+	const CodeClass& codeClass = project.classes[project.FindIndexOfClass(componentInfo.name)];
+	
+	std::vector<FSerializationInfo> serializedFields = LSerializationOperations::GenerateSerializedFields(componentId, project);
+	for (size_t i = 0; i < serializedFields.size(); i++)
+	{
+		outFile << "\t\t\t" << serializedFields[i].name << ": ";
+		SaveParamToText(component, serializedFields[i], outFile);
+		outFile << std::endl;
+	}
+}
+
+void LSerializationOperations::SaveParamToText(void * component, FSerializationInfo & serializedField, std::ofstream & outFile)
+{
+	switch (serializedField.type)
+	{
+	case EParamType::AUDIO: PB_SAVE_PARAM(FAudioClip, SaveAudio); break;
+	case EParamType::BOOL: PB_SAVE_PARAM(bool, SaveBool); break;
+	case EParamType::BOX: PB_SAVE_PARAM(FBox, SaveBox); break;
+	case EParamType::BYTE: PB_SAVE_PARAM(int8_t, SaveByte); break;
+	case EParamType::COLOR: PB_SAVE_PARAM(FColor, SaveColor); break;
+	case EParamType::CURVE: PB_SAVE_PARAM(FCurve, SaveCurve); break;
+	case EParamType::DATA: PB_SAVE_PARAM(DataRef, SaveData); break;
+	case EParamType::DOUBLE: PB_SAVE_PARAM(double, SaveDouble); break;
+	case EParamType::FILE: PB_SAVE_PARAM(FileRef, SaveFile); break;
+	case EParamType::FLOAT: PB_SAVE_PARAM(float, SaveFloat); break;
+	case EParamType::FONT: PB_SAVE_PARAM(FontRef, SaveFont); break;
+	case EParamType::INT: PB_SAVE_PARAM(int, SaveInt); break;
+	case EParamType::LONG: PB_SAVE_PARAM(long long, SaveLongLong); break;
+	case EParamType::MATERIAL: SaveMaterial((Material*)((char*)component + serializedField.offset), outFile); break;
+	case EParamType::MESH: PB_SAVE_PARAM(MeshRef, SaveMesh); break;
+	case EParamType::QUATERNION: PB_SAVE_PARAM(FQuaternion, SaveQuaternion); break;
+	case EParamType::RECT: PB_SAVE_PARAM(FRect, SaveRect); break;
+	case EParamType::SHORT: PB_SAVE_PARAM(short, SaveShort); break;
+	case EParamType::SPHERICALPOINT: PB_SAVE_PARAM(FSphericalPoint, SaveSphericalPoint); break;
+	case EParamType::TEXTURE: PB_SAVE_PARAM(TextureRef, SaveTexture); break;
+	case EParamType::VECTOR2: PB_SAVE_PARAM(FVector2, SaveVector2); break;
+	case EParamType::VECTOR3: PB_SAVE_PARAM(FVector3, SaveVector3); break;
+	case EParamType::VECTOR4: PB_SAVE_PARAM(FVector4, SaveVector4); break;
+	}
 }
 
 size_t LSerializationOperations::SerializedSizeOf(const CodeClass & codeClass, const CodeProject& codeProject, ECodingLanguage language)
