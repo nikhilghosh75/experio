@@ -46,15 +46,17 @@ void TimeProfiler::DisplayLines()
 
 void TimeProfiler::ProfilerBar(const std::string & name, ImU32 color, int level, float start, float end)
 {
-	ImDrawList* drawList = ImGui::GetWindowDrawList();
 	bool shouldBeDisplayed = start < endPosition && end > position;
 	if (!shouldBeDisplayed) return;
 
+	ImDrawList* drawList = ImGui::GetWindowDrawList();
+
 	ImVec2 rectStart = ImVec2(LMath::Max(0.f, (start - position) * millisecondWidth), level * PB_LEVEL_WIDTH);
-	ImVec2 rectEnd = ImVec2(LMath::Min(canvasSize.x, (end - endPosition) * millisecondWidth), (level + 1) * PB_LEVEL_WIDTH);
+	// ImVec2 rectEnd = ImVec2(LMath::Min(canvasSize.x, (end - endPosition) * millisecondWidth), (level + 1) * PB_LEVEL_WIDTH);
+	ImVec2 rectEnd = ImVec2(canvasSize.x + LMath::Min(0.f, (end - endPosition) * millisecondWidth), (level + 1) * PB_LEVEL_WIDTH);
 	drawList->AddRectFilled(ImVec2(canvasStart.x + rectStart.x, canvasStart.y + rectStart.y), 
 		ImVec2(canvasStart.x + rectEnd.x, canvasStart.y + rectEnd.y), color);
-	drawList->AddText(ImVec2(canvasStart.x + rectStart.x, canvasStart.y + rectStart.y), IM_COL32_BLACK, name.c_str());
+	drawList->AddText(ImVec2(canvasStart.x + rectStart.x + 4.f, canvasStart.y + rectStart.y + 4.f), IM_COL32_BLACK, name.c_str());
 }
 
 TimeProfiler::TimeProfiler()
@@ -70,8 +72,8 @@ void TimeProfiler::Display()
 	DisplayCanvas();
 	DisplayLines();
 
-	ProfilerBar("Application::Run", IM_COL32(225, 30, 30, 255), 1, 0, 42);
-	ProfilerBar("ComponentManager::Update", IM_COL32(240, 125, 30, 255), 2, 12, 45);
+	ProfilerBar("Application::Run", IM_COL32(225, 30, 30, 255), 1, 0, 45);
+	ProfilerBar("ComponentManager::Update", IM_COL32(240, 125, 30, 255), 2, 12, 42);
 }
 
 void TimeProfiler::HandleInput()
