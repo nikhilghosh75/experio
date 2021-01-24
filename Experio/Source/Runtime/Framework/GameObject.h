@@ -54,6 +54,7 @@ public:
 
 	void SetTransform(FTransform transform);
 	void SetTransform(FVector3 position, FQuaternion rotation, FVector3 scale);
+	void SetTransform(glm::mat4 localMatrix);
 
 	void EmptyChildren();
 

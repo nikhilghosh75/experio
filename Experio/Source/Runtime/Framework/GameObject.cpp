@@ -2,6 +2,7 @@
 #include "Project.h"
 #include "Scene.h"
 #include "GameObjectIterator.h"
+#include "glm/gtx/matrix_decompose.hpp"
 
 uint64_t GameObject::currentGameObject = 64;
 
@@ -206,6 +207,22 @@ void GameObject::SetTransform(FVector3 position, FQuaternion rotation, FVector3 
 	this->localPosition = position;
 	this->localRotation = rotation;
 	this->localScale = scale;
+}
+
+void GameObject::SetTransform(glm::mat4 localMatrix)
+{
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+
+	glm::decompose(localMatrix, scale, rotation, translation, skew, perspective);
+
+	glm::quat correctRotation = glm::conjugate(rotation); // glm::decompose returns conjugate
+	this->localPosition = (FVector3)translation;
+	this->localRotation = (FQuaternion)correctRotation;
+	this->localScale = (FVector3)scale;
 }
 
 void GameObject::EmptyChildren()
