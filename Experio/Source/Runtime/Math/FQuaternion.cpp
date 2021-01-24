@@ -27,6 +27,14 @@ FQuaternion::FQuaternion(glm::mat4 mat)
 	this->z = (mat[0][1] - mat[1][0]) / w4;
 }
 
+FQuaternion::FQuaternion(glm::quat q)
+{
+	this->w = q.w;
+	this->x = q.x;
+	this->y = q.y;
+	this->z = q.z;
+}
+
 FQuaternion::FQuaternion(FVector3 axis, float angleInRadians)
 {
 	this->w = LMath::Cos(angleInRadians);

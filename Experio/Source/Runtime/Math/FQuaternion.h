@@ -11,6 +11,7 @@ struct FQuaternion
 	FQuaternion();
 	FQuaternion(float x, float y, float z, float w);
 	FQuaternion(glm::mat4 mat);
+	FQuaternion(glm::quat q);
 	//FQuaternion(TMatrix<4, 4, float> mat);
 	FQuaternion(FVector3 axis, float angleInRadians);
 
