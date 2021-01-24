@@ -6,6 +6,7 @@
 #include "Runtime/Rendering/Managers/MeshManager.h"
 #include "Runtime/Math/FVector3.h"
 #include "glm/glm.hpp"
+#include "ImGuizmo.h"
 
 enum class ESceneEditMode
 {
@@ -31,13 +32,6 @@ class SceneView : public EditorModule
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
 	glm::mat4 modelMatrix;
-	glm::mat4 modelInverse;
-	glm::mat4 viewInverse;
-	glm::mat4 projectionInverse;
-	glm::mat4 MVP;
-	glm::vec3 cameraRight;
-	glm::vec3 cameraUp;
-	glm::vec3 cameraEye;
 
 	Renderer renderer;
 
@@ -49,16 +43,7 @@ class SceneView : public EditorModule
 
 	void HandleGizmos();
 
-	// Translation Gizmo
-	void HandleTranslation();
-
-	void ComputeTripodAxis(int axisIndex, glm::vec3& dirAxis, glm::vec3& dirPlaneX, glm::vec3& dirPlaneY);
-	
-	float GetSegmentLengthClipSpace(glm::vec3 start, glm::vec3 end);
-
-	// Rotation Gizmo
-
-	// Scale Gizmo
+	static constexpr ImGuizmo::OPERATION SceneEditModeToOperation(ESceneEditMode mode);
 public:
 	static SceneView* sceneView;
 

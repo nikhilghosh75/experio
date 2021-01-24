@@ -19,5 +19,6 @@ public:
 
 	virtual void Display() override;
 
-	const std::vector<GameObject>& GetSelectedItems() const;
+	// Dont make this const
+	std::vector<GameObject>& GetSelectedItems();
 };
