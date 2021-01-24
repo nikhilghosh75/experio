@@ -19,6 +19,7 @@ GeneratedEditor generatedEditor;
 void Inspector::DisplayGameObject(uint64_t id)
 {
 	GameObject* object = Scene::FindGameObjectFromId(id);
+	if (object == nullptr) return;
 	
 	DisplayGameObjectInfo(object);
 	DisplayTransform(object);
@@ -163,6 +164,11 @@ void Inspector::UpdateComponents(std::vector<unsigned int> componentIDs, std::ve
 				break;
 			}
 		}
+	}
+
+	if (componentEditors.size() > componentIDs.size())
+	{
+		componentEditors.pop_back();
 	}
 }
 
