@@ -1,9 +1,15 @@
 #include "ImportSystem.h"
+#include "../Import Scripts/ImportScripts.h"
 #include <filesystem>
 #include "Runtime/Files/LFileOperations.h"
 namespace fs = std::filesystem;
 
 ImportScriptManager* ImportSystem::manager;
+
+void ImportSystem::Initialize()
+{
+	manager->importFunctions.push_back(std::function<EImportHandlerResult(FImportInfo)>(ImportMTL));
+}
 
 void ImportSystem::Import(const std::string & fromFilepath, const std::string & toDirectory)
 {

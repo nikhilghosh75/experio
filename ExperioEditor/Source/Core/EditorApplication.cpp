@@ -20,6 +20,7 @@
 #include "../Framework/CreateMenu.h"
 #include "../Framework/EditorProject.h"
 #include "../Framework/EditorShortcuts.h"
+#include "../Framework/ImportSystem.h"
 #include "../Framework/NotificationSystem.h"
 #include "../Framework/SceneSaver.h"
 #include "../Framework/ValueLoader.h"
@@ -85,6 +86,7 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	CreateMenu::Initialize();
 	CompilationParser::Initialize();
 	EditorShortcuts::Initialize();
+	ImportSystem::Initialize();
 }
 
 void EditorApplication::LoadScenes()

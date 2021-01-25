@@ -32,6 +32,8 @@ class ImportSystem
 public:
 	static ImportScriptManager* manager;
 
+	static void Initialize();
+
 	static void Import(const std::string& fromFilepath, const std::string& toDirectory);
 
 private:
