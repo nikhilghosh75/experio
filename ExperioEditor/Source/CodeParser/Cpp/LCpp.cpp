@@ -1,7 +1,7 @@
 #include "LCpp.h"
 #include "Runtime/Containers/LString.h"
 
-size_t LCpp::AlignForward(size_t offset, size_t size)
+size_t LCpp::AlignForward(size_t offset, size_t size, bool isDefault)
 {
 	if (size == 1)
 		return offset;
@@ -20,14 +20,14 @@ size_t LCpp::AlignForward(size_t offset, size_t size)
 		return offset + (4 - (offset % 4));
 	}
 
-	if (size == 8)
+	if (size == 8 && isDefault)
 	{
 		if (offset % 8 == 0)
 			return offset;
 		return offset + (8 - (offset % 8));
 	}
 
-	return AlignForward(offset, 4);
+	return AlignForward(offset, 4, isDefault);
 }
 
 bool LCpp::DoesCppSupport(ECodingLanguageFeature feature)
@@ -79,6 +79,11 @@ bool LCpp::IsIntegerType(const std::string & typeName)
 	if (typeName == "unsigned int") return true;
 	if (typeName == "unsigned long long") return true;
 	return false;
+}
+
+bool LCpp::IsPointer(const std::string & typeName)
+{
+	return LString::HasChar(typeName, '*');
 }
 
 CodeFunction LCpp::ParseCodeFunction(const std::string & str)
