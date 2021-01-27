@@ -142,7 +142,7 @@
     <ClInclude Include="Source\Runtime\Memory\LPointerOperations.h" />
     <ClInclude Include="Source\Runtime\Memory\TAllocator.h" />
     <ClInclude Include="Source\Runtime\Memory\TLinearAllocator.h" />
-    <ClInclude Include="Source\Runtime\Debug\TempProfiler.h" />
+    <ClInclude Include="Source\Runtime\Debug\Profiler.h" />
     <ClInclude Include="Source\Runtime\Time\FDuration.h" />
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
@@ -276,7 +276,7 @@
     <ClCompile Include="Source\Runtime\Memory\LPointerOperations.cpp" />
     <ClCompile Include="Source\Runtime\Memory\TAllocator.cpp" />
     <ClCompile Include="Source\Runtime\Memory\TLinearAllocator.cpp" />
-    <ClCompile Include="Source\Runtime\Debug\TempProfiler.cpp" />
+    <ClCompile Include="Source\Runtime\Debug\Profiler.cpp" />
     <ClCompile Include="Source\Runtime\Time\FDuration.cpp" />
     <ClCompile Include="Source\Runtime\Time\GameTime.cpp" />
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
