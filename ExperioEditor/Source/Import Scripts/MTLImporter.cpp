@@ -260,5 +260,3 @@ EImportHandlerResult ImportMTL(FImportInfo info)
 
 	return EImportHandlerResult::Handled;
 }
-
-IMPORT_FUNCTION(ImportMTL);
