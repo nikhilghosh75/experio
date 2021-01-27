@@ -8,6 +8,11 @@ struct GUID
 {
 	uint64_t id;
 
+	GUID()
+	{
+		this->id = 0;
+	}
+
 	GUID(uint64_t id)
 	{
 		this->id = id;
