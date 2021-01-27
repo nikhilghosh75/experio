@@ -65,14 +65,14 @@ public:
 	{
 		for (auto elem : list)
 		{
-			Insert(*elem);
+			Insert(elem);
 		}
 	}
 
 	~TBinarySearchTree()
 	{
-		DeleteNode(root->left);
-		DeleteNode(root->right);
+		DeleteNode(root.left);
+		DeleteNode(root.right);
 	}
 
 	void Clear()
@@ -153,11 +153,11 @@ public:
 		return Find(item) != nullptr;
 	}
 
-	void ForEachPreOrder(std::function<void(T&)> func);
+	void ForEachPreOrder(std::function<void(T&)> func) { ForEachPreOrderRecursive(func, &this->root); }
 
-	void ForEachInOrder(std::function<void(T&)> func);
+	void ForEachInOrder(std::function<void(T&)> func) { ForEachInOrderRecursive(func, &this->root); }
 
-	void ForEachPostOrder(std::function<void(T&)> func);
+	void ForEachPostOrder(std::function<void(T&)> func) { ForEachPostOrderRecursive(func, &this->root); }
 
 private:
 	void CopyNodeRecursive(TBinarySearchNode<T>* from, TBinarySearchNode<T>* to)
@@ -195,7 +195,7 @@ private:
 		return rightHeight + 1;
 	}
 
-	bool CheckInvariantRecursive(const TBinarySearchNode* node) const
+	bool CheckInvariantRecursive(const TBinarySearchNode<T>* node) const
 	{
 		if (node == nullptr) return true;
 		
@@ -212,6 +212,33 @@ private:
 		}
 
 		return CheckInvariantRecursive(node->left) && CheckInvariantRecursive(node->right);
+	}
+
+	void ForEachPreOrderRecursive(std::function<void(T&)> func, TBinarySearchNode<T>* node)
+	{
+		if (node == nullptr) return;
+
+		func(node->object);
+		ForEachPreOrderRecursive(func, node->left);
+		ForEachPreOrderRecursive(func, node->right);
+	}
+
+	void ForEachInOrderRecursive(std::function<void(T&)> func, TBinarySearchNode<T>* node)
+	{
+		if (node == nullptr) return;
+		
+		ForEachInOrderRecursive(func, node->left);
+		func(node->object);
+		ForEachInOrderRecursive(func, node->right);
+	}
+
+	void ForEachPostOrderRecursive(std::function<void(T&)> func, TBinarySearchNode<T>* node)
+	{
+		if (node == nullptr) return;
+
+		ForEachInOrderRecursive(func, node->left);
+		ForEachInOrderRecursive(func, node->right);
+		func(node->object);
 	}
 
 	bool HasChildren(const TBinarySearchNode<T>* node)
