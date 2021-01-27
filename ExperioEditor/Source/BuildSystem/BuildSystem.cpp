@@ -168,8 +168,8 @@ void Detail::ConvertFile(const std::string & fromFile, const std::string & toFol
 		MaterialConverter::MaterialToBinaryMaterial(fromFile); break;
 	case EAssetType::Mesh:
 		MeshConverter::ConvertMeshToBinary(fromFile, toFile); break;
-	case EAssetType::Scene:
-		SceneConverter::ConvertSceneToBinary(fromFile, toFile); break;
+	// case EAssetType::Scene:
+		// SceneConverter::ConvertSceneToBinary(fromFile, toFile); break;
 	default:
 		fs::copy(fromFile, toFile);
 	}
@@ -194,8 +194,8 @@ std::string Detail::GetConvertedFilename(const std::string & fromFile, const std
 		toStream << ".pbbfont"; break;
 	case EAssetType::Mesh:
 		toStream << ".pbbmesh"; break;
-	case EAssetType::Scene:
-		toStream << ".pbbscene"; break;
+	// case EAssetType::Scene:
+		// toStream << ".pbbscene"; break;
 	default:
 		toStream << "." << LFileOperations::GetExtension(fromFile);
 	}
