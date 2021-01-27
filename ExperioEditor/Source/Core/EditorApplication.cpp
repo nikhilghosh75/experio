@@ -30,6 +30,7 @@
 #include "../ProjectSettings/SettingsView.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../SceneView/SceneView.h"
+#include "Runtime/Containers/TBinarySearchTree.h"
 #include "Runtime/Framework/SceneLoader.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
@@ -67,7 +68,7 @@ EditorApplication::~EditorApplication()
 
 void EditorApplication::Setup(const std::string& projectFilepath)
 {
-	PROFILE_SCOPE("Editor Setup");
+	// PROFILE_SCOPE("Editor Setup");
 	EditorWindow::InitializeWindow();
 	Project::inEditor = true;
 
@@ -102,7 +103,7 @@ void EditorApplication::Run()
 
 	while (EditorWindow::isActive)
 	{
-		PROFILE_SCOPE("Editor Loop");
+		// PROFILE_SCOPE("Editor Loop");
 		
 		BeginFrame();
 		Update();
