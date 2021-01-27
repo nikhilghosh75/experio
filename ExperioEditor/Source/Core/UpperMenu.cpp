@@ -5,9 +5,16 @@
 #include "../AssetViewers/LayerEditor.h"
 #include "../AssetViewers/TagEditor.h"
 #include "../BuildSystem/BuildSystem.h"
+#include "../FileView/FileView.h"
 #include "../Framework/CreateMenu.h"
+#include "../Framework/ImportSystem.h"
+#include "../Framework/PlaySystem.h"
+#include "../Framework/UndoSystem.h"
 #include "../Framework/SceneSaver.h"
 #include "../Framework/ValueSaver.h"
+#include "../Materials/MaterialEditor.h"
+#include "../Profilers/MemoryProfiler.h"
+#include "../Profilers/TimeProfiler.h"
 #include "../ProjectSettings/ProjectSettings.h"
 #include "../ProjectSettings/SettingsView.h"
 #include "../Testing/TestRunner.h"
@@ -26,6 +33,7 @@ void UpperMenu::CreateUpperMenu()
 	{
 		CreateFileMenu();
 		CreateEditMenu();
+		CreateAssetMenu();
 		CreateProjectMenu();
 		CreateWindowMenu();
 
@@ -77,10 +85,10 @@ void UpperMenu::CreateFileMenu()
 		ImGui::Separator();
 		if (ImGui::MenuItem("Build"))
 		{
-			FFileDialogInfo dialogInfo = FileDialog::OpenFile(nullptr);
+			FFileDialogInfo dialogInfo = FileDialog::OpenFolder();
 			if (dialogInfo.IsValid())
 			{
-				BuildSystem::StartBuildForWindows(LFileOperations::GetDirectory(dialogInfo.filename), BuildSystem::DefaultWindowsBuildSettings());
+				BuildSystem::StartBuildForWindows(dialogInfo.filename, BuildSystem::DefaultWindowsBuildSettings());
 			}
 		}
 		ImGui::Separator();
@@ -97,7 +105,49 @@ void UpperMenu::CreateEditMenu()
 {
 	if (ImGui::BeginMenu("Edit"))
 	{
-		ImGui::Text("There are no items here yet");
+		if (ImGui::MenuItem("Undo"))
+		{
+			UndoSystem::Undo();
+		}
+		if (ImGui::MenuItem("Redo"))
+		{
+			UndoSystem::Redo();
+		}
+		ImGui::Separator();
+		if (ImGui::MenuItem("Play"))
+		{
+			PlaySystem::StartGame();
+		}
+		if (ImGui::MenuItem("Pause"))
+		{
+			PlaySystem::PauseGame();
+		}
+		if (ImGui::MenuItem("Stop"))
+		{
+			PlaySystem::StopGame();
+		}
+
+		ImGui::EndMenu();
+	}
+}
+
+void UpperMenu::CreateAssetMenu()
+{
+	if (ImGui::BeginMenu("Assets"))
+	{
+		if (ImGui::MenuItem("Import"))
+		{
+			FFileDialogInfo dialogInfo = FileDialog::OpenFile(nullptr);
+			if (dialogInfo)
+			{
+				ImportSystem::Import(dialogInfo.filename, FileView::fileView->GetSelectedFilepath());
+			}
+		}
+		ImGui::Separator();
+		if (ImGui::MenuItem("Refresh"))
+		{
+			FileView::fileView->Reload();
+		}
 
 		ImGui::EndMenu();
 	}
@@ -128,6 +178,18 @@ void UpperMenu::CreateWindowMenu()
 {
 	if (ImGui::BeginMenu("Window"))
 	{
+		if (ImGui::BeginMenu("Profiling"))
+		{
+			if (ImGui::MenuItem("Memory Profiler"))
+			{
+				EditorApplication::AddModule(new MemoryProfiler());
+			}
+			if (ImGui::MenuItem("Time Profiler"))
+			{
+				EditorApplication::AddModule(new TimeProfiler());
+			}
+			ImGui::EndMenu();
+		}
 		if (ImGui::MenuItem("Test Runner"))
 		{
 			EditorApplication::AddModule(new TestRunner());
@@ -141,4 +203,6 @@ void UpperMenu::SaveAll()
 	SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
 	ValueSaver::SaveValues();
 	ProjectSettings::SaveAll();
+
+	if (MaterialEditor::materialEditor != nullptr) MaterialEditor::materialEditor->SaveMaterial();
 }

@@ -51,7 +51,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)ExperioEditor\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui;$(SolutionDir)Demo Project\Source;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\RuntimeCompiledCPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PreprocessorDefinitions>EXPERIO_EDITOR;PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -68,7 +68,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)ExperioEditor\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui;$(SolutionDir)Demo Project\Source;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\RuntimeCompiledCPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PreprocessorDefinitions>EXPERIO_EDITOR;PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClCompile Include="DemoProjectEditor.cpp" />
     <ClCompile Include="DemoProjectMaterialEditor.cpp" />
+    <ClCompile Include="Import Scripts\DemoProjectImporter.cpp" />
     <ClCompile Include="RCCPP\DemoProjectEditorMainLoop.cpp" />
     <ClCompile Include="RCCPP\DemoProjectRCCP.cpp" />
     <ClCompile Include="Main.cpp" />

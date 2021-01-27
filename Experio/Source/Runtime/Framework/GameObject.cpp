@@ -2,6 +2,7 @@
 #include "Project.h"
 #include "Scene.h"
 #include "GameObjectIterator.h"
+#include "glm/gtx/matrix_decompose.hpp"
 
 uint64_t GameObject::currentGameObject = 64;
 
@@ -72,7 +73,7 @@ T * GameObject::GetComponent()
 template<class T>
 void GameObject::DeleteComponent()
 {
-	return Project::componentManager->DeleteComponent(this, Project::ClassTypeToInt<T>());
+	Project::componentManager->DeleteComponent(this, Project::ClassTypeToInt<T>());
 }
 
 template<typename T>
@@ -129,6 +130,11 @@ std::vector<T*> GameObject::GetComponentsInChildren(GameObject * gameObject)
 		iterator.Increment();
 	}
 	return components;
+}
+
+void GameObject::DeleteComponentByComponentID(unsigned int id)
+{
+	Project::componentManager->DeleteComponent(this, id);
 }
 
 GameObject * GameObject::AddChild(std::string name)
@@ -203,6 +209,22 @@ void GameObject::SetTransform(FVector3 position, FQuaternion rotation, FVector3 
 	this->localScale = scale;
 }
 
+void GameObject::SetTransform(glm::mat4 localMatrix)
+{
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+
+	glm::decompose(localMatrix, scale, rotation, translation, skew, perspective);
+
+	glm::quat correctRotation = glm::conjugate(rotation); // glm::decompose returns conjugate
+	this->localPosition = (FVector3)translation;
+	this->localRotation = (FQuaternion)correctRotation;
+	this->localScale = (FVector3)scale;
+}
+
 void GameObject::EmptyChildren()
 {
 	this->children.clear();
@@ -211,6 +233,11 @@ void GameObject::EmptyChildren()
 void GameObject::ReserveChildren(uint8_t numChildren)
 {
 	this->children.reserve(numChildren);
+}
+
+Scene * GameObject::GetScene() const
+{
+	return &Scene::scenes[this->sceneIndex];
 }
 
 bool GameObject::operator==(const GameObject & object) const

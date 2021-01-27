@@ -79,7 +79,7 @@ public:
 		this->capacity = list.size();
 	}
 
-	TArray(TArray<T>& objects)
+	TArray(const TArray<T>& objects)
 	{
 		data = new T[objects.count]();
 		for (uint32_t i = 0; i < objects.count; i++)
@@ -386,6 +386,7 @@ public:
 
 	void RemoveAt(uint32_t index)
 	{
+		this->data[index].~T();
 		for (int i = index + 1; i < this->count; i++)
 		{
 			data[i - 1] = data[i];

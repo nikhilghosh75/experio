@@ -115,14 +115,24 @@ void SaveAudio(FAudioClip param, std::ostream & stream)
 	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
 }
 
-void SaveData(DataRef param, std::ostream & stream)
+void SaveData(DataRef& param, std::ostream & stream)
 {
-	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+	std::string fullFilePath = DataManager::GetNameOfFont(param);
+	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(fullFilePath);
+	stream << shortenedFilePath;
 }
 
-void SaveFont(FontData * param, std::ostream & stream)
+void SaveFile(FileRef& param, std::ostream & stream)
 {
-	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
+	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(param.filepath);
+	stream << shortenedFilePath;
+}
+
+void SaveFont(FontRef& param, std::ostream & stream)
+{
+	std::string fullFilePath = FontManager::GetNameOfFont(param);
+	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(fullFilePath);
+	stream << shortenedFilePath;
 }
 
 void SaveMaterial(Material * param, std::ostream & stream)
@@ -131,14 +141,14 @@ void SaveMaterial(Material * param, std::ostream & stream)
 	Debug::LogError("THIS FUNCTION IS NOT COMPLETE YET");
 }
 
-void SaveMesh(MeshRef param, std::ostream & stream)
+void SaveMesh(MeshRef& param, std::ostream & stream)
 {
 	std::string fullFilePath = MeshManager::GetNameOfMesh(param);
 	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(fullFilePath);
 	stream << shortenedFilePath;
 }
 
-void SaveTexture(TextureRef param, std::ostream & stream)
+void SaveTexture(TextureRef& param, std::ostream & stream)
 {
 	std::string fullFilePath = TextureManager::GetNameOfTexture(param);
 	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(fullFilePath);

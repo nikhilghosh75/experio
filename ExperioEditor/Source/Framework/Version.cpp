@@ -216,3 +216,9 @@ FVersionRange::FVersionRange(FVersion min, FVersion max)
 	this->min = min;
 	this->max = max;
 }
+
+std::ostream & operator<<(std::ostream & os, const FVersion & version)
+{
+	os << version.ToString();
+	return os;
+}

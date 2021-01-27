@@ -5,6 +5,8 @@
 #include "Runtime/Files/Mesh/MeshReader.h"
 #include "Runtime/Rendering/Managers/MeshManager.h"
 #include "Runtime/Math/FVector3.h"
+#include "glm/glm.hpp"
+#include "ImGuizmo.h"
 
 enum class ESceneEditMode
 {
@@ -25,20 +27,30 @@ class SceneView : public EditorModule
 	float cameraMoveSpeed;
 	float cameraScrollSpeed;
 	float cameraRotateSpeed;
+	float fieldOfView;
+
+	glm::mat4 viewMatrix;
+	glm::mat4 projectionMatrix;
+	glm::mat4 modelMatrix;
 
 	Renderer renderer;
 
-	MeshRef translationMesh;
-	MeshRef rotationMesh;
-	MeshRef scaleMesh;
-
 	void CreateMenu();
 
+	void ComputeContext();
+
+	FVector2 WorldToPos(glm::vec3 position, glm::mat4 matrix);
+
 	void HandleGizmos();
-	void HandleTranslation();
+
+	static constexpr ImGuizmo::OPERATION SceneEditModeToOperation(ESceneEditMode mode);
 public:
+	static SceneView* sceneView;
+
 	SceneView();
 
 	virtual void Display() override;
 	virtual void HandleInput() override;
+
+	void SetEditMode(ESceneEditMode sceneEditMode);
 };

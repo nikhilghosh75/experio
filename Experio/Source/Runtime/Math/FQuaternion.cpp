@@ -27,6 +27,14 @@ FQuaternion::FQuaternion(glm::mat4 mat)
 	this->z = (mat[0][1] - mat[1][0]) / w4;
 }
 
+FQuaternion::FQuaternion(glm::quat q)
+{
+	this->w = q.w;
+	this->x = q.x;
+	this->y = q.y;
+	this->z = q.z;
+}
+
 FQuaternion::FQuaternion(FVector3 axis, float angleInRadians)
 {
 	this->w = LMath::Cos(angleInRadians);
@@ -120,6 +128,18 @@ glm::mat4 FQuaternion::ToGLMMat4(const FQuaternion & Q)
 	return glm::mat4(col0, col1, col2, col3);
 }
 
+bool FQuaternion::operator==(const FQuaternion & other) const
+{
+	return LMath::ApproxEquals(this->x, other.x) && LMath::ApproxEquals(this->y, other.y)
+		&& LMath::ApproxEquals(this->z, other.z) && LMath::ApproxEquals(this->w, other.w);
+}
+
+bool FQuaternion::operator!=(const FQuaternion & other) const
+{
+	return !LMath::ApproxEquals(this->x, other.x) || !LMath::ApproxEquals(this->y, other.y)
+		|| !LMath::ApproxEquals(this->z, other.z) || !LMath::ApproxEquals(this->w, other.w);
+}
+
 FQuaternion FQuaternion::operator*(const float f) const
 {
 	return FQuaternion(this->x * f, this->y * f, this->z * f, this->w * f);
@@ -159,6 +179,11 @@ FQuaternion FQuaternion::operator/(const float f) const
 	return FQuaternion(this->x / f, this->y / f, this->z / f, this->w / f);
 }
 
+FQuaternion FQuaternion::operator/(const FQuaternion & Q) const
+{
+	return *this * Inverse(Q);
+}
+
 FQuaternion FQuaternion::operator/=(float f)
 {
 	this->x /= f;
@@ -166,6 +191,12 @@ FQuaternion FQuaternion::operator/=(float f)
 	this->z /= f;
 	this->w /= f;
 	return *this / f;
+}
+
+FQuaternion FQuaternion::operator/=(const FQuaternion & Q)
+{
+	*this = *this * Inverse(Q);
+	return *this * Inverse(Q);
 }
 
 FQuaternion FQuaternion::GetConjugate(const FQuaternion & Q)
@@ -325,6 +356,12 @@ FQuaternion FQuaternion::FindBetweenNormals(const FVector3 & N1, const FVector3 
 	float invs = 1 / s;
 
 	return FQuaternion(rotationAxis.x * invs, rotationAxis.y * invs, rotationAxis.z * invs, s * 0.5f);
+}
+
+FQuaternion FQuaternion::Inverse(const FQuaternion & Q)
+{
+	float scaleFactor = 1.f / ((Q.x * Q.x) + (Q.y * Q.y) + (Q.z * Q.z) + (Q.w * Q.w));
+	return FQuaternion(-Q.x, -Q.y, -Q.z, Q.w) * scaleFactor;
 }
 
 FQuaternion FQuaternion::LookAt(const FVector3 eye, const FVector3 center, const FVector3 up)

@@ -61,6 +61,18 @@ UNIT_TEST(TestStringNumCommas, "String")
 	TEST_END();
 }
 
+UNIT_TEST(TestStringFind, "String")
+{
+	ASSERT_EQUAL(LString::FindFirstOfChar("Wolvey", 'v'), 3, "");
+	ASSERT_EQUAL(LString::FindFirstOfChars("Wolvey", { 'e', 'l' }), 2, "");
+
+	ASSERT_EQUAL(LString::FindAllOfChar("Nikhil Ghosh", 'i').size(), 2, "");
+	ASSERT_EQUAL(LString::FindAllOfChar("Nikhil Ghosh", 'i')[0], 1, "");
+	ASSERT_EQUAL(LString::FindAllOfChar("Nikhil Ghosh", 'i')[1], 4, "");
+
+	TEST_END();
+}
+
 UNIT_TEST(TestStringFloatVector, "String")
 {
 	std::string str = "1.1 2.2 3.3 14.5 6.7 9.4";

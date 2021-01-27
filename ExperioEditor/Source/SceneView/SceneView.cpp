@@ -3,6 +3,7 @@
 #include "../Core/EditorWindow.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "Runtime/Camera/AdditionalCameras.h"
+#include "Runtime/Camera/VirtualCamera.h"
 #include "Runtime/Framework/Project.h"
 #include "Runtime/Math/LMath.h"
 #include "Runtime/Rendering/Materials/SingleColorMaterial.h"
@@ -11,43 +12,27 @@
 #define PB_CAMERA_ROTATE_SCALE_FACTOR 1000.f
 #define PB_CAMERA_SCROLL_SCALE_FACTOR 1000.f
 
-#define PB_TRANSLATION_GIZMOS_VERTICIES 912
-
-SingleColorMaterial* singleColorMaterial;
-float translationColors[4 * PB_TRANSLATION_GIZMOS_VERTICIES];
+SceneView* SceneView::sceneView;
 
 SceneView::SceneView()
 {
+	sceneView = this;
+
 	this->name = "Scene View";
 	this->category = EEditorModuleCategory::Core;
 
 	this->renderer.currentMode = ERenderMode::ToEditorSceneView;
+
 	this->cameraPosition = FVector3(4, 3, -3);
 	this->cameraRotation = FQuaternion(0.11938, -0.86197, -0.23875, 0.42099);
 	this->cameraCenter = FVector3();
+
 	this->cameraMoveSpeed = 0.01f;
 	this->cameraScrollSpeed = 0.005f;
 	this->cameraRotateSpeed = 0.0005f;
-	this->currentMode = ESceneEditMode::Translate;
+	this->fieldOfView = 45.f;
 
-	this->translationMesh = MeshManager::LoadMesh("C:/Users/debgh/source/repos/project-bloo/ExperioEditor/Resources/Meshes/translationGizmo.obj");
-	
-	if (singleColorMaterial == nullptr)
-	{
-		singleColorMaterial = new SingleColorMaterial();
-		singleColorMaterial->SetShader(
-			"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/SingleColor.shader");
-
-		for (int i = 0; i < PB_TRANSLATION_GIZMOS_VERTICIES; i++)
-		{
-			// FIGURE THIS OUT LATER
-			translationColors[i * 4] = (float)i / PB_TRANSLATION_GIZMOS_VERTICIES;
-			translationColors[i * 4 + 1] = (float)i / PB_TRANSLATION_GIZMOS_VERTICIES;
-			translationColors[i * 4 + 2] = 0.0f;
-			translationColors[i * 4 + 3] = 1.0f;
-		}
-
-	}
+	this->currentMode = ESceneEditMode::Scale;
 }
 
 void SceneView::CreateMenu()
@@ -74,60 +59,75 @@ void SceneView::CreateMenu()
 	this->cameraScrollSpeed = displayCameraScrollSpeed / PB_CAMERA_SCROLL_SCALE_FACTOR;
 }
 
-void SceneView::HandleGizmos()
+void SceneView::ComputeContext()
 {
-	return;
-	switch (currentMode)
-	{
-	case ESceneEditMode::Translate:
-		HandleTranslation();
-		break;
-	}
+	this->viewMatrix = VirtualCamera::CalculateViewMatrix(this->cameraPosition, this->cameraRotation);
+	this->projectionMatrix = VirtualCamera::CalculateProjectionMatrix(this->fieldOfView, 0.00001f, 1000.f);
+	this->modelMatrix = MeshComponent::CalculateModelMatrix(SceneHierarchy::hierarchy->GetSelectedItems()[0]);
 }
 
-void SceneView::HandleTranslation()
+FVector2 SceneView::WorldToPos(glm::vec3 position, glm::mat4 matrix)
 {
-	glDisable(GL_DEPTH);
-	
-	GameObject tempObject = GameObject("Temp");
-	std::vector<GameObject> selectedObjects = SceneHierarchy::hierarchy->GetSelectedItems();
-	VertexBuffer colorBuffer = VertexBuffer(translationColors, 4 * PB_TRANSLATION_GIZMOS_VERTICIES);
-	singleColorMaterial->colorBuffer = &colorBuffer;
+	FVector2 size = this->GetWindowSize();
+	FVector2 windowPosition = this->GetWindowPosition();
 
-	for (int i = 0; i < selectedObjects.size(); i++)
+	glm::vec4 transPosition = matrix * glm::vec4(position, 0);
+	transPosition *= 0.5f / transPosition.w;
+	transPosition += glm::vec4(0.5f, 0.5f, 0.f, 0.f);
+	transPosition.y = 1.f - transPosition.y;
+	transPosition.x *= size.x;
+	transPosition.y *= size.y;
+	transPosition.x += windowPosition.x;
+	transPosition.y += windowPosition.y;
+	return FVector2(transPosition.x, transPosition.y);
+}
+
+void SceneView::HandleGizmos()
+{
+	if (SceneHierarchy::hierarchy->GetSelectedItems().size() == 0) return;
+
+	ImGuizmo::SetOrthographic(false);
+	ImGuizmo::SetDrawlist();
+	ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
+
+	ComputeContext();
+	ImGuizmo::Manipulate(glm::value_ptr(viewMatrix), glm::value_ptr(projectionMatrix), SceneEditModeToOperation(currentMode),
+		ImGuizmo::MODE::LOCAL, glm::value_ptr(modelMatrix));
+
+	GameObject* object = Scene::FindGameObjectFromId(SceneHierarchy::hierarchy->GetSelectedItems()[0].id);
+	object->SetTransform(modelMatrix);
+}
+
+constexpr ImGuizmo::OPERATION SceneView::SceneEditModeToOperation(ESceneEditMode mode)
+{
+	switch (mode)
 	{
-		tempObject.localPosition = selectedObjects[i].localPosition;
-		tempObject.localScale = FVector3(0.9, 0.9, 0.9);
-		MeshComponent meshComponent(&tempObject);
-		meshComponent.meshData = translationMesh;
-		meshComponent.material = singleColorMaterial;
-		meshComponent.RecalculateModelMatrix();
-		renderer.DrawMesh(meshComponent);
+	case ESceneEditMode::Translate: return ImGuizmo::OPERATION::TRANSLATE;
+	case ESceneEditMode::Rotate: return ImGuizmo::OPERATION::ROTATE;
+	case ESceneEditMode::Scale: return ImGuizmo::OPERATION::SCALE;
 	}
-
-	glEnable(GL_DEPTH);
+	return ImGuizmo::OPERATION();
 }
 
 void SceneView::Display()
 {
 	renderer.MakeCurrent();
 
-	ImVec2 currentSize = ImGui::GetWindowSize();
-	currentSize = ImVec2(currentSize.x - 12, currentSize.y - 130); // Change Later
+	CreateMenu();
+
+	ImVec2 currentSize = ImGui::GetContentRegionAvail();
 
 	AdditionalCameras::CalculateViewMatrix(cameraPosition, cameraRotation);
 	AdditionalCameras::CalculateProjectionMatrix(45.f, 0.1f, 1000.f, currentSize.x / currentSize.y);
-
-	CreateMenu();
 
 	FWindowData data = EditorWindow::GetWindowData();
 	Framebuffer framebuffer(data.width, data.height);
 	framebuffer.Bind();
 	Project::componentManager->RenderScene();
-	HandleGizmos();
 	framebuffer.Unbind();
 
 	ImGui::Image((void*)framebuffer.GetColorAttachment(), currentSize, ImVec2(0, 1), ImVec2(1, 0));
+	HandleGizmos();
 }
 
 void SceneView::HandleInput()
@@ -163,4 +163,16 @@ void SceneView::HandleInput()
 		this->cameraPosition = this->cameraCenter + difference;
 		this->cameraRotation = glm::lookAt((glm::vec3)this->cameraPosition, (glm::vec3)this->cameraCenter, glm::vec3(0, 1, 0));
 	}
+
+	if (Input::GetKeyDown(EKeyCode::T))
+		SetEditMode(ESceneEditMode::Translate);
+	else if (Input::GetKeyDown(EKeyCode::Y))
+		SetEditMode(ESceneEditMode::Rotate);
+	else if (Input::GetKeyDown(EKeyCode::U))
+		SetEditMode(ESceneEditMode::Scale);
+}
+
+void SceneView::SetEditMode(ESceneEditMode sceneEditMode)
+{
+	currentMode = sceneEditMode;
 }

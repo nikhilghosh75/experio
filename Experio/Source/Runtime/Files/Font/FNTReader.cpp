@@ -2,7 +2,7 @@
 #include "LFontOperations.h"
 #include "../../Rendering/Texture.h"
 #include "../../Debug/Debug.h"
-#include "../../Debug/TempProfiler.h"
+#include "../../Debug/Profiler.h"
 #include "../../Containers/LString.h"
 
 FNTReader::FNTReader()
@@ -12,7 +12,7 @@ FNTReader::FNTReader()
 
 FontData * FNTReader::ReadFile(const char * fileName)
 {
-	TempProfiler profiler("FNT Reader");
+	PROFILE_SCOPE_CATEGORY("FNT Reader", EProfilerCategory::Files);
 
 	std::ifstream fntStream(fileName);
 	if (fntStream.fail())

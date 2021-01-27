@@ -52,6 +52,8 @@ public:
 	ECodingLanguage language;
 	uint8_t version;
 
+	void SetConfiguration(EVSConfiguration configuration);
+
 	void GenerateProjectFile(std::string& filepath);
 
 private:

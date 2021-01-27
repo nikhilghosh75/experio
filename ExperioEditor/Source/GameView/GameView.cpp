@@ -45,10 +45,9 @@ void GameView::Display()
 {
 	renderer.MakeCurrent();
 
-	ImVec2 currentSize = ImGui::GetWindowSize();
-	currentSize = ImVec2(currentSize.x - 12, currentSize.y - 77);
-
 	CreateMenu();
+
+	ImVec2 currentSize = ImGui::GetContentRegionAvail();
 
 	FWindowData data = EditorWindow::GetWindowData();
 	Framebuffer framebuffer(data.width, data.height);
@@ -65,5 +64,5 @@ void GameView::Display()
 
 	framebuffer.Unbind();
 
-	ImGui::Image((void*)framebuffer.GetColorAttachment(), currentSize, ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image((void*)framebuffer.GetColorAttachment(), currentSize);
 }

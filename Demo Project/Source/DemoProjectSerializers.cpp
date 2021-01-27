@@ -22,7 +22,8 @@ template<> void SetComponentParams(std::vector<std::string> params, TextComponen
 {
 	component->margins = ParseFloat(params[0]);
 	component->fontSize = ParseInt(params[1]);
-	component->shader = ParseShader(params[2]);
+	component->font = ParseFont(params[2]);
+	component->shader = ParseShader(params[3]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, Spaceship* component)
@@ -64,7 +65,8 @@ template<> void SetComponentBinaryParams(void* data, TextComponent* component)
 {
 	component->margins = BinaryParseFloat((void*)((char*)data + 0));
 	component->fontSize = BinaryParseInt((void*)((char*)data + 4));
-	component->shader = BinaryParseShader((void*)((char*)data + 8));
+	component->font = BinaryParseFont((void*)((char*)data + 8));
+	component->shader = BinaryParseShader((void*)((char*)data + 12));
 }
 
 template<> void SetComponentBinaryParams(void* data, Spaceship* component)

@@ -1,11 +1,11 @@
 #include "BinMeshReader.h"
 #include "../../Debug/Debug.h"
-#include "../../Debug/TempProfiler.h"
+#include "../../Debug/Profiler.h"
 #include "../../Math/Math.h"
 
 MeshData * BinMeshReader::ReadFile(const char * fileName)
 {
-	TempProfiler profiler("Reading Binary Mesh");
+	PROFILE_SCOPE_CATEGORY("Reading Binary Mesh", EProfilerCategory::Files);
 
 	std::ifstream inFile(fileName, std::ios::binary);
 

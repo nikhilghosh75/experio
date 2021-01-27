@@ -50,6 +50,8 @@ struct FVersion
 	bool IsInRange(const FVersionRange& range) const;
 };
 
+std::ostream & operator<<(std::ostream &os, const FVersion& version);
+
 struct FVersionRange
 {
 	FVersion min;

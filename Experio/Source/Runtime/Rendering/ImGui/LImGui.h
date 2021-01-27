@@ -1,8 +1,10 @@
 #pragma once
 #include "imgui.h"
+#include "../Renderer.h"
 #include "../../Containers/THashtable.h"
 #include "../../Containers/TTypedTree.h"
 #include <string>
+#include "../../Files/FileRef.h"
 #include "../../Math/FBox.h"
 #include "../../Math/FRect.h"
 #include "../../Math/FVector2.h"
@@ -29,6 +31,8 @@ public:
 	template<typename T>
 	static void DisplayEnum(T& currentEnum, std::string name);
 
+	static void DisplayFileAsset(FileRef& ref, std::string name);
+
 	static void DisplayFontAsset(FontRef& ref, std::string name);
 
 	static void DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string>& layerTable);
@@ -40,6 +44,8 @@ public:
 	static void DisplayRect(FRect& rect, const std::string& name);
 
 	static void DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable);
+
+	static void DisplayTexture(TextureRef& ref, const std::string& name, unsigned int width = 100, unsigned int height = 100);
 
 	static void DisplayTextureAsset(TextureRef& ref, std::string name);
 

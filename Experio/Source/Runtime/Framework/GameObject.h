@@ -39,6 +39,8 @@ public:
 	template<class T>
 	void DeleteComponent();
 
+	void DeleteComponentByComponentID(unsigned int id);
+
 	GameObject* AddChild(std::string name);
 
 	// WORLD POSITION
@@ -52,10 +54,13 @@ public:
 
 	void SetTransform(FTransform transform);
 	void SetTransform(FVector3 position, FQuaternion rotation, FVector3 scale);
+	void SetTransform(glm::mat4 localMatrix);
 
 	void EmptyChildren();
 
 	void ReserveChildren(uint8_t numChildren);
+
+	Scene* GetScene() const;
 
 	bool operator==(const GameObject& object) const;
 	bool operator!=(const GameObject& object) const;

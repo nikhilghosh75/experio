@@ -26,6 +26,8 @@ class FileView : public EditorModule
 	void OpenCreateMenus();
 
 	std::string GetSelectedFilepath(TTypedTreeNode<std::string>* selectedNode);
+
+	void OpenFile(const std::string& str, EAssetType type);
 public:
 	static FileView* fileView;
 

@@ -27,4 +27,7 @@ public:
 	virtual void Update() override;
 
 	void RecalculateModelMatrix();
+
+	static glm::mat4 CalculateModelMatrix(FVector3 position, FQuaternion rotation, FVector3 scale);
+	static glm::mat4 CalculateModelMatrix(const GameObject& gameObject);
 };

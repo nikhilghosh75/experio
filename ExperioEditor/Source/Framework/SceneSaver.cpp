@@ -1,9 +1,8 @@
 #include "SceneSaver.h"
+#include "EditorProject.h"
+#include "../BuildSystem/LSerializationOperations.h"
 #include "Runtime/Framework/Framework.h"
 #include "Runtime/Framework/Project.h"
-#include "Runtime/Debug/TempProfiler.h"
-
-extern void SaveComponentToScene(unsigned int componentID, Component* component, std::ofstream& stream);
 
 void SceneSaver::SaveGameObject(GameObject * gameObject, std::ofstream& stream)
 {
@@ -28,13 +27,13 @@ void SceneSaver::SaveGameObject(GameObject * gameObject, std::ofstream& stream)
 		for (int i = 0; i < components.size() - 1; i++)
 		{
 			stream << "{" << std::endl << "\t\tClassID: " << componentIDs[i] << std::endl << "\t\tParams: " << std::endl;
-			SaveComponentToScene(componentIDs[i], components[i], stream);
+			LSerializationOperations::SaveToText(components[i], componentIDs[i], EditorProject::gameProject, stream);
 			stream << "},";
 		}
 
 		size_t lastIndex = components.size() - 1;
 		stream << "{" << std::endl << "\t\tClassID: " << componentIDs[lastIndex] << std::endl << "\t\tParams: " << std::endl;
-		SaveComponentToScene(componentIDs[lastIndex], components[lastIndex], stream);
+		LSerializationOperations::SaveToText(components[lastIndex], componentIDs[lastIndex], EditorProject::gameProject, stream);
 		stream << "\t}]" << std::endl;
 	}
 
@@ -82,7 +81,7 @@ bool SceneSaver::SaveScene(uint8_t sceneIndex, const std::string& filename)
 		return false;
 	}
 
-	PROFILE_SCOPE("Save Scene");
+	// PROFILE_SCOPE("Save Scene");
 
 	sceneFile << "PROJECT BLOO SCENE" << std::endl;
 	sceneFile << "Name: " << LFileOperations::StripFilenameAndExt(filename) << std::endl;

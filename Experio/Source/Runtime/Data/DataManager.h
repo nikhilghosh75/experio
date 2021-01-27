@@ -62,4 +62,6 @@ public:
 	static bool IsDataLoaded(const std::string& str);
 
 	static std::string GetNameOfFont(const DataRef& ref);
+
+	static size_t SizeOfLoadedTables();
 };

@@ -5,6 +5,7 @@
 #include "GL/wglext.h"
 #include <tchar.h>
 #include "imgui.h"
+#include "ImGuizmo.h"
 #include "examples/imgui_impl_win32.h"
 #include "examples/imgui_impl_opengl3.h"
 #include "imgui_internal.h"
@@ -120,6 +121,7 @@ void EditorWindow::BeginFrame()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+	ImGuizmo::BeginFrame();
 
 	Dockspace();
 }

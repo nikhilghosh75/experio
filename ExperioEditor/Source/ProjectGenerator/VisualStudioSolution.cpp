@@ -3,7 +3,7 @@
 
 namespace ExperioEditor::VisualStudio
 {
-void VSSolution::GenerateSolutionFile(std::string & filepath)
+void VSSolution::GenerateSolutionFile(const std::string & filepath)
 {
 	std::ofstream outFile(filepath);
 	outFile << std::endl;

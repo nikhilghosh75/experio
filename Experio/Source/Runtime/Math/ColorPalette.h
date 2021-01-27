@@ -24,5 +24,13 @@ namespace ColorPalette
 	FColor CloudyGray(109, 105, 104);
 	FColor SmokeyGray(114, 110, 109);
 	FColor Gray(115, 111, 110);
+	FColor Granite(131, 126, 124);
+	FColor BattleshipGray(132, 132, 130);
+	FColor GrayCloud(182, 182, 180);
+	FColor GrayGoose(209, 208, 206);
+	FColor Platinum(229, 228, 226);
+	FColor MetallicSilver(188, 198, 204);
+	FColor BlueGray(152, 175, 199);
+	FColor LightSlateGray(109, 123, 141);
 	FColor Red(1.f, 0.f, 0.f);
 }

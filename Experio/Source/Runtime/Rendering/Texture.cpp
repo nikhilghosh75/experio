@@ -42,8 +42,8 @@ void Texture::ConfigureData()
 		Debug::LogError("The data could not be loaded");
 		return;
 	}
-	GLenum internalFormat = LOpenGL::GetInternalFormat(this->data->encoding, this->data->fileType);
-	GLenum imageFormat = LOpenGL::GetImageFormat(this->data->encoding, this->data->fileType);
+	GLenum internalFormat = LOpenGL::GetInternalFormat(this->data->encoding);
+	GLenum imageFormat = LOpenGL::GetImageFormat(this->data->internalFormat);
 
 	glBindTexture(GL_TEXTURE_2D, this->rendererID);
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, this->data->width, this->data->height, 0, imageFormat, GL_UNSIGNED_BYTE, this->data->data);
@@ -64,7 +64,7 @@ void Texture::SetData(ImageData * data)
 void Texture::SetData(void * data, int width, int height, EImageEncoding encoding, bool invertedPixels)
 {
 	this->data = new ImageData();
-	this->data->data = (char*)data;
+	this->data->data = (unsigned char*)data;
 	this->data->encoding = encoding;
 	this->data->width = width;
 	this->data->height = height;

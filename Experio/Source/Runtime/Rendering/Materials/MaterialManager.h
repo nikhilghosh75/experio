@@ -96,6 +96,8 @@ public:
 		}
 	}
 
+	uint32_t GetLastMaterialType() { return materialTypes[materialTypes.size() - 1]; }
+
 	virtual uint32_t GetMaterialType(const std::string& materialType) = 0;
 
 	virtual Material* AddMaterial(uint32_t materialType, std::string shader, std::vector<std::string> params) = 0;

@@ -9,4 +9,6 @@ class MeshEditor : COMPONENTEDITOR(MeshComponent)
 
 public:
 	virtual void Display(Component* mesh) override;
+
+	virtual void ContextMenu(Component* mesh) override;
 };

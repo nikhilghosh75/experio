@@ -117,6 +117,11 @@ DataRef BinaryParseData(void * data)
 	return DataManager::LoadData(filepath);
 }
 
+FileRef BinaryParseFile(void * data)
+{
+	return FileRef(*(unsigned int*)data);
+}
+
 FontRef BinaryParseFont(void * data)
 {
 	std::string filepath = AssetMap::assetMap.Get(*(unsigned int*)data);
@@ -159,6 +164,7 @@ size_t SizeOfBinaryParam(EParamType type)
 	case EParamType::CURVE: return 0;
 	case EParamType::DATA: return 4;
 	case EParamType::DOUBLE: return 8;
+	case EParamType::FILE: return 4;
 	case EParamType::FLOAT: return 4;
 	case EParamType::FONT: return 4;
 	case EParamType::INT: return 4;

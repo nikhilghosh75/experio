@@ -1,4 +1,5 @@
 #include "FontManager.h"
+#include "../../Files/Font/LFontOperations.h"
 
 FontSlot FontManager::slots[MAX_FONTS];
 std::string FontManager::slotNames[MAX_FONTS];
@@ -151,4 +152,19 @@ bool FontManager::IsFontLoaded(const std::string & str)
 std::string FontManager::GetNameOfFont(const FontRef & ref)
 {
 	return slotNames[ref.fontID];
+}
+
+size_t FontManager::SizeOfLoadedFonts()
+{
+	size_t loadedSize = 0;
+
+	for (size_t i = 0; i < MAX_FONTS; i++)
+	{
+		if (slots[i].data != nullptr)
+		{
+			loadedSize += LFontOperations::SizeOf(*slots[i].data);
+		}
+	}
+
+	return loadedSize;
 }

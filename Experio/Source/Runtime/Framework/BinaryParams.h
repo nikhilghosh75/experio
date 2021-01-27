@@ -26,6 +26,7 @@ FSphericalPoint BinaryParseSphericalPoint(void* data);
 
 FAudioClip BinaryParseAudio(void* data);
 DataRef BinaryParseData(void* data);
+FileRef BinaryParseFile(void* data);
 FontRef BinaryParseFont(void* data);
 Material* BinaryParseMaterial(void* data);
 MeshRef BinaryParseMesh(void* data);

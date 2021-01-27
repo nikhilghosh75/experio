@@ -26,6 +26,7 @@ private:
 	VertexBufferLayout defaultVertexLayout;
 
 	static Renderer* current;
+	Shader* billboardShader;
 
 	glm::mat4 GetViewMatrix();
 

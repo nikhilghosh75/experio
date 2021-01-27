@@ -13,5 +13,6 @@ public:
 
 	static uint64_t SizeOfImage(int width, int height, EImageEncoding encoding);
 	static uint64_t SizeOfImage(const ImageData* data);
+	static uint64_t SizeOfImage(const Texture* texture);
 	static uint64_t SizeOfImage(const TextureRef& ref);
 };

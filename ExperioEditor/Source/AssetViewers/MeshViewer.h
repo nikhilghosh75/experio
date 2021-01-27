@@ -17,6 +17,7 @@ class MeshViewer : public EditorModule
 
 	void DisplayStats();
 
+	std::string filepath;
 public:
 	MeshRef loadedRef;
 

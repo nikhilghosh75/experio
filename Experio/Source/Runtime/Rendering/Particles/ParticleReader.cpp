@@ -1,5 +1,4 @@
 #include "ParticleReader.h"
-#include "../../Files/Other/XMLReader.h"
 #include "../../Containers/LString.h"
 
 namespace Experio::Experimental
@@ -17,9 +16,21 @@ ParticleSystem ParticleReader::ReadParticleSystem(const std::string & filepath)
 
 	for (size_t i = 0; i < modifiersNode->children.size(); i++)
 	{
-		// Figure Out Node Type
+		XMLTreeNode* currentNode = modifiersNode->children[i];
+		if (currentNode->object.nodeType == "SizeOverLife")
+			ParseSizeOverLife(currentNode, system);
+		else if (currentNode->object.nodeType == "ColorOverLife")
+			ParseColorOverLife(currentNode, system);
 	}
 
 	return system;
 }
+void ParticleReader::ParseSizeOverLife(XMLTreeNode* node, ParticleSystem & system)
+{
+}
+
+void ParticleReader::ParseColorOverLife(XMLTreeNode * node, ParticleSystem & system)
+{
+}
+
 }

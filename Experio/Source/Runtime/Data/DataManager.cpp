@@ -153,3 +153,18 @@ std::string DataManager::GetNameOfFont(const DataRef & ref)
 {
 	return slotNames[ref.datatableID];
 }
+
+size_t DataManager::SizeOfLoadedTables()
+{
+	size_t loadedSize = 0;
+
+	for (size_t i = 0; i < MAX_DATATABLES; i++)
+	{
+		if (slots[i].data != nullptr)
+		{
+			loadedSize += slots[i].data->GetSize();
+		}
+	}
+
+	return loadedSize;
+}

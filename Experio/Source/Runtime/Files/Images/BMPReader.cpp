@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include "../../Debug/Debug.h"
-#include "../../Debug/TempProfiler.h"
+#include "../../Debug/Profiler.h"
 #include "LImageOperations.h"
 
 BMPReader::BMPReader()
@@ -11,9 +11,8 @@ BMPReader::BMPReader()
 
 ImageData* BMPReader::ReadFile(const char * fileName)
 {
-	TempProfiler profiler("BMP Reader");
+	PROFILE_SCOPE_CATEGORY("BMP Reader", EProfilerCategory::Files);
 	ImageData* returnData = new ImageData();
-	returnData->fileType = EImageFileType::BMP;
 
 	char header[54];
 	unsigned int dataPos;
@@ -50,9 +49,13 @@ ImageData* BMPReader::ReadFile(const char * fileName)
 	}
 
 	returnData->encoding = LImageOperations::EncodeBitsPerPixel(bitsPerPixel);
+	if (bitsPerPixel == 24)
+		returnData->internalFormat = EImageInternalFormat::BGR;
+	else
+		returnData->internalFormat = EImageInternalFormat::BGRA;
 
-	returnData->data = new char[imageSize];
-	bmpStream.read(returnData->data, imageSize);
+	returnData->data = new unsigned char[imageSize];
+	bmpStream.read(reinterpret_cast<char*>(returnData->data), imageSize);
 	bmpStream.close();
 
 	return returnData;

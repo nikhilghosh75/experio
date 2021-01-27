@@ -19,6 +19,8 @@
 #include "../Framework/Compilation/CompilationParser.h"
 #include "../Framework/CreateMenu.h"
 #include "../Framework/EditorProject.h"
+#include "../Framework/EditorShortcuts.h"
+#include "../Framework/ImportSystem.h"
 #include "../Framework/NotificationSystem.h"
 #include "../Framework/SceneSaver.h"
 #include "../Framework/ValueLoader.h"
@@ -28,7 +30,7 @@
 #include "../ProjectSettings/SettingsView.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../SceneView/SceneView.h"
-#include "Runtime/Debug/TempProfiler.h"
+#include "Runtime/Containers/TBinarySearchTree.h"
 #include "Runtime/Framework/SceneLoader.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
@@ -66,7 +68,7 @@ EditorApplication::~EditorApplication()
 
 void EditorApplication::Setup(const std::string& projectFilepath)
 {
-	PROFILE_SCOPE("Editor Setup");
+	// PROFILE_SCOPE("Editor Setup");
 	EditorWindow::InitializeWindow();
 	Project::inEditor = true;
 
@@ -83,6 +85,8 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	ProjectSettings::Initialize();
 	CreateMenu::Initialize();
 	CompilationParser::Initialize();
+	EditorShortcuts::Initialize();
+	ImportSystem::Initialize();
 }
 
 void EditorApplication::LoadScenes()
@@ -99,7 +103,7 @@ void EditorApplication::Run()
 
 	while (EditorWindow::isActive)
 	{
-		PROFILE_SCOPE("Editor Loop");
+		// PROFILE_SCOPE("Editor Loop");
 		
 		BeginFrame();
 		Update();
@@ -162,7 +166,7 @@ void EditorApplication::AddDefaultModules()
 	modules.push_back(new SceneHierarchy());
 	modules.push_back(new Inspector());
 	modules.push_back(new GameView());
-	modules.push_back(new Console());
+	// modules.push_back(new Console());
 
 	modules.push_back(new SettingsView());
 }

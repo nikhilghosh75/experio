@@ -1,6 +1,6 @@
 #include "Window.h"
 #include "../Debug/Debug.h"
-#include "../Debug/TempProfiler.h"
+#include "../Debug/Profiler.h"
 #include "../Math/LMath.h"
 #include "../Rendering/OpenGL/LOpenGL.h"
 #include <GL/glew.h>
@@ -227,7 +227,7 @@ LRESULT WindowsProcedure(HWND window, int message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 	{
-		TempProfiler profiler("Creating");
+		PROFILE_SCOPE("Creating Window");
 		RECT rect;
 		GetWindowRect(window, &rect);
 		PIXELFORMATDESCRIPTOR pfd =

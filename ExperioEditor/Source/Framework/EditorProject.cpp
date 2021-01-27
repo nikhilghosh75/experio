@@ -7,7 +7,8 @@
 #include "ThirdParty/toml++/toml.h"
 
 THashtable<unsigned int, FComponentInfo> EditorProject::componentClasses;
-FVersion EditorProject::experioVersion;
+std::vector<FShaderInfo> EditorProject::shaders;
+FVersion EditorProject::experioVersion(0, 11, 0);
 CodeProject EditorProject::gameProject(ECodingLanguage::CPlusPlus);
 
 std::string EditorProject::projectName;
@@ -88,6 +89,12 @@ void EditorProject::SetupRuntimeCompilation()
 
 void EditorProject::TempSetup()
 {
+	TempSetupClasses();
+	TempSetupMaterials();
+}
+
+void EditorProject::TempSetupClasses()
+{
 	EditorProject::componentClasses.Insert(100, FComponentInfo("VirtualCamera", false));
 	EditorProject::componentClasses.Insert(101, FComponentInfo("MeshComponent", true));
 	EditorProject::componentClasses.Insert(102, FComponentInfo("ParticleSystem", true));
@@ -101,8 +108,8 @@ void EditorProject::TempSetup()
 	virtualCamera.inheritance.push_back("Component");
 	virtualCamera.params.emplace_back("float", "priority", ECodeAccessType::Public);
 	virtualCamera.params.emplace_back("float", "fieldOfView", ECodeAccessType::Public);
-	virtualCamera.params.emplace_back("float", "priority", ECodeAccessType::Public);
-	virtualCamera.params.emplace_back("float", "fieldOfView", ECodeAccessType::Public);
+	virtualCamera.params.emplace_back("float", "nearClipPlane", ECodeAccessType::Public);
+	virtualCamera.params.emplace_back("float", "farClipPlane", ECodeAccessType::Public);
 
 	CodeClass meshComponent("MeshComponent");
 	meshComponent.inheritance.push_back("Component");
@@ -146,4 +153,13 @@ void EditorProject::TempSetup()
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
+}
+
+void EditorProject::TempSetupMaterials()
+{
+	FShaderInfo basic("Basic");
+	basic.EmplaceUniform(EShaderParamType::TEXTURE, "albedo");
+	basic.EmplaceUniform(EShaderParamType::TEXTURE, "normal");
+	basic.EmplaceUniform(EShaderParamType::TEXTURE, "specular");
+	shaders.push_back(basic);
 }

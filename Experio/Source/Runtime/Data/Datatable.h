@@ -50,6 +50,8 @@ public:
 	void InsertIntColumn(std::string& columnName, std::vector<int32_t>& intColumn);
 	void InsertStringColumn(std::string& columnName, std::vector<std::string>& stringColumn);
 
+	uint32_t GetSize() const;
+
 	friend class DatatableRow;
 	friend class DatatableColumn;
 	friend class DatatableEntry;

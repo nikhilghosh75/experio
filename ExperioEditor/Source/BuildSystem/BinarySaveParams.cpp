@@ -108,7 +108,14 @@ void BinarySaveAudio(FAudioClip param, std::ostream & stream)
 
 void BinarySaveData(DataRef param, std::ostream & stream)
 {
-	Debug::LogError("Save Function has not been implemented");
+	uint32_t assetId = AssetMapSaver::GetIndexOfAsset(DataManager::GetNameOfFont(param));
+	stream.write((char*)&assetId, 4);
+}
+
+void BinarySaveFile(FileRef param, std::ostream & stream)
+{
+	uint32_t assetId = AssetMapSaver::GetIndexOfAsset(param.filepath);
+	stream.write((char*)&assetId, 4);
 }
 
 void BinarySaveFont(FontRef param, std::ostream & stream)

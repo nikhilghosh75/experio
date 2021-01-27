@@ -12,6 +12,8 @@ public:
 
 	virtual void Display(Component* c) = 0;
 
+	virtual void ContextMenu(Component* c) {}
+
 	virtual unsigned int GetComponentID() const { return 0; }
 };
 

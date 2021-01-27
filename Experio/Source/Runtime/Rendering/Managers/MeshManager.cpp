@@ -1,4 +1,5 @@
 #include "MeshManager.h"
+#include "../../Files/Mesh/LMeshOperations.h"
 
 MeshSlot MeshManager::slots[MAX_MESHES];
 std::string MeshManager::slotNames[MAX_MESHES];
@@ -151,4 +152,19 @@ bool MeshManager::IsMeshLoaded(const std::string& str)
 std::string MeshManager::GetNameOfMesh(const MeshRef& ref)
 {
 	return slotNames[ref.meshID];
+}
+
+size_t MeshManager::SizeOfLoadedMeshes()
+{
+	size_t loadedSize = 0;
+
+	for (size_t i = 0; i < MAX_MESHES; i++)
+	{
+		if (slots[i].data != nullptr)
+		{
+			loadedSize += LMeshOperations::SizeOfMesh(*slots[i].data);
+		}
+	}
+
+	return loadedSize;
 }

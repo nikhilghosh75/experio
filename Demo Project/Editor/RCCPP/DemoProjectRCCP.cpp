@@ -9,6 +9,7 @@
 #include "Framework/SceneSaver.h"
 #include "Runtime/Time/GameTime.h"
 #include "Runtime/Framework/Project.h"
+#include "Runtime/Framework/Scene.h"
 #include "Runtime/Framework/SceneLoader.h"
 #include "imgui.h"
 #include <stdarg.h>

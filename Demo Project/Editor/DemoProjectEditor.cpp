@@ -1,7 +1,7 @@
 #include "DemoProjectEditor.h"
 #include "Framework/SaveParams.h"
 #include "BuildSystem\BinarySaveParams.h"
-
+/*
 template<typename T>
 void SaveComponentParams(T* component, std::ofstream& stream) {};
 
@@ -85,3 +85,4 @@ void SaveComponentBinaryParams<Billboard>(Billboard* component, std::ofstream& s
 	BinarySaveByte((uint8_t)component->orientation, stream);
 	BinarySaveVector2(component->billboardSize, stream);
 }
+*/

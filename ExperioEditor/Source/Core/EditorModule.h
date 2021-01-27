@@ -16,6 +16,10 @@ class EditorModule
 {
 protected:
 	FRect GetWindowRect(); // Only call this between ImGui::Begin and ImGui::End
+	FVector2 GetWindowSize(); // Only call this between ImGui::Begin and ImGui::End
+	FVector2 GetWindowPosition(); // Only call this between ImGui::Begin and ImGui::End
+
+	float GetAspectRatio(); // Only call this between ImGui::Begin and ImGui::End
 public:
 	std::string name;
 	EEditorModuleCategory category;

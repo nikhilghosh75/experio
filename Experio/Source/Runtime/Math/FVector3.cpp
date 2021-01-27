@@ -2,14 +2,12 @@
 #include "LMath.h"
 #include <iostream>
 
-void TestVector()
-{
-    FVector3 testVector(3.0f, 4.0f);
-
-	std::cout << FVector3::Magnitude(testVector) << std::endl; // 5
-	std::cout << FVector3::SqrMagnitude(testVector) << std::endl; // 25
-	std::cout << (std::string)testVector << std::endl;
-}
+const FVector3 const FVector3::left;
+const FVector3 const FVector3::right;
+const FVector3 const FVector3::down;
+const FVector3 const FVector3::up;
+const FVector3 const FVector3::back;
+const FVector3 const FVector3::forward;
 
 FVector3::FVector3()
 {
@@ -73,6 +71,11 @@ float FVector3::Dot(const FVector3& V1, const FVector3& V2)
 FVector3 FVector3::Cross(const FVector3& V1, const FVector3& V2)
 {
     return FVector3(V1.y * V2.z - V1.z * V2.y, V1.z * V2.x - V1.x * V2.z, V1.x * V2.y - V1.y * V2.x);
+}
+
+float FVector3::Angle(const FVector3 & V1, const FVector3 & V2)
+{
+	return LMath::Acos(Dot(V1, V2) / (Magnitude(V1) * Magnitude(V2)));
 }
 
 FVector3 FVector3::Lerp(const FVector3 & V1, const FVector3 & V2, float t)
@@ -227,6 +230,18 @@ glm::vec4 FVector3::ToGLMVector4(const FVector3 & V)
 	return glm::vec4(V.x, V.y, V.z, 0.f);
 }
 
+bool FVector3::operator==(const FVector3 & other) const
+{
+	return LMath::ApproxEquals(this->x, other.x) && LMath::ApproxEquals(this->y, other.y)
+		&& LMath::ApproxEquals(this->z, other.z);
+}
+
+bool FVector3::operator!=(const FVector3 & other) const
+{
+	return !LMath::ApproxEquals(this->x, other.x) || !LMath::ApproxEquals(this->y, other.y)
+		|| !LMath::ApproxEquals(this->z, other.z);
+}
+
 FVector3 FVector3::operator+() const
 {
 	return FVector3(this->x, this->y, this->z);
@@ -294,12 +309,25 @@ FVector3 FVector3::operator/(const float f) const
 	return FVector3(this->x / f, this->y / f, this->z / f);
 }
 
+FVector3 FVector3::operator/(const FVector3 & V)
+{
+	return FVector3(this->x / V.x, this->y / V.y, this->z / V.z);
+}
+
 FVector3 FVector3::operator/=(float f)
 {
 	this->x /= f;
 	this->y /= f;
 	this->z /= f;
 	return *this / f;
+}
+
+FVector3 FVector3::operator/=(const FVector3 & V)
+{
+	this->x / V.x;
+	this->y / V.y;
+	this->z / V.z;
+	return *this / V;
 }
 
 FVector3 operator*(float f, const FVector3 & V)

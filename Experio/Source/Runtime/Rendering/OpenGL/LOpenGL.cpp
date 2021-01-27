@@ -44,40 +44,31 @@ size_t LOpenGL::GetSizeOfType(EDataType type)
 	return GetSizeOfType((unsigned int)type);
 }
 
-size_t LOpenGL::GetImageFormat(EImageEncoding encoding, EImageFileType fileType)
+size_t LOpenGL::GetImageFormat(EImageInternalFormat format)
 {
-	switch (fileType)
+	switch (format)
 	{
-	case EImageFileType::BMP:
-		if (encoding == EImageEncoding::Truecolor)
-		{
-			return GL_BGR;
-		}
-		if (encoding == EImageEncoding::TruecolorAlpha)
-		{
-			return GL_BGRA;
-		}
-		return GL_RGB;
+	case EImageInternalFormat::R: return GL_RED;
+	case EImageInternalFormat::RG: return GL_RG;
+	case EImageInternalFormat::RGB: return GL_RGB;
+	case EImageInternalFormat::RGBA: return GL_RGBA;
+	case EImageInternalFormat::BGR: return GL_BGR;
+	case EImageInternalFormat::BGRA: return GL_BGRA;
 	}
 
 	return GL_RGB;
 }
 
-size_t LOpenGL::GetInternalFormat(EImageEncoding encoding, EImageFileType fileType)
+size_t LOpenGL::GetInternalFormat(EImageEncoding encoding)
 {
-	switch (fileType)
+	switch (encoding)
 	{
-	case EImageFileType::BMP:
-		if (encoding == EImageEncoding::Truecolor)
-		{
-			return GL_RGB8;
-		}
-		if (encoding == EImageEncoding::TruecolorAlpha)
-		{
-			return GL_RGBA8;
-		}
+	case EImageEncoding::Grayscale: return GL_RED;
+	case EImageEncoding::GrayscaleAlpha: return GL_RG8;
+	case EImageEncoding::Truecolor: return GL_RGB8;
+	case EImageEncoding::TruecolorAlpha: return GL_RGBA8;
 	}
-	return 0;
+	return GL_RGBA;
 }
 
 EDataType LOpenGL::StringToDataType(const std::string& string)

@@ -51,6 +51,11 @@ size_t Scene::GetNumComponents()
 	return numComponents;
 }
 
+size_t Scene::SizeOf()
+{
+	return GetNumGameObjects() * sizeof(GameObject);;
+}
+
 void Scene::Activate(uint8_t sceneIndex)
 {
 	scenes[sceneIndex].isActive = true;
@@ -177,4 +182,17 @@ void Scene::UpdateGameObject(GameObject & object)
 	foundObject->localPosition = object.localPosition;
 	foundObject->localRotation = object.localRotation;
 	foundObject->localScale = object.localScale;
+}
+
+size_t Scene::SizeOfLoadedScenes()
+{
+	size_t loadedSize = 0;
+	for (size_t i = 0; i < MAX_SCENES; i++)
+	{
+		if (scenes[i].isLoaded)
+		{
+			loadedSize += scenes[i].SizeOf();
+		}
+	}
+	return loadedSize;
 }

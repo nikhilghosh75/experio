@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
 #include "ComponentInfo.h"
-#include "Runtime/Containers/THashtable.h"
+#include "ShaderInfo.h"
 #include "Version.h"
+#include "Runtime/Containers/THashtable.h"
 
 class CodeProject;
 class CodeClass;
@@ -18,6 +19,7 @@ class EditorProject
 {
 public:
 	static THashtable<unsigned int, FComponentInfo> componentClasses;
+	static std::vector<FShaderInfo> shaders;
 
 	static std::vector<std::string> gameCompileFiles;
 	static CodeProject gameProject;
@@ -39,6 +41,10 @@ public:
 	static void SetupRuntimeCompilation();
 
 	static void TempSetup();
+
+	static void TempSetupClasses();
+
+	static void TempSetupMaterials();
 };
 
 unsigned int DefaultClassStringToInt(std::string name);

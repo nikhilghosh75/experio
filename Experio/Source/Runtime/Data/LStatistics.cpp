@@ -27,6 +27,24 @@ float LStatistics::Max(std::vector<float> data)
 	return Max(data.data(), data.size());
 }
 
+float LStatistics::Median(float * data, size_t count)
+{
+	if (count % 2 == 0)
+	{
+		std::nth_element(data, data + (count / 2), data + count);
+		std::nth_element(data, data + ((count - 1) / 2), data + count);
+
+		return data[(count - 1) / 2] + data[count / 2];
+	}
+	std::nth_element(data, data + (count / 2), data + count);
+	return data[count / 2];
+}
+
+float LStatistics::Median(std::vector<float> data)
+{
+	return Median(data.data(), data.size());
+}
+
 float LStatistics::Min(float * data, size_t count)
 {
 	float min = data[0];

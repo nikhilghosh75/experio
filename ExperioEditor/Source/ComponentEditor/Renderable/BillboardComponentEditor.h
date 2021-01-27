@@ -10,4 +10,6 @@ public:
 	virtual unsigned int GetComponentID() const override { return 103; }
 	
 	virtual void Display(Component* billboard) override;
+
+	virtual void ContextMenu(Component* billboard) override;
 };

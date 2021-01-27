@@ -1,8 +1,13 @@
 #include "LSerializationOperations.h"
 #include "../CodeParser/Cpp/LCpp.h"
+#include "../Framework/EditorProject.h"
 #include "BinarySaveParams.h"
 #include "Runtime/Framework/BinaryParams.h"
+#include "Runtime/Framework/Component.h"
 #include "Runtime/Framework/Params.h"
+#include "Runtime/Math/Frustum.h"
+#include "Runtime/Rendering/Materials/BillboardMaterial.h"
+#include "Runtime/Rendering/Materials/MeshMaterial.h"
 
 #define PB_SERIALIZED_STRING_SIZE 8
 #define PB_SERIALIZED_MATERIAL_SIZE 4
@@ -19,6 +24,7 @@ std::string LSerializationOperations::BinaryParseFunctionFromType(EParamType typ
 	case EParamType::CURVE: return "BinaryParseCurve";
 	case EParamType::DATA: return "BinaryParseData";
 	case EParamType::DOUBLE: return "BinaryParseDouble";
+	case EParamType::FILE: return "BinaryParseFile";
 	case EParamType::FLOAT: return "BinaryParseFloat";
 	case EParamType::FONT: return "BinaryParseFont";
 	case EParamType::INT: return "BinaryParseInt";
@@ -55,6 +61,7 @@ std::string LSerializationOperations::BinarySaveFunctionFromType(EParamType type
 	case EParamType::CURVE: return "BinarySaveCurve";
 	case EParamType::DATA: return "BinarySaveData";
 	case EParamType::DOUBLE: return "BinarySaveDouble";
+	case EParamType::FILE: return "BinarySaveFile";
 	case EParamType::FLOAT: return "BinarySaveFloat";
 	case EParamType::FONT: return "BinarySaveFont";
 	case EParamType::INT: return "BinarySaveInt";
@@ -99,7 +106,8 @@ void LSerializationOperations::ConvertToBinary(const std::vector<std::string>& p
 	{
 		CodeParam& param = codeClass.params[i];
 		
-		if (param.accessType != ECodeAccessType::Private) continue;
+		if (param.accessType != ECodeAccessType::Public) 
+			continue;
 		std::string paramData = params[currentParam].substr(params[currentParam].find(':') + 1);
 
 		EParamType paramType = TypenameToParamType(param.name, project).value();
@@ -114,6 +122,7 @@ void LSerializationOperations::ConvertToBinary(const std::vector<std::string>& p
 		case EParamType::CURVE: { PB_CONVERT_PARAM(curve, ParseCurve, BinarySaveCurve); break; }
 		case EParamType::DATA: { PB_CONVERT_PARAM(datatable, ParseData, BinarySaveData); break; }
 		case EParamType::DOUBLE: { PB_CONVERT_PARAM(tempDouble, ParseDouble, BinarySaveDouble); break; }
+		case EParamType::FILE: { PB_CONVERT_PARAM(file, ParseFile, BinarySaveFile); break; }
 		case EParamType::FLOAT: { PB_CONVERT_PARAM(tempFloat, ParseFloat, BinarySaveFloat); break; }
 		case EParamType::FONT: { PB_CONVERT_PARAM(font, ParseFont, BinarySaveFont); break; }
 		case EParamType::INT: { PB_CONVERT_PARAM(tempInt, ParseInt, BinarySaveInt); break; }
@@ -223,6 +232,40 @@ void LSerializationOperations::GenerateSerializer(const CodeClass & codeClass, c
 	}
 }
 
+std::vector<FSerializationInfo> LSerializationOperations::GenerateSerializedFields(unsigned int classId, const CodeProject& project)
+{
+	FComponentInfo componentInfo = EditorProject::componentClasses.Get(classId);
+	const CodeClass& codeClass = project.classes[project.FindIndexOfClass(componentInfo.name)];
+	std::vector<FSerializationInfo> serializedFields;
+
+	size_t currentOffset = sizeof(Component);
+	for (size_t i = 0; i < codeClass.params.size(); i++)
+	{
+		auto optionalParamType = LSerializationOperations::TypenameToParamType(codeClass.params[i].type, project);
+
+		// If can't figure out type, ignore it
+		if (!optionalParamType)
+		{
+			continue;
+		}
+
+		size_t paramSize = LSerializationOperations::SizeOfParam(codeClass.params[i], project, ECodingLanguage::CPlusPlus);
+		bool isDefault = LCpp::IsIntegerType(codeClass.params[i].type) || LCpp::IsPointer(codeClass.params[i].type);
+		currentOffset = LCpp::AlignForward(currentOffset, paramSize, isDefault);
+		currentOffset += paramSize;
+
+		if (codeClass.params[i].accessType != ECodeAccessType::Public) continue;
+
+		FSerializationInfo& info = serializedFields.emplace_back();
+		info.type = optionalParamType.value();
+		info.typeName = codeClass.params[i].type;
+		info.offset = currentOffset - paramSize;
+		info.name = codeClass.params[i].name;
+	}
+
+	return serializedFields;
+}
+
 bool LSerializationOperations::IsIntegerParamType(EParamType paramType)
 {
 	return paramType == EParamType::BYTE || paramType == EParamType::INT || paramType == EParamType::LONG
@@ -242,6 +285,7 @@ std::string LSerializationOperations::ParseFunctionFromType(EParamType type)
 	case EParamType::CURVE: return "ParseCurve";
 	case EParamType::DATA: return "ParseData";
 	case EParamType::DOUBLE: return "ParseDouble";
+	case EParamType::FILE: return "ParseFile";
 	case EParamType::FLOAT: return "ParseFloat";
 	case EParamType::FONT: return "ParseFont";
 	case EParamType::INT: return "ParseInt";
@@ -266,7 +310,101 @@ std::string LSerializationOperations::ParseFunctionFromType(EParamType type)
 	return "";
 }
 
-size_t LSerializationOperations::SerializedSizeOf(const CodeClass & codeClass, const CodeProject& codeProject, ECodingLanguage language)
+void LSerializationOperations::SaveToBinary(void * component, unsigned int componentId, const CodeProject & project, std::ofstream & outFile)
+{
+	FComponentInfo componentInfo = EditorProject::componentClasses.Get(componentId);
+	const CodeClass& codeClass = project.classes[project.FindIndexOfClass(componentInfo.name)];
+
+	std::vector<FSerializationInfo> serializedFields = LSerializationOperations::GenerateSerializedFields(componentId, project);
+	for (size_t i = 0; i < serializedFields.size(); i++)
+	{
+		outFile << "\t\t\t" << serializedFields[i].name << ": ";
+		SaveParamToText(component, serializedFields[i], outFile);
+		outFile << std::endl;
+	}
+}
+
+#define PB_SAVE_PARAM(_typename_, _funcname_) _funcname_(*( _typename_*)((char*)component + serializedField.offset), outFile)
+
+void LSerializationOperations::SaveParamToBinary(void * component, FSerializationInfo & serializedField, std::ofstream & outFile)
+{
+	switch (serializedField.type)
+	{
+	case EParamType::AUDIO: PB_SAVE_PARAM(FAudioClip, BinarySaveAudio); break;
+	case EParamType::BOOL: PB_SAVE_PARAM(bool, BinarySaveBool); break;
+	case EParamType::BOX: PB_SAVE_PARAM(FBox, BinarySaveBox); break;
+	case EParamType::BYTE: PB_SAVE_PARAM(int8_t, BinarySaveByte); break;
+	case EParamType::COLOR: PB_SAVE_PARAM(FColor, BinarySaveColor); break;
+	case EParamType::CURVE: PB_SAVE_PARAM(FCurve, BinarySaveCurve); break;
+	case EParamType::DATA: PB_SAVE_PARAM(DataRef, BinarySaveData); break;
+	case EParamType::DOUBLE: PB_SAVE_PARAM(double, BinarySaveDouble); break;
+	case EParamType::FILE: PB_SAVE_PARAM(FileRef, BinarySaveFile); break;
+	case EParamType::FLOAT: PB_SAVE_PARAM(float, BinarySaveFloat); break;
+	case EParamType::FONT: PB_SAVE_PARAM(FontRef, BinarySaveFont); break;
+	case EParamType::INT: PB_SAVE_PARAM(int, BinarySaveInt); break;
+	case EParamType::LONG: PB_SAVE_PARAM(long long, BinarySaveLongLong); break;
+	case EParamType::MATERIAL: BinarySaveMaterial((Material*)((char*)component + serializedField.offset), outFile); break;
+	case EParamType::MESH: PB_SAVE_PARAM(MeshRef, BinarySaveMesh); break;
+	case EParamType::QUATERNION: PB_SAVE_PARAM(FQuaternion, BinarySaveQuaternion); break;
+	case EParamType::RECT: PB_SAVE_PARAM(FRect, BinarySaveRect); break;
+	case EParamType::SHORT: PB_SAVE_PARAM(short, BinarySaveShort); break;
+	case EParamType::SPHERICALPOINT: PB_SAVE_PARAM(FSphericalPoint, BinarySaveSphericalPoint); break;
+	case EParamType::TEXTURE: PB_SAVE_PARAM(TextureRef, BinarySaveTexture); break;
+	case EParamType::VECTOR2: PB_SAVE_PARAM(FVector2, BinarySaveVector2); break;
+	case EParamType::VECTOR3: PB_SAVE_PARAM(FVector3, BinarySaveVector3); break;
+	case EParamType::VECTOR4: PB_SAVE_PARAM(FVector4, BinarySaveVector4); break;
+	}
+}
+
+void LSerializationOperations::SaveToText(void * component, unsigned int componentId, const CodeProject & project, std::ofstream & outFile)
+{
+	FComponentInfo componentInfo = EditorProject::componentClasses.Get(componentId);
+	const CodeClass& codeClass = project.classes[project.FindIndexOfClass(componentInfo.name)];
+	
+	std::vector<FSerializationInfo> serializedFields = LSerializationOperations::GenerateSerializedFields(componentId, project);
+	for (size_t i = 0; i < serializedFields.size(); i++)
+	{
+		outFile << "\t\t\t" << serializedFields[i].name << ": ";
+		SaveParamToText(component, serializedFields[i], outFile);
+		outFile << std::endl;
+	}
+}
+
+void LSerializationOperations::SaveParamToText(void * component, FSerializationInfo & serializedField, std::ofstream & outFile)
+{
+	switch (serializedField.type)
+	{
+	case EParamType::AUDIO: PB_SAVE_PARAM(FAudioClip, SaveAudio); break;
+	case EParamType::BOOL: PB_SAVE_PARAM(bool, SaveBool); break;
+	case EParamType::BOX: PB_SAVE_PARAM(FBox, SaveBox); break;
+	case EParamType::BYTE: PB_SAVE_PARAM(int8_t, SaveByte); break;
+	case EParamType::COLOR: PB_SAVE_PARAM(FColor, SaveColor); break;
+	case EParamType::CURVE: PB_SAVE_PARAM(FCurve, SaveCurve); break;
+	case EParamType::DATA: PB_SAVE_PARAM(DataRef, SaveData); break;
+	case EParamType::DOUBLE: PB_SAVE_PARAM(double, SaveDouble); break;
+	case EParamType::FILE: PB_SAVE_PARAM(FileRef, SaveFile); break;
+	case EParamType::FLOAT: PB_SAVE_PARAM(float, SaveFloat); break;
+	case EParamType::FONT: PB_SAVE_PARAM(FontRef, SaveFont); break;
+	case EParamType::INT: PB_SAVE_PARAM(int, SaveInt); break;
+	case EParamType::LONG: PB_SAVE_PARAM(long long, SaveLongLong); break;
+	case EParamType::MATERIAL: SaveMaterial((Material*)((char*)component + serializedField.offset), outFile); break;
+	case EParamType::MESH: PB_SAVE_PARAM(MeshRef, SaveMesh); break;
+	case EParamType::QUATERNION: PB_SAVE_PARAM(FQuaternion, SaveQuaternion); break;
+	case EParamType::RECT: PB_SAVE_PARAM(FRect, SaveRect); break;
+	case EParamType::SHORT: PB_SAVE_PARAM(short, SaveShort); break;
+	case EParamType::SPHERICALPOINT: PB_SAVE_PARAM(FSphericalPoint, SaveSphericalPoint); break;
+	case EParamType::TEXTURE: PB_SAVE_PARAM(TextureRef, SaveTexture); break;
+	case EParamType::UBYTE: PB_SAVE_PARAM(uint8_t, SaveUByte); break;
+	case EParamType::UINT: PB_SAVE_PARAM(unsigned int, SaveUInt); break;
+	case EParamType::ULONG: PB_SAVE_PARAM(unsigned long long, SaveULongLong); break;
+	case EParamType::USHORT: PB_SAVE_PARAM(uint16_t, SaveUShort); break;
+	case EParamType::VECTOR2: PB_SAVE_PARAM(FVector2, SaveVector2); break;
+	case EParamType::VECTOR3: PB_SAVE_PARAM(FVector3, SaveVector3); break;
+	case EParamType::VECTOR4: PB_SAVE_PARAM(FVector4, SaveVector4); break;
+	}
+}
+
+size_t LSerializationOperations::SizeOf(const CodeClass& codeClass, const CodeProject& codeProject, ECodingLanguage language)
 {
 	const std::vector<CodeParam> params = codeClass.params;
 	size_t size = 0;
@@ -279,7 +417,110 @@ size_t LSerializationOperations::SerializedSizeOf(const CodeClass & codeClass, c
 	return size;
 }
 
-size_t LSerializationOperations::SizeOfDefaultType(const std::string & name, ECodingLanguage language)
+size_t LSerializationOperations::SizeOfDefaultType(const std::string& name, ECodingLanguage language)
+{
+	return SerializedSizeOfDefaultType(name, language);
+}
+
+size_t LSerializationOperations::SizeOfParam(const CodeParam& param, const CodeProject& codeProject, ECodingLanguage language)
+{
+	const std::string& paramTypename = param.type;
+
+	// Search for Default Types
+	size_t foundSize = SizeOfDefaultType(paramTypename, language);
+	if (foundSize != 0)
+	{
+		return foundSize;
+	}
+	if (LCodeParser::IsString(param.type, language))
+	{
+		return sizeof(std::string);
+	}
+
+	if (LCpp::IsPointer(paramTypename))
+	{
+		return sizeof(void*);
+	}
+
+	if (paramTypename.find("Material*") != std::string::npos)
+	{
+		return SizeOfMaterial(paramTypename);
+	}
+
+	// Search for Experio Types that can be serialized
+	foundSize = SizeOfExperioType(paramTypename);
+	if (foundSize != 0)
+	{
+		return foundSize;
+	}
+
+	// Search for types in dependencies that can be serialized
+	foundSize = SizeOfGLMType(paramTypename);
+	if (foundSize != 0)
+	{
+		return foundSize;
+	}
+
+	// Search for Enums
+	for (size_t i = 0; i < codeProject.enums.size(); i++)
+	{
+		if (codeProject.enums[i].name == paramTypename)
+		{
+			return SerializedSizeOfEnum(codeProject.enums[i]);
+		}
+	}
+
+	return 0;
+}
+
+size_t LSerializationOperations::SizeOfExperioType(const std::string& name)
+{
+	if (name == "FVector2") return sizeof(FVector2);
+	if (name == "FVector3") return sizeof(FVector3);
+	if (name == "FVector4") return sizeof(FVector4);
+	if (name == "FCurve") return sizeof(FCurve);
+	if (name == "MeshRef") return sizeof(MeshRef);
+	if (name == "FQuaternion") return sizeof(FQuaternion);
+	if (name == "FRect") return sizeof(FRect);
+	if (name == "Shader") return sizeof(Shader);
+	if (name == "FSphericalPoint") return sizeof(FSphericalPoint);
+	if (name == "TextureRef") return sizeof(TextureRef);
+	if (name == "DataRef") return sizeof(DataRef);
+	if (name == "FileRef") return sizeof(FileRef);
+	return 0;
+}
+
+size_t LSerializationOperations::SizeOfMaterial(const std::string & name)
+{
+	if (name == "MeshMaterial") return sizeof(MeshMaterial);
+	if (name == "BillboardMaterial") return sizeof(BillboardMaterial);
+	return sizeof(Material);
+}
+
+size_t LSerializationOperations::SizeOfGLMType(const std::string& name)
+{
+	if (name == "glm::mat4") return sizeof(glm::mat4);
+	if (name == "glm::mat3") return sizeof(glm::mat3);
+	if (name == "glm::mat2") return sizeof(glm::mat2);
+	if (name == "Frustum") return sizeof(Frustum);
+	// Add other types here
+	return 0;
+}
+
+size_t LSerializationOperations::SerializedSizeOf(const CodeClass & codeClass, const CodeProject& codeProject, ECodingLanguage language)
+{
+	const std::vector<CodeParam> params = codeClass.params;
+	size_t size = 0;
+	for (size_t i = 0; i < params.size(); i++)
+	{
+		if (params[i].accessType != ECodeAccessType::Public) continue;
+
+		size += SerializedSizeOfParam(params[i], codeProject, language);
+	}
+	return size;
+}
+
+size_t LSerializationOperations::SerializedSizeOfDefaultType(const std::string & name, ECodingLanguage language)
 {
 	switch (language)
 	{
@@ -300,12 +541,12 @@ size_t LSerializationOperations::SizeOfDefaultType(const std::string & name, ECo
 	return 0;
 }
 
-size_t LSerializationOperations::SizeOfParam(const CodeParam& param, const CodeProject & codeProject, ECodingLanguage language)
+size_t LSerializationOperations::SerializedSizeOfParam(const CodeParam& param, const CodeProject & codeProject, ECodingLanguage language)
 {
 	const std::string& paramTypename = param.type;
 
 	// Search for Default Types
-	size_t foundSize = SizeOfDefaultType(paramTypename, language);
+	size_t foundSize = SerializedSizeOfDefaultType(paramTypename, language);
 	if (foundSize != 0)
 	{
 		return foundSize;
@@ -321,14 +562,14 @@ size_t LSerializationOperations::SizeOfParam(const CodeParam& param, const CodeP
 	}
 
 	// Search for Experio Types that can be serialized
-	foundSize = SizeOfExperioSerializedType(paramTypename);
+	foundSize = SerializedSizeOfExperioType(paramTypename);
 	if (foundSize != 0)
 	{
 		return foundSize;
 	}
 
 	// Search for types in dependencies that can be serialized
-	foundSize = SizeOfGLMSerializedType(paramTypename);
+	foundSize = SerializedSizeOfGLMType(paramTypename);
 	if (foundSize != 0)
 	{
 		return foundSize;
@@ -339,19 +580,19 @@ size_t LSerializationOperations::SizeOfParam(const CodeParam& param, const CodeP
 	{
 		if (codeProject.enums[i].name == paramTypename)
 		{
-			return SizeOfEnum(codeProject.enums[i]);
+			return SerializedSizeOfEnum(codeProject.enums[i]);
 		}
 	}
 
 	return 0;
 }
 
-size_t LSerializationOperations::SizeOfEnum(const CodeEnum & codeEnum)
+size_t LSerializationOperations::SerializedSizeOfEnum(const CodeEnum & codeEnum)
 {
-	return SizeOfEnum(codeEnum.dataType);
+	return SerializedSizeOfEnum(codeEnum.dataType);
 }
 
-size_t LSerializationOperations::SizeOfEnum(EEnumDataType dataType)
+size_t LSerializationOperations::SerializedSizeOfEnum(EEnumDataType dataType)
 {
 	switch (dataType)
 	{
@@ -367,7 +608,7 @@ size_t LSerializationOperations::SizeOfEnum(EEnumDataType dataType)
 	return 0;
 }
 
-size_t LSerializationOperations::SizeOfExperioSerializedType(const std::string & name)
+size_t LSerializationOperations::SerializedSizeOfExperioType(const std::string & name)
 {
 	if (name == "FVector2") return 8;
 	if (name == "FVector3") return 12;
@@ -380,14 +621,16 @@ size_t LSerializationOperations::SizeOfExperioSerializedType(const std::string &
 	if (name == "FSphericalPoint") return 12;
 	if (name == "TextureRef") return 4;
 	if (name == "Datatable") return 4;
+	if (name == "FileRef") return 4;
 	return 0;
 }
 
-size_t LSerializationOperations::SizeOfGLMSerializedType(const std::string & name)
+size_t LSerializationOperations::SerializedSizeOfGLMType(const std::string & name)
 {
 	if (name == "glm::mat4") return 64;
 	if (name == "glm::mat3") return 36;
 	if (name == "glm::mat2") return 16;
+	if (name == "Frustum") return 96;
 	// Add other types here
 	return 0;
 }
@@ -404,6 +647,7 @@ std::string LSerializationOperations::SaveFunctionFromType(EParamType type)
 	case EParamType::CURVE: return "SaveCurve";
 	case EParamType::DATA: return "SaveData";
 	case EParamType::DOUBLE: return "SaveDouble";
+	case EParamType::FILE: return "SaveFile";
 	case EParamType::FLOAT: return "SaveFloat";
 	case EParamType::FONT: return "SaveFont";
 	case EParamType::INT: return "SaveInt";
@@ -439,7 +683,9 @@ std::optional<EParamType> LSerializationOperations::TypenameToParamType(const st
 	if (name == "FCurve") return EParamType::CURVE;
 	if (name == "DatatableRef") return EParamType::DATA;
 	if (name == "double") return EParamType::DOUBLE;
+	if (name == "FileRef") return EParamType::FILE;
 	if (name == "float") return EParamType::FLOAT;
+	if (name == "FontRef") return EParamType::FONT;
 	if (name == "int") return EParamType::INT;
 	if (name == "int32_t") return EParamType::INT;
 	if (name == "long") return EParamType::LONG;

@@ -1,13 +1,6 @@
 #pragma once
 #include <stdint.h>
 
-enum class EImageFileType : uint8_t
-{
-	BMP,
-	PNG,
-	TGA
-};
-
 enum class EImageEncoding : uint8_t
 {
 	Unencoded = 0,
@@ -17,15 +10,24 @@ enum class EImageEncoding : uint8_t
 	TruecolorAlpha = 32
 };
 
+enum class EImageInternalFormat : uint8_t
+{
+	R,
+	RG,
+	RGB,
+	BGR,
+	RGBA,
+	BGRA
+};
+
 class ImageData
 {
 public:
 	unsigned int width;
 	unsigned int height;
-	char* data;
-
-	EImageFileType fileType;
+	unsigned char* data;
 	EImageEncoding encoding;
+	EImageInternalFormat internalFormat;
 };
 
 class ImageReader

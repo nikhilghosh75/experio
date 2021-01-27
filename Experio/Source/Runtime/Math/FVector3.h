@@ -25,6 +25,7 @@ public:
 
     static float Dot(const FVector3& V1, const FVector3& V2);
     static FVector3 Cross(const FVector3& V1, const FVector3& V2);
+	static float Angle(const FVector3& V1, const FVector3& V2);
 	static FVector3 Lerp(const FVector3& V1, const FVector3& V2, float t);
 	static FVector3 Reflect(const FVector3& Incident, const FVector3& Normal);
 	static FVector3 Refract(const FVector3& Incident, const FVector3& Normal, float indexOfRefraction);
@@ -52,6 +53,9 @@ public:
 	operator glm::vec3() const { return ToGLMVector(*this); }
 	operator glm::vec4() const { return ToGLMVector4(*this); }
 
+	bool operator==(const FVector3& other) const;
+	bool operator!=(const FVector3& other) const;
+
 	FVector3 operator+() const;
     FVector3 operator+(const FVector3& V) const;
     FVector3 operator+=(const FVector3& V);
@@ -63,7 +67,16 @@ public:
     FVector3 operator*=(float f);
 	FVector3 operator*=(const FVector3& V);
     FVector3 operator/(const float f) const;
+	FVector3 operator/(const FVector3& V);
     FVector3 operator/=(float f);
+	FVector3 operator/=(const FVector3& V);
+
+	static const FVector3 const left;
+	static const FVector3 const right;
+	static const FVector3 const down;
+	static const FVector3 const up;
+	static const FVector3 const back;
+	static const FVector3 const forward;
 };
 
 FVector3 operator*(float f, const FVector3& V);

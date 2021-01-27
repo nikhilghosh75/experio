@@ -61,4 +61,6 @@ public:
 	static bool IsMeshLoaded(const std::string& str);
 
 	static std::string GetNameOfMesh(const MeshRef& ref);
+
+	static size_t SizeOfLoadedMeshes();
 };

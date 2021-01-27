@@ -1,0 +1,4 @@
+[Conversions]
+ConvertFonts = true
+ConvertMeshes = true
+ConvertScenes = true

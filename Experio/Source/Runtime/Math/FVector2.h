@@ -66,6 +66,11 @@ struct FVector2
 	FVector2 operator*=(const float f);
 	FVector2 operator/(const float f) const;
 	FVector2 operator/=(const float f);
+
+	static const FVector2 const left;
+	static const FVector2 const right;
+	static const FVector2 const down;
+	static const FVector2 const up;
 };
 
 FVector2 operator*(float f, const FVector2& V);
