@@ -1,13 +1,13 @@
 #include "BinFontReader.h"
 #include "../../Debug/Debug.h"
-#include "../../Debug/TempProfiler.h"
+#include "../../Debug/Profiler.h"
 #include "../../Framework/AssetMap.h"
 #include "../../Rendering/Managers/TextureManager.h"
 #include <fstream>
 
 FontData * BinFontReader::ReadFile(const char * fileName)
 {
-	TempProfiler profiler("Reading Font Mesh");
+	PROFILE_SCOPE_CATEGORY("Reading Binary Font", EProfilerCategory::Files);
 
 	std::ifstream inFile(fileName, std::ios::binary);
 

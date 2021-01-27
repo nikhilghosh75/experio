@@ -30,7 +30,6 @@
 #include "../ProjectSettings/SettingsView.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../SceneView/SceneView.h"
-#include "Runtime/Debug/TempProfiler.h"
 #include "Runtime/Framework/SceneLoader.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
@@ -166,7 +165,7 @@ void EditorApplication::AddDefaultModules()
 	modules.push_back(new SceneHierarchy());
 	modules.push_back(new Inspector());
 	modules.push_back(new GameView());
-	modules.push_back(new Console());
+	// modules.push_back(new Console());
 
 	modules.push_back(new SettingsView());
 }

@@ -8,7 +8,7 @@
 #include "../../Core/LWindowOperations.h"
 #include "glm/gtc/matrix_transform.hpp"
 #include "../../Math/LMath.h"
-#include "../../Debug/TempProfiler.h"
+#include "../../Debug/Profiler.h"
 
 int particlesPerSecond = 10000;
 

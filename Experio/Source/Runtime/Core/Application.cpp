@@ -1,7 +1,6 @@
 #include "Application.h"
 #include "Window.h"
 #include <iostream>
-#include "../Debug/TempProfiler.h"
 #include "../Rendering/Renderer.h"
 #include "../Framework/AssetMap.h"
 #include "../Framework/Framework.h"

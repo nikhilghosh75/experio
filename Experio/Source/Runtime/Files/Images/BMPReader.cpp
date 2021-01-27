@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include "../../Debug/Debug.h"
-#include "../../Debug/TempProfiler.h"
+#include "../../Debug/Profiler.h"
 #include "LImageOperations.h"
 
 BMPReader::BMPReader()
@@ -11,7 +11,7 @@ BMPReader::BMPReader()
 
 ImageData* BMPReader::ReadFile(const char * fileName)
 {
-	TempProfiler profiler("BMP Reader");
+	PROFILE_SCOPE_CATEGORY("BMP Reader", EProfilerCategory::Files);
 	ImageData* returnData = new ImageData();
 
 	char header[54];

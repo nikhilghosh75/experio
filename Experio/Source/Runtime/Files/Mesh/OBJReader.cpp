@@ -5,13 +5,13 @@
 #include <iostream>
 #include <string>
 #include "../../Debug/Debug.h"
-#include "../../Debug/TempProfiler.h"
+#include "../../Debug/Profiler.h"
 #include "../../Containers/LString.h"
 #include "LMeshOperations.h"
 
 MeshData * OBJReader::ReadFile(const char * fileName)
 {
-	TempProfiler profiler("Reading OBJ");
+	PROFILE_SCOPE_CATEGORY("Read OBJ", EProfilerCategory::Files);
 
 	std::vector<unsigned int> vertexIndicies;
 	std::vector<unsigned int> uvIndicies;
@@ -83,7 +83,7 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 		}
 	}
 
-	Debug::Log("Read Entire File");
+	// Debug::Log("Read Entire File");
 	objFile.close();
 
 	glm::vec3* vertexData = new glm::vec3[vertexIndicies.size()];
@@ -115,7 +115,7 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 	meshData->tangents = tangentBuffer;
 	meshData->bitangents = bitangentBuffer;
 
-	Debug::Log("Read Tangents and Bitangents");
+	// Debug::Log("Read Tangents and Bitangents");
 
 	meshData->indexBuffer = LMeshOperations::IndexMesh(*meshData);
 	//meshData->isIndexed = false;

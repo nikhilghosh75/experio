@@ -3,8 +3,6 @@
 #include "../BuildSystem/LSerializationOperations.h"
 #include "Runtime/Framework/Framework.h"
 #include "Runtime/Framework/Project.h"
-#include "Runtime/Debug/TempProfiler.h"
-
 
 void SceneSaver::SaveGameObject(GameObject * gameObject, std::ofstream& stream)
 {
@@ -83,7 +81,7 @@ bool SceneSaver::SaveScene(uint8_t sceneIndex, const std::string& filename)
 		return false;
 	}
 
-	PROFILE_SCOPE("Save Scene");
+	// PROFILE_SCOPE("Save Scene");
 
 	sceneFile << "PROJECT BLOO SCENE" << std::endl;
 	sceneFile << "Name: " << LFileOperations::StripFilenameAndExt(filename) << std::endl;

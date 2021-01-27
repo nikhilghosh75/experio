@@ -1,6 +1,6 @@
 #include "TGAReader.h"
 #include "../../Debug/Debug.h"
-#include "../../Debug/TempProfiler.h"
+#include "../../Debug/Profiler.h"
 #include <fstream>
 
 TGAReader::TGAReader()
@@ -11,7 +11,7 @@ TGAReader::TGAReader()
 
 ImageData* TGAReader::ReadFile(const char * fileName)
 {
-	TempProfiler("Reading TGA");
+	PROFILE_SCOPE("Reading TGA", EProfilerCategory::Files);
 
 	std::fstream tgaFile(fileName);
 

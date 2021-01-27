@@ -5,7 +5,7 @@
 #include <GL/GL.h>
 #include "../Math/LMath.h"
 #include "../Debug/Debug.h"
-#include "../Debug/TempProfiler.h"
+#include "../Debug/Profiler.h"
 #include "glm/glm.hpp"
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -154,7 +154,7 @@ void Renderer::DrawBillboard(const Billboard & billboard)
 
 void Renderer::DrawMesh(const MeshComponent & mesh)
 {
-	PROFILE_SCOPE("Rendering Mesh");
+	PROFILE_SCOPE("Renderer::DrawMesh");
 
 	if (!mesh.isVisible)
 	{
