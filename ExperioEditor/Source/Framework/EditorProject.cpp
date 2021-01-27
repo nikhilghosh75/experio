@@ -108,8 +108,8 @@ void EditorProject::TempSetupClasses()
 	virtualCamera.inheritance.push_back("Component");
 	virtualCamera.params.emplace_back("float", "priority", ECodeAccessType::Public);
 	virtualCamera.params.emplace_back("float", "fieldOfView", ECodeAccessType::Public);
-	virtualCamera.params.emplace_back("float", "priority", ECodeAccessType::Public);
-	virtualCamera.params.emplace_back("float", "fieldOfView", ECodeAccessType::Public);
+	virtualCamera.params.emplace_back("float", "nearClipPlane", ECodeAccessType::Public);
+	virtualCamera.params.emplace_back("float", "farClipPlane", ECodeAccessType::Public);
 
 	CodeClass meshComponent("MeshComponent");
 	meshComponent.inheritance.push_back("Component");
