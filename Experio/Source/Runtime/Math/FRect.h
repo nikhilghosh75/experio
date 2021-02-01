@@ -18,8 +18,6 @@ struct FRect
 	bool operator == (const FRect& other) const { return (min == other.min) && (max == other.max); }
 	bool operator != (const FRect& other) const { return !(min == other.min) || !(max == other.max); }
 
-	bool IsInside(FVector2 point) const;
-
 	FVector2 GetTopLeft() const;
 	FVector2 GetTopRight() const;
 	FVector2 GetBottomLeft() const;
