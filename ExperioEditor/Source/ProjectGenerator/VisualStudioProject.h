@@ -54,7 +54,7 @@ public:
 
 	void SetConfiguration(EVSConfiguration configuration);
 
-	void GenerateProjectFile(std::string& filepath);
+	void GenerateProjectFile(const std::string& filepath);
 
 private:
 	// Move Later
