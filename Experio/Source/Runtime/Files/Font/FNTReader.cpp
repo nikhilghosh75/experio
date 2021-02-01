@@ -1,5 +1,6 @@
 #include "FNTReader.h"
 #include "LFontOperations.h"
+#include "../LFileOperations.h"
 #include "../../Rendering/Texture.h"
 #include "../../Debug/Debug.h"
 #include "../../Debug/Profiler.h"
@@ -50,7 +51,7 @@ FontData * FNTReader::ReadFile(const char * fileName)
 		else if (word.find("file=") != std::string::npos)
 		{
 			std::string imageFileName = StripQuotes(StripAfterEqualSign(word));
-			std::string fileLocation = LString::GetFileLocation(fileName);
+			std::string fileLocation = LFileOperations::GetDirectory(fileName);
 			std::string imageFilePath = (std::string)fileLocation + "/" + imageFileName;
 			returnData->fontTexture = TextureManager::LoadTexture(imageFilePath);
 		}
