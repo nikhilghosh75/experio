@@ -132,9 +132,16 @@ void LImGui::DisplayFontAsset(FontRef & ref, std::string name)
 	ImGui::Text(name.c_str());
 	ImGui::NextColumn();
 
+	if (ref.IsNull())
+	{
+		ImGui::Text("Null");
+	}
+	else
+	{
 	std::string fontFileName = FontManager::GetNameOfFont(ref);
 	std::string fontName = LFileOperations::StripFilename(fontFileName);
 	ImGui::Text(fontName.c_str());
+	}
 
 	if (ImGui::BeginDragDropTarget())
 	{
@@ -224,9 +231,16 @@ void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
 	ImGui::Text(name.c_str());
 	ImGui::NextColumn();
 
+	if (ref.IsNull())
+	{
+		ImGui::Text("Null");
+	}
+	else
+	{
 	std::string meshFileName = MeshManager::GetNameOfMesh(ref);
 	std::string meshName = LFileOperations::StripFilename(meshFileName);
 	ImGui::Text(meshName.c_str());
+	}
 
 	if (ImGui::BeginDragDropTarget())
 	{
@@ -298,9 +312,16 @@ void LImGui::DisplayTextureAsset(TextureRef & ref, std::string name)
 	ImGui::Text(name.c_str());
 	ImGui::NextColumn();
 
+	if (ref.IsNull())
+	{
+		ImGui::Text("Null");
+	}
+	else
+	{
 	std::string meshFileName = TextureManager::GetNameOfTexture(ref);
 	std::string meshName = LFileOperations::StripFilename(meshFileName);
 	ImGui::Text(meshName.c_str());
+	}
 
 	if (ImGui::BeginDragDropTarget())
 	{
