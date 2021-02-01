@@ -15,6 +15,10 @@ GameObject::GameObject()
 	this->layer = 0;
 	this->sceneIndex = 0;
 
+	this->localPosition = FVector3(0, 0, 0);
+	this->localRotation = FQuaternion(0, 0, 0, 1);
+	this->localScale = FVector3(1, 1, 1);
+
 	PB_ASSIGN_DEFAULT_ID()
 }
 
@@ -24,6 +28,10 @@ GameObject::GameObject(std::string name)
 	this->tag = 0;
 	this->layer = 0;
 	this->sceneIndex = 0;
+
+	this->localPosition = FVector3(0, 0, 0);
+	this->localRotation = FQuaternion(0, 0, 0, 1);
+	this->localScale = FVector3(1, 1, 1);
 
 	PB_ASSIGN_DEFAULT_ID()
 }
@@ -35,6 +43,10 @@ GameObject::GameObject(std::string name, unsigned short tag, uint8_t layer)
 	this->layer = layer;
 	this->sceneIndex = 0;
 
+	this->localPosition = FVector3(0, 0, 0);
+	this->localRotation = FQuaternion(0, 0, 0, 1);
+	this->localScale = FVector3(1, 1, 1);
+
 	PB_ASSIGN_DEFAULT_ID()
 }
 
@@ -44,6 +56,10 @@ GameObject::GameObject(std::string name, unsigned short tag, uint8_t layer, uint
 	this->tag = tag;
 	this->layer = layer;
 	this->sceneIndex = scene;
+
+	this->localPosition = FVector3(0, 0, 0);
+	this->localRotation = FQuaternion(0, 0, 0, 1);
+	this->localScale = FVector3(1, 1, 1);
 
 	PB_ASSIGN_DEFAULT_ID()
 }
