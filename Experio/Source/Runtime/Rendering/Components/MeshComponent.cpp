@@ -36,6 +36,9 @@ void MeshComponent::Start()
 
 void MeshComponent::Update()
 {
+	if (this->material == nullptr || this->meshData.IsNull())
+		return;
+
 	RecalculateModelMatrix();
 
 	Renderer::Get()->DrawMesh(*this);
