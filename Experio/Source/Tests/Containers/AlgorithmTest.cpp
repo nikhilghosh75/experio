@@ -70,3 +70,14 @@ UNIT_TEST(TestAlgorithmAdd, "Algorithm")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestAlgorithmAllOf, "Algorithm")
+{
+	std::vector<int> trueVector = { 1, 2, 3, 4, 5 };
+	std::vector<int> falseVector = { -1, -2, 0, 2, 1 };
+
+	// Fix this later
+	// ASSERT_TRUE(Algorithm::AllOf(trueVector, [](const int& i) { return i >= 0; }), "");
+
+	TEST_END();
+}
