@@ -24,7 +24,7 @@ VirtualCamera* CameraSystem::GetComponent(GameObject* gameObject)
 {
 	for (int i = 0; i < cameras.size(); i++)
 	{
-		if (cameras[i].GetGameObject() == gameObject)
+		if (cameras[i].GetGameObject()->id == gameObject->id)
 		{
 			return &cameras[i];
 		} 
