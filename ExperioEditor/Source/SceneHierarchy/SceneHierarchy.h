@@ -10,10 +10,12 @@ class SceneHierarchy : public EditorModule
 	static void HandleDragDrop(const GameObject* gameObject);
 	static void HandleSwap(uint64_t fromID, uint64_t toID);
 
+	static void HandleContextMenu(GameObject* gameObject);
+
 public:
 	static SceneHierarchy* hierarchy;
 
-	static void DisplayGameObjectTree(const GameObject* gameObject, std::vector<GameObject>& selectedItems);
+	static void DisplayGameObjectTree(GameObject* gameObject, std::vector<GameObject>& selectedItems);
 
 	SceneHierarchy();
 
