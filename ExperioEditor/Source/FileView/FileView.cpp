@@ -8,8 +8,9 @@
 #include "Runtime/Rendering/Managers/FontManager.h"
 #include "Runtime/Rendering/Managers/MeshManager.h"
 #include "Runtime/Rendering/Managers/TextureManager.h"
-#include "../AssetViewers/MeshViewer.h"
+#include "../AssetViewers/FontViewer.h"
 #include "../AssetViewers/ImageViewer.h"
+#include "../AssetViewers/MeshViewer.h"
 #include "../Core/EditorApplication.h"
 #include "../Core/FileDialog.h"
 #include "../Framework/CreateMenu.h"
@@ -29,6 +30,7 @@ FileView::FileView()
 	this->category = EEditorModuleCategory::Core;
 
 	this->assetFilePath = EditorApplication::assetsFilePath;
+	this->selectedItem = "Assets";
 
 	this->directories = LFileOperations::CreateFileNamesTree(this->assetFilePath, EFileTreeOptions::DisplayDirectories);
 
@@ -113,18 +115,22 @@ void FileView::DisplayTree()
 {
 	ImGui::BeginChild("Directories", ImVec2(200, 0), true);
 
-	LImGui::DisplayTree(directories, "Assets", this->selectedItem);
+	std::string tempSelectedItem = this->selectedItem;
+	LImGui::DisplayTree(directories, "Assets", tempSelectedItem);
 
-	std::string tempSelectedItem = selectedItem;
-	TTypedTreeNode<std::string>* selectedNode = SearchTree<std::string>(directories, [&tempSelectedItem](std::string str) { return str == tempSelectedItem; });
+	if (tempSelectedItem != this->selectedItem)
+	{
+		TTypedTreeNode<std::string>* selectedNode = SearchTree<std::string>(directories, [&tempSelectedItem](std::string str) { return str == tempSelectedItem; });
+		this->selectedItem = tempSelectedItem;
 
-	if (selectedItem == "Assets")
-	{
-		this->selectedFilepath = this->assetFilePath;
-	}
-	else
-	{
-		this->selectedFilepath = this->assetFilePath + "/" + GetSelectedFilepath(selectedNode);
+		if (selectedItem == "Assets")
+		{
+			this->selectedFilepath = this->assetFilePath;
+		}
+		else
+		{
+			this->selectedFilepath = this->assetFilePath + "/" + GetSelectedFilepath(selectedNode);
+		}
 	}
 
 	ImGui::EndChild();
@@ -136,7 +142,7 @@ void FileView::DisplayContents()
 	ImGui::SameLine();
 	ImGui::BeginChild("Contents", ImVec2(rect.GetWidth() - 300, 0), true);
 
-	static std::vector<std::string> fileTypes = { "Audio", "Animation", "Code",
+	static const std::vector<std::string> fileTypes = { "Audio", "Animation", "Code",
 		"Data", "Font", "Image", "H", "Markup", "Material", "Mesh", "Meta", 
 		"NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Text","Video" 
 	};
@@ -145,6 +151,7 @@ void FileView::DisplayContents()
 
 	if (this->selectedFilepath.empty())
 	{
+		this->selectedFilepath = this->assetFilePath;
 		ImGui::EndChild();
 		return;
 	}
