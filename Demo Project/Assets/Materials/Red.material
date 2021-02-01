@@ -1,0 +1,7 @@
+MATERIAL
+Type: MeshMaterial
+Shader: ?Standard?/Shaders/Basic.shader
+
+albedo: ?Assets?/Materials\Red.png
+normal: ?Standard?/Textures/normal.bmp
+specular: ?Standard?/Textures/specular.bmp
