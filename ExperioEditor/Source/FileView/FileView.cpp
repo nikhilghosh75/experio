@@ -224,14 +224,34 @@ std::string FileView::GetSelectedFilepath(TTypedTreeNode<std::string>* selectedN
 	return filePath;
 }
 
+/*
+Audio - Audio Viewer (To-Do)
+Animation - Animation Viewer (To-Do)
+Cpp/H - Visual Studio
+Data - Excel
+Font - Font Viewer (To-Do)
+Image - Image Viewer
+Markup - ?
+Material - Material Viewer
+Mesh - Mesh Viewer
+Meta - ?
+NonEngineCode - Visual Studio
+Particle - Particle Viewer (To-Do)
+Prefab - ?
+Shader - Shader Graph/Visual Studio
+Scene - Open Scene
+Text - Visual Studio
+Video - ?
+*/
+
 void FileView::OpenFile(const std::string & str, EAssetType type)
 {
 	switch (type)
 	{
-	case EAssetType::Mesh:
+	case EAssetType::Font:
 	{
-		MeshViewer* meshViewer = (MeshViewer*)EditorApplication::AddModule(new MeshViewer());
-		meshViewer->loadedRef = MeshManager::LoadMesh(str);
+		FontViewer* fontViewer = (FontViewer*)EditorApplication::AddModule(new FontViewer());
+		fontViewer->loadedRef = FontManager::LoadFont(str);
 	}
 	break;
 	case EAssetType::Image:
@@ -240,16 +260,23 @@ void FileView::OpenFile(const std::string & str, EAssetType type)
 		imageViewer->loadedRef = TextureManager::LoadTexture(str);
 	}
 	break;
-	case EAssetType::Scene:
-	{
-		// Add stuff here
-	}
-	break;
 	case EAssetType::Material:
 	{
 		MaterialEditor* materialEditor = (MaterialEditor*)EditorApplication::AddModule(new MaterialEditor());
 		materialEditor->SetMaterial(str);
 	}
+	break;
+	case EAssetType::Mesh:
+	{
+		MeshViewer* meshViewer = (MeshViewer*)EditorApplication::AddModule(new MeshViewer());
+		meshViewer->loadedRef = MeshManager::LoadMesh(str);
+	}
+	break;
+	case EAssetType::Scene:
+	{
+		// Add stuff here
+	}
+	break;
 	}
 }
 
