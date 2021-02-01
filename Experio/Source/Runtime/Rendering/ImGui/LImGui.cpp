@@ -175,6 +175,46 @@ void LImGui::DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string
 	}
 }
 
+void LImGui::DisplayMaterial(Material * material, std::string name)
+{
+	ImGui::PushID(name.c_str());
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 100.f);
+	ImGui::Text(name.c_str());
+	ImGui::NextColumn();
+
+	if (material == nullptr)
+	{
+		ImGui::Text("Null");
+	}
+	else
+	{
+		std::string& materialName = Project::materialManager->materialNames[material->GetID()];
+		ImGui::Text(materialName.c_str());
+	}
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_MATERIAL"))
+		{
+			Material* tempMaterial = Project::materialManager->LoadMaterialFromFile((char*)payload->Data);
+			if (tempMaterial != nullptr)
+			{
+				material = tempMaterial;
+			}
+		}
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Switch"))
+	{
+		// Add Later
+	}
+
+	ImGui::Columns(1);
+	ImGui::PopID();
+}
+
 void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
 {
 	ImGui::PushID(name.c_str());
