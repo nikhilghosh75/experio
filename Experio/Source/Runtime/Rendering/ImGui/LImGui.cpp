@@ -9,7 +9,7 @@
 
 using namespace Experio;
 
-uint64_t LImGui::DisplayBitmask(std::string name, std::vector<std::string>& names, bool* selected)
+uint64_t LImGui::DisplayBitmask(std::string name, const std::vector<std::string>& names, bool* selected)
 {
 	uint64_t currentMask = 0;
 
