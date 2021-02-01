@@ -1,6 +1,12 @@
 #include "Profiler.h"
 #include <thread>
 
+#define PB_DEBUG_PROFILER
+
+#ifdef PB_DEBUG_PROFILER
+#include <iostream>
+#endif
+
 static ProfilerManager manager;
 
 ScopeProfiler::ScopeProfiler()
@@ -35,6 +41,12 @@ void ScopeProfiler::End()
 
 	uint8_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
 	manager.Write(start.ticks, (end - start).ticks, name, category, threadID);
+
+	FDateTime::SecondsToString((end - start).ticks);
+
+#ifdef PB_DEBUG_PROFILER
+	std::cout << "Process " << name << " took " << FDateTime::SecondsToString((end - start).ticks) << std::endl;
+#endif
 }
 
 ProfilerManager::ProfilerManager()
