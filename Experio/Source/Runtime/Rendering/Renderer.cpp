@@ -262,19 +262,33 @@ void Renderer::DrawQuad(const Texture & texture, const Shader & shader, const FR
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Renderer::TempDraw(const VertexArray* va, const IndexBuffer* ib, const Shader* shader) const
+void Renderer::SetCull(bool culling)
 {
-	shader->Bind();
-	va->Bind();
-	ib->Bind();
-	glDrawElements(GL_TRIANGLES, ib->GetCount(), GL_UNSIGNED_INT, nullptr);
+	if (culling)
+		glEnable(GL_CULL_FACE);
+	else
+		glDisable(GL_CULL_FACE);
 }
 
-void Renderer::TempDraw(const VertexArray * va, const Shader * shader, int count) const
+void Renderer::SetDepthTesting(bool depthTesting)
 {
-	shader->Bind();
-	va->Bind();
-	glDrawArrays(GL_TRIANGLES, 0, (unsigned int)count);
+	if (depthTesting)
+		glEnable(GL_DEPTH_TEST);
+	else
+		glDisable(GL_DEPTH_TEST);
+}
+
+void Renderer::SetDither(bool dither)
+{
+	if (dither)
+		glEnable(GL_DITHER);
+	else
+		glDisable(GL_DITHER);
+}
+
+void Renderer::SetViewport(int x, int y, unsigned int width, unsigned int height)
+{
+	glViewport(x, y, width, height);
 }
 
 void Renderer::TempRenderer()
