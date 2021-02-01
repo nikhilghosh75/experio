@@ -73,7 +73,7 @@ public:
 		this->count = 0;
 		for (auto elem : list)
 		{
-			data[this->count] = *elem;
+			data[this->count] = elem;
 			this->count = 0;
 		}
 		this->capacity = list.size();
