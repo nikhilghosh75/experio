@@ -3,6 +3,45 @@
 
 TEST_SUITE("Params", "Experio/Framework");
 
+UNIT_TEST(TestParamsBool, "Params")
+{
+	std::string trueStr = "true";
+	std::string falseStr = "false";
+
+	ASSERT_TRUE(ParseBool(trueStr), "");
+	ASSERT_FALSE(ParseBool(falseStr), "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestParamsByte, "Params")
+{
+	std::string byteStr = "48";
+	std::string negativeByteStr = "-20";
+
+	ASSERT_EQUAL(ParseByte(byteStr), 48, "");
+	ASSERT_EQUAL(ParseByte(negativeByteStr), -20, "");
+
+	std::string uByteStr = "212";
+	ASSERT_EQUAL(ParseUByte(uByteStr), 212, "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestParamsShort, "Params")
+{
+	std::string shortStr = "450";
+	std::string negativeShortStr = "-342";
+
+	ASSERT_EQUAL(ParseShort(shortStr), 450, "");
+	ASSERT_EQUAL(ParseShort(negativeShortStr), -342, "");
+	
+	std::string uShortStr = "48754";
+	ASSERT_EQUAL(ParseUShort(uShortStr), 48754, "");
+
+	TEST_END();
+}
+
 UNIT_TEST(TestParamsVector2, "Params")
 {
 	std::string str1 = " {1.25 0.125} ";

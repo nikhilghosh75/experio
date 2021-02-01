@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AssetViewers\FontViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\ImageViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\LayerEditor.cpp" />
     <ClCompile Include="Source\AssetViewers\MeshViewer.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="Source\Testing\UnitTestingFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AssetViewers\FontViewer.h" />
     <ClInclude Include="Source\AssetViewers\ImageViewer.h" />
     <ClInclude Include="Source\AssetViewers\LayerEditor.h" />
     <ClInclude Include="Source\AssetViewers\MeshViewer.h" />

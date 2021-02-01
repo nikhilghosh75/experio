@@ -126,7 +126,7 @@ public:
 
 	void Push(T object)
 	{
-		TQueueNode<T>* newTail = new TQueueNode<T>(object);
+		TQueueNode<T>* newTail = new TQueueNode<T>(object, nullptr);
 		if (this->tail != nullptr)
 		{
 			this->tail->next = newTail;

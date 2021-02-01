@@ -93,11 +93,6 @@ void FRect::Fix()
 	}
 }
 
-bool FRect::IsInside(FVector2 point) const
-{
-	return (point.x > min.x) && (point.y > min.y) && (point.x < max.x) && (point.y < min.y);
-}
-
 FVector2 FRect::GetTopLeft() const
 {
 	return FVector2(min.x, max.y);

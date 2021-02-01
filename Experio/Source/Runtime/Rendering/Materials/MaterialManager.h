@@ -16,6 +16,8 @@ protected:
 public:
 	std::vector<uint32_t> materialTypes;
 
+	std::vector<std::string> materialNames;
+
 	Material* LoadMaterialFromFile(const std::string& filePath)
 	{
 		if (!LFileOperations::DoesFileHaveExtension(filePath, "material"))
@@ -55,6 +57,8 @@ public:
 			materialFile.getline(word, 256);
 			params.push_back(std::string(word));
 		}
+
+		materialNames.push_back(LFileOperations::StripFilename(filePath));
 
 		return AddMaterial(GetMaterialType(materialType), shader, params);
 	}

@@ -55,8 +55,10 @@ public:
 	void DrawQuad(unsigned int textureID, const Shader& shader, const FRect& uvRect, const FRect& vertexRect);
 	void DrawQuad(const Texture& texture, const Shader& shader, const FRect& uvRect, const FRect& vertexRect);
 
-	void TempDraw(const VertexArray* va, const IndexBuffer* ib, const Shader* shader) const;
-	void TempDraw(const VertexArray* va, const Shader* shader, int count) const;
+	void SetCull(bool culling);
+	void SetDepthTesting(bool depthTesting);
+	void SetDither(bool dither);
+	void SetViewport(int x, int y, unsigned int width, unsigned int height);
 
 	void TempRenderer();
 

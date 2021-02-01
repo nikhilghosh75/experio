@@ -44,6 +44,7 @@ GameView::GameView()
 void GameView::Display()
 {
 	renderer.MakeCurrent();
+	renderer.SetCull(true);
 
 	CreateMenu();
 

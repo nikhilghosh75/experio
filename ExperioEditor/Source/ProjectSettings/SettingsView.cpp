@@ -15,6 +15,14 @@ SettingsView::SettingsView()
 	GenerateSettingMenuTree();
 }
 
+SettingsView::~SettingsView()
+{
+	for (size_t i = 0; i < this->settingMenuTrees.size(); i++)
+	{
+		delete settingMenuTrees[i];
+	}
+}
+
 void SettingsView::Display()
 {
 	ImGui::BeginChild("left pane", ImVec2(150, 0), true);

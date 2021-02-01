@@ -18,7 +18,7 @@ void VSProject::SetConfiguration(EVSConfiguration configuration)
 	this->releaseConfiguration = configuration;
 }
 
-void VSProject::GenerateProjectFile(std::string & filepath)
+void VSProject::GenerateProjectFile(const std::string & filepath)
 {
 	std::ofstream outFile(filepath);
 

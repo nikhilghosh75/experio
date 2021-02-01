@@ -10,6 +10,7 @@ bool CreateMenu::materialCreateMenu = false;
 ECodeClassBase CreateMenu::currentClassType;
 
 static std::string className = "NewClass";
+static std::string materialName = "New Material";
 
 void CreateMenu::Initialize()
 {
@@ -74,7 +75,15 @@ void CreateMenu::DisplayMaterialCreateMenu()
 {
 	if (ImGui::BeginPopupModal("Create Material"))
 	{
-		ImGui::Text("This has not been created yet.");
+		std::string filepath = FileView::fileView->GetSelectedFilepath() + "/" + materialName;
+		ImGui::InputText("Material Name: ", materialName.data(), materialName.capacity());
+
+		if (ImGui::Button("Create"))
+		{
+			CreateSystem::CreateBasicMaterial(filepath);
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine();
 		if (ImGui::Button("Close"))
 		{
 			ImGui::CloseCurrentPopup();

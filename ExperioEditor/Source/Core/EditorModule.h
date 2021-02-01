@@ -14,6 +14,7 @@ enum class EEditorModuleCategory : uint8_t
 
 class EditorModule
 {
+	bool isDisplayed = true;
 protected:
 	FRect GetWindowRect(); // Only call this between ImGui::Begin and ImGui::End
 	FVector2 GetWindowSize(); // Only call this between ImGui::Begin and ImGui::End
@@ -28,5 +29,6 @@ public:
 
 	virtual void HandleInput() {};
 
+	bool* GetIsDisplayed() { return &isDisplayed; }
 	// Add EditorInput
 };

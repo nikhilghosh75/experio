@@ -38,6 +38,18 @@ ETextEncoding LFontOperations::GetEncoding(const FontData & data)
 	return ETextEncoding::UTF32;
 }
 
+uint32_t LFontOperations::GetCharCodeOfUV(const FontData & data, const FVector2 & uv)
+{
+	for (uint32_t i = 0; i < data.characters.size(); i++)
+	{
+		if (data.characters[i].uvCoordinates.IsInside(uv))
+		{
+			return i;
+		}
+	}
+	return 0;
+}
+
 uint32_t LFontOperations::GetMaxCharacterCode(const FontData& data)
 {
 	uint32_t max = 0;

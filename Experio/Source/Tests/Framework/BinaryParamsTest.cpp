@@ -32,3 +32,15 @@ UNIT_TEST(TestBinaryParamVector3, "BinaryParams")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestBinaryParamVector4, "BinaryParams")
+{
+	FVector4 v(10, 11, 12, 13);
+
+	ASSERT_ALMOST_EQUAL(BinaryParseVector4(&v).w, 10);
+	ASSERT_ALMOST_EQUAL(BinaryParseVector4(&v).x, 11);
+	ASSERT_ALMOST_EQUAL(BinaryParseVector4(&v).y, 12);
+	ASSERT_ALMOST_EQUAL(BinaryParseVector4(&v).z, 13);
+
+	TEST_END();
+}

@@ -8,8 +8,9 @@
 #include "Runtime/Rendering/Managers/FontManager.h"
 #include "Runtime/Rendering/Managers/MeshManager.h"
 #include "Runtime/Rendering/Managers/TextureManager.h"
-#include "../AssetViewers/MeshViewer.h"
+#include "../AssetViewers/FontViewer.h"
 #include "../AssetViewers/ImageViewer.h"
+#include "../AssetViewers/MeshViewer.h"
 #include "../Core/EditorApplication.h"
 #include "../Core/FileDialog.h"
 #include "../Framework/CreateMenu.h"
@@ -29,6 +30,7 @@ FileView::FileView()
 	this->category = EEditorModuleCategory::Core;
 
 	this->assetFilePath = EditorApplication::assetsFilePath;
+	this->selectedItem = "Assets";
 
 	this->directories = LFileOperations::CreateFileNamesTree(this->assetFilePath, EFileTreeOptions::DisplayDirectories);
 
@@ -113,18 +115,22 @@ void FileView::DisplayTree()
 {
 	ImGui::BeginChild("Directories", ImVec2(200, 0), true);
 
-	LImGui::DisplayTree(directories, "Assets", this->selectedItem);
+	std::string tempSelectedItem = this->selectedItem;
+	LImGui::DisplayTree(directories, "Assets", tempSelectedItem);
 
-	std::string tempSelectedItem = selectedItem;
-	TTypedTreeNode<std::string>* selectedNode = SearchTree<std::string>(directories, [&tempSelectedItem](std::string str) { return str == tempSelectedItem; });
+	if (tempSelectedItem != this->selectedItem)
+	{
+		TTypedTreeNode<std::string>* selectedNode = SearchTree<std::string>(directories, [&tempSelectedItem](std::string str) { return str == tempSelectedItem; });
+		this->selectedItem = tempSelectedItem;
 
-	if (selectedItem == "Assets")
-	{
-		this->selectedFilepath = this->assetFilePath;
-	}
-	else
-	{
-		this->selectedFilepath = this->assetFilePath + "/" + GetSelectedFilepath(selectedNode);
+		if (selectedItem == "Assets")
+		{
+			this->selectedFilepath = this->assetFilePath;
+		}
+		else
+		{
+			this->selectedFilepath = this->assetFilePath + "/" + GetSelectedFilepath(selectedNode);
+		}
 	}
 
 	ImGui::EndChild();
@@ -136,7 +142,7 @@ void FileView::DisplayContents()
 	ImGui::SameLine();
 	ImGui::BeginChild("Contents", ImVec2(rect.GetWidth() - 300, 0), true);
 
-	static std::vector<std::string> fileTypes = { "Audio", "Animation", "Code",
+	static const std::vector<std::string> fileTypes = { "Audio", "Animation", "Code",
 		"Data", "Font", "Image", "H", "Markup", "Material", "Mesh", "Meta", 
 		"NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Text","Video" 
 	};
@@ -145,6 +151,7 @@ void FileView::DisplayContents()
 
 	if (this->selectedFilepath.empty())
 	{
+		this->selectedFilepath = this->assetFilePath;
 		ImGui::EndChild();
 		return;
 	}
@@ -224,14 +231,34 @@ std::string FileView::GetSelectedFilepath(TTypedTreeNode<std::string>* selectedN
 	return filePath;
 }
 
+/*
+Audio - Audio Viewer (To-Do)
+Animation - Animation Viewer (To-Do)
+Cpp/H - Visual Studio
+Data - Excel
+Font - Font Viewer (To-Do)
+Image - Image Viewer
+Markup - ?
+Material - Material Viewer
+Mesh - Mesh Viewer
+Meta - ?
+NonEngineCode - Visual Studio
+Particle - Particle Viewer (To-Do)
+Prefab - ?
+Shader - Shader Graph/Visual Studio
+Scene - Open Scene
+Text - Visual Studio
+Video - ?
+*/
+
 void FileView::OpenFile(const std::string & str, EAssetType type)
 {
 	switch (type)
 	{
-	case EAssetType::Mesh:
+	case EAssetType::Font:
 	{
-		MeshViewer* meshViewer = (MeshViewer*)EditorApplication::AddModule(new MeshViewer());
-		meshViewer->loadedRef = MeshManager::LoadMesh(str);
+		FontViewer* fontViewer = (FontViewer*)EditorApplication::AddModule(new FontViewer());
+		fontViewer->loadedRef = FontManager::LoadFont(str);
 	}
 	break;
 	case EAssetType::Image:
@@ -240,16 +267,23 @@ void FileView::OpenFile(const std::string & str, EAssetType type)
 		imageViewer->loadedRef = TextureManager::LoadTexture(str);
 	}
 	break;
-	case EAssetType::Scene:
-	{
-		// Add stuff here
-	}
-	break;
 	case EAssetType::Material:
 	{
 		MaterialEditor* materialEditor = (MaterialEditor*)EditorApplication::AddModule(new MaterialEditor());
 		materialEditor->SetMaterial(str);
 	}
+	break;
+	case EAssetType::Mesh:
+	{
+		MeshViewer* meshViewer = (MeshViewer*)EditorApplication::AddModule(new MeshViewer());
+		meshViewer->loadedRef = MeshManager::LoadMesh(str);
+	}
+	break;
+	case EAssetType::Scene:
+	{
+		// Add stuff here
+	}
+	break;
 	}
 }
 
@@ -279,8 +313,10 @@ std::string FileView::GetDragDropTypeFromAssetType(EAssetType type)
 {
 	switch (type)
 	{
-	case EAssetType::Mesh: return "EXPERIO_MESH";
+	case EAssetType::Font: return "EXPERIO_FONT";
 	case EAssetType::Image: return "EXPERIO_IMAGE";
+	case EAssetType::Material: return "EXPERIO_MATERIAL";
+	case EAssetType::Mesh: return "EXPERIO_MESH";
 	}
 	return "EXPERIO_FILE";
 }
