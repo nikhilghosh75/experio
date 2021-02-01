@@ -232,8 +232,12 @@ std::string LFileOperations::GetFullFilePath(std::string filePath)
 		{
 			return "C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard" + filePath.substr(10);
 		}
+		else if (filePath.find("?Assets?") != std::string::npos)
+		{
+			return "C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets" + filePath.substr(8);
+		}
 	}
-	return "C:/Users/debgh/source/repos/project-bloo/" + filePath;
+	return filePath;
 }
 
 std::string LFileOperations::GetFileName(std::filesystem::directory_entry entry)
