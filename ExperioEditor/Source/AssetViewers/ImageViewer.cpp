@@ -41,9 +41,6 @@ void ImageViewer::Display()
 
 	DisplayStats();
 
-	ImVec2 windowSize = ImGui::GetWindowSize();
-	ImVec2 currentSize = ImGui::GetWindowSize();
-	currentSize = ImVec2(currentSize.x - 12, currentSize.y - 145); // Change Later
-
+	ImVec2 currentSize = ImGui::GetContentRegionAvail();
 	ImGui::Image((void*)loadedRef->GetRendererID(), currentSize, ImVec2(0, 1), ImVec2(1, 0));
 }
