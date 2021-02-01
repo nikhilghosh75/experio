@@ -5,6 +5,7 @@
 #include "Runtime/Camera/AdditionalCameras.h"
 #include "Runtime/Camera/VirtualCamera.h"
 #include "Runtime/Framework/Project.h"
+#include "Runtime/Math/ColorPalette.h"
 #include "Runtime/Math/LMath.h"
 #include "Runtime/Rendering/Materials/SingleColorMaterial.h"
 
@@ -32,7 +33,12 @@ SceneView::SceneView()
 	this->cameraRotateSpeed = 0.0005f;
 	this->fieldOfView = 45.f;
 
+	this->gizmosEnabled = true;
 	this->currentMode = ESceneEditMode::Scale;
+
+	FWindowData data = EditorWindow::GetWindowData();
+	this->framebuffer = Framebuffer(data.width, data.height);
+	this->lastSize = ImVec2(0, 0);
 }
 
 void SceneView::CreateMenu()
@@ -57,6 +63,8 @@ void SceneView::CreateMenu()
 	this->cameraMoveSpeed = displayCameraMoveSpeed / PB_CAMERA_MOVE_SCALE_FACTOR;
 	this->cameraRotateSpeed = displayCameraRotateSpeed / PB_CAMERA_ROTATE_SCALE_FACTOR;
 	this->cameraScrollSpeed = displayCameraScrollSpeed / PB_CAMERA_SCROLL_SCALE_FACTOR;
+
+	ImGui::Checkbox("Gizmos Enabled", &this->gizmosEnabled);
 }
 
 void SceneView::ComputeContext()
@@ -112,6 +120,7 @@ constexpr ImGuizmo::OPERATION SceneView::SceneEditModeToOperation(ESceneEditMode
 void SceneView::Display()
 {
 	renderer.MakeCurrent();
+	renderer.SetCull(true);
 
 	CreateMenu();
 
@@ -119,15 +128,24 @@ void SceneView::Display()
 
 	AdditionalCameras::CalculateViewMatrix(cameraPosition, cameraRotation);
 	AdditionalCameras::CalculateProjectionMatrix(45.f, 0.1f, 1000.f, currentSize.x / currentSize.y);
-
-	FWindowData data = EditorWindow::GetWindowData();
-	Framebuffer framebuffer(data.width, data.height);
+	
+	if (!LMath::ApproxEquals(currentSize.x, lastSize.x, 2) || !LMath::ApproxEquals(currentSize.y, lastSize.y, 2))
+	{
+		renderer.SetViewport(0, 0, currentSize.x, currentSize.y);
+		framebuffer.SetSpec((unsigned int)currentSize.x, (unsigned int)currentSize.y);
+	}
 	framebuffer.Bind();
+	renderer.ClearColor(ColorPalette::Black);
+	renderer.Clear();
 	Project::componentManager->RenderScene();
 	framebuffer.Unbind();
 
 	ImGui::Image((void*)framebuffer.GetColorAttachment(), currentSize, ImVec2(0, 1), ImVec2(1, 0));
-	HandleGizmos();
+
+	lastSize = currentSize;
+	
+	if(gizmosEnabled)
+		HandleGizmos();
 }
 
 void SceneView::HandleInput()
