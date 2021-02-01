@@ -16,9 +16,8 @@ using namespace Experio::Algorithm;
 
 GeneratedEditor generatedEditor;
 
-void Inspector::DisplayGameObject(uint64_t id)
+void Inspector::DisplayGameObject(GameObject* object)
 {
-	GameObject* object = Scene::FindGameObjectFromId(id);
 	if (object == nullptr) return;
 	
 	DisplayGameObjectInfo(object);
@@ -158,7 +157,7 @@ void Inspector::UpdateComponents(std::vector<unsigned int> componentIDs, std::ve
 				InsertAt(componentEditors, (ComponentEditorBase*)(new MeshEditor()), i);
 				break;
 			case 103:
-				InsertAt(componentEditors, (ComponentEditorBase*)(new BillboardEditor()), i);
+				InsertAt(componentEditors, (ComponentEditorBase*)(new BillboardEditor()), i); break;
 			default:
 				InsertAt(componentEditors, (ComponentEditorBase*)(new GeneratedEditor(componentIDs[i], components[i])), i);
 				break;
@@ -239,12 +238,11 @@ Inspector::~Inspector()
 
 void Inspector::Display()
 {
-	std::vector<GameObject> objects = SceneHierarchy::hierarchy->GetSelectedItems();
+	std::vector<GameObject>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
 
 	if (objects.size() == 1)
 	{
-		DisplayGameObject(objects[0].id);
+		DisplayGameObject(&objects[0]);
+		DisplayAddComponentMenu();
 	}
-
-	DisplayAddComponentMenu();
 }
