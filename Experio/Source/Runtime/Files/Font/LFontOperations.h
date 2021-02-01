@@ -1,5 +1,6 @@
 #pragma once
 #include "FontReader.h"
+#include "../../Math/FVector2.h"
 
 enum class EAlphabet
 {
@@ -31,6 +32,8 @@ public:
 	static std::string CharsetToString(ECharacterSet charSet);
 
 	static ETextEncoding GetEncoding(const FontData& data);
+
+	static uint32_t GetCharCodeOfUV(const FontData& data, const FVector2& uv);
 
 	static uint32_t GetMaxCharacterCode(const FontData& data);
 
