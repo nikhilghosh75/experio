@@ -8,7 +8,7 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 	{
 		case 104: return std::vector<std::string>({ "margins", "fontSize", "text", "font", "shader"});
 		case 1024: return std::vector<std::string>({ "isActive = false", "isAccelerating = false", "acceleration", "topSpeed"});
-		case 100: return std::vector<std::string>({ "priority", "fieldOfView", "priority", "fieldOfView"});
+		case 100: return std::vector<std::string>({ "priority", "fieldOfView", "nearClipPlane", "farClipPlane"});
 		case 101: return std::vector<std::string>({ "material", "meshData", "isVisible"});
 		case 102: return std::vector<std::string>({ });
 		case 103: return std::vector<std::string>({ "billboardTexture", "sizeType", "orientation", "billboardSize"});
@@ -36,8 +36,8 @@ template<> void SetComponentParams(std::vector<std::string> params, VirtualCamer
 {
 	component->priority = ParseFloat(params[0]);
 	component->fieldOfView = ParseFloat(params[1]);
-	component->priority = ParseFloat(params[2]);
-	component->fieldOfView = ParseFloat(params[3]);
+	component->nearClipPlane = ParseFloat(params[2]);
+	component->farClipPlane = ParseFloat(params[3]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, MeshComponent* component)
@@ -79,8 +79,8 @@ template<> void SetComponentBinaryParams(void* data, VirtualCamera* component)
 {
 	component->priority = BinaryParseFloat((void*)((char*)data + 0));
 	component->fieldOfView = BinaryParseFloat((void*)((char*)data + 4));
-	component->priority = BinaryParseFloat((void*)((char*)data + 8));
-	component->fieldOfView = BinaryParseFloat((void*)((char*)data + 12));
+	component->nearClipPlane = BinaryParseFloat((void*)((char*)data + 8));
+	component->farClipPlane = BinaryParseFloat((void*)((char*)data + 12));
 }
 
 template<> void SetComponentBinaryParams(void* data, MeshComponent* component)
