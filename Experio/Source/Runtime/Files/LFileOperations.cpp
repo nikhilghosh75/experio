@@ -18,6 +18,7 @@ std::string LFileOperations::AssetTypeToString(EAssetType type)
 	case EAssetType::Font: return "Font";
 	case EAssetType::H: return "H";
 	case EAssetType::Image: return "Image";
+	case EAssetType::InputMap: return "InputMap";
 	case EAssetType::Markup: return "Markup";
 	case EAssetType::Material: return "Material";
 	case EAssetType::Mesh: return "Mesh";
@@ -27,6 +28,8 @@ std::string LFileOperations::AssetTypeToString(EAssetType type)
 	case EAssetType::Prefab: return "Prefab";
 	case EAssetType::Scene: return "Scene";
 	case EAssetType::Shader: return "Shader";
+	case EAssetType::Soundbank: return "Soundbank";
+	case EAssetType::Style: return "Style";
 	case EAssetType::Text: return "Text";
 	case EAssetType::Video: return "Video";
 	}
@@ -499,28 +502,6 @@ FileBuffer LFileOperations::ReadTrimmedFileToBuffer(std::ifstream & stream)
 	return FileBuffer(output.data(), output.length());
 }
 
-/*
-	case EAssetType::Animation: return "Animation";
-	case EAssetType::Audio: return "Audio";
-	case EAssetType::CPP: return "C++";
-	case EAssetType::Data: return "Data";
-	case EAssetType::Directory: return "Directory";
-	case EAssetType::Font: return "Font";
-	case EAssetType::H: return "H";
-	case EAssetType::Image: return "Image";
-	case EAssetType::Markup: return "Markup";
-	case EAssetType::Material: return "Material";
-	case EAssetType::Mesh: return "Mesh";
-	case EAssetType::Meta: return "Meta";
-	case EAssetType::NonEngineCode: return "NonEngineCode";
-	case EAssetType::Particle: return "Particle";
-	case EAssetType::Prefab: return "Prefab";
-	case EAssetType::Scene: return "Scene";
-	case EAssetType::Shader: return "Shader";
-	case EAssetType::Text: return "Text";
-	case EAssetType::Video: return "Video";
-*/
-
 EAssetType LFileOperations::StringToAssetType(const std::string & str)
 {
 	if (str == "Animation") return EAssetType::Animation;
@@ -531,6 +512,7 @@ EAssetType LFileOperations::StringToAssetType(const std::string & str)
 	if (str == "Font") return EAssetType::Font;
 	if (str == "H") return EAssetType::H;
 	if (str == "Image") return EAssetType::Image;
+	if (str == "InputMap") return EAssetType::InputMap;
 	if (str == "Markup") return EAssetType::Markup;
 	if (str == "Material") return EAssetType::Material;
 	if (str == "Mesh") return EAssetType::Mesh;
@@ -540,6 +522,8 @@ EAssetType LFileOperations::StringToAssetType(const std::string & str)
 	if (str == "Prefab") return EAssetType::Prefab;
 	if (str == "Scene") return EAssetType::Scene;
 	if (str == "Shader") return EAssetType::Shader;
+	if (str == "Soundbank") return EAssetType::Soundbank;
+	if (str == "Style") return EAssetType::Style;
 	if (str == "Text") return EAssetType::Text;
 	if (str == "Video") return EAssetType::Video;
 	return EAssetType::Unknown;
