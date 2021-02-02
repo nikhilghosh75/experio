@@ -8,7 +8,7 @@ void MeshEditor::Display(Component * component)
 {
 	MeshComponent* meshComponent = (MeshComponent*)component;
 
-	ImGui::Text("Material: Standard");
+	LImGui::DisplayMaterial(meshComponent->material, "Material");
 	LImGui::DisplayMeshAsset(meshComponent->meshData, "Mesh");
 	LImGui::DisplayBool(meshComponent->isVisible, "Is Visible");
 }
