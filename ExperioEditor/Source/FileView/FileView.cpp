@@ -34,7 +34,7 @@ FileView::FileView()
 
 	this->directories = LFileOperations::CreateFileNamesTree(this->assetFilePath, EFileTreeOptions::DisplayDirectories);
 
-	for (int i = 0; i < 18; i++)
+	for (int i = 0; i < 21; i++)
 	{
 		this->filesSelected[i] = true;
 	}
@@ -143,8 +143,9 @@ void FileView::DisplayContents()
 	ImGui::BeginChild("Contents", ImVec2(rect.GetWidth() - 300, 0), true);
 
 	static const std::vector<std::string> fileTypes = { "Audio", "Animation", "Code",
-		"Data", "Font", "Image", "H", "Markup", "Material", "Mesh", "Meta", 
-		"NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Text","Video" 
+		"Data", "Font", "Image", "Input Map", "H", "Markup", "Material", "Mesh", "Meta", 
+		"NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Soundbank", "Style", 
+		"Text","Video" 
 	};
 	Filemask fileMask = LImGui::DisplayBitmask("Filters", fileTypes, filesSelected);
 	fileMask.SetBitTrue((uint8_t)EAssetType::Directory);

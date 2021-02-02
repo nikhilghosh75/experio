@@ -14,7 +14,7 @@ class FileView : public EditorModule
 	TTypedTree<std::string>* directories;
 
 	// Change Later
-	bool filesSelected[18];
+	bool filesSelected[21];
 
 	void DisplayCreateMenu();
 	void DisplayImportMenu();
