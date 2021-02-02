@@ -131,10 +131,10 @@ void SceneView::Display()
 	
 	if (!LMath::ApproxEquals(currentSize.x, lastSize.x, 2) || !LMath::ApproxEquals(currentSize.y, lastSize.y, 2))
 	{
-		renderer.SetViewport(0, 0, currentSize.x, currentSize.y);
 		framebuffer.SetSpec((unsigned int)currentSize.x, (unsigned int)currentSize.y);
 	}
 	framebuffer.Bind();
+	renderer.SetViewport(0, 0, currentSize.x, currentSize.y);
 	renderer.ClearColor(ColorPalette::Black);
 	renderer.Clear();
 	Project::componentManager->RenderScene();
