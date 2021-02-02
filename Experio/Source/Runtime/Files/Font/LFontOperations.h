@@ -39,6 +39,7 @@ public:
 	static bool IsAlphabetSupported(const FontData& data, EAlphabet alphabet);
 
 	static uint32_t SerializedSizeOf(const FontData& data);
+	static uint32_t SerializedSizeOf(const uint32_t numCharacters);
 
 	static uint32_t SizeOf(const FontData& data);
 
