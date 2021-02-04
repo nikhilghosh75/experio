@@ -62,6 +62,7 @@ public:
 	static bool IsLeapYear(int year);
 
 	static int GetNanosecond(const FDateTime& dateTime);
+	static int GetMicrosecond(const FDateTime& dateTime);
 	static int GetMillisecond(const FDateTime& dateTime);
 	static int GetSecond(const FDateTime& dateTime);
 	static int GetMinute(const FDateTime& dateTime);

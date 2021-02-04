@@ -1,6 +1,7 @@
 #include "FDateTime.h"
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "windows.h"
 #include "../Containers/LString.h"
 
@@ -206,6 +207,11 @@ int FDateTime::GetNanosecond(const FDateTime & dateTime)
 	return (dateTime.ticks * NANOSECONDSPERTICKS) % 1000000000;
 }
 
+int FDateTime::GetMicrosecond(const FDateTime & dateTime)
+{
+	return (dateTime.ticks / TICKSPERMICROSECOND) % 1000;
+}
+
 int FDateTime::GetMillisecond(const FDateTime & dateTime)
 {
 	return (dateTime.ticks/TICKSPERMILLISECOND) % 1000;
@@ -396,19 +402,14 @@ std::string FDateTime::ToString(const FDateTime & dateTime)
 	s += ":" + std::to_string(GetSecond(dateTime));
 	s += ":" + std::to_string(GetMillisecond(dateTime));
 
-	return std::string();
+	return s;
 }
 
 std::string FDateTime::ToString(const FDateTime & dateTime, const std::string format)
 {
-	std::string s;
-	s.resize(format.length());
-	int n = format.length();
-
-	unsigned int skippedIndicies[32];
-	uint8_t skippedCount = 0;
-
-	for (int i = 0; i < n; i++)
+	std::stringstream ss;
+	
+	for (size_t i = 0; i < format.size(); i++)
 	{
 		if (format[i] == '%')
 		{
@@ -416,167 +417,105 @@ std::string FDateTime::ToString(const FDateTime & dateTime, const std::string fo
 			{
 			case 'a': // am/pm
 				if (GetHour(dateTime) > 12)
-				{
-					s[i] = 'p';
-					s[i + 1] = 'm';
-				}
+					ss << "pm";
 				else
-				{
-					s[i] = 'a';
-					s[i + 1] = 'm';
-				}
+					ss << "am";
 				break;
 			case 'A': // AM/PM
 				if (GetHour(dateTime) > 12)
-				{
-					s[i] = 'P';
-					s[i + 1] = 'M';
-				}
+					ss << "PM";
 				else
-				{
-					s[i] = 'A';
-					s[i + 1] = 'M';
-				}
+					ss << "AM";
 				break;
-			case 'd':
+			case 'd': // Day (2 digit) 
+			{
+				int day = GetDay(dateTime);
 				if (GetDay(dateTime) >= 10)
-				{
-					s[i] = LString::DigitToChar(GetDay(dateTime) / 10);
-					s[i + 1] = LString::DigitToChar(GetDay(dateTime) % 10);
-				}
+					ss << day;
 				else
-				{
-					s[i] = 0;
-					s[i + 1] = LString::DigitToChar(GetDay(dateTime));
-				}
+					ss << "0" << day;
 				break;
-			case 'D':
-				if (GetDay(dateTime) >= 10)
-				{
-					s[i] = LString::DigitToChar(GetDay(dateTime) / 10);
-					s[i + 1] = LString::DigitToChar(GetDay(dateTime) % 10);
-				}
-				else
-				{
-					skippedIndicies[skippedCount] = i; skippedCount++;
-					s[i + 1] = LString::DigitToChar(GetDay(dateTime));
-				}
+			}
+			case 'D': // Day (1 or 2 Digits)
+				ss << GetDay(dateTime);
 				break;
 			case 'e':
 				if (dateTime.ticks > 0)
-				{
-					s[i] = 'A';
-					s[i + 1] = 'D';
-				}
+					ss << "AD";
 				else
-				{
-					s[i] = 'B';
-					s[i + 1] = 'C';
-				}
+					ss << "BC";
 				break;
 			case 'h':
-				if (FDateTime::GetHour(dateTime) < 10)
-				{
-					s[i] = '0';
-					s[i + 1] = LString::DigitToChar(GetHour(dateTime));
-				}
+			{
+				int hour = GetHour(dateTime);
+				if (hour >= 10)
+					ss << hour;
 				else
-				{
-					s[i] = LString::DigitToChar(GetHour(dateTime) / 10);
-					s[i + 1] = LString::DigitToChar(GetHour(dateTime) % 10);
-				}
+					ss << "0" << hour;
 				break;
+			}
 			case 'H':
-				if (FDateTime::GetHour(dateTime) < 10)
-				{
-					skippedIndicies[skippedCount] = i; skippedCount++;
-					s[i + 1] = LString::DigitToChar(GetHour(dateTime));
-				}
-				else
-				{
-					s[i] = LString::DigitToChar(GetHour(dateTime) / 10);
-					s[i + 1] = LString::DigitToChar(GetHour(dateTime) % 10);
-				}
+				ss << GetHour(dateTime);
+				break;
+			case 'm':
+				ss << GetMillisecond(dateTime);
 				break;
 			case 'M':
-				if (i + 2 < format.length() && format[i + 2] == 'M') // MM
+				if (i + 2 < format.size() && format[i + 2] == 'M')
 				{
-					std::string month = MonthToThreeChar(GetMonth(dateTime));
-					s[i] = month[0];
-					s[i + 1] = month[1];
-					s[i + 2] = month[2];
+					ss << MonthToThreeChar(GetMonth(dateTime));
 					i++;
 				}
 				else
-				{
-					if (FDateTime::GetMonth(dateTime) < 10)
-					{
-						s[i] = '0';
-						s[i + 1] = LString::DigitToChar(GetMonth(dateTime));
-					}
-					else
-					{
-						s[i] = LString::DigitToChar(GetMonth(dateTime) / 10);
-						s[i + 1] = LString::DigitToChar(GetMonth(dateTime) % 10);
-					}
-				}
-				break;
-			case 'm':
-				if (i + 2 < format.length() && format[i + 2] == 'M') // mm
-				{
-					int milliseconds = GetMillisecond(dateTime);
-					if (milliseconds > 100)
-					{
-						s[i] = LString::DigitToChar(milliseconds / 100);
-						s[i + 1] = LString::DigitToChar((milliseconds % 100) / 10);
-						s[i + 2] = LString::DigitToChar(milliseconds % 10);
-					}
-					else if (milliseconds > 10)
-					{
-						s[i] = '0';
-						s[i + 1] = LString::DigitToChar(milliseconds / 10);
-						s[i + 2] = LString::DigitToChar(milliseconds % 10);
-					}
-					else
-					{
-						s[i] = '0';
-						s[i + 1] = '0';
-						s[i + 2] = LString::DigitToChar(milliseconds);
-					}
-				}
-				else
-				{
-					int milliseconds = GetMillisecond(dateTime);
-					if (milliseconds > 100)
-					{
-						s[i] = LString::DigitToChar(milliseconds / 100);
-						s[i + 1] = LString::DigitToChar((milliseconds % 100) / 10);
-					}
-					else
-					{
-						s[i] = '0';
-						s[i + 1] = LString::DigitToChar(milliseconds);
-					}
-				}
+					ss << GetMonth(dateTime);
 				break;
 			case 's':
+			{
 				int seconds = GetSecond(dateTime);
-				if (seconds > 10)
+				if (seconds >= 10)
+					ss << seconds;
+				else
+					ss << "0" << seconds;
+			}
+				break;
+			case 'u':
+			{
+				int microseconds = GetMicrosecond(dateTime);
+				if (microseconds >= 100)
+					ss << microseconds;
+				else if (microseconds >= 10)
+					ss << "0" << microseconds;
+				else
+					ss << "00" << microseconds;
+			}
+				break;
+			case 'X':
+				ss << dateTime.ticks;
+				break;
+			case 'y':
+			{
+				int year = GetYear(dateTime);
+				if (i + 2 < format.size() && format[i + 2] == 'y') // yy
 				{
-					s[i] = LString::DigitToChar(seconds / 10);
-					s[i + 1] = LString::DigitToChar((seconds % 10) / 10);
+					int twoDigitYear = year % 100;
+					ss << twoDigitYear;
+					i += 2;
 				}
 				else
 				{
-					s[i] = '0';
-					s[i + 1] = LString::DigitToChar(seconds);
+					ss << year;
 				}
+			}
 				break;
 			}
 			i++;
 		}
+		else
+		{
+			ss << format[i];
+		}
 	}
-	return s;
+	return ss.str();
 }
 
 std::string FDateTime::DateToString(const FDateTime & dateTime)
