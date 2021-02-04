@@ -31,3 +31,52 @@ Bezier::Bezier(BezierPoint * points, uint32_t numPoints, uint32_t capacity)
 	this->numPoints = numPoints;
 	this->capacity = capacity;
 }
+
+Bezier::~Bezier()
+{
+	delete this->points;
+}
+
+float Bezier::Get(float x) const
+{
+	uint32_t currentIndex = GetIndex(x);
+
+	const BezierPoint& point = points[currentIndex];
+
+	float minX = point.startX;
+	float maxX = point.endX;
+
+	float t = (x - minX) / (maxX - minX);
+	float t2 = t * t;
+	float t3 = t2 * t;
+
+	float q = 1 - t;
+	float q2 = q * q;
+	float q3 = q2 * q;
+
+	return q3 * point.startY + 3 * q2 * t * point.startControlY 
+		+ 3 * q * t2 * point.endControlY + t3 * point.endY;
+}
+
+uint32_t Bezier::GetIndex(float x) const
+{
+	uint32_t min = 0, max = numPoints;
+	while (true)
+	{
+		uint32_t currentIndex = (min + max) / 2;
+		const BezierPoint& currentPoint = this->points[currentIndex];
+		if (currentPoint.startX < x && currentPoint.endY > x)
+		{
+			return currentIndex;
+		}
+
+		if (currentPoint.startX < x)
+		{
+			min = currentIndex;
+		}
+		else if (currentPoint.endY < x)
+		{
+			max = currentIndex;
+		}
+	}
+}
