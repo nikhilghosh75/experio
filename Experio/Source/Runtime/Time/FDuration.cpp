@@ -92,6 +92,36 @@ bool FDuration::operator<=(const FDuration & other)
 	return this->ticks <= other.ticks;
 }
 
+int FDuration::GetMillisecond() const
+{
+	return this->ticks / TICKSPERMILLISECOND;
+}
+
+int FDuration::GetSecond() const
+{
+	return this->ticks / TICKSPERSECOND;
+}
+
+int FDuration::GetMinute() const
+{
+	return this->ticks / TICKSPERSECOND;
+}
+
+int FDuration::GetHour() const
+{
+	return this->ticks / TICKSPERHOUR;
+}
+
+int FDuration::GetDay() const
+{
+	return this->ticks / TICKSPERDAY;
+}
+
+int FDuration::GetYear() const
+{
+	return this->ticks / TICKSPERYEAR;
+}
+
 int FDuration::GetMillisecond(const FDuration & duration)
 {
 	return duration.ticks / TICKSPERMILLISECOND;

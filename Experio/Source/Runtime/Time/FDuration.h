@@ -21,6 +21,13 @@ struct FDuration
 	bool operator>=(const FDuration& other);
 	bool operator<=(const FDuration& other);
 
+	int GetMillisecond() const;
+	int GetSecond() const;
+	int GetMinute() const;
+	int GetHour() const;
+	int GetDay() const;
+	int GetYear() const;
+
 	static int GetMillisecond(const FDuration& duration);
 	static int GetSecond(const FDuration& duration);
 	static int GetMinute(const FDuration& duration);
