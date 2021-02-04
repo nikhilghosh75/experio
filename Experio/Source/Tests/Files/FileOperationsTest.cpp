@@ -20,3 +20,12 @@ UNIT_TEST(TestFileOperationsBytes, "FileOperations")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestFileOperationsGet, "FileOperations")
+{
+	ASSERT_EQUAL(LFileOperations::GetDirectory("Experio/Source/Third Party/RCCPP.h"), "Experio/Source/Third Party", "");
+	ASSERT_EQUAL(LFileOperations::GetExtension("Experio/Source/Third Party/RCCPP.cpp"), "cpp", "");
+	ASSERT_EQUAL(LFileOperations::GetFileName("Experio/Source/Third Party/RCCPP.cpp"), "RCCPP.cpp", "");
+
+	TEST_END();
+}

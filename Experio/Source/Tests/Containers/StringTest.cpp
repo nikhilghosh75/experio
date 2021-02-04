@@ -88,3 +88,12 @@ UNIT_TEST(TestStringFloatVector, "String")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestStringSubstr, "String")
+{
+	ASSERT_TRUE(LString::CompareSubstr("WolverineSoft", "Wolve", 0), "");
+	ASSERT_TRUE(LString::CompareSubstr("WolverineSoft", "Soft", 9), "");
+	ASSERT_FALSE(LString::CompareSubstr("WolverineSoft", "Wolf", 0), "");
+
+	TEST_END();
+}

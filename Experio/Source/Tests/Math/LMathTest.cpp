@@ -139,6 +139,13 @@ UNIT_TEST(TestMathGCD, "LMath")
 	TEST_END();
 }
 
+UNIT_TEST(TestMathLerp, "LMath")
+{
+	ASSERT_ALMOST_EQUAL(LMath::Lerp(2.0f, 6.0f, 0.75f), 5.0f);
+
+	TEST_END();
+}
+
 FUnitTestingOutcome RunLMathTests()
 {
 	return suite.RunTests();
