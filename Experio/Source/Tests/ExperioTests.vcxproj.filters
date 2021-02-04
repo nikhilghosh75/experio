@@ -74,5 +74,8 @@
     <ClInclude Include="ExperioTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Files\FontOperationsTest.cpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
