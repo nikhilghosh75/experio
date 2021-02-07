@@ -157,3 +157,11 @@ FColor::operator FVector4() const
 {
 	return FVector4(this->r, this->g, this->b, this->a);
 }
+
+FColor::operator uint32_t() const
+{
+	return ((uint32_t)(this->r * 255.00f)) | 
+		((uint32_t)(this->g * 255.00f) << 8)  |
+		((uint32_t)(this->b * 255.00f) << 16) |
+		((uint32_t)(this->a * 255.00f) << 24);
+}
