@@ -33,6 +33,7 @@
 #include "../ProjectSettings/SettingsView.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../SceneView/SceneView.h"
+#include "../Terminal/Terminal.h"
 #include "Runtime/Debug/Profiler.h"
 #include "Runtime/Framework/SceneLoader.h"
 
@@ -93,6 +94,7 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	CompilationParser::Initialize();
 	EditorShortcuts::Initialize();
 	ImportSystem::Initialize();
+	Terminal::Initialize();
 }
 
 void EditorApplication::LoadScenes()
@@ -174,7 +176,7 @@ void EditorApplication::AddDefaultModules()
 	modules.push_back(new SceneHierarchy());
 	modules.push_back(new Inspector());
 	modules.push_back(new GameView());
-	// modules.push_back(new Console());
+	modules.push_back(new Console());
 
 	modules.push_back(new SettingsView());
 }
