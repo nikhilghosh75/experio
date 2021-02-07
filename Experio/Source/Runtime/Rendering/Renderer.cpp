@@ -338,44 +338,6 @@ void Renderer::TempRenderer()
 	LogRenderingError();
 }
 
-unsigned int CompileShader(const std::string & source, unsigned int type)
-{
-	unsigned int id = glCreateShader(type);
-	const char* src = source.c_str();
-	glShaderSource(id, 1, &src, nullptr);
-	glCompileShader(id);
-
-	int result;
-	glGetShaderiv(id, GL_COMPILE_STATUS, &result);
-	if (result == GL_FALSE)
-	{
-		int length;
-		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-		char* message = new char[length];
-		glGetShaderInfoLog(id, length, &length, message);
-		Debug::LogError(message);
-	}
-
-	return id;
-}
-
-unsigned int CreateShader(const std::string & vertexShader, const std::string & fragmentShader)
-{
-	unsigned int program = glCreateProgram();
-	unsigned int vs = CompileShader(vertexShader, GL_VERTEX_SHADER);
-	unsigned int fs = CompileShader(fragmentShader, GL_FRAGMENT_SHADER);
-
-	glAttachShader(program, vs);
-	glAttachShader(program, fs);
-	glLinkProgram(program);
-	glValidateProgram(program);
-
-	glDeleteShader(vs);
-	glDeleteShader(fs);
-
-	return program;
-}
-
 void Renderer::TempFramebufferRenderer()
 {
 	FWindowData window = Window::GetWindowData();
@@ -393,25 +355,6 @@ void Renderer::TempFramebufferRenderer()
 
 	framebuffer.CheckFramebufferStatus();
 
-	// Triangle Render Code
-	/*
-	float positions[6] = { -0.5f, -0.5f, 0.0f, 0.5f, 0.5f, -0.5f };
-
-	VertexBuffer positionBuffer(&positions, 6 * sizeof(float));
-
-	VertexArray va;
-	va.AddBuffer(&positionBuffer, layout);
-
-	Shader standardShader(
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/StandardVertex.shader",
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/StandardFragment.shader"
-	);
-	standardShader.Bind();
-
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	va.DestroyLayouts();
-	*/
 	Project::componentManager->Update();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -558,7 +501,7 @@ void Renderer::TempModelRenderer()
 		"{ \n"
 		"    color = fragmentColor; \n"
 		"}\n";
-	unsigned int shader = CreateShader(vertexShader, fragmentShader);
+	unsigned int shader = 0; 
 	glUseProgram(shader);
 
 	GLuint matrixID = glGetUniformLocation(shader, "MVP");
