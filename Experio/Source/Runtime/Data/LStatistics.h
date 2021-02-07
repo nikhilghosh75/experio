@@ -16,7 +16,6 @@ public:
 	static float Min(float* data, size_t count);
 	static float Min(std::vector<float> data);
 
-	static float Mode(float* data, size_t count);
 	static float Mode(std::vector<float> data);
 
 	static float Percentile(float* data, size_t count, float elem);
