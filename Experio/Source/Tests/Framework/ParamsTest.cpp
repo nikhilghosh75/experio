@@ -42,6 +42,17 @@ UNIT_TEST(TestParamsShort, "Params")
 	TEST_END();
 }
 
+UNIT_TEST(TestParamsInt, "Params")
+{
+	std::string intStr = "96024";
+	std::string negativeIntStr = "-103485";
+
+	ASSERT_EQUAL(ParseInt(intStr), 96024, "");
+	ASSERT_EQUAL(ParseInt(negativeIntStr), -103485, "");
+
+	TEST_END();
+}
+
 UNIT_TEST(TestParamsVector2, "Params")
 {
 	std::string str1 = " {1.25 0.125} ";
