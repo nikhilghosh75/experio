@@ -327,9 +327,9 @@ namespace Experio::Algorithm
 		{
 			bool found = false;
 			size_t foundIndex = 0;
-			for (uint32_t j = 0; j < unique.Count(); j++)
+			for (uint32_t j = 0; j < unique.size(); j++)
 			{
-				if (unique[j] == v[i])
+				if (unique[j].first == v[i])
 				{
 					found = true; foundIndex = i; break;
 				}
