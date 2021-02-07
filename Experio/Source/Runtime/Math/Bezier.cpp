@@ -58,6 +58,28 @@ float Bezier::Get(float x) const
 		+ 3 * q * t2 * point.endControlY + t3 * point.endY;
 }
 
+void Bezier::Resize(uint32_t newCapacity)
+{
+	BezierPoint* newData = new BezierPoint[newCapacity];
+
+	for (int i = 0; i < numPoints; i++)
+	{
+		newData[i] = std::move(points[i]);
+	}
+
+	delete[] this->points;
+	this->points = newData;
+	this->capacity = newCapacity;
+}
+
+void Bezier::Insert(float startX, float startY, float endX, float endY)
+{
+	if (numPoints == capacity)
+	{
+		Resize(capacity + 10);
+	}
+}
+
 uint32_t Bezier::GetIndex(float x) const
 {
 	uint32_t min = 0, max = numPoints;

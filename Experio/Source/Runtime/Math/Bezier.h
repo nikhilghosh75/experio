@@ -34,6 +34,8 @@ public:
 	uint32_t Count() const { return numPoints; }
 	uint32_t Capacity() const { return capacity; }
 
+	void Resize(uint32_t newCapacity);
+
 	void Insert(float startX, float startY, float endX, float endY);
 	void Insert(float startX, float startY, float endX, float endY,
 		float startControlX, float startControlY, float endControlX, float endControlY);
