@@ -43,6 +43,27 @@ void AddValue(EValueType type)
 	}
 }
 
+void AddValue(const std::string & str, EValueType type)
+{
+	uint16_t nextAvailible = GetNextAvailibleValue(type);
+	
+	switch (type)
+	{
+	case EValueType::Layer:
+		if (layers.GetSize() >= 64)
+			return;
+		
+		layers.Insert(nextAvailible, str);
+		break;
+	case EValueType::Tag:
+		if (tags.GetSize() >= 65535)
+			return;
+
+		tags.Insert(nextAvailible, str);
+		break;
+	}
+}
+
 void AddValue(FValue value, EValueType type)
 {
 	switch (type)
@@ -179,6 +200,18 @@ THashtable<uint16_t, std::string>& GetTags()
 THashtable<uint16_t, std::string>& GetLayers()
 {
 	return layers;
+}
+
+unsigned int NumValues(EValueType type)
+{
+	switch (type)
+	{
+	case EValueType::Layer:
+		return layers.GetSize();
+	case EValueType::Tag:
+		return tags.GetSize();
+	}
+	return 0;
 }
 
 void SetValueName(uint16_t index, std::string& newName, EValueType type)

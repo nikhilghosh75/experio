@@ -24,6 +24,7 @@ struct FValue
 namespace ExperioEditor
 {
 	void AddValue(EValueType type);
+	void AddValue(const std::string& str, EValueType type);
 	void AddValue(FValue value, EValueType type);
 
 	void ClearValues();
@@ -41,6 +42,8 @@ namespace ExperioEditor
 
 	THashtable<uint16_t, std::string>& GetTags();
 	THashtable<uint16_t, std::string>& GetLayers();
+
+	unsigned int NumValues(EValueType type);
 
 	void SetValueName(uint16_t index, std::string& newName, EValueType type);
 }
