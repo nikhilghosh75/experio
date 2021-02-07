@@ -154,6 +154,8 @@
     <ClCompile Include="Source\ProjectSettings\SettingsView.cpp" />
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
+    <ClCompile Include="Source\Terminal\AddLayer.cpp" />
+    <ClCompile Include="Source\Terminal\Terminal.cpp" />
     <ClCompile Include="Source\Testing\TestManager.cpp" />
     <ClCompile Include="Source\Testing\TestRunner.cpp" />
     <ClCompile Include="Source\Testing\UnitTestingFramework.cpp" />
@@ -248,6 +250,8 @@
     <ClInclude Include="Source\ProjectSettings\SettingsView.h" />
     <ClInclude Include="Source\SceneHierarchy\SceneHierarchy.h" />
     <ClInclude Include="Source\SceneView\SceneView.h" />
+    <ClInclude Include="Source\Terminal\Terminal.h" />
+    <ClInclude Include="Source\Terminal\TerminalCommands.h" />
     <ClInclude Include="Source\Testing\Assert.h" />
     <ClInclude Include="Source\Testing\TestManager.h" />
     <ClInclude Include="Source\Testing\TestRunner.h" />
