@@ -537,6 +537,9 @@
     <ClInclude Include="Source\Runtime\Math\Bezier2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Simdjson\simdjson.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp">
@@ -837,6 +840,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Math\Bezier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Simdjson\simdjson.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

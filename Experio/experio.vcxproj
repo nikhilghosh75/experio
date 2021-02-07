@@ -159,6 +159,7 @@
     <ClInclude Include="Source\ThirdParty\Native File Dialog\nfd_common.h" />
     <ClInclude Include="Source\ThirdParty\Periodic Function\periodic_function.hpp" />
     <ClInclude Include="Source\ThirdParty\RCCPP.h" />
+    <ClInclude Include="Source\ThirdParty\Simdjson\simdjson.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_array.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_array.hpp" />
@@ -289,6 +290,7 @@
     <ClCompile Include="Source\ThirdParty\Lodepng\Lodepng.cpp" />
     <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_common.c" />
     <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_win.cpp" />
+    <ClCompile Include="Source\ThirdParty\Simdjson\simdjson.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Standard\Materials\Test.material" />
