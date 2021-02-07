@@ -15,20 +15,30 @@ void Console::Display()
 		startIndex = debugInfo.size();
 	}
 
-	for (int i = startIndex; i < debugInfo.size(); i++)
+	ImGuiListClipper clipper;
+	clipper.Begin(debugInfo.size());
+
+	while (clipper.Step())
 	{
-		if (debugInfo[i].messageType == EDebugMessageType::Normal)
+		for (int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++)
 		{
-			switch (debugInfo[i].type)
-			{
-			case EDebugType::Normal:
-				ImGui::Text(debugInfo[i].message.c_str()); break;
-			case EDebugType::Warning:
-				ImGui::TextColored(ImVec4(1, 1, 0, 1), debugInfo[i].message.c_str()); break;
-			case EDebugType::Error:
-				ImGui::TextColored(ImVec4(1, 0, 0, 1), debugInfo[i].message.c_str()); break;
-			}
 			ImGui::Text(debugInfo[i].message.c_str());
+			/*
+			if (debugInfo[i].messageType == EDebugMessageType::Normal)
+			{
+				switch (debugInfo[i].type)
+				{
+				case EDebugType::Normal:
+					ImGui::Text(debugInfo[i].message.c_str()); break;
+				case EDebugType::Warning:
+					ImGui::TextColored(ImVec4(1, 1, 0, 1), debugInfo[i].message.c_str()); break;
+				case EDebugType::Error:
+					ImGui::TextColored(ImVec4(1, 0, 0, 1), debugInfo[i].message.c_str()); break;
+				}
+			}
+			*/
 		}
 	}
+
+	clipper.End();
 }
