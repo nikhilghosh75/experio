@@ -1,6 +1,8 @@
 #pragma once
 #include <Windows.h>
 
+#define PLATFORM_WINDOWS
+
 class HubWindow
 {
 	static HWND hwnd;

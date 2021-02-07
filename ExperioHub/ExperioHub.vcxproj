@@ -120,6 +120,7 @@
     <ClInclude Include="Source\Core\HubWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\HubWindow.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
