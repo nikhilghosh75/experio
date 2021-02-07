@@ -59,6 +59,8 @@ void MaterialEditor::DisplayUniform(ShaderParamInfo paramInfo)
 	{
 	case EShaderParamType::BOOL:
 		ImGui::Checkbox(paramInfo.name.c_str(), (bool*)((char*)material + paramInfo.offset)); break;
+	case EShaderParamType::FLOAT:
+		ImGui::DragFloat(paramInfo.name.c_str(), (float*)((char*)material + paramInfo.offset), 10, -10000000, 10000000); break;
 	case EShaderParamType::INT:
 		ImGui::DragInt(paramInfo.name.c_str(), (int*)((char*)material + paramInfo.offset)); break;
 	case EShaderParamType::TEXTURE:
