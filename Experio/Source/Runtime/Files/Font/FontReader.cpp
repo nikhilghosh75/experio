@@ -60,5 +60,5 @@ size_t FontReader::SerializedSizeOf(unsigned int assetIndex)
 	{
 		return FontReader::SerializedSizeOf(filepath.c_str());
 	}
-	return 9;
+	return 0;
 }
