@@ -144,3 +144,16 @@ size_t LMeshOperations::SizeOfMesh(const MeshData & data)
 	return data.verticies->GetSize() + data.uv->GetSize() + data.normals->GetSize()
 		+ data.bitangents->GetSize() + data.tangents->GetSize() + data.indexBuffer->GetSize();
 }
+
+uint8_t LMeshOperations::GetIndexType(uint32_t numVerticies)
+{
+	if (numVerticies < 256)
+	{
+		return 1;
+	}
+	if (numVerticies < 65535)
+	{
+		return 2;
+	}
+	return 4;
+}

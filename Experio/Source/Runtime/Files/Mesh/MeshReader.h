@@ -33,4 +33,8 @@ public:
 	static MeshData* ReadFile(const char* fileName);
 
 	static MeshData* ReadFile(unsigned int assetIndex);
+
+	static size_t SerializedSizeOf(const char* filename);
+
+	static size_t SerializedSizeOf(unsigned int assetIndex);
 };

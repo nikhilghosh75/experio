@@ -17,4 +17,6 @@ public:
 	static IndexBuffer IndexMesh(VertexBuffer& verticies, VertexBuffer& uvs, VertexBuffer& normals);
 
 	static size_t SizeOfMesh(const MeshData& data);
+
+	static uint8_t GetIndexType(uint32_t numVerticies);
 };
