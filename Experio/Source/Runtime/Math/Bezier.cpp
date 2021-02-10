@@ -1,6 +1,31 @@
 #include "Bezier.h"
+#include "LMath.h"
 
 #define PB_BEZIER_DEFAULT_CAPACITY 4
+
+BezierPoint::BezierPoint()
+{
+	this->startX = 0;
+	this->startY = 0;
+	this->startControlX = 0;
+	this->startControlY = 0;
+	this->endControlX = 0;
+	this->endControlY = 0;
+	this->endX = 0;
+	this->endY = 0;
+}
+
+BezierPoint::BezierPoint(float startX, float startY, float endX, float endY)
+{
+	this->startX = startX;
+	this->startY = startY;
+	this->startControlX = startX;
+	this->startControlY = startY;
+	this->endControlX = endX;
+	this->endControlY = endY;
+	this->endX = endX;
+	this->endY = endY;
+}
 
 Bezier::Bezier()
 {
@@ -74,10 +99,62 @@ void Bezier::Resize(uint32_t newCapacity)
 
 void Bezier::Insert(float startX, float startY, float endX, float endY)
 {
-	if (numPoints == capacity)
+	if (numPoints + 2 >= capacity)
 	{
 		Resize(capacity + 10);
 	}
+
+	// Case 1: No points currently in vector, insert one
+	if (numPoints == 0)
+	{
+		points[0] = BezierPoint(startX, startY, endX, endY);
+		numPoints++;
+		return;
+	}
+
+	float minX = MinX(), maxX = MaxX();
+	// Case 2: Point inserted is less than the minimum
+	// If so, shift all elements by one or two
+	if (endX < minX)
+	{
+		// If min and end are approximately equal, we only need to insert one point
+		bool approx = LMath::ApproxEquals(endX, minX, 0.0001f);
+		int step = approx ? 1 : 2;
+
+		for (int i = numPoints - 1; i >= 0; i--)
+		{
+			points[i + step] = points[i];
+		}
+
+		points[0] = BezierPoint(startX, startY, endX, endY);
+		if (!approx)
+		{
+			points[1] = BezierPoint(endX, endY, points[1].startX, points[1].startY);
+		}
+	}
+
+	// Case 3: Point inserted is greater than the maximum
+
+	// Default Case: Must be inserted between two points
+}
+
+void Bezier::Insert(FVector2 start, FVector2 end)
+{
+	Insert(start.x, start.y, end.x, end.y);
+}
+
+float Bezier::MinX() const
+{
+	if (numPoints == 0)
+		return 0;
+	return points[0].startX;
+}
+
+float Bezier::MaxX() const
+{
+	if (numPoints == 0)
+		return 0;
+	return points[numPoints - 1].endX;
 }
 
 uint32_t Bezier::GetIndex(float x) const

@@ -2,6 +2,8 @@
 #include <stdint.h>
 #include "FVector2.h"
 
+// Implements a Cubic Bezier Point
+
 class BezierPoint
 {
 public:
@@ -13,6 +15,9 @@ public:
 	float startControlY;
 	float endControlX;
 	float endControlY;
+
+	BezierPoint();
+	BezierPoint(float startX, float startY, float endX, float endY);
 };
 
 class Bezier
@@ -42,6 +47,9 @@ public:
 	void Insert(FVector2 start, FVector2 end);
 	void Insert(FVector2 start, FVector2 end, FVector2 startControl, FVector2 endControl);
 
+	float MinX() const;
+	float MaxX() const;
+
 private:
 	uint32_t GetIndex(float x) const;
 };
@@ -57,3 +65,5 @@ public:
 
 
 };
+
+float RiemannSum(const Bezier& curve, float delta = 0.01f);
