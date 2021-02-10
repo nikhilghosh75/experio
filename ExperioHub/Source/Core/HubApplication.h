@@ -8,4 +8,7 @@ public:
 	void Run();
 
 	void Shutdown();
+
+private:
+	void Update();
 };

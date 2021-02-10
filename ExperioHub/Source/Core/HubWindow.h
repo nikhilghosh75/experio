@@ -9,6 +9,8 @@ class HubWindow
 	static int displayWidth, displayHeight;
 
 public:
+	static bool isActive;
+
 	static void Initialize();
 
 	static void BeginFrame();
@@ -16,6 +18,8 @@ public:
 	static void EndFrame();
 
 	static void Close();
+
+	static bool SetSwapInterval(int interval);
 
 #ifdef PLATFORM_WINDOWS
 	static HWND GetHWND();
