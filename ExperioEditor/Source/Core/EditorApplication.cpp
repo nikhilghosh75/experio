@@ -212,7 +212,7 @@ void EditorApplication::RenderModules()
 {
 	for (int i = 0; i < modules.size(); i++)
 	{
-		if (ImGui::Begin(modules[i]->name.c_str(), modules[i]->GetIsDisplayed()))
+		if (ImGui::Begin(modules[i]->name.c_str(), modules[i]->GetIsDisplayed(), modules[i]->flags))
 		{
 			if (ImGui::IsWindowFocused() || ImGui::IsWindowHovered())
 			{
