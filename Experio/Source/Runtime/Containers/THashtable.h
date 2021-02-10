@@ -200,7 +200,7 @@ public:
 		}
 	}
 
-	bool SafeGet(const K& key, V& value)
+	bool SafeGet(const K& key, V& value) const
 	{
 		unsigned long hashValue = hashFunction(key);
 		THashNode<K, V>* entry = arr[hashValue];
