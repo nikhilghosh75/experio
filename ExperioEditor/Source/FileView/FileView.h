@@ -13,12 +13,15 @@ class FileView : public EditorModule
 
 	TTypedTree<std::string>* directories;
 
+	Filemask fileMask;
+
 	// Change Later
 	bool filesSelected[21];
 
 	void DisplayCreateMenu();
 	void DisplayImportMenu();
 
+	void DisplayMenuBar();
 	void DisplayContextMenu();
 	void DisplayTree();
 	void DisplayContents();

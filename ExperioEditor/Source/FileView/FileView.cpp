@@ -29,11 +29,14 @@ FileView::FileView()
 	this->name = "Files";
 	this->category = EEditorModuleCategory::Core;
 
+	this->flags = ImGuiWindowFlags_MenuBar;
+
 	this->assetFilePath = EditorApplication::assetsFilePath;
 	this->selectedItem = "Assets";
 
 	this->directories = LFileOperations::CreateFileNamesTree(this->assetFilePath, EFileTreeOptions::DisplayDirectories);
 
+	this->fileMask.SetBitsTrue();
 	for (int i = 0; i < 21; i++)
 	{
 		this->filesSelected[i] = true;
@@ -92,6 +95,25 @@ void FileView::DisplayImportMenu()
 	ImportSystem::Import(dialog.filename, this->selectedFilepath);
 }
 
+void FileView::DisplayMenuBar()
+{
+	static const std::vector<std::string> fileTypes = { "Audio", "Animation", "Code",
+		"Data", "Font", "Image", "Input Map", "H", "Markup", "Material", "Mesh", "Meta",
+		"NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Soundbank", "Style",
+		"Text","Video"
+	};
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Filters"))
+		{
+			fileMask = LImGui::DisplayBitmask("Filters", fileTypes, filesSelected);
+			fileMask.SetBitTrue((uint8_t)EAssetType::Directory);
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+}
+
 void FileView::DisplayContextMenu()
 {
 	if (ImGui::BeginPopup("##Menu"))
@@ -142,14 +164,6 @@ void FileView::DisplayContents()
 	ImGui::SameLine();
 	ImGui::BeginChild("Contents", ImVec2(rect.GetWidth() - 300, 0), true);
 
-	static const std::vector<std::string> fileTypes = { "Audio", "Animation", "Code",
-		"Data", "Font", "Image", "Input Map", "H", "Markup", "Material", "Mesh", "Meta", 
-		"NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Soundbank", "Style", 
-		"Text","Video" 
-	};
-	Filemask fileMask = LImGui::DisplayBitmask("Filters", fileTypes, filesSelected);
-	fileMask.SetBitTrue((uint8_t)EAssetType::Directory);
-
 	if (this->selectedFilepath.empty())
 	{
 		this->selectedFilepath = this->assetFilePath;
@@ -174,6 +188,7 @@ void FileView::DisplayContents()
 			if (p.is_directory())
 			{
 				this->selectedItem = pathString;
+				this->selectedFilepath = p.path().string();
 				break;
 			}
 			else
@@ -290,6 +305,7 @@ void FileView::OpenFile(const std::string & str, EAssetType type)
 
 void FileView::Display()
 {
+	DisplayMenuBar();
 	DisplayContextMenu();
 	DisplayTree();
 	DisplayContents();
