@@ -49,6 +49,60 @@ void Inspector::DisplayGameObject(GameObject* object)
 	}
 }
 
+void Inspector::DisplayMultipleGameObject(std::vector<GameObject>& gameObjects)
+{
+	ImGui::Text("Name: "); ImGui::SameLine(); ImGui::Text("Multiple");
+
+	DisplayMultipleTags(gameObjects);
+	DisplayMultipleLayers(gameObjects);
+}
+
+void Inspector::DisplayMultipleTags(std::vector<GameObject>& gameObjects)
+{
+	uint16_t tag = gameObjects[0].tag;
+	for (size_t i = 1; i < gameObjects.size(); i++)
+	{
+		if (gameObjects[i].tag != tag)
+		{
+			tag = ExperioEditor::NumValues(EValueType::Tag);
+			break;
+		}
+	}
+
+	uint16_t lastTag = tag;
+	LImGui::DisplayTag(tag, ExperioEditor::GetTags());
+	if (lastTag != tag)
+	{
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			gameObjects[i].tag = tag;
+		}
+	}
+}
+
+void Inspector::DisplayMultipleLayers(std::vector<GameObject>& gameObjects)
+{
+	uint8_t layer = gameObjects[0].layer;
+	for (size_t i = 1; i < gameObjects.size(); i++)
+	{
+		if (gameObjects[i].layer != layer)
+		{
+			layer = ExperioEditor::NumValues(EValueType::Layer);
+			break;
+		}
+	}
+
+	uint8_t lastLayer = layer;
+	LImGui::DisplayLayer(layer, ExperioEditor::GetLayers());
+	if (lastLayer != layer)
+	{
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			gameObjects[i].layer = layer;
+		}
+	}
+}
+
 void Inspector::DisplayGameObjectInfo(GameObject * object)
 {
 	std::string oldName = object->name;
@@ -240,9 +294,18 @@ void Inspector::Display()
 {
 	std::vector<GameObject>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
 
-	if (objects.size() == 1)
+	if (objects.size() == 0)
+	{
+		ImGui::Text("Select a GameObject to view its info");
+	}
+	else if (objects.size() == 1)
 	{
 		DisplayGameObject(&objects[0]);
+		DisplayAddComponentMenu();
+	}
+	else
+	{
+		DisplayMultipleGameObject(objects);
 		DisplayAddComponentMenu();
 	}
 }

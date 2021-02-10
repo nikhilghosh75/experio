@@ -13,6 +13,11 @@ class Inspector : public EditorModule
 
 	void DisplayGameObject(GameObject* object);
 
+	void DisplayMultipleGameObject(std::vector<GameObject>&);
+
+	void DisplayMultipleTags(std::vector<GameObject>&);
+	void DisplayMultipleLayers(std::vector<GameObject>&);
+
 	void DisplayGameObjectInfo(GameObject* object);
 
 	void DisplayTransform(GameObject* object);
