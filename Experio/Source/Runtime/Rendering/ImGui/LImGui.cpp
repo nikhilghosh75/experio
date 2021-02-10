@@ -165,7 +165,11 @@ void LImGui::DisplayFontAsset(FontRef & ref, std::string name)
 void LImGui::DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string>& layerTable)
 {
 	uint16_t layer16 = layer;
-	const std::string layerName = layerTable.Get(layer);
+	std::string layerName;
+	bool found = layerTable.SafeGet(layer16, layerName);
+
+	if (!found)
+		layerName = "Multiple";
 
 	if (ImGui::BeginCombo("Layer", layerName.c_str()))
 	{
@@ -280,7 +284,11 @@ void LImGui::DisplayRect(FRect& rect, const std::string & name)
 
 void LImGui::DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable)
 {
-	const std::string tagName = tagTable.Get(tag);
+	std::string tagName;
+	bool found = tagTable.SafeGet(tag, tagName);
+
+	if (!found)
+		tagName = "Multiple";
 	
 	if (ImGui::BeginCombo("Tag", tagName.c_str()))
 	{
