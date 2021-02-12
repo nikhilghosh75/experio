@@ -294,6 +294,11 @@ std::string LString::LongLongToHexString(uint64_t n)
 	return ss.str();
 }
 
+std::string LString::BoolToString(bool b)
+{
+	return b ? "true" : "false";
+}
+
 constexpr int LString::CharToInt(char c)
 {
 	return c - 48;
