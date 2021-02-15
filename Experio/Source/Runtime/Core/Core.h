@@ -9,3 +9,7 @@
 #else
 	#error Platform Not Supported
 #endif
+
+#define EXPERIO_BUILD_MAJOR 0
+#define EXPERIO_BUILD_MINOR 12
+#define EXPERIO_BUILD_PATCH 0
