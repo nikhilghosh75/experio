@@ -7,6 +7,11 @@ void TEvent::AddListener(void(*function)())
 	listeners.emplace_back(function);
 }
 
+void TEvent::AddListener(TFunctionPointer pointer)
+{
+	listeners.push_back(pointer);
+}
+
 void TEvent::CallListeners()
 {
 	for (int i = 0; i < listeners.size(); i++)
