@@ -18,7 +18,7 @@
     <ClInclude Include="Source\Core\HubApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\HubWindow.h">
+    <ClInclude Include="Source\Core\HubCommands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -26,7 +26,13 @@
     <ClCompile Include="Source\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\HubWindow.cpp">
+    <ClCompile Include="Source\Core\HubApplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Commands\Help.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Commands\Version.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

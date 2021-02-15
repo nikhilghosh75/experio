@@ -76,6 +76,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)ExperioEditor\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\imgui;$(SolutionDir)Demo Project\Source;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\RuntimeCompiledCPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -117,10 +120,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\HubApplication.h" />
-    <ClInclude Include="Source\Core\HubWindow.h" />
+    <ClInclude Include="Source\Core\HubCommands.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Core\HubWindow.cpp" />
+    <ClCompile Include="Source\Commands\Help.cpp" />
+    <ClCompile Include="Source\Commands\Version.cpp" />
+    <ClCompile Include="Source\Core\HubApplication.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
