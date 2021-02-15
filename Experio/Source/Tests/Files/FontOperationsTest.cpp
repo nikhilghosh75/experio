@@ -28,3 +28,25 @@ UNIT_TEST(TestFontOperationsHas, "FontOperations")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestFontOperationsEncoding, "FontOperations")
+{
+	FontData data;
+
+	FCharacterInfo info1;
+	info1.charCode = 113;
+	data.characters.push_back(info1);
+	ASSERT_EQUAL(LFontOperations::GetEncoding(data), ETextEncoding::ASCII, "");
+
+	FCharacterInfo info2;
+	info2.charCode = 140;
+	data.characters.push_back(info2);
+	ASSERT_EQUAL(LFontOperations::GetEncoding(data), ETextEncoding::UTF8, "");
+
+	FCharacterInfo info3;
+	info3.charCode = 650;
+	data.characters.push_back(info3);
+	ASSERT_EQUAL(LFontOperations::GetEncoding(data), ETextEncoding::UTF16, "");
+
+	TEST_END();
+}

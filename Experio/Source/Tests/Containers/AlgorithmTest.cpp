@@ -76,6 +76,8 @@ UNIT_TEST(TestAlgorithmAllOf, "Algorithm")
 	std::vector<int> trueVector = { 1, 2, 3, 4, 5 };
 	std::vector<int> falseVector = { -1, -2, 0, 2, 1 };
 
+	// bool allOf = Algorithm::AllOf(trueVector, [](int i) { return i >= 0; });
+
 	// Fix this later
 	// ASSERT_TRUE(Algorithm::AllOf(trueVector, [](const int& i) { return i >= 0; }), "");
 

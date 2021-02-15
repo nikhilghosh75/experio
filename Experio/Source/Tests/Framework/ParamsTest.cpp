@@ -53,6 +53,15 @@ UNIT_TEST(TestParamsInt, "Params")
 	TEST_END();
 }
 
+UNIT_TEST(TestParamsFloat, "Params")
+{
+	std::string floatStr = "4.596";
+
+	ASSERT_ALMOST_EQUAL(ParseFloat(floatStr), 4.596, "");
+
+	TEST_END();
+}
+
 UNIT_TEST(TestParamsVector2, "Params")
 {
 	std::string str1 = " {1.25 0.125} ";

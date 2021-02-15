@@ -157,6 +157,17 @@ UNIT_TEST(TestMathLog, "LMath")
 	TEST_END();
 }
 
+UNIT_TEST(TestMathMinMax, "LMath")
+{
+	ASSERT_ALMOST_EQUAL(LMath::Max(0.5f, 2.6f), 2.6f);
+	ASSERT_EQUAL(LMath::Max(4, 5), 5, "");
+
+	ASSERT_ALMOST_EQUAL(LMath::Min(0.5f, 2.6f), 0.5f);
+	ASSERT_EQUAL(LMath::Min(4, 5), 4, "");
+
+	TEST_END();
+}
+
 FUnitTestingOutcome RunLMathTests()
 {
 	return suite.RunTests();

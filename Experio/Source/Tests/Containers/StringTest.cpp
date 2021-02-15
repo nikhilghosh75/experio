@@ -97,3 +97,11 @@ UNIT_TEST(TestStringSubstr, "String")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestStringReplace, "String")
+{
+	ASSERT_EQUAL(LString::ReplaceAll("Replace", 'p', 'f'), "Reflace", "");
+	ASSERT_EQUAL(LString::ReplaceAll("Replace pants", 'p', 'f'), "Reflace fants", "");
+
+	TEST_END();
+}

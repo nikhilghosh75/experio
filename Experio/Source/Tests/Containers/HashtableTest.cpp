@@ -116,3 +116,15 @@ UNIT_TEST(TestHashtableFloat, "Hashtable")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestHashtableFunction, "Hashtable")
+{
+	THashtable<std::string, std::function<int()>, StringHashFunction> functions;
+
+	functions.Insert("Three", []() { return 3; });
+	functions.Insert("Four", []() { return 4; });
+
+	ASSERT_EQUAL(functions.Get("Three")(), 3, "");
+
+	TEST_END();
+}
