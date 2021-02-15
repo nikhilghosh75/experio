@@ -155,6 +155,7 @@
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
     <ClCompile Include="Source\Terminal\AddLayer.cpp" />
+    <ClCompile Include="Source\Terminal\AddTag.cpp" />
     <ClCompile Include="Source\Terminal\Terminal.cpp" />
     <ClCompile Include="Source\Testing\TestManager.cpp" />
     <ClCompile Include="Source\Testing\TestRunner.cpp" />

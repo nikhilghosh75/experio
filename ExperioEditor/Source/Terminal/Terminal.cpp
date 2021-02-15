@@ -24,6 +24,7 @@ void Terminal::Initialize()
 	}
 
 	Terminal::commandManager->functions.Insert("add-layer", AddLayer);
+	Terminal::commandManager->functions.Insert("add-tag", AddTag);
 }
 
 void Terminal::Print(const std::string & str)

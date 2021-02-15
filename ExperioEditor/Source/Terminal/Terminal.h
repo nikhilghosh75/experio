@@ -73,11 +73,3 @@ class TerminalCommandRegisterer
 };
 
 #define INVALID_ARG_COUNT 1
-
-/*
-int Resolution(std::vector<std::string> args)
-{
-}
-
-TERMINAL_COMMAND(Resolution);
-*/
