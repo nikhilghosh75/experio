@@ -52,6 +52,8 @@ public:
 
 private:
 	uint32_t GetIndex(float x) const;
+
+	void Shift(int position = 0, int shift = 1);
 };
 
 class BezierIterator

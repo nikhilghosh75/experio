@@ -118,24 +118,87 @@ void Bezier::Insert(float startX, float startY, float endX, float endY)
 	if (endX < minX)
 	{
 		// If min and end are approximately equal, we only need to insert one point
-		bool approx = LMath::ApproxEquals(endX, minX, 0.0001f);
+		bool approx = LMath::ApproxEquals(endX, minX, 0.001f);
 		int step = approx ? 1 : 2;
-
-		for (int i = numPoints - 1; i >= 0; i--)
-		{
-			points[i + step] = points[i];
-		}
+		Shift(0, step);
 
 		points[0] = BezierPoint(startX, startY, endX, endY);
+		numPoints++;
 		if (!approx)
 		{
 			points[1] = BezierPoint(endX, endY, points[1].startX, points[1].startY);
+			numPoints++;
 		}
 	}
 
 	// Case 3: Point inserted is greater than the maximum
+	if (startX > maxX)
+	{
+		// If max and start are approximately equal, we only need to insert one point
+		bool approx = LMath::ApproxEquals(startX, maxX, 0.001f);
+		if (approx)
+		{
+			points[numPoints] = BezierPoint(startX, startY, endX, endY);
+			numPoints++;
+		}
+		else
+		{
+			points[numPoints] = BezierPoint(points[numPoints - 1].endX, points[numPoints - 1].endY, startX, startY);
+			points[numPoints + 1] = BezierPoint(startX, startY, endX, endY);
+			numPoints += 2;
+		}
+	}
 
 	// Default Case: Must be inserted between two points
+	uint32_t startIndex = GetIndex(startX);
+	uint32_t endIndex = GetIndex(endX);
+
+	// If start and end points are the same, only need to split one point
+	if (startIndex == endIndex)
+	{
+		BezierPoint& currentPoint = points[startIndex];
+
+		// If current start and start are the same and current end and end are the same, replace point
+		if (LMath::ApproxEquals(currentPoint.startX, startX, 0.001f) 
+			&& LMath::ApproxEquals(currentPoint.endX, endX, 0.001f))
+		{
+			currentPoint.startY = startY;
+			currentPoint.endY = endY;
+		}
+		// If starts are equal, break a point into 2
+		else if (LMath::ApproxEquals(currentPoint.startX, startX, 0.001f))
+		{
+			currentPoint.startX = endX;
+			currentPoint.startY = endY;
+			Shift(startIndex, 1);
+			points[startIndex] = BezierPoint(startX, startY, endX, endY);
+			numPoints++;
+		}
+		// If ends are equals, break the point into 2
+		else if (LMath::ApproxEquals(currentPoint.endX, endX, 0.001f))
+		{
+			currentPoint.endX = startX;
+			currentPoint.endY = startY;
+			Shift(startIndex + 1, 1);
+			points[startIndex + 1] = BezierPoint(startX, startY, endX, endY);
+			numPoints++;
+		}
+		// Otherwise, split the point into 3
+		else
+		{
+			currentPoint.endX = startX;
+			currentPoint.endY = startY;
+			Shift(startIndex + 1, 2);
+			points[startIndex + 1] = BezierPoint(startX, startY, endX, endY);
+			points[startIndex + 2] = BezierPoint(endX, endY, points[startIndex + 3].startX, points[startIndex + 3].startY);
+			numPoints += 2;
+		}
+	}
+	// Otherwise, it will be complicated
+	else
+	{
+
+	}
 }
 
 void Bezier::Insert(FVector2 start, FVector2 end)
@@ -177,5 +240,13 @@ uint32_t Bezier::GetIndex(float x) const
 		{
 			max = currentIndex;
 		}
+	}
+}
+
+void Bezier::Shift(int position, int shift)
+{
+	for (int i = numPoints - 1; i >= position; i--)
+	{
+		points[i + shift] = points[i];
 	}
 }
