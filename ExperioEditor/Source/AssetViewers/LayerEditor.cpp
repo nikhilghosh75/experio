@@ -3,12 +3,21 @@
 #include "../Framework/Values.h"
 #include "Runtime/Containers/Algorithm.h"
 
+LayerEditor* LayerEditor::layerEditor;
+
+void LayerEditor::OnValuesChanged()
+{
+	layerEditor->layers = ExperioEditor::GetLayers().GetPairs();
+}
+
 LayerEditor::LayerEditor()
 {
 	this->name = "Layer Editor";
 	this->category = EEditorModuleCategory::Viewer;
 
 	this->layers = ExperioEditor::GetLayers().GetPairs();
+	layerEditor = this;
+	ExperioEditor::AddEventToOnValuesChanged(OnValuesChanged);
 }
 
 void LayerEditor::Display()

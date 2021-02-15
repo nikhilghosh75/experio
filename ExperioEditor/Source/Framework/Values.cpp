@@ -5,6 +5,8 @@ namespace ExperioEditor
 THashtable<uint16_t, std::string> tags;
 THashtable<uint16_t, std::string> layers;
 
+TEvent OnValuesChanged;
+
 namespace Internal
 {
 	uint16_t NextAvailible(const THashtable<uint16_t, std::string>& table)
@@ -41,6 +43,7 @@ void AddValue(EValueType type)
 		tags.Insert(nextAvailible, temp);
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 void AddValue(const std::string & str, EValueType type)
@@ -62,6 +65,7 @@ void AddValue(const std::string & str, EValueType type)
 		tags.Insert(nextAvailible, str);
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 void AddValue(FValue value, EValueType type)
@@ -75,6 +79,7 @@ void AddValue(FValue value, EValueType type)
 		tags.Insert(value.index, value.name);
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 void DeleteValue(uint16_t index, EValueType type)
@@ -88,6 +93,7 @@ void DeleteValue(uint16_t index, EValueType type)
 		tags.Remove(index);
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 void DeleteValue(std::string name, EValueType type)
@@ -101,6 +107,7 @@ void DeleteValue(std::string name, EValueType type)
 		tags.RemoveValue(name);
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 FValue GetValue(uint16_t index, EValueType type)
@@ -156,6 +163,7 @@ void ClearValues()
 {
 	layers.Empty();
 	tags.Empty();
+	OnValuesChanged.Invoke();
 }
 
 void ClearValues(EValueType type)
@@ -169,6 +177,7 @@ void ClearValues(EValueType type)
 		tags.Empty();
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 uint16_t GetNextAvailibleValue(EValueType type)
@@ -200,6 +209,11 @@ THashtable<uint16_t, std::string>& GetTags()
 THashtable<uint16_t, std::string>& GetLayers()
 {
 	return layers;
+}
+
+void AddEventToOnValuesChanged(TFunctionPointer pointer)
+{
+	OnValuesChanged.AddListener(pointer);
 }
 
 unsigned int NumValues(EValueType type)
@@ -234,6 +248,7 @@ void SetValueName(uint16_t index, std::string& newName, EValueType type)
 	}
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 } // Experio Editor

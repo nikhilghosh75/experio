@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Runtime/Containers/THashtable.h"
+#include "Runtime/Framework/TEvent.h"
 
 enum class EValueType
 {
@@ -42,6 +43,8 @@ namespace ExperioEditor
 
 	THashtable<uint16_t, std::string>& GetTags();
 	THashtable<uint16_t, std::string>& GetLayers();
+
+	void AddEventToOnValuesChanged(TFunctionPointer pointer);
 
 	unsigned int NumValues(EValueType type);
 
