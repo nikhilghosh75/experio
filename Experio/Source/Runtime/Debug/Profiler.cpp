@@ -52,6 +52,7 @@ void ScopeProfiler::End()
 ProfilerManager::ProfilerManager()
 {
 	logFile.open("log.pblog");
+	logFile << "GameStart: " << FDateTime::NowHighRes().ticks << std::endl;
 }
 
 ProfilerManager::~ProfilerManager()
@@ -62,11 +63,11 @@ ProfilerManager::~ProfilerManager()
 void ProfilerManager::Write(const FProfileInfo & info)
 {
 	logFile << "Start: " << info.start << " Duration: " << info.duration << " Category: " << (uint16_t)info.category
-		<< "Thread: " << info.threadID << " Name: " << info.name << std::endl;
+		<< " Thread: " << info.threadID << " Name: " << info.name << std::endl;
 }
 
 void ProfilerManager::Write(long long start, long long duration, char * name, EProfilerCategory category, uint8_t threadID)
 {
 	logFile << "Start: " << start << " Duration: " << duration << " Category: " << (uint16_t)category
-		<< "Thread: " << threadID << " Name: " << name << std::endl;
+		<< " Thread: " << threadID << " Name: " << name << std::endl;
 }
