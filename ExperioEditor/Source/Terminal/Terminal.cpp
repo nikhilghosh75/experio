@@ -86,6 +86,14 @@ void Terminal::ClearConsole()
 void Terminal::ExecuteCommand()
 {
 	std::string inputStr = inputBuffer;
+
+	if (inputStr == "help")
+	{
+		DisplayHelpMessage();
+		memset(this->inputBuffer, 0, sizeof(this->inputBuffer));
+		return;
+	}
+
 	std::vector<std::string> args = LString::SeperateStringByChar(inputStr, ' ');
 
 	Terminal::Print('\t' + inputStr);
@@ -107,11 +115,25 @@ void Terminal::ExecuteCommand()
 	if (!found)
 	{
 		std::stringstream ss;
-		ss << args[0] << " was not found.";
+		ss << args[0] << " was not found. Type \"help\" to display a list of commands";
 		Terminal::Print(ss.str());
 	}
 
 	memset(this->inputBuffer, 0, sizeof(this->inputBuffer));
+}
+
+void Terminal::DisplayHelpMessage()
+{
+	Terminal::Print("\thelp");
+	Terminal::Print("Here is a list of all commands you can access:");
+	std::vector<std::string> programs = commandManager->functions.GetKeys();
+
+	for (uint32_t i = 0; i < programs.size(); i++)
+	{
+		Terminal::Print("  " + programs[i]);
+	}
+
+	Terminal::Print("");
 }
 
 void Terminal::PrintTerminalError(int errorCode)

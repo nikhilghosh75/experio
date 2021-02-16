@@ -57,6 +57,8 @@ private:
 
 	void ExecuteCommand();
 
+	void DisplayHelpMessage();
+
 	static void PrintTerminalError(int errorCode);
 };
 
