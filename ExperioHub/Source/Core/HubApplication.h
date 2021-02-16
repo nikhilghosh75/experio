@@ -23,6 +23,12 @@ public:
 
 	static const HubApplication* Get() { return hubApplication; };
 
+	static std::string experioFilepath;
+	static std::string experioEditorFilePath;
+	static std::string experioDependenciesFilePath;
+	static std::string experioBinariesFilePath;
+	static std::string standardAssetsFilePath;
+
 	void Setup();
 
 	void Run();

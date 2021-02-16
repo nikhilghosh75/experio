@@ -37,6 +37,12 @@ void HubApplication::Shutdown()
 void HubApplication::ExecuteCommand(char * command)
 {
 	std::string commandStr(command);
+	if (commandStr == "quit")
+	{
+		isRunning = false;
+		return;
+	}
+
 	std::vector<std::string> args = LString::SeperateStringByChar(commandStr, ' ');
 
 	CommandFunction function;
