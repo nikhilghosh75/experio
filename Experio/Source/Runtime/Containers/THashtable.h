@@ -472,6 +472,42 @@ public:
 		}
 	}
 
+	std::vector<K> GetKeys() const
+	{
+		std::vector<K> keys;
+		keys.reserve(this->size);
+
+		for (int i = 0; i < this->capacity; i++)
+		{
+			THashNode<K, V>* entry = arr[i];
+			while (entry != nullptr)
+			{
+				keys.push_back(entry->GetKey());
+				entry = entry->GetNext();
+			}
+		}
+
+		return keys;
+	}
+
+	std::vector<V> GetValues() const
+	{
+		std::vector<V> values;
+		values.reserve(this->size);
+
+		for (int i = 0; i < this->capacity; i++)
+		{
+			THashNode<K, V>* entry = arr[i];
+			while (entry != nullptr)
+			{
+				values.push_back(entry->GetKey());
+				entry = entry->GetNext();
+			}
+		}
+
+		return values;
+	}
+
 	std::vector<TPair<K, V>> GetPairs() const
 	{
 		std::vector<TPair<K, V>> pairs;
