@@ -168,6 +168,19 @@ UNIT_TEST(TestMathMinMax, "LMath")
 	TEST_END();
 }
 
+UNIT_TEST(TestMathPow, "LMath")
+{
+	ASSERT_EQUAL(LMath::Pow(2, 4), 16, "");
+	ASSERT_EQUAL(LMath::Pow(3.5f, 5.f), 525.219f, "");
+
+	ASSERT_EQUAL(LMath::PowE(3.4), 29.964f, "");
+
+	ASSERT_EQUAL(LMath::PowOfTwo(12), 4096, "");
+	ASSERT_EQUAL(LMath::PowOfTen(6), 1000000, "");
+
+	TEST_END();
+}
+
 FUnitTestingOutcome RunLMathTests()
 {
 	return suite.RunTests();
