@@ -1,12 +1,102 @@
 #include "TimeProfiler.h"
+#include "../Core/FileDialog.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Math/LMath.h"
+#include "Runtime/Rendering/ImGui/LImGui.h"
+#include <fstream>
 
 #define PB_MILLISECOND_WIDTH 12.f;
 #define PB_ZOOM_MIN 0.25f
 #define PB_ZOOM_MAX 10
 #define PB_SCROLL_SPEED 0.005f
 #define PB_LEVEL_WIDTH 24.f
+
+TimeProfilerStamp::TimeProfilerStamp()
+{
+	this->name = "";
+	this->color = 0;
+	this->level = 1;
+	this->start = 0.0f;
+	this->end = 0.0f;
+}
+
+TimeProfilerStamp::TimeProfilerStamp(std::string name, ImU32 color, int level, float start, float end)
+{
+	this->name = name;
+	this->color = color;
+	this->level = level;
+	this->start = start;
+	this->end = end;
+}
+
+TimeProfilerData TimeProfilerData::ReadFromFile(const std::string & filepath)
+{
+	TimeProfilerData data;
+	std::ifstream inFile(filepath);
+
+	// Read Start
+	uint64_t gameStartTime;
+	std::string str;
+	inFile >> str >> gameStartTime;
+
+	uint64_t startTime, duration;
+	std::string name;
+	uint32_t category;
+	int threadId;
+
+	while (inFile >> str >> startTime)
+	{
+		inFile >> str >> duration;
+		inFile >> str >> category;
+		inFile >> str >> threadId;
+		inFile >> str >> name;
+
+		ImU32 color = CategoryToColor(category);
+		float floatStart = FDuration::GetMilliseconds(FDuration(startTime - gameStartTime));
+		float floatEnd = FDuration::GetMilliseconds(FDuration(duration)) + floatStart;
+		data.stamps.emplace_back(name, color, 0, floatStart, floatEnd);
+	}
+
+	return data;
+}
+
+ImU32 TimeProfilerData::CategoryToColor(uint32_t category)
+{
+	switch (category)
+	{
+	case 0: return IM_COL32(128, 128, 128, 255);
+	case 1: return IM_COL32(0, 192, 0, 255);
+	case 2: return IM_COL32(0, 128, 255, 255);
+	case 3: return IM_COL32(255, 128, 0, 255);
+	case 4: return IM_COL32(255, 0, 255, 255);
+	}
+	return 0;
+}
+
+void TimeProfiler::DisplayMenuBar()
+{
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem("Open"))
+			{
+				FFileDialogInfo info = FileDialog::OpenFile("Experio Log (*.pblog)\0*.pblog\0");
+			}
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Colors"))
+		{
+			LImGui::DisplayColorSmall(IM_COL32(128, 128, 128, 255), "None");
+			LImGui::DisplayColorSmall(IM_COL32(0, 192, 0, 255), "Container");
+			LImGui::DisplayColorSmall(IM_COL32(0, 128, 255, 255), "Math");
+			LImGui::DisplayColorSmall(IM_COL32(255, 128, 0, 255), "Files");
+			LImGui::DisplayColorSmall(IM_COL32(255, 0, 255, 255), "Rendering");
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+}
 
 void TimeProfiler::DisplayCanvas()
 {
@@ -63,10 +153,13 @@ TimeProfiler::TimeProfiler()
 {
 	this->category = EEditorModuleCategory::Profiling;
 	this->name = "Time Profiler";
+
+	this->flags = ImGuiWindowFlags_MenuBar;
 }
 
 void TimeProfiler::Display()
 {
+	DisplayMenuBar();
 	ImGui::Text(std::to_string(position).c_str());
 	ImGui::Text(std::to_string(endPosition).c_str());
 	DisplayCanvas();
