@@ -35,6 +35,20 @@ struct FDuration
 	static int GetDay(const FDuration& duration);
 	static int GetYear(const FDuration& duration);
 
+	float GetMilliseconds() const;
+	float GetSeconds() const;
+	float GetMinutes() const;
+	float GetHours() const;
+	float GetDays() const;
+	float GetYears() const;
+
+	static float GetMilliseconds(const FDuration& duration);
+	static float GetSeconds(const FDuration& duration);
+	static float GetMinutes(const FDuration& duration);
+	static float GetHours(const FDuration& duration);
+	static float GetDays(const FDuration& duration);
+	static float GetYears(const FDuration& duration);
+
 	static const FDuration microsecond;
 	static const FDuration millisecond;
 	static const FDuration second;

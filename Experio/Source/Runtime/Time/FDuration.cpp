@@ -152,6 +152,66 @@ int FDuration::GetYear(const FDuration & duration)
 	return duration.ticks / TICKSPERYEAR;
 }
 
+float FDuration::GetMilliseconds() const
+{
+	return (float)this->ticks / (float)TICKSPERMILLISECOND;
+}
+
+float FDuration::GetSeconds() const
+{
+	return (float)this->ticks / (float)TICKSPERSECOND;
+}
+
+float FDuration::GetMinutes() const
+{
+	return (float)this->ticks / (float)TICKSPERMINUTE;
+}
+
+float FDuration::GetHours() const
+{
+	return (float)this->ticks / (float)TICKSPERHOUR;
+}
+
+float FDuration::GetDays() const
+{
+	return (float)this->ticks / (float)TICKSPERDAY;
+}
+
+float FDuration::GetYears() const
+{
+	return (float)this->ticks / (float)TICKSPERYEAR;
+}
+
+float FDuration::GetMilliseconds(const FDuration & duration)
+{
+	return (float)duration.ticks / (float)TICKSPERMILLISECOND;
+}
+
+float FDuration::GetSeconds(const FDuration & duration)
+{
+	return (float)duration.ticks / (float)TICKSPERSECOND;
+}
+
+float FDuration::GetMinutes(const FDuration & duration)
+{
+	return (float)duration.ticks / (float)TICKSPERMINUTE;
+}
+
+float FDuration::GetHours(const FDuration & duration)
+{
+	return (float)duration.ticks / (float)TICKSPERHOUR;
+}
+
+float FDuration::GetDays(const FDuration & duration)
+{
+	return (float)duration.ticks / (float)TICKSPERDAY;
+}
+
+float FDuration::GetYears(const FDuration & duration)
+{
+	return (float)duration.ticks / (float)TICKSPERYEAR;
+}
+
 std::string FDuration::ToString(const FDuration & duration)
 {
 	std::stringstream ss;
