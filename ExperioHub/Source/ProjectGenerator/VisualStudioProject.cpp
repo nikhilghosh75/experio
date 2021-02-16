@@ -1,5 +1,5 @@
 #include "VisualStudioProject.h"
-#include "../CodeParser/LCodeParser.h"
+#include "CodeParser/LCodeParser.h"
 #include "Runtime/Core/Platform.h"
 #include "Runtime/Files/LFileOperations.h"
 #include <fstream>

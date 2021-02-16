@@ -1,8 +1,7 @@
 #include "ProjectGenerator.h"
 #include "VisualStudioProject.h"
 #include "EditorCodeGenerator.h"
-#include "../Core/EditorApplication.h"
-#include "../Framework/EditorProject.h"
+#include "Framework/EditorProject.h"
 #include "ThirdParty/toml++/toml.h"
 #include <filesystem>
 #include <fstream>

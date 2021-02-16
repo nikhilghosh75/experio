@@ -2,7 +2,7 @@
 
 #include "Runtime/Core/Platform.h"
 #include "Runtime/Framework/GUID128.h"
-#include "../CodeParser/CodeParser.h"
+#include "CodeParser/CodeParser.h"
 
 namespace ExperioEditor::VisualStudio
 {

@@ -80,6 +80,10 @@
       <PreprocessorDefinitions>PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)\bin\$(Platform)\$(Configuration)\Demo Project\;$(SolutionDir)Dependencies\GLEW\lib\Release\x64;$(SolutionDir)bin\x64\Debug\Engine;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;Engine.lib;%(AdditionalDependencies);kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -121,12 +125,20 @@
   <ItemGroup>
     <ClInclude Include="Source\Core\HubApplication.h" />
     <ClInclude Include="Source\Core\HubCommands.h" />
+    <ClInclude Include="Source\ProjectGenerator\EditorCodeGenerator.h" />
+    <ClInclude Include="Source\ProjectGenerator\ProjectGenerator.h" />
+    <ClInclude Include="Source\ProjectGenerator\VisualStudioProject.h" />
+    <ClInclude Include="Source\ProjectGenerator\VisualStudioSolution.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Commands\Help.cpp" />
     <ClCompile Include="Source\Commands\Version.cpp" />
     <ClCompile Include="Source\Core\HubApplication.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\ProjectGenerator\EditorCodeGenerator.cpp" />
+    <ClCompile Include="Source\ProjectGenerator\ProjectGenerator.cpp" />
+    <ClCompile Include="Source\ProjectGenerator\VisualStudioProject.cpp" />
+    <ClCompile Include="Source\ProjectGenerator\VisualStudioSolution.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
