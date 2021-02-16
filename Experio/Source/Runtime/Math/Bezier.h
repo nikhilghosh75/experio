@@ -54,6 +54,8 @@ private:
 	uint32_t GetIndex(float x) const;
 
 	void Shift(int position = 0, int shift = 1);
+
+	void Remove(uint32_t index);
 };
 
 class BezierIterator
@@ -64,7 +66,6 @@ class BezierIterator
 	float x;
 	float y;
 public:
-
 
 };
 

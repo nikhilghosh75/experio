@@ -59,7 +59,7 @@ Bezier::Bezier(BezierPoint * points, uint32_t numPoints, uint32_t capacity)
 
 Bezier::~Bezier()
 {
-	delete this->points;
+	delete[] this->points;
 }
 
 float Bezier::Get(float x) const
@@ -197,13 +197,42 @@ void Bezier::Insert(float startX, float startY, float endX, float endY)
 	// Otherwise, it will be complicated
 	else
 	{
+		// Remove all points between start and end (exclusive)
+		uint32_t difference = endIndex - startIndex - 1;
+		for (uint32_t i = 0; i < difference; i++)
+		{
+			Remove(startIndex + 1);
+		}
 
+		// The thing
+		Shift(startIndex + 1, 1);
+		points[startIndex].endX = startX;
+		points[startIndex].endY = startY;
+		points[startIndex + 1] = BezierPoint(startX, startY, endX, endY);
+		points[startIndex + 2].startX = endX;
+		points[startIndex + 2].startY = endY;
+		numPoints++;
 	}
+}
+
+void Bezier::Insert(float startX, float startY, float endX, float endY, float startControlX, float startControlY, float endControlX, float endControlY)
+{
+	Insert(startX, startY, endX, endY);
+	BezierPoint& point = points[GetIndex((startX + endX) / 2.f)];
+	point.startControlX = startControlX;
+	point.startControlY = startControlY;
+	point.endControlX = endControlX;
+	point.endControlY = endControlY;
 }
 
 void Bezier::Insert(FVector2 start, FVector2 end)
 {
 	Insert(start.x, start.y, end.x, end.y);
+}
+
+void Bezier::Insert(FVector2 start, FVector2 end, FVector2 startControl, FVector2 endControl)
+{
+	Insert(start.x, start.y, end.x, end.x, startControl.x, startControl.y, endControl.x, endControl.y);
 }
 
 float Bezier::MinX() const
@@ -223,11 +252,17 @@ float Bezier::MaxX() const
 uint32_t Bezier::GetIndex(float x) const
 {
 	uint32_t min = 0, max = numPoints;
+	float minX = MinX(), maxX = MaxX();
+	if (minX >= x)
+		return 0;
+	else if (maxX <= x)
+		return max - 1;
+
 	while (true)
 	{
 		uint32_t currentIndex = (min + max) / 2;
 		const BezierPoint& currentPoint = this->points[currentIndex];
-		if (currentPoint.startX < x && currentPoint.endY > x)
+		if (currentPoint.startX <= x && currentPoint.endX >= x)
 		{
 			return currentIndex;
 		}
@@ -249,4 +284,13 @@ void Bezier::Shift(int position, int shift)
 	{
 		points[i + shift] = points[i];
 	}
+}
+
+void Bezier::Remove(uint32_t index)
+{
+	for (uint32_t i = index; i < numPoints - 1; i++)
+	{
+		points[i] = points[i + 1];
+	}
+	numPoints--;
 }
