@@ -28,6 +28,8 @@ public:
 
 	static void DisplayBox(FBox& box, std::string name);
 
+	static void DisplayColorSmall(ImU32 color32, std::string name);
+
 	template<typename T>
 	static void DisplayEnum(T& currentEnum, std::string name);
 

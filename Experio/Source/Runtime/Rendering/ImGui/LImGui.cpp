@@ -81,6 +81,16 @@ void LImGui::DisplayBox(FBox & box, std::string name)
 	}
 }
 
+void LImGui::DisplayColorSmall(ImU32 color32, std::string name)
+{
+	ImVec2 p = ImGui::GetCursorScreenPos();
+	float sz = ImGui::GetTextLineHeight();
+	ImGui::GetWindowDrawList()->AddRectFilled(p, ImVec2(p.x + sz, p.y + sz), color32);
+	ImGui::Dummy(ImVec2(sz, sz));
+	ImGui::SameLine();
+	ImGui::Text(name.c_str());
+}
+
 void LImGui::DisplayFileAsset(FileRef & ref, std::string name)
 {
 	ImGui::PushID(name.c_str());
