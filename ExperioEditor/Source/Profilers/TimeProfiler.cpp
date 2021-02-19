@@ -7,8 +7,8 @@
 
 #define PB_MILLISECOND_WIDTH 12.f;
 #define PB_ZOOM_MIN 0.25f
-#define PB_ZOOM_MAX 10
-#define PB_SCROLL_SPEED 0.005f
+#define PB_ZOOM_MAX 30
+#define PB_SCROLL_SPEED 0.01f
 #define PB_LEVEL_WIDTH 24.f
 
 TimeProfilerStamp::TimeProfilerStamp()
@@ -42,20 +42,24 @@ TimeProfilerData TimeProfilerData::ReadFromFile(const std::string & filepath)
 	uint64_t startTime, duration;
 	std::string name;
 	uint32_t category;
-	int threadId;
+	std::string threadId;
 
 	while (inFile >> str >> startTime)
 	{
 		inFile >> str >> duration;
 		inFile >> str >> category;
 		inFile >> str >> threadId;
-		inFile >> str >> name;
+		// inFile >> str >> name;
+		inFile >> str;
+		std::getline(inFile, name);
 
 		ImU32 color = CategoryToColor(category);
 		float floatStart = FDuration::GetMilliseconds(FDuration(startTime - gameStartTime));
 		float floatEnd = FDuration::GetMilliseconds(FDuration(duration)) + floatStart;
 		data.stamps.emplace_back(name, color, 0, floatStart, floatEnd);
 	}
+
+	data.SetStampLevel();
 
 	return data;
 }
@@ -73,6 +77,22 @@ ImU32 TimeProfilerData::CategoryToColor(uint32_t category)
 	return 0;
 }
 
+void TimeProfilerData::SetStampLevel()
+{
+	for (uint32_t i = 0; i < this->stamps.size(); i++)
+	{
+		int newLevel = 0;
+		for (uint32_t j = i + 1; j < this->stamps.size(); j++)
+		{
+			if (stamps[j].start <= stamps[i].start && stamps[j].end >= stamps[i].end)
+			{
+				newLevel++;
+			}
+		}
+		stamps[i].level = newLevel;
+	}
+}
+
 void TimeProfiler::DisplayMenuBar()
 {
 	if (ImGui::BeginMenuBar())
@@ -82,6 +102,7 @@ void TimeProfiler::DisplayMenuBar()
 			if (ImGui::MenuItem("Open"))
 			{
 				FFileDialogInfo info = FileDialog::OpenFile("Experio Log (*.pblog)\0*.pblog\0");
+				profilerData = TimeProfilerData::ReadFromFile(info.filename);
 			}
 			ImGui::EndMenu();
 		}
@@ -165,8 +186,13 @@ void TimeProfiler::Display()
 	DisplayCanvas();
 	DisplayLines();
 
-	ProfilerBar("Application::Run", IM_COL32(225, 30, 30, 255), 1, 0, 45);
-	ProfilerBar("ComponentManager::Update", IM_COL32(240, 125, 30, 255), 2, 12, 42);
+	for (int i = 0; i < this->profilerData.stamps.size(); i++)
+	{
+		TimeProfilerStamp& stamp = profilerData.stamps[i];
+		ProfilerBar(stamp.name, stamp.color, stamp.level, stamp.start, stamp.end);
+	}
+	// ProfilerBar("Application::Run", IM_COL32(225, 30, 30, 255), 1, 0, 45);
+	// ProfilerBar("ComponentManager::Update", IM_COL32(240, 125, 30, 255), 2, 12, 42);
 }
 
 void TimeProfiler::HandleInput()

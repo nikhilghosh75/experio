@@ -19,12 +19,14 @@ public:
 
 class TimeProfilerData
 {
+public:
 	std::vector<TimeProfilerStamp> stamps;
 
-public:
 	static TimeProfilerData ReadFromFile(const std::string& filepath);
 
 	static ImU32 CategoryToColor(uint32_t category);
+
+	void SetStampLevel();
 };
 
 class TimeProfiler : public EditorModule
@@ -37,6 +39,8 @@ class TimeProfiler : public EditorModule
 	ImVec2 canvasStart;
 	ImVec2 canvasSize;
 	ImVec2 canvasEnd;
+
+	TimeProfilerData profilerData;
 
 	void DisplayMenuBar();
 	void DisplayCanvas();
