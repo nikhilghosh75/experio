@@ -132,6 +132,7 @@
     <ClCompile Include="Framework\BinaryParamsTest.cpp" />
     <ClCompile Include="Files\ImageOperationsTest.cpp" />
     <ClCompile Include="Framework\ParamsTest.cpp" />
+    <ClCompile Include="Framework\SceneTest.cpp" />
     <ClCompile Include="Math\BezierTest.cpp" />
     <ClCompile Include="Math\LMathTest.cpp" />
     <ClCompile Include="Math\QuaternionTest.cpp" />
