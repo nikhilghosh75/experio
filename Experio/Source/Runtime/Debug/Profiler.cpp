@@ -1,7 +1,7 @@
 #include "Profiler.h"
 #include <thread>
 
-#define PB_DEBUG_PROFILER
+// #define PB_DEBUG_PROFILER
 
 #ifdef PB_DEBUG_PROFILER
 #include <iostream>
