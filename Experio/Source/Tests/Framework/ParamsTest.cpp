@@ -97,3 +97,15 @@ UNIT_TEST(TestParamsVector4, "Params")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestParamsQuaternion, "Params")
+{
+	std::string str1 = "{5.714 3.00 0.45 4.60}";
+
+	ASSERT_ALMOST_EQUAL(ParseQuaternion(str1).x, 5.714);
+	ASSERT_ALMOST_EQUAL(ParseQuaternion(str1).y, 3);
+	ASSERT_ALMOST_EQUAL(ParseQuaternion(str1).z, 0.45);
+	ASSERT_ALMOST_EQUAL(ParseQuaternion(str1).w, 4.60);
+
+	TEST_END();
+}

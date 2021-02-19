@@ -181,6 +181,15 @@ UNIT_TEST(TestMathPow, "LMath")
 	TEST_END();
 }
 
+UNIT_TEST(TestMathSec, "LMath")
+{
+	ASSERT_ALMOST_EQUAL(LMath::Sec(0), 1);
+	ASSERT_ALMOST_EQUAL(LMath::Sec(0.21f), 1.022f);
+	ASSERT_ALMOST_EQUAL(LMath::Sec(0.47f), 1.122f);
+	ASSERT_ALMOST_EQUAL(LMath::Sec(0.86f), 1.533f);
+	ASSERT_ALMOST_EQUAL(LMath::Sec(1.30f), 3.738f);
+}
+
 FUnitTestingOutcome RunLMathTests()
 {
 	return suite.RunTests();

@@ -105,3 +105,21 @@ UNIT_TEST(TestStringReplace, "String")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestStringCount, "String")
+{
+	ASSERT_EQUAL(LString::NumOfChars("WolverineSoft", 'o'), 2, "");
+	ASSERT_EQUAL(LString::NumOfChars("WolverineSoft", 'a'), 0, "");
+
+	ASSERT_EQUAL(LString::NumOfCharsFront("AAAAb", 'A'), 4, "");
+	ASSERT_EQUAL(LString::NumOfCharsFront("AAAAb", 'b'), 0, "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestStringCamelCase, "String")
+{
+	ASSERT_EQUAL(LString::ToCamelCase("WolverineSoft"), "wolverineSoft", "");
+
+	TEST_END();
+}
