@@ -10,6 +10,8 @@
 #include "examples/imgui_impl_opengl3.h"
 #include "imgui_internal.h"
 
+#define EXPERIO_DEBUG
+
 #include "EditorWindow.h"
 #include "../BuildSystem/CodeGenerator.h"
 #include "../CodeParser/CodeProjectGenerator.h"
@@ -23,6 +25,7 @@
 #include "../Framework/ImportSystem.h"
 #include "../Framework/NotificationSystem.h"
 #include "../Framework/SceneSaver.h"
+#include "../Framework/UndoSystem.h"
 #include "../Framework/ValueLoader.h"
 #include "../GameView/GameView.h"
 #include "../Inspector/Inspector.h"
@@ -30,7 +33,8 @@
 #include "../ProjectSettings/SettingsView.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../SceneView/SceneView.h"
-#include "Runtime/Containers/TBinarySearchTree.h"
+#include "../Terminal/Terminal.h"
+#include "Runtime/Debug/Profiler.h"
 #include "Runtime/Framework/SceneLoader.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
@@ -80,6 +84,9 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 
 	currentScenePath = defaultScenePath;
 
+	ImGuiStyle& style = ImGui::GetStyle();
+	style.Colors[ImGuiCol_WindowBg].w = 1.f;
+
 	AddDefaultModules();
 
 	ProjectSettings::Initialize();
@@ -87,6 +94,7 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	CompilationParser::Initialize();
 	EditorShortcuts::Initialize();
 	ImportSystem::Initialize();
+	Terminal::Initialize();
 }
 
 void EditorApplication::LoadScenes()
@@ -103,7 +111,7 @@ void EditorApplication::Run()
 
 	while (EditorWindow::isActive)
 	{
-		// PROFILE_SCOPE("Editor Loop");
+		PROFILE_SCOPE("Editor Loop");
 		
 		BeginFrame();
 		Update();
@@ -121,6 +129,8 @@ void EditorApplication::Shutdown()
 	Scene::UnloadAllScenes();
 
 	ProjectSettings::Shutdown();
+	ImportSystem::Shutdown();
+	UndoSystem::FlushCommands();
 }
 
 void EditorApplication::SetBeginFrameCallback(void(*callback)(float))
@@ -166,7 +176,7 @@ void EditorApplication::AddDefaultModules()
 	modules.push_back(new SceneHierarchy());
 	modules.push_back(new Inspector());
 	modules.push_back(new GameView());
-	// modules.push_back(new Console());
+	modules.push_back(new Console());
 
 	modules.push_back(new SettingsView());
 }
@@ -202,14 +212,19 @@ void EditorApplication::RenderModules()
 {
 	for (int i = 0; i < modules.size(); i++)
 	{
-		ImGui::Begin(modules[i]->name.c_str());
-
-		if (ImGui::IsWindowFocused() || ImGui::IsWindowHovered())
+		if (ImGui::Begin(modules[i]->name.c_str(), modules[i]->GetIsDisplayed(), modules[i]->flags))
 		{
-			modules[i]->HandleInput();
-		}
+			if (ImGui::IsWindowFocused() || ImGui::IsWindowHovered())
+			{
+				modules[i]->HandleInput();
+			}
 
-		modules[i]->Display();
+			modules[i]->Display();
+		}
+		else
+		{
+
+		}
 		ImGui::End();
 	}
 }

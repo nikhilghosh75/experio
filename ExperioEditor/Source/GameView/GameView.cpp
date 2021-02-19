@@ -1,6 +1,8 @@
 #include "GameView.h"
 #include "Runtime/Core/Window.h"
 #include "Runtime/Framework/Project.h"
+#include "Runtime/Math/ColorPalette.h"
+#include "Runtime/Math/LMath.h"
 #include "../Core/EditorWindow.h"
 #include "../Framework/PlaySystem.h"
 
@@ -39,19 +41,29 @@ GameView::GameView()
 	this->stopButtonImage = TextureManager::LoadTexture("C:/Users/debgh/source/repos/project-bloo/ExperioEditor/Resources/Textures/Stop-Button.bmp");
 
 	renderer.currentMode = ERenderMode::ToCameraSystem;
+
+	FWindowData data = EditorWindow::GetWindowData();
+	this->framebuffer = Framebuffer(data.width, data.height);
+	this->lastSize = ImVec2(0, 0);
 }
 
 void GameView::Display()
 {
 	renderer.MakeCurrent();
+	renderer.SetCull(true);
 
 	CreateMenu();
 
 	ImVec2 currentSize = ImGui::GetContentRegionAvail();
 
-	FWindowData data = EditorWindow::GetWindowData();
-	Framebuffer framebuffer(data.width, data.height);
+	if (!LMath::ApproxEquals(currentSize.x, lastSize.x, 2) || !LMath::ApproxEquals(currentSize.y, lastSize.y, 2))
+	{
+		framebuffer.SetSpec((unsigned int)currentSize.x, (unsigned int)currentSize.y);
+	}
 	framebuffer.Bind();
+	renderer.SetViewport(0, 0, currentSize.x, currentSize.y);
+	renderer.ClearColor(ColorPalette::Black);
+	renderer.Clear();
 	
 	if (PlaySystem::GetPlaySystemState() == EPlaySystemState::NotPlaying)
 	{
@@ -64,5 +76,7 @@ void GameView::Display()
 
 	framebuffer.Unbind();
 
-	ImGui::Image((void*)framebuffer.GetColorAttachment(), currentSize);
+	ImGui::Image((void*)framebuffer.GetColorAttachment(), currentSize, ImVec2(0, 1), ImVec2(1, 0));
+
+	lastSize = currentSize;
 }

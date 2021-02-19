@@ -19,7 +19,7 @@ enum class EParticleModifierType
 	Gravity = 13
 };
 
-class SizeOverLife : ParticleModifier
+class SizeOverLife : public ParticleModifier
 {
 public:
 	FCurve sizeXCurve;
@@ -33,7 +33,7 @@ public:
 	}
 };
 
-class ColorOverLife: ParticleModifier
+class ColorOverLife: public ParticleModifier
 {
 public:
 	FCurve redCurve;
@@ -47,7 +47,7 @@ public:
 	}
 };
 
-class VelocityOverLife : ParticleModifier
+class VelocityOverLife : public ParticleModifier
 {
 	FCurve speedXCurve;
 	FCurve speedYCurve;

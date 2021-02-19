@@ -7,7 +7,7 @@
 class CompilationSystem
 {
 public:
-	static std::function<void(FCompilationResult)> finishCompilationCallback;
+	static std::function<void(FCompilationResult&)> finishCompilationCallback;
 
 	static void StartCompilation();
 

@@ -36,7 +36,7 @@ public:
 
 #define PB_GET_COMPONENT(_vectorName_) for(int i = 0; i < _vectorName_.size(); i++)\
 	{\
-		if(_vectorName_[i].GetGameObject() == gameObject)\
+		if(_vectorName_[i].GetGameObject()->id == gameObject->id)\
 		{\
 			return (Component*)(&(_vectorName_[i]));\
 		}\

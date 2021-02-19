@@ -1,7 +1,7 @@
 #include "CompilationSystem.h"
 #include "CompilationParser.h"
 
-std::function<void(FCompilationResult)> CompilationSystem::finishCompilationCallback;
+std::function<void(FCompilationResult&)> CompilationSystem::finishCompilationCallback;
 
 void CompilationSystem::StartCompilation()
 {

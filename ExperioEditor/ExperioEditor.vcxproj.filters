@@ -105,9 +105,6 @@
     <ClCompile Include="Source\Framework\ValueSaver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ProjectGenerator\VisualStudioProject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Files\SceneConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -139,9 +136,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Files\FontConverter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectGenerator\VisualStudioSolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Files\MaterialConverter.cpp">
@@ -210,9 +204,6 @@
     <ClCompile Include="Source\Core\EditorProgressBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ProjectGenerator\ProjectGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Import Scripts\MTLImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -225,7 +216,16 @@
     <ClCompile Include="Source\Materials\MaterialSaver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ProjectGenerator\EditorCodeGenerator.cpp">
+    <ClCompile Include="Source\AssetViewers\FontViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Terminal\Terminal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Terminal\AddLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Terminal\AddTag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -344,9 +344,6 @@
     <ClInclude Include="Source\Framework\ValueSaver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ProjectGenerator\VisualStudioProject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\CodeParser\CodeParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -387,9 +384,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Files\MaterialConverter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ProjectGenerator\VisualStudioSolution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\CodeParser\CompilationError.h">
@@ -479,9 +473,6 @@
     <ClInclude Include="Source\Framework\ShaderInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ProjectGenerator\ProjectGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\DialogBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -500,10 +491,16 @@
     <ClInclude Include="Source\ProjectSettings\BuildSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ProjectGenerator\EditorCodeGenerator.h">
+    <ClInclude Include="Source\Materials\MaterialSaver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Materials\MaterialSaver.h">
+    <ClInclude Include="Source\AssetViewers\FontViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Terminal\Terminal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Terminal\TerminalCommands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

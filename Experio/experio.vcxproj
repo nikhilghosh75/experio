@@ -29,6 +29,7 @@
     <ClInclude Include="Source\Runtime\Input\InputCodes.h" />
     <ClInclude Include="Source\Runtime\Input\Shortcut.h" />
     <ClInclude Include="Source\Runtime\Math\ColorPalette.h" />
+    <ClInclude Include="Source\Runtime\Math\Bezier.h" />
     <ClInclude Include="Source\Runtime\Math\FPlane.h" />
     <ClInclude Include="Source\Runtime\Math\Frustum.h" />
     <ClInclude Include="Source\Runtime\Math\Range.h" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Source\Runtime\Rendering\Shaders\Shader.h" />
     <ClInclude Include="Source\Runtime\Rendering\Shaders\ShaderReader.h" />
     <ClInclude Include="Source\Runtime\Rendering\Texture.h" />
+    <ClInclude Include="Source\Runtime\Rendering\UniformBuffer.h" />
     <ClInclude Include="Source\Runtime\Rendering\VertexArray.h" />
     <ClInclude Include="Source\Runtime\Rendering\VertexBuffer.h" />
     <ClInclude Include="Source\Runtime\Rendering\VertexBufferLayout.h" />
@@ -157,6 +159,7 @@
     <ClInclude Include="Source\ThirdParty\Native File Dialog\nfd_common.h" />
     <ClInclude Include="Source\ThirdParty\Periodic Function\periodic_function.hpp" />
     <ClInclude Include="Source\ThirdParty\RCCPP.h" />
+    <ClInclude Include="Source\ThirdParty\Simdjson\simdjson.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_array.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_array.hpp" />
@@ -231,6 +234,8 @@
     <ClCompile Include="Source\Runtime\Framework\GameObject.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Scene.cpp" />
     <ClCompile Include="Source\Runtime\Input\Input.cpp" />
+    <ClCompile Include="Source\Runtime\Math\Bezier.cpp" />
+    <ClCompile Include="Source\Runtime\Math\ColorPalette.cpp" />
     <ClCompile Include="Source\Runtime\Math\FBox.cpp" />
     <ClCompile Include="Source\Runtime\Math\FColor.cpp" />
     <ClCompile Include="Source\Runtime\Math\FCurve.cpp" />
@@ -265,6 +270,7 @@
     <ClCompile Include="Source\Runtime\Rendering\Shaders\Shader.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Shaders\ShaderReader.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Texture.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\UniformBuffer.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\VertexArray.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\VertexBuffer.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\VertexBufferLayout.cpp" />
@@ -285,6 +291,7 @@
     <ClCompile Include="Source\ThirdParty\Lodepng\Lodepng.cpp" />
     <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_common.c" />
     <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_win.cpp" />
+    <ClCompile Include="Source\ThirdParty\Simdjson\simdjson.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Standard\Materials\Test.material" />

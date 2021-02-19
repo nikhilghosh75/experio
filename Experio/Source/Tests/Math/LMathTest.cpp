@@ -139,6 +139,57 @@ UNIT_TEST(TestMathGCD, "LMath")
 	TEST_END();
 }
 
+UNIT_TEST(TestMathLerp, "LMath")
+{
+	ASSERT_ALMOST_EQUAL(LMath::Lerp(2.0f, 6.0f, 0.75f), 5.0f);
+
+	TEST_END();
+}
+
+UNIT_TEST(TestMathLog, "LMath")
+{
+	ASSERT_ALMOST_EQUAL(LMath::Ln(5), 1.6094f);
+	ASSERT_ALMOST_EQUAL(LMath::Ln(635), 6.4536f);
+	
+	ASSERT_ALMOST_EQUAL(LMath::Log(42), 3.737f);
+	ASSERT_ALMOST_EQUAL(LMath::Log(255, 6), 3.0926f);
+
+	TEST_END();
+}
+
+UNIT_TEST(TestMathMinMax, "LMath")
+{
+	ASSERT_ALMOST_EQUAL(LMath::Max(0.5f, 2.6f), 2.6f);
+	ASSERT_EQUAL(LMath::Max(4, 5), 5, "");
+
+	ASSERT_ALMOST_EQUAL(LMath::Min(0.5f, 2.6f), 0.5f);
+	ASSERT_EQUAL(LMath::Min(4, 5), 4, "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestMathPow, "LMath")
+{
+	ASSERT_EQUAL(LMath::Pow(2, 4), 16, "");
+	ASSERT_EQUAL(LMath::Pow(3.5f, 5.f), 525.219f, "");
+
+	ASSERT_EQUAL(LMath::PowE(3.4), 29.964f, "");
+
+	ASSERT_EQUAL(LMath::PowOfTwo(12), 4096, "");
+	ASSERT_EQUAL(LMath::PowOfTen(6), 1000000, "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestMathSec, "LMath")
+{
+	ASSERT_ALMOST_EQUAL(LMath::Sec(0), 1);
+	ASSERT_ALMOST_EQUAL(LMath::Sec(0.21f), 1.022f);
+	ASSERT_ALMOST_EQUAL(LMath::Sec(0.47f), 1.122f);
+	ASSERT_ALMOST_EQUAL(LMath::Sec(0.86f), 1.533f);
+	ASSERT_ALMOST_EQUAL(LMath::Sec(1.30f), 3.738f);
+}
+
 FUnitTestingOutcome RunLMathTests()
 {
 	return suite.RunTests();

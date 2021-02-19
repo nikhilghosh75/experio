@@ -1,5 +1,5 @@
 #include "VisualStudioProject.h"
-#include "../CodeParser/LCodeParser.h"
+#include "CodeParser/LCodeParser.h"
 #include "Runtime/Core/Platform.h"
 #include "Runtime/Files/LFileOperations.h"
 #include <fstream>
@@ -18,12 +18,12 @@ void VSProject::SetConfiguration(EVSConfiguration configuration)
 	this->releaseConfiguration = configuration;
 }
 
-void VSProject::GenerateProjectFile(std::string & filepath)
+void VSProject::GenerateProjectFile(const std::string & filepath)
 {
 	std::ofstream outFile(filepath);
 
-	outFile << "<?xml version=\"1.0\" encoding=\"utf - 8\"?>" << std::endl;
-	outFile << "<Project DefaultTargets=\"Build\" ToolsVersion=\"15.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003 \">" << std::endl;
+	outFile << "<?xml version=\"1.0\" encoding=\"utf-8\"?>" << std::endl;
+	outFile << "<Project DefaultTargets=\"Build\" ToolsVersion=\"15.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">" << std::endl;
 
 	std::string architectureStr = ArchitectureToString(this->architecture);
 	outFile << "<ItemGroup Label=\"ProjectConfigurations\">" << std::endl;

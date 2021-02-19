@@ -16,9 +16,8 @@ using namespace Experio::Algorithm;
 
 GeneratedEditor generatedEditor;
 
-void Inspector::DisplayGameObject(uint64_t id)
+void Inspector::DisplayGameObject(GameObject* object)
 {
-	GameObject* object = Scene::FindGameObjectFromId(id);
 	if (object == nullptr) return;
 	
 	DisplayGameObjectInfo(object);
@@ -46,6 +45,60 @@ void Inspector::DisplayGameObject(uint64_t id)
 			}
 			componentEditors[i]->Display(components[i]);
 			ImGui::TreePop();
+		}
+	}
+}
+
+void Inspector::DisplayMultipleGameObject(std::vector<GameObject>& gameObjects)
+{
+	ImGui::Text("Name: "); ImGui::SameLine(); ImGui::Text("Multiple");
+
+	DisplayMultipleTags(gameObjects);
+	DisplayMultipleLayers(gameObjects);
+}
+
+void Inspector::DisplayMultipleTags(std::vector<GameObject>& gameObjects)
+{
+	uint16_t tag = gameObjects[0].tag;
+	for (size_t i = 1; i < gameObjects.size(); i++)
+	{
+		if (gameObjects[i].tag != tag)
+		{
+			tag = ExperioEditor::NumValues(EValueType::Tag);
+			break;
+		}
+	}
+
+	uint16_t lastTag = tag;
+	LImGui::DisplayTag(tag, ExperioEditor::GetTags());
+	if (lastTag != tag)
+	{
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			gameObjects[i].tag = tag;
+		}
+	}
+}
+
+void Inspector::DisplayMultipleLayers(std::vector<GameObject>& gameObjects)
+{
+	uint8_t layer = gameObjects[0].layer;
+	for (size_t i = 1; i < gameObjects.size(); i++)
+	{
+		if (gameObjects[i].layer != layer)
+		{
+			layer = ExperioEditor::NumValues(EValueType::Layer);
+			break;
+		}
+	}
+
+	uint8_t lastLayer = layer;
+	LImGui::DisplayLayer(layer, ExperioEditor::GetLayers());
+	if (lastLayer != layer)
+	{
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			gameObjects[i].layer = layer;
 		}
 	}
 }
@@ -158,7 +211,7 @@ void Inspector::UpdateComponents(std::vector<unsigned int> componentIDs, std::ve
 				InsertAt(componentEditors, (ComponentEditorBase*)(new MeshEditor()), i);
 				break;
 			case 103:
-				InsertAt(componentEditors, (ComponentEditorBase*)(new BillboardEditor()), i);
+				InsertAt(componentEditors, (ComponentEditorBase*)(new BillboardEditor()), i); break;
 			default:
 				InsertAt(componentEditors, (ComponentEditorBase*)(new GeneratedEditor(componentIDs[i], components[i])), i);
 				break;
@@ -239,12 +292,20 @@ Inspector::~Inspector()
 
 void Inspector::Display()
 {
-	std::vector<GameObject> objects = SceneHierarchy::hierarchy->GetSelectedItems();
+	std::vector<GameObject>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
 
-	if (objects.size() == 1)
+	if (objects.size() == 0)
 	{
-		DisplayGameObject(objects[0].id);
+		ImGui::Text("Select a GameObject to view its info");
 	}
-
-	DisplayAddComponentMenu();
+	else if (objects.size() == 1)
+	{
+		DisplayGameObject(&objects[0]);
+		DisplayAddComponentMenu();
+	}
+	else
+	{
+		DisplayMultipleGameObject(objects);
+		DisplayAddComponentMenu();
+	}
 }

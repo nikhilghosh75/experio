@@ -1,14 +1,13 @@
 PROJECT BLOO SCENE
-Name: Test Scene
+Name: TestScene
 Project: Demo Project
-
 {
-Name: Scene Root
-Transform: 0 0 0 0 0 0 1 1 1 1
-Tag: 0
-Layer: 0
-Components: []
-Children: [{
+	Name: Scene Root
+	Transform: 0 0 0 0 0 0 1 1 1 1
+	Tag: 0
+	Layer: 0
+	Components: []
+	Children: [{
 	Name: Billboard
 	Transform: 0 2 0 0 0 0 1 1 1 1
 	Tag: 0
@@ -19,22 +18,35 @@ Children: [{
 			billboardTexture: ?Standard?/Textures/HealthBar.bmp
 			sizeType: 10
 			orientation: 49
-			billboardSize: {1 0.125}
+			billboardSize: 1 0.125
 	}]
 	Children: []
 },{
-	Name: Mesh
-	Transform: 0 -0.5 0 0 0.70711 0 0.70711 1.5 1.5 1.5
+	Name: Player
+	Transform: 0 -0.5 0 -0 0.70711 -0 0.707104 1.50001 1.5 1.50001
 	Tag: 0
 	Layer: 1
 	Components: [{
 		ClassID: 101
-		Params:
+		Params: 
 			material: ?Standard?/Materials/Test.material
-			meshData: ?Standard?/Meshes/suzanne.obj
+			meshData: C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Meshes/cube.obj
+			isVisible: true
+	}]
+	Children: [{
+	Name: Eye
+	Transform: 0 0 0 -0 -0 -0 1 1 1 1
+	Tag: 0
+	Layer: 0
+	Components: [{
+		ClassID: 101
+		Params:
+			material: ?Assets?/Materials/Red.material
+			meshData: ?Assets?/Meshes/cube.obj
 			isVisible: true
 	}]
 	Children: []
+	}]
 },{
 	Name: Camera
 	Transform: 4 3 -3 0.11938 -0.86197 -0.23875 0.42099 1 1 1
@@ -42,12 +54,12 @@ Children: [{
 	Layer: 1
 	Components: [{
 		ClassID: 100
-		Params:
-			priority: 1.0
-			fieldOfView: 45.0
+		Params: 
+			priority: 1
+			fieldOfView: 45
 			nearClipPlane: 0.01
 			farClipPlane: 1000
 	}]
 	Children: []
+}]
 }
-]}

@@ -34,6 +34,8 @@ public:
 
 	static void Initialize();
 
+	static void Shutdown();
+
 	static void Import(const std::string& fromFilepath, const std::string& toDirectory);
 
 private:

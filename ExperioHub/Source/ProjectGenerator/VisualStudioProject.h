@@ -2,7 +2,7 @@
 
 #include "Runtime/Core/Platform.h"
 #include "Runtime/Framework/GUID128.h"
-#include "../CodeParser/CodeParser.h"
+#include "CodeParser/CodeParser.h"
 
 namespace ExperioEditor::VisualStudio
 {
@@ -54,7 +54,7 @@ public:
 
 	void SetConfiguration(EVSConfiguration configuration);
 
-	void GenerateProjectFile(std::string& filepath);
+	void GenerateProjectFile(const std::string& filepath);
 
 private:
 	// Move Later

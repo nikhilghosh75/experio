@@ -24,6 +24,7 @@
     <None Include="Config\languages.pbconfig" />
     <None Include="Config\rendering.pbconfig" />
     <None Include="user.pbuser" />
+    <None Include="Assets\Materials\Red.material" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DemoProject.h">

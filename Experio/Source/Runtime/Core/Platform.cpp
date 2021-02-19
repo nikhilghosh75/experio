@@ -6,6 +6,7 @@
 
 bool GetOSVersionString(char* version, size_t maxlen)
 {
+	/*
 	char path[_MAX_PATH];
 	if (!GetSystemDirectory(path, _MAX_PATH))
 		return false;
@@ -51,6 +52,8 @@ bool GetOSVersionString(char* version, size_t maxlen)
 		LOWORD(vInfo->dwFileVersionMS),
 		HIWORD(vInfo->dwFileVersionLS),
 		LOWORD(vInfo->dwFileVersionLS));
+
+		*/
 
 	return true;
 }

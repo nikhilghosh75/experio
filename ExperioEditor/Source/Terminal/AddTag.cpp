@@ -1,0 +1,25 @@
+#include "TerminalCommands.h"
+#include "../Framework/Values.h"
+
+/*
+Example usage:
+	add-layer RedEmpire
+*/
+int AddTag(const std::vector<std::string>& args)
+{
+	if (args.size() != 2)
+	{
+		return INVALID_ARG_COUNT;
+	}
+
+	if (ExperioEditor::NumValues(EValueType::Tag) >= 65535)
+	{
+		Terminal::Print("There are too many layers already existing. Exiting program.");
+		return 0;
+	}
+
+	ExperioEditor::AddValue(args[1], EValueType::Tag);
+	Terminal::Print("Tag was added");
+
+	return 0;
+}

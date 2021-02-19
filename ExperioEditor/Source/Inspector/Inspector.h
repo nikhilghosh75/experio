@@ -11,7 +11,12 @@ class Inspector : public EditorModule
 	// Vector of Component Editor
 	std::vector<ComponentEditorBase*> componentEditors;
 
-	void DisplayGameObject(uint64_t id);
+	void DisplayGameObject(GameObject* object);
+
+	void DisplayMultipleGameObject(std::vector<GameObject>&);
+
+	void DisplayMultipleTags(std::vector<GameObject>&);
+	void DisplayMultipleLayers(std::vector<GameObject>&);
 
 	void DisplayGameObjectInfo(GameObject* object);
 

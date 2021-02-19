@@ -9,7 +9,7 @@
 
 using namespace Experio;
 
-uint64_t LImGui::DisplayBitmask(std::string name, std::vector<std::string>& names, bool* selected)
+uint64_t LImGui::DisplayBitmask(std::string name, const std::vector<std::string>& names, bool* selected)
 {
 	uint64_t currentMask = 0;
 
@@ -81,6 +81,16 @@ void LImGui::DisplayBox(FBox & box, std::string name)
 	}
 }
 
+void LImGui::DisplayColorSmall(ImU32 color32, std::string name)
+{
+	ImVec2 p = ImGui::GetCursorScreenPos();
+	float sz = ImGui::GetTextLineHeight();
+	ImGui::GetWindowDrawList()->AddRectFilled(p, ImVec2(p.x + sz, p.y + sz), color32);
+	ImGui::Dummy(ImVec2(sz, sz));
+	ImGui::SameLine();
+	ImGui::Text(name.c_str());
+}
+
 void LImGui::DisplayFileAsset(FileRef & ref, std::string name)
 {
 	ImGui::PushID(name.c_str());
@@ -132,9 +142,16 @@ void LImGui::DisplayFontAsset(FontRef & ref, std::string name)
 	ImGui::Text(name.c_str());
 	ImGui::NextColumn();
 
+	if (ref.IsNull())
+	{
+		ImGui::Text("Null");
+	}
+	else
+	{
 	std::string fontFileName = FontManager::GetNameOfFont(ref);
 	std::string fontName = LFileOperations::StripFilename(fontFileName);
 	ImGui::Text(fontName.c_str());
+	}
 
 	if (ImGui::BeginDragDropTarget())
 	{
@@ -158,7 +175,11 @@ void LImGui::DisplayFontAsset(FontRef & ref, std::string name)
 void LImGui::DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string>& layerTable)
 {
 	uint16_t layer16 = layer;
-	const std::string layerName = layerTable.Get(layer);
+	std::string layerName;
+	bool found = layerTable.SafeGet(layer16, layerName);
+
+	if (!found)
+		layerName = "Multiple";
 
 	if (ImGui::BeginCombo("Layer", layerName.c_str()))
 	{
@@ -175,6 +196,46 @@ void LImGui::DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string
 	}
 }
 
+void LImGui::DisplayMaterial(Material * material, std::string name)
+{
+	ImGui::PushID(name.c_str());
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 100.f);
+	ImGui::Text(name.c_str());
+	ImGui::NextColumn();
+
+	if (material == nullptr)
+	{
+		ImGui::Text("Null");
+	}
+	else
+	{
+		std::string& materialName = Project::materialManager->materialNames[material->GetID()];
+		ImGui::Text(materialName.c_str());
+	}
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_MATERIAL"))
+		{
+			Material* tempMaterial = Project::materialManager->LoadMaterialFromFile((char*)payload->Data);
+			if (tempMaterial != nullptr)
+			{
+				material = tempMaterial;
+			}
+		}
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Switch"))
+	{
+		// Add Later
+	}
+
+	ImGui::Columns(1);
+	ImGui::PopID();
+}
+
 void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
 {
 	ImGui::PushID(name.c_str());
@@ -184,9 +245,16 @@ void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
 	ImGui::Text(name.c_str());
 	ImGui::NextColumn();
 
+	if (ref.IsNull())
+	{
+		ImGui::Text("Null");
+	}
+	else
+	{
 	std::string meshFileName = MeshManager::GetNameOfMesh(ref);
 	std::string meshName = LFileOperations::StripFilename(meshFileName);
 	ImGui::Text(meshName.c_str());
+	}
 
 	if (ImGui::BeginDragDropTarget())
 	{
@@ -226,7 +294,11 @@ void LImGui::DisplayRect(FRect& rect, const std::string & name)
 
 void LImGui::DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable)
 {
-	const std::string tagName = tagTable.Get(tag);
+	std::string tagName;
+	bool found = tagTable.SafeGet(tag, tagName);
+
+	if (!found)
+		tagName = "Multiple";
 	
 	if (ImGui::BeginCombo("Tag", tagName.c_str()))
 	{
@@ -258,9 +330,16 @@ void LImGui::DisplayTextureAsset(TextureRef & ref, std::string name)
 	ImGui::Text(name.c_str());
 	ImGui::NextColumn();
 
+	if (ref.IsNull())
+	{
+		ImGui::Text("Null");
+	}
+	else
+	{
 	std::string meshFileName = TextureManager::GetNameOfTexture(ref);
 	std::string meshName = LFileOperations::StripFilename(meshFileName);
 	ImGui::Text(meshName.c_str());
+	}
 
 	if (ImGui::BeginDragDropTarget())
 	{

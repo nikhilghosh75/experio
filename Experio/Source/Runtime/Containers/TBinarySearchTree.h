@@ -86,7 +86,7 @@ public:
 
 	uint32_t Height() const { return HeightRecursive(&this->root); }
 
-	bool CheckInvariant() const { return CheckInvariantRecursive(&this->root;) }
+	bool CheckInvariant() const { return CheckInvariantRecursive(&this->root); }
 
 	void Insert(T item)
 	{

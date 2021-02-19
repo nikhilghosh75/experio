@@ -22,11 +22,13 @@ class TextureRef;
 class LImGui
 {
 public:
-	static uint64_t DisplayBitmask(std::string name, std::vector<std::string>& names, bool* selected);
+	static uint64_t DisplayBitmask(std::string name, const std::vector<std::string>& names, bool* selected);
 
 	static void DisplayBool(bool& boolean, std::string name);
 
 	static void DisplayBox(FBox& box, std::string name);
+
+	static void DisplayColorSmall(ImU32 color32, std::string name);
 
 	template<typename T>
 	static void DisplayEnum(T& currentEnum, std::string name);
@@ -36,6 +38,8 @@ public:
 	static void DisplayFontAsset(FontRef& ref, std::string name);
 
 	static void DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string>& layerTable);
+
+	static void DisplayMaterial(Material* material, std::string name);
 
 	static void DisplayMeshAsset(MeshRef& ref, std::string name);
 

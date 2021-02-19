@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AssetViewers\FontViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\ImageViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\LayerEditor.cpp" />
     <ClCompile Include="Source\AssetViewers\MeshViewer.cpp" />
@@ -142,10 +143,6 @@
     <ClCompile Include="Source\Materials\MaterialSaver.cpp" />
     <ClCompile Include="Source\Profilers\MemoryProfiler.cpp" />
     <ClCompile Include="Source\Profilers\TimeProfiler.cpp" />
-    <ClCompile Include="Source\ProjectGenerator\EditorCodeGenerator.cpp" />
-    <ClCompile Include="Source\ProjectGenerator\ProjectGenerator.cpp" />
-    <ClCompile Include="Source\ProjectGenerator\VisualStudioProject.cpp" />
-    <ClCompile Include="Source\ProjectGenerator\VisualStudioSolution.cpp" />
     <ClCompile Include="Source\ProjectSettings\BuildSettings.cpp" />
     <ClCompile Include="Source\ProjectSettings\LanguageSettings.cpp" />
     <ClCompile Include="Source\ProjectSettings\ProjectSettings.cpp" />
@@ -153,11 +150,15 @@
     <ClCompile Include="Source\ProjectSettings\SettingsView.cpp" />
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
+    <ClCompile Include="Source\Terminal\AddLayer.cpp" />
+    <ClCompile Include="Source\Terminal\AddTag.cpp" />
+    <ClCompile Include="Source\Terminal\Terminal.cpp" />
     <ClCompile Include="Source\Testing\TestManager.cpp" />
     <ClCompile Include="Source\Testing\TestRunner.cpp" />
     <ClCompile Include="Source\Testing\UnitTestingFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AssetViewers\FontViewer.h" />
     <ClInclude Include="Source\AssetViewers\ImageViewer.h" />
     <ClInclude Include="Source\AssetViewers\LayerEditor.h" />
     <ClInclude Include="Source\AssetViewers\MeshViewer.h" />
@@ -234,10 +235,6 @@
     <ClInclude Include="Source\Materials\ShaderParser.h" />
     <ClInclude Include="Source\Profilers\MemoryProfiler.h" />
     <ClInclude Include="Source\Profilers\TimeProfiler.h" />
-    <ClInclude Include="Source\ProjectGenerator\EditorCodeGenerator.h" />
-    <ClInclude Include="Source\ProjectGenerator\ProjectGenerator.h" />
-    <ClInclude Include="Source\ProjectGenerator\VisualStudioProject.h" />
-    <ClInclude Include="Source\ProjectGenerator\VisualStudioSolution.h" />
     <ClInclude Include="Source\ProjectSettings\BuildSettings.h" />
     <ClInclude Include="Source\ProjectSettings\LanguageSettings.h" />
     <ClInclude Include="Source\ProjectSettings\ProjectSettingModule.h" />
@@ -246,6 +243,8 @@
     <ClInclude Include="Source\ProjectSettings\SettingsView.h" />
     <ClInclude Include="Source\SceneHierarchy\SceneHierarchy.h" />
     <ClInclude Include="Source\SceneView\SceneView.h" />
+    <ClInclude Include="Source\Terminal\Terminal.h" />
+    <ClInclude Include="Source\Terminal\TerminalCommands.h" />
     <ClInclude Include="Source\Testing\Assert.h" />
     <ClInclude Include="Source\Testing\TestManager.h" />
     <ClInclude Include="Source\Testing\TestRunner.h" />

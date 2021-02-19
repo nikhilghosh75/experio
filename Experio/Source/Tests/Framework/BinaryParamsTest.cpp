@@ -11,6 +11,9 @@ UNIT_TEST(TestBinaryParamBasic, "BinaryParams")
 	uint8_t uByte = 92;
 	ASSERT_EQUAL(BinaryParseUByte(&uByte), 92, "");
 
+	int16_t shortInt = 450;
+	ASSERT_EQUAL(BinaryParseShort(&shortInt), 450, "");
+
 	TEST_END();
 }
 
@@ -29,6 +32,18 @@ UNIT_TEST(TestBinaryParamVector3, "BinaryParams")
 	ASSERT_ALMOST_EQUAL(BinaryParseVector3(&v).x, 7);
 	ASSERT_ALMOST_EQUAL(BinaryParseVector3(&v).y, 8);
 	ASSERT_ALMOST_EQUAL(BinaryParseVector3(&v).z, 9);
+
+	TEST_END();
+}
+
+UNIT_TEST(TestBinaryParamVector4, "BinaryParams")
+{
+	FVector4 v(10, 11, 12, 13);
+
+	ASSERT_ALMOST_EQUAL(BinaryParseVector4(&v).w, 10);
+	ASSERT_ALMOST_EQUAL(BinaryParseVector4(&v).x, 11);
+	ASSERT_ALMOST_EQUAL(BinaryParseVector4(&v).y, 12);
+	ASSERT_ALMOST_EQUAL(BinaryParseVector4(&v).z, 13);
 
 	TEST_END();
 }

@@ -63,7 +63,19 @@ void SceneHierarchy::HandleSwap(uint64_t fromID, uint64_t toID)
 	// TO-DO: Add other types here
 }
 
-void SceneHierarchy::DisplayGameObjectTree(const GameObject * gameObject, std::vector<GameObject>& selectedItems)
+void SceneHierarchy::HandleContextMenu(GameObject * gameObject)
+{
+	if (ImGui::Selectable("Add New GameObject"))
+	{
+		gameObject->AddChild("New GameObject");
+	}
+	else if (ImGui::Selectable("Delete GameObject"))
+	{
+		// Figure Out Later
+	}
+}
+
+void SceneHierarchy::DisplayGameObjectTree(GameObject * gameObject, std::vector<GameObject>& selectedItems)
 {
 	bool isSelected = Experio::Algorithm::ExistsIn(selectedItems, *gameObject);
 	if (gameObject->children.size() == 0)
@@ -78,6 +90,11 @@ void SceneHierarchy::DisplayGameObjectTree(const GameObject * gameObject, std::v
 			{
 				Experio::Algorithm::RemoveElement(selectedItems, *gameObject);
 			}
+		}
+		if (ImGui::BeginPopupContextItem())
+		{
+			HandleContextMenu(gameObject);
+			ImGui::EndPopup();
 		}
 		HandleDragDrop(gameObject);
 	}
@@ -96,6 +113,12 @@ void SceneHierarchy::DisplayGameObjectTree(const GameObject * gameObject, std::v
 				{
 					selectedItems.push_back(*gameObject);
 				}
+			}
+
+			if (ImGui::BeginPopupContextItem())
+			{
+				HandleContextMenu(gameObject);
+				ImGui::EndPopup();
 			}
 
 			HandleDragDrop(gameObject);

@@ -26,8 +26,20 @@ UNIT_TEST(TestQueueLarge, "Queue")
 		queue.Push(i);
 	}
 
-	for (size_t i = 99; i >= 0; i--)
+	for (size_t i = 0; i < 99; i--)
 	{
 		ASSERT_EQUAL(queue.Pop(), i, "");
 	}
+
+	TEST_END();
+}
+
+UNIT_TEST(TestQueueInitializer, "Queue")
+{
+	TQueue<int> queue = { 1, 2, 3, 4, 5, 6 };
+
+	ASSERT_EQUAL(queue.Peek(), 1, "");
+	ASSERT_EQUAL(queue.Pop(), 1, "");
+
+	TEST_END();
 }

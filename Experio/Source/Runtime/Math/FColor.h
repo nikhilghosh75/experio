@@ -38,4 +38,6 @@ struct FColor
 	operator FVector3() const;
 	operator FVector4() const;
 	operator ImVec4() const { return ImVec4(this->r, this->g, this->b, this->a); }
+
+	explicit operator uint32_t() const;
 };

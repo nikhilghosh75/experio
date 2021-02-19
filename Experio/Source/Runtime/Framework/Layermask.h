@@ -38,6 +38,22 @@ struct Layermask
 		this->mask = this->mask & (~(1 << bit));
 	}
 
+	void SetBitsTrue(uint8_t start = 0, uint8_t end = 64)
+	{
+		for (uint8_t i = start; i < end; i++)
+		{
+			this->mask = this->mask | (1 << i);
+		}
+	}
+
+	void SetBitsFalse(uint8_t start = 0, uint8_t end = 64)
+	{
+		for (uint8_t i = start; i < end; i++)
+		{
+			this->mask = this->mask & (~(1 << i));
+		}
+	}
+
 	static Layermask AND(Layermask L1, Layermask L2)
 	{
 		return Layermask(L1.mask & L2.mask);

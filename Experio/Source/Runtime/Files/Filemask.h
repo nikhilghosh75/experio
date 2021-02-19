@@ -37,6 +37,22 @@ struct Filemask
 		this->mask = this->mask & (~(1 << bit));
 	}
 
+	void SetBitsTrue(uint8_t start = 0, uint8_t end = (uint8_t)EAssetType::Unknown)
+	{
+		for (uint8_t i = start; i < end; i++)
+		{
+			this->mask = this->mask | (1 << i);
+		}
+	}
+
+	void SetBitsFalse(uint8_t start = 0, uint8_t end = (uint8_t)EAssetType::Unknown)
+	{
+		for (uint8_t i = start; i < end; i++)
+		{
+			this->mask = this->mask & (~(1 << i));
+		}
+	}
+
 	static Filemask AND(Filemask f1, Filemask f2)
 	{
 		return Filemask(f1.mask & f2.mask);

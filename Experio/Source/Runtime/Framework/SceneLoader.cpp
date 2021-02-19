@@ -145,6 +145,11 @@ bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESc
 		{
 			currentNode = currentNode->parent;
 		}
+		// This will only happen if its at the end of a list of children
+		else if (strcmp(word, "}]") == 0)
+		{
+			currentNode = currentNode->parent;
+		}
 	}
 
 	currentScene->isActive = true;

@@ -198,3 +198,17 @@ UNIT_TEST(TestArrayEmplace, "Array")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestArrayInsert, "Array")
+{
+	TArray<int> arr = { 0, 2, 4, 5, 6 };
+	arr.Insert({ 7, 8, 9 }, 3);
+
+	ASSERT_EQUAL(arr[3], 5, "");
+	ASSERT_EQUAL(arr[4], 7, "");
+	ASSERT_EQUAL(arr[5], 8, "");
+	ASSERT_EQUAL(arr[6], 9, "");
+	ASSERT_EQUAL(arr[7], 6, "");
+
+	TEST_END();
+}

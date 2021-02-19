@@ -3,12 +3,21 @@
 #include "../Framework/Values.h"
 #include "Runtime/Containers/Algorithm.h"
 
+TagEditor* TagEditor::tagEditor;
+
+void TagEditor::OnValuesChanged()
+{
+	tagEditor->tags = ExperioEditor::GetTags().GetPairs();
+}
+
 TagEditor::TagEditor()
 {
 	this->name = "Tag Editor";
 	this->category = EEditorModuleCategory::Viewer;
 	
 	this->tags = ExperioEditor::GetTags().GetPairs();
+	tagEditor = this;
+	ExperioEditor::AddEventToOnValuesChanged(OnValuesChanged);
 }
 
 void TagEditor::Display()

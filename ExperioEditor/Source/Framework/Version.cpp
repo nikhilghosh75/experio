@@ -131,7 +131,7 @@ bool FVersion::operator>=(const FVersion & v) const
 std::string FVersion::ToString() const
 {
 	std::stringstream ss;
-	ss << this->major << "." << this->minor << "." << this->patch;
+	ss << (uint16_t)this->major << "." << (uint16_t)this->minor << "." << (uint16_t)this->patch;
 	switch (this->type)
 	{
 	case EVersionType::Alpha:

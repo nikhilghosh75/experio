@@ -1,5 +1,5 @@
 #include "EditorCodeGenerator.h"
-#include "../CodeParser/Cpp/CppCodeStream.h"
+#include "CodeParser/Cpp/CppCodeStream.h"
 
 void EditorCodeGenerator::GenerateBuild(const std::string & editorPath)
 {

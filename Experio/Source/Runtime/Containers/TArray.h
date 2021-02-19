@@ -73,7 +73,7 @@ public:
 		this->count = 0;
 		for (auto elem : list)
 		{
-			data[this->count] = *elem;
+			data[this->count] = elem;
 			this->count = 0;
 		}
 		this->capacity = list.size();
@@ -324,6 +324,26 @@ public:
 		}
 		data[index] = item;
 		this->count++;
+	}
+
+	void Insert(const TArray<T>& objects, uint32_t position = 0)
+	{
+		if (this->count + objects.count >= this->capacity)
+		{
+			Grow(this->count + count);
+		}
+
+		for (uint32_t i = this->count - 1; i >= position; i--)
+		{
+			data[i + objects.count] = data[i];
+		}
+
+		for (uint32_t i = 0; i < objects.count; i++)
+		{
+			data[i + position] = data[i];
+		}
+		
+		this->count+= objects.count;
 	}
 
 	template<typename ... Args>

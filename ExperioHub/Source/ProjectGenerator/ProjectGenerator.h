@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../Framework/Version.h"
+#include "Framework/Version.h"
 #include "VisualStudioSolution.h"
 
 namespace ExperioEditor::ProjectGenerator

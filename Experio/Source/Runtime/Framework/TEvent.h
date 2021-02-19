@@ -86,6 +86,7 @@ class TEvent
 	std::vector<TFunctionPointer> listeners;
 public:
 	void AddListener(void(*function)());
+	void AddListener(TFunctionPointer pointer);
 
 	void CallListeners();
 

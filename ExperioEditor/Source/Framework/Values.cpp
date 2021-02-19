@@ -5,6 +5,8 @@ namespace ExperioEditor
 THashtable<uint16_t, std::string> tags;
 THashtable<uint16_t, std::string> layers;
 
+TEvent OnValuesChanged;
+
 namespace Internal
 {
 	uint16_t NextAvailible(const THashtable<uint16_t, std::string>& table)
@@ -41,6 +43,29 @@ void AddValue(EValueType type)
 		tags.Insert(nextAvailible, temp);
 		break;
 	}
+	OnValuesChanged.Invoke();
+}
+
+void AddValue(const std::string & str, EValueType type)
+{
+	uint16_t nextAvailible = GetNextAvailibleValue(type);
+	
+	switch (type)
+	{
+	case EValueType::Layer:
+		if (layers.GetSize() >= 64)
+			return;
+		
+		layers.Insert(nextAvailible, str);
+		break;
+	case EValueType::Tag:
+		if (tags.GetSize() >= 65535)
+			return;
+
+		tags.Insert(nextAvailible, str);
+		break;
+	}
+	OnValuesChanged.Invoke();
 }
 
 void AddValue(FValue value, EValueType type)
@@ -54,6 +79,7 @@ void AddValue(FValue value, EValueType type)
 		tags.Insert(value.index, value.name);
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 void DeleteValue(uint16_t index, EValueType type)
@@ -67,6 +93,7 @@ void DeleteValue(uint16_t index, EValueType type)
 		tags.Remove(index);
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 void DeleteValue(std::string name, EValueType type)
@@ -80,6 +107,7 @@ void DeleteValue(std::string name, EValueType type)
 		tags.RemoveValue(name);
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 FValue GetValue(uint16_t index, EValueType type)
@@ -135,6 +163,7 @@ void ClearValues()
 {
 	layers.Empty();
 	tags.Empty();
+	OnValuesChanged.Invoke();
 }
 
 void ClearValues(EValueType type)
@@ -148,6 +177,7 @@ void ClearValues(EValueType type)
 		tags.Empty();
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 uint16_t GetNextAvailibleValue(EValueType type)
@@ -181,6 +211,23 @@ THashtable<uint16_t, std::string>& GetLayers()
 	return layers;
 }
 
+void AddEventToOnValuesChanged(TFunctionPointer pointer)
+{
+	OnValuesChanged.AddListener(pointer);
+}
+
+unsigned int NumValues(EValueType type)
+{
+	switch (type)
+	{
+	case EValueType::Layer:
+		return layers.GetSize();
+	case EValueType::Tag:
+		return tags.GetSize();
+	}
+	return 0;
+}
+
 void SetValueName(uint16_t index, std::string& newName, EValueType type)
 {
 	std::string temp = "TEST";
@@ -201,6 +248,7 @@ void SetValueName(uint16_t index, std::string& newName, EValueType type)
 	}
 		break;
 	}
+	OnValuesChanged.Invoke();
 }
 
 } // Experio Editor

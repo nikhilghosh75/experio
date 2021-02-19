@@ -53,6 +53,20 @@ void CreateSystem::CreateText(const std::string & filepath)
 	outFile << " ";
 }
 
+void CreateSystem::CreateBasicMaterial(const std::string & filepath)
+{
+	std::string realFilepath = filepath + ".material";
+	std::ofstream outFile(realFilepath);
+
+	outFile << "MATERIAL" << std::endl;
+	outFile << "Type: MeshMaterial" << std::endl;
+	outFile << "Shader: ?Standard?/Shaders/Basic.shader" << std::endl;
+	outFile << std::endl;
+	outFile << "albedo: ?Standard?/Textures/uvmap.bmp" << std::endl;
+	outFile << "normal: ?Standard?/Textures/normal.bmp" << std::endl;
+	outFile << "specular: ?Standard?/Textures/specular.bmp" << std::endl;
+}
+
 void CreateSystem::CreateEmptyClass(const std::string & filepath, const std::string & className, ECodingLanguage langauge)
 {
 	CodeClass codeClass(className);

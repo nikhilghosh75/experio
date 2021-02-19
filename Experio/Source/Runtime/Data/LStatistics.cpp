@@ -60,6 +60,23 @@ float LStatistics::Min(std::vector<float> data)
 	return Min(data.data(), data.size());
 }
 
+float LStatistics::Mode(std::vector<float> data)
+{
+	std::vector<std::pair<float, uint32_t>> uniqueCount = Experio::Algorithm::UniqueCount(data);
+	
+	float mode = uniqueCount[0].first;
+	uint32_t maxCount = uniqueCount[0].second;
+	for (size_t i = 1; i < uniqueCount.size(); i++)
+	{
+		if (uniqueCount[i].second > maxCount)
+		{
+			mode = uniqueCount[i].first;
+			maxCount = uniqueCount[i].second;
+		}
+	}
+	return mode;
+}
+
 void LStatistics::Sort(std::vector<float>& data)
 {
 	std::sort(data.begin(), data.end());

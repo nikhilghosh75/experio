@@ -2,8 +2,7 @@
 
 #include "../Core/EditorModule.h"
 #include "Runtime/Rendering/Renderer.h"
-#include "Runtime/Files/Mesh/MeshReader.h"
-#include "Runtime/Rendering/Managers/MeshManager.h"
+#include "Runtime/Rendering/FrameBuffer.h"
 #include "Runtime/Math/FVector3.h"
 #include "glm/glm.hpp"
 #include "ImGuizmo.h"
@@ -33,7 +32,13 @@ class SceneView : public EditorModule
 	glm::mat4 projectionMatrix;
 	glm::mat4 modelMatrix;
 
+	bool gizmosEnabled;
+
 	Renderer renderer;
+
+	Framebuffer framebuffer;
+
+	ImVec2 lastSize;
 
 	void CreateMenu();
 

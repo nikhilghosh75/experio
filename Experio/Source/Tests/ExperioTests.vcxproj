@@ -110,6 +110,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -125,11 +126,14 @@
     <ClCompile Include="Containers\TypedTreeTest.cpp" />
     <ClCompile Include="Core\DebugTest.cpp" />
     <ClCompile Include="Core\WindowOperationsTest.cpp" />
+    <ClCompile Include="Data\StatisticsTest.cpp" />
     <ClCompile Include="ExperioTests.cpp" />
     <ClCompile Include="Files\FileOperationsTest.cpp" />
     <ClCompile Include="Framework\BinaryParamsTest.cpp" />
     <ClCompile Include="Files\ImageOperationsTest.cpp" />
     <ClCompile Include="Framework\ParamsTest.cpp" />
+    <ClCompile Include="Framework\SceneTest.cpp" />
+    <ClCompile Include="Math\BezierTest.cpp" />
     <ClCompile Include="Math\LMathTest.cpp" />
     <ClCompile Include="Math\QuaternionTest.cpp" />
     <ClCompile Include="Math\Vector2Test.cpp" />
@@ -146,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExperioTests.h" />
+    <ClInclude Include="Files\FontOperationsTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

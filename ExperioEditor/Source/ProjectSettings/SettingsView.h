@@ -14,6 +14,8 @@ public:
 	
 	SettingsView();
 
+	~SettingsView();
+
 	virtual void Display() override;
 
 	void GenerateSettingMenuTree();

@@ -17,6 +17,7 @@
 #include "../Profilers/TimeProfiler.h"
 #include "../ProjectSettings/ProjectSettings.h"
 #include "../ProjectSettings/SettingsView.h"
+#include "../Terminal/Terminal.h"
 #include "../Testing/TestRunner.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Framework/Scene.h"
@@ -193,6 +194,10 @@ void UpperMenu::CreateWindowMenu()
 		if (ImGui::MenuItem("Test Runner"))
 		{
 			EditorApplication::AddModule(new TestRunner());
+		}
+		if (ImGui::MenuItem("Terminal"))
+		{
+			EditorApplication::AddModule(new Terminal());
 		}
 		ImGui::EndMenu();
 	}

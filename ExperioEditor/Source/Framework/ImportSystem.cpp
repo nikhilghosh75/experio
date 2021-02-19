@@ -11,6 +11,11 @@ void ImportSystem::Initialize()
 	manager->importFunctions.push_back(std::function<EImportHandlerResult(FImportInfo)>(ImportMTL));
 }
 
+void ImportSystem::Shutdown()
+{
+	delete manager;
+}
+
 void ImportSystem::Import(const std::string & fromFilepath, const std::string & toDirectory)
 {
 	EAssetType type = LFileOperations::GetFileType(fromFilepath);

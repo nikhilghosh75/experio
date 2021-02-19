@@ -71,3 +71,14 @@ UNIT_TEST(TestVector2Operators, "Vector2")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestVector2Distance, "Vector2")
+{
+	FVector2 v1(1, 2);
+	FVector2 v2(4, -2);
+
+	ASSERT_EQUAL(FVector2::Distance(v1, v2), 5.f, "");
+	ASSERT_EQUAL(FVector2::SqrDistance(v1, v2), 25.f, "");
+
+	TEST_END();
+}

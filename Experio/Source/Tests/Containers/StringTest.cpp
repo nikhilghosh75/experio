@@ -88,3 +88,38 @@ UNIT_TEST(TestStringFloatVector, "String")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestStringSubstr, "String")
+{
+	ASSERT_TRUE(LString::CompareSubstr("WolverineSoft", "Wolve", 0), "");
+	ASSERT_TRUE(LString::CompareSubstr("WolverineSoft", "Soft", 9), "");
+	ASSERT_FALSE(LString::CompareSubstr("WolverineSoft", "Wolf", 0), "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestStringReplace, "String")
+{
+	ASSERT_EQUAL(LString::ReplaceAll("Replace", 'p', 'f'), "Reflace", "");
+	ASSERT_EQUAL(LString::ReplaceAll("Replace pants", 'p', 'f'), "Reflace fants", "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestStringCount, "String")
+{
+	ASSERT_EQUAL(LString::NumOfChars("WolverineSoft", 'o'), 2, "");
+	ASSERT_EQUAL(LString::NumOfChars("WolverineSoft", 'a'), 0, "");
+
+	ASSERT_EQUAL(LString::NumOfCharsFront("AAAAb", 'A'), 4, "");
+	ASSERT_EQUAL(LString::NumOfCharsFront("AAAAb", 'b'), 0, "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestStringCamelCase, "String")
+{
+	ASSERT_EQUAL(LString::ToCamelCase("WolverineSoft"), "wolverineSoft", "");
+
+	TEST_END();
+}
