@@ -28,7 +28,6 @@
     <ClInclude Include="Source\Runtime\Framework\System.h" />
     <ClInclude Include="Source\Runtime\Input\InputCodes.h" />
     <ClInclude Include="Source\Runtime\Input\Shortcut.h" />
-    <ClInclude Include="Source\Runtime\Math\Bezier2.h" />
     <ClInclude Include="Source\Runtime\Math\ColorPalette.h" />
     <ClInclude Include="Source\Runtime\Math\Bezier.h" />
     <ClInclude Include="Source\Runtime\Math\FPlane.h" />
@@ -130,6 +129,7 @@
     <ClInclude Include="Source\Runtime\Rendering\Shaders\Shader.h" />
     <ClInclude Include="Source\Runtime\Rendering\Shaders\ShaderReader.h" />
     <ClInclude Include="Source\Runtime\Rendering\Texture.h" />
+    <ClInclude Include="Source\Runtime\Rendering\UniformBuffer.h" />
     <ClInclude Include="Source\Runtime\Rendering\VertexArray.h" />
     <ClInclude Include="Source\Runtime\Rendering\VertexBuffer.h" />
     <ClInclude Include="Source\Runtime\Rendering\VertexBufferLayout.h" />
@@ -270,6 +270,7 @@
     <ClCompile Include="Source\Runtime\Rendering\Shaders\Shader.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Shaders\ShaderReader.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Texture.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\UniformBuffer.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\VertexArray.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\VertexBuffer.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\VertexBufferLayout.cpp" />
