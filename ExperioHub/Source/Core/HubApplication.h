@@ -1,5 +1,6 @@
 #pragma once
 #include "Runtime/Containers/THashtable.h"
+#include "Framework/Version.h"
 #include <vector>
 #include <string>
 #include <functional>
@@ -24,10 +25,12 @@ public:
 	static const HubApplication* Get() { return hubApplication; };
 
 	static std::string experioFilepath;
-	static std::string experioEditorFilePath;
-	static std::string experioDependenciesFilePath;
-	static std::string experioBinariesFilePath;
-	static std::string standardAssetsFilePath;
+	static std::string experioEditorFilepath;
+	static std::string experioDependenciesFilepath;
+	static std::string experioBinariesFilepath;
+	static std::string standardAssetsFilepath;
+
+	static bool foundFilepaths;
 
 	void Setup();
 
@@ -37,4 +40,8 @@ public:
 
 private:
 	void ExecuteCommand(char* command);
+
+	void ReadUserFile();
+
+	void FindInternalPaths();
 };

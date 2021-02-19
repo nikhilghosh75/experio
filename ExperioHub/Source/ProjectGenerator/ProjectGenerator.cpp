@@ -1,7 +1,7 @@
 #include "ProjectGenerator.h"
 #include "VisualStudioProject.h"
 #include "EditorCodeGenerator.h"
-#include "Framework/EditorProject.h"
+#include "../Core/HubApplication.h"
 #include "ThirdParty/toml++/toml.h"
 #include <filesystem>
 #include <fstream>
@@ -16,7 +16,7 @@ void GenerateWindowsProject(const std::string & projectPath, const FNewProjectSe
 	GenerateGameProject(projectPath, settings.projectName, solution);
 	GenerateEditorProject(projectPath, settings.projectName, solution);
 	GenerateExeProject(projectPath, settings.projectName, solution);
-	solution.GenerateSolutionFile(projectPath);
+	solution.GenerateSolutionFile(projectPath + "/" + settings.projectName + ".sln");
 
 	GenerateUserFile(projectPath, settings);
 	GenerateProjectFile(projectPath, settings);
@@ -40,7 +40,7 @@ void GenerateGameProject(const std::string & gamePath, const std::string& projec
 	project.intermediateDirectory = gamePath + "/Binaries/Game/Intermediate";
 	
 	project.preprocessorDefines = { "PLATFORM_WINDOWS" };
-	project.additionalIncludeDirectories = { EditorApplication::experioFilePath, EditorApplication::experioDependenciesFilePath };
+	project.additionalIncludeDirectories = { HubApplication::experioFilepath, HubApplication::experioDependenciesFilepath };
 
 	std::stringstream filename;
 	filename << gamePath << "/" << projectName << ".vcxproj";
@@ -63,8 +63,8 @@ void GenerateEditorProject(const std::string & projectPath, const std::string& p
 	project.intermediateDirectory = projectPath + "/Binaries/Editor/Intermediate";
 
 	project.preprocessorDefines = { "PLATFORM_WINDOWS", "EXPERIO_EDITOR" };
-	project.additionalIncludeDirectories = { EditorApplication::experioFilePath,
-		EditorApplication::experioEditorFilePath, EditorApplication::experioDependenciesFilePath };
+	project.additionalIncludeDirectories = { HubApplication::experioFilepath,
+		HubApplication::experioEditorFilepath, HubApplication::experioDependenciesFilepath };
 
 	std::stringstream filename;
 	filename << projectPath << "/Editor/" << projectName << "_Editor.vcxproj";
@@ -87,8 +87,8 @@ void GenerateExeProject(const std::string& projectPath, const std::string& proje
 	project.intermediateDirectory = projectPath + "/Binaries/Exe/Intermediate";
 
 	project.preprocessorDefines = { "PLATFORM_WINDOWS" };
-	project.additionalIncludeDirectories = { EditorApplication::experioFilePath,
-		EditorApplication::experioEditorFilePath, EditorApplication::experioDependenciesFilePath };
+	project.additionalIncludeDirectories = { HubApplication::experioFilepath,
+		HubApplication::experioEditorFilepath, HubApplication::experioDependenciesFilepath };
 
 	std::stringstream filename;
 	filename << projectPath << "/Generated/" << projectName << "_Exe.vcxproj";
@@ -122,7 +122,7 @@ void GenerateProjectFile(const std::string & projectPath, const FNewProjectSetti
 	toml::table table;
 
 	table.insert("ProjectName", settings.projectName);
-	table.insert("Experio", EditorProject::experioVersion.ToString());
+	table.insert("Experio", settings.version.ToString());
 
 	toml::table filepaths;
 	filepaths.insert("Assets", "../Assets");

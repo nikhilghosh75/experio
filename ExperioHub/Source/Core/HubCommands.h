@@ -5,3 +5,4 @@
 
 int Help(const std::vector<std::string>& args);
 int Version(const std::vector<std::string>& args);
+int CreateProject(const std::vector<std::string>& args);

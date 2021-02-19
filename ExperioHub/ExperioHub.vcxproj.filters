@@ -59,5 +59,8 @@
     <ClCompile Include="Source\ProjectGenerator\VisualStudioSolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Commands\CreateProject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
