@@ -10,6 +10,7 @@
 #include "Runtime/Framework/Scene.h"
 #include "Runtime/Framework/SceneLoader.h"
 #include "Runtime/Containers/LString.h"
+#include <filesystem>
 
 const uint32_t sizeOfGameObject = 88;
 
@@ -149,6 +150,22 @@ void SceneConverter::ConvertSceneToBinary(const std::string & fromFilepath, cons
 	GenerateHeader(buffer, outFile);
 	GenerateGameObject(buffer, outFile);
 	GenerateComponent(buffer, outFile);
+}
+
+size_t SceneConverter::SerializedSizeOfScene(const std::string & filepath)
+{
+	if (LFileOperations::DoesFileHaveExtension(filepath, ".pbbscene"))
+	{
+		return std::filesystem::file_size(filepath);
+	}
+	
+	size_t sizeOf = 0;
+	std::ifstream inFile(filepath);
+	FileBuffer buffer = LFileOperations::ReadFileToBuffer(inFile);
+
+	// Fix this later
+	sizeOf = PB_HEADER_LENGTH + GetNumGameObjects(buffer) * sizeOfGameObject + GetNumComponents(buffer) * (12 + 8);
+	return sizeOf;
 }
 
 void SceneConverter::GenerateHeader(const FileBuffer & buffer, std::ofstream & outFile)

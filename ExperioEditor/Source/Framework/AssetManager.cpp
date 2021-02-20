@@ -1,6 +1,7 @@
 #include "AssetManager.h"
 #include "MetaSystem.h"
 #include "../Core/EditorApplication.h"
+#include "../Files/SceneConverter.h"
 #include "Runtime/Files/FFileCategory.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Files/Font/FontReader.h"
@@ -95,6 +96,7 @@ size_t AssetManager::SerializedSizeOf(const std::string & filename)
 	case EAssetType::Mesh: return MeshReader::SerializedSizeOf(filename.c_str());
 	case EAssetType::Meta: return 0;
 	case EAssetType::NonEngineCode: return 0;
+	case EAssetType::Scene: return SceneConverter::SerializedSizeOf(filename);
 	case EAssetType::Style: return 0;
 	}
 
