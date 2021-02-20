@@ -4,6 +4,8 @@
 #include "../Containers/LString.h"
 #include "../Math/Random.h"
 
+namespace Experio
+{
 struct GUID
 {
 	uint64_t id;
@@ -50,3 +52,4 @@ struct GUID
 		return this->id != other.id;
 	}
 };
+}
