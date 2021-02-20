@@ -31,6 +31,8 @@ public:
 
 	static std::string EnumDataTypeToString(EEnumDataType dataType, ECodingLanguage language);
 
+	static ECodingLanguage FilepathToLanguage(const std::string& filepath);
+
 	static EEnumDataType GetEnumDataType(unsigned int numValues);
 	static EEnumDataType GetEnumDataType(const std::string& string, ECodingLanguage language);
 

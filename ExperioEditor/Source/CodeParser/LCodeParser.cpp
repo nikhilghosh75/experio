@@ -150,6 +150,18 @@ std::string LCodeParser::EnumDataTypeToString(EEnumDataType dataType, ECodingLan
 	}
 }
 
+ECodingLanguage LCodeParser::FilepathToLanguage(const std::string & filepath)
+{
+	std::string ext = LFileOperations::GetExtension(filepath);
+
+	if (ext == "cpp" || ext == "h") return ECodingLanguage::CPlusPlus;
+	else if (ext == "cs") return ECodingLanguage::CSharp;
+	else if (ext == "java") return ECodingLanguage::Java;
+	else if (ext == "py") return ECodingLanguage::Python;
+
+	return ECodingLanguage::None;
+}
+
 EEnumDataType LCodeParser::GetEnumDataType(unsigned int numValues)
 {
 	// Note that the following is based on the face that the underlying type is the smallest possible type
