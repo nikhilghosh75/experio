@@ -8,7 +8,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
-THashtable<GUID, std::string> AssetManager::foundGuids;
+THashtable<Experio::GUID, std::string> AssetManager::foundGuids;
 
 void AssetManager::Copy(const std::string & from, const std::string & to)
 {
@@ -19,15 +19,15 @@ void AssetManager::Copy(const std::string & from, const std::string & to)
 	MetaSystem::GenerateMetaFile(to);
 
 	// Add new GUID to foundGuids
-	std::ifstream inFile(filename);
+	std::ifstream inFile(from + ".meta");
 	std::string str;
 	inFile >> str >> str >> str >> str; // GUID will always be the first one
 
-	GUID guid(str);
+	Experio::GUID guid(str);
 	foundGuids.Set(guid, to);
 }
 
-GUID AssetManager::FilenameToGUID(const std::string & filename)
+Experio::GUID AssetManager::FilenameToGUID(const std::string & filename)
 {
 	if (LFileOperations::DoesFileHaveExtension(filename, "meta"))
 	{
@@ -37,7 +37,7 @@ GUID AssetManager::FilenameToGUID(const std::string & filename)
 		inFile >> str >> str >> str >> str; // GUID will always be the first one
 
 		// Insert GUID into found guids
-		GUID guid(str);
+		Experio::GUID guid(str);
 		std::string realFilename = filename.substr(0, filename.size() - 5);
 		foundGuids.Insert(guid, realFilename);
 		return guid;
@@ -46,7 +46,7 @@ GUID AssetManager::FilenameToGUID(const std::string & filename)
 	return FilenameToGUID(filename + ".meta");
 }
 
-std::string AssetManager::GUIDToFilename(GUID guid)
+std::string AssetManager::GUIDToFilename(Experio::GUID guid)
 {
 	std::string filename;
 	if (foundGuids.SafeGet(guid, filename))
@@ -62,7 +62,7 @@ void AssetManager::Rename(const std::string & from, const std::string & to)
 	if (LFileOperations::DoesFileHaveExtension(from, "meta"))
 		return;
 
-	GUID guid = FilenameToGUID(from + ".meta");
+	Experio::GUID guid = FilenameToGUID(from + ".meta");
 	fs::rename(from, to);
 	fs::rename(from + ".meta", to + ".meta");
 	foundGuids.Set(guid, to);
@@ -116,7 +116,7 @@ void AssetManager::PopulateFromDirectory(const std::string & str)
 			inFile >> str >> str >> str >> str; // GUID will always be the first one
 
 			// Insert GUID into found guids
-			GUID guid(str);
+			Experio::GUID guid(str);
 			std::string realFilename = pathString.substr(0, pathString.size() - 5);
 			foundGuids.Insert(guid, realFilename);
 		}

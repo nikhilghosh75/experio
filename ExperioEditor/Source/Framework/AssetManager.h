@@ -5,13 +5,13 @@
 
 class AssetManager
 {
-	static THashtable<GUID, std::string> foundGuids;
+	static THashtable<Experio::GUID, std::string> foundGuids;
 public:
 	static void Copy(const std::string& from, const std::string& to);
 
-	static GUID FilenameToGUID(const std::string& str);
+	static Experio::GUID FilenameToGUID(const std::string& str);
 
-	static std::string GUIDToFilename(GUID guid);
+	static std::string GUIDToFilename(Experio::GUID guid);
 
 	static void Populate();
 
