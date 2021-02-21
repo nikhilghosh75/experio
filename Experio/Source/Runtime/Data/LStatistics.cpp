@@ -1,5 +1,6 @@
 #include "LStatistics.h"
 #include "../Containers/Algorithm.h"
+#include "../Math/LMath.h"
 #include <algorithm>
 
 float LStatistics::Average(const float * data, size_t count)
@@ -10,6 +11,29 @@ float LStatistics::Average(const float * data, size_t count)
 float LStatistics::Average(const std::vector<float> data)
 {
 	return Sum(data.data(), data.size()) / data.size();
+}
+
+float LStatistics::CorrelationCoefficient(const float * x, const float * y, size_t count)
+{
+	float xMean, xStd;
+	float yMean, yStd;
+	MeanAndSTD(x, count, xMean, xStd);
+	MeanAndSTD(y, count, yMean, yStd);
+
+	float sum = 0.0f;
+	for (size_t i = 0; i < count; i++)
+	{
+		float xDiff = (x[i] - xMean) / xStd;
+		float yDiff = (y[i] - yMean) / yStd;
+		sum += xDiff * yDiff;
+	}
+
+	return sum / (count - 1);
+}
+
+float LStatistics::CorrelationCoefficient(const std::vector<float> x, const std::vector<float> y)
+{
+	return CorrelationCoefficient(x.data(), y.data(), x.size());
 }
 
 float LStatistics::Max(float * data, size_t count)
@@ -77,6 +101,60 @@ float LStatistics::Mode(std::vector<float> data)
 	return mode;
 }
 
+float LStatistics::Percentile(float * data, size_t count, size_t index)
+{
+	float elem = data[index];
+	size_t lessThanCount = 0;
+
+	for (size_t i = 0; i < count; i++)
+	{
+		if (data[i] < elem)
+		{
+			lessThanCount++;
+		}
+	}
+
+	return ((float)lessThanCount * 100.f) / (count - 1);
+}
+
+float LStatistics::Percentile(std::vector<float> data, size_t index)
+{
+	return Percentile(data.data(), data.size(), index);
+}
+
+float LStatistics::Percentile(float * data, size_t count, float elem)
+{
+	size_t lessThanCount = 0;
+	float maxLessThan = -2000000.f;
+	float minGreaterThan = 20000000.f;
+
+	for (size_t i = 0; i < count; i++)
+	{
+		if (data[i] < elem)
+		{
+			lessThanCount++;
+			if (data[i] > maxLessThan)
+			{
+				maxLessThan = data[i];
+			}
+		}
+		else
+		{
+			if (data[i] < minGreaterThan)
+			{
+				minGreaterThan = data[i];
+			}
+		}
+	}
+	
+	return ((float)lessThanCount + (elem - maxLessThan) / (minGreaterThan - maxLessThan)) * 100.f / count;
+}
+
+float LStatistics::Percentile(std::vector<float> data, float elem)
+{
+	return Percentile(data.data(), data.size(), elem);
+}
+
 void LStatistics::Sort(std::vector<float>& data)
 {
 	std::sort(data.begin(), data.end());
@@ -115,7 +193,7 @@ float LStatistics::Sum(const std::vector<float> data)
 	return Sum(data.data(), data.size());
 }
 
-float LStatistics::WeightedAverage(float * data, float * weights, size_t count)
+float LStatistics::WeightedAverage(const float * data, const float * weights, size_t count)
 {
 	float sum = 0.0f;
 	for (size_t i = 0; i < count; i++)
@@ -125,7 +203,18 @@ float LStatistics::WeightedAverage(float * data, float * weights, size_t count)
 	return sum;
 }
 
-float LStatistics::WeightedAverage(std::vector<float> data, std::vector<float> weights)
+float LStatistics::WeightedAverage(const std::vector<float>& data, const std::vector<float>& weights)
 {
 	return WeightedAverage(data.data(), weights.data(), weights.size());
+}
+
+void LStatistics::MeanAndSTD(const float * data, size_t count, float & average, float & std)
+{
+	average =  Sum(data, count) / (float)count;
+
+	std = 0;
+	for (size_t i = 0; i < count; i++)
+	{
+		std += (data[i] - average) * (data[i] - average);
+	}
 }
