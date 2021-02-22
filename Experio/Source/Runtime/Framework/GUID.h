@@ -52,4 +52,14 @@ struct GUID
 		return this->id != other.id;
 	}
 };
+
+struct GUIDHashFunction
+{
+	unsigned int tableCapacity;
+
+	unsigned long operator()(const Experio::GUID& key) const
+	{
+		return key.id % tableCapacity;
+	}
+};
 }
