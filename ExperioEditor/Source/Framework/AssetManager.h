@@ -5,13 +5,16 @@
 
 class AssetManager
 {
-	static THashtable<Experio::GUID, std::string> foundGuids;
+	static THashtable<Experio::GUID, std::string, Experio::GUIDHashFunction> foundGuids;
+
 public:
 	static void Copy(const std::string& from, const std::string& to);
 
 	static Experio::GUID FilenameToGUID(const std::string& str);
 
 	static std::string GUIDToFilename(Experio::GUID guid);
+
+	static bool IsIncludedInBuild(const std::string& str);
 
 	static void Populate();
 
@@ -20,6 +23,8 @@ public:
 	static size_t SizeOf(const std::string& filename);
 
 	static size_t SerializedSizeOf(const std::string& filename);
+
+	static bool WillFileBeConverted(const std::string& filename);
 
 private:
 	static void PopulateFromDirectory(const std::string& str);

@@ -9,7 +9,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
-THashtable<Experio::GUID, std::string> AssetManager::foundGuids;
+THashtable<Experio::GUID, std::string, Experio::GUIDHashFunction> AssetManager::foundGuids;
 
 void AssetManager::Copy(const std::string & from, const std::string & to)
 {
@@ -58,6 +58,12 @@ std::string AssetManager::GUIDToFilename(Experio::GUID guid)
 	return "NotFound";
 }
 
+bool AssetManager::IsIncludedInBuild(const std::string & str)
+{
+	// Fix this later when optional files are implemented
+	return true;
+}
+
 void AssetManager::Rename(const std::string & from, const std::string & to)
 {
 	if (LFileOperations::DoesFileHaveExtension(from, "meta"))
@@ -96,12 +102,26 @@ size_t AssetManager::SerializedSizeOf(const std::string & filename)
 	case EAssetType::Mesh: return MeshReader::SerializedSizeOf(filename.c_str());
 	case EAssetType::Meta: return 0;
 	case EAssetType::NonEngineCode: return 0;
-	case EAssetType::Scene: return SceneConverter::SerializedSizeOf(filename);
+	case EAssetType::Scene: return SceneConverter::SerializedSizeOfScene(filename);
 	case EAssetType::Style: return 0;
 	}
 
 	// NOTE: Image Serialization will be determined later
 	return std::filesystem::file_size(filename);
+}
+
+bool AssetManager::WillFileBeConverted(const std::string & filename)
+{
+	EAssetType type = LFileOperations::GetFileType(filename);
+
+	switch (type)
+	{
+	case EAssetType::Font: return true;
+	case EAssetType::Material: return true;
+	case EAssetType::Mesh: return true;
+	}
+
+	return false;
 }
 
 void AssetManager::PopulateFromDirectory(const std::string & str)
