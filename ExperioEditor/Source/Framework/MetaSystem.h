@@ -5,6 +5,8 @@
 #include "Runtime/Files/FFileCategory.h"
 #include "Runtime/Framework/GUID.h"
 
+enum class ECodeClassBase;
+
 class MetadataEntry
 {
 public:
@@ -55,4 +57,7 @@ private:
 	static void SceneMetadata(const std::string& filepath, std::ofstream& outFile);
 
 	static void ShaderMetadata(const std::string& filepath, std::ofstream& outFile);
+
+	// This needs to be moved later
+	static ECodeClassBase GetCodeClassBase(const std::string& filepath);
 };

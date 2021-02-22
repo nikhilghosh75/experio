@@ -1,5 +1,6 @@
 #include "MetaSystem.h"
 #include "AssetManager.h"
+#include "CreateMenu.h"
 #include "../CodeParser/LCodeParser.h"
 #include "Runtime/Data/Datatable.h"
 #include "Runtime/Files/Data/DataReader.h"
@@ -95,7 +96,7 @@ void MetaSystem::GenerateMetaFile(const std::string & filepath)
 	std::string metaFilepath = filepath + ".meta";
 	EAssetType type = LFileOperations::GetFileType(filepath);
 
-	std::ofstream outFile;
+	std::ofstream outFile(metaFilepath);
 	outFile << "Type: " << LFileOperations::AssetTypeToString(type) << std::endl;
 	outFile << "ID: " << Experio::GUID::Random().ToString() << std::endl;
 	outFile << "SerializedSize: " << AssetManager::SerializedSizeOf(filepath) << std::endl;
@@ -165,4 +166,18 @@ void MetaSystem::ShaderMetadata(const std::string & filepath, std::ofstream & ou
 	FShaderDataInternal data = ShaderReader::ParseShader(filepath);
 	
 	outFile << "Language: " << ShaderReader::LanguageToString(data.language) << std::endl;
+}
+
+ECodeClassBase MetaSystem::GetCodeClassBase(const std::string & filepath)
+{
+	std::ifstream inFile(filepath);
+	FileBuffer buffer = LFileOperations::ReadTrimmedFileToBuffer(inFile);
+
+	if (buffer.Find("EXPERIO_LIBRARY") != std::string::npos)
+		return ECodeClassBase::Library;
+
+	if (buffer.Find("SETUP_COMPONENT(") != std::string::npos || buffer.Find("public Component") != std::string::npos)
+		return ECodeClassBase::Component;
+
+	return ECodeClassBase::None;
 }
