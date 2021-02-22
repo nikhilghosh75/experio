@@ -75,6 +75,29 @@ FontData * FNTReader::ReadFile(const char * fileName)
 	return returnData;
 }
 
+size_t FNTReader::SerializedSizeOf(const char * fileName)
+{
+	std::ifstream fntStream(fileName);
+	if (fntStream.fail())
+	{
+		Debug::LogError("FNT File " + (std::string)fileName + " could not be opened");
+		return 0;
+	}
+
+	std::string word;
+	while (fntStream >> word)
+	{
+		if (word == "chars")
+		{
+			fntStream >> word;
+			uint32_t numCharacters = LString::StringToUInt(word);
+			return LFontOperations::SerializedSizeOf(numCharacters);
+		}
+	}
+
+	return 0;
+}
+
 std::string FNTReader::StripAfterEqualSign(const std::string& s)
 {
 	size_t equalsPosition = s.find("=");

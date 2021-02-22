@@ -11,6 +11,8 @@ public:
 
 	FontData* ReadFile(const char* fileName);
 
+	size_t SerializedSizeOf(const char* fileName);
+
 private:
 	std::string StripAfterEqualSign(const std::string& s);
 

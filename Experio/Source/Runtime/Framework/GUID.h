@@ -4,9 +4,16 @@
 #include "../Containers/LString.h"
 #include "../Math/Random.h"
 
+namespace Experio
+{
 struct GUID
 {
 	uint64_t id;
+
+	GUID()
+	{
+		this->id = 0;
+	}
 
 	GUID(uint64_t id)
 	{
@@ -45,3 +52,14 @@ struct GUID
 		return this->id != other.id;
 	}
 };
+
+struct GUIDHashFunction
+{
+	unsigned int tableCapacity;
+
+	unsigned long operator()(const Experio::GUID& key) const
+	{
+		return key.id % tableCapacity;
+	}
+};
+}

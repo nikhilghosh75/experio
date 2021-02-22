@@ -103,6 +103,17 @@ FShaderDataInternal ShaderReader::ParseShader(const std::string& filepath)
 	return shaderData;
 }
 
+std::string ShaderReader::LanguageToString(EShaderLanguage language)
+{
+	switch (language)
+	{
+	case EShaderLanguage::None: return "None";
+	case EShaderLanguage::GLSL: return "GLSL";
+	case EShaderLanguage::HLSL: return "HLSL";
+	}
+	return "";
+}
+
 EShaderLanguage ShaderReader::GetLanguageFromString(const std::string& languageType)
 {
 	if (languageType== "GLSL") return EShaderLanguage::GLSL;

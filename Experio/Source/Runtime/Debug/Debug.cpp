@@ -173,7 +173,6 @@ DebugStream& DebugStream::operator<<(DebugConstant constant)
 #ifdef PB_LOG_FILE
 		FlushMessages();
 #endif
-
 		break;
 	}
 	return *this;

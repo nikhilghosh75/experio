@@ -8,8 +8,12 @@ class BinMeshReader : MeshReader
 public:
 	MeshData* ReadFile(const char* fileName);
 
+	static size_t SerializedSizeOf(const char* filename);
+
 private:
 	static uint8_t GetNumOfChuncks(uint16_t flags);
+
+	static uint8_t SizeOfVertex(uint16_t flags);
 
 	static void ReadVertexChunck(std::ifstream& stream, uint32_t numVerticies, MeshData* meshData);
 

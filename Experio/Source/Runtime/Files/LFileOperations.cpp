@@ -6,6 +6,36 @@
 #include <chrono>
 namespace fs = std::filesystem;
 
+std::string LFileOperations::AssetTypeToString(EAssetType type)
+{
+	switch (type)
+	{
+	case EAssetType::Animation: return "Animation";
+	case EAssetType::Audio: return "Audio";
+	case EAssetType::CPP: return "C++";
+	case EAssetType::Data: return "Data";
+	case EAssetType::Directory: return "Directory";
+	case EAssetType::Font: return "Font";
+	case EAssetType::H: return "H";
+	case EAssetType::Image: return "Image";
+	case EAssetType::InputMap: return "InputMap";
+	case EAssetType::Markup: return "Markup";
+	case EAssetType::Material: return "Material";
+	case EAssetType::Mesh: return "Mesh";
+	case EAssetType::Meta: return "Meta";
+	case EAssetType::NonEngineCode: return "NonEngineCode";
+	case EAssetType::Particle: return "Particle";
+	case EAssetType::Prefab: return "Prefab";
+	case EAssetType::Scene: return "Scene";
+	case EAssetType::Shader: return "Shader";
+	case EAssetType::Soundbank: return "Soundbank";
+	case EAssetType::Style: return "Style";
+	case EAssetType::Text: return "Text";
+	case EAssetType::Video: return "Video";
+	}
+	return "Unknown";
+}
+
 float LFileOperations::BytesToMultiple(uint64_t bytes, EDataUnit unit)
 {
 	switch (unit)
@@ -340,7 +370,6 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	// Video
 	PB_COMPARE_EXT("mp4", EAssetType::Video);
 	PB_COMPARE_EXT("webm", EAssetType::Video);
-	PB_COMPARE_EXT("ogg", EAssetType::Video);
 
 	return EAssetType::Unknown;
 }
@@ -475,6 +504,33 @@ FileBuffer LFileOperations::ReadTrimmedFileToBuffer(std::ifstream & stream)
 
 	std::string output = ss.str();
 	return FileBuffer(output.data(), output.length());
+}
+
+EAssetType LFileOperations::StringToAssetType(const std::string & str)
+{
+	if (str == "Animation") return EAssetType::Animation;
+	if (str == "Audio") return EAssetType::Audio;
+	if (str == "C++") return EAssetType::CPP;
+	if (str == "Data") return EAssetType::Data;
+	if (str == "Directory") return EAssetType::Directory;
+	if (str == "Font") return EAssetType::Font;
+	if (str == "H") return EAssetType::H;
+	if (str == "Image") return EAssetType::Image;
+	if (str == "InputMap") return EAssetType::InputMap;
+	if (str == "Markup") return EAssetType::Markup;
+	if (str == "Material") return EAssetType::Material;
+	if (str == "Mesh") return EAssetType::Mesh;
+	if (str == "Meta") return EAssetType::Meta;
+	if (str == "NonEngineCode") return EAssetType::NonEngineCode;
+	if (str == "Particle") return EAssetType::Particle;
+	if (str == "Prefab") return EAssetType::Prefab;
+	if (str == "Scene") return EAssetType::Scene;
+	if (str == "Shader") return EAssetType::Shader;
+	if (str == "Soundbank") return EAssetType::Soundbank;
+	if (str == "Style") return EAssetType::Style;
+	if (str == "Text") return EAssetType::Text;
+	if (str == "Video") return EAssetType::Video;
+	return EAssetType::Unknown;
 }
 
 std::string LFileOperations::StripFilename(const std::string& filename)

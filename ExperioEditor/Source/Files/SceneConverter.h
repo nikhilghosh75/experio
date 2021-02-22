@@ -14,6 +14,8 @@ public:
 
 	static void ConvertSceneToBinary(const std::string& fromFilepath, const std::string& toFilepath);
 
+	static size_t SerializedSizeOfScene(const std::string& filepath);
+
 private:
 	class GameObjectInfo
 	{

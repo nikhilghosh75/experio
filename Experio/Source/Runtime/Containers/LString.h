@@ -8,6 +8,8 @@
 class LString
 {
 public:
+	static std::string BoolToString(bool b);
+
 	constexpr static int CharToInt(char c);
 
 	static bool CompareSubstr(const std::string& original, const std::string& substr, size_t offset);

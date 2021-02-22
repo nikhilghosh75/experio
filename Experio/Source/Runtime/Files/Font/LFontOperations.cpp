@@ -120,6 +120,11 @@ uint32_t LFontOperations::SerializedSizeOf(const FontData & data)
 	return 60 + data.characters.size() * 32;
 }
 
+uint32_t LFontOperations::SerializedSizeOf(const uint32_t numCharacters)
+{
+	return 60 + numCharacters * 32;
+}
+
 uint32_t LFontOperations::SizeOf(const FontData & data)
 {
 	return 36 + data.characters.size() * 32;

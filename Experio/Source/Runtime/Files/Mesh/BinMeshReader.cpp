@@ -64,6 +64,28 @@ MeshData * BinMeshReader::ReadFile(const char * fileName)
 	return nullptr;
 }
 
+size_t BinMeshReader::SerializedSizeOf(const char * filename)
+{
+	std::ifstream inFile(filename, std::ios::binary);
+
+	char check[9];
+	inFile.read(check, 8);
+
+	char header[12];
+	inFile.read(header, 12);
+
+	uint16_t flags = *(uint16_t*)&(header[0]);
+	uint8_t indexType = *(uint8_t*)&(header[2]);
+	uint32_t numVerticies = *(uint32_t*)&(header[4]);
+	uint32_t numIndicies = *(uint32_t*)&(header[8]);
+
+	size_t headerSize = 20;
+	size_t vertexBufferSize = numVerticies * SizeOfVertex(flags);
+	size_t indexBufferSize = numIndicies * indexType;
+
+	return headerSize + vertexBufferSize + indexBufferSize;
+}
+
 uint8_t BinMeshReader::GetNumOfChuncks(uint16_t flags)
 {
 	// Add stuff here
@@ -74,6 +96,12 @@ uint8_t BinMeshReader::GetNumOfChuncks(uint16_t flags)
 	}
 
 	return numChuncks;
+}
+
+uint8_t BinMeshReader::SizeOfVertex(uint16_t flags)
+{
+	// Assuming 3 vertex, 2 uv, 3 normal, 3 tangent, 3 bitangent
+	return 14 * sizeof(float);
 }
 
 void BinMeshReader::ReadVertexChunck(std::ifstream& stream, uint32_t numVerticies, MeshData* meshData)

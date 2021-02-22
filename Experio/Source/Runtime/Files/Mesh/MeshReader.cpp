@@ -33,3 +33,30 @@ MeshData * MeshReader::ReadFile(unsigned int assetIndex)
 	}
 	return nullptr;
 }
+
+size_t MeshReader::SerializedSizeOf(const char * filename)
+{
+	std::string extension = LFileOperations::GetExtension(filename);
+
+	if (extension == "obj")
+	{
+		OBJReader reader;
+		return reader.SerializedSizeOf(filename);
+	}
+	else if (extension == "pbbmesh")
+	{
+		return BinMeshReader::SerializedSizeOf(filename);
+	}
+
+	return 0;
+}
+
+size_t MeshReader::SerializedSizeOf(unsigned int assetIndex)
+{
+	std::string filepath;
+	if (AssetMap::assetMap.SafeGet(assetIndex, filepath))
+	{
+		return SerializedSizeOf(filepath.c_str());
+	}
+	return 0;
+}

@@ -122,3 +122,32 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 	meshData->isIndexed = true;
 	return meshData;
 }
+
+size_t OBJReader::SerializedSizeOf(const char * filename)
+{
+	std::ifstream objFile(filename);
+
+	size_t numVerticies = 0;
+	size_t numIndicies = 0;
+
+	std::string word;
+	while (objFile >> word)
+	{
+		if (word == "v")
+		{
+			numVerticies++;
+		}
+		else if (word == "f")
+		{
+			numIndicies++;
+		}
+		getline(objFile, word);
+	}
+
+	uint8_t indexType = LMeshOperations::GetIndexType(numVerticies);
+	size_t headerSize = 20;
+	size_t vertexBufferSize = numVerticies * 14 * 4;
+	size_t indexBufferSize = numIndicies * indexType;
+
+	return headerSize + vertexBufferSize + indexBufferSize;
+}
