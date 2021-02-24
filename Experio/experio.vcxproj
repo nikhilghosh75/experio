@@ -27,6 +27,8 @@
     <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
     <ClInclude Include="Source\Runtime\Framework\System.h" />
     <ClInclude Include="Source\Runtime\Input\InputCodes.h" />
+    <ClInclude Include="Source\Runtime\Input\InputMap.h" />
+    <ClInclude Include="Source\Runtime\Input\InputMapReader.h" />
     <ClInclude Include="Source\Runtime\Input\Shortcut.h" />
     <ClInclude Include="Source\Runtime\Math\ColorPalette.h" />
     <ClInclude Include="Source\Runtime\Math\Bezier.h" />
@@ -234,6 +236,7 @@
     <ClCompile Include="Source\Runtime\Framework\GameObject.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Scene.cpp" />
     <ClCompile Include="Source\Runtime\Input\Input.cpp" />
+    <ClCompile Include="Source\Runtime\Input\InputMapReader.cpp" />
     <ClCompile Include="Source\Runtime\Math\Bezier.cpp" />
     <ClCompile Include="Source\Runtime\Math\ColorPalette.cpp" />
     <ClCompile Include="Source\Runtime\Math\FBox.cpp" />
