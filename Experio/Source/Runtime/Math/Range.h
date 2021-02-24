@@ -69,7 +69,7 @@ class Range
 			return other.current == this->current;
 		}
 
-		bool operator==(const Iterator& other) const
+		bool operator!=(const Iterator& other) const
 		{
 			if (other.current < other.stop || this->current < this->stop)
 			{
