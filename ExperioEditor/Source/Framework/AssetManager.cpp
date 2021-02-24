@@ -47,6 +47,31 @@ Experio::GUID AssetManager::FilenameToGUID(const std::string & filename)
 	return FilenameToGUID(filename + ".meta");
 }
 
+BuildSizeDetails AssetManager::GetBuildSizeDetails()
+{
+	BuildSizeDetails details;
+
+	for (auto& p : fs::recursive_directory_iterator(EditorApplication::assetsFilePath))
+	{
+		EAssetType type = LFileOperations::GetFileType(p.path().string());
+		size_t size = SerializedSizeOf(p.path().string());
+
+		switch (type)
+		{
+		case EAssetType::Data: details.datatableSize += size; break;
+		case EAssetType::Font: details.fontSize += size; break;
+		case EAssetType::Image: details.imageSize += size; break;
+		case EAssetType::Mesh: details.meshSize += size; break;
+		case EAssetType::Particle: details.particleSize += size; break;
+		case EAssetType::Prefab: details.prefabSize += size; break;
+		case EAssetType::Scene: details.sceneSize += size; break;
+		case EAssetType::Text: details.textSize += size; break;
+		}
+	}
+
+	return details;
+}
+
 std::string AssetManager::GUIDToFilename(Experio::GUID guid)
 {
 	std::string filename;
@@ -85,6 +110,18 @@ void AssetManager::Populate()
 size_t AssetManager::SizeOf(const std::string & filename)
 {
 	return fs::file_size(filename);
+}
+
+size_t AssetManager::SizeOfBuild()
+{
+	size_t buildSize = 0;
+
+	for (auto& p : fs::recursive_directory_iterator(EditorApplication::assetsFilePath))
+	{
+		buildSize += SerializedSizeOf(p.path().string());
+	}
+
+	return buildSize;
 }
 
 size_t AssetManager::SerializedSizeOf(const std::string & filename)
