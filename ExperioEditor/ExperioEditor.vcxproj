@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AssetDatabase\SQLParser.cpp" />
     <ClCompile Include="Source\AssetViewers\FontViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\ImageViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\LayerEditor.cpp" />
@@ -120,6 +121,7 @@
     <ClCompile Include="Source\Files\MeshConverter.cpp" />
     <ClCompile Include="Source\Files\SceneConverter.cpp" />
     <ClCompile Include="Source\FileView\FileView.cpp" />
+    <ClCompile Include="Source\Framework\AssetManager.cpp" />
     <ClCompile Include="Source\Framework\Compilation\CompilationParser.cpp" />
     <ClCompile Include="Source\Framework\Compilation\CompilationSystem.cpp" />
     <ClCompile Include="Source\Framework\CreateMenu.cpp" />
@@ -127,6 +129,7 @@
     <ClCompile Include="Source\Framework\EditorProject.cpp" />
     <ClCompile Include="Source\Framework\EditorShortcuts.cpp" />
     <ClCompile Include="Source\Framework\ImportSystem.cpp" />
+    <ClCompile Include="Source\Framework\MetaSystem.cpp" />
     <ClCompile Include="Source\Framework\NotificationSystem.cpp" />
     <ClCompile Include="Source\Framework\PlaySystem.cpp" />
     <ClCompile Include="Source\Framework\SaveParams.cpp" />
@@ -150,14 +153,16 @@
     <ClCompile Include="Source\ProjectSettings\SettingsView.cpp" />
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
-    <ClCompile Include="Source\Terminal\AddLayer.cpp" />
-    <ClCompile Include="Source\Terminal\AddTag.cpp" />
+    <ClCompile Include="Source\Terminal\SizeCommands.cpp" />
     <ClCompile Include="Source\Terminal\Terminal.cpp" />
+    <ClCompile Include="Source\Terminal\ValueCommands.cpp" />
     <ClCompile Include="Source\Testing\TestManager.cpp" />
     <ClCompile Include="Source\Testing\TestRunner.cpp" />
     <ClCompile Include="Source\Testing\UnitTestingFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AssetDatabase\SQLCommand.h" />
+    <ClInclude Include="Source\AssetDatabase\SQLParser.h" />
     <ClInclude Include="Source\AssetViewers\FontViewer.h" />
     <ClInclude Include="Source\AssetViewers\ImageViewer.h" />
     <ClInclude Include="Source\AssetViewers\LayerEditor.h" />
@@ -205,6 +210,7 @@
     <ClInclude Include="Source\Files\MeshConverter.h" />
     <ClInclude Include="Source\Files\SceneConverter.h" />
     <ClInclude Include="Source\FileView\FileView.h" />
+    <ClInclude Include="Source\Framework\AssetManager.h" />
     <ClInclude Include="Source\Framework\Compilation\CompilationInfo.h" />
     <ClInclude Include="Source\Framework\Compilation\CompilationParser.h" />
     <ClInclude Include="Source\Framework\Compilation\CompilationResult.h" />
@@ -215,6 +221,7 @@
     <ClInclude Include="Source\Framework\EditorProject.h" />
     <ClInclude Include="Source\Framework\EditorShortcuts.h" />
     <ClInclude Include="Source\Framework\ImportSystem.h" />
+    <ClInclude Include="Source\Framework\MetaSystem.h" />
     <ClInclude Include="Source\Framework\NotificationSystem.h" />
     <ClInclude Include="Source\Framework\PlaySystem.h" />
     <ClInclude Include="Source\Framework\SaveParams.h" />
@@ -245,6 +252,7 @@
     <ClInclude Include="Source\SceneView\SceneView.h" />
     <ClInclude Include="Source\Terminal\Terminal.h" />
     <ClInclude Include="Source\Terminal\TerminalCommands.h" />
+    <ClInclude Include="Source\Terminal\TerminalParser.h" />
     <ClInclude Include="Source\Testing\Assert.h" />
     <ClInclude Include="Source\Testing\TestManager.h" />
     <ClInclude Include="Source\Testing\TestRunner.h" />

@@ -222,10 +222,19 @@
     <ClCompile Include="Source\Terminal\Terminal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Terminal\AddLayer.cpp">
+    <ClCompile Include="Source\Terminal\SizeCommands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Terminal\AddTag.cpp">
+    <ClCompile Include="Source\Terminal\ValueCommands.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\MetaSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AssetDatabase\SQLParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -501,6 +510,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Terminal\TerminalCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\MetaSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetDatabase\SQLCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetDatabase\SQLParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Framework\AssetManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Terminal\TerminalParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
