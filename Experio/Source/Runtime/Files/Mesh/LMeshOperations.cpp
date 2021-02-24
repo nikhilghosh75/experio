@@ -157,3 +157,8 @@ uint8_t LMeshOperations::GetIndexType(uint32_t numVerticies)
 	}
 	return 4;
 }
+
+size_t LMeshOperations::SizeOfMesh(const MeshRef & ref)
+{
+	return SizeOfMesh(*ref.meshData);
+}
