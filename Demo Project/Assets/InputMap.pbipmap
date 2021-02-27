@@ -12,5 +12,5 @@ AXIS moveX 2 LeftArrow -1.0 RightArrow 1.0
 AXIS moveY 2 UpArrow 1.0 DownArrow -1.0
 CONFIG Gamepad Gamepad
 ACTION boost FaceBottom
-AXIS moveX 2 LeftStickX
-AXIS moveY 2 LeftStickY
+AXIS moveX LeftStickX
+AXIS moveY LeftStickY
