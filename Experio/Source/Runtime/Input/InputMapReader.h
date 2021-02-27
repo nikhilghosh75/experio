@@ -6,4 +6,7 @@ class InputMapReader
 {
 public:
 	static InputMap ReadInputMap(const std::string& filepath);
+
+private:
+	static EInputType StringToInputType(const std::string& type);
 };
