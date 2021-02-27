@@ -35,5 +35,8 @@ public:
 	static const FColor const MetallicSilver;
 	static const FColor const BlueGray;
 	static const FColor const LightSlateGray;
+	static const FColor const SlateGray;
+	static const FColor const JetGray;
+	static const FColor const MistBlue;
 	static const FColor const Red;
 };

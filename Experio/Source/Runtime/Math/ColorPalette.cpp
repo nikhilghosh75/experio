@@ -29,4 +29,7 @@ const FColor const ColorPalette::Platinum(229, 228, 226);
 const FColor const ColorPalette::MetallicSilver(188, 198, 204);
 const FColor const ColorPalette::BlueGray(152, 175, 199);
 const FColor const ColorPalette::LightSlateGray(109, 123, 141);
+const FColor const ColorPalette::SlateGray(101, 115, 131);
+const FColor const ColorPalette::JetGray(97, 109, 126);
+const FColor const ColorPalette::MistBlue(100, 109, 126);
 const FColor const ColorPalette::Red(1.f, 0.f, 0.f);
