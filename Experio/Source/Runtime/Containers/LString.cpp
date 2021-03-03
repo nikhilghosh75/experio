@@ -160,22 +160,30 @@ int LString::StringToInt(const std::string& str)
 	return isPositive ? integer : integer * -1;
 }
 
+uint8_t LString::StringToUByte(const std::string& str)
+{
+	uint8_t unsignedByte = 0;
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (IsNumeric(str[i]))
+		{
+			unsignedByte = (unsignedByte * 10) + CharToInt(str[i]);
+		}
+	}
+	return unsignedByte;
+}
+
 unsigned int LString::StringToUInt(const std::string & str)
 {
 	unsigned int unsignedInteger = 0;
-	bool isPositive = true;
 	for (int i = 0; i < str.size(); i++)
 	{
-		if (str[i] == '-')
-		{
-			isPositive = false;
-		}
-		else if (IsNumeric(str[i]))
+		if (IsNumeric(str[i]))
 		{
 			unsignedInteger = (unsignedInteger * 10) + CharToInt(str[i]);
 		}
 	}
-	return isPositive ? unsignedInteger : unsignedInteger * -1;
+	return unsignedInteger;
 }
 
 std::string LString::ToCamelCase(const std::string& str)

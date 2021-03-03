@@ -69,6 +69,8 @@ public:
 
 	static int StringToInt(const std::string& str);
 
+	static uint8_t StringToUByte(const std::string& str);
+
 	static unsigned int StringToUInt(const std::string& str);
 
 	static std::string ToCamelCase(const std::string& str);
