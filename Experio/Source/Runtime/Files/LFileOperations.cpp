@@ -329,6 +329,9 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	PB_COMPARE_EXT("png", EAssetType::Image);
 	PB_COMPARE_EXT("tga", EAssetType::Image);
 
+	// Input Map
+	PB_COMPARE_EXT("pbipmap", EAssetType::InputMap);
+
 	// Markup
 	PB_COMPARE_EXT("xml", EAssetType::Markup);
 
@@ -352,7 +355,9 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	PB_COMPARE_EXT("r", EAssetType::NonEngineCode); // R
 	PB_COMPARE_EXT("swift", EAssetType::NonEngineCode); // Swift
 
-	// TO-DO: Particles
+	// Particle
+	PB_COMPARE_EXT("pbprtcle", EAssetType::Particle);
+
 	// Prefab
 	PB_COMPARE_EXT("prefab", EAssetType::Prefab);
 
@@ -362,6 +367,10 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	// Scene
 	PB_COMPARE_EXT("pbbscene", EAssetType::Scene);
 	PB_COMPARE_EXT("pbscene", EAssetType::Scene);
+
+	// Soundbank
+	PB_COMPARE_EXT("pbbsbnk", EAssetType::Soundbank);
+	PB_COMPARE_EXT("pbsbnk", EAssetType::Soundbank);
 
 	// Text
 	PB_COMPARE_EXT("txt", EAssetType::Text);
