@@ -2,11 +2,13 @@
 #include "AssetManager.h"
 #include "CreateMenu.h"
 #include "../CodeParser/LCodeParser.h"
+#include "../Core/EditorApplication.h"
 #include "Runtime/Data/Datatable.h"
 #include "Runtime/Files/Data/DataReader.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Rendering/Shaders/ShaderReader.h"
 #include <filesystem>
+namespace fs = std::filesystem;
 
 MetadataEntry::MetadataEntry()
 {
@@ -104,11 +106,24 @@ void MetaSystem::GenerateMetaFile(const std::string & filepath)
 	GenerateMetadata(filepath, outFile, type);
 }
 
+void MetaSystem::FixMetafiles()
+{
+	for (auto& p : fs::recursive_directory_iterator(EditorApplication::assetsFilePath))
+	{
+		std::string filepath = p.path().string();
+		if (LFileOperations::DoesFileHaveExtension(filepath, "meta"))
+			continue;
+
+		GenerateMetaFile(filepath);
+	}
+}
+
 void MetaSystem::GenerateMetadata(const std::string & filepath, std::ofstream & outFile, EAssetType type)
 {
 	switch (type)
 	{
 	case EAssetType::CPP: CppMetadata(filepath, outFile); break;
+	case EAssetType::Directory: DirectoryMetadata(filepath, outFile); break;
 	case EAssetType::Font: FontMetadata(filepath, outFile); break;
 	case EAssetType::H: CppMetadata(filepath, outFile); break;
 	case EAssetType::Image: ImageMetadata(filepath, outFile); break;
@@ -122,6 +137,12 @@ void MetaSystem::GenerateMetadata(const std::string & filepath, std::ofstream & 
 void MetaSystem::CppMetadata(const std::string & filepath, std::ofstream & outFile)
 {
 	// TO-DO: Get CPP File Type
+}
+
+void MetaSystem::DirectoryMetadata(const std::string& filepath, std::ofstream& outFile)
+{
+	// TO-DO: Add Directory Types
+	outFile << "DirectoryType: " << "None" << std::endl;
 }
 
 void MetaSystem::FontMetadata(const std::string & filepath, std::ofstream & outFile)

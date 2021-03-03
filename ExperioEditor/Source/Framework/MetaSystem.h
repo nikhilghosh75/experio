@@ -41,10 +41,14 @@ public:
 
 	static void GenerateMetaFile(const std::string& filepath);
 
+	static void FixMetafiles();
+
 private:
 	static void GenerateMetadata(const std::string& filepath, std::ofstream& outFile, EAssetType type);
 
 	static void CppMetadata(const std::string& filepath, std::ofstream& outFile);
+
+	static void DirectoryMetadata(const std::string& filepath, std::ofstream& outFile);
 
 	static void FontMetadata(const std::string& filepath, std::ofstream& outFile);
 
