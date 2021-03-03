@@ -8,6 +8,7 @@
 #include "../FileView/FileView.h"
 #include "../Framework/CreateMenu.h"
 #include "../Framework/ImportSystem.h"
+#include "../Framework/MetaSystem.h"
 #include "../Framework/PlaySystem.h"
 #include "../Framework/UndoSystem.h"
 #include "../Framework/SceneSaver.h"
@@ -148,6 +149,10 @@ void UpperMenu::CreateAssetMenu()
 		if (ImGui::MenuItem("Refresh"))
 		{
 			FileView::fileView->Reload();
+		}
+		if (ImGui::MenuItem("Regenerate Meta Files"))
+		{
+			MetaSystem::FixMetafiles();
 		}
 
 		ImGui::EndMenu();
