@@ -1,5 +1,5 @@
 #include "Framebuffer.h"
-#include "C:/Users/debgh/source/repos/project-bloo/Dependencies/GLEW/include/GL/glew.h"
+#include <GL/glew.h>
 #include "../Debug/Debug.h"
 
 Framebuffer::Framebuffer()
