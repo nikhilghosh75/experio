@@ -36,7 +36,7 @@ float LStatistics::CorrelationCoefficient(const std::vector<float> x, const std:
 	return CorrelationCoefficient(x.data(), y.data(), x.size());
 }
 
-float LStatistics::Max(float * data, size_t count)
+float LStatistics::Max(const float * data, size_t count)
 {
 	float max = data[0];
 	for (size_t i = 0; i < count; i++)
@@ -46,7 +46,7 @@ float LStatistics::Max(float * data, size_t count)
 	return max;
 }
 
-float LStatistics::Max(std::vector<float> data)
+float LStatistics::Max(const std::vector<float>& data)
 {
 	return Max(data.data(), data.size());
 }
@@ -64,12 +64,12 @@ float LStatistics::Median(float * data, size_t count)
 	return data[count / 2];
 }
 
-float LStatistics::Median(std::vector<float> data)
+float LStatistics::Median(std::vector<float>& data)
 {
 	return Median(data.data(), data.size());
 }
 
-float LStatistics::Min(float * data, size_t count)
+float LStatistics::Min(const float * data, size_t count)
 {
 	float min = data[0];
 	for (size_t i = 0; i < count; i++)
@@ -79,12 +79,12 @@ float LStatistics::Min(float * data, size_t count)
 	return min;
 }
 
-float LStatistics::Min(std::vector<float> data)
+float LStatistics::Min(const std::vector<float>& data)
 {
 	return Min(data.data(), data.size());
 }
 
-float LStatistics::Mode(std::vector<float> data)
+float LStatistics::Mode(const std::vector<float>& data)
 {
 	std::vector<std::pair<float, uint32_t>> uniqueCount = Experio::Algorithm::UniqueCount(data);
 	
@@ -101,7 +101,29 @@ float LStatistics::Mode(std::vector<float> data)
 	return mode;
 }
 
-float LStatistics::Percentile(float * data, size_t count, size_t index)
+std::vector<float> LStatistics::MovingAverage(const std::vector<float>& data, size_t averageSize)
+{
+	if (averageSize == 0 || averageSize == 1)
+	{
+		return data;
+	}
+	std::vector<float> movingAverage;
+	movingAverage.reserve(data.size() - averageSize + 1);
+
+	for (size_t i = 0; i < data.size() - averageSize + 1; i++)
+	{
+		float sum = 0;
+		for (size_t j = 0; j < averageSize; j++)
+		{
+			sum += data[i + j];
+		}
+		movingAverage.push_back(sum / data.size());
+	}
+
+	return movingAverage;
+}
+
+float LStatistics::Percentile(const float * data, size_t count, size_t index)
 {
 	float elem = data[index];
 	size_t lessThanCount = 0;
@@ -117,12 +139,12 @@ float LStatistics::Percentile(float * data, size_t count, size_t index)
 	return ((float)lessThanCount * 100.f) / (count - 1);
 }
 
-float LStatistics::Percentile(std::vector<float> data, size_t index)
+float LStatistics::Percentile(const std::vector<float>& data, size_t index)
 {
 	return Percentile(data.data(), data.size(), index);
 }
 
-float LStatistics::Percentile(float * data, size_t count, float elem)
+float LStatistics::Percentile(const float * data, size_t count, float elem)
 {
 	size_t lessThanCount = 0;
 	float maxLessThan = -2000000.f;
@@ -150,17 +172,17 @@ float LStatistics::Percentile(float * data, size_t count, float elem)
 	return ((float)lessThanCount + (elem - maxLessThan) / (minGreaterThan - maxLessThan)) * 100.f / count;
 }
 
-float LStatistics::Percentile(std::vector<float> data, float elem)
+float LStatistics::Percentile(const std::vector<float>& data, float elem)
 {
 	return Percentile(data.data(), data.size(), elem);
 }
 
 void LStatistics::Sort(std::vector<float>& data)
 {
-	std::sort(data.begin(), data.end());
+	std::sort(data.begin(), data.begin() + data.size());
 }
 
-float LStatistics::StandardDeviation(float * data, size_t count)
+float LStatistics::StandardDeviation(const float * data, size_t count)
 {
 	float average = Average(data, count);
 	
@@ -173,7 +195,7 @@ float LStatistics::StandardDeviation(float * data, size_t count)
 	return standardDeviation;
 }
 
-float LStatistics::StandardDeviation(std::vector<float> data)
+float LStatistics::StandardDeviation(const std::vector<float>& data)
 {
 	return StandardDeviation(data.data(), data.size());
 }
