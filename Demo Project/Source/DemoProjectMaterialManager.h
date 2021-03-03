@@ -79,7 +79,7 @@ public:
 		}
 		case 2:
 		{
-			BillboardMaterial newMaterial = billboardMaterials.emplace_back(matShader, currentIndex);
+			BillboardMaterial& newMaterial = billboardMaterials.emplace_back(matShader, currentIndex);
 			return &newMaterial;
 		}
 		}
