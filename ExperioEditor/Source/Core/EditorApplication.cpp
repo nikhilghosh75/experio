@@ -34,6 +34,7 @@
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../SceneView/SceneView.h"
 #include "../Terminal/Terminal.h"
+#include "Runtime/Data/LStatistics.h"
 #include "Runtime/Debug/Profiler.h"
 #include "Runtime/Framework/SceneLoader.h"
 
@@ -143,7 +144,7 @@ void EditorApplication::SetEndFrameCallback(void(*callback)(float))
 	endFrameCallback = callback;
 }
 
-std::string EditorApplication::GetShortenedFilePath(std::string & fullFilePath)
+std::string EditorApplication::GetShortenedFilePath(const std::string & fullFilePath)
 {
 	size_t foundIndex;
 
@@ -161,6 +162,37 @@ std::string EditorApplication::GetShortenedFilePath(std::string & fullFilePath)
 	if (foundIndex != std::string::npos) return "?Standard?" + fullFilePath.substr(standardAssetsFilePath.size());
 
 	return fullFilePath;
+}
+
+std::string EditorApplication::GetFullFilePath(const std::string& shortFilepath)
+{
+	size_t foundIndex;
+
+	foundIndex = shortFilepath.find("?Assets?");
+	if (foundIndex != std::string::npos) return assetsFilePath + shortFilepath.substr(8);
+
+	foundIndex = shortFilepath.find("Assets");
+	if (foundIndex != std::string::npos) return assetsFilePath + shortFilepath.substr(6);
+
+	foundIndex = shortFilepath.find("?Config?");
+	if (foundIndex != std::string::npos) return configFilePath + shortFilepath.substr(8);
+
+	foundIndex = shortFilepath.find("Config");
+	if (foundIndex != std::string::npos) return configFilePath + shortFilepath.substr(6);
+
+	foundIndex = shortFilepath.find("?Source?");
+	if (foundIndex != std::string::npos) return sourceFilePath + shortFilepath.substr(8);
+
+	foundIndex = shortFilepath.find("Source");
+	if (foundIndex != std::string::npos) return sourceFilePath + shortFilepath.substr(6);
+
+	foundIndex = shortFilepath.find("?Standard?");
+	if (foundIndex != std::string::npos) return assetsFilePath + shortFilepath.substr(11);
+
+	foundIndex = shortFilepath.find("Standard");
+	if (foundIndex != std::string::npos) return assetsFilePath + shortFilepath.substr(9);
+
+	return shortFilepath;
 }
 
 EditorModule * EditorApplication::AddModule(EditorModule * module)
