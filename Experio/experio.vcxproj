@@ -20,7 +20,9 @@
     <ClInclude Include="Source\Runtime\Containers\Algorithm.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
+    <ClInclude Include="Source\Runtime\Core\SystemMetrics.h" />
     <ClInclude Include="Source\Runtime\Data\DataManager.h" />
+    <ClInclude Include="Source\Runtime\Data\Regression.h" />
     <ClInclude Include="Source\Runtime\DefaultComponents.h" />
     <ClInclude Include="Source\Runtime\Files\FileRef.h" />
     <ClInclude Include="Source\Runtime\Files\Images\PNGReader.h" />
@@ -199,6 +201,7 @@
     <ClCompile Include="Source\Runtime\Camera\VirtualCamera.cpp" />
     <ClCompile Include="Source\Runtime\Containers\LString.cpp" />
     <ClCompile Include="Source\Runtime\Core\Platform.cpp" />
+    <ClCompile Include="Source\Runtime\Core\SystemMetrics.cpp" />
     <ClCompile Include="Source\Runtime\Core\Window.cpp" />
     <ClCompile Include="Source\Runtime\Core\LWindowOperations.cpp" />
     <ClCompile Include="Source\Runtime\Data\DataManager.cpp" />
