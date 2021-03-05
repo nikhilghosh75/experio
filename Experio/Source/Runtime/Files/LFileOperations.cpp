@@ -1,6 +1,7 @@
 #include "LFileOperations.h"
 #include "../Debug/Debug.h"
 #include "../Containers/LString.h"
+#include "../Framework/Project.h"
 #include <sstream>
 #include <iomanip>
 #include <chrono>
@@ -260,11 +261,11 @@ std::string LFileOperations::GetFullFilePath(std::string filePath)
 	{
 		if (filePath.find("?Standard?") != std::string::npos)
 		{
-			return "C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard" + filePath.substr(10);
+			return Project::experioResourcesPath + "/Standard" + filePath.substr(10);
 		}
 		else if (filePath.find("?Assets?") != std::string::npos)
 		{
-			return "C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets" + filePath.substr(8);
+			return Project::projectAssetsPath + filePath.substr(8);
 		}
 	}
 	return filePath;
