@@ -56,6 +56,9 @@ public:
 	void SetTransform(FVector3 position, FQuaternion rotation, FVector3 scale);
 	void SetTransform(glm::mat4 localMatrix);
 
+	void SetTag(unsigned short newTag);
+	void SetTag(const std::string& newTag);
+
 	void EmptyChildren();
 
 	void ReserveChildren(uint8_t numChildren);
