@@ -534,4 +534,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\Layouts\Default.ini" />
+    <Text Include="Resources\Layouts\Wide.ini" />
+    <Text Include="Resources\Layouts\Tall.ini" />
+  </ItemGroup>
 </Project>

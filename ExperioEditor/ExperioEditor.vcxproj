@@ -265,6 +265,11 @@
       <Project>{06597ef7-d716-4da4-8727-0daf4e8a67c1}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\Layouts\Default.ini" />
+    <Text Include="Resources\Layouts\Tall.ini" />
+    <Text Include="Resources\Layouts\Wide.ini" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
