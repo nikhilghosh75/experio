@@ -12,6 +12,9 @@ public:
 
 	static std::string projectName;
 
+	static std::string projectAssetsPath;
+	static std::string experioResourcesPath;
+
 	static ComponentManager* componentManager;
 
 	static MaterialManager* materialManager;
