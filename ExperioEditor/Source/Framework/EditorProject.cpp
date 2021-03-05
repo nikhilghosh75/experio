@@ -4,7 +4,9 @@
 #include "../Core/EditorApplication.h"
 #include "../CodeParser/CodeParser.h"
 #include "Runtime/Files/LFileOperations.h"
+#include "Runtime/Framework/Project.h"
 #include "ThirdParty/toml++/toml.h"
+#include "imgui.h"
 
 THashtable<unsigned int, FComponentInfo> EditorProject::componentClasses;
 std::vector<FShaderInfo> EditorProject::shaders;
@@ -15,6 +17,10 @@ std::string EditorProject::projectName;
 std::string EditorProject::username;
 std::vector<std::string> EditorProject::gameCompileFiles;
 FEditorProjectLanguages EditorProject::languages;
+
+// This will be deleted later
+bool EditorProject::isLayoutQueued = false;
+EEditorLayout EditorProject::layoutToSet;
 
 unsigned int DefaultClassStringToInt(std::string name)
 {
@@ -35,6 +41,19 @@ std::string DefaultClassIntToString(unsigned int num)
 		return componentInfo.name;
 	}
 	return "Unknown";
+}
+
+void EditorProject::BeginFrame()
+{
+}
+
+void EditorProject::EndFrame()
+{
+	if (isLayoutQueued)
+	{
+		SetLayout(layoutToSet);
+		isLayoutQueued = false;
+	}
 }
 
 CodeClass & EditorProject::GetClassOfId(unsigned int id)
@@ -74,6 +93,12 @@ void EditorProject::ReadUserFile(const std::string & userFilepath)
 	EditorApplication::experioEditorFilePath = table["Filepaths"]["ExperioEditor"].value_or("");
 	EditorApplication::experioBinariesFilePath = table["Filepaths"]["Binaries"].value_or("");
 	EditorApplication::experioDependenciesFilePath = table["Filepaths"]["Dependencies"].value_or("");
+}
+
+void EditorProject::SetProjectPaths()
+{
+	Project::projectAssetsPath = EditorApplication::assetsFilePath;
+	Project::experioResourcesPath = EditorApplication::experioFilePath + "/Resources";
 }
 
 void EditorProject::ReadValueFiles()
@@ -162,4 +187,35 @@ void EditorProject::TempSetupMaterials()
 	basic.EmplaceUniform(EShaderParamType::TEXTURE, "normal");
 	basic.EmplaceUniform(EShaderParamType::TEXTURE, "specular");
 	shaders.push_back(basic);
+}
+
+void EditorProject::SetLayout(EEditorLayout layout)
+{
+	switch (layout)
+	{
+	case EEditorLayout::Default: SetLayoutDefault(); break;
+	case EEditorLayout::Tall: SetLayoutTall(); break;
+	case EEditorLayout::Wide: SetLayoutWide(); break;
+	}
+}
+
+void EditorProject::QueueSetLayout(EEditorLayout layout)
+{
+	isLayoutQueued = true;
+	layoutToSet = layout;
+}
+
+void EditorProject::SetLayoutDefault()
+{
+	ImGui::LoadIniSettingsFromDisk((EditorApplication::experioEditorFilePath + "/Resources/Layouts/Default.ini").c_str());
+}
+
+void EditorProject::SetLayoutTall()
+{
+	ImGui::LoadIniSettingsFromDisk((EditorApplication::experioEditorFilePath + "/Resources/Layouts/Tall.ini").c_str());
+}
+
+void EditorProject::SetLayoutWide()
+{
+	ImGui::LoadIniSettingsFromDisk((EditorApplication::experioEditorFilePath + "/Resources/Layouts/Wide.ini").c_str());
 }

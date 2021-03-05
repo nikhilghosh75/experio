@@ -15,6 +15,13 @@ struct FEditorProjectLanguages
 	uint16_t glslVersion; // Stored as preprocessor
 };
 
+enum class EEditorLayout
+{
+	Default,
+	Tall,
+	Wide
+};
+
 class EditorProject
 {
 public:
@@ -30,11 +37,16 @@ public:
 
 	static FEditorProjectLanguages languages;
 
+	static void BeginFrame();
+	static void EndFrame();
+
 	static CodeClass& GetClassOfId(unsigned int id);
 
 	static void ReadProjectFile(const std::string& filepath);
 
 	static void ReadUserFile(const std::string& userFilepath);
+
+	static void SetProjectPaths();
 
 	static void ReadValueFiles();
 
@@ -45,6 +57,20 @@ public:
 	static void TempSetupClasses();
 
 	static void TempSetupMaterials();
+
+	// Layouts
+	static void SetLayout(EEditorLayout layout);
+
+	static void QueueSetLayout(EEditorLayout layout);
+
+private:
+	static void SetLayoutDefault();
+	static void SetLayoutTall();
+	static void SetLayoutWide();
+
+	// This needs to be replaced with a better system later
+	static bool isLayoutQueued;
+	static EEditorLayout layoutToSet;
 };
 
 unsigned int DefaultClassStringToInt(std::string name);
