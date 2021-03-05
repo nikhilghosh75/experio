@@ -30,7 +30,7 @@ Project: Demo Project
 		ClassID: 101
 		Params: 
 			material: ?Standard?/Materials/Test.material
-			meshData: C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Meshes/cube.obj
+			meshData: ?Assets?/Meshes/suzanne.obj
 			isVisible: true
 	}]
 	Children: [{
@@ -41,8 +41,8 @@ Project: Demo Project
 	Components: [{
 		ClassID: 101
 		Params:
-			material: ?Assets?/Materials/Red.material
-			meshData: ?Assets?/Meshes/cube.obj
+			material: ?Standard?/Materials/Test.material
+			meshData: ?Assets?/Meshes/suzanne.obj
 			isVisible: true
 	}]
 	Children: []
