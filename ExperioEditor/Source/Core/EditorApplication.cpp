@@ -36,6 +36,7 @@
 #include "../Terminal/Terminal.h"
 #include "Runtime/Data/LStatistics.h"
 #include "Runtime/Debug/Profiler.h"
+#include "Runtime/Framework/Project.h"
 #include "Runtime/Framework/SceneLoader.h"
 
 std::vector<EditorModule*> EditorApplication::modules;
@@ -61,6 +62,8 @@ std::string EditorApplication::standardAssetsFilePath = "C:/Users/debgh/source/r
 
 EditorApplication::EditorApplication()
 {
+	beginFrameCallback = nullptr;
+	endFrameCallback = nullptr;
 }
 
 EditorApplication::~EditorApplication()
@@ -80,7 +83,9 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	EditorProject::ReadProjectFile(projectFilepath);
 	EditorProject::ReadValueFiles();
 	EditorProject::ReadUserFile("../user.pbuser");
+	EditorProject::SetProjectPaths();
 	EditorProject::SetupRuntimeCompilation();
+	EditorProject::SetLayout(EEditorLayout::Default);
 	EditorProject::TempSetup();
 
 	currentScenePath = defaultScenePath;
@@ -209,12 +214,11 @@ void EditorApplication::AddDefaultModules()
 	modules.push_back(new Inspector());
 	modules.push_back(new GameView());
 	modules.push_back(new Console());
-
-	modules.push_back(new SettingsView());
 }
 
 void EditorApplication::BeginFrame()
 {
+	EditorProject::BeginFrame();
 	EditorWindow::BeginFrame();
 	Project::BeginFrame();
 
@@ -237,7 +241,9 @@ void EditorApplication::EndFrame()
 		endFrameCallback(GameTime::deltaTime);
 	}
 
+	Project::EndFrame();
 	EditorWindow::EndFrame();
+	EditorProject::EndFrame();
 }
 
 void EditorApplication::RenderModules()
