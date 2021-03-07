@@ -376,3 +376,20 @@ TTypedTreeNode<B>* SearchCorrespondingTrees(TTypedTree<A>* treeOne, TTypedTree<B
 		}
 	}
 }
+
+// Excluses self
+template<typename A>
+size_t NumChildrenRecursive(const TTypedTreeNode<A>* node)
+{
+	if (node == nullptr)
+		return 0;
+	if (node->children.size() == 0)
+		return 1;
+
+	size_t numChildren = 0;
+	for (size_t i = 0; i < node->children.size(); i++)
+	{
+		numChildren += NumChildrenRecursive(node->children[i]);
+	}
+	return numChildren;
+}
