@@ -67,7 +67,22 @@ public:
 		this->count = count;
 	}
 
-	TQueue(std::vector<T> objects)
+	TQueue(const TQueue& other)
+	{
+		head = new TQueueNode<T>(other.head->object);
+		TQueueNode<T>* current = head;
+		TQueueNode<T>* otherCurrent = other.head->next;
+		for (size_t i = 1; i < other.count; i++)
+		{
+			this->tail = new TQueueNode<T>(otherCurrent->object);
+			current->next = this->tail;
+			current = current->next;
+			otherCurrent = otherCurrent->next;
+		}
+		this->count = other.count;
+	}
+
+	TQueue(const std::vector<T>& objects)
 	{
 		this->head = new TQueueNode<T>(objects[0]);
 		TQueueNode<T>* current = head;
