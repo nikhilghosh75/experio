@@ -1,5 +1,28 @@
 #include "InputMap.h"
 
+InputAction::InputAction()
+{
+	name = "";
+	code.keycode = EKeyCode::None;
+}
+
+InputAction::InputAction(const std::string& str)
+{
+	name = str;
+}
+
+InputAction::InputAction(const std::string& str, EKeyCode keyCode)
+{
+	name = str;
+	code.keycode = keyCode;
+}
+
+InputAction::InputAction(const std::string& str, EGamepadButton gamepadButton)
+{
+	name = str;
+	code.gamepadButton = gamepadButton;
+}
+
 void InputMap::Resize(uint32_t numCategories, uint32_t numConfigs)
 {
 	this->categories.resize(numCategories);

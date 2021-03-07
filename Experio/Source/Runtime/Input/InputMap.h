@@ -1,4 +1,5 @@
 #pragma once
+#include "InputCodes.h"
 #include <string>
 #include <vector>
 
@@ -11,7 +12,13 @@ enum class EInputType
 
 class InputAction
 {
+	std::string name;
+	InputCode code;
 
+	InputAction();
+	InputAction(const std::string& str);
+	InputAction(const std::string& str, EKeyCode keyCode);
+	InputAction(const std::string& str, EGamepadButton gamepadButton);
 };
 
 class InputConfig
