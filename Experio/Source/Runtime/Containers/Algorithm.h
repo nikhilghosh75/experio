@@ -130,6 +130,27 @@ namespace Experio::Algorithm
 	bool AnyOf(const TUnrolledList<T>& list, std::function<bool(const T&)> compFunc);
 
 	template<typename T>
+	bool NotAllOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool NotAllOf(const TArray<T>& array, std::function<bool(const T&)> compFunc);
+
+	template<typename K, typename V, typename F>
+	bool NotAllOf(const THashtable<K, V, F>& hashtable, std::function<bool(const K&)> compFunc);
+
+	template<typename K, typename V, typename F>
+	bool NotAllOf(const THashtable<K, V, F>& hashtable, std::function<bool(const K&)> compFunc);
+
+	template<typename T>
+	bool NotAllOf(const TQueue<T>& queue, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool NotAllOf(const TTypedTree<T>& tree, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool NotAllOf(const TUnrolledList<T>& list, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
 	bool NoneOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc);
 
 	template<typename T>
@@ -444,6 +465,28 @@ namespace Experio::Algorithm
 				return false;
 		}
 		return true;
+	}
+
+	template<typename T>
+	bool NotAllOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc)
+	{
+		for (size_t i = 0; i < array.Count(); i++)
+		{
+			if (!compFunc(array[i]))
+				return true;
+		}
+		return false;
+	}
+
+	template<typename T>
+	bool AnyOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc)
+	{
+		for (size_t i = 0; i < array.Count(); i++)
+		{
+			if (compFunc(array[i]))
+				return true;
+		}
+		return false;
 	}
 
 	template<typename T>
