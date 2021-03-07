@@ -5,6 +5,11 @@
 struct FRay;
 struct FVector2;
 
+/// <summary>
+/// A camera that is only active in certain circumstances
+/// As many of them can be in a scene as you want
+/// </summary>
+
 class VirtualCamera : public Component
 {
 public:
