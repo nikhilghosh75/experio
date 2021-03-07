@@ -216,7 +216,7 @@ std::string LCodeParser::GetLanguageVersionString(ECodingLanguage language, uint
 	return std::to_string(version);
 }
 
-std::string LCodeParser::GetClassNameFromDeclaration(std::string className)
+std::string LCodeParser::GetClassNameFromDeclaration(const std::string& className)
 {
 	size_t firstSpace = className.find(' ');
 	size_t secondSpace = LString::FindFirstOfChars(className, { ' ', '\n', '\t' }, firstSpace + 1);
@@ -224,7 +224,7 @@ std::string LCodeParser::GetClassNameFromDeclaration(std::string className)
 	return className.substr(firstSpace + 1, secondSpace - firstSpace - 1);
 }
 
-std::vector<std::string> LCodeParser::GetInheritanceFromDeclaration(std::string className)
+std::vector<std::string> LCodeParser::GetInheritanceFromDeclaration(const std::string& className)
 {
 	size_t colonIndex = className.find(':');
 
@@ -404,7 +404,7 @@ bool LCodeParser::IsFunctionToken(const std::string & str, ECodingLanguage langu
 
 #define PB_COMPARE_EXT(_language_, _ext_) if(_language_ == language && ext == _ext_) return true;
 
-bool LCodeParser::IsFilepathOfLanguage(ECodingLanguage language, std::string path)
+bool LCodeParser::IsFilepathOfLanguage(ECodingLanguage language, const std::string& path)
 {
 	if (language == ECodingLanguage::None) return false;
 
@@ -433,6 +433,21 @@ std::string LCodeParser::LanguageToString(ECodingLanguage language)
 	case ECodingLanguage::Python: return "Python";
 	}
 	return "";
+}
+
+size_t LCodeParser::NumInheritsFrom(const CodeProject& project, const std::string& className)
+{
+	TTypedTree<std::string>* inheritance = CreateInheritanceHierarchy(project);
+	TTypedTreeNode<std::string>* base = SearchTree(inheritance, [&className](std::string name) { return name == className; });
+	if (base == nullptr)
+	{
+		delete inheritance;
+		return 0;
+	}
+
+	size_t numInheritsFrom = NumChildrenRecursive(base);
+	delete inheritance;
+	return numInheritsFrom;
 }
 
 CodeArg LCodeParser::ParseCodeArg(const std::string& originalStr, ECodingLanguage language)

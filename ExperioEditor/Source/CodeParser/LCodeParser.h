@@ -36,13 +36,13 @@ public:
 	static EEnumDataType GetEnumDataType(unsigned int numValues);
 	static EEnumDataType GetEnumDataType(const std::string& string, ECodingLanguage language);
 
-	static std::string GetClassNameFromDeclaration(std::string className);
+	static std::string GetClassNameFromDeclaration(const std::string& className);
 
 	static void GetEnumNameValue(const std::string& valueText, int& currentValue, std::string& name, int& value);
 
 	static std::string GetLanguageVersionString(ECodingLanguage language, uint16_t version);
 
-	static std::vector<std::string> GetInheritanceFromDeclaration(std::string className);
+	static std::vector<std::string> GetInheritanceFromDeclaration(const std::string& className);
 
 	static bool InheritsFrom(const CodeClass& codeClass, const std::string& baseClass);
 	static bool InheritsFrom(const CodeClass& codeClass, const CodeClass& baseClass);
@@ -60,9 +60,11 @@ public:
 	static bool IsClassToken(const FileBuffer& buffer, size_t currentIndex, ECodingLanguage language);
 	static bool IsFunctionToken(const std::string& str, ECodingLanguage language);
 
-	static bool IsFilepathOfLanguage(ECodingLanguage language, std::string path);
+	static bool IsFilepathOfLanguage(ECodingLanguage language, const std::string& path);
 
 	static std::string LanguageToString(ECodingLanguage language);
+
+	static size_t NumInheritsFrom(const CodeProject& project, const std::string& className);
 
 	static CodeArg ParseCodeArg(const std::string& str, ECodingLanguage language);
 	static CodeFunction ParseCodeFunction(const std::string& str, ECodingLanguage language);
