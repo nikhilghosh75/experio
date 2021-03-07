@@ -243,6 +243,9 @@
     <ClCompile Include="Source\Terminal\ScreenCommands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CodeParser\CodeAnalytics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\EditorWindow.h">
@@ -531,6 +534,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Terminal\TerminalParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CodeParser\CodeAnalytics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

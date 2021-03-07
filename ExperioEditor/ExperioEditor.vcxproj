@@ -96,6 +96,7 @@
     <ClCompile Include="Source\BuildSystem\BuildSystem.cpp" />
     <ClCompile Include="Source\BuildSystem\CodeGenerator.cpp" />
     <ClCompile Include="Source\BuildSystem\LSerializationOperations.cpp" />
+    <ClCompile Include="Source\CodeParser\CodeAnalytics.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProject.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectGenerator.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectReader.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Source\BuildSystem\CodeGenerator.h" />
     <ClInclude Include="Source\BuildSystem\LSerializationOperations.h" />
     <ClInclude Include="Source\BuildSystem\SerializationInfo.h" />
+    <ClInclude Include="Source\CodeParser\CodeAnalytics.h" />
     <ClInclude Include="Source\CodeParser\CodeArg.h" />
     <ClInclude Include="Source\CodeParser\CodeClass.h" />
     <ClInclude Include="Source\CodeParser\CodeEnum.h" />
