@@ -14,3 +14,11 @@ CONFIG Gamepad Gamepad
 ACTION boost FaceBottom
 AXIS moveX LeftStickX
 AXIS moveY LeftStickY
+
+CATEGORY PauseMenu
+CONFIG Keyboard Keyboard
+ACTION moveLeft LeftArrow
+ACTION moveRight RightArrow
+CONFIG Gamepad Gamepad
+ACTION moveLeft LeftShoulder
+ACTION moveRight RightShoulder
