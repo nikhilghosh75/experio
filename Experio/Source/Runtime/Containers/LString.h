@@ -5,6 +5,10 @@
 
 #include "../Math/LMath.h"
 
+/// <summary>
+/// A set of various general string operations on std::string
+/// </summary>
+
 class LString
 {
 public:

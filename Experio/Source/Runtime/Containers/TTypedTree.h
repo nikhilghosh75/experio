@@ -7,6 +7,10 @@
 #define TYPED_TREE_ADD_CAPACITY 8
 #define MAX_TYPED_TREE_DEPTH 32
 
+/// <summary>
+/// A tree structure where each node can contain any number of children
+/// </summary>
+
 template <class T>
 class TTypedTree;
 

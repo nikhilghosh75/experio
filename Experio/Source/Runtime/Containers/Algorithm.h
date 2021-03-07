@@ -1,10 +1,14 @@
 #pragma once
-#include <vector> // Will be deleted once TArray and TList become integrated
+#include <vector>
 #include "TArray.h"
 #include "THashtable.h"
 #include "TQueue.h"
 #include "TTypedTree.h"
 #include "TUnrolledList.h"
+
+/// <summary>
+/// A list of algorithms meant for templated classes
+/// </summary>
 
 namespace Experio::Algorithm
 {

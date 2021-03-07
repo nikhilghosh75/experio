@@ -2,6 +2,10 @@
 #include <vector>
 #include "../Debug/Debug.h"
 
+/// <summary>
+/// A queue data structure built with nodes
+/// </summary>
+
 template<class T>
 struct TQueueNode
 {

@@ -3,6 +3,12 @@
 #include <stdint.h>
 #include <initializer_list>
 
+/// <summary>
+/// A binary tree that can be used for O(log n) searching/insertion/removal
+/// </summary>
+
+// Currently this is not implemented as a Red/Black Tree, but it will be in the future
+
 template<class T>
 class TBinarySearchNode
 {

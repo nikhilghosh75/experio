@@ -1,6 +1,11 @@
 #pragma once
 #include <stdint.h>
 
+/// <summary>
+/// An array that only exists on the stack but functions like a TArray
+/// Using this avoids a heap allocation
+/// </summary>
+
 template<typename T, uint32_t N>
 class TStackArray
 {
