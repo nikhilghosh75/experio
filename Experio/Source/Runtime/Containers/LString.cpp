@@ -25,6 +25,24 @@ size_t LString::NumOfCharsFront(const std::string & s, char c)
 	return amount;
 }
 
+size_t LString::NumWords(const std::string& s)
+{
+	size_t numWords = 1;
+	for (size_t i = 1; i < s.size(); i++)
+	{
+		if (s[i - 1] == ' ' && s[i] != ' ')
+		{
+			numWords++;
+		}
+	}
+
+	if (s[0] == ' ')
+	{
+		numWords--;
+	}
+	return numWords;
+}
+
 std::string LString::ReplaceAll(std::string s, char from, char to)
 {
 	std::string returnString = s;
