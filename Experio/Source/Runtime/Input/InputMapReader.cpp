@@ -1,6 +1,5 @@
 #include "InputMapReader.h"
 #include "../Files/LFileOperations.h"
-#include <fstream>
 
 InputMap InputMapReader::ReadInputMap(const std::string & filepath)
 {
@@ -46,6 +45,10 @@ InputMap InputMapReader::ReadInputMap(const std::string & filepath)
 			inFile >> str;
 			config.inputType = StringToInputType(str);
 		}
+		else if (str == "ACTION")
+		{
+			ParseAction(inFile, config);
+		}
 	}
 
 	return map;
@@ -56,4 +59,17 @@ EInputType InputMapReader::StringToInputType(const std::string& type)
 	if (type == "Keyboard")
 		return EInputType::Keyboard;
 	return EInputType::Gamepad;
+}
+
+void InputMapReader::ParseAction(std::ifstream& inFile, InputConfig& config)
+{
+	std::string actionName;
+	std::string actionBinding;
+	inFile >> actionName >> actionBinding;
+
+
+}
+
+void InputMapReader::ParseAxis(std::ifstream& inFile, InputConfig& config)
+{
 }

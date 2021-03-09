@@ -3,13 +3,6 @@
 #include <string>
 #include <vector>
 
-// Add more categories for input later
-enum class EInputType
-{
-	Keyboard,
-	Gamepad
-};
-
 class InputAction
 {
 	std::string name;
