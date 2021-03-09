@@ -103,6 +103,31 @@ std::string LFileOperations::BytesToString(uint64_t bytes, int sigFigs, bool tru
 	return std::to_string(bytes) + " B";
 }
 
+void LFileOperations::CorrectFilepath(char* filepath)
+{
+	size_t i = 0;
+	while (filepath[i] != 0)
+	{
+		if (filepath[i] == '\\')
+		{
+			filepath[i] = '/';
+		}
+		i++;
+	}
+}
+
+void LFileOperations::CorrectFilepath(std::string& filepath)
+{
+	// Loop through the string and replace all '\\' with '/'
+	for (size_t i = 0; i < filepath.size(); i++)
+	{
+		if (filepath[i] == '\\')
+		{
+			filepath[i] = '/';
+		}
+	}
+}
+
 TTypedTree<fs::directory_entry>* LFileOperations::CreateFileTree(std::string directoryRoot, EFileTreeOptions options)
 {
 	TTypedTree<fs::directory_entry>* tree = new TTypedTree<fs::directory_entry>();

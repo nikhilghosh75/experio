@@ -39,6 +39,9 @@ public:
 
 	static std::string BytesToString(uint64_t bytes, int sigFigs, bool truncate = false);
 
+	static void CorrectFilepath(char* filepath);
+	static void CorrectFilepath(std::string& filepath);
+
 	static TTypedTree<std::filesystem::directory_entry>* CreateFileTree(
 		std::string directoryRoot, EFileTreeOptions options = EFileTreeOptions::DisplayDirectoriesAndFiles);
 
