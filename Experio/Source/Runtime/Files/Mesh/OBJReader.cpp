@@ -99,7 +99,7 @@ MeshData * OBJReader::ReadFile(const char * fileName)
 	}
 
 	glm::vec3* normalData = new glm::vec3[normalIndicies.size()];
-	for (int i = 0; i < normalIndicies.size(); i++)
+	for (size_t i = 0; i < normalIndicies.size(); i++)
 	{
 		normalData[i] = tempNormals[normalIndicies[i] - 1];
 	}
