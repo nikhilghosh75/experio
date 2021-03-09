@@ -438,7 +438,7 @@ std::string LCodeParser::LanguageToString(ECodingLanguage language)
 size_t LCodeParser::NumInheritsFrom(const CodeProject& project, const std::string& className)
 {
 	TTypedTree<std::string>* inheritance = CreateInheritanceHierarchy(project);
-	TTypedTreeNode<std::string>* base = SearchTree(inheritance, [&className](std::string name) { return name == className; });
+	TTypedTreeNode<std::string>* base = SearchTree<std::string>(inheritance, [&className](std::string name) { return name == className; });
 	if (base == nullptr)
 	{
 		delete inheritance;

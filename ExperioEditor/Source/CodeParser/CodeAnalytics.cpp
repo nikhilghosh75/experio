@@ -72,4 +72,5 @@ void GenerateCodeAnalyticsFromProject(CodeAnalytics& analytics, const CodeProjec
 	analytics.numFunctions = project.functions.size();
 
 	CalculateNumLines(analytics, project);
+	CalculateExperioSpecificInfo(analytics, project);
 }
