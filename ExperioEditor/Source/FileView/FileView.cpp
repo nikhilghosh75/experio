@@ -178,6 +178,11 @@ void FileView::DisplayContents()
 		std::string pathString = p.path().filename().string();
 		EAssetType type = LFileOperations::GetFileType(pathString);
 
+		if (type == EAssetType::Meta)
+		{
+			continue;
+		}
+
 		if (!fileMask.CompareFile(FFileCategory(type, false)))
 		{
 			continue;

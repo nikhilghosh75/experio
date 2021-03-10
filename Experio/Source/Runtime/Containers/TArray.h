@@ -5,6 +5,11 @@
 #include <functional>
 #include <initializer_list>
 
+/// <summary>
+/// A dynamic array-like class that grows/shrinks
+/// Equivalent to std::vector
+/// </summary>
+
 struct StandardGrowFunc
 {
 public:

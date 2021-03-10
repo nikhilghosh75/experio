@@ -31,6 +31,8 @@ private:
 	glm::mat4 GetViewMatrix();
 
 	glm::mat4 GetProjectionMatrix();
+
+	void SetupShaders();
 public:
 	ERenderMode currentMode = ERenderMode::ToCameraSystem;
 

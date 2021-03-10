@@ -31,8 +31,7 @@ Shader* basicShader = nullptr;
 
 Renderer::Renderer()
 {
-	billboardShader = ShaderReader::ReadShader(
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/Billboard.shader");
+	SetupShaders();
 	defaultVertexLayout.PushFloat(3);
 }
 
@@ -67,6 +66,17 @@ glm::mat4 Renderer::GetProjectionMatrix()
 		return AdditionalCameras::projectionMatrix;
 	}
 	return glm::mat4();
+}
+
+void Renderer::SetupShaders()
+{
+	std::string standardShadersPath = "";
+	if (Project::inEditor)
+	{
+		standardShadersPath = Project::experioResourcesPath + "/Standard/Shaders";
+	}
+
+	billboardShader = ShaderReader::ReadShader(standardShadersPath + "/Billboard.shader");
 }
 
 void Renderer::LogRenderingError()

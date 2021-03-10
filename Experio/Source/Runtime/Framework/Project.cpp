@@ -23,6 +23,9 @@ bool Project::inEditor = false;
 bool Project::projectRunning = false;
 std::string Project::projectName = projectName;
 
+std::string Project::projectAssetsPath = "";
+std::string Project::experioResourcesPath = "";
+
 ComponentManager* Project::componentManager;
 MaterialManager* Project::materialManager;
 

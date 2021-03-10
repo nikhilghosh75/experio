@@ -1,4 +1,5 @@
 #include "BinFontReader.h"
+#include "LFontOperations.h"
 #include "../../Debug/Debug.h"
 #include "../../Debug/Profiler.h"
 #include "../../Framework/AssetMap.h"
@@ -13,7 +14,7 @@ FontData * BinFontReader::ReadFile(const char * fileName)
 
 	char check[9];
 	inFile.read(check, 8);
-	check[8] = '\n';
+	check[8] = '\0';
 	if (strcmp(check, "PBBFONT ") != 0)
 	{
 		Debug::LogError("Incorrect File Format");
@@ -48,4 +49,19 @@ FontData * BinFontReader::ReadFile(const char * fileName)
 	}
 
 	return font;
+}
+
+size_t BinFontReader::SerializedSizeOf(const char * fileName)
+{
+	std::ifstream inFile(fileName, std::ios::binary);
+
+	char check[9];
+	inFile.read(check, 8);
+
+	char header[52];
+	inFile.read(header, 52);
+
+	uint32_t numCharacters = *(uint32_t*)&(header[4]);
+
+	return LFontOperations::SerializedSizeOf(numCharacters);
 }

@@ -17,12 +17,14 @@ class ShaderReader
 public:
 	static Shader* ReadShader(const std::string& filepath);
 
+	static FShaderDataInternal ParseShader(const std::string& filepath);
+
+	static std::string LanguageToString(EShaderLanguage language);
+
 private:
 	static unsigned int CompileShader(const std::string & source, unsigned int type);
 
 	static unsigned int CreateShader(const std::string & vertexShader, const std::string & fragmentShader);
-
-	static FShaderDataInternal ParseShader(const std::string& filepath);
 
 	static EShaderLanguage GetLanguageFromString(const std::string& languageType);
 

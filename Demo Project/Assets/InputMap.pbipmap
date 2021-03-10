@@ -1,0 +1,24 @@
+EXPERIO INPUT MAP
+2 3
+
+CATEGORY Spaceship
+CONFIG Keyboard1 Keyboard
+ACTION boost Space
+AXIS moveX 2 A -1.0 D 1.0
+AXIS moveY 2 W 1.0 S -1.0
+CONFIG Keyboard2 Keyboard
+ACTION boost Space
+AXIS moveX 2 LeftArrow -1.0 RightArrow 1.0
+AXIS moveY 2 UpArrow 1.0 DownArrow -1.0
+CONFIG Gamepad Gamepad
+ACTION boost FaceBottom
+AXIS moveX LeftStickX
+AXIS moveY LeftStickY
+
+CATEGORY PauseMenu
+CONFIG Keyboard Keyboard
+ACTION moveLeft LeftArrow
+ACTION moveRight RightArrow
+CONFIG Gamepad Gamepad
+ACTION moveLeft LeftShoulder
+ACTION moveRight RightShoulder

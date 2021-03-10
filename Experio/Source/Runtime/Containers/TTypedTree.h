@@ -7,6 +7,10 @@
 #define TYPED_TREE_ADD_CAPACITY 8
 #define MAX_TYPED_TREE_DEPTH 32
 
+/// <summary>
+/// A tree structure where each node can contain any number of children
+/// </summary>
+
 template <class T>
 class TTypedTree;
 
@@ -371,4 +375,21 @@ TTypedTreeNode<B>* SearchCorrespondingTrees(TTypedTree<A>* treeOne, TTypedTree<B
 			return temp;
 		}
 	}
+}
+
+// Excluses self
+template<typename A>
+size_t NumChildrenRecursive(const TTypedTreeNode<A>* node)
+{
+	if (node == nullptr)
+		return 0;
+	if (node->children.size() == 0)
+		return 1;
+
+	size_t numChildren = 0;
+	for (size_t i = 0; i < node->children.size(); i++)
+	{
+		numChildren += NumChildrenRecursive(node->children[i]);
+	}
+	return numChildren;
 }

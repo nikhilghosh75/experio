@@ -7,7 +7,9 @@
 #include "../BuildSystem/BuildSystem.h"
 #include "../FileView/FileView.h"
 #include "../Framework/CreateMenu.h"
+#include "../Framework/EditorProject.h"
 #include "../Framework/ImportSystem.h"
+#include "../Framework/MetaSystem.h"
 #include "../Framework/PlaySystem.h"
 #include "../Framework/UndoSystem.h"
 #include "../Framework/SceneSaver.h"
@@ -149,6 +151,10 @@ void UpperMenu::CreateAssetMenu()
 		{
 			FileView::fileView->Reload();
 		}
+		if (ImGui::MenuItem("Regenerate Meta Files"))
+		{
+			MetaSystem::FixMetafiles();
+		}
 
 		ImGui::EndMenu();
 	}
@@ -179,6 +185,23 @@ void UpperMenu::CreateWindowMenu()
 {
 	if (ImGui::BeginMenu("Window"))
 	{
+		if (ImGui::BeginMenu("Layout"))
+		{
+			if (ImGui::MenuItem("Default"))
+			{
+				EditorProject::QueueSetLayout(EEditorLayout::Default);
+			}
+			if (ImGui::MenuItem("Tall"))
+			{
+				EditorProject::QueueSetLayout(EEditorLayout::Tall);
+			}
+			if (ImGui::MenuItem("Wide"))
+			{
+				EditorProject::QueueSetLayout(EEditorLayout::Wide);
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::Separator();
 		if (ImGui::BeginMenu("Profiling"))
 		{
 			if (ImGui::MenuItem("Memory Profiler"))

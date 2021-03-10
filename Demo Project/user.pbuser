@@ -2,7 +2,7 @@
 Username = "Nikhilbot75"
 
 [Filepaths]
-Experio = "C:/Users/debgh/source/repos/project-bloo/Experio"
-ExperioEditor = "C:/Users/debgh/source/repos/project-bloo/ExperioEditor"
-Binaries = "C:/Users/debgh/source/repos/project-bloo/bin"
-Dependencies = "C:/Users/debgh/source/repos/project-bloo/Dependencies"
+Experio = "C:/Users/debgh/source/repos/experio/Experio"
+ExperioEditor = "C:/Users/debgh/source/repos/experio/ExperioEditor"
+Binaries = "C:/Users/debgh/source/repos/experio/bin"
+Dependencies = "C:/Users/debgh/source/repos/experio/Dependencies"

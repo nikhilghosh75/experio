@@ -6,6 +6,10 @@
 struct FRay;
 struct FVector2;
 
+/// <summary>
+/// Controls the additional camera, such as the editor camera or the debug camera
+/// </summary>
+
 class AdditionalCameras
 {
 public:

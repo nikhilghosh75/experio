@@ -1,10 +1,14 @@
 #pragma once
-#include <vector> // Will be deleted once TArray and TList become integrated
+#include <vector>
 #include "TArray.h"
 #include "THashtable.h"
 #include "TQueue.h"
 #include "TTypedTree.h"
 #include "TUnrolledList.h"
+
+/// <summary>
+/// A list of algorithms meant for templated classes
+/// </summary>
 
 namespace Experio::Algorithm
 {
@@ -124,6 +128,27 @@ namespace Experio::Algorithm
 
 	template<typename T>
 	bool AnyOf(const TUnrolledList<T>& list, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool NotAllOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool NotAllOf(const TArray<T>& array, std::function<bool(const T&)> compFunc);
+
+	template<typename K, typename V, typename F>
+	bool NotAllOf(const THashtable<K, V, F>& hashtable, std::function<bool(const K&)> compFunc);
+
+	template<typename K, typename V, typename F>
+	bool NotAllOf(const THashtable<K, V, F>& hashtable, std::function<bool(const K&)> compFunc);
+
+	template<typename T>
+	bool NotAllOf(const TQueue<T>& queue, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool NotAllOf(const TTypedTree<T>& tree, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
+	bool NotAllOf(const TUnrolledList<T>& list, std::function<bool(const T&)> compFunc);
 
 	template<typename T>
 	bool NoneOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc);
@@ -440,6 +465,28 @@ namespace Experio::Algorithm
 				return false;
 		}
 		return true;
+	}
+
+	template<typename T>
+	bool NotAllOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc)
+	{
+		for (size_t i = 0; i < array.Count(); i++)
+		{
+			if (!compFunc(array[i]))
+				return true;
+		}
+		return false;
+	}
+
+	template<typename T>
+	bool AnyOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc)
+	{
+		for (size_t i = 0; i < array.Count(); i++)
+		{
+			if (compFunc(array[i]))
+				return true;
+		}
+		return false;
 	}
 
 	template<typename T>

@@ -128,6 +128,9 @@ void EditorWindow::BeginFrame()
 
 void EditorWindow::EndFrame()
 {
+	if (!isActive)
+		return;
+
 	ImGui::Render();
 	HDC deviceContext = GetDC(hwnd);
 	wglMakeCurrent(deviceContext, glRenderContext);

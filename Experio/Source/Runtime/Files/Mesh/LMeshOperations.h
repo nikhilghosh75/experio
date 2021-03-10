@@ -1,9 +1,9 @@
 #pragma once
 
 #include "MeshReader.h"
-#include "../../Rendering/Managers/MeshManager.h"
 #include "../../Rendering/VertexArray.h"
 #include "../../Rendering/IndexBuffer.h"
+#include "../../Rendering/Managers/MeshManager.h"
 
 class LMeshOperations
 {
@@ -19,4 +19,6 @@ public:
 
 	static size_t SizeOfMesh(const MeshData& data);
 	static size_t SizeOfMesh(const MeshRef& ref);
+
+	static uint8_t GetIndexType(uint32_t numVerticies);
 };

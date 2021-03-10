@@ -4,6 +4,11 @@
 #include <vector>
 #include "TPair.h"
 
+/// <summary>
+/// A container used for storing key/value pairs
+/// Equivalent to std::unordered_map
+/// </summary>
+
 #define HASHTABLE_START_CAPACITY 8
 
 template<typename K, typename V>
@@ -57,6 +62,10 @@ public:
 		return static_cast<unsigned long>(key) % tableCapacity;
 	}
 };
+
+// Note that we don't implement a [] operator for THashtable because
+// the [] operator should be used for keys that definitely exist.
+// Based on feedback, this may be changed later.
 
 template<typename K, typename V, typename F = HashFunction<K>>
 class THashtable

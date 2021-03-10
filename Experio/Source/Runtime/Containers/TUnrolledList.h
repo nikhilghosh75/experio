@@ -1,6 +1,10 @@
 #pragma once
 #include <string>
 
+/// <summary>
+/// An experimental container representing an unrolled doubly-linked list
+/// </summary>
+
 template<typename T>
 class TUnrolledElement
 {

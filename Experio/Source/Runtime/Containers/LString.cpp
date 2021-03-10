@@ -25,6 +25,24 @@ size_t LString::NumOfCharsFront(const std::string & s, char c)
 	return amount;
 }
 
+size_t LString::NumWords(const std::string& s)
+{
+	size_t numWords = 1;
+	for (size_t i = 1; i < s.size(); i++)
+	{
+		if (s[i - 1] == ' ' && s[i] != ' ')
+		{
+			numWords++;
+		}
+	}
+
+	if (s[0] == ' ')
+	{
+		numWords--;
+	}
+	return numWords;
+}
+
 std::string LString::ReplaceAll(std::string s, char from, char to)
 {
 	std::string returnString = s;
@@ -160,22 +178,30 @@ int LString::StringToInt(const std::string& str)
 	return isPositive ? integer : integer * -1;
 }
 
+uint8_t LString::StringToUByte(const std::string& str)
+{
+	uint8_t unsignedByte = 0;
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (IsNumeric(str[i]))
+		{
+			unsignedByte = (unsignedByte * 10) + CharToInt(str[i]);
+		}
+	}
+	return unsignedByte;
+}
+
 unsigned int LString::StringToUInt(const std::string & str)
 {
 	unsigned int unsignedInteger = 0;
-	bool isPositive = true;
 	for (int i = 0; i < str.size(); i++)
 	{
-		if (str[i] == '-')
-		{
-			isPositive = false;
-		}
-		else if (IsNumeric(str[i]))
+		if (IsNumeric(str[i]))
 		{
 			unsignedInteger = (unsignedInteger * 10) + CharToInt(str[i]);
 		}
 	}
-	return isPositive ? unsignedInteger : unsignedInteger * -1;
+	return unsignedInteger;
 }
 
 std::string LString::ToCamelCase(const std::string& str)
@@ -292,6 +318,11 @@ std::string LString::LongLongToHexString(uint64_t n)
 	std::stringstream ss;
 	ss << std::hex << n;
 	return ss.str();
+}
+
+std::string LString::BoolToString(bool b)
+{
+	return b ? "true" : "false";
 }
 
 constexpr int LString::CharToInt(char c)

@@ -3,6 +3,7 @@
 #include "Runtime/Framework/Project.h"
 #include "Runtime/Math/ColorPalette.h"
 #include "Runtime/Math/LMath.h"
+#include "../Core/EditorApplication.h"
 #include "../Core/EditorWindow.h"
 #include "../Framework/PlaySystem.h"
 
@@ -36,9 +37,9 @@ GameView::GameView()
 	this->name = "Game View";
 	this->category = EEditorModuleCategory::Core;
 
-	this->playButtonImage = TextureManager::LoadTexture("C:/Users/debgh/source/repos/project-bloo/ExperioEditor/Resources/Textures/Play-Button.bmp");
-	this->pauseButtonImage = TextureManager::LoadTexture("C:/Users/debgh/source/repos/project-bloo/ExperioEditor/Resources/Textures/Pause-Button.bmp");
-	this->stopButtonImage = TextureManager::LoadTexture("C:/Users/debgh/source/repos/project-bloo/ExperioEditor/Resources/Textures/Stop-Button.bmp");
+	this->playButtonImage = TextureManager::LoadTexture(EditorApplication::experioEditorFilePath + "/Resources/Textures/Play-Button.bmp");
+	this->pauseButtonImage = TextureManager::LoadTexture(EditorApplication::experioEditorFilePath + "/Resources/Textures/Pause-Button.bmp");
+	this->stopButtonImage = TextureManager::LoadTexture(EditorApplication::experioEditorFilePath + "/Resources/Textures/Stop-Button.bmp");
 
 	renderer.currentMode = ERenderMode::ToCameraSystem;
 

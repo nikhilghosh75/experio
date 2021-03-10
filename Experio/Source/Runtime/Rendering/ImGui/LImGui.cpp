@@ -158,6 +158,7 @@ void LImGui::DisplayFontAsset(FontRef & ref, std::string name)
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_FONT"))
 		{
 			char* fontName = (char*)payload->Data;
+			LFileOperations::CorrectFilepath(fontName);
 			ref = FontManager::LoadFont(fontName);
 		}
 	}
@@ -251,9 +252,9 @@ void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
 	}
 	else
 	{
-	std::string meshFileName = MeshManager::GetNameOfMesh(ref);
-	std::string meshName = LFileOperations::StripFilename(meshFileName);
-	ImGui::Text(meshName.c_str());
+		std::string meshFileName = MeshManager::GetNameOfMesh(ref);
+		std::string meshName = LFileOperations::StripFilename(meshFileName);
+		ImGui::Text(meshName.c_str());
 	}
 
 	if (ImGui::BeginDragDropTarget())
@@ -261,6 +262,7 @@ void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_MESH"))
 		{
 			char* meshName = (char*)payload->Data;
+			LFileOperations::CorrectFilepath(meshName);
 			ref = MeshManager::LoadMesh(meshName);
 		}
 	}
@@ -346,6 +348,7 @@ void LImGui::DisplayTextureAsset(TextureRef & ref, std::string name)
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_IMAGE"))
 		{
 			char* imageName = (char*)payload->Data;
+			LFileOperations::CorrectFilepath(imageName);
 			ref = TextureManager::LoadTexture(imageName);
 		}
 	}

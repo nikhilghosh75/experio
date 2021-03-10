@@ -5,7 +5,8 @@
 enum class EInputType
 {
 	Keyboard,
-	Mouse
+	Mouse,
+	Gamepad
 };
 
 enum class EKeyCode
@@ -150,4 +151,35 @@ enum class EMouseStatus
 	DownThisFrame,
 	Up,
 	UpThisFrame
+};
+
+enum class EGamepadButton
+{
+	None,
+	DPadNorth,
+	DPadSouth,
+	DPadEast,
+	DPadWest,
+	ButtonNorth,
+	ButtonSouth,
+	ButtonEast,
+	ButtonWest,
+	LeftShoulder,
+	RightShoulder,
+	LeftTrigger,
+	RightTrigger,
+	Start,
+	Select,
+	LeftStick,
+	RightStick
+};
+
+// Add Input Code union
+struct InputCode
+{
+	union
+	{
+		EKeyCode keycode;
+		EGamepadButton gamepadButton;
+	};
 };

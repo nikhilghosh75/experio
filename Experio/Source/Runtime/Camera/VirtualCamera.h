@@ -1,9 +1,14 @@
 #pragma once
 #include "../Framework/Framework.h"
-#include "C:\Users\debgh\source\repos\project-bloo\Dependencies\glm\glm\glm.hpp"
+#include <glm/glm.hpp>
 
 struct FRay;
 struct FVector2;
+
+/// <summary>
+/// A camera that is only active in certain circumstances
+/// As many of them can be in a scene as you want
+/// </summary>
 
 class VirtualCamera : public Component
 {

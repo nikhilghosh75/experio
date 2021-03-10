@@ -14,19 +14,19 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FBAF0F06-0BBD-4565-9378-6C95CB3C7296}</ProjectGuid>
     <RootNamespace>ExperioEditor</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -58,7 +58,7 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>EXPERIO_EDITOR;PLATFORM_WINDOWS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EXPERIO_EDITOR;PLATFORM_WINDOWS;GLEW_STATIC;_GDI32_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\x64;$(SolutionDir)bin\x64\Debug\Engine;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AssetDatabase\SQLParser.cpp" />
     <ClCompile Include="Source\AssetViewers\FontViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\ImageViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\LayerEditor.cpp" />
@@ -95,6 +96,7 @@
     <ClCompile Include="Source\BuildSystem\BuildSystem.cpp" />
     <ClCompile Include="Source\BuildSystem\CodeGenerator.cpp" />
     <ClCompile Include="Source\BuildSystem\LSerializationOperations.cpp" />
+    <ClCompile Include="Source\CodeParser\CodeAnalytics.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProject.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectGenerator.cpp" />
     <ClCompile Include="Source\CodeParser\CodeProjectReader.cpp" />
@@ -120,6 +122,7 @@
     <ClCompile Include="Source\Files\MeshConverter.cpp" />
     <ClCompile Include="Source\Files\SceneConverter.cpp" />
     <ClCompile Include="Source\FileView\FileView.cpp" />
+    <ClCompile Include="Source\Framework\AssetManager.cpp" />
     <ClCompile Include="Source\Framework\Compilation\CompilationParser.cpp" />
     <ClCompile Include="Source\Framework\Compilation\CompilationSystem.cpp" />
     <ClCompile Include="Source\Framework\CreateMenu.cpp" />
@@ -127,6 +130,7 @@
     <ClCompile Include="Source\Framework\EditorProject.cpp" />
     <ClCompile Include="Source\Framework\EditorShortcuts.cpp" />
     <ClCompile Include="Source\Framework\ImportSystem.cpp" />
+    <ClCompile Include="Source\Framework\MetaSystem.cpp" />
     <ClCompile Include="Source\Framework\NotificationSystem.cpp" />
     <ClCompile Include="Source\Framework\PlaySystem.cpp" />
     <ClCompile Include="Source\Framework\SaveParams.cpp" />
@@ -138,26 +142,34 @@
     <ClCompile Include="Source\Framework\Version.cpp" />
     <ClCompile Include="Source\GameView\GameView.cpp" />
     <ClCompile Include="Source\Import Scripts\MTLImporter.cpp" />
+    <ClCompile Include="Source\Import Scripts\OBJImporter.cpp" />
     <ClCompile Include="Source\Inspector\Inspector.cpp" />
     <ClCompile Include="Source\Materials\MaterialEditor.cpp" />
     <ClCompile Include="Source\Materials\MaterialSaver.cpp" />
     <ClCompile Include="Source\Profilers\MemoryProfiler.cpp" />
     <ClCompile Include="Source\Profilers\TimeProfiler.cpp" />
+    <ClCompile Include="Source\ProjectSettings\AudioSettings.cpp" />
     <ClCompile Include="Source\ProjectSettings\BuildSettings.cpp" />
+    <ClCompile Include="Source\ProjectSettings\EditorSettings.cpp" />
     <ClCompile Include="Source\ProjectSettings\LanguageSettings.cpp" />
     <ClCompile Include="Source\ProjectSettings\ProjectSettings.cpp" />
     <ClCompile Include="Source\ProjectSettings\RenderingSettings.cpp" />
     <ClCompile Include="Source\ProjectSettings\SettingsView.cpp" />
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
-    <ClCompile Include="Source\Terminal\AddLayer.cpp" />
-    <ClCompile Include="Source\Terminal\AddTag.cpp" />
+    <ClCompile Include="Source\Terminal\CodeAnalysisCommands.cpp" />
+    <ClCompile Include="Source\Terminal\SceneCommands.cpp" />
+    <ClCompile Include="Source\Terminal\ScreenCommands.cpp" />
+    <ClCompile Include="Source\Terminal\SizeCommands.cpp" />
     <ClCompile Include="Source\Terminal\Terminal.cpp" />
+    <ClCompile Include="Source\Terminal\ValueCommands.cpp" />
     <ClCompile Include="Source\Testing\TestManager.cpp" />
     <ClCompile Include="Source\Testing\TestRunner.cpp" />
     <ClCompile Include="Source\Testing\UnitTestingFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AssetDatabase\SQLCommand.h" />
+    <ClInclude Include="Source\AssetDatabase\SQLParser.h" />
     <ClInclude Include="Source\AssetViewers\FontViewer.h" />
     <ClInclude Include="Source\AssetViewers\ImageViewer.h" />
     <ClInclude Include="Source\AssetViewers\LayerEditor.h" />
@@ -169,6 +181,7 @@
     <ClInclude Include="Source\BuildSystem\CodeGenerator.h" />
     <ClInclude Include="Source\BuildSystem\LSerializationOperations.h" />
     <ClInclude Include="Source\BuildSystem\SerializationInfo.h" />
+    <ClInclude Include="Source\CodeParser\CodeAnalytics.h" />
     <ClInclude Include="Source\CodeParser\CodeArg.h" />
     <ClInclude Include="Source\CodeParser\CodeClass.h" />
     <ClInclude Include="Source\CodeParser\CodeEnum.h" />
@@ -205,6 +218,7 @@
     <ClInclude Include="Source\Files\MeshConverter.h" />
     <ClInclude Include="Source\Files\SceneConverter.h" />
     <ClInclude Include="Source\FileView\FileView.h" />
+    <ClInclude Include="Source\Framework\AssetManager.h" />
     <ClInclude Include="Source\Framework\Compilation\CompilationInfo.h" />
     <ClInclude Include="Source\Framework\Compilation\CompilationParser.h" />
     <ClInclude Include="Source\Framework\Compilation\CompilationResult.h" />
@@ -215,6 +229,7 @@
     <ClInclude Include="Source\Framework\EditorProject.h" />
     <ClInclude Include="Source\Framework\EditorShortcuts.h" />
     <ClInclude Include="Source\Framework\ImportSystem.h" />
+    <ClInclude Include="Source\Framework\MetaSystem.h" />
     <ClInclude Include="Source\Framework\NotificationSystem.h" />
     <ClInclude Include="Source\Framework\PlaySystem.h" />
     <ClInclude Include="Source\Framework\SaveParams.h" />
@@ -235,7 +250,9 @@
     <ClInclude Include="Source\Materials\ShaderParser.h" />
     <ClInclude Include="Source\Profilers\MemoryProfiler.h" />
     <ClInclude Include="Source\Profilers\TimeProfiler.h" />
+    <ClInclude Include="Source\ProjectSettings\AudioSettings.h" />
     <ClInclude Include="Source\ProjectSettings\BuildSettings.h" />
+    <ClInclude Include="Source\ProjectSettings\EditorSettings.h" />
     <ClInclude Include="Source\ProjectSettings\LanguageSettings.h" />
     <ClInclude Include="Source\ProjectSettings\ProjectSettingModule.h" />
     <ClInclude Include="Source\ProjectSettings\ProjectSettings.h" />
@@ -245,6 +262,7 @@
     <ClInclude Include="Source\SceneView\SceneView.h" />
     <ClInclude Include="Source\Terminal\Terminal.h" />
     <ClInclude Include="Source\Terminal\TerminalCommands.h" />
+    <ClInclude Include="Source\Terminal\TerminalParser.h" />
     <ClInclude Include="Source\Testing\Assert.h" />
     <ClInclude Include="Source\Testing\TestManager.h" />
     <ClInclude Include="Source\Testing\TestRunner.h" />
@@ -254,6 +272,11 @@
     <ProjectReference Include="..\Experio\Experio.vcxproj">
       <Project>{06597ef7-d716-4da4-8727-0daf4e8a67c1}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\Layouts\Default.ini" />
+    <Text Include="Resources\Layouts\Tall.ini" />
+    <Text Include="Resources\Layouts\Wide.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -241,6 +241,16 @@ void GameObject::SetTransform(glm::mat4 localMatrix)
 	this->localScale = (FVector3)scale;
 }
 
+void GameObject::SetTag(unsigned short newTag)
+{
+	this->tag = newTag;
+}
+
+void GameObject::SetTag(const std::string& newTag)
+{
+	this->tag = Project::TagStringToNum(newTag.c_str());
+}
+
 void GameObject::EmptyChildren()
 {
 	this->children.clear();

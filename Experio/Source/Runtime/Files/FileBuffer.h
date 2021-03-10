@@ -97,7 +97,7 @@ public:
 		if(offset == 0)
 			offset = size - 1;
 
-		for (size_t i = offset; i >= 0; i--)
+		for (size_t i = offset; i < size; i--)
 		{
 			if (data[i] == c)
 				return i;
@@ -111,7 +111,7 @@ public:
 		if (offset == 0 || offset > size - substr.size())
 			offset = size - 1 - substr.size();
 
-		for (size_t i = offset; i >= 0; i--)
+		for (size_t i = offset; i < size; i--)
 		{
 			bool compare = true;
 			for (size_t j = 0; j < substr.size(); j++)
@@ -124,5 +124,20 @@ public:
 		}
 
 		return std::string::npos;
+	}
+
+	size_t NumOfCharacter(char c, size_t offset = 0) const
+	{
+		size_t count = 0;
+
+		for (size_t i = offset; i < size; i++)
+		{
+			if (data[i] == c)
+			{
+				count++;
+			}
+		}
+
+		return count;
 	}
 };

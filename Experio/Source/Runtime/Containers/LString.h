@@ -5,9 +5,15 @@
 
 #include "../Math/LMath.h"
 
+/// <summary>
+/// A set of various general string operations on std::string
+/// </summary>
+
 class LString
 {
 public:
+	static std::string BoolToString(bool b);
+
 	constexpr static int CharToInt(char c);
 
 	static bool CompareSubstr(const std::string& original, const std::string& substr, size_t offset);
@@ -57,6 +63,8 @@ public:
 
 	static size_t NumOfCharsFront(const std::string& s, char c);
 
+	static size_t NumWords(const std::string& s);
+
 	static std::string ReplaceAll(std::string s, char from, char to);
 
 	static std::vector<std::string> SeperateStringByChar(std::string str, char c, bool removeZeroLength = true);
@@ -66,6 +74,8 @@ public:
 	static std::vector<float> StringToFloatVector(const std::string& str, char seperator = ' ');
 
 	static int StringToInt(const std::string& str);
+
+	static uint8_t StringToUByte(const std::string& str);
 
 	static unsigned int StringToUInt(const std::string& str);
 

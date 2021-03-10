@@ -1,5 +1,9 @@
 #pragma once
 
+/// <summary>
+/// A templated class representing a pair of two values
+/// </summary>
+
 template<typename T1, typename T2>
 class TPair
 {

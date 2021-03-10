@@ -3,6 +3,10 @@
 #include "VirtualCamera.h"
 #include <vector>
 
+/// <summary>
+/// A system over the Virtual Cameras that control them
+/// </summary>
+
 class CameraSystem : public System<VirtualCamera>
 {
 	std::vector<VirtualCamera> cameras;

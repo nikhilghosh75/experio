@@ -2,6 +2,11 @@
 #include <vector>
 #include <string>
 
+/// <summary>
+/// A class representing a datatable.
+/// Intended to query easily
+/// </summary>
+
 enum class EDataColumnType
 {
 	INT,
