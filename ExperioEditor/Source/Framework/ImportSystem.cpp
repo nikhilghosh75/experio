@@ -1,4 +1,5 @@
 #include "ImportSystem.h"
+#include "MetaSystem.h"
 #include "../Import Scripts/ImportScripts.h"
 #include <filesystem>
 #include "Runtime/Files/LFileOperations.h"
@@ -9,6 +10,7 @@ ImportScriptManager* ImportSystem::manager;
 void ImportSystem::Initialize()
 {
 	manager->importFunctions.push_back(std::function<EImportHandlerResult(FImportInfo)>(ImportMTL));
+	manager->importFunctions.push_back(std::function<EImportHandlerResult(FImportInfo)>(ImportOBJ));
 }
 
 void ImportSystem::Shutdown()
@@ -35,6 +37,8 @@ void ImportSystem::Import(const std::string & fromFilepath, const std::string & 
 		EImportHandlerResult result = manager->importFunctions[i](info);
 		if (result != EImportHandlerResult::NotHandled) break;
 	}
+
+	MetaSystem::GenerateMetaFile(info.filepath);
 }
 
 bool ImportSystem::RejectAssetType(EAssetType type)
