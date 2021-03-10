@@ -1,5 +1,7 @@
 #include "ProjectSettings.h"
+#include "AudioSettings.h"
 #include "BuildSettings.h"
+#include "EditorSettings.h"
 #include "LanguageSettings.h"
 #include "RenderingSettings.h"
 #include "SettingsView.h"
@@ -13,6 +15,8 @@ void ProjectSettings::Initialize()
 	AddSettingsModule(new LanguageSettings());
 	AddSettingsModule(new RenderingSettings());
 	AddSettingsModule(new BuildSettings());
+	AddSettingsModule(new AudioSettings());
+	AddSettingsModule(new EditorSettings());
 }
 
 void ProjectSettings::AddSettingsModule(ProjectSettingModule * settings)
