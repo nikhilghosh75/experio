@@ -1,6 +1,8 @@
 #pragma once
 
-// Intended to be used for data about the operating system
+/// <summary>
+/// A set of function to be used for data about the operating system/screen
+/// </summary>
 
 struct FResolution
 {

@@ -1,6 +1,10 @@
 #pragma once
 #include <vector>
 
+/// <summary>
+/// A library of functions for statistical analysis
+/// </summary>
+
 class LStatistics
 {
 public:

@@ -3,6 +3,10 @@
 #include "Datatable.h"
 #include <string>
 
+/// <summary>
+/// A set of classes designed to manage the datatables in the game
+/// </summary>
+
 // This defines the maximum amount of datatables that can be loaded at one time
 #define MAX_DATATABLES 32
 

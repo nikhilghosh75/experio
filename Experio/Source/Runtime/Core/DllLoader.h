@@ -7,6 +7,10 @@
 
 typedef void(__cdecl *VOIDPROC)();
 
+/// <summary>
+/// A platform-independent class for loading a dll
+/// </summary>
+
 class DllLoader
 {
 #ifdef PLATFORM_WINDOWS

@@ -1,5 +1,9 @@
 #pragma once
 
+/// <summary>
+/// A series of functions for determining information about the platform
+/// </summary>
+
 enum class EPlatform
 {
 	Windows,

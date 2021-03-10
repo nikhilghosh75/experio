@@ -2,6 +2,10 @@
 #include "Window.h"
 #include "../Math/FVector2.h"
 
+/// <summary>
+/// A library containing operations on windows
+/// </summary>
+
 class LWindowOperations
 {
 public:
