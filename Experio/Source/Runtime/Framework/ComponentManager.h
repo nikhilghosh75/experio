@@ -1,6 +1,11 @@
 #pragma once
 #include "Component.h"
 
+/// <summary>
+/// A class that manages components. It is implemented in the project.
+/// You generally access it through Project->componentManager
+/// </summary>
+
 class ComponentManager
 {
 public:

@@ -3,6 +3,10 @@
 #include <string>
 #include <fstream>
 
+/// <summary>
+/// A class for loading prefabs. Very buggy and incomplete, may be replaced later
+/// </summary>
+
 class PrefabLoader
 {
 public:

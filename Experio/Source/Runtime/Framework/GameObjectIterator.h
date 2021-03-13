@@ -4,6 +4,10 @@
 
 #define MAX_GAME_OBJECT_DEPTH 32
 
+/// <summary>
+/// An iterator over GameObjects. It is very buggy, so it will likely be overhauled later
+/// </summary>
+
 class GameObjectIterator
 {
 	uint8_t position[MAX_GAME_OBJECT_DEPTH];

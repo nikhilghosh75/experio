@@ -10,10 +10,13 @@
 
 #define MAX_SCENES 32
 
-/*
-Reserved Scenes:
-29 (MAX_SCENES - 3) - Scene Conversions (in-editor only)
-*/
+/// <summary>
+/// A class representing a scene in Experio.
+/// All the scenes are stored in a static vector of scenes
+/// A static 
+/// Reserved Scenes:
+///		29 (MAX_SCENES - 3) - Scene Conversions(in - editor only)
+/// </summary>
 
 class Scene
 {

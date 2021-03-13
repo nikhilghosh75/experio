@@ -5,6 +5,10 @@
 #include "../Math/FTransform.h"
 #include "../Containers/TTypedTree.h"
 
+/// <summary>
+/// An object existing in the scene. Generally contain components
+/// </summary>
+
 class GameObject
 {
 	static uint64_t currentGameObject;

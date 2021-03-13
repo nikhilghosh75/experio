@@ -29,6 +29,10 @@
 class TextureRef;
 class MeshRef;
 
+/// <summary>
+/// A set of function for parsing text data into Experio types
+/// </summary>
+
 enum class EParamType
 {
 	BOOL,

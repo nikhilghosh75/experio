@@ -7,6 +7,10 @@
 class GameObject;
 class Scene;
 
+/// <summary>
+/// The basis of a component on a GameObject
+/// </summary>
+
 class Component
 {
 protected:

@@ -3,6 +3,10 @@
 #include "ComponentManager.h"
 #include "../Rendering/Materials/MaterialManager.h"
 
+/// <summary>
+/// A class representing a Project, including the component and material manager
+/// </summary>
+
 class Project
 {
 public:

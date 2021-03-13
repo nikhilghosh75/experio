@@ -1,5 +1,10 @@
 #pragma once
 
+/// <summary>
+/// A set of functions for parsing binary data into Experio types
+/// To streamline the API, primitive types have binary parse functions
+/// </summary>
+
 #include "Params.h"
 
 bool BinaryParseBool(void* data);
