@@ -552,6 +552,9 @@
     <ClInclude Include="Source\Runtime\Core\SystemMetrics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Runtime\Containers\TSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp">

@@ -20,6 +20,7 @@
     <ClInclude Include="Source\Runtime\Containers\Algorithm.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
+    <ClInclude Include="Source\Runtime\Containers\TSet.h" />
     <ClInclude Include="Source\Runtime\Core\SystemMetrics.h" />
     <ClInclude Include="Source\Runtime\Data\DataManager.h" />
     <ClInclude Include="Source\Runtime\Data\Regression.h" />
