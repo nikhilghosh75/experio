@@ -3,6 +3,7 @@
 #include "LPointerOperations.h"
 #include <cstddef>
 
+/*
 template <class T> 
 class TLinearAllocator : public TAllocator<T>
 {
@@ -93,3 +94,4 @@ private:
     void* currentPosition;
     size_t offset;
 };
+*/
