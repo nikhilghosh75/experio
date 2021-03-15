@@ -46,9 +46,11 @@ UNIT_TEST(TestParamsInt, "Params")
 {
 	std::string intStr = "96024";
 	std::string negativeIntStr = "-103485";
+	std::string uintStr = "14902149";
 
 	ASSERT_EQUAL(ParseInt(intStr), 96024, "");
 	ASSERT_EQUAL(ParseInt(negativeIntStr), -103485, "");
+	ASSERT_EQUAL(ParseUInt(uintStr), 14902149, "");
 
 	TEST_END();
 }

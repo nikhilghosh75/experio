@@ -28,3 +28,11 @@ UNIT_TEST(TestFileOperationsGet, "FileOperations")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestFileOperationsAsset, "FileOperations")
+{
+	ASSERT_EQUAL(LFileOperations::StringToAssetType("Mesh"), EAssetType::Mesh, "");
+	ASSERT_EQUAL(LFileOperations::AssetTypeToString(EAssetType::Mesh), "Mesh", "");
+
+	TEST_END();
+}

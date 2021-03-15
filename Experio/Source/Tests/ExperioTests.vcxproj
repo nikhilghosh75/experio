@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="Containers\AlgorithmTest.cpp" />
     <ClCompile Include="Containers\ArrayTest.cpp" />
+    <ClCompile Include="Containers\BSTTest.cpp" />
     <ClCompile Include="Containers\HashtableTest.cpp" />
     <ClCompile Include="Containers\QueueTest.cpp" />
     <ClCompile Include="Containers\StringTest.cpp" />

@@ -10,3 +10,12 @@ UNIT_TEST(TestStatisticsAverage, "Statistics")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestStatisticsMinMax, "Statistics")
+{
+	std::vector<float> vector = { 0, 4, 5, 6, 7, 17, 20 };
+	ASSERT_ALMOST_EQUAL(LStatistics::Min(vector), 0);
+	ASSERT_ALMOST_EQUAL(LStatistics::Max(vector), 20);
+
+	TEST_END();
+}
