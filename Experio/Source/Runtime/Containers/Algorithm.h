@@ -342,6 +342,33 @@ namespace Experio::Algorithm
 	}
 
 	template<typename T>
+	TArray<T> GetUnique(const TQueue<T>& queue)
+	{
+		TArray<T> unique;
+		unique.Resize(queue.Count());
+		unique.Append(queue.Peek());
+
+		for (uint32_t i = 1; i < queue.Count(); i++)
+		{
+			T elem = queue.PeekAt(i);
+			bool found = false;
+			for (uint32_t j = 0; j < unique.Count(); j++)
+			{
+				if (unique[j] == elem)
+				{
+					found = true; break;
+				}
+			}
+			if (!found)
+			{
+				unique.Append(elem);
+			}
+		}
+
+		return unique;
+	}
+
+	template<typename T>
 	std::vector<std::pair<T, uint32_t>> UniqueCount(const std::vector<T>& v)
 	{
 		std::vector<std::pair<T, uint32_t>> unique;
