@@ -1,6 +1,6 @@
 #pragma once
 #include "Particle.h"
-#include "../../Math/FCurve.h"
+#include "../../Math/Bezier.h"
 
 class ParticleModifier
 {
@@ -22,40 +22,40 @@ enum class EParticleModifierType
 class SizeOverLife : public ParticleModifier
 {
 public:
-	FCurve sizeXCurve;
-	FCurve sizeYCurve;
-	FCurve sizeZCurve;
+	Bezier sizeXCurve;
+	Bezier sizeYCurve;
+	Bezier sizeZCurve;
 
 	virtual void Update(FParticleData& particle) override
 	{
-		particle.scale = FVector3(sizeXCurve.GetY(particle.life), sizeYCurve.GetY(particle.life),
-			sizeZCurve.GetY(particle.life));
+		particle.scale = FVector3(sizeXCurve.Get(particle.life), sizeYCurve.Get(particle.life),
+			sizeZCurve.Get(particle.life));
 	}
 };
 
 class ColorOverLife: public ParticleModifier
 {
 public:
-	FCurve redCurve;
-	FCurve greenCurve;
-	FCurve blueCurve;
+	Bezier redCurve;
+	Bezier greenCurve;
+	Bezier blueCurve;
 
 	virtual void Update(FParticleData& particle) override
 	{
-		particle.color = FColor(redCurve.GetY(particle.life), greenCurve.GetY(particle.life), 
-			blueCurve.GetY(particle.life));
+		particle.color = FColor(redCurve.Get(particle.life), greenCurve.Get(particle.life), 
+			blueCurve.Get(particle.life));
 	}
 };
 
 class VelocityOverLife : public ParticleModifier
 {
-	FCurve speedXCurve;
-	FCurve speedYCurve;
-	FCurve speedZCurve;
+	Bezier speedXCurve;
+	Bezier speedYCurve;
+	Bezier speedZCurve;
 
 	virtual void Update(FParticleData& particle) override
 	{
-		particle.speed = FVector3(speedXCurve.GetY(particle.life), speedYCurve.GetY(particle.life),
-			speedZCurve.GetY(particle.life));
+		particle.speed = FVector3(speedXCurve.Get(particle.life), speedYCurve.Get(particle.life),
+			speedZCurve.Get(particle.life));
 	}
 };

@@ -1,4 +1,4 @@
-#include "ParticleSystem.h"
+#include "ParticleComponent.h"
 #include "../Shaders/ShaderReader.h"
 #include "../VertexBuffer.h"
 #include "../VertexBufferLayout.h"
@@ -12,19 +12,19 @@
 
 int particlesPerSecond = 10000;
 
-ParticleSystem::ParticleSystem(GameObject * object)
+ParticleComponent::ParticleComponent(GameObject * object)
 {
 	this->gameObject = object;
 	Start();
 }
 
-ParticleSystem::~ParticleSystem()
+ParticleComponent::~ParticleComponent()
 {
 	delete[] particles;
 	delete particleShader;
 }
 
-void ParticleSystem::Start()
+void ParticleComponent::Start()
 {
 	maxParticles = GetMaxParticles();
 	particles = new FParticleData[maxParticles];
@@ -33,7 +33,7 @@ void ParticleSystem::Start()
 	);
 }
 
-void ParticleSystem::Update()
+void ParticleComponent::Update()
 {
 	PROFILE_SCOPE("Particle Update");
 
@@ -207,7 +207,7 @@ void ParticleSystem::Update()
 	glDeleteVertexArrays(1, &vertexArray);
 }
 
-int ParticleSystem::FindUnusedParticle()
+int ParticleComponent::FindUnusedParticle()
 {
 	for (int i = lastUsedParticle; i < maxParticles; i++) {
 		if (particles[i].life < 0) {
@@ -226,7 +226,7 @@ int ParticleSystem::FindUnusedParticle()
 	return 0;
 }
 
-unsigned int ParticleSystem::GetMaxParticles() const
+unsigned int ParticleComponent::GetMaxParticles() const
 {
 	// ADD CALCULATIONS HERE
 	return 100000;

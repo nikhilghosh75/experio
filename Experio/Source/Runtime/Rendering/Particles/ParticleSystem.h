@@ -1,27 +1,19 @@
 #pragma once
-#include "Particle.h"
-#include "../Shaders/Shader.h"
-#include "../../Framework/Framework.h"
+#include <vector>
+#include <string>
 
-class ParticleSystem : public Component
+class ParticleSystem
 {
-	FParticleData* particles;
-	unsigned int maxParticles;
-	int lastUsedParticle = 0;
-	Shader* particleShader;
-
 public:
-	ParticleSystem() {};
-	ParticleSystem(GameObject* object);
+	std::string name;
+	uint32_t maxCount;
 
-	~ParticleSystem();
+	std::vector<ParticleModifier*> modifiers;
 
-	virtual void Start() override;
-
-	virtual void Update() override;
-
-private:
-	int FindUnusedParticle();
-
-	unsigned int GetMaxParticles() const;
+	template<typename T>
+	T* AddParticleModifier()
+	{
+		modifiers.push_back(new T());
+		return modifiers.back();
+	}
 };
