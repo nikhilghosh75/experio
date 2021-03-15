@@ -3,6 +3,7 @@
 #include <vector>
 #include "Component.h"
 #include "../Math/FTransform.h"
+#include "../UI/RectTransform.h"
 #include "../Containers/TTypedTree.h"
 
 /// <summary>
@@ -19,11 +20,25 @@ public:
 	std::string name;
 	GameObject* parent = nullptr;
 	std::vector<GameObject*> children;
-	FVector3 localPosition;
-	FQuaternion localRotation;
-	FVector3 localScale;
+	
+	// Meant so that the RectTransform and regular transform can exist at the same time
+	union
+	{
+		struct
+		{
+			FVector3 localPosition;
+			FQuaternion localRotation;
+			FVector3 localScale;
+		};
+		struct
+		{
+			RectTransform rectTransform;
+		};
+	};
+
 	uint64_t id;
 	bool isActive = true;
+	bool isUI;
 
 	GameObject();
 	GameObject(std::string name);
@@ -47,7 +62,8 @@ public:
 
 	GameObject* AddChild(std::string name);
 
-	// WORLD POSITION
+	// Meant for non-UI gameObject
+	// WORLD POSITION/ROTATION/SCALE
 	FVector3 GetPosition() const;
 	FQuaternion GetRotation() const;
 	FVector3 GetScale() const;
@@ -59,6 +75,9 @@ public:
 	void SetTransform(FTransform transform);
 	void SetTransform(FVector3 position, FQuaternion rotation, FVector3 scale);
 	void SetTransform(glm::mat4 localMatrix);
+
+	// Meant for UI game objects
+	FRect GetCanvasSpaceRect() const;
 
 	void SetTag(unsigned short newTag);
 	void SetTag(const std::string& newTag);

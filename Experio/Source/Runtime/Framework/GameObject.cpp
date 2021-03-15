@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "GameObjectIterator.h"
 #include "glm/gtx/matrix_decompose.hpp"
+#include "../Core/Window.h"
 
 uint64_t GameObject::currentGameObject = 64;
 
@@ -14,6 +15,7 @@ GameObject::GameObject()
 	this->tag = 0;
 	this->layer = 0;
 	this->sceneIndex = 0;
+	this->isUI = false;
 
 	this->localPosition = FVector3(0, 0, 0);
 	this->localRotation = FQuaternion(0, 0, 0, 1);
@@ -28,6 +30,7 @@ GameObject::GameObject(std::string name)
 	this->tag = 0;
 	this->layer = 0;
 	this->sceneIndex = 0;
+	this->isUI = false;
 
 	this->localPosition = FVector3(0, 0, 0);
 	this->localRotation = FQuaternion(0, 0, 0, 1);
@@ -42,6 +45,7 @@ GameObject::GameObject(std::string name, unsigned short tag, uint8_t layer)
 	this->tag = tag;
 	this->layer = layer;
 	this->sceneIndex = 0;
+	this->isUI = false;
 
 	this->localPosition = FVector3(0, 0, 0);
 	this->localRotation = FQuaternion(0, 0, 0, 1);
@@ -56,6 +60,7 @@ GameObject::GameObject(std::string name, unsigned short tag, uint8_t layer, uint
 	this->tag = tag;
 	this->layer = layer;
 	this->sceneIndex = scene;
+	this->isUI = false;
 
 	this->localPosition = FVector3(0, 0, 0);
 	this->localRotation = FQuaternion(0, 0, 0, 1);
@@ -239,6 +244,43 @@ void GameObject::SetTransform(glm::mat4 localMatrix)
 	this->localPosition = (FVector3)translation;
 	this->localRotation = (FQuaternion)correctRotation;
 	this->localScale = (FVector3)scale;
+}
+
+FRect GameObject::GetCanvasSpaceRect() const
+{
+	if (!isUI)
+	{
+		return FRect();
+	}
+
+	// Change later with resizable canvases
+	FWindowData windowData = Window::GetWindowData();
+	float canvasWidth = windowData.width;
+	float canvasHeight = windowData.height;
+	FVector2 screenDimensions = FVector2(canvasWidth, canvasHeight);
+
+	FRect rect = rectTransform.rect;
+	const GameObject* currentObject = this;
+	while (currentObject != nullptr)
+	{
+		if (!currentObject->isUI || currentObject->parent == nullptr)
+			break;
+
+		EAnchorType anchorType = currentObject->rectTransform.anchorType;
+		if (currentObject->parent->isUI)
+		{
+			FRect parentRect = currentObject->parent->rectTransform.rect;
+			rect = RectTransform::MergeRectTransform(rect, parentRect, anchorType, screenDimensions);
+		}
+		else
+		{
+
+		}
+
+		currentObject = currentObject->parent;
+	}
+
+	return rect;
 }
 
 void GameObject::SetTag(unsigned short newTag)
