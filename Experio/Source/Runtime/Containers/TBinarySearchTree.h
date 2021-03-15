@@ -85,7 +85,7 @@ public:
 	{
 		DeleteNode(root->left);
 		DeleteNode(root->right);
-		count = 1;
+		count = 0;
 	}
 
 	uint32_t Count() const { return count; }
@@ -96,7 +96,15 @@ public:
 
 	void Insert(T item)
 	{
+		if (count == 0)
+		{
+			root.object = item;
+			count = 1;
+			return;
+		}
+
 		TBinarySearchNode<T>* current = &this->root;
+		count++;
 
 		while (true)
 		{
@@ -125,9 +133,51 @@ public:
 		}
 	}
 
-	T* Find(const T& item)
+	const T* Find(const T& item) const
 	{
-		TBinarySearchNode<T>* current = &this->root;
+		if (count == 0)
+			return nullptr;
+
+		TBinarySearchNode<T>* foundNode = FindNode(item);
+		if (foundNode == nullptr)
+			return nullptr;
+		return &(foundNode->object);
+	}
+
+	void Remove(const T& item)
+	{
+		if (count == 0)
+			return;
+
+		// Removal from root is a special procedure becuase we don't want to delete it
+		if (!comp(root.object, item) && !comp(item, root.object))
+		{
+			if (root.left == nullptr && root.right == nullptr)
+			{
+				count = 0;
+				return;
+			}
+
+			TBinarySearchNode<T>* minRightChild = MinChildRecursive(root.right);
+			if (minRightChild != nullptr)
+			{
+				root.object = minRightChild->object;
+				delete minRightChild;
+				count--;
+				return;
+			}
+			else
+			{
+				TBinarySearchNode<T>* maxLeftChild = MinChildRecursive(root.left);
+				root.object = maxLeftChild->object;
+				delete maxLeftChild;
+				count--;
+				return;
+			}
+		}
+
+		TBinarySearchNode<T>* parent = nullptr;
+		TBinarySearchNode<T>* current = &root;
 
 		while (true)
 		{
@@ -135,35 +185,61 @@ public:
 			{
 				if (current->left == nullptr)
 				{
-					return nullptr;
+					return
 				}
+				parent = current;
 				current = current->left;
 			}
 			else if (comp(current->object, item))
 			{
 				if (current->right == nullptr)
 				{
-					return nullptr;
+					return;
 				}
+				parent = current;
 				current = current->right;
 			}
 			else
 			{
-				return &(current->object);
+				RemoveNode(current, parent);
+				count--;
+				return;
 			}
 		}
 	}
+
+	const T& MinElement() const { return MinChildRecursive(&root); }
+
+	const T& MaxElement() const { return MaxChildRecursive(&root); }
 
 	bool Exists(const T& item)
 	{
 		return Find(item) != nullptr;
 	}
 
-	void ForEachPreOrder(std::function<void(T&)> func) { ForEachPreOrderRecursive(func, &this->root); }
+	void ForEachPreOrder(std::function<void(T&)> func) 
+	{ 
+		if (count == 0)
+			return;
 
-	void ForEachInOrder(std::function<void(T&)> func) { ForEachInOrderRecursive(func, &this->root); }
+		ForEachPreOrderRecursive(func, &this->root); 
+	}
 
-	void ForEachPostOrder(std::function<void(T&)> func) { ForEachPostOrderRecursive(func, &this->root); }
+	void ForEachInOrder(std::function<void(T&)> func) 
+	{
+		if (count == 0)
+			return;
+
+		ForEachInOrderRecursive(func, &this->root); 
+	}
+
+	void ForEachPostOrder(std::function<void(T&)> func) 
+	{
+		if (count == 0)
+			return;
+
+		ForEachPostOrderRecursive(func, &this->root);
+	}
 
 private:
 	void CopyNodeRecursive(TBinarySearchNode<T>* from, TBinarySearchNode<T>* to)
@@ -188,6 +264,35 @@ private:
 		DeleteNode(node->left);
 		DeleteNode(node->right);
 		delete node;
+	}
+
+	TBinarySearchNode<T>* FindNode(const T& object) const
+	{
+		const TBinarySearchNode<T>* current = &this->root;
+
+		while (true)
+		{
+			if (comp(item, current->object))
+			{
+				if (current->left == nullptr)
+				{
+					return nullptr;
+				}
+				current = current->left;
+			}
+			else if (comp(current->object, item))
+			{
+				if (current->right == nullptr)
+				{
+					return nullptr;
+				}
+				current = current->right;
+			}
+			else
+			{
+				return current;
+			}
+		}
 	}
 
 	uint32_t HeightRecursive(const TBinarySearchNode<T>* node)
@@ -247,8 +352,73 @@ private:
 		func(node->object);
 	}
 
+	TBinarySearchNode<T>* MinChildRecursive(const TBinarySearchNode<T>* node) const
+	{
+		TBinarySearchNode<T>* current = node;
+		while (current->left != nullptr)
+		{
+			current = current->left;
+		}
+		return current;
+	}
+
+	TBinarySearchNode<T>* MaxChildRecursive(const TBinarySearchNode<T>* node) const
+	{
+		TBinarySearchNode<T>* current = node;
+		while (current->right != nullptr)
+		{
+			current = current->right;
+		}
+		return current;
+	}
+
 	bool HasChildren(const TBinarySearchNode<T>* node)
 	{
 		return node->left != nullptr || node->right != nullptr;
+	}
+
+	void RemoveNode(TBinarySearchNode<T>* node, TBinarySearchNode<T>* parent)
+	{
+		if (node == nullptr)
+			return;
+
+		if (node->left == nullptr && node->right == nullptr)
+		{
+			delete node;
+			return;
+		}
+		
+		if (node->left == nullptr)
+		{
+			ReplaceNode(parent, node, node->right);
+			delete node;
+			return;
+		}
+		if (node->right == nullptr)
+		{
+			ReplaceNode(parent, node, node->left);
+			delete node;
+			return;
+		}
+
+		// Current node has 2 children
+		TBinarySearchNode<T>* minRightChild = MinChildRecursive(node->right);
+		node->object = minRightChild->object;
+		delete minRightChild;
+	}
+
+	void ReplaceNode(TBinarySearchNode<T>* parent, TBinarySearchNode<T>* toReplace, TBinarySearchNode<T>* replacement)
+	{
+		if (parent == nullptr)
+			return;
+
+		if (parent->left == toReplace)
+		{
+			parent->left = replacement;
+		}
+		else if (parent->right == toReplace)
+		{
+			parent->right = replacement;
+		}
 	}
 };
