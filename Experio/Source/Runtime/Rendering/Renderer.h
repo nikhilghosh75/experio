@@ -66,8 +66,6 @@ public:
 
 	void TempModelRenderer();
 
-	void TempPostProcessingRenderer(Framebuffer& fb);
-
 	void TempFramebufferRenderer();
 
 	static Renderer* Get();
