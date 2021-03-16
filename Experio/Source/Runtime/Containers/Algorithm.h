@@ -517,6 +517,17 @@ namespace Experio::Algorithm
 	}
 
 	template<typename T>
+	bool NoneOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc)
+	{
+		for (size_t i = 0; i < array.Count(); i++)
+		{
+			if (compFunc(array[i]))
+				return false;
+		}
+		return true;
+	}
+
+	template<typename T>
 	T * Find(std::vector<T>& vector, std::function<bool(T&)> func)
 	{
 		for (int i = 0; i < vector.size(); i++)
