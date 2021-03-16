@@ -13,6 +13,21 @@ UNIT_TEST(TestBSTGeneral, "BST")
 
 	ASSERT_EQUAL(tree.Count(), 4, "");
 	ASSERT_TRUE(tree.Exists(3), "");
+	ASSERT_FALSE(tree.Exists(7), "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestBSTMinMax, "BST")
+{
+	TBinarySearchTree<int> tree = {10, 4, 6, 8, 12, 16, 14};
+
+	ASSERT_EQUAL(tree.Count(), 7, "");
+	ASSERT_TRUE(tree.Exists(4), "");
+	ASSERT_FALSE(tree.Exists(3), "");
+
+	ASSERT_EQUAL(tree.MinElement(), 4, "");
+	ASSERT_EQUAL(tree.MaxElement(), 16, "");
 
 	TEST_END();
 }

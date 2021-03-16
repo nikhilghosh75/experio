@@ -85,3 +85,18 @@ UNIT_TEST(TestAlgorithmAllOf, "Algorithm")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestAlgorithmNotAllOf, "Algorithm")
+{
+	std::vector<int> trueVector = { -1, -2, 0, 2, 1 };
+	std::vector<int> falseVector = { 1, 2, 3, 4, 5 };
+
+	bool trueNotAllOf = Algorithm::NotAllOf(trueVector, std::function<bool(const int&)>([](const int& i) { return i >= 0; }));
+	bool falseNotAllOf = Algorithm::NotAllOf(falseVector, std::function<bool(const int&)>([](const int& i) { return i >= 0; }));
+
+	// Fix this later
+	ASSERT_TRUE(trueNotAllOf, "");
+	ASSERT_FALSE(falseNotAllOf, "");
+
+	TEST_END();
+}

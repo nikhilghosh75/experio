@@ -141,6 +141,7 @@
     <ClCompile Include="Math\Vector2Test.cpp" />
     <ClCompile Include="Math\Vector3Test.cpp" />
     <ClCompile Include="Memory\VoidPtrTest.cpp" />
+    <ClCompile Include="UI\RectTransformTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\ExperioEditor\ExperioEditor.vcxproj">

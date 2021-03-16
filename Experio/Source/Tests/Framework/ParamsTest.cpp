@@ -64,6 +64,15 @@ UNIT_TEST(TestParamsFloat, "Params")
 	TEST_END();
 }
 
+UNIT_TEST(TestParamsDouble, "Params")
+{
+	std::string doubleStr = "904.35918";
+
+	ASSERT_ALMOST_EQUAL(ParseDouble(doubleStr), 904.35918, "");
+
+	TEST_END();
+}
+
 UNIT_TEST(TestParamsVector2, "Params")
 {
 	std::string str1 = " {1.25 0.125} ";
