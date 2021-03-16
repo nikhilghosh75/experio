@@ -58,13 +58,38 @@ FRect RectTransform::MergeRectFull(FRect rect, FRect childToParent, FVector2 scr
 
 	if (rect.min.x < 0)
 	{
-		newRect.min = rect.min + childToParent.min;
-		newRect.max = rect.max + childToParent.max;
+		if (childToParent.min.x < 0)
+		{
+			newRect.min = rect.min + childToParent.min;
+			newRect.max = rect.max + childToParent.max;
+		}
+		else
+		{
+			newRect.min = childToParent.min - rect.min;
+			newRect.max = childToParent.max + rect.max;
+		}
 	}
 	else
 	{
-		
+		newRect.min = rect.min - childToParent.min;
+		newRect.max = rect.max - childToParent.max;
 	}
+
+	return newRect;
+}
+
+FRect RectTransform::MergeRectWithScreen(FRect rect, FVector2 screenDimensions)
+{
+	FRect newRect = rect;
+
+	if (rect.min.x < 0)
+		newRect.min.x = -rect.min.x;
+	if (rect.min.y < 0)
+		newRect.min.y = -rect.min.y;
+	if (rect.max.x < 0)
+		newRect.max.x = screenDimensions.x + rect.max.y;
+	if (rect.max.y < 0)
+		newRect.max.y = screenDimensions.y + rect.max.y;
 
 	return newRect;
 }

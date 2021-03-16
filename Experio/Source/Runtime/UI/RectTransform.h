@@ -43,4 +43,6 @@ private:
 	static FRect MergeRectTransform(FRect rect, FRect childToParent, EAnchorType childAnchorType, FVector2 screenDimensions);
 
 	static FRect MergeRectFull(FRect rect, FRect childToParent, FVector2 screenDimensions);
+
+	static FRect MergeRectWithScreen(FRect rect, FVector2 screenDimensions);
 };
