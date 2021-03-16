@@ -59,3 +59,13 @@ class VelocityOverLife : public ParticleModifier
 			speedZCurve.Get(particle.life));
 	}
 };
+
+class GravityOverLife : public ParticleModifier
+{
+	Bezier gravityCurve;
+
+	virtual void Update(FParticleData& particle) override
+	{
+		particle.speed.y -= gravityCurve.Get(particle.life);
+	}
+};
