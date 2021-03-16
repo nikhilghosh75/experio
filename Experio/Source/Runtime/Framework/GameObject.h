@@ -98,6 +98,8 @@ public:
 
 	static unsigned int NumGameObjectsWithTag(unsigned short tag);
 
+	static void Reparent(GameObject* newParent, GameObject* newChild);
+
 	static GameObject* FindGameObjectOfID(uint64_t id);
 	static GameObject* FindGameObjectOfID(uint64_t id, uint8_t sceneIndex);
 

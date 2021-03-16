@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "GameObjectIterator.h"
 #include "glm/gtx/matrix_decompose.hpp"
+#include "../Containers/Algorithm.h"
 #include "../Core/Window.h"
 
 uint64_t GameObject::currentGameObject = 64;
@@ -274,7 +275,7 @@ FRect GameObject::GetCanvasSpaceRect() const
 		}
 		else
 		{
-
+			rect = RectTransform::MergeRectWithScreen(rect, screenDimensions);
 		}
 
 		currentObject = currentObject->parent;
@@ -414,6 +415,18 @@ unsigned int GameObject::NumGameObjectsWithTag(unsigned short tag)
 	}
 
 	return num;
+}
+
+void GameObject::Reparent(GameObject* newParent, GameObject* newChild)
+{
+	newParent->children.push_back(newChild);
+
+	if (newChild->parent != nullptr)
+	{
+		Experio::Algorithm::RemoveElement(newChild->parent->children, newChild);
+	}
+
+	newChild->parent = newParent;
 }
 
 GameObject * GameObject::FindGameObjectOfID(uint64_t id)
