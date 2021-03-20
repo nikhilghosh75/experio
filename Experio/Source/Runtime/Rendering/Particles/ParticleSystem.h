@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "ParticleModifier.h"
 
 class ParticleSystem
 {
@@ -8,12 +9,7 @@ public:
 	std::string name;
 	uint32_t maxCount;
 
-	std::vector<ParticleModifier*> modifiers;
+	size_t SizeOf() const;
 
-	template<typename T>
-	T* AddParticleModifier()
-	{
-		modifiers.push_back(new T());
-		return modifiers.back();
-	}
+	std::vector<ParticleModifier*> modifiers;
 };

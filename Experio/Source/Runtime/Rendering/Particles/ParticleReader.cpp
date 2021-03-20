@@ -33,7 +33,8 @@ void ParticleReader::ParseSizeOverLife(XMLTreeNode* node, ParticleSystem & syste
 		return;
 	}
 
-	SizeOverLife* sizeOverLife = system.AddParticleModifier<SizeOverLife>();
+	system.modifiers.push_back(new SizeOverLife());
+	SizeOverLife* sizeOverLife = (SizeOverLife*)system.modifiers.back();
 
 	XMLTreeNode* xCurveNode = node->children[0];
 	XMLTreeNode* yCurveNode = node->children[1];
@@ -52,7 +53,8 @@ void ParticleReader::ParseColorOverLife(XMLTreeNode * node, ParticleSystem & sys
 		return;
 	}
 
-	ColorOverLife* colorOverLife = system.AddParticleModifier<ColorOverLife>();
+	system.modifiers.push_back(new ColorOverLife());
+	ColorOverLife* colorOverLife = (ColorOverLife*)system.modifiers.back();
 
 	XMLTreeNode* redCurveNode = node->children[0];
 	XMLTreeNode* greenCurveNode = node->children[1];
@@ -67,6 +69,13 @@ void ParticleReader::ParseCurve(XMLTreeNode* node, Bezier& bezier)
 {
 	if (node->object.nodeType != "Curve")
 	{
+		Debug::LogError("Curve is not correct");
+		return;
+	}
+
+	if (node->children.size() == 0)
+	{
+		Debug::LogError("Curve is empty");
 		return;
 	}
 
@@ -80,11 +89,13 @@ void ParticleReader::ParseCurve(XMLTreeNode* node, Bezier& bezier)
 
 void ParticleReader::ParseCurvePoint(XMLNode& node1, XMLNode& node2, Bezier& bezier)
 {
-	float startX = LString::StringToFloat(node1.modifiers[0].content);
-	float startY = LString::StringToFloat(node1.modifiers[1].content);
+	const std::string& startStr = node1.content;
+	float startX = LString::SubstrToFloat(startStr, 0, startStr.find(','));
+	float startY = LString::SubstrToFloat(startStr, startStr.find(','), startStr.size());
 
-	float endX = LString::StringToFloat(node2.modifiers[0].content);
-	float endY = LString::StringToFloat(node2.modifiers[1].content);
+	const std::string& endStr = node2.content;
+	float endX = LString::SubstrToFloat(endStr, 0, endStr.find(','));
+	float endY = LString::SubstrToFloat(endStr, endStr.find(','), endStr.size());
 	bezier.Insert(startX, startY, endX, endY);
 }
 
