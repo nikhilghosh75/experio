@@ -86,6 +86,38 @@ std::vector<std::string> LString::SeperateStringByChar(std::string str, char c, 
 	return realSeperatedStrings;
 }
 
+float LString::SubstrToFloat(const std::string& str, size_t start, size_t end)
+{
+	float integer = 0.f, fraction = 0.f;
+	uint8_t denominator = 0;
+	bool beforeDecimal = true, isPositive = true;
+	for (size_t i = start; i < end; i++)
+	{
+		if (str[i] == '-')
+		{
+			isPositive = false;
+		}
+		else if (str[i] == '.')
+		{
+			beforeDecimal = false;
+		}
+		else if (IsNumeric(str[i]))
+		{
+			if (beforeDecimal)
+			{
+				integer = (integer * 10) + CharToInt(str[i]);
+			}
+			else
+			{
+				fraction = (fraction * 10) + CharToInt(str[i]);
+				denominator++;
+			}
+		}
+	}
+	return isPositive ? integer + (fraction / (float)LMath::PowOfTen(denominator)) : (integer + (fraction / (float)LMath::PowOfTen(denominator))) * -1.f;
+
+}
+
 float LString::StringToFloat(const std::string& str)
 {
 	float integer = 0.f, fraction = 0.f;

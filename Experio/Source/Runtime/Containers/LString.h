@@ -69,6 +69,8 @@ public:
 
 	static std::vector<std::string> SeperateStringByChar(std::string str, char c, bool removeZeroLength = true);
 
+	static float SubstrToFloat(const std::string& str, size_t start, size_t end);
+
 	static float StringToFloat(const std::string& str);
 
 	static std::vector<float> StringToFloatVector(const std::string& str, char seperator = ' ');
