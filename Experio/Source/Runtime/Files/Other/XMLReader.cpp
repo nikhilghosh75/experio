@@ -92,17 +92,19 @@ XMLTree XMLReader::GenerateTree(const FileBuffer & buffer, const std::vector<FVe
 	}
 
 	TTypedTreeNode<XMLNode>* current = tree.GetRoot();
-	FVector2Int currentTag = tags[0];
+	std::vector<FVector2Int> currentTags;
+	currentTags.push_back(tags[0]);
 	for (size_t i = 1; i < tags.size(); i++)
 	{
-		if (!Within(tags[i], currentTag))
+		while (!Within(tags[i], currentTags.back()))
 		{
 			current = current->parentNode;
+			currentTags.pop_back();
 		}
 
 		current->AddChild(ParseNode(buffer, delimiters[tags[i].x].x, delimiters[tags[i].y].y));
 		current = current->children[current->children.size() - 1];
-		currentTag = tags[i];
+		currentTags.push_back(tags[i]);
 	}
 
 	return tree;
