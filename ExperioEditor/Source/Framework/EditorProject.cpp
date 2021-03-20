@@ -122,7 +122,7 @@ void EditorProject::TempSetupClasses()
 {
 	EditorProject::componentClasses.Insert(100, FComponentInfo("VirtualCamera", false));
 	EditorProject::componentClasses.Insert(101, FComponentInfo("MeshComponent", true));
-	EditorProject::componentClasses.Insert(102, FComponentInfo("ParticleSystem", true));
+	EditorProject::componentClasses.Insert(102, FComponentInfo("ParticleComponent", true));
 	EditorProject::componentClasses.Insert(103, FComponentInfo("Billboard", true));
 	EditorProject::componentClasses.Insert(104, FComponentInfo("TextComponent", true));
 
@@ -142,7 +142,7 @@ void EditorProject::TempSetupClasses()
 	meshComponent.params.emplace_back("MeshRef", "meshData", ECodeAccessType::Public);
 	meshComponent.params.emplace_back("bool", "isVisible", ECodeAccessType::Public);
 
-	CodeClass particleSystem("ParticleSystem");
+	CodeClass particleSystem("ParticleComponent");
 	particleSystem.inheritance.push_back("Component");
 
 	CodeClass billboard("Billboard");

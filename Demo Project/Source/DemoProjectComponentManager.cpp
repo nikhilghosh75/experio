@@ -8,7 +8,7 @@ void DemoProjectComponentManager::Start()
 	PB_START(textComponentInstances);
 	PB_START(spaceshipInstances);
 	PB_START(meshComponentInstances);
-	PB_START(particleSystemInstances);
+	PB_START(particleComponentInstances);
 	PB_START(billboardInstances);
 }
 
@@ -18,7 +18,7 @@ void DemoProjectComponentManager::Update()
 	PB_UPDATE(textComponentInstances);
 	PB_UPDATE(spaceshipInstances);
 	PB_UPDATE(meshComponentInstances);
-	PB_UPDATE(particleSystemInstances);
+	PB_UPDATE(particleComponentInstances);
 	PB_UPDATE(billboardInstances);
 }
 
@@ -26,7 +26,7 @@ void DemoProjectComponentManager::RenderScene()
 {
 	cameraSystem.Update();
 	PB_UPDATE(meshComponentInstances);
-	PB_UPDATE(particleSystemInstances);
+	PB_UPDATE(particleComponentInstances);
 	PB_UPDATE(billboardInstances);
 }
 
@@ -38,7 +38,7 @@ Component* DemoProjectComponentManager::AddComponent(GameObject* gameObject, uns
 		case 104: PB_ADD_COMPONENT(textComponentInstances);
 		case 1024: PB_ADD_COMPONENT(spaceshipInstances);
 		case 101: PB_ADD_COMPONENT(meshComponentInstances);
-		case 102: PB_ADD_COMPONENT(particleSystemInstances);
+		case 102: PB_ADD_COMPONENT(particleComponentInstances);
 		case 103: PB_ADD_COMPONENT(billboardInstances);
 	}
 }
@@ -51,7 +51,7 @@ Component* DemoProjectComponentManager::GetComponent(GameObject* gameObject, uns
 		case 104: PB_GET_COMPONENT(textComponentInstances);
 		case 1024: PB_GET_COMPONENT(spaceshipInstances);
 		case 101: PB_GET_COMPONENT(meshComponentInstances);
-		case 102: PB_GET_COMPONENT(particleSystemInstances);
+		case 102: PB_GET_COMPONENT(particleComponentInstances);
 		case 103: PB_GET_COMPONENT(billboardInstances);
 	}
 }
@@ -66,7 +66,7 @@ void DemoProjectComponentManager::DeleteComponent(GameObject* gameObject, unsign
 		case 104: PB_DELETE_COMPONENT(textComponentInstances);
 		case 1024: PB_DELETE_COMPONENT(spaceshipInstances);
 		case 101: PB_DELETE_COMPONENT(meshComponentInstances);
-		case 102: PB_DELETE_COMPONENT(particleSystemInstances);
+		case 102: PB_DELETE_COMPONENT(particleComponentInstances);
 		case 103: PB_DELETE_COMPONENT(billboardInstances);
 	}
 }
@@ -79,7 +79,7 @@ Component* DemoProjectComponentManager::GetComponentAtIndex(unsigned int classId
 		case 104: PB_GET_COMPONENT_INDEX(textComponentInstances);
 		case 1024: PB_GET_COMPONENT_INDEX(spaceshipInstances);
 		case 101: PB_GET_COMPONENT_INDEX(meshComponentInstances);
-		case 102: PB_GET_COMPONENT_INDEX(particleSystemInstances);
+		case 102: PB_GET_COMPONENT_INDEX(particleComponentInstances);
 		case 103: PB_GET_COMPONENT_INDEX(billboardInstances);
 	}
 }
@@ -92,7 +92,7 @@ void DemoProjectComponentManager::OnGameObjectDeleted(GameObject* gameObject)
 	PB_DELETE_COMPONENT(textComponentInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(spaceshipInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(meshComponentInstances); foundComponent = false;
-	PB_DELETE_COMPONENT(particleSystemInstances); foundComponent = false;
+	PB_DELETE_COMPONENT(particleComponentInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(billboardInstances); foundComponent = false;
 }
 
@@ -132,7 +132,7 @@ std::vector<Component*> DemoProjectComponentManager::GetAllComponents()
 	PB_GET_ALL(textComponentInstances);
 	PB_GET_ALL(spaceshipInstances);
 	PB_GET_ALL(meshComponentInstances);
-	PB_GET_ALL(particleSystemInstances);
+	PB_GET_ALL(particleComponentInstances);
 	PB_GET_ALL(billboardInstances);
 	return vector;
 }
@@ -147,7 +147,7 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 	PB_GET_ALL_IDS(textComponentInstances, 104);
 	PB_GET_ALL_IDS(spaceshipInstances, 1024);
 	PB_GET_ALL_IDS(meshComponentInstances, 101);
-	PB_GET_ALL_IDS(particleSystemInstances, 102);
+	PB_GET_ALL_IDS(particleComponentInstances, 102);
 	PB_GET_ALL_IDS(billboardInstances, 103);
 }
 
@@ -161,11 +161,11 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 	PB_GET_ALL_SCENE_IDS(textComponentInstances, 104);
 	PB_GET_ALL_SCENE_IDS(spaceshipInstances, 1024);
 	PB_GET_ALL_SCENE_IDS(meshComponentInstances, 101);
-	PB_GET_ALL_SCENE_IDS(particleSystemInstances, 102);
+	PB_GET_ALL_SCENE_IDS(particleComponentInstances, 102);
 	PB_GET_ALL_SCENE_IDS(billboardInstances, 103);
 }
 
 unsigned int DemoProjectComponentManager::ComponentCount() const
 {
-	return cameraSystem.Size() + textComponentInstances.size() + spaceshipInstances.size() + meshComponentInstances.size() + particleSystemInstances.size() + billboardInstances.size();
+	return cameraSystem.Size() + textComponentInstances.size() + spaceshipInstances.size() + meshComponentInstances.size() + particleComponentInstances.size() + billboardInstances.size();
 }

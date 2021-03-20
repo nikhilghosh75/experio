@@ -4,5 +4,5 @@
 #include "Camera/VirtualCamera.h"
 #include "Rendering/Components/Billboard.h"
 #include "Rendering/Components/MeshComponent.h"
-#include "Rendering/Particles/ParticleSystem.h"
+#include "Rendering/Particles/ParticleComponent.h"
 #include "UI/TextComponent.h"

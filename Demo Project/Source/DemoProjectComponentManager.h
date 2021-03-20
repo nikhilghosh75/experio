@@ -12,7 +12,7 @@ class DemoProjectComponentManager : public ComponentManager
 
 	std::vector<MeshComponent> meshComponentInstances;
 
-	std::vector<ParticleSystem> particleSystemInstances;
+	std::vector<ParticleComponent> particleComponentInstances;
 
 	std::vector<Billboard> billboardInstances;
 

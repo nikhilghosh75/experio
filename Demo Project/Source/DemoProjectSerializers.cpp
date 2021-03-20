@@ -47,7 +47,7 @@ template<> void SetComponentParams(std::vector<std::string> params, MeshComponen
 	component->isVisible = ParseBool(params[2]);
 }
 
-template<> void SetComponentParams(std::vector<std::string> params, ParticleSystem* component)
+template<> void SetComponentParams(std::vector<std::string> params, ParticleComponent* component)
 {
 }
 
@@ -90,7 +90,7 @@ template<> void SetComponentBinaryParams(void* data, MeshComponent* component)
 	component->isVisible = BinaryParseBool((void*)((char*)data + 8));
 }
 
-template<> void SetComponentBinaryParams(void* data, ParticleSystem* component)
+template<> void SetComponentBinaryParams(void* data, ParticleComponent* component)
 {
 }
 
@@ -110,7 +110,7 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 		case 1024: { PB_EMPLACE_COMPONENT(Spaceship, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
-		case 102: { PB_EMPLACE_COMPONENT(ParticleSystem, classId); PB_START_COMPONENT(); } break;
+		case 102: { PB_EMPLACE_COMPONENT(ParticleComponent, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
 	}
 }
@@ -123,7 +123,7 @@ void AddComponentToScene(unsigned int classId, void* params, size_t paramSize, G
 		case 1024: { PB_EMPLACE_BINARY_COMPONENT(Spaceship, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_BINARY_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_BINARY_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
-		case 102: { PB_EMPLACE_BINARY_COMPONENT(ParticleSystem, classId); PB_START_COMPONENT(); } break;
+		case 102: { PB_EMPLACE_BINARY_COMPONENT(ParticleComponent, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_BINARY_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
 	}
 }
@@ -136,7 +136,7 @@ size_t SizeOfComponent(unsigned int classId)
 		case 1024: return sizeof(Spaceship);
 		case 100: return sizeof(VirtualCamera);
 		case 101: return sizeof(MeshComponent);
-		case 102: return sizeof(ParticleSystem);
+		case 102: return sizeof(ParticleComponent);
 		case 103: return sizeof(Billboard);
 	}
 	return 0;

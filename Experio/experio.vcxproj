@@ -110,6 +110,7 @@
     <ClInclude Include="Source\Runtime\Rendering\Managers\MeshManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Managers\TextureManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Particles\Particle.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleComponent.h" />
     <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleModifier.h" />
     <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleReader.h" />
     <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleSystem.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="Source\Runtime\Rendering\Managers\FontManager.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Managers\MeshManager.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Managers\TextureManager.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleComponent.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleReader.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleSystem.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Components\Billboard.cpp" />
