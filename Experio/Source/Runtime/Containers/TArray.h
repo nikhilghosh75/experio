@@ -360,7 +360,7 @@ public:
 		}
 		this->data[this->count] = T(std::forward<Args>(args) ...);
 		this->count++;
-		return this->data[this->count - 2];
+		return this->data[this->count - 1];
 	}
 
 	template<typename ... Args>
