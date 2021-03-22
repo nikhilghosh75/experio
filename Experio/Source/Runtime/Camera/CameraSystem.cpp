@@ -17,6 +17,7 @@ VirtualCamera* CameraSystem::AddComponent(GameObject* gameObject)
 	tempCamera.priority = 0.0f;
 	tempCamera.fieldOfView = 45.f;
 	cameras.push_back(tempCamera);
+	currentCamera = nullptr;
 	return &cameras[cameras.size() - 1];
 }
 
