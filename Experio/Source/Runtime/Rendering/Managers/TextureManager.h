@@ -26,6 +26,9 @@ public:
 	Texture* operator->() { return texture; }
 	const Texture* operator->() const { return texture; }
 
+	Texture& operator*() { return *texture; }
+	const Texture& operator*() const { return *texture; }
+
 	bool IsNull();
 };
 
