@@ -1,23 +1,50 @@
 #pragma once
 #include "InputCodes.h"
+#include "../Containers/TStackArray.h"
 #include <string>
 #include <vector>
 
 class InputAction
 {
+public:
 	std::string name;
 	InputCode code;
 
 	InputAction();
 	InputAction(const std::string& str);
+	InputAction(const std::string& str, InputCode code);
 	InputAction(const std::string& str, EKeyCode keyCode);
 	InputAction(const std::string& str, EGamepadButton gamepadButton);
+};
+
+class InputAxisPoint
+{
+public:
+	float value;
+	InputCode code;
+	
+	InputAxisPoint() = default;
+	InputAxisPoint(float value, InputCode code);
+};
+
+class InputAxis
+{
+public:
+	std::string name;
+	TStackArray<InputAxisPoint, 4> axisPoints;
+
+	InputAxis() = default;
+	InputAxis(const std::string& str);
 };
 
 class InputConfig
 {
 public:
 	std::string name;
+
+	std::vector<InputAction> actions;
+	
+	std::vector<InputAxis> axes;
 
 	EInputType inputType;
 };

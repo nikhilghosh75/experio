@@ -11,6 +11,8 @@ public:
 private:
 	static EInputType StringToInputType(const std::string& type);
 
+	static InputCode StringToInputCode(const std::string& str, EInputType inputType);
+
 	static void ParseAction(std::ifstream& inFile, InputConfig& config);
 
 	static void ParseAxis(std::ifstream& inFile, InputConfig& config);

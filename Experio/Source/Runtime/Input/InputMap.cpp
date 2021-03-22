@@ -9,6 +9,13 @@ InputAction::InputAction()
 InputAction::InputAction(const std::string& str)
 {
 	name = str;
+	code.keycode = EKeyCode::None;
+}
+
+InputAction::InputAction(const std::string& str, InputCode newCode)
+{
+	name = str;
+	code = newCode;
 }
 
 InputAction::InputAction(const std::string& str, EKeyCode keyCode)
@@ -21,6 +28,17 @@ InputAction::InputAction(const std::string& str, EGamepadButton gamepadButton)
 {
 	name = str;
 	code.gamepadButton = gamepadButton;
+}
+
+InputAxisPoint::InputAxisPoint(float value, InputCode code)
+{
+	this->value = value;
+	this->code = code;
+}
+
+InputAxis::InputAxis(const std::string& str)
+{
+	this->name = str;
 }
 
 void InputMap::Resize(uint32_t numCategories, uint32_t numConfigs)
