@@ -8,6 +8,7 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 	{
 		case 104: return std::vector<std::string>({ "margins", "fontSize", "text", "font", "shader"});
 		case 1024: return std::vector<std::string>({ "isActive = false", "isAccelerating = false", "acceleration", "topSpeed"});
+		case 105: return std::vector<std::string>({ "texture", "shader"});
 		case 100: return std::vector<std::string>({ "priority", "fieldOfView", "nearClipPlane", "farClipPlane"});
 		case 101: return std::vector<std::string>({ "material", "meshData", "isVisible"});
 		case 102: return std::vector<std::string>({ });
@@ -30,6 +31,12 @@ template<> void SetComponentParams(std::vector<std::string> params, Spaceship* c
 {
 	component->acceleration = ParseFloat(params[0]);
 	component->topSpeed = ParseFloat(params[1]);
+}
+
+template<> void SetComponentParams(std::vector<std::string> params, ImageComponent* component)
+{
+	component->texture = ParseTexture(params[0]);
+	component->shader = ParseShader(params[1]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, VirtualCamera* component)
@@ -75,6 +82,12 @@ template<> void SetComponentBinaryParams(void* data, Spaceship* component)
 	component->topSpeed = BinaryParseFloat((void*)((char*)data + 4));
 }
 
+template<> void SetComponentBinaryParams(void* data, ImageComponent* component)
+{
+	component->texture = BinaryParseTexture((void*)((char*)data + 0));
+	component->shader = BinaryParseShader((void*)((char*)data + 4));
+}
+
 template<> void SetComponentBinaryParams(void* data, VirtualCamera* component)
 {
 	component->priority = BinaryParseFloat((void*)((char*)data + 0));
@@ -108,6 +121,7 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 	{
 		case 104: { PB_EMPLACE_COMPONENT(TextComponent, classId); PB_START_COMPONENT(); } break;
 		case 1024: { PB_EMPLACE_COMPONENT(Spaceship, classId); PB_START_COMPONENT(); } break;
+		case 105: { PB_EMPLACE_COMPONENT(ImageComponent, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_COMPONENT(ParticleSystem, classId); PB_START_COMPONENT(); } break;
@@ -121,6 +135,7 @@ void AddComponentToScene(unsigned int classId, void* params, size_t paramSize, G
 	{
 		case 104: { PB_EMPLACE_BINARY_COMPONENT(TextComponent, classId); PB_START_COMPONENT(); } break;
 		case 1024: { PB_EMPLACE_BINARY_COMPONENT(Spaceship, classId); PB_START_COMPONENT(); } break;
+		case 105: { PB_EMPLACE_BINARY_COMPONENT(ImageComponent, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_BINARY_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_BINARY_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_BINARY_COMPONENT(ParticleSystem, classId); PB_START_COMPONENT(); } break;
@@ -134,6 +149,7 @@ size_t SizeOfComponent(unsigned int classId)
 	{
 		case 104: return sizeof(TextComponent);
 		case 1024: return sizeof(Spaceship);
+		case 105: return sizeof(ImageComponent);
 		case 100: return sizeof(VirtualCamera);
 		case 101: return sizeof(MeshComponent);
 		case 102: return sizeof(ParticleSystem);
@@ -148,6 +164,7 @@ size_t SerializedSizeOfComponent(unsigned int classId)
 	{
 		case 104: return 16;
 		case 1024: return 8;
+		case 105: return 4;
 		case 100: return 16;
 		case 101: return 9;
 		case 102: return 0;

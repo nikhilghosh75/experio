@@ -10,6 +10,8 @@ class DemoProjectComponentManager : public ComponentManager
 
 	std::vector<Spaceship> spaceshipInstances;
 
+	std::vector<ImageComponent> imageComponentInstances;
+
 	std::vector<MeshComponent> meshComponentInstances;
 
 	std::vector<ParticleSystem> particleSystemInstances;
