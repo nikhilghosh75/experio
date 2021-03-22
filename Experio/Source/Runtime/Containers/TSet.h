@@ -5,7 +5,7 @@
 template<class T, class Compare = std::less<T>>
 class TSet
 {
-	TBinarySearchTree<T> tree;
+	TBinarySearchTree<T, Compare> tree;
 
 public:
 	TSet()
