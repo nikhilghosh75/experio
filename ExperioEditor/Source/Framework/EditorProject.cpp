@@ -125,6 +125,7 @@ void EditorProject::TempSetupClasses()
 	EditorProject::componentClasses.Insert(102, FComponentInfo("ParticleSystem", true));
 	EditorProject::componentClasses.Insert(103, FComponentInfo("Billboard", true));
 	EditorProject::componentClasses.Insert(104, FComponentInfo("TextComponent", true));
+	EditorProject::componentClasses.Insert(105, FComponentInfo("ImageComponent", true));
 
 	gameProject.filepath = EditorApplication::sourceFilePath;
 	gameProject.Generate();
@@ -160,6 +161,11 @@ void EditorProject::TempSetupClasses()
 	textComponent.params.emplace_back("FontRef", "font", ECodeAccessType::Public);
 	textComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 
+	CodeClass imageComponent("ImageComponent");
+	imageComponent.inheritance.emplace_back("Component");
+	imageComponent.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
+	imageComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
+
 	// Delete Later
 	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
 
@@ -175,6 +181,7 @@ void EditorProject::TempSetupClasses()
 	gameProject.PushClass(particleSystem);
 	gameProject.PushClass(billboard);
 	gameProject.PushClass(textComponent);
+	gameProject.PushClass(imageComponent);
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
