@@ -14,6 +14,7 @@
 #include "../Framework/ImportSystem.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Rendering/OpenGL/LOpenGL.h"
+#include "Runtime/UI/Canvas.h"
 
 HWND EditorWindow::hwnd;
 int EditorWindow::displayHeight = 0;
@@ -174,7 +175,7 @@ void EditorWindow::OnResize(int width, int height)
 {
 	displayHeight = height;
 	displayWidth = width;
-	EditorApplication::loader.CallVoidFunction<VOIDINT2PROC, int, int>("SetWindowSize", width, height);
+	Canvas::UpdateWindow(height, width);
 }
 
 FWindowData EditorWindow::GetWindowData()
