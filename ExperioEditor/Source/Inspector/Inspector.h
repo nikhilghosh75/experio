@@ -22,6 +22,8 @@ class Inspector : public EditorModule
 
 	void DisplayTransform(GameObject* object);
 
+	void DisplayRectTransform(GameObject* object);
+
 	void UpdateComponents(std::vector<unsigned int> componentIDs, std::vector<Component*> components);
 
 	void DisplayAddComponentMenu();

@@ -21,7 +21,11 @@ void Inspector::DisplayGameObject(GameObject* object)
 	if (object == nullptr) return;
 	
 	DisplayGameObjectInfo(object);
-	DisplayTransform(object);
+
+	if (object->isUI)
+		DisplayRectTransform(object);
+	else
+		DisplayTransform(object);
 
 	std::vector<unsigned int> componentIDs = Project::componentManager->GetComponentsIDsInGameObject(object);
 	std::vector<Component*> components = Project::componentManager->GetComponentsInGameObject(object);
@@ -125,6 +129,8 @@ void Inspector::DisplayGameObjectInfo(GameObject * object)
 	{
 		UndoSystem::AddCommand(new SetLayerCommand(object, lastLayer, object->layer));
 	}
+
+	ImGui::Checkbox("UI: ", &object->isUI);
 }
 
 void Inspector::DisplayTransform(GameObject * object)
@@ -154,6 +160,30 @@ void Inspector::DisplayTransform(GameObject * object)
 			UndoSystem::AddCommand(new ScaleCommand(object, scale / object->localScale));
 			object->localScale = scale;
 		}
+
+		ImGui::TreePop();
+	}
+}
+
+void Inspector::DisplayRectTransform(GameObject* object)
+{
+	if (ImGui::TreeNode("RectTransform"))
+	{
+		LImGui::DisplayEnum<EPositionConstraintType>(object->rectTransform.xConstraint.type, "X:");
+		ImGui::SameLine();
+		ImGui::InputFloat("Offset:", &object->rectTransform.xConstraint.value);
+
+		LImGui::DisplayEnum<EPositionConstraintType>(object->rectTransform.yConstraint.type, "Y:");
+		ImGui::SameLine();
+		ImGui::InputFloat("Offset:", &object->rectTransform.yConstraint.value);
+
+		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.widthConstraint.type, "Width:");
+		ImGui::SameLine();
+		ImGui::InputFloat("Width:", &object->rectTransform.widthConstraint.value);
+
+		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.heightConstraint.type, "Height:");
+		ImGui::SameLine();
+		ImGui::InputFloat("Height:", &object->rectTransform.heightConstraint.value);
 
 		ImGui::TreePop();
 	}
@@ -252,6 +282,8 @@ void Inspector::DisplayAddComponentMenu()
 		{
 			if (ImGui::MenuItem("Text Component"))
 				AddComponentToGameObjects(104);
+			if (ImGui::MenuItem("Image Component"))
+				AddComponentToGameObjects(105);
 
 			ImGui::EndMenu();
 		}
