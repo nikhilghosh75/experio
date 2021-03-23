@@ -45,10 +45,12 @@ void TextComponent::RenderText()
 	glm::vec2* verticies = new glm::vec2[6 * length];
 	glm::vec2* uvs = new glm::vec2[6 * length];
 
+	FRect rect = gameObject->GetCanvasSpaceRect();
+
 	FWindowData data = Window::GetWindowData();
 	float clippedSize = LWindowOperations::PixelToNormalizedSize(data, fontSize * 1.333f, EWindowAxisType::Y);
 	float clippedMargin = LWindowOperations::PixelToNormalizedSize(data, margins, EWindowAxisType::X);
-	FVector2 topLeftOfText = this->transform.rect.GetTopLeft();
+	FVector2 topLeftOfText = rect.GetTopLeft();
 	FVector2 currentCursorLocation = topLeftOfText + FVector2(clippedMargin, -clippedMargin);
 
 	for (int i = 0; i < length; i++)
