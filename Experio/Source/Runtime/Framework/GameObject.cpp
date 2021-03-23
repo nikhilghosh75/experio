@@ -5,6 +5,7 @@
 #include "glm/gtx/matrix_decompose.hpp"
 #include "../Containers/Algorithm.h"
 #include "../Core/Window.h"
+#include "../UI/Canvas.h"
 
 uint64_t GameObject::currentGameObject = 64;
 
@@ -251,37 +252,52 @@ FRect GameObject::GetCanvasSpaceRect() const
 {
 	if (!isUI)
 	{
-		return FRect();
+		// return FRect();
 	}
 
-	// Change later with resizable canvases
-	FWindowData windowData = Window::GetWindowData();
-	float canvasWidth = windowData.width;
-	float canvasHeight = windowData.height;
-	FVector2 screenDimensions = FVector2(canvasWidth, canvasHeight);
+	float canvasWidth = Canvas::GetCanvasWidth();
+	float canvasHeight = Canvas::GetCanvasHeight();
 
-	FRect rect = rectTransform.rect;
-	const GameObject* currentObject = this;
-	while (currentObject != nullptr)
+	float xPosition = 0;
+	float yPosition = 0;
+	float width = canvasWidth;
+	float height = canvasHeight;
+
+	std::vector<size_t> siblingIndexes;
+
+	const GameObject* current = this;
+	while (current != nullptr)
 	{
-		if (!currentObject->isUI || currentObject->parent == nullptr)
+		if (!current->isUI || current->parent == nullptr)
 			break;
 
-		EAnchorType anchorType = currentObject->rectTransform.anchorType;
-		if (currentObject->parent->isUI)
+		siblingIndexes.push_back(current->GetSiblingIndex());
+
+		if (current->parent->isUI)
 		{
-			FRect parentRect = currentObject->parent->rectTransform.rect;
-			rect = RectTransform::MergeRectTransform(rect, parentRect, anchorType, screenDimensions);
+			xPosition = MergePositionConstraint(xPosition, current->rectTransform.xConstraint);
+			yPosition = MergePositionConstraint(yPosition, current->rectTransform.yConstraint);
 		}
 		else
 		{
-			rect = RectTransform::MergeRectWithScreen(rect, screenDimensions);
+			if (xPosition < 0)
+				xPosition = canvasWidth - xPosition;
+			if (yPosition < 0)
+				yPosition = canvasHeight - yPosition;
 		}
-
-		currentObject = currentObject->parent;
 	}
 
-	return rect;
+	size_t objectDepth = siblingIndexes.size();
+	for (size_t i = 0; i < objectDepth; i++)
+	{
+		width = MergeDimensionConstraint(width, current->rectTransform.widthConstraint);
+		height = MergeDimensionConstraint(height, current->rectTransform.heightConstraint);
+
+		current = current->children[siblingIndexes.back()];
+		siblingIndexes.pop_back();
+	}
+
+	return FRect(xPosition, yPosition, xPosition + width, xPosition + height);
 }
 
 void GameObject::SetTag(unsigned short newTag)
@@ -307,6 +323,20 @@ void GameObject::ReserveChildren(uint8_t numChildren)
 Scene * GameObject::GetScene() const
 {
 	return &Scene::scenes[this->sceneIndex];
+}
+
+size_t GameObject::GetSiblingIndex() const
+{
+	if (parent == nullptr)
+		return 0;
+
+	for (size_t i = 0; i < parent->children.size(); i++)
+	{
+		if (parent->children[i] == this)
+			return i;
+	}
+
+	return parent->children.size();
 }
 
 bool GameObject::operator==(const GameObject & object) const

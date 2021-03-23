@@ -88,6 +88,8 @@ public:
 
 	Scene* GetScene() const;
 
+	size_t GetSiblingIndex() const;
+
 	bool operator==(const GameObject& object) const;
 	bool operator!=(const GameObject& object) const;
 
