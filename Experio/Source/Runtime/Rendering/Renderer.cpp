@@ -77,6 +77,7 @@ void Renderer::SetupShaders()
 	}
 
 	billboardShader = ShaderReader::ReadShader(standardShadersPath + "/Billboard.shader");
+	defaultQuadShader = ShaderReader::ReadShader(standardShadersPath + "/Quad.shader");
 }
 
 void Renderer::LogRenderingError()
@@ -212,10 +213,15 @@ void Renderer::DrawMesh(const MeshComponent & mesh)
 	glDrawArrays(GL_TRIANGLES, 0, mesh.meshData->GetTriangleCount());
 }
 
-void Renderer::DrawQuad(unsigned int textureID, const Shader & shader, const FRect & uvRect, const FRect & vertexRect)
+void Renderer::DrawQuad(unsigned int textureID, const Shader* shader, const FRect & uvRect, const FRect & vertexRect)
 {
+	if (shader == nullptr)
+	{
+		shader = defaultQuadShader;
+	}
+
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	shader.Bind();
+	shader->Bind();
 
 	glm::vec2 verticies[6] = {
 		vertexRect.GetTopLeft(), vertexRect.GetBottomLeft(), vertexRect.GetTopRight(),
@@ -242,9 +248,14 @@ void Renderer::DrawQuad(unsigned int textureID, const Shader & shader, const FRe
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Renderer::DrawQuad(const Texture & texture, const Shader & shader, const FRect & uvRect, const FRect & vertexRect)
+void Renderer::DrawQuad(const Texture & texture, const Shader* shader, const FRect & uvRect, const FRect & vertexRect)
 {
-	shader.Bind();
+	if (shader == nullptr)
+	{
+		shader = defaultQuadShader;
+	}
+
+	shader->Bind();
 	texture.Bind();
 
 	glm::vec2 verticies[6] = {
