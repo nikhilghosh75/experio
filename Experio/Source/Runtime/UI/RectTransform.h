@@ -2,6 +2,7 @@
 #include "../Math/FRect.h"
 #include "../Math/FVector2.h"
 
+/*
 enum class EAnchorType : uint8_t
 {
 	Upper,
@@ -21,28 +22,52 @@ enum class EAnchorType : uint8_t
 	Right,
 	Full
 };
+*/
+
+enum class EPositionConstraintType : uint8_t
+{
+	Center,
+	Pixel,
+};
+
+enum class EDimensionConstraintType : uint8_t
+{
+	Fill,
+	Constant
+};
+
+// For X and Y position
+class PositionConstraint
+{
+public:
+	EPositionConstraintType type;
+	float value;
+};
+
+// For Width and Height
+class DimensionConstraint
+{
+public:
+	EDimensionConstraintType type;
+	float value;
+};
+
+float MergePositionConstraint(float position, PositionConstraint constraint);
+float MergeDimensionConstraint(float dimension, DimensionConstraint constraint);
+
+const char* ConstraintTextFromType(EPositionConstraintType type);
+const char* ConstraintTextFromType(EDimensionConstraintType type);
 
 class RectTransform
 {
 public:
 	friend class GameObject;
 
+	PositionConstraint xConstraint;
+	PositionConstraint yConstraint;
+	DimensionConstraint widthConstraint;
+	DimensionConstraint heightConstraint;
+
 	RectTransform();
-	RectTransform(FVector2 min, FVector2 max);
-	RectTransform(FVector2 min, FVector2 max, FVector2 pivot);
-	RectTransform(FVector2 min, FVector2 max, FVector2 pivot, float rotation);
 
-	FRect rect;
-	float rotation;
-	FVector2 pivot;
-	EAnchorType anchorType;
-
-private:
-	static bool IsFillAnchorType(EAnchorType anchorType);
-
-	static FRect MergeRectTransform(FRect rect, FRect childToParent, EAnchorType childAnchorType, FVector2 screenDimensions);
-
-	static FRect MergeRectFull(FRect rect, FRect childToParent, FVector2 screenDimensions);
-
-	static FRect MergeRectWithScreen(FRect rect, FVector2 screenDimensions);
 };
