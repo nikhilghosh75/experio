@@ -555,6 +555,15 @@
     <ClInclude Include="Source\Runtime\Containers\TSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Runtime\UI\ImageComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\Containers\TMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Runtime\UI\Canvas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp">
@@ -872,6 +881,12 @@
     <ClCompile Include="Source\Runtime\Core\SystemMetrics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Runtime\UI\ImageComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Runtime\UI\Canvas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Standard\Materials\Test.material" />
@@ -885,5 +900,6 @@
     <None Include="Resources\Standard\Shaders\Text2D.shader" />
     <None Include="Resources\Test\TestAssetMap.pbasmap" />
     <None Include="Resources\Test\TestProject.pbcodeproj" />
+    <None Include="Resources\Standard\Shaders\Quad.shader" />
   </ItemGroup>
 </Project>

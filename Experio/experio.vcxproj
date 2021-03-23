@@ -20,6 +20,7 @@
     <ClInclude Include="Source\Runtime\Containers\Algorithm.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
+    <ClInclude Include="Source\Runtime\Containers\TMap.h" />
     <ClInclude Include="Source\Runtime\Containers\TSet.h" />
     <ClInclude Include="Source\Runtime\Core\SystemMetrics.h" />
     <ClInclude Include="Source\Runtime\Data\DataManager.h" />
@@ -152,6 +153,8 @@
     <ClInclude Include="Source\Runtime\Debug\Profiler.h" />
     <ClInclude Include="Source\Runtime\Time\FDuration.h" />
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
+    <ClInclude Include="Source\Runtime\UI\Canvas.h" />
+    <ClInclude Include="Source\Runtime\UI\ImageComponent.h" />
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
     <ClInclude Include="Source\Runtime\UI\UIColorPalettes.h" />
@@ -293,6 +296,8 @@
     <ClCompile Include="Source\Runtime\Debug\Profiler.cpp" />
     <ClCompile Include="Source\Runtime\Time\FDuration.cpp" />
     <ClCompile Include="Source\Runtime\Time\GameTime.cpp" />
+    <ClCompile Include="Source\Runtime\UI\Canvas.cpp" />
+    <ClCompile Include="Source\Runtime\UI\ImageComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\UIColorPalettes.cpp" />
@@ -308,6 +313,7 @@
     <None Include="Resources\Standard\Shaders\FullScreen.shader" />
     <None Include="Resources\Standard\Shaders\InvertedScreen.shader" />
     <None Include="Resources\Standard\Shaders\Particle.shader" />
+    <None Include="Resources\Standard\Shaders\Quad.shader" />
     <None Include="Resources\Standard\Shaders\Red.shader" />
     <None Include="Resources\Standard\Shaders\SingleColor.shader" />
     <None Include="Resources\Standard\Shaders\Text2D.shader" />
