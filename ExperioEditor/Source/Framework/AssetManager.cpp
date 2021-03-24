@@ -2,7 +2,6 @@
 #include "MetaSystem.h"
 #include "../Core/EditorApplication.h"
 #include "../Files/SceneConverter.h"
-#include "Runtime/Files/FFileCategory.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Files/Font/FontReader.h"
 #include "Runtime/Files/Mesh/MeshReader.h"
@@ -87,6 +86,21 @@ bool AssetManager::IsIncludedInBuild(const std::string & str)
 {
 	// Fix this later when optional files are implemented
 	return true;
+}
+
+size_t AssetManager::NumFilesOfType(EAssetType type)
+{
+	size_t numFiles = 0;
+
+	for (auto& p : fs::recursive_directory_iterator(EditorApplication::assetsFilePath))
+	{
+		if (LFileOperations::GetFileType(p.path().string()) == type)
+		{
+			numFiles++;
+		}
+	}
+
+	return numFiles;
 }
 
 void AssetManager::Rename(const std::string & from, const std::string & to)
