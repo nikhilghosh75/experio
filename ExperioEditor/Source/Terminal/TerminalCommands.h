@@ -1,6 +1,9 @@
 #pragma once
 #include "Terminal.h"
 
+// Asset Commands
+int NumAssets(const std::vector<std::string>& args);
+
 // Code Analysis Commands
 int CodeStats(const std::vector<std::string>& args);
 
