@@ -10,6 +10,7 @@
 #include "Runtime/Rendering/Managers/TextureManager.h"
 #include "../AssetViewers/FontViewer.h"
 #include "../AssetViewers/ImageViewer.h"
+#include "../AssetViewers/InputMapViewer.h"
 #include "../AssetViewers/MeshViewer.h"
 #include "../Core/EditorApplication.h"
 #include "../Core/FileDialog.h"
@@ -286,6 +287,12 @@ void FileView::OpenFile(const std::string & str, EAssetType type)
 	{
 		ImageViewer* imageViewer = (ImageViewer*)EditorApplication::AddModule(new ImageViewer());
 		imageViewer->loadedRef = TextureManager::LoadTexture(str);
+	}
+	break;
+	case EAssetType::InputMap:
+	{
+		InputMapViewer* inputMapViewer = (InputMapViewer*)EditorApplication::AddModule(new InputMapViewer());
+		inputMapViewer->Load(str);
 	}
 	break;
 	case EAssetType::Material:
