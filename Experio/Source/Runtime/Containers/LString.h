@@ -56,6 +56,8 @@ public:
 
 	static std::string LongLongToHexString(uint64_t n);
 
+	static size_t Mismatch(const std::string& str1, const std::string& str2);
+
 	template<typename Number>
 	static std::string NumberWithCommas(Number n);
 

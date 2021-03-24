@@ -320,6 +320,17 @@ std::string LString::LongLongToHexString(uint64_t n)
 	return ss.str();
 }
 
+size_t LString::Mismatch(const std::string& str1, const std::string& str2)
+{
+	size_t size = str1.size() > str2.size() ? str1.size() : str2.size();
+	for (size_t i = 0; i < size; i++)
+	{
+		if (str1[i] != str2[i])
+			return i;
+	}
+	return str1.size() < str2.size() ? str1.size() : str2.size();
+}
+
 std::string LString::BoolToString(bool b)
 {
 	return b ? "true" : "false";
