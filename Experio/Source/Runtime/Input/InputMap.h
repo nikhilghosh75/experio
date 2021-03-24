@@ -71,4 +71,6 @@ public:
 	void EnableCategory(const std::string& categoryName);
 
 	const std::string& GetCurrentCategory() const;
+
+	bool IsEmpty() const;
 };

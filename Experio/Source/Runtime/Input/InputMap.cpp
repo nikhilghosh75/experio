@@ -71,3 +71,8 @@ const std::string& InputMap::GetCurrentCategory() const
 {
 	return categories[currentCategory].name;
 }
+
+bool InputMap::IsEmpty() const
+{
+	return categories.size() == 0;
+}
