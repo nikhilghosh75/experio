@@ -258,6 +258,12 @@
     <ClCompile Include="Source\ProjectSettings\AudioSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Terminal\AssetCommands.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AssetViewers\InputMapViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\EditorWindow.h">
@@ -555,6 +561,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\ProjectSettings\AudioSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetViewers\InputMapViewer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -88,6 +88,7 @@
     <ClCompile Include="Source\AssetDatabase\SQLParser.cpp" />
     <ClCompile Include="Source\AssetViewers\FontViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\ImageViewer.cpp" />
+    <ClCompile Include="Source\AssetViewers\InputMapViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\LayerEditor.cpp" />
     <ClCompile Include="Source\AssetViewers\MeshViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\TagEditor.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="Source\ProjectSettings\SettingsView.cpp" />
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
+    <ClCompile Include="Source\Terminal\AssetCommands.cpp" />
     <ClCompile Include="Source\Terminal\CodeAnalysisCommands.cpp" />
     <ClCompile Include="Source\Terminal\SceneCommands.cpp" />
     <ClCompile Include="Source\Terminal\ScreenCommands.cpp" />
@@ -172,6 +174,7 @@
     <ClInclude Include="Source\AssetDatabase\SQLParser.h" />
     <ClInclude Include="Source\AssetViewers\FontViewer.h" />
     <ClInclude Include="Source\AssetViewers\ImageViewer.h" />
+    <ClInclude Include="Source\AssetViewers\InputMapViewer.h" />
     <ClInclude Include="Source\AssetViewers\LayerEditor.h" />
     <ClInclude Include="Source\AssetViewers\MeshViewer.h" />
     <ClInclude Include="Source\AssetViewers\TagEditor.h" />
