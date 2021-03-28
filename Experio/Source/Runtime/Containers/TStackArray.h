@@ -64,6 +64,16 @@ public:
 		this->count = 0;
 	}
 
+	void RemoveAt(uint32_t index)
+	{
+		this->data[index].~T();
+		for (uint32_t i = index + 1; i < this->count; i++)
+		{
+			data[i - 1] = data[i];
+		}
+		this->count--;
+	}
+
 	void RemoveBack()
 	{
 		this->count--;
