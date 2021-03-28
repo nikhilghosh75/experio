@@ -9,6 +9,11 @@ class InputMapViewer : public EditorModule
 	std::string filepath;
 	InputMap currentMap;
 
+	int categoryIndex;
+	int configIndex;
+	bool action; // Is an action selected or is an axis selected
+	int actionIndex;
+
 public:
 	InputMapViewer();
 
@@ -20,4 +25,26 @@ private:
 	void DisplayEmpty();
 
 	void DisplayInputMap();
+
+	void DisplayCategories();
+
+	void DisplayCategoryInfo();
+
+	void DisplayConfigs();
+
+	void DisplayConfigInfo();
+
+	void DisplayActionsAndAxes();
+
+	void DisplayActions();
+
+	void DisplayAxes();
+
+	void DisplayActionAndAxis();
+
+	void DisplayAction();
+
+	void DisplayAxis();
+
+	void DisplayInputCode(EInputType inputType, InputCode& code);
 };
