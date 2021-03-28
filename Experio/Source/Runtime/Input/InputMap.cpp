@@ -41,6 +41,16 @@ InputAxis::InputAxis(const std::string& str)
 	this->name = str;
 }
 
+InputConfig::InputConfig(const std::string& name)
+{
+	this->name = name;
+}
+
+InputCategory::InputCategory(const std::string& name)
+{
+	this->name = name;
+}
+
 void InputMap::Resize(uint32_t numCategories, uint32_t numConfigs)
 {
 	this->categories.resize(numCategories);

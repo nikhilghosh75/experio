@@ -40,6 +40,9 @@ public:
 class InputConfig
 {
 public:
+	InputConfig() = default;
+	InputConfig(const std::string& name);
+
 	std::string name;
 
 	std::vector<InputAction> actions;
@@ -52,6 +55,9 @@ public:
 class InputCategory
 {
 public:
+	InputCategory() = default;
+	InputCategory(const std::string& name);
+
 	std::vector<InputConfig> configs;
 
 	std::string name;
@@ -60,6 +66,7 @@ public:
 class InputMap
 {
 	friend class InputMapReader;
+	friend class InputMapViewer;
 
 	void Resize(uint32_t numCategories, uint32_t numConfigs);
 
