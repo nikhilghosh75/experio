@@ -59,7 +59,7 @@ std::vector<std::string> LString::SeperateStringByChar(std::string str, char c, 
 {
 	std::vector<std::string> seperatedStrings;
 	int lastChar = -1;
-	for (int i = 0; i < str.size(); i++)
+	for (size_t i = 0; i < str.size(); i++)
 	{
 		if (str[i] == c)
 		{
@@ -76,7 +76,7 @@ std::vector<std::string> LString::SeperateStringByChar(std::string str, char c, 
 	}
 
 	std::vector<std::string> realSeperatedStrings;
-	for (int i = 0; i < seperatedStrings.size(); i++)
+	for (size_t i = 0; i < seperatedStrings.size(); i++)
 	{
 		if (seperatedStrings[i].size() > 0)
 		{
