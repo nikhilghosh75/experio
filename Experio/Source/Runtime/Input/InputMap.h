@@ -77,6 +77,9 @@ public:
 	void EnableCategory(uint32_t currentCategory);
 	void EnableCategory(const std::string& categoryName);
 
+	size_t NumCategories() const;
+	size_t NumConfigs() const;
+
 	const std::string& GetCurrentCategory() const;
 
 	bool IsEmpty() const;

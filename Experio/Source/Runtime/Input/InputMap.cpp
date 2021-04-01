@@ -77,6 +77,22 @@ void InputMap::EnableCategory(const std::string& categoryName)
 	}
 }
 
+size_t InputMap::NumCategories() const
+{
+	return categories.size();
+}
+
+size_t InputMap::NumConfigs() const
+{
+	size_t numConfigs = 0;
+	for (size_t i = 0; i < categories.size(); i++)
+	{
+		size_t currentConfigs = categories[i].configs.size();
+		numConfigs = currentConfigs > numConfigs ? currentConfigs : numConfigs;
+	}
+	return numConfigs;
+}
+
 const std::string& InputMap::GetCurrentCategory() const
 {
 	return categories[currentCategory].name;
