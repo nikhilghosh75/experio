@@ -1,6 +1,7 @@
 #include "Inspector.h"
 #include "InspectorUndo.h"
 #include "Runtime/Containers/Algorithm.h"
+#include "Runtime/Debug/Profiler.h"
 #include "Runtime/Framework/Framework.h"
 #include "Runtime/Rendering/ImGui/LImGui.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
@@ -265,6 +266,19 @@ void Inspector::DisplayAddComponentMenu()
 
 	if (ImGui::BeginPopup("##AddComponent"))
 	{
+		EditorProject::componentCategories.ForEach([this](unsigned int& id) {
+			if (ImGui::MenuItem(EditorProject::componentClasses.Get(id).name.c_str()))
+				AddComponentToGameObjects(id);
+		}, [](const std::string& str) {
+			if (str.empty())
+				return true;
+			return (bool)ImGui::BeginMenu(str.c_str());
+		}, [](const std::string& str){
+			if (str.empty())
+				return;
+			ImGui::EndMenu();
+		});
+		/*
 		if (ImGui::BeginMenu("Rendering"))
 		{
 			if (ImGui::MenuItem("Virtual Camera"))
@@ -287,6 +301,7 @@ void Inspector::DisplayAddComponentMenu()
 
 			ImGui::EndMenu();
 		}
+		*/
 		if (ImGui::BeginMenu("Custom"))
 		{
 			if (ImGui::MenuItem("Spaceship"))
@@ -324,6 +339,8 @@ Inspector::~Inspector()
 
 void Inspector::Display()
 {
+	PROFILE_SCOPE("Inspector::Display");
+
 	std::vector<GameObject>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
 
 	if (objects.size() == 0)
