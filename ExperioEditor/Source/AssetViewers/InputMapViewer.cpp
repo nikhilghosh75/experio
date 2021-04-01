@@ -48,6 +48,8 @@ void InputMapViewer::DisplayEmpty()
 void InputMapViewer::DisplayInputMap()
 {
 	ImGui::Text(this->mapName.c_str());
+	if (ImGui::Button("Save")) SaveInputMap();
+
 	float width = this->GetWindowSize().x - 25;
 
 	ImGui::BeginChild("Categories", ImVec2(width / 4, 0), true);
@@ -326,5 +328,66 @@ void InputMapViewer::DisplayInputCode(EInputType inputType, InputCode& code)
 	{
 	case EInputType::Gamepad: LImGui::DisplayEnum<EGamepadButton>(code.gamepadButton, "Button"); break;
 	case EInputType::Keyboard: LImGui::DisplayEnum<EKeyCode>(code.keycode, "Keycode"); break;
+	}
+}
+
+void InputMapViewer::SaveInputMap()
+{
+	std::ofstream outFile;
+	outFile << "EXPERIO INPUT MAP" << std::endl;
+	outFile << currentMap.NumCategories() << " " << currentMap.NumConfigs() << std::endl;
+	outFile << std::endl;
+
+	std::vector<InputCategory>& categories = currentMap.categories;
+	for (size_t i = 0; i < categories.size(); i++)
+	{
+		SaveCategory(outFile, categories[i]);
+
+		outFile << std::endl;
+	}
+}
+
+void InputMapViewer::SaveCategory(std::ofstream& outFile, InputCategory& category)
+{
+	outFile << "CATEGORY " << category.name << std::endl;
+	std::vector<InputConfig>& configs = category.configs;
+
+	for (size_t i = 0; i < configs.size(); i++)
+	{
+		SaveConfig(outFile, configs[i]);
+	}
+}
+
+void InputMapViewer::SaveConfig(std::ofstream& outFile, InputConfig& config)
+{
+	outFile << "CONFIG " << config.name << " "
+		<< magic_enum::enum_name(config.inputType) << std::endl;
+
+	std::vector<InputAction>& actions = config.actions;
+	for (size_t i = 0; i < actions.size(); i++)
+	{
+		outFile << "ACTION " << actions[i].name << " ";
+		switch (config.inputType)
+		{
+		case EInputType::Keyboard: outFile << magic_enum::enum_name(actions[i].code.keycode) << std::endl; break;
+		case EInputType::Gamepad: outFile << magic_enum::enum_name(actions[i].code.gamepadButton) << std::endl; break;
+		}
+	}
+
+	std::vector<InputAxis>& axes = config.axes;
+	for (size_t i = 0; i < axes.size(); i++)
+	{
+		outFile << "AXIS " << axes[i].name << " " << axes[i].axisPoints.Count() << " ";
+		for (size_t j = 0; j < axes[i].axisPoints.Count(); j++)
+		{
+			InputAxisPoint& axisPoint = axes[i].axisPoints[j];
+			switch (config.inputType)
+			{
+			case EInputType::Keyboard: outFile << magic_enum::enum_name(axisPoint.code.keycode) << " "; break;
+			case EInputType::Gamepad: outFile << magic_enum::enum_name(axisPoint.code.gamepadButton) << " "; break;
+			}
+			outFile << axisPoint.value << " ";
+		}
+		outFile << std::endl;
 	}
 }

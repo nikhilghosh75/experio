@@ -1,6 +1,7 @@
 #pragma once
 #include "../Core/EditorModule.h"
 #include "Runtime/Input/InputMap.h"
+#include <fstream>
 
 class InputMapViewer : public EditorModule
 {
@@ -47,4 +48,12 @@ private:
 	void DisplayAxis();
 
 	void DisplayInputCode(EInputType inputType, InputCode& code);
+
+	// Savers
+
+	void SaveInputMap();
+
+	void SaveCategory(std::ofstream& outFile, InputCategory& category);
+
+	void SaveConfig(std::ofstream& outFile, InputConfig& config);
 };
