@@ -509,7 +509,7 @@ public:
 			THashNode<K, V>* entry = arr[i];
 			while (entry != nullptr)
 			{
-				values.push_back(entry->GetKey());
+				values.push_back(entry->GetValue());
 				entry = entry->GetNext();
 			}
 		}
