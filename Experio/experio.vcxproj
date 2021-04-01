@@ -23,6 +23,7 @@
     <ClInclude Include="Source\Runtime\Containers\TMap.h" />
     <ClInclude Include="Source\Runtime\Containers\TSet.h" />
     <ClInclude Include="Source\Runtime\Core\SystemMetrics.h" />
+    <ClInclude Include="Source\Runtime\Data\CategoryMap.h" />
     <ClInclude Include="Source\Runtime\Data\DataManager.h" />
     <ClInclude Include="Source\Runtime\Data\Regression.h" />
     <ClInclude Include="Source\Runtime\DefaultComponents.h" />
