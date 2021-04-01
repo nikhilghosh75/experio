@@ -55,7 +55,7 @@ std::string LString::ReplaceAll(std::string s, char from, char to)
 	return returnString;
 }
 
-std::vector<std::string> LString::SeperateStringByChar(std::string str, char c, bool removeZeroLength)
+std::vector<std::string> LString::SeperateStringByChar(const std::string& str, char c, bool removeZeroLength)
 {
 	std::vector<std::string> seperatedStrings;
 	int lastChar = -1;
