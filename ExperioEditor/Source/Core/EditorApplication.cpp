@@ -10,8 +10,6 @@
 #include "examples/imgui_impl_opengl3.h"
 #include "imgui_internal.h"
 
-#define EXPERIO_DEBUG
-
 #include "EditorWindow.h"
 #include "../BuildSystem/CodeGenerator.h"
 #include "../CodeParser/CodeProjectGenerator.h"

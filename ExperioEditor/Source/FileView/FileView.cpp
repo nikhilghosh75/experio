@@ -2,6 +2,7 @@
 #include <filesystem>
 #include "Runtime/Data/DataManager.h"
 #include "Runtime/Debug/Debug.h"
+#include "Runtime/Debug/Profiler.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Input/Input.h"
 #include "Runtime/Rendering/ImGui/LImGui.h"
@@ -317,6 +318,8 @@ void FileView::OpenFile(const std::string & str, EAssetType type)
 
 void FileView::Display()
 {
+	PROFILE_SCOPE("FileView::Display");
+
 	DisplayMenuBar();
 	DisplayContextMenu();
 	DisplayTree();

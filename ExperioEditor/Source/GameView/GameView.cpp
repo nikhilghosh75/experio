@@ -1,5 +1,6 @@
 #include "GameView.h"
 #include "Runtime/Core/Window.h"
+#include "Runtime/Debug/Profiler.h"
 #include "Runtime/Framework/Project.h"
 #include "Runtime/Math/ColorPalette.h"
 #include "Runtime/Math/LMath.h"
@@ -50,6 +51,8 @@ GameView::GameView()
 
 void GameView::Display()
 {
+	PROFILE_SCOPE("GameView::Display");
+
 	renderer.MakeCurrent();
 	renderer.SetCull(true);
 
