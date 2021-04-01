@@ -1,0 +1,58 @@
+{
+  "Components": [
+    {
+      "name": "VirtualCamera",
+      "id": 100,
+      "filepath": "Runtime/Camera/VirtualCamera.h",
+      "stage": 1,
+      "category": "Rendering",
+      "default": true,
+      "standalone": false
+    },
+    {
+      "name": "MeshComponent",
+      "id": 101,
+      "filepath": "Runtime/Rendering/Components/MeshComponent.h",
+      "stage": 4,
+      "category": "Rendering",
+      "default": true,
+      "standalone": true
+    },
+    {
+      "name": "ParticleSystem",
+      "id": 102,
+      "filepath": "Runtime/Rendering/Particles/ParticleSystem.h",
+      "stage": 4,
+      "category": "Rendering",
+      "default": true,
+      "standalone": true
+    },
+    {
+      "name": "Billboard",
+      "id": 103,
+      "filepath": "Runtime/Rendering/Components/Billboard.h",
+      "stage": 4,
+      "category": "Rendering",
+      "default": true,
+      "standalone": true
+    },
+    {
+      "name": "TextComponent",
+      "id": 104,
+      "category": "UI",
+      "filepath": "Runtime/UI/TextComponent.h",
+      "stage": 7,
+      "default": true,
+      "standalone": true
+    },
+    {
+      "name": "ImageComponent",
+      "id": 105,
+      "category": "UI",
+      "filepath": "Runtime/UI/ImageComponent.h",
+      "stage": 7,
+      "default": true,
+      "standalone": true
+    }
+  ]
+}
