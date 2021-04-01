@@ -4,6 +4,7 @@
 #include "ShaderInfo.h"
 #include "Version.h"
 #include "Runtime/Containers/THashtable.h"
+#include "Runtime/Data/CategoryMap.h"
 
 class CodeProject;
 class CodeClass;
@@ -26,6 +27,8 @@ class EditorProject
 {
 public:
 	static THashtable<unsigned int, FComponentInfo> componentClasses;
+	static CategoryMap<unsigned int> componentCategories;
+
 	static std::vector<FShaderInfo> shaders;
 
 	static std::vector<std::string> gameCompileFiles;
@@ -50,9 +53,11 @@ public:
 
 	static void ReadValueFiles();
 
-	static void SetupRuntimeCompilation();
+	static void Setup();
 
-	static void TempSetup();
+	static void SetupClasses();
+
+	static void SetupRuntimeCompilation();
 
 	static void TempSetupClasses();
 
@@ -62,6 +67,8 @@ public:
 	static void SetLayout(EEditorLayout layout);
 
 	static void QueueSetLayout(EEditorLayout layout);
+
+	static void ReadComponents();
 
 private:
 	static void SetLayoutDefault();

@@ -84,7 +84,9 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	EditorProject::SetProjectPaths();
 	EditorProject::SetupRuntimeCompilation();
 	EditorProject::SetLayout(EEditorLayout::Default);
-	EditorProject::TempSetup();
+	// EditorProject::Setup();
+	EditorProject::TempSetupClasses();
+	EditorProject::TempSetupMaterials();
 
 	currentScenePath = defaultScenePath;
 
@@ -109,6 +111,7 @@ void EditorApplication::LoadScenes()
 
 void EditorApplication::Run()
 {
+	EditorProject::ReadComponents();
 	CodeGenerator::GenerateAllFiles();
 
 	Project::StartGame();

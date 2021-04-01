@@ -3,12 +3,15 @@
 #include <fstream>
 #include "../Core/EditorApplication.h"
 #include "../CodeParser/CodeParser.h"
+#include "../CodeParser/CodeProjectReader.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Framework/Project.h"
+#include "ThirdParty/Simdjson/simdjson.h"
 #include "ThirdParty/toml++/toml.h"
 #include "imgui.h"
 
 THashtable<unsigned int, FComponentInfo> EditorProject::componentClasses;
+CategoryMap<unsigned int> EditorProject::componentCategories;
 std::vector<FShaderInfo> EditorProject::shaders;
 FVersion EditorProject::experioVersion(0, 11, 0);
 CodeProject EditorProject::gameProject(ECodingLanguage::CPlusPlus);
@@ -107,19 +110,33 @@ void EditorProject::ReadValueFiles()
 	ValueLoader::LoadValues(EditorApplication::configFilePath + "/tags.pbvalues");
 }
 
+void EditorProject::Setup()
+{
+	SetupClasses();
+}
+
+void EditorProject::SetupClasses()
+{
+	// Create the game project
+	gameProject.filepath = EditorApplication::sourceFilePath;
+	gameProject.Generate();
+
+	// Import the engine components
+	CodeProject engineProject = CodeProjectReader::ReadFromFile(EditorApplication::generatedFilePath + "/Engine.pbcodeproj");
+	LCodeParser::MergeCodeProjects(gameProject, engineProject);
+
+	// Import component classes
+	ReadComponents();
+}
+
 void EditorProject::SetupRuntimeCompilation()
 {
 	gameCompileFiles = LFileOperations::GetAllFilepathsOfExt(EditorApplication::sourceFilePath, "cpp");
 }
 
-void EditorProject::TempSetup()
-{
-	TempSetupClasses();
-	TempSetupMaterials();
-}
-
 void EditorProject::TempSetupClasses()
 {
+	/**/
 	EditorProject::componentClasses.Insert(100, FComponentInfo("VirtualCamera", false));
 	EditorProject::componentClasses.Insert(101, FComponentInfo("MeshComponent", true));
 	EditorProject::componentClasses.Insert(102, FComponentInfo("ParticleSystem", true));
@@ -225,4 +242,31 @@ void EditorProject::SetLayoutTall()
 void EditorProject::SetLayoutWide()
 {
 	ImGui::LoadIniSettingsFromDisk((EditorApplication::experioEditorFilePath + "/Resources/Layouts/Wide.ini").c_str());
+}
+
+void EditorProject::ReadComponents()
+{
+	componentClasses.Empty();
+
+	std::string componentsFilepath = EditorApplication::generatedFilePath + "/Components.json";
+	simdjson::ondemand::parser parser;
+	simdjson::padded_string jsonStr = simdjson::padded_string::load(componentsFilepath);
+	simdjson::ondemand::document json = parser.iterate(jsonStr);
+
+	auto components = json["Components"];
+	for (auto it : components)
+	{
+		unsigned int id = it["id"].get_uint64();
+
+		FComponentInfo info;
+		info.name = it["name"].get_string().value();
+		info.filepath = it["filepath"].get_string().value();
+		info.stage = (EComponentStage)it["stage"].get_int64().value();
+		info.category = it["category"].get_string().value();
+		info.isDefaultComponent = it["default"].get_bool().value();
+		info.isStandaloneComponent = it["standalone"].get_bool().value();
+
+		componentClasses.Insert(id, info);
+		componentCategories.Insert(info.category, id);
+	}
 }
