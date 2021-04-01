@@ -2,13 +2,10 @@
 #include "Runtime/Framework/ComponentManager.h"
 #include "Runtime/DefaultComponents.h"
 
-#include "Components/Spaceship.h"
 class DemoProjectComponentManager : public ComponentManager
 {
 	public:
 	std::vector<TextComponent> textComponentInstances;
-
-	std::vector<Spaceship> spaceshipInstances;
 
 	std::vector<ImageComponent> imageComponentInstances;
 
