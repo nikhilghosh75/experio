@@ -57,6 +57,11 @@ unsigned long long ParseULongLong(std::string str)
 	return std::stoull(str);
 }
 
+std::string ParseString(std::string str)
+{
+	return str;
+}
+
 FVector2 ParseVector2(std::string str)
 {
 	float coordinates[2];

@@ -64,6 +64,11 @@ void SaveULongLong(uint64_t param, std::ostream & stream)
 	stream << param;
 }
 
+void SaveString(std::string str, std::ostream& stream)
+{
+	stream << str;
+}
+
 void SaveVector2(FVector2 param, std::ostream & stream)
 {
 	stream << param.x << " " << param.y;

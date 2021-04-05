@@ -64,8 +64,8 @@ enum class EParamType
 	SHADER,
 	TEXTURE,
 	VIDEO,
+	STRING,
 	NARRAY,
-	NSTRING
 };
 
 bool ParseBool(std::string str);
@@ -79,6 +79,8 @@ unsigned int ParseUInt(std::string str);
 double ParseDouble(std::string str);
 long long ParseLongLong(std::string str);
 unsigned long long ParseULongLong(std::string str);
+
+std::string ParseString(std::string str);
 
 FVector2 ParseVector2(std::string str);
 FVector3 ParseVector3(std::string str);

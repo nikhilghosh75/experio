@@ -19,6 +19,8 @@ double BinaryParseDouble(void* data);
 long long BinaryParseLongLong(void* data);
 unsigned long long BinaryParseULongLong(void* data);
 
+std::string BinaryParseString(void* data);
+
 FVector2 BinaryParseVector2(void* data);
 FVector3 BinaryParseVector3(void* data);
 FVector4 BinaryParseVector4(void* data);
