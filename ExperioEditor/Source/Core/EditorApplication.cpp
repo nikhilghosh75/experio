@@ -88,6 +88,9 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	EditorProject::TempSetupClasses();
 	EditorProject::TempSetupMaterials();
 
+	EditorProject::ReadComponents();
+	EditorProject::FindComponents();
+
 	currentScenePath = defaultScenePath;
 
 	ImGuiStyle& style = ImGui::GetStyle();
@@ -111,7 +114,6 @@ void EditorApplication::LoadScenes()
 
 void EditorApplication::Run()
 {
-	EditorProject::ReadComponents();
 	CodeGenerator::GenerateAllFiles();
 
 	Project::StartGame();
