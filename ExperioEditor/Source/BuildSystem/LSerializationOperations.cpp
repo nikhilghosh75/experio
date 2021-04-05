@@ -492,6 +492,7 @@ size_t LSerializationOperations::SizeOfExperioType(const std::string& name)
 	if (name == "TextureRef") return sizeof(TextureRef);
 	if (name == "DataRef") return sizeof(DataRef);
 	if (name == "FileRef") return sizeof(FileRef);
+	if (name == "FontRef") return sizeof(FontRef);
 	return 0;
 }
 
