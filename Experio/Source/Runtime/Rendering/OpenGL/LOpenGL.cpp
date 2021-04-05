@@ -44,6 +44,20 @@ size_t LOpenGL::GetSizeOfType(EDataType type)
 	return GetSizeOfType((unsigned int)type);
 }
 
+size_t LOpenGL::GetBlendFunc(EBlendFunc func)
+{
+	switch (func)
+	{
+	case EBlendFunc::None: return GL_ZERO;
+	case EBlendFunc::Complete: return GL_ONE;
+	case EBlendFunc::SourceColor: return GL_SRC_COLOR;
+	case EBlendFunc::DestinationColor: return GL_DST_COLOR;
+	case EBlendFunc::OneMinusSourceColor: return GL_ONE_MINUS_SRC_COLOR;
+	case EBlendFunc::OneMinusDestinationColor: return GL_ONE_MINUS_DST_COLOR;
+	}
+	return GL_ZERO;
+}
+
 size_t LOpenGL::GetImageFormat(EImageInternalFormat format)
 {
 	switch (format)

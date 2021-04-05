@@ -2,6 +2,7 @@
 #include "GL/glew.h"
 #include "../../Files/Images/ImageReader.h"
 #include "../VertexBuffer.h"
+#include "../Blend.h"
 #include <string>
 
 class LOpenGL
@@ -11,6 +12,8 @@ public:
 
 	static size_t GetSizeOfType(unsigned int type);
 	static size_t GetSizeOfType(EDataType type);
+
+	static size_t GetBlendFunc(EBlendFunc func);
 
 	static size_t GetImageFormat(EImageInternalFormat format);
 
