@@ -36,6 +36,7 @@ std::string LSerializationOperations::BinaryParseFunctionFromType(EParamType typ
 	case EParamType::SHADER: return "BinaryParseShader";
 	case EParamType::SHORT: return "BinaryParseShort";
 	case EParamType::SPHERICALPOINT: return "BinaryParseSphericalPoint";
+	case EParamType::STRING: return "BinaryParseString";
 	case EParamType::TEXTURE: return "BinaryParseTexture";
 	case EParamType::UBYTE: return "BinaryParseUByte";
 	case EParamType::UINT: return "BinaryParseUInt";
@@ -134,6 +135,7 @@ void LSerializationOperations::ConvertToBinary(const std::vector<std::string>& p
 		// case EParamType::SHADER: { PB_CONVERT_PARAM(shader, ParseShader, BinarySaveShader); break; }
 		case EParamType::SHORT: { PB_CONVERT_PARAM(tempShort, ParseShort, BinarySaveShort); break; }
 		case EParamType::SPHERICALPOINT: { PB_CONVERT_PARAM(sphere, ParseSphericalPoint, BinarySaveSphericalPoint); break; }
+		case EParamType::STRING: {PB_CONVERT_PARAM(string, ParseString, BinarySaveString); break; }
 		case EParamType::TEXTURE: { PB_CONVERT_PARAM(texture, ParseTexture, BinarySaveTexture); break; }
 		case EParamType::UBYTE: { PB_CONVERT_PARAM(tempUByte, ParseUByte, BinarySaveUByte); break; }
 		case EParamType::UINT: { PB_CONVERT_PARAM(tempUInt, ParseUInt, BinarySaveUInt); break; }
@@ -297,6 +299,7 @@ std::string LSerializationOperations::ParseFunctionFromType(EParamType type)
 	case EParamType::SHADER: return "ParseShader";
 	case EParamType::SHORT: return "ParseShort";
 	case EParamType::SPHERICALPOINT: return "ParseSphericalPoint";
+	case EParamType::STRING: return "ParseString";
 	case EParamType::TEXTURE: return "ParseTexture";
 	case EParamType::UBYTE: return "ParseUByte";
 	case EParamType::UINT: return "ParseUInt";
@@ -349,6 +352,7 @@ void LSerializationOperations::SaveParamToBinary(void * component, FSerializatio
 	case EParamType::RECT: PB_SAVE_PARAM(FRect, BinarySaveRect); break;
 	case EParamType::SHORT: PB_SAVE_PARAM(short, BinarySaveShort); break;
 	case EParamType::SPHERICALPOINT: PB_SAVE_PARAM(FSphericalPoint, BinarySaveSphericalPoint); break;
+	case EParamType::STRING: PB_SAVE_PARAM(std::string, BinarySaveString); break;
 	case EParamType::TEXTURE: PB_SAVE_PARAM(TextureRef, BinarySaveTexture); break;
 	case EParamType::VECTOR2: PB_SAVE_PARAM(FVector2, BinarySaveVector2); break;
 	case EParamType::VECTOR3: PB_SAVE_PARAM(FVector3, BinarySaveVector3); break;
@@ -393,6 +397,7 @@ void LSerializationOperations::SaveParamToText(void * component, FSerializationI
 	case EParamType::RECT: PB_SAVE_PARAM(FRect, SaveRect); break;
 	case EParamType::SHORT: PB_SAVE_PARAM(short, SaveShort); break;
 	case EParamType::SPHERICALPOINT: PB_SAVE_PARAM(FSphericalPoint, SaveSphericalPoint); break;
+	case EParamType::STRING: PB_SAVE_PARAM(std::string, SaveString); break;
 	case EParamType::TEXTURE: PB_SAVE_PARAM(TextureRef, SaveTexture); break;
 	case EParamType::UBYTE: PB_SAVE_PARAM(uint8_t, SaveUByte); break;
 	case EParamType::UINT: PB_SAVE_PARAM(unsigned int, SaveUInt); break;
@@ -525,7 +530,7 @@ size_t LSerializationOperations::SerializedSizeOfDefaultType(const std::string &
 	switch (language)
 	{
 	case ECodingLanguage::CPlusPlus:
-		return LCpp::SizeOfDefeaultType(name);
+		return LCpp::SizeOfDefaultType(name);
 	case ECodingLanguage::CSharp:
 		if (name == "bool") return 1;
 		if (name == "byte") return 1;
@@ -698,6 +703,7 @@ std::optional<EParamType> LSerializationOperations::TypenameToParamType(const st
 	if (name == "short") return EParamType::SHORT;
 	if (name == "int16_t") return EParamType::SHORT;
 	if (name == "FSphericalPoint") return EParamType::SPHERICALPOINT;
+	if (name == "std::string") return EParamType::STRING;
 	if (name == "TextureRef") return EParamType::TEXTURE;
 	if (name == "unsigned char") return EParamType::UBYTE;
 	if (name == "uint8_t") return EParamType::UBYTE;
