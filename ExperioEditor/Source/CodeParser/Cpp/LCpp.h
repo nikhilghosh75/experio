@@ -18,5 +18,7 @@ public:
 
 	static CodeParam ParseCodeParam(const std::string& str);
 
-	static size_t SizeOfDefeaultType(const std::string& name);
+	static size_t SizeOfDefaultType(const std::string& name);
+
+	static size_t SizeOfStringType(const std::string& name);
 };
