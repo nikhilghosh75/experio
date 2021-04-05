@@ -22,14 +22,12 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 
-	RectTransform transform;
-
 	float margins = 4;
 
 	int fontSize;
-	std::string text;
 	FontRef font;
 	Shader* shader;
+	std::string text;
 
 	void SetDefaultShader();
 
