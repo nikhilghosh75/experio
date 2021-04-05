@@ -278,37 +278,6 @@ void Inspector::DisplayAddComponentMenu()
 				return;
 			ImGui::EndMenu();
 		});
-		/*
-		if (ImGui::BeginMenu("Rendering"))
-		{
-			if (ImGui::MenuItem("Virtual Camera"))
-				AddComponentToGameObjects(100);
-			if (ImGui::MenuItem("Mesh"))
-				AddComponentToGameObjects(101);
-			if (ImGui::MenuItem("Particle System"))
-				AddComponentToGameObjects(102);
-			if (ImGui::MenuItem("Billboard"))
-				AddComponentToGameObjects(103);
-			
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("UI"))
-		{
-			if (ImGui::MenuItem("Text Component"))
-				AddComponentToGameObjects(104);
-			if (ImGui::MenuItem("Image Component"))
-				AddComponentToGameObjects(105);
-
-			ImGui::EndMenu();
-		}
-		*/
-		if (ImGui::BeginMenu("Custom"))
-		{
-			if (ImGui::MenuItem("Spaceship"))
-				AddComponentToGameObjects(1024);
-
-			ImGui::EndMenu();
-		}
 		ImGui::EndPopup();
 	}
 }
