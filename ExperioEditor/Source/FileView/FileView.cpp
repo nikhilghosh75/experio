@@ -56,6 +56,12 @@ FileView::~FileView()
 
 void FileView::DisplayCreateMenu()
 {
+	if (ImGui::MenuItem("Folder"))
+	{
+		fs::create_directory(this->selectedFilepath + "/New Folder");
+		// TO-DO: Add Create Folder to Create System
+	}
+	ImGui::Separator();
 	if (ImGui::MenuItem("C++ Class"))
 	{
 		openCppMenu = true;
@@ -88,13 +94,12 @@ void FileView::DisplayCreateMenu()
 
 void FileView::DisplayImportMenu()
 {
-	FFileDialogInfo dialog = FileDialog::OpenFile(nullptr);
-	if (!dialog.IsValid())
-	{
-		return;
-	}
+	std::vector<FFileDialogInfo> dialogs = FileDialog::OpenMultipleFiles(nullptr);
 
-	ImportSystem::Import(dialog.filename, this->selectedFilepath);
+	for (size_t i = 0; i < dialogs.size(); i++)
+	{
+		ImportSystem::Import(dialogs[i].filename, this->selectedFilepath);
+	}
 }
 
 void FileView::DisplayMenuBar()
