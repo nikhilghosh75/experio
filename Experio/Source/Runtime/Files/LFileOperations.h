@@ -81,6 +81,8 @@ public:
 	static FileBuffer ReadFileToBuffer(std::ifstream& stream, size_t maxLineLength = 512);
 	static FileBuffer ReadTrimmedFileToBuffer(std::ifstream& stream);
 
+	static std::string ReplaceExtension(const std::string& filepath, const std::string& newExt);
+
 	static EAssetType StringToAssetType(const std::string& str);
 
 	static std::string StripFilename(const std::string& filename);

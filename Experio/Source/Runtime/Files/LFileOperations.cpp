@@ -541,6 +541,25 @@ FileBuffer LFileOperations::ReadTrimmedFileToBuffer(std::ifstream & stream)
 	return FileBuffer(output.data(), output.length());
 }
 
+std::string LFileOperations::ReplaceExtension(const std::string& filepath, const std::string& newExt)
+{
+	std::string newFilepath = filepath;
+	int indexOfDot = 0;
+
+	for (int i = filepath.size() - 2; i >= 2; i--)
+	{
+		if (filepath[i] == '.')
+		{
+			indexOfDot = i;
+			break;
+		}
+	}
+
+	newFilepath.replace(indexOfDot + 1, filepath.size() - indexOfDot - 1, newExt);
+	
+	return newFilepath;
+}
+
 EAssetType LFileOperations::StringToAssetType(const std::string & str)
 {
 	if (str == "Animation") return EAssetType::Animation;
