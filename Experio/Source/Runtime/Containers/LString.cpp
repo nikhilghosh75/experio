@@ -86,6 +86,13 @@ std::vector<std::string> LString::SeperateStringByChar(const std::string& str, c
 	return realSeperatedStrings;
 }
 
+bool LString::StringToBool(const std::string& str)
+{
+	if (str[0] == 't' || str[0] == 'T')
+		return true;
+	return false;
+}
+
 float LString::StringToFloat(const std::string& str)
 {
 	float integer = 0.f, fraction = 0.f;

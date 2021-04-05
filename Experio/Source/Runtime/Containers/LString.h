@@ -71,6 +71,8 @@ public:
 
 	static std::vector<std::string> SeperateStringByChar(const std::string& str, char c, bool removeZeroLength = true);
 
+	static bool StringToBool(const std::string& str);
+
 	static float StringToFloat(const std::string& str);
 
 	static std::vector<float> StringToFloatVector(const std::string& str, char seperator = ' ');
