@@ -141,10 +141,11 @@ void UpperMenu::CreateAssetMenu()
 	{
 		if (ImGui::MenuItem("Import"))
 		{
-			FFileDialogInfo dialogInfo = FileDialog::OpenFile(nullptr);
-			if (dialogInfo)
+			std::vector<FFileDialogInfo> dialogs = FileDialog::OpenMultipleFiles(nullptr);
+
+			for (size_t i = 0; i < dialogs.size(); i++)
 			{
-				ImportSystem::Import(dialogInfo.filename, FileView::fileView->GetSelectedFilepath());
+				ImportSystem::Import(dialogs[i].filename, FileView::fileView->GetSelectedFilepath());
 			}
 		}
 		ImGui::Separator();
