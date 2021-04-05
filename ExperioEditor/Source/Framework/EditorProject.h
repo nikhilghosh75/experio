@@ -70,6 +70,8 @@ public:
 
 	static void ReadComponents();
 
+	static void FindComponents();
+
 private:
 	static void SetLayoutDefault();
 	static void SetLayoutTall();

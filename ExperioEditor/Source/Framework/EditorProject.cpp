@@ -1,4 +1,5 @@
 #include "EditorProject.h"
+#include "MetaSystem.h"
 #include "ValueLoader.h"
 #include <fstream>
 #include "../Core/EditorApplication.h"
@@ -9,6 +10,9 @@
 #include "ThirdParty/Simdjson/simdjson.h"
 #include "ThirdParty/toml++/toml.h"
 #include "imgui.h"
+#include <filesystem>
+namespace fs = std::filesystem;
+
 
 THashtable<unsigned int, FComponentInfo> EditorProject::componentClasses;
 CategoryMap<unsigned int> EditorProject::componentCategories;
@@ -122,11 +126,13 @@ void EditorProject::SetupClasses()
 	gameProject.Generate();
 
 	// Import the engine components
-	CodeProject engineProject = CodeProjectReader::ReadFromFile(EditorApplication::generatedFilePath + "/Engine.pbcodeproj");
-	LCodeParser::MergeCodeProjects(gameProject, engineProject);
+	// Code project reader is not working
+	// CodeProject engineProject = CodeProjectReader::ReadFromFile(EditorApplication::generatedFilePath + "/Engine.pbcodeproj");
+	// LCodeParser::MergeCodeProjects(gameProject, engineProject);
 
 	// Import component classes
 	ReadComponents();
+	FindComponents();
 }
 
 void EditorProject::SetupRuntimeCompilation()
@@ -174,9 +180,9 @@ void EditorProject::TempSetupClasses()
 	textComponent.inheritance.push_back("Component");
 	textComponent.params.emplace_back("float", "margins", ECodeAccessType::Public);
 	textComponent.params.emplace_back("int", "fontSize", ECodeAccessType::Public);
-	textComponent.params.emplace_back("std::string", "text", ECodeAccessType::Public);
 	textComponent.params.emplace_back("FontRef", "font", ECodeAccessType::Public);
 	textComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
+	textComponent.params.emplace_back("std::string", "text", ECodeAccessType::Public);
 
 	CodeClass imageComponent("ImageComponent");
 	imageComponent.inheritance.emplace_back("Component");
@@ -268,5 +274,37 @@ void EditorProject::ReadComponents()
 
 		componentClasses.Insert(id, info);
 		componentCategories.Insert(info.category, id);
+	}
+}
+
+void EditorProject::FindComponents()
+{
+	for (auto& p : fs::recursive_directory_iterator(EditorApplication::sourceFilePath))
+	{
+		std::string pathString = p.path().string();
+		EAssetType type = LFileOperations::GetFileType(pathString);
+		if (type == EAssetType::CPP)
+		{
+			std::string metaFilepath = pathString.substr(0, pathString.size() - 4);
+			Metadata metadata = MetaSystem::ReadMetadata(metaFilepath);
+			if (metadata.Empty())
+				continue;
+
+			if (metadata["ClassType"] == "Component")
+			{
+				unsigned int id = LString::StringToUInt(metadata["ComponentID"]);
+
+				FComponentInfo info;
+				info.name = metadata["ComponentName"];
+				info.filepath = LFileOperations::ReplaceExtension(pathString, "h");
+				info.stage = (EComponentStage)LString::StringToUByte(metadata["Stage"]);
+				info.category = metadata["Category"];
+				info.isDefaultComponent = false;
+				info.isStandaloneComponent = LString::StringToBool(metadata["Standalone"]);
+
+				componentClasses.Insert(id, info);
+				componentCategories.Insert(info.category, id);
+			}
+		}
 	}
 }
