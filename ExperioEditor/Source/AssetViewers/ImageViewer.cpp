@@ -1,6 +1,7 @@
 #include "ImageViewer.h"
 #include "Runtime/Containers/LString.h"
 #include "Runtime/Files/Images/LImageOperations.h"
+#include "Runtime/Rendering/Renderer.h"
 #include <sstream>
 
 void ImageViewer::DisplayStats()
@@ -42,5 +43,5 @@ void ImageViewer::Display()
 	DisplayStats();
 
 	ImVec2 currentSize = ImGui::GetContentRegionAvail();
-	ImGui::Image((void*)loadedRef->GetRendererID(), currentSize, ImVec2(0, 1), ImVec2(1, 0));
+	ImGui::Image((void*)loadedRef->GetRendererID(), currentSize);
 }
