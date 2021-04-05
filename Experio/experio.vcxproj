@@ -109,6 +109,7 @@
     <ClInclude Include="Source\Runtime\Math\TMatrix.h" />
     <ClInclude Include="Source\Runtime\Memory\TScopePtr.h" />
     <ClInclude Include="Source\Runtime\Memory\VoidPtr.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Blend.h" />
     <ClInclude Include="Source\Runtime\Rendering\Managers\FontManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Managers\MeshManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Managers\TextureManager.h" />

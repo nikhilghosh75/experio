@@ -567,6 +567,9 @@
     <ClInclude Include="Source\Runtime\Data\CategoryMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Runtime\Rendering\Blend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp">
