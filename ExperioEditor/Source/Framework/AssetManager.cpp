@@ -100,6 +100,22 @@ size_t AssetManager::NumFilesOfType(EAssetType type)
 		}
 	}
 
+	for (auto& p : fs::recursive_directory_iterator(EditorApplication::editorFilePath))
+	{
+		if (LFileOperations::GetFileType(p.path().string()) == type)
+		{
+			numFiles++;
+		}
+	}
+
+	for (auto& p : fs::recursive_directory_iterator(EditorApplication::sourceFilePath))
+	{
+		if (LFileOperations::GetFileType(p.path().string()) == type)
+		{
+			numFiles++;
+		}
+	}
+
 	return numFiles;
 }
 
@@ -186,7 +202,7 @@ void AssetManager::PopulateFromDirectory(const std::string & str)
 			std::string pathString = p.path().string();
 			std::ifstream inFile(pathString);
 			std::string str;
-			inFile >> str >> str >> str >> str; // GUID will always be the first one
+			inFile >> str >> str >> str >> str; // GUID will always be the second one
 
 			// Insert GUID into found guids
 			Experio::GUID guid(str);
