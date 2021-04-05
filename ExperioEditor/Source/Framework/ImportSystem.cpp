@@ -26,8 +26,10 @@ void ImportSystem::Import(const std::string & fromFilepath, const std::string & 
 		return;
 	}
 
-	std::string stripFilename = LFileOperations::StripFilename(fromFilepath);
-	fs::copy(fromFilepath, toDirectory + "/" + stripFilename);
+	std::string fromCorrectFilepath = fromFilepath;
+	LFileOperations::CorrectFilepath(fromCorrectFilepath);
+	std::string stripFilename = LFileOperations::StripFilename(fromCorrectFilepath);
+	fs::copy(fromCorrectFilepath, toDirectory + "/" + stripFilename);
 	
 	FImportInfo info;
 	info.filepath = toDirectory + "/" + stripFilename;
