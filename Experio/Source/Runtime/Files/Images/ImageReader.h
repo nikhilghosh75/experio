@@ -20,6 +20,12 @@ enum class EImageInternalFormat : uint8_t
 	BGRA
 };
 
+enum class EImageCompressionType : uint8_t
+{
+	None,
+	Deflate
+};
+
 class ImageData
 {
 public:
