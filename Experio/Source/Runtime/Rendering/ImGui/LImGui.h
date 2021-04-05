@@ -47,6 +47,8 @@ public:
 
 	static void DisplayRect(FRect& rect, const std::string& name);
 
+	static bool DisplayString(const char* label, std::string* str, ImGuiInputTextFlags flags = 0, ImGuiInputTextCallback callback = NULL, void* user_data = NULL);
+
 	static void DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable);
 
 	static void DisplayTexture(TextureRef& ref, const std::string& name, unsigned int width = 100, unsigned int height = 100);

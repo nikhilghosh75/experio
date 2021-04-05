@@ -7,6 +7,13 @@
 #include "../Managers/TextureManager.h"
 #include "imgui_internal.h"
 
+struct InputTextCallback_UserData
+{
+	std::string* Str;
+	ImGuiInputTextCallback  ChainCallback;
+	void* ChainCallbackUserData;
+};
+
 using namespace Experio;
 
 uint64_t LImGui::DisplayBitmask(std::string name, const std::vector<std::string>& names, bool* selected)
@@ -292,6 +299,23 @@ void LImGui::DisplayRect(FRect& rect, const std::string & name)
 		LImGui::DisplayVector2(rect.max, "Max");
 		ImGui::TreePop();
 	}
+}
+
+bool LImGui::DisplayString(const char* label, std::string* str, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* user_data)
+{
+	if (str->capacity() == 0)
+		str->reserve(16);
+
+	char* buffer = str->data();
+
+	InputTextCallback_UserData cb_user_data;
+	cb_user_data.Str = str;
+	cb_user_data.ChainCallback = callback;
+	cb_user_data.ChainCallbackUserData = user_data;
+	bool changed = ImGui::InputText(label, buffer, str->capacity() + 1, flags, callback, &cb_user_data);
+	*str = buffer;
+
+	return changed;
 }
 
 void LImGui::DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable)
