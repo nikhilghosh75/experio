@@ -105,7 +105,7 @@ void GeneratedEditor::DisplayParamType(FSerializationInfo & serializedField, Com
 	case EParamType::LONG:
 		ImGui::DragInt(name, (int*)(long long*)((char*)component + serializedField.offset)); break;
 	case EParamType::MATERIAL:
-		Debug::LogError("Material Display is not complete");
+		Debug::LogError("Material Display is not complete"); break;
 	case EParamType::MESH:
 		LImGui::DisplayMeshAsset(*(MeshRef*)((char*)component + serializedField.offset), serializedField.name); break;
 	case EParamType::QUATERNION:
@@ -118,6 +118,8 @@ void GeneratedEditor::DisplayParamType(FSerializationInfo & serializedField, Com
 		ImGui::DragInt(name, (int*)(short*)((char*)component + serializedField.offset), 1, -32767, 32767); break;
 	case EParamType::SPHERICALPOINT:
 		Debug::LogError("Spherical Point Display is not complete"); break;
+	case EParamType::STRING:
+		LImGui::DisplayString(name, (std::string*)((char*)component + serializedField.offset)); break;
 	case EParamType::TEXTURE:
 		LImGui::DisplayTextureAsset(*(TextureRef*)((char*)component + serializedField.offset), serializedField.name); break;
 	case EParamType::VECTOR2:
