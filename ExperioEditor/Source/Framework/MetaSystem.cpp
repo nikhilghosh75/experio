@@ -60,6 +60,11 @@ const std::string & Metadata::operator[](const std::string & key) const
 	return entries[0].value;
 }
 
+bool Metadata::Empty() const
+{
+	return entries.empty();
+}
+
 Metadata MetaSystem::ReadMetadata(const std::string & filepath)
 {
 	std::string realFilepath = filepath;
@@ -84,9 +89,13 @@ Metadata MetaSystem::ReadMetadata(const std::string & filepath)
 	key.reserve(32);
 	value.reserve(64);
 
+	char spacebar;
+
 	while (inFile >> key)
 	{
-		inFile.getline(value.data(), value.capacity());
+		inFile.read(&spacebar, 1);
+		std::getline(inFile, value);
+		key.pop_back(); // Remove ':'
 		metadata.entries.emplace_back(key, value);
 	}
 

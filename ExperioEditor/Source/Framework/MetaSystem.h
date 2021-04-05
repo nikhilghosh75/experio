@@ -32,6 +32,8 @@ public:
 
 	std::string& operator[](const std::string& key);
 	const std::string& operator[](const std::string& key) const;
+
+	bool Empty() const;
 };
 
 class MetaSystem
