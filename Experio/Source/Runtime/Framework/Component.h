@@ -46,3 +46,5 @@ _type_(GameObject* object)\
 {\
 	this->gameObject = object;\
 }
+
+#define COMPONENT_CATEGORY(_category_) 
