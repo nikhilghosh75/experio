@@ -175,6 +175,7 @@ void EditorWindow::OnResize(int width, int height)
 {
 	displayHeight = height;
 	displayWidth = width;
+	Window::ResizeWindow(EWindowResizeType::EditorResize, width, height);
 	Canvas::UpdateWindow(height, width);
 }
 
