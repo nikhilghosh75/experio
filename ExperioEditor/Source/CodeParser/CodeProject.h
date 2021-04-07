@@ -51,6 +51,8 @@ public:
 	void PushFunction(const CodeFunction& function);
 
 	void Empty();
+
+	bool IsEmpty() const;
 		
 	CodeClass& EmplaceClass();
 	CodeClass& EmplaceClass(const std::string& name);
