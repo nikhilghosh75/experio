@@ -3,10 +3,15 @@
 #include "CreateMenu.h"
 #include "../CodeParser/LCodeParser.h"
 #include "../Core/EditorApplication.h"
+#include "Metasystem/CppMetasystem.h"
+#include "Metasystem/FontMetasystem.h"
+#include "Metasystem/ImageMetasystem.h"
+#include "Metasystem/ParticleMetasystem.h"
+#include "Metasystem/SceneMetasystem.h"
+#include "Metasystem/ShaderMetasystem.h"
 #include "Runtime/Data/Datatable.h"
 #include "Runtime/Files/Data/DataReader.h"
 #include "Runtime/Files/LFileOperations.h"
-#include "Runtime/Rendering/Shaders/ShaderReader.h"
 #include <filesystem>
 namespace fs = std::filesystem;
 
@@ -131,83 +136,12 @@ void MetaSystem::GenerateMetadata(const std::string & filepath, std::ofstream & 
 {
 	switch (type)
 	{
-	case EAssetType::CPP: CppMetadata(filepath, outFile); break;
-	case EAssetType::Directory: DirectoryMetadata(filepath, outFile); break;
-	case EAssetType::Font: FontMetadata(filepath, outFile); break;
-	case EAssetType::H: CppMetadata(filepath, outFile); break;
-	case EAssetType::Image: ImageMetadata(filepath, outFile); break;
-	case EAssetType::NonEngineCode: NonEngineMetadata(filepath, outFile); break;
-	case EAssetType::Particle: ParticleMetadata(filepath, outFile); break;
-	case EAssetType::Scene: SceneMetadata(filepath, outFile); break;
-	case EAssetType::Shader: ShaderMetadata(filepath, outFile); break;
+	case EAssetType::CPP: CppMetasystem::GenerateMetadata(filepath, outFile); break;
+	case EAssetType::Font: FontMetasystem::GenerateMetadata(filepath, outFile); break;
+	case EAssetType::H: CppMetasystem::GenerateMetadata(filepath, outFile); break;
+	case EAssetType::Image: ImageMetasystem::GenerateMetadata(filepath, outFile); break;
+	case EAssetType::Particle: ParticleMetasystem::GenerateMetadata(filepath, outFile); break;
+	case EAssetType::Scene: SceneMetasystem::GenerateMetadata(filepath, outFile); break;
+	case EAssetType::Shader: ShaderMetasystem::GenerateMetadata(filepath, outFile); break;
 	}
-}
-
-void MetaSystem::CppMetadata(const std::string & filepath, std::ofstream & outFile)
-{
-	// TO-DO: Get CPP File Type
-}
-
-void MetaSystem::DirectoryMetadata(const std::string& filepath, std::ofstream& outFile)
-{
-	// TO-DO: Add Directory Types
-	outFile << "DirectoryType: " << "None" << std::endl;
-}
-
-void MetaSystem::FontMetadata(const std::string & filepath, std::ofstream & outFile)
-{
-	// Is the image stored in the font file. Depends on the extension
-	bool imageStored = false;
-	std::string ext = LFileOperations::GetExtension(filepath);
-	if (ext == "otf" || ext == "ttf")
-		imageStored = true;
-
-	outFile << "ImageStored: " << LString::BoolToString(imageStored) << std::endl;
-}
-
-void MetaSystem::ImageMetadata(const std::string & filepath, std::ofstream & outFile)
-{
-	std::string compression = "None";
-	std::string ext = LFileOperations::GetExtension(filepath);
-	if (ext == "png")
-		compression = "Deflate";
-
-	outFile << "Compression: " << compression << std::endl;
-}
-
-void MetaSystem::NonEngineMetadata(const std::string & filepath, std::ofstream & outFile)
-{
-	ECodingLanguage language = LCodeParser::FilepathToLanguage(filepath);
-	outFile << "Language: " << LCodeParser::LanguageToString(language) << std::endl;
-}
-
-void MetaSystem::ParticleMetadata(const std::string & filepath, std::ofstream & outFile)
-{
-	outFile << "Version: " << "1" << std::endl;
-}
-
-void MetaSystem::SceneMetadata(const std::string & filepath, std::ofstream & outFile)
-{
-	outFile << "Version: " << "1" << std::endl;
-}
-
-void MetaSystem::ShaderMetadata(const std::string & filepath, std::ofstream & outFile)
-{
-	FShaderDataInternal data = ShaderReader::ParseShader(filepath);
-	
-	outFile << "Language: " << ShaderReader::LanguageToString(data.language) << std::endl;
-}
-
-ECodeClassBase MetaSystem::GetCodeClassBase(const std::string & filepath)
-{
-	std::ifstream inFile(filepath);
-	FileBuffer buffer = LFileOperations::ReadTrimmedFileToBuffer(inFile);
-
-	if (buffer.Find("EXPERIO_LIBRARY") != std::string::npos)
-		return ECodeClassBase::Library;
-
-	if (buffer.Find("SETUP_COMPONENT(") != std::string::npos || buffer.Find("public Component") != std::string::npos)
-		return ECodeClassBase::Component;
-
-	return ECodeClassBase::None;
 }
