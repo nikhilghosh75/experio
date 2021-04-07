@@ -13,6 +13,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
+#define PB_CUSTOM_COMPONENT_INDEX 1024
 
 THashtable<unsigned int, FComponentInfo> EditorProject::componentClasses;
 CategoryMap<unsigned int> EditorProject::componentCategories;
@@ -307,4 +308,21 @@ void EditorProject::FindComponents()
 			}
 		}
 	}
+}
+
+unsigned int EditorProject::GetNextComponentIndex()
+{
+	std::vector<unsigned int> componentIndicies = componentClasses.GetKeys();
+
+	unsigned int maxIndex = 0;
+	for (size_t i = 0; i < componentIndicies.size(); i++)
+	{
+		if (maxIndex < componentIndicies[i])
+			maxIndex = componentIndicies[i];
+	}
+
+	if (maxIndex < PB_CUSTOM_COMPONENT_INDEX)
+		return PB_CUSTOM_COMPONENT_INDEX;
+
+	return maxIndex + 1;
 }

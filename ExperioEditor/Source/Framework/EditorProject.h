@@ -72,6 +72,8 @@ public:
 
 	static void FindComponents();
 
+	static unsigned int GetNextComponentIndex();
+
 private:
 	static void SetLayoutDefault();
 	static void SetLayoutTall();
