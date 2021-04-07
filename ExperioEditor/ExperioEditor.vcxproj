@@ -133,6 +133,13 @@
     <ClCompile Include="Source\Framework\EditorShortcuts.cpp" />
     <ClCompile Include="Source\Framework\ImportSystem.cpp" />
     <ClCompile Include="Source\Framework\MetaSystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\CppMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\FontMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\ImageMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\MeshMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\ParticleMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\SceneMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\ShaderMetasystem.cpp" />
     <ClCompile Include="Source\Framework\NotificationSystem.cpp" />
     <ClCompile Include="Source\Framework\PlaySystem.cpp" />
     <ClCompile Include="Source\Framework\SaveParams.cpp" />
@@ -235,6 +242,13 @@
     <ClInclude Include="Source\Framework\EditorShortcuts.h" />
     <ClInclude Include="Source\Framework\ImportSystem.h" />
     <ClInclude Include="Source\Framework\MetaSystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\CppMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\FontMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\ImageMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\MeshMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\ParticleMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\SceneMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\ShaderMetasystem.h" />
     <ClInclude Include="Source\Framework\NotificationSystem.h" />
     <ClInclude Include="Source\Framework\PlaySystem.h" />
     <ClInclude Include="Source\Framework\SaveParams.h" />
