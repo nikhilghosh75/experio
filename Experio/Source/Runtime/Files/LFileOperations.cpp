@@ -409,6 +409,23 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	return EAssetType::Unknown;
 }
 
+bool LFileOperations::IsDirectory(const std::string& filepath)
+{
+	for (size_t i = filepath.size() - 2; i >= 2; i--)
+	{
+		if (filepath[i] == '.')
+		{
+			return false;
+		}
+		else if (filepath[i] == '/' || filepath[i] == '\\')
+		{
+			return true;
+		}
+	}
+
+	return true;
+}
+
 EAssetType LFileOperations::GetFileTypeOfMeta(std::string filePath)
 {
 	Debug::LogError("GetFileTypeOfMeta has not been implemented yet");
