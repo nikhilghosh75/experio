@@ -138,7 +138,7 @@ public:
 		if (count == 0)
 			return nullptr;
 
-		TBinarySearchNode<T>* foundNode = FindNode(item);
+		const TBinarySearchNode<T>* foundNode = FindNode(item);
 		if (foundNode == nullptr)
 			return nullptr;
 		return &(foundNode->object);
@@ -266,7 +266,7 @@ private:
 		delete node;
 	}
 
-	TBinarySearchNode<T>* FindNode(const T& object) const
+	const TBinarySearchNode<T>* FindNode(const T& item) const
 	{
 		const TBinarySearchNode<T>* current = &this->root;
 
