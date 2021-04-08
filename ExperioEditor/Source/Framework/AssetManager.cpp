@@ -2,7 +2,6 @@
 #include "MetaSystem.h"
 #include "../Core/EditorApplication.h"
 #include "../Files/SceneConverter.h"
-#include "Runtime/Files/FFileCategory.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Files/Font/FontReader.h"
 #include "Runtime/Files/Mesh/MeshReader.h"
@@ -89,6 +88,37 @@ bool AssetManager::IsIncludedInBuild(const std::string & str)
 	return true;
 }
 
+size_t AssetManager::NumFilesOfType(EAssetType type)
+{
+	size_t numFiles = 0;
+
+	for (auto& p : fs::recursive_directory_iterator(EditorApplication::assetsFilePath))
+	{
+		if (LFileOperations::GetFileType(p.path().string()) == type)
+		{
+			numFiles++;
+		}
+	}
+
+	for (auto& p : fs::recursive_directory_iterator(EditorApplication::editorFilePath))
+	{
+		if (LFileOperations::GetFileType(p.path().string()) == type)
+		{
+			numFiles++;
+		}
+	}
+
+	for (auto& p : fs::recursive_directory_iterator(EditorApplication::sourceFilePath))
+	{
+		if (LFileOperations::GetFileType(p.path().string()) == type)
+		{
+			numFiles++;
+		}
+	}
+
+	return numFiles;
+}
+
 void AssetManager::Rename(const std::string & from, const std::string & to)
 {
 	if (LFileOperations::DoesFileHaveExtension(from, "meta"))
@@ -172,7 +202,7 @@ void AssetManager::PopulateFromDirectory(const std::string & str)
 			std::string pathString = p.path().string();
 			std::ifstream inFile(pathString);
 			std::string str;
-			inFile >> str >> str >> str >> str; // GUID will always be the first one
+			inFile >> str >> str >> str >> str; // GUID will always be the second one
 
 			// Insert GUID into found guids
 			Experio::GUID guid(str);

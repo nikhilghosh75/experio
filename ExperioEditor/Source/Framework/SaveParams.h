@@ -14,6 +14,8 @@ void SaveDouble(double param, std::ostream& stream);
 void SaveLongLong(long long param, std::ostream& stream);
 void SaveULongLong(uint64_t param, std::ostream& stream);
 
+void SaveString(std::string str, std::ostream& stream);
+
 void SaveVector2(FVector2 param, std::ostream& stream);
 void SaveVector3(FVector3 param, std::ostream& stream);
 void SaveVector4(FVector4 param, std::ostream& stream);

@@ -32,6 +32,8 @@ public:
 
 	std::string& operator[](const std::string& key);
 	const std::string& operator[](const std::string& key) const;
+
+	bool Empty() const;
 };
 
 class MetaSystem
@@ -45,23 +47,4 @@ public:
 
 private:
 	static void GenerateMetadata(const std::string& filepath, std::ofstream& outFile, EAssetType type);
-
-	static void CppMetadata(const std::string& filepath, std::ofstream& outFile);
-
-	static void DirectoryMetadata(const std::string& filepath, std::ofstream& outFile);
-
-	static void FontMetadata(const std::string& filepath, std::ofstream& outFile);
-
-	static void ImageMetadata(const std::string& filepath, std::ofstream& outFile);
-
-	static void NonEngineMetadata(const std::string& filepath, std::ofstream& outFile);
-
-	static void ParticleMetadata(const std::string& filepath, std::ofstream& outFile);
-
-	static void SceneMetadata(const std::string& filepath, std::ofstream& outFile);
-
-	static void ShaderMetadata(const std::string& filepath, std::ofstream& outFile);
-
-	// This needs to be moved later
-	static ECodeClassBase GetCodeClassBase(const std::string& filepath);
 };
