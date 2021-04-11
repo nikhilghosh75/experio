@@ -79,7 +79,6 @@ UNIT_TEST(TestAlgorithmAllOf, "Algorithm")
 	bool trueAllOf = Algorithm::AllOf(trueVector, std::function<bool(const int&)>([](const int& i) { return i >= 0; }));
 	bool falseAllOf = Algorithm::AllOf(falseVector, std::function<bool(const int&)>([](const int& i) { return i >= 0; }));
 
-	// Fix this later
 	ASSERT_TRUE(trueAllOf, "");
 	ASSERT_FALSE(falseAllOf, "");
 
@@ -94,9 +93,22 @@ UNIT_TEST(TestAlgorithmNotAllOf, "Algorithm")
 	bool trueNotAllOf = Algorithm::NotAllOf(trueVector, std::function<bool(const int&)>([](const int& i) { return i >= 0; }));
 	bool falseNotAllOf = Algorithm::NotAllOf(falseVector, std::function<bool(const int&)>([](const int& i) { return i >= 0; }));
 
-	// Fix this later
 	ASSERT_TRUE(trueNotAllOf, "");
 	ASSERT_FALSE(falseNotAllOf, "");
+
+	TEST_END();
+}
+
+UNIT_TEST(TestAlgorithmNoneOf, "Algorithm")
+{
+	std::vector<int> trueVector = { -1, -2, -3, -4 };
+	std::vector<int> falseVector = { -1, -2, -3, 1 };
+
+	bool trueNoneOf = Algorithm::NoneOf(trueVector, std::function<bool(const int&)>([](const int& i) { return i > 0; }));
+	bool falseNoneOf = Algorithm::NoneOf(falseVector, std::function<bool(const int&)>([](const int& i) { return i > 0; }));
+
+	ASSERT_TRUE(trueNoneOf, "");
+	ASSERT_FALSE(falseNoneOf, "");
 
 	TEST_END();
 }

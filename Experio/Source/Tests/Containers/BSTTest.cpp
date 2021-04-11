@@ -31,3 +31,18 @@ UNIT_TEST(TestBSTMinMax, "BST")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestBSTRemove, "BST")
+{
+	TBinarySearchTree<int> tree = { 10, 4, 6, 8, 12, 16, 14 };
+
+	ASSERT_EQUAL(tree.Count(), 7, "");
+	ASSERT_TRUE(tree.Exists(12), "");
+
+	tree.Remove(12);
+
+	ASSERT_EQUAL(tree.Count(), 6, "");
+	ASSERT_FALSE(tree.Exists(12), "");
+
+	TEST_END();
+}
