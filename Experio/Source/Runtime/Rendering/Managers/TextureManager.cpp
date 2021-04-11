@@ -43,6 +43,16 @@ TextureRef::~TextureRef()
 	TextureManager::OnTextureDeleted(this->textureID);
 }
 
+TextureRef& TextureRef::operator=(const TextureRef& other)
+{
+	this->texture = other.texture;
+	this->textureID = other.textureID;
+
+	TextureManager::slots[textureID].refCount++;
+
+	return *this;
+}
+
 bool TextureRef::IsNull()
 {
 	return this->texture == nullptr || this->textureID >= MAX_TEXTURES;
@@ -168,4 +178,14 @@ size_t TextureManager::SizeOfLoadedTextures()
 	}
 
 	return loadedSize;
+}
+
+TextureSlot& TextureManager::GetNextAvailibleSlot()
+{
+	return slots[nextAvailibleSlot];
+}
+
+void TextureManager::ReserveSlot(uint16_t slotId, const std::string& slotName)
+{
+	slotNames[slotId] = slotName;
 }

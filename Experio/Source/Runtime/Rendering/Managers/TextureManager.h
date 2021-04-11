@@ -21,6 +21,8 @@ public:
 
 	~TextureRef();
 
+	TextureRef& operator=(const TextureRef& other);
+
 	Texture* texture;
 
 	Texture* operator->() { return texture; }
@@ -67,4 +69,8 @@ public:
 	static std::string GetNameOfTexture(const TextureRef& ref);
 
 	static size_t SizeOfLoadedTextures();
+
+	static TextureSlot& GetNextAvailibleSlot();
+
+	static void ReserveSlot(uint16_t slotId, const std::string& slotName);
 };
