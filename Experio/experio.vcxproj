@@ -28,6 +28,7 @@
     <ClInclude Include="Source\Runtime\Data\Regression.h" />
     <ClInclude Include="Source\Runtime\DefaultComponents.h" />
     <ClInclude Include="Source\Runtime\Files\FileRef.h" />
+    <ClInclude Include="Source\Runtime\Files\Font\TTFReader.h" />
     <ClInclude Include="Source\Runtime\Files\Images\PNGReader.h" />
     <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
     <ClInclude Include="Source\Runtime\Framework\System.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Source\ThirdParty\Periodic Function\periodic_function.hpp" />
     <ClInclude Include="Source\ThirdParty\RCCPP.h" />
     <ClInclude Include="Source\ThirdParty\Simdjson\simdjson.h" />
+    <ClInclude Include="Source\ThirdParty\STB\stb_truetype.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_array.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_array.hpp" />
@@ -222,6 +224,7 @@
     <ClCompile Include="Source\Runtime\Files\Font\BinFontReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\FontReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\LFontOperations.cpp" />
+    <ClCompile Include="Source\Runtime\Files\Font\TTFReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Images\ImageReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Images\PNGReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\LFileOperations.cpp" />
@@ -307,6 +310,7 @@
     <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_common.c" />
     <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_win.cpp" />
     <ClCompile Include="Source\ThirdParty\Simdjson\simdjson.cpp" />
+    <ClCompile Include="Source\ThirdParty\STB\stb_truetype.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Standard\Materials\Test.material" />
