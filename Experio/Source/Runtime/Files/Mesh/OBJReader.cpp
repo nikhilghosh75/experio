@@ -11,7 +11,7 @@
 
 MeshData * OBJReader::ReadFile(const char * fileName)
 {
-	PROFILE_SCOPE_CATEGORY("Read OBJ", EProfilerCategory::Files);
+	PROFILE_SCOPE_CATEGORY("OBJ Reader", EProfilerCategory::Files);
 
 	std::vector<unsigned int> vertexIndicies;
 	std::vector<unsigned int> uvIndicies;

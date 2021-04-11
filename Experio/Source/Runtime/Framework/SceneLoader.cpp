@@ -7,6 +7,7 @@
 #include "../Containers/THashtable.h"
 #include "../Containers/TTypedTree.h"
 #include "../Containers/LString.h"
+#include "../Debug/Profiler.h"
 
 extern std::vector<std::string> GetParamsList(unsigned int classId);
 
@@ -41,6 +42,8 @@ bool SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 
 bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESceneProjectCompareType compareType)
 {
+	PROFILE_SCOPE_CATEGORY("SceneLoader Text", EProfilerCategory::Files);
+
 	std::ifstream sceneFile(filePath);
 	if (sceneFile.fail())
 	{
@@ -161,6 +164,8 @@ bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESc
 
 bool SceneLoader::LoadSceneFromBinaryFile(std::string filePath, int sceneSlot)
 {
+	PROFILE_SCOPE_CATEGORY("SceneLoader Binary", EProfilerCategory::Files);
+
 	std::ifstream sceneFile(filePath, std::ios::binary);
 	if (sceneFile.fail())
 	{
