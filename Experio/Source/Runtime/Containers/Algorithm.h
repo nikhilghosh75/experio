@@ -574,5 +574,14 @@ namespace Experio::Algorithm
 
 		vector[position] = elem;
 	}
+
+	template<typename T>
+	void ForEach(std::vector<T>& vector, std::function<void(T&)> func)
+	{
+		for (size_t i = 0; i < vector.size(); i++)
+		{
+			func(vector[i]);
+		}
+	}
 }
 
