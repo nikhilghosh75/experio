@@ -79,6 +79,7 @@ void SceneConverter::LegacyConvertSceneToBinary(const std::string & fromFilepath
 		}
 		uint8_t numChildren = gameObject->children.size();
 		bool isActive = gameObject->isActive;
+		bool isUI = gameObject->isUI;
 		FVector3 position = gameObject->localPosition;
 		FQuaternion rotation = gameObject->localRotation;
 		FVector3 scale = gameObject->localScale;
@@ -90,7 +91,8 @@ void SceneConverter::LegacyConvertSceneToBinary(const std::string & fromFilepath
 		outFile.write((char*)&parentIndex, 4);
 		outFile.write((char*)&numChildren, 1);
 		outFile.write((char*)&isActive, 1);
-		outFile.write("00", 2);
+		outFile.write((char*)&isUI, 1);
+		outFile.write("0", 1);
 		outFile.write((char*)&position, 12);
 		outFile.write((char*)&rotation, 16);
 		outFile.write((char*)&scale, 12);

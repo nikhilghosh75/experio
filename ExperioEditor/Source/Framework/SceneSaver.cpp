@@ -7,10 +7,24 @@
 void SceneSaver::SaveGameObject(GameObject * gameObject, std::ofstream& stream)
 {
 	stream << "\tName: " << gameObject->name << std::endl;
-	stream << "\tTransform: ";
-	stream << gameObject->localPosition.x << " " << gameObject->localPosition.y << " " << gameObject->localPosition.z << " ";
-	stream << gameObject->localRotation.x << " " << gameObject->localRotation.y << " " << gameObject->localRotation.z << " " << gameObject->localRotation.w << " ";
-	stream << gameObject->localScale.x << " " << gameObject->localScale.y << " " << gameObject->localScale.z << std::endl;
+	
+	if (gameObject->isUI)
+	{
+		stream << "\tRectTransform: ";
+		stream << ConstraintTextFromType(gameObject->rectTransform.xConstraint.type) << " " << gameObject->rectTransform.xConstraint.value << " ";
+		stream << ConstraintTextFromType(gameObject->rectTransform.yConstraint.type) << " " << gameObject->rectTransform.yConstraint.value << " ";
+		stream << ConstraintTextFromType(gameObject->rectTransform.widthConstraint.type) << " " << gameObject->rectTransform.widthConstraint.value << " ";
+		stream << ConstraintTextFromType(gameObject->rectTransform.heightConstraint.type) << " " << gameObject->rectTransform.heightConstraint.value;
+		stream << std::endl;
+	}
+	else
+	{
+		stream << "\tTransform: ";
+		stream << gameObject->localPosition.x << " " << gameObject->localPosition.y << " " << gameObject->localPosition.z << " ";
+		stream << gameObject->localRotation.x << " " << gameObject->localRotation.y << " " << gameObject->localRotation.z << " " << gameObject->localRotation.w << " ";
+		stream << gameObject->localScale.x << " " << gameObject->localScale.y << " " << gameObject->localScale.z << std::endl;
+	}
+
 	stream << "\tTag: " << gameObject->tag << std::endl;
 	stream << "\tLayer: " << (unsigned short)gameObject->layer << std::endl;
 
