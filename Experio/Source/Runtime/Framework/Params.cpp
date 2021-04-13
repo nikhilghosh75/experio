@@ -294,6 +294,12 @@ Shader* ParseShader(std::string str)
 	return ShaderReader::ReadShader(filePath);
 }
 
+TextRef ParseTextRef(std::string str)
+{
+	std::string filePath = LFileOperations::GetFullFilePath(str);
+	return TextRef(filePath);
+}
+
 TextureRef ParseTexture(std::string str)
 {
 	std::string filePath = LFileOperations::GetFullFilePath(str);

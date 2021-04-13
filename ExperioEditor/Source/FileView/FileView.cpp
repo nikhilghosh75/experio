@@ -354,6 +354,7 @@ std::string FileView::GetDragDropTypeFromAssetType(EAssetType type)
 	case EAssetType::Image: return "EXPERIO_IMAGE";
 	case EAssetType::Material: return "EXPERIO_MATERIAL";
 	case EAssetType::Mesh: return "EXPERIO_MESH";
+	case EAssetType::Text: return "EXPERIO_TEXT";
 	}
 	return "EXPERIO_FILE";
 }

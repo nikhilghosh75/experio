@@ -151,6 +151,11 @@ Shader * BinaryParseShader(void * data)
 	return ShaderReader::ReadShader(filepath);
 }
 
+TextRef BinaryParseTextRef(void* data)
+{
+	return TextRef(*(unsigned int*)data);
+}
+
 TextureRef BinaryParseTexture(void * data)
 {
 	std::string filepath = AssetMap::assetMap.Get(*(unsigned int*)data);

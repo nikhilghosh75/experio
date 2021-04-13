@@ -7,6 +7,7 @@
 #include "../Audio/FAudioClip.h"
 #include "../Data/DataManager.h"
 #include "../Files/FileRef.h"
+#include "../Files/TextRef.h"
 #include "../Files/Font/FontReader.h"
 #include "../Files/Images/ImageReader.h"
 #include "../Files/Mesh/MeshReader.h"
@@ -59,6 +60,7 @@ enum class EParamType
 	AUDIO,
 	DATA,
 	FILE,
+	TEXT,
 	FONT,
 	MESH,
 	SHADER,
@@ -99,6 +101,7 @@ FontRef ParseFont(std::string str);
 Material* ParseMaterial(std::string str);
 MeshRef ParseMesh(std::string str);
 Shader* ParseShader(std::string str);
+TextRef ParseTextRef(std::string str);
 TextureRef ParseTexture(std::string str);
 
 // ADD VIDEO HERE

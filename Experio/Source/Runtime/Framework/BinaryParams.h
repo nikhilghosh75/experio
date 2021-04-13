@@ -38,6 +38,7 @@ FontRef BinaryParseFont(void* data);
 Material* BinaryParseMaterial(void* data);
 MeshRef BinaryParseMesh(void* data);
 Shader* BinaryParseShader(void* data);
+TextRef BinaryParseTextRef(void* data);
 TextureRef BinaryParseTexture(void* data);
 
 size_t SizeOfBinaryParam(EParamType type);

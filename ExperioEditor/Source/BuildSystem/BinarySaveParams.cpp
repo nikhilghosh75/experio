@@ -140,6 +140,12 @@ void BinarySaveMesh(MeshRef param, std::ostream & stream)
 	stream.write((char*)&assetId, 4);
 }
 
+void BinarySaveTextRef(TextRef param, std::ostream& stream)
+{
+	uint32_t assetId = AssetMapSaver::GetIndexOfAsset(param.filepath);
+	stream.write((char*)&assetId, 4);
+}
+
 void BinarySaveTexture(TextureRef param, std::ostream & stream)
 {
 	uint32_t assetId = AssetMapSaver::GetIndexOfAsset(TextureManager::GetNameOfTexture(param));

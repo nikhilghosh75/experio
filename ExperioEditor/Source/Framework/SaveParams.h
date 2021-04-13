@@ -32,4 +32,5 @@ void SaveFile(FileRef& param, std::ostream& stream);
 void SaveFont(FontRef& param, std::ostream& stream);
 void SaveMaterial(Material* param, std::ostream& stream);
 void SaveMesh(MeshRef& param, std::ostream& stream);
+void SaveTextRef(TextRef& param, std::ostream& stream);
 void SaveTexture(TextureRef& param, std::ostream& stream);
