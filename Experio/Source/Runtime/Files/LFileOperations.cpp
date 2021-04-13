@@ -199,6 +199,9 @@ TTypedTree<std::string>* LFileOperations::CreateFileNamesTree(std::string direct
 
 bool LFileOperations::DoesFileHaveExtension(std::string filePath, const char * extension)
 {
+	if (filePath.empty())
+		return false;
+
 	int indexOfDot = 0;
 
 	for (int i = filePath.size() - 2; i >= 2; i--)
