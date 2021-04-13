@@ -1,7 +1,7 @@
 # Experio
 Experio is an early-stage custom C++/OpenGL game engine for Windows. Written using OpenGL, imgui, Runtime-Compiled C++, and Microsoft's Win32 API. 
 
-**Current Version:** 0.13.0
+**Current Version:** 0.14.0
 ## Screenshots
 Screenshots to be added here
 ## Documentation
