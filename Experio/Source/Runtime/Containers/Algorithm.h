@@ -88,6 +88,9 @@ namespace Experio::Algorithm
 	void RemoveAt(TUnrolledList<T>& list, uint32_t index);
 
 	template<typename T>
+	void RemoveIf(std::vector<T>& v, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
 	bool AllOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc);
 
 	template<typename T>
@@ -470,6 +473,19 @@ namespace Experio::Algorithm
 			v[i] = v[i + 1];
 		}
 		v.pop_back();
+	}
+
+	template<typename T>
+	void RemoveIf(std::vector<T>& v, std::function<bool(const T&)> compFunc)
+	{
+		for (size_t i = 0; i < v.size(); i++)
+		{
+			if (compFunc(v[i]))
+			{
+				RemoveAt(v, i);
+				break;
+			}
+		}
 	}
 
 	template<typename T>
