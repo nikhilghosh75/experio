@@ -51,6 +51,7 @@ public:
 	float b;
 	float c;
 
+	// Based on https://www.easycalculation.com/statistics/quadratic-regression.php
 	QuadraticRegression(const std::vector<float>& x, const std::vector<float>& y)
 	{
 		unsigned int n = x.size();
@@ -73,6 +74,17 @@ public:
 			sumX2Y += x[i] * x[i] * y[i];
 		}
 
-		// ADD STUFF LATER
+		float sumXX = sumX2 - (sumX * sumX / n);
+		float sumXX2 = sumX3 - (sumX2 * sumX / n);
+		float sumX2X2 = sumX4 - (sumX2 * sumX2 / n);
+
+		this->c = ((sumX2Y * sumXX) - (sumXY * sumXX2)) / ((sumXX * sumX2X2) - (sumXX2 * sumXX2));
+		this->b = ((sumXY * sumX2X2) - (sumX2Y * sumXX2)) / ((sumXX * sumX2X2) - (sumXX2 * sumXX2));
+		this->a = (sumY / n) - (b * sumX / n) - (c * sumX2 / n);
+	}
+
+	virtual float Get(float x) const override
+	{
+		return a * x * x + b * x + c;
 	}
 };
