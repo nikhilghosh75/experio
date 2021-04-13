@@ -31,6 +31,7 @@
     <ClInclude Include="Source\Runtime\Files\Font\TTFReader.h" />
     <ClInclude Include="Source\Runtime\Files\Images\PNGReader.h" />
     <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
+    <ClInclude Include="Source\Runtime\Files\TextRef.h" />
     <ClInclude Include="Source\Runtime\Framework\System.h" />
     <ClInclude Include="Source\Runtime\Input\InputCodes.h" />
     <ClInclude Include="Source\Runtime\Input\InputMap.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="Source\Runtime\Files\Mesh\BinMeshReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Mesh\MeshReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Other\XMLReader.cpp" />
+    <ClCompile Include="Source\Runtime\Files\TextRef.cpp" />
     <ClCompile Include="Source\Runtime\Framework\AssetMap.cpp" />
     <ClCompile Include="Source\Runtime\Framework\BinaryParams.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Params.cpp" />
