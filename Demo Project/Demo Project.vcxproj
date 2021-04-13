@@ -165,6 +165,8 @@
     <None Include="Config\rendering.pbconfig" />
     <None Include="Config\tags.pbvalues" />
     <None Include="Demo Project.pbproj" />
+    <None Include="Generated\Components.json" />
+    <None Include="Generated\Engine.pbcodeproj" />
     <None Include="user.pbuser" />
   </ItemGroup>
   <ItemGroup>

@@ -25,6 +25,8 @@
     <None Include="Config\rendering.pbconfig" />
     <None Include="user.pbuser" />
     <None Include="Assets\Materials\Red.material" />
+    <None Include="Generated\Components.json" />
+    <None Include="Generated\Engine.pbcodeproj" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DemoProject.h">
