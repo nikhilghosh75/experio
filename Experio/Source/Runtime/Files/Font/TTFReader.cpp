@@ -83,21 +83,18 @@ size_t TTFReader::SerializedSizeOf(const char* filename)
 
 unsigned char* TTFReader::GetFileBuffer(const char* filename)
 {
-	size_t size;
+	size_t size = std::filesystem::file_size(filename);
 	unsigned char* buffer;
 
 	FILE* fontFile = fopen(filename, "rb");
-	fseek(fontFile, 0, SEEK_END);
-	size = ftell(fontFile);
 
 	buffer = (unsigned char*)malloc(size);
 
 	if (buffer == nullptr)
 	{
+		fclose(fontFile);
 		return nullptr;
 	}
-
-	fseek(fontFile, 0, SEEK_SET); // reset
 
 	fread(buffer, size, 1, fontFile);
 	fclose(fontFile);
