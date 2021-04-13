@@ -120,6 +120,8 @@ void GeneratedEditor::DisplayParamType(FSerializationInfo & serializedField, Com
 		Debug::LogError("Spherical Point Display is not complete"); break;
 	case EParamType::STRING:
 		LImGui::DisplayString(name, (std::string*)((char*)component + serializedField.offset)); break;
+	case EParamType::TEXT:
+		LImGui::DisplayTextAsset(*(TextRef*)((char*)component + serializedField.offset), serializedField.name); break;
 	case EParamType::TEXTURE:
 		LImGui::DisplayTextureAsset(*(TextureRef*)((char*)component + serializedField.offset), serializedField.name); break;
 	case EParamType::VECTOR2:
