@@ -5,7 +5,7 @@
 
 class SceneHierarchy : public EditorModule
 {
-	std::vector<GameObject> currentlySelectedItems;
+	std::vector<GameObject*> currentlySelectedItems;
 
 	static void HandleDragDrop(const GameObject* gameObject);
 	static void HandleSwap(uint64_t fromID, uint64_t toID);
@@ -15,12 +15,12 @@ class SceneHierarchy : public EditorModule
 public:
 	static SceneHierarchy* hierarchy;
 
-	static void DisplayGameObjectTree(GameObject* gameObject, std::vector<GameObject>& selectedItems);
+	static void DisplayGameObjectTree(GameObject* gameObject, std::vector<GameObject*>& selectedItems);
 
 	SceneHierarchy();
 
 	virtual void Display() override;
 
 	// Dont make this const
-	std::vector<GameObject>& GetSelectedItems();
+	std::vector<GameObject*>& GetSelectedItems();
 };

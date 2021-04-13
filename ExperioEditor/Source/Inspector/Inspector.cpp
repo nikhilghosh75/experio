@@ -54,7 +54,7 @@ void Inspector::DisplayGameObject(GameObject* object)
 	}
 }
 
-void Inspector::DisplayMultipleGameObject(std::vector<GameObject>& gameObjects)
+void Inspector::DisplayMultipleGameObjects(std::vector<GameObject*>& gameObjects)
 {
 	ImGui::Text("Name: "); ImGui::SameLine(); ImGui::Text("Multiple");
 
@@ -62,12 +62,12 @@ void Inspector::DisplayMultipleGameObject(std::vector<GameObject>& gameObjects)
 	DisplayMultipleLayers(gameObjects);
 }
 
-void Inspector::DisplayMultipleTags(std::vector<GameObject>& gameObjects)
+void Inspector::DisplayMultipleTags(std::vector<GameObject*>& gameObjects)
 {
-	uint16_t tag = gameObjects[0].tag;
+	uint16_t tag = gameObjects[0]->tag;
 	for (size_t i = 1; i < gameObjects.size(); i++)
 	{
-		if (gameObjects[i].tag != tag)
+		if (gameObjects[i]->tag != tag)
 		{
 			tag = ExperioEditor::NumValues(EValueType::Tag);
 			break;
@@ -80,17 +80,17 @@ void Inspector::DisplayMultipleTags(std::vector<GameObject>& gameObjects)
 	{
 		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
-			gameObjects[i].tag = tag;
+			gameObjects[i]->tag = tag;
 		}
 	}
 }
 
-void Inspector::DisplayMultipleLayers(std::vector<GameObject>& gameObjects)
+void Inspector::DisplayMultipleLayers(std::vector<GameObject*>& gameObjects)
 {
-	uint8_t layer = gameObjects[0].layer;
+	uint8_t layer = gameObjects[0]->layer;
 	for (size_t i = 1; i < gameObjects.size(); i++)
 	{
-		if (gameObjects[i].layer != layer)
+		if (gameObjects[i]->layer != layer)
 		{
 			layer = ExperioEditor::NumValues(EValueType::Layer);
 			break;
@@ -103,7 +103,7 @@ void Inspector::DisplayMultipleLayers(std::vector<GameObject>& gameObjects)
 	{
 		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
-			gameObjects[i].layer = layer;
+			gameObjects[i]->layer = layer;
 		}
 	}
 }
@@ -284,12 +284,14 @@ void Inspector::DisplayAddComponentMenu()
 
 void Inspector::AddComponentToGameObjects(unsigned int componentId)
 {
-	std::vector<GameObject> objects = SceneHierarchy::hierarchy->GetSelectedItems();
+	std::vector<GameObject*>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
 	if (objects.size() == 0) return;
 
-	GameObject* object = Scene::FindGameObjectFromId(objects[0].id);
-	object->AddComponentByComponentID(componentId);
-	UndoSystem::AddCommand(new AddComponentCommand(object, componentId));
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		objects[i]->AddComponentByComponentID(componentId);
+		UndoSystem::AddCommand(new AddComponentCommand(objects[i], componentId));
+	}
 }
 
 Inspector::Inspector()
@@ -310,7 +312,7 @@ void Inspector::Display()
 {
 	PROFILE_SCOPE("Inspector::Display");
 
-	std::vector<GameObject>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
+	std::vector<GameObject*>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
 
 	if (objects.size() == 0)
 	{
@@ -318,12 +320,12 @@ void Inspector::Display()
 	}
 	else if (objects.size() == 1)
 	{
-		DisplayGameObject(&objects[0]);
+		DisplayGameObject(objects[0]);
 		DisplayAddComponentMenu();
 	}
 	else
 	{
-		DisplayMultipleGameObject(objects);
+		DisplayMultipleGameObjects(objects);
 		DisplayAddComponentMenu();
 	}
 }
