@@ -357,7 +357,12 @@ void LSerializationOperations::SaveParamToBinary(void * component, FSerializatio
 	case EParamType::SHORT: PB_SAVE_PARAM(short, BinarySaveShort); break;
 	case EParamType::SPHERICALPOINT: PB_SAVE_PARAM(FSphericalPoint, BinarySaveSphericalPoint); break;
 	case EParamType::STRING: PB_SAVE_PARAM(std::string, BinarySaveString); break;
+	case EParamType::TEXT: PB_SAVE_PARAM(TextRef, BinarySaveTextRef); break;
 	case EParamType::TEXTURE: PB_SAVE_PARAM(TextureRef, BinarySaveTexture); break;
+	case EParamType::UBYTE: PB_SAVE_PARAM(uint8_t, BinarySaveUByte); break;
+	case EParamType::UINT: PB_SAVE_PARAM(unsigned int, BinarySaveUInt); break;
+	case EParamType::ULONG: PB_SAVE_PARAM(uint64_t, BinarySaveULongLong); break;
+	case EParamType::USHORT: PB_SAVE_PARAM(uint16_t, BinarySaveUShort); break;
 	case EParamType::VECTOR2: PB_SAVE_PARAM(FVector2, BinarySaveVector2); break;
 	case EParamType::VECTOR3: PB_SAVE_PARAM(FVector3, BinarySaveVector3); break;
 	case EParamType::VECTOR4: PB_SAVE_PARAM(FVector4, BinarySaveVector4); break;
