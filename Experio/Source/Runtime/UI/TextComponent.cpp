@@ -1,5 +1,7 @@
 #include "TextComponent.h"
+#include "Canvas.h"
 #include "../Debug/Debug.h"
+#include "../Rendering/Renderer.h"
 #include "../Rendering/VertexBuffer.h"
 #include "../Core/Window.h"
 #include "../Core/LWindowOperations.h"
@@ -18,7 +20,7 @@ TextComponent::TextComponent(GameObject * object)
 
 void TextComponent::Start()
 {
-
+	SetDefaultShader();
 }
 
 void TextComponent::Update()
@@ -28,12 +30,16 @@ void TextComponent::Update()
 
 void TextComponent::SetDefaultShader()
 {
-	shader = ShaderReader::ReadShader("C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Text2D.shader");
-	shader->Bind();
+	shader = Renderer::textShader;
 }
 
 void TextComponent::RenderText()
 {
+	if (shader == nullptr)
+	{
+		SetDefaultShader();
+	}
+
 	if (font.IsNull())
 	{
 		Debug::LogError("Text could not be rendered due to it not having a font");
@@ -45,10 +51,19 @@ void TextComponent::RenderText()
 	glm::vec2* verticies = new glm::vec2[6 * length];
 	glm::vec2* uvs = new glm::vec2[6 * length];
 
+	float canvasWidth = Canvas::GetCanvasWidth();
+	float canvasHeight = Canvas::GetCanvasHeight();
+
+	FRect rect = gameObject->GetCanvasSpaceRect();
+	rect.min.x /= canvasWidth;
+	rect.min.y /= canvasHeight;
+	rect.max.x /= canvasWidth;
+	rect.max.y /= canvasHeight;
+
 	FWindowData data = Window::GetWindowData();
 	float clippedSize = LWindowOperations::PixelToNormalizedSize(data, fontSize * 1.333f, EWindowAxisType::Y);
 	float clippedMargin = LWindowOperations::PixelToNormalizedSize(data, margins, EWindowAxisType::X);
-	FVector2 topLeftOfText = this->transform.rect.GetTopLeft();
+	FVector2 topLeftOfText = rect.GetTopLeft();
 	FVector2 currentCursorLocation = topLeftOfText + FVector2(clippedMargin, -clippedMargin);
 
 	for (int i = 0; i < length; i++)

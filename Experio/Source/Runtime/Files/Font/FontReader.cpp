@@ -1,6 +1,7 @@
 #include "FontReader.h"
 #include "BinFontReader.h"
 #include "FNTReader.h"
+#include "TTFReader.h"
 #include "../LFileOperations.h"
 #include "../../Framework/AssetMap.h"
 #include "../../Debug/Debug.h"
@@ -12,6 +13,11 @@ FontData * FontReader::ReadFile(const char * fileName)
 	if (extension == "fnt")
 	{
 		FNTReader reader;
+		return reader.ReadFile(fileName);
+	}
+	else if (extension == "ttf")
+	{
+		TTFReader reader;
 		return reader.ReadFile(fileName);
 	}
 	else if (extension == "pbbfont")
@@ -41,6 +47,11 @@ size_t FontReader::SerializedSizeOf(const char * filename)
 	if (extension == "fnt")
 	{
 		FNTReader reader;
+		return reader.SerializedSizeOf(filename);
+	}
+	else if (extension == "ttf")
+	{
+		TTFReader reader;
 		return reader.SerializedSizeOf(filename);
 	}
 	else if (extension == "pbbfont")

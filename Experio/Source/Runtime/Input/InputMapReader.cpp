@@ -1,5 +1,6 @@
 #include "InputMapReader.h"
 #include "../Files/LFileOperations.h"
+#include "../../ThirdParty/Magic Enum/magic_enum.hpp"
 
 InputMap InputMapReader::ReadInputMap(const std::string & filepath)
 {
@@ -22,8 +23,8 @@ InputMap InputMapReader::ReadInputMap(const std::string & filepath)
 	inFile >> numCategories >> numConfigs;
 	map.Resize(numCategories, numConfigs);
 
-	InputCategory& category = map.categories[0];
-	InputConfig& config = category.configs[0];
+	// InputCategory& category = map.categories[0];
+	// InputConfig& config = category.configs[0];
 	int currentCategoryIndex = -1;
 	int currentConfigIndex = -1;
 
@@ -33,21 +34,23 @@ InputMap InputMapReader::ReadInputMap(const std::string & filepath)
 		if (str == "CATEGORY")
 		{
 			currentCategoryIndex++;
-			category = map.categories[currentCategoryIndex];
 			currentConfigIndex = -1;
-			inFile >> category.name;
+			inFile >> map.categories[currentCategoryIndex].name;
 		}
 		else if (str == "CONFIG")
 		{
 			currentConfigIndex++;
-			config = map.categories[currentCategoryIndex].configs[currentConfigIndex];
-			inFile >> config.name;
+			inFile >> map.categories[currentCategoryIndex].configs[currentConfigIndex].name;
 			inFile >> str;
-			config.inputType = StringToInputType(str);
+			map.categories[currentCategoryIndex].configs[currentConfigIndex].inputType = StringToInputType(str);
 		}
 		else if (str == "ACTION")
 		{
-			ParseAction(inFile, config);
+			ParseAction(inFile, map.categories[currentCategoryIndex].configs[currentConfigIndex]);
+		}
+		else if (str == "AXIS")
+		{
+			ParseAxis(inFile, map.categories[currentCategoryIndex].configs[currentConfigIndex]);
 		}
 	}
 
@@ -61,15 +64,47 @@ EInputType InputMapReader::StringToInputType(const std::string& type)
 	return EInputType::Gamepad;
 }
 
+InputCode InputMapReader::StringToInputCode(const std::string& str, EInputType inputType)
+{
+	InputCode code;
+	switch (inputType)
+	{
+	case EInputType::Keyboard:
+		code.keycode = magic_enum::enum_cast<EKeyCode>(str).value_or(EKeyCode::None);
+		break;
+	case EInputType::Gamepad:
+		code.gamepadButton = magic_enum::enum_cast<EGamepadButton>(str).value_or(EGamepadButton::None);
+		break;
+	}
+	return code;
+}
+
 void InputMapReader::ParseAction(std::ifstream& inFile, InputConfig& config)
 {
 	std::string actionName;
 	std::string actionBinding;
 	inFile >> actionName >> actionBinding;
 
+	InputCode actionCode = StringToInputCode(actionBinding, config.inputType);
 
+	config.actions.emplace_back(actionName, actionCode);
 }
 
 void InputMapReader::ParseAxis(std::ifstream& inFile, InputConfig& config)
 {
+	std::string axisName;
+	int numAxisPoints;
+	inFile >> axisName >> numAxisPoints;
+
+	InputAxis& axis = config.axes.emplace_back(axisName);
+	for (int i = 0; i < numAxisPoints; i++)
+	{
+		std::string pointBinding;
+		float pointValue;
+		inFile >> pointBinding >> pointValue;
+		
+		InputCode pointCode = StringToInputCode(pointBinding, config.inputType);
+		InputAxisPoint point(pointValue, pointCode);
+		axis.axisPoints.Append(point);
+	}
 }

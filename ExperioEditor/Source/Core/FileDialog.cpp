@@ -59,6 +59,40 @@ FFileDialogInfo FileDialog::OpenFile(const char * filter)
 	return FFileDialogInfo("", true);
 }
 
+std::vector<FFileDialogInfo> FileDialog::OpenMultipleFiles(const char* filter)
+{
+#ifdef PLATFORM_WINDOWS
+	OPENFILENAMEA ofn;
+	CHAR szFile[2048] = { 0 };
+
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = EditorWindow::GetHWND();
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+	ofn.lpstrFilter = filter;
+	ofn.nFilterIndex = 1;
+	ofn.Flags = OFN_EXPLORER | OFN_ALLOWMULTISELECT;
+
+	if (GetOpenFileNameA(&ofn) == TRUE)
+	{
+		std::vector<FFileDialogInfo> infos;
+
+		char* str = ofn.lpstrFile;
+		std::string directory = str;
+		str += (directory.length() + 1);
+		while (*str != 0)
+		{
+			std::string filename = str;
+			str += filename.length() + 1;
+			infos.emplace_back(directory + "/" + filename);
+		}
+		return infos;
+	}
+#endif
+	return std::vector<FFileDialogInfo>();
+}
+
 FFileDialogInfo FileDialog::OpenFolder()
 {
 #ifdef PLATFORM_WINDOWS

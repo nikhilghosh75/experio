@@ -13,6 +13,8 @@ void BinarySaveDouble(double param, std::ostream& stream);
 void BinarySaveLongLong(long long param, std::ostream& stream);
 void BinarySaveULongLong(uint64_t param, std::ostream& stream);
 
+void BinarySaveString(const std::string& str, std::ostream& stream);
+
 void BinarySaveVector2(FVector2 param, std::ostream& stream);
 void BinarySaveVector3(FVector3 param, std::ostream& stream);
 void BinarySaveVector4(FVector4 param, std::ostream& stream);
@@ -29,4 +31,5 @@ void BinarySaveFile(FileRef param, std::ostream& stream);
 void BinarySaveFont(FontRef param, std::ostream& stream);
 void BinarySaveMaterial(Material* param, std::ostream& stream);
 void BinarySaveMesh(MeshRef param, std::ostream& stream);
+void BinarySaveTextRef(TextRef param, std::ostream& stream);
 void BinarySaveTexture(TextureRef param, std::ostream& stream);

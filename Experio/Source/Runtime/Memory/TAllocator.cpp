@@ -2,6 +2,8 @@
 #include <stdexcept>
 #include "TAllocator.h"
 
+/*
+
 template<class T>
 TAllocator<T>::TAllocator()
 {
@@ -27,15 +29,6 @@ TAllocator<T>::TAllocator(size_t size, void* start)
     memoryUsed = 0;
     allocationsMade = 0;
 }
-
-/*
-template<class T>
-TAllocator<T>::~TAllocator()
-{
-	start = nullptr;
-	totalSize = 0;
-}
-*/
 
 template<class T>
 void* TAllocator<T>::Allocate(size_t size, uint8_t alignment)
@@ -111,3 +104,4 @@ void TAllocator<T>::DeallocateArray(T * array)
 
     Deallocate(array - headerSize);
 }
+*/

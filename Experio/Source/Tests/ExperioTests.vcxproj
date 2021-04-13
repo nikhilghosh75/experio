@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="Containers\AlgorithmTest.cpp" />
     <ClCompile Include="Containers\ArrayTest.cpp" />
+    <ClCompile Include="Containers\BSTTest.cpp" />
     <ClCompile Include="Containers\HashtableTest.cpp" />
     <ClCompile Include="Containers\QueueTest.cpp" />
     <ClCompile Include="Containers\StringTest.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="Math\Vector2Test.cpp" />
     <ClCompile Include="Math\Vector3Test.cpp" />
     <ClCompile Include="Memory\VoidPtrTest.cpp" />
+    <ClCompile Include="UI\RectTransformTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\ExperioEditor\ExperioEditor.vcxproj">

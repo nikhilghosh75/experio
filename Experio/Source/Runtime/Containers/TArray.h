@@ -360,7 +360,7 @@ public:
 		}
 		this->data[this->count] = T(std::forward<Args>(args) ...);
 		this->count++;
-		return this->data[this->count - 2];
+		return this->data[this->count - 1];
 	}
 
 	template<typename ... Args>
@@ -412,10 +412,11 @@ public:
 	void RemoveAt(uint32_t index)
 	{
 		this->data[index].~T();
-		for (int i = index + 1; i < this->count; i++)
+		for (uint32_t i = index + 1; i < this->count; i++)
 		{
 			data[i - 1] = data[i];
 		}
+		this->count--;
 	}
 
 	void Swap(uint32_t indexA, uint32_t indexB)

@@ -19,7 +19,6 @@ void CodeProjectGenerator::ParseFile(std::string filepath)
 	FileBuffer buffer = LFileOperations::ReadFileToBuffer(stream, 256);
 	std::vector<FVector2Int> vector = GetObjectsInCodeFile(buffer);
 	ParseObjectsInCodeFile(vector, buffer);
-	// Debug::log << filepath << " " << buffer[20] << " " << buffer.Size() << Debug::endl;
 }
 
 bool CodeProjectGenerator::IsValidFile(std::string filepath) const
@@ -52,6 +51,12 @@ CodeProjectGenerator::CodeProjectGenerator(std::string & rootFilepath, CodeProje
 
 void CodeProjectGenerator::GenerateFullProject()
 {
+	if (!LFileOperations::IsDirectory(rootFilepath))
+	{
+		ParseFile(rootFilepath);
+		return;
+	}
+
 	while (currentlyGenerating)
 	{
 		StepGenerate();

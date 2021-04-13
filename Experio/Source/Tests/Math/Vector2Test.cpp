@@ -82,3 +82,13 @@ UNIT_TEST(TestVector2Distance, "Vector2")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestVector2Abs, "Vector")
+{
+	FVector2 v(4, -5);
+
+	ASSERT_ALMOST_EQUAL(FVector2::Abs(v).x, 4);
+	ASSERT_ALMOST_EQUAL(FVector2::Abs(v).x, 5);
+
+	TEST_END();
+}

@@ -7,6 +7,13 @@
 #include "../Managers/TextureManager.h"
 #include "imgui_internal.h"
 
+struct InputTextCallback_UserData
+{
+	std::string* Str;
+	ImGuiInputTextCallback  ChainCallback;
+	void* ChainCallbackUserData;
+};
+
 using namespace Experio;
 
 uint64_t LImGui::DisplayBitmask(std::string name, const std::vector<std::string>& names, bool* selected)
@@ -121,6 +128,10 @@ void LImGui::DisplayFileAsset(FileRef & ref, std::string name)
 		{
 			ref.filepath = (char*)payload->Data;
 		}
+		else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_TEXT"))
+		{
+			ref.filepath = (char*)payload->Data;
+		}
 	}
 
 	ImGui::SameLine();
@@ -197,7 +208,7 @@ void LImGui::DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string
 	}
 }
 
-void LImGui::DisplayMaterial(Material * material, std::string name)
+void LImGui::DisplayMaterial(Material * material, const std::string& name)
 {
 	ImGui::PushID(name.c_str());
 
@@ -237,7 +248,7 @@ void LImGui::DisplayMaterial(Material * material, std::string name)
 	ImGui::PopID();
 }
 
-void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
+void LImGui::DisplayMeshAsset(MeshRef & ref, const std::string& name)
 {
 	ImGui::PushID(name.c_str());
 
@@ -277,7 +288,7 @@ void LImGui::DisplayMeshAsset(MeshRef & ref, std::string name)
 	ImGui::PopID();
 }
 
-void LImGui::DisplayQuaternion(FQuaternion& quat, std::string name)
+void LImGui::DisplayQuaternion(FQuaternion& quat, const std::string& name)
 {
 	FVector4 rotationV = FVector4(quat.w, quat.x, quat.y, quat.z);
 	DisplayVector4(rotationV, "Rotation", FVector4(1, 0, 0, 0));
@@ -292,6 +303,23 @@ void LImGui::DisplayRect(FRect& rect, const std::string & name)
 		LImGui::DisplayVector2(rect.max, "Max");
 		ImGui::TreePop();
 	}
+}
+
+bool LImGui::DisplayString(const char* label, std::string* str, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* user_data)
+{
+	if (str->capacity() == 0)
+		str->reserve(16);
+
+	char* buffer = str->data();
+
+	InputTextCallback_UserData cb_user_data;
+	cb_user_data.Str = str;
+	cb_user_data.ChainCallback = callback;
+	cb_user_data.ChainCallbackUserData = user_data;
+	bool changed = ImGui::InputText(label, buffer, str->capacity() + 1, flags, callback, &cb_user_data);
+	*str = buffer;
+
+	return changed;
 }
 
 void LImGui::DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable)
@@ -314,6 +342,36 @@ void LImGui::DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& 
 		});
 		ImGui::EndCombo();
 	}
+}
+
+void LImGui::DisplayTextAsset(TextRef& ref, const std::string& name)
+{
+	ImGui::PushID(name.c_str());
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 100.f);
+	ImGui::Text(name.c_str());
+	ImGui::NextColumn();
+
+	std::string fileName = LFileOperations::StripFilename(ref.filepath);
+	ImGui::Text(fileName.c_str());
+
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("EXPERIO_TEXT"))
+		{
+			ref.filepath = (char*)payload->Data;
+		}
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("Switch"))
+	{
+		// Add Later
+	}
+
+	ImGui::Columns(1);
+	ImGui::PopID();
 }
 
 void LImGui::DisplayTexture(TextureRef & ref, const std::string & name, unsigned int width, unsigned int height)

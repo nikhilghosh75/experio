@@ -2,6 +2,7 @@
 #include <filesystem>
 #include "Runtime/Data/DataManager.h"
 #include "Runtime/Debug/Debug.h"
+#include "Runtime/Debug/Profiler.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Input/Input.h"
 #include "Runtime/Rendering/ImGui/LImGui.h"
@@ -10,6 +11,7 @@
 #include "Runtime/Rendering/Managers/TextureManager.h"
 #include "../AssetViewers/FontViewer.h"
 #include "../AssetViewers/ImageViewer.h"
+#include "../AssetViewers/InputMapViewer.h"
 #include "../AssetViewers/MeshViewer.h"
 #include "../Core/EditorApplication.h"
 #include "../Core/FileDialog.h"
@@ -54,6 +56,12 @@ FileView::~FileView()
 
 void FileView::DisplayCreateMenu()
 {
+	if (ImGui::MenuItem("Folder"))
+	{
+		fs::create_directory(this->selectedFilepath + "/New Folder");
+		// TO-DO: Add Create Folder to Create System
+	}
+	ImGui::Separator();
 	if (ImGui::MenuItem("C++ Class"))
 	{
 		openCppMenu = true;
@@ -86,13 +94,12 @@ void FileView::DisplayCreateMenu()
 
 void FileView::DisplayImportMenu()
 {
-	FFileDialogInfo dialog = FileDialog::OpenFile(nullptr);
-	if (!dialog.IsValid())
-	{
-		return;
-	}
+	std::vector<FFileDialogInfo> dialogs = FileDialog::OpenMultipleFiles(nullptr);
 
-	ImportSystem::Import(dialog.filename, this->selectedFilepath);
+	for (size_t i = 0; i < dialogs.size(); i++)
+	{
+		ImportSystem::Import(dialogs[i].filename, this->selectedFilepath);
+	}
 }
 
 void FileView::DisplayMenuBar()
@@ -288,6 +295,12 @@ void FileView::OpenFile(const std::string & str, EAssetType type)
 		imageViewer->loadedRef = TextureManager::LoadTexture(str);
 	}
 	break;
+	case EAssetType::InputMap:
+	{
+		InputMapViewer* inputMapViewer = (InputMapViewer*)EditorApplication::AddModule(new InputMapViewer());
+		inputMapViewer->Load(str);
+	}
+	break;
 	case EAssetType::Material:
 	{
 		MaterialEditor* materialEditor = (MaterialEditor*)EditorApplication::AddModule(new MaterialEditor());
@@ -310,6 +323,8 @@ void FileView::OpenFile(const std::string & str, EAssetType type)
 
 void FileView::Display()
 {
+	PROFILE_SCOPE("FileView::Display");
+
 	DisplayMenuBar();
 	DisplayContextMenu();
 	DisplayTree();
@@ -339,6 +354,7 @@ std::string FileView::GetDragDropTypeFromAssetType(EAssetType type)
 	case EAssetType::Image: return "EXPERIO_IMAGE";
 	case EAssetType::Material: return "EXPERIO_MATERIAL";
 	case EAssetType::Mesh: return "EXPERIO_MESH";
+	case EAssetType::Text: return "EXPERIO_TEXT";
 	}
 	return "EXPERIO_FILE";
 }

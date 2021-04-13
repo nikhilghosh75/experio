@@ -2,6 +2,11 @@
 #include <stdint.h>
 #include "GameObject.h"
 
+/// <summary>
+/// A wrapper over a 64-bit integer that represents a mask for layers
+/// Layers can only be between 0 and 63 (inclusive)
+/// </summary>
+
 struct Layermask
 {
 	uint64_t mask;

@@ -68,6 +68,8 @@ public:
 
 	static EAssetType GetFileTypeOfExt(std::string ext);
 
+	static bool IsDirectory(const std::string& filepath);
+
 	constexpr static uint64_t MultipleToBytes(float bytes, EDataUnit unit);
 
 	static uint32_t NumFilesInFolder(const std::string& filepath, bool shouldIncludeMetas = false);
@@ -80,6 +82,8 @@ public:
 
 	static FileBuffer ReadFileToBuffer(std::ifstream& stream, size_t maxLineLength = 512);
 	static FileBuffer ReadTrimmedFileToBuffer(std::ifstream& stream);
+
+	static std::string ReplaceExtension(const std::string& filepath, const std::string& newExt);
 
 	static EAssetType StringToAssetType(const std::string& str);
 

@@ -148,7 +148,7 @@ CodeParam LCpp::ParseCodeParam(const std::string & str)
 	return param;
 }
 
-size_t LCpp::SizeOfDefeaultType(const std::string & name)
+size_t LCpp::SizeOfDefaultType(const std::string & name)
 {
 	if (name == "char") return 1;
 	if (name == "unsigned char") return 1;
@@ -170,5 +170,12 @@ size_t LCpp::SizeOfDefeaultType(const std::string & name)
 	if (name == "double") return 8;
 	if (name == "bool") return 1;
 
+	return 0;
+}
+
+size_t LCpp::SizeOfStringType(const std::string& name)
+{
+	if (name == "std::string" || name == "string") return sizeof(std::string);
+	if (name == "std::wstring" || name == "wstring") return sizeof(std::wstring);
 	return 0;
 }

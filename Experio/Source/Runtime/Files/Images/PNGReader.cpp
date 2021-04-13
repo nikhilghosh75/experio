@@ -1,6 +1,7 @@
 #include "PNGReader.h"
 #include "../../../ThirdParty/Lodepng/Lodepng.h"
 #include "../../Debug/Debug.h"
+#include "../../Debug/Profiler.h"
 
 PNGReader::PNGReader()
 {
@@ -8,6 +9,8 @@ PNGReader::PNGReader()
 
 ImageData * PNGReader::ReadFile(const char * fileName)
 {
+	PROFILE_SCOPE_CATEGORY("PNG Reader", EProfilerCategory::Files);
+
 	unsigned char* rawImage = nullptr;
 	unsigned char* image = nullptr;
 	unsigned int width, height;

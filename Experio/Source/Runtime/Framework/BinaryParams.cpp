@@ -58,6 +58,11 @@ unsigned long long BinaryParseULongLong(void * data)
 	return *(unsigned long long*)data;
 }
 
+std::string BinaryParseString(void* data)
+{
+	return "NOT IMPLEMENTED";
+}
+
 FVector2 BinaryParseVector2(void * data)
 {
 	return FVector2(*(float*)data, *((float*)(data) + 1));
@@ -146,6 +151,11 @@ Shader * BinaryParseShader(void * data)
 	return ShaderReader::ReadShader(filepath);
 }
 
+TextRef BinaryParseTextRef(void* data)
+{
+	return TextRef(*(unsigned int*)data);
+}
+
 TextureRef BinaryParseTexture(void * data)
 {
 	std::string filepath = AssetMap::assetMap.Get(*(unsigned int*)data);
@@ -172,12 +182,12 @@ size_t SizeOfBinaryParam(EParamType type)
 	case EParamType::MATERIAL: return 4;
 	case EParamType::MESH: return 4;
 	case EParamType::NARRAY: return 0;
-	case EParamType::NSTRING: return 0;
 	case EParamType::QUATERNION: return 16;
 	case EParamType::RECT: return 16;
 	case EParamType::SHADER: return 4;
 	case EParamType::SHORT: return 2;
 	case EParamType::SPHERICALPOINT: return 12;
+	case EParamType::STRING: return 0;
 	case EParamType::TEXTURE: return 4;
 	case EParamType::UBYTE: return 1;
 	case EParamType::UINT: return 4;

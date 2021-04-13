@@ -5,6 +5,7 @@
 #include "../../Containers/TTypedTree.h"
 #include <string>
 #include "../../Files/FileRef.h"
+#include "../../Files/TextRef.h"
 #include "../../Math/FBox.h"
 #include "../../Math/FRect.h"
 #include "../../Math/FVector2.h"
@@ -39,15 +40,19 @@ public:
 
 	static void DisplayLayer(uint8_t& layer, const THashtable<uint16_t, std::string>& layerTable);
 
-	static void DisplayMaterial(Material* material, std::string name);
+	static void DisplayMaterial(Material* material, const std::string& name);
 
-	static void DisplayMeshAsset(MeshRef& ref, std::string name);
+	static void DisplayMeshAsset(MeshRef& ref, const std::string& name);
 
-	static void DisplayQuaternion(FQuaternion& quat, std::string name);
+	static void DisplayQuaternion(FQuaternion& quat, const std::string& name);
 
 	static void DisplayRect(FRect& rect, const std::string& name);
 
+	static bool DisplayString(const char* label, std::string* str, ImGuiInputTextFlags flags = 0, ImGuiInputTextCallback callback = NULL, void* user_data = NULL);
+
 	static void DisplayTag(uint16_t& tag, const THashtable<uint16_t, std::string>& tagTable);
+
+	static void DisplayTextAsset(TextRef& ref, const std::string& name);
 
 	static void DisplayTexture(TextureRef& ref, const std::string& name, unsigned int width = 100, unsigned int height = 100);
 

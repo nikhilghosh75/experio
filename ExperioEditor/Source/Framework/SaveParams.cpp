@@ -64,6 +64,11 @@ void SaveULongLong(uint64_t param, std::ostream & stream)
 	stream << param;
 }
 
+void SaveString(std::string str, std::ostream& stream)
+{
+	stream << str;
+}
+
 void SaveVector2(FVector2 param, std::ostream & stream)
 {
 	stream << param.x << " " << param.y;
@@ -145,6 +150,12 @@ void SaveMesh(MeshRef& param, std::ostream & stream)
 {
 	std::string fullFilePath = MeshManager::GetNameOfMesh(param);
 	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(fullFilePath);
+	stream << shortenedFilePath;
+}
+
+void SaveTextRef(TextRef& param, std::ostream& stream)
+{
+	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(param.filepath);
 	stream << shortenedFilePath;
 }
 

@@ -3,6 +3,9 @@
 #include "Scene.h"
 #include "GameObjectIterator.h"
 #include "glm/gtx/matrix_decompose.hpp"
+#include "../Containers/Algorithm.h"
+#include "../Core/Window.h"
+#include "../UI/Canvas.h"
 
 uint64_t GameObject::currentGameObject = 64;
 
@@ -14,6 +17,7 @@ GameObject::GameObject()
 	this->tag = 0;
 	this->layer = 0;
 	this->sceneIndex = 0;
+	this->isUI = false;
 
 	this->localPosition = FVector3(0, 0, 0);
 	this->localRotation = FQuaternion(0, 0, 0, 1);
@@ -28,6 +32,7 @@ GameObject::GameObject(std::string name)
 	this->tag = 0;
 	this->layer = 0;
 	this->sceneIndex = 0;
+	this->isUI = false;
 
 	this->localPosition = FVector3(0, 0, 0);
 	this->localRotation = FQuaternion(0, 0, 0, 1);
@@ -42,6 +47,7 @@ GameObject::GameObject(std::string name, unsigned short tag, uint8_t layer)
 	this->tag = tag;
 	this->layer = layer;
 	this->sceneIndex = 0;
+	this->isUI = false;
 
 	this->localPosition = FVector3(0, 0, 0);
 	this->localRotation = FQuaternion(0, 0, 0, 1);
@@ -56,6 +62,7 @@ GameObject::GameObject(std::string name, unsigned short tag, uint8_t layer, uint
 	this->tag = tag;
 	this->layer = layer;
 	this->sceneIndex = scene;
+	this->isUI = false;
 
 	this->localPosition = FVector3(0, 0, 0);
 	this->localRotation = FQuaternion(0, 0, 0, 1);
@@ -241,6 +248,58 @@ void GameObject::SetTransform(glm::mat4 localMatrix)
 	this->localScale = (FVector3)scale;
 }
 
+FRect GameObject::GetCanvasSpaceRect() const
+{
+	if (!isUI)
+	{
+		// return FRect();
+	}
+
+	float canvasWidth = Canvas::GetCanvasWidth();
+	float canvasHeight = Canvas::GetCanvasHeight();
+
+	float xPosition = 0;
+	float yPosition = 0;
+	float width = canvasWidth;
+	float height = canvasHeight;
+
+	std::vector<size_t> siblingIndexes;
+
+	const GameObject* current = this;
+	while (current != nullptr)
+	{
+		if (!current->isUI || current->parent == nullptr)
+			break;
+
+		siblingIndexes.push_back(current->GetSiblingIndex());
+
+		if (current->parent->isUI)
+		{
+			xPosition = MergePositionConstraint(xPosition, current->rectTransform.xConstraint);
+			yPosition = MergePositionConstraint(yPosition, current->rectTransform.yConstraint);
+		}
+		else
+		{
+			if (xPosition < 0)
+				xPosition = canvasWidth - xPosition;
+			if (yPosition < 0)
+				yPosition = canvasHeight - yPosition;
+		}
+	}
+
+	size_t objectDepth = siblingIndexes.size();
+	for (size_t i = 0; i < objectDepth; i++)
+	{
+		width = MergeDimensionConstraint(width, current->rectTransform.widthConstraint);
+		height = MergeDimensionConstraint(height, current->rectTransform.heightConstraint);
+
+		current = current->children[siblingIndexes.back()];
+		siblingIndexes.pop_back();
+	}
+
+	return FRect(xPosition, yPosition, xPosition + width, xPosition + height);
+}
+
 void GameObject::SetTag(unsigned short newTag)
 {
 	this->tag = newTag;
@@ -264,6 +323,20 @@ void GameObject::ReserveChildren(uint8_t numChildren)
 Scene * GameObject::GetScene() const
 {
 	return &Scene::scenes[this->sceneIndex];
+}
+
+size_t GameObject::GetSiblingIndex() const
+{
+	if (parent == nullptr)
+		return 0;
+
+	for (size_t i = 0; i < parent->children.size(); i++)
+	{
+		if (parent->children[i] == this)
+			return i;
+	}
+
+	return parent->children.size();
 }
 
 bool GameObject::operator==(const GameObject & object) const
@@ -372,6 +445,18 @@ unsigned int GameObject::NumGameObjectsWithTag(unsigned short tag)
 	}
 
 	return num;
+}
+
+void GameObject::Reparent(GameObject* newParent, GameObject* newChild)
+{
+	newParent->children.push_back(newChild);
+
+	if (newChild->parent != nullptr)
+	{
+		Experio::Algorithm::RemoveElement(newChild->parent->children, newChild);
+	}
+
+	newChild->parent = newParent;
 }
 
 GameObject * GameObject::FindGameObjectOfID(uint64_t id)

@@ -13,4 +13,6 @@ UNIT_TEST(TestRectGeneral, "Rect")
 	ASSERT_ALMOST_EQUAL(rect.max.y, 3);
 
 	ASSERT_TRUE(rect.IsInside(FVector2(1, 1)), "");
+
+	TEST_END();
 }

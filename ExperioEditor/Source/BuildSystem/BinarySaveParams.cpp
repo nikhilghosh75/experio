@@ -56,6 +56,11 @@ void BinarySaveULongLong(uint64_t param, std::ostream & stream)
 	stream.write((char*)&param, 8);
 }
 
+void BinarySaveString(const std::string& str, std::ostream& stream)
+{
+	// Add stuff here
+}
+
 void BinarySaveVector2(FVector2 param, std::ostream & stream)
 {
 	stream.write((char*)&param, 8);
@@ -132,6 +137,12 @@ void BinarySaveMaterial(Material * param, std::ostream & stream)
 void BinarySaveMesh(MeshRef param, std::ostream & stream)
 {
 	uint32_t assetId = AssetMapSaver::GetIndexOfAsset(MeshManager::GetNameOfMesh(param));
+	stream.write((char*)&assetId, 4);
+}
+
+void BinarySaveTextRef(TextRef param, std::ostream& stream)
+{
+	uint32_t assetId = AssetMapSaver::GetIndexOfAsset(param.filepath);
 	stream.write((char*)&assetId, 4);
 }
 

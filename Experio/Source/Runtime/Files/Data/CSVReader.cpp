@@ -4,6 +4,7 @@
 #include "../../Containers/Algorithm.h"
 #include "../../Containers/LString.h"
 #include "../../Debug/Debug.h"
+#include "../../Debug/Profiler.h"
 
 bool CSVReader::DetectDelimiter(const std::string & text)
 {
@@ -61,6 +62,8 @@ EDataColumnType CSVReader::GetColumnType(const std::string & text)
 
 Datatable * CSVReader::ReadFile(const char * filename)
 {
+	PROFILE_SCOPE_CATEGORY("CSV Reader", EProfilerCategory::Files);
+
 	std::ifstream csvFile(filename);
 	if (csvFile.fail())
 	{

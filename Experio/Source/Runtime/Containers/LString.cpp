@@ -55,11 +55,11 @@ std::string LString::ReplaceAll(std::string s, char from, char to)
 	return returnString;
 }
 
-std::vector<std::string> LString::SeperateStringByChar(std::string str, char c, bool removeZeroLength)
+std::vector<std::string> LString::SeperateStringByChar(const std::string& str, char c, bool removeZeroLength)
 {
 	std::vector<std::string> seperatedStrings;
 	int lastChar = -1;
-	for (int i = 0; i < str.size(); i++)
+	for (size_t i = 0; i < str.size(); i++)
 	{
 		if (str[i] == c)
 		{
@@ -76,7 +76,7 @@ std::vector<std::string> LString::SeperateStringByChar(std::string str, char c, 
 	}
 
 	std::vector<std::string> realSeperatedStrings;
-	for (int i = 0; i < seperatedStrings.size(); i++)
+	for (size_t i = 0; i < seperatedStrings.size(); i++)
 	{
 		if (seperatedStrings[i].size() > 0)
 		{
@@ -84,6 +84,13 @@ std::vector<std::string> LString::SeperateStringByChar(std::string str, char c, 
 		}
 	}
 	return realSeperatedStrings;
+}
+
+bool LString::StringToBool(const std::string& str)
+{
+	if (str[0] == 't' || str[0] == 'T')
+		return true;
+	return false;
 }
 
 float LString::StringToFloat(const std::string& str)
@@ -318,6 +325,17 @@ std::string LString::LongLongToHexString(uint64_t n)
 	std::stringstream ss;
 	ss << std::hex << n;
 	return ss.str();
+}
+
+size_t LString::Mismatch(const std::string& str1, const std::string& str2)
+{
+	size_t size = str1.size() > str2.size() ? str1.size() : str2.size();
+	for (size_t i = 0; i < size; i++)
+	{
+		if (str1[i] != str2[i])
+			return i;
+	}
+	return str1.size() < str2.size() ? str1.size() : str2.size();
 }
 
 std::string LString::BoolToString(bool b)

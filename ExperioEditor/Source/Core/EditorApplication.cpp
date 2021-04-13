@@ -10,8 +10,6 @@
 #include "examples/imgui_impl_opengl3.h"
 #include "imgui_internal.h"
 
-#define EXPERIO_DEBUG
-
 #include "EditorWindow.h"
 #include "../BuildSystem/CodeGenerator.h"
 #include "../CodeParser/CodeProjectGenerator.h"
@@ -86,7 +84,12 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	EditorProject::SetProjectPaths();
 	EditorProject::SetupRuntimeCompilation();
 	EditorProject::SetLayout(EEditorLayout::Default);
-	EditorProject::TempSetup();
+	// EditorProject::Setup();
+	EditorProject::TempSetupClasses();
+	EditorProject::TempSetupMaterials();
+
+	EditorProject::ReadComponents();
+	EditorProject::FindComponents();
 
 	currentScenePath = defaultScenePath;
 
@@ -155,7 +158,7 @@ std::string EditorApplication::GetShortenedFilePath(const std::string & fullFile
 
 	// Compare with Assets Filepath
 	foundIndex = fullFilePath.find(assetsFilePath);
-	if (foundIndex != std::string::npos) return fullFilePath.substr(assetsFilePath.size());
+	if (foundIndex != std::string::npos) return "?Assets?" + fullFilePath.substr(assetsFilePath.size());
 
 	foundIndex = fullFilePath.find(configFilePath);
 	if (foundIndex != std::string::npos) return "?Config?" + fullFilePath.substr(configFilePath.size());

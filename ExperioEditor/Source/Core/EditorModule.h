@@ -12,6 +12,7 @@ enum class EEditorModuleCategory : uint8_t
 	Experimental, // For things that are experimental
 	Viewer, // For asset viewer
 	Testing, // For testing
+	Admin, // For adminsitration
 	Custom
 };
 

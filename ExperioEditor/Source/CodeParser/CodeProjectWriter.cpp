@@ -8,27 +8,27 @@ void CodeProjectWriter::WriteToFile(const CodeProject & project, const std::stri
 	outFile << "Language: " << LCodeParser::LanguageToString(project.codingLanguage) << std::endl;
 	outFile << "Filepath: " << project.filepath << std::endl;
 
-	outFile << "Classes: [{" << std::endl;
+	outFile << "Classes: [{ " << std::endl;
 	for (size_t i = 0; i < project.classes.size(); i++)
 	{
 		WriteClass(project.classes[i], outFile);
 		if (i != project.classes.size() - 1)
 		{
-			outFile << "},{" << std::endl;
+			outFile << " },{ " << std::endl;
 		}
 	}
-	outFile << "}]" << std::endl;
+	outFile << " }]" << std::endl;
 
-	outFile << "Enums: [{" << std::endl;
+	outFile << "Enums: [{ " << std::endl;
 	for (size_t i = 0; i < project.enums.size(); i++)
 	{
 		WriteEnum(project.enums[i], outFile, project.codingLanguage);
 		if (i != project.enums.size() - 1)
 		{
-			outFile << "},{" << std::endl;
+			outFile << " },{ " << std::endl;
 		}
 	}
-	outFile << "}]" << std::endl;
+	outFile << " }]" << std::endl;
 
 	outFile << "Functions: []";
 }
@@ -44,7 +44,7 @@ void CodeProjectWriter::WriteClass(const CodeClass & codeClass, std::ofstream& o
 		outFile << "[]" << std::endl;
 	else
 	{
-		outFile << "[";
+		outFile << "[ ";
 		for (size_t i = 0; i < codeClass.params.size(); i++)
 		{
 			const CodeParam& param = codeClass.params[i];
@@ -58,7 +58,7 @@ void CodeProjectWriter::WriteClass(const CodeClass & codeClass, std::ofstream& o
 			if (i != codeClass.params.size() - 1)
 				outFile << ",";
 		}
-		outFile << "]" << std::endl;
+		outFile << " ]" << std::endl;
 	}
 
 	outFile << "Functions: ";
@@ -68,7 +68,7 @@ void CodeProjectWriter::WriteClass(const CodeClass & codeClass, std::ofstream& o
 	}
 	else
 	{
-		outFile << "[";
+		outFile << "[ ";
 		for (size_t i = 0; i < codeClass.functions.size(); i++)
 		{
 			const CodeFunction& codeFunction = codeClass.functions[i];
@@ -92,7 +92,7 @@ void CodeProjectWriter::WriteClass(const CodeClass & codeClass, std::ofstream& o
 			if (i != codeClass.functions.size() - 1)
 				outFile << " ,";
 		}
-		outFile << "]" << std::endl;
+		outFile << " ]" << std::endl;
 	}
 
 	outFile << "InheritsFrom: " << codeClass.inheritance.size();

@@ -199,6 +199,9 @@ TTypedTree<std::string>* LFileOperations::CreateFileNamesTree(std::string direct
 
 bool LFileOperations::DoesFileHaveExtension(std::string filePath, const char * extension)
 {
+	if (filePath.empty())
+		return false;
+
 	int indexOfDot = 0;
 
 	for (int i = filePath.size() - 2; i >= 2; i--)
@@ -409,6 +412,23 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	return EAssetType::Unknown;
 }
 
+bool LFileOperations::IsDirectory(const std::string& filepath)
+{
+	for (size_t i = filepath.size() - 2; i >= 2; i--)
+	{
+		if (filepath[i] == '.')
+		{
+			return false;
+		}
+		else if (filepath[i] == '/' || filepath[i] == '\\')
+		{
+			return true;
+		}
+	}
+
+	return true;
+}
+
 EAssetType LFileOperations::GetFileTypeOfMeta(std::string filePath)
 {
 	Debug::LogError("GetFileTypeOfMeta has not been implemented yet");
@@ -539,6 +559,25 @@ FileBuffer LFileOperations::ReadTrimmedFileToBuffer(std::ifstream & stream)
 
 	std::string output = ss.str();
 	return FileBuffer(output.data(), output.length());
+}
+
+std::string LFileOperations::ReplaceExtension(const std::string& filepath, const std::string& newExt)
+{
+	std::string newFilepath = filepath;
+	int indexOfDot = 0;
+
+	for (int i = filepath.size() - 2; i >= 2; i--)
+	{
+		if (filepath[i] == '.')
+		{
+			indexOfDot = i;
+			break;
+		}
+	}
+
+	newFilepath.replace(indexOfDot + 1, filepath.size() - indexOfDot - 1, newExt);
+	
+	return newFilepath;
 }
 
 EAssetType LFileOperations::StringToAssetType(const std::string & str)

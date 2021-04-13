@@ -18,6 +18,8 @@ public:
 	MeshRef(MeshData* meshData, uint16_t meshID);
 	MeshRef(const MeshRef& other);
 
+	MeshRef& operator=(const MeshRef& other);
+
 	~MeshRef();
 
 	MeshData* meshData;

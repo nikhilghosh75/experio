@@ -1,6 +1,7 @@
 #pragma once
 #include "Runtime/Containers/THashtable.h"
 #include "Runtime/Framework/GUID.h"
+#include "Runtime/Files/FFileCategory.h"
 #include <string>
 
 struct BuildSizeDetails
@@ -29,6 +30,8 @@ public:
 	static std::string GUIDToFilename(Experio::GUID guid);
 
 	static bool IsIncludedInBuild(const std::string& str);
+
+	static size_t NumFilesOfType(EAssetType type);
 
 	static void Populate();
 

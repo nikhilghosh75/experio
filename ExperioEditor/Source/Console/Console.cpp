@@ -1,4 +1,5 @@
 #include "Console.h"
+#include "Runtime/Debug/Profiler.h"
 
 Console::Console()
 {
@@ -8,6 +9,8 @@ Console::Console()
 
 void Console::Display()
 {
+	PROFILE_SCOPE("Console::Display");
+
 	std::vector<FDebugInfo>& debugInfo = Debug::GetDebugInfo();
 
 	if (ImGui::Button("Clear Console"))

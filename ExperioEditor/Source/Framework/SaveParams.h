@@ -14,6 +14,8 @@ void SaveDouble(double param, std::ostream& stream);
 void SaveLongLong(long long param, std::ostream& stream);
 void SaveULongLong(uint64_t param, std::ostream& stream);
 
+void SaveString(std::string str, std::ostream& stream);
+
 void SaveVector2(FVector2 param, std::ostream& stream);
 void SaveVector3(FVector3 param, std::ostream& stream);
 void SaveVector4(FVector4 param, std::ostream& stream);
@@ -30,4 +32,5 @@ void SaveFile(FileRef& param, std::ostream& stream);
 void SaveFont(FontRef& param, std::ostream& stream);
 void SaveMaterial(Material* param, std::ostream& stream);
 void SaveMesh(MeshRef& param, std::ostream& stream);
+void SaveTextRef(TextRef& param, std::ostream& stream);
 void SaveTexture(TextureRef& param, std::ostream& stream);

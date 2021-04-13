@@ -1,14 +1,22 @@
 #include "EditorProject.h"
+#include "MetaSystem.h"
 #include "ValueLoader.h"
 #include <fstream>
 #include "../Core/EditorApplication.h"
 #include "../CodeParser/CodeParser.h"
+#include "../CodeParser/CodeProjectReader.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Framework/Project.h"
+#include "ThirdParty/Simdjson/simdjson.h"
 #include "ThirdParty/toml++/toml.h"
 #include "imgui.h"
+#include <filesystem>
+namespace fs = std::filesystem;
+
+#define PB_CUSTOM_COMPONENT_INDEX 1024
 
 THashtable<unsigned int, FComponentInfo> EditorProject::componentClasses;
+CategoryMap<unsigned int> EditorProject::componentCategories;
 std::vector<FShaderInfo> EditorProject::shaders;
 FVersion EditorProject::experioVersion(0, 11, 0);
 CodeProject EditorProject::gameProject(ECodingLanguage::CPlusPlus);
@@ -107,24 +115,41 @@ void EditorProject::ReadValueFiles()
 	ValueLoader::LoadValues(EditorApplication::configFilePath + "/tags.pbvalues");
 }
 
+void EditorProject::Setup()
+{
+	SetupClasses();
+}
+
+void EditorProject::SetupClasses()
+{
+	// Create the game project
+	gameProject.filepath = EditorApplication::sourceFilePath;
+	gameProject.Generate();
+
+	// Import the engine components
+	// Code project reader is not working
+	// CodeProject engineProject = CodeProjectReader::ReadFromFile(EditorApplication::generatedFilePath + "/Engine.pbcodeproj");
+	// LCodeParser::MergeCodeProjects(gameProject, engineProject);
+
+	// Import component classes
+	ReadComponents();
+	FindComponents();
+}
+
 void EditorProject::SetupRuntimeCompilation()
 {
 	gameCompileFiles = LFileOperations::GetAllFilepathsOfExt(EditorApplication::sourceFilePath, "cpp");
 }
 
-void EditorProject::TempSetup()
-{
-	TempSetupClasses();
-	TempSetupMaterials();
-}
-
 void EditorProject::TempSetupClasses()
 {
+	/**/
 	EditorProject::componentClasses.Insert(100, FComponentInfo("VirtualCamera", false));
 	EditorProject::componentClasses.Insert(101, FComponentInfo("MeshComponent", true));
 	EditorProject::componentClasses.Insert(102, FComponentInfo("ParticleSystem", true));
 	EditorProject::componentClasses.Insert(103, FComponentInfo("Billboard", true));
 	EditorProject::componentClasses.Insert(104, FComponentInfo("TextComponent", true));
+	EditorProject::componentClasses.Insert(105, FComponentInfo("ImageComponent", true));
 
 	gameProject.filepath = EditorApplication::sourceFilePath;
 	gameProject.Generate();
@@ -156,9 +181,14 @@ void EditorProject::TempSetupClasses()
 	textComponent.inheritance.push_back("Component");
 	textComponent.params.emplace_back("float", "margins", ECodeAccessType::Public);
 	textComponent.params.emplace_back("int", "fontSize", ECodeAccessType::Public);
-	textComponent.params.emplace_back("std::string", "text", ECodeAccessType::Public);
 	textComponent.params.emplace_back("FontRef", "font", ECodeAccessType::Public);
 	textComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
+	textComponent.params.emplace_back("std::string", "text", ECodeAccessType::Public);
+
+	CodeClass imageComponent("ImageComponent");
+	imageComponent.inheritance.emplace_back("Component");
+	imageComponent.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
+	imageComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 
 	// Delete Later
 	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
@@ -175,6 +205,7 @@ void EditorProject::TempSetupClasses()
 	gameProject.PushClass(particleSystem);
 	gameProject.PushClass(billboard);
 	gameProject.PushClass(textComponent);
+	gameProject.PushClass(imageComponent);
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
@@ -218,4 +249,80 @@ void EditorProject::SetLayoutTall()
 void EditorProject::SetLayoutWide()
 {
 	ImGui::LoadIniSettingsFromDisk((EditorApplication::experioEditorFilePath + "/Resources/Layouts/Wide.ini").c_str());
+}
+
+void EditorProject::ReadComponents()
+{
+	componentClasses.Empty();
+
+	std::string componentsFilepath = EditorApplication::generatedFilePath + "/Components.json";
+	simdjson::ondemand::parser parser;
+	simdjson::padded_string jsonStr = simdjson::padded_string::load(componentsFilepath);
+	simdjson::ondemand::document json = parser.iterate(jsonStr);
+
+	auto components = json["Components"];
+	for (auto it : components)
+	{
+		unsigned int id = it["id"].get_uint64();
+
+		FComponentInfo info;
+		info.name = it["name"].get_string().value();
+		info.filepath = it["filepath"].get_string().value();
+		info.stage = (EComponentStage)it["stage"].get_int64().value();
+		info.category = it["category"].get_string().value();
+		info.isDefaultComponent = it["default"].get_bool().value();
+		info.isStandaloneComponent = it["standalone"].get_bool().value();
+
+		componentClasses.Insert(id, info);
+		componentCategories.Insert(info.category, id);
+	}
+}
+
+void EditorProject::FindComponents()
+{
+	for (auto& p : fs::recursive_directory_iterator(EditorApplication::sourceFilePath))
+	{
+		std::string pathString = p.path().string();
+		EAssetType type = LFileOperations::GetFileType(pathString);
+		if (type == EAssetType::CPP)
+		{
+			std::string metaFilepath = pathString.substr(0, pathString.size() - 4);
+			Metadata metadata = MetaSystem::ReadMetadata(metaFilepath);
+			if (metadata.Empty())
+				continue;
+
+			if (metadata["ClassType"] == "Component")
+			{
+				unsigned int id = LString::StringToUInt(metadata["ComponentID"]);
+
+				FComponentInfo info;
+				info.name = metadata["ComponentName"];
+				info.filepath = LFileOperations::ReplaceExtension(pathString, "h");
+				info.stage = (EComponentStage)LString::StringToUByte(metadata["Stage"]);
+				info.category = metadata["Category"];
+				info.isDefaultComponent = false;
+				info.isStandaloneComponent = LString::StringToBool(metadata["Standalone"]);
+
+				componentClasses.Insert(id, info);
+				componentCategories.Insert(info.category, id);
+			}
+		}
+	}
+}
+
+unsigned int EditorProject::GetNextComponentIndex()
+{
+	std::vector<unsigned int> componentIndicies = componentClasses.GetKeys();
+
+	unsigned int maxIndex = 0;
+	for (size_t i = 0; i < componentIndicies.size(); i++)
+	{
+		if (maxIndex < componentIndicies[i])
+			maxIndex = componentIndicies[i];
+	}
+
+	if (maxIndex < PB_CUSTOM_COMPONENT_INDEX)
+		return PB_CUSTOM_COMPONENT_INDEX;
+
+	return maxIndex + 1;
 }

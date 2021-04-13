@@ -14,6 +14,9 @@ UNIT_TEST(TestBinaryParamBasic, "BinaryParams")
 	int16_t shortInt = 450;
 	ASSERT_EQUAL(BinaryParseShort(&shortInt), 450, "");
 
+	uint16_t uShortInt = 1213;
+	ASSERT_EQUAL(BinaryParseUShort(&uShortInt), 1213, "");
+
 	TEST_END();
 }
 

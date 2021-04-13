@@ -435,6 +435,30 @@ std::string LCodeParser::LanguageToString(ECodingLanguage language)
 	return "";
 }
 
+void LCodeParser::MergeCodeProjects(CodeProject& project1, const CodeProject& project2)
+{
+	// Merge classes
+	project1.classes.reserve(project1.classes.size() + project2.classes.size());
+	for (size_t i = 0; i < project2.classes.size(); i++)
+	{
+		project1.classes.push_back(project2.classes[i]);
+	}
+
+	// Merge enums
+	project1.enums.reserve(project1.enums.size() + project2.enums.size());
+	for (size_t i = 0; i < project2.enums.size(); i++)
+	{
+		project1.enums.push_back(project2.enums[i]);
+	}
+
+	// Merge functions
+	project1.functions.reserve(project1.functions.size() + project2.functions.size());
+	for (size_t i = 0; i < project2.functions.size(); i++)
+	{
+		project1.functions.push_back(project2.functions[i]);
+	}
+}
+
 size_t LCodeParser::NumInheritsFrom(const CodeProject& project, const std::string& className)
 {
 	TTypedTree<std::string>* inheritance = CreateInheritanceHierarchy(project);

@@ -3,6 +3,7 @@
 #include "../Debug/Profiler.h"
 #include "../Math/LMath.h"
 #include "../Rendering/OpenGL/LOpenGL.h"
+#include "../UI/Canvas.h"
 #include <GL/glew.h>
 #include <GL/GL.h>
 #include <GL/GLU.h>
@@ -183,6 +184,7 @@ void Window::ResizeWindow(EWindowResizeType resizeType, int width, int height)
 	glViewport(0, 0, width, height);
 	windowData.width = width;
 	windowData.height = height;
+	Canvas::UpdateWindow(height, width);
 #ifdef PLATFORM_WINDOWS
 
 #endif

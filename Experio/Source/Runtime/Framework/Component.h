@@ -7,6 +7,10 @@
 class GameObject;
 class Scene;
 
+/// <summary>
+/// The basis of a component on a GameObject
+/// </summary>
+
 class Component
 {
 protected:
@@ -42,3 +46,5 @@ _type_(GameObject* object)\
 {\
 	this->gameObject = object;\
 }
+
+#define COMPONENT_CATEGORY(_category_) 

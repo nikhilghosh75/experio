@@ -6,6 +6,7 @@
 #include "../AssetViewers/TagEditor.h"
 #include "../BuildSystem/BuildSystem.h"
 #include "../FileView/FileView.h"
+#include "../Framework/AdminTools.h"
 #include "../Framework/CreateMenu.h"
 #include "../Framework/EditorProject.h"
 #include "../Framework/ImportSystem.h"
@@ -140,10 +141,11 @@ void UpperMenu::CreateAssetMenu()
 	{
 		if (ImGui::MenuItem("Import"))
 		{
-			FFileDialogInfo dialogInfo = FileDialog::OpenFile(nullptr);
-			if (dialogInfo)
+			std::vector<FFileDialogInfo> dialogs = FileDialog::OpenMultipleFiles(nullptr);
+
+			for (size_t i = 0; i < dialogs.size(); i++)
 			{
-				ImportSystem::Import(dialogInfo.filename, FileView::fileView->GetSelectedFilepath());
+				ImportSystem::Import(dialogs[i].filename, FileView::fileView->GetSelectedFilepath());
 			}
 		}
 		ImGui::Separator();
@@ -221,6 +223,10 @@ void UpperMenu::CreateWindowMenu()
 		if (ImGui::MenuItem("Terminal"))
 		{
 			EditorApplication::AddModule(new Terminal());
+		}
+		if (ImGui::MenuItem("Admin"))
+		{
+			EditorApplication::AddModule(new AdminTools());
 		}
 		ImGui::EndMenu();
 	}

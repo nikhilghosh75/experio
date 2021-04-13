@@ -58,7 +58,7 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>EXPERIO_EDITOR;PLATFORM_WINDOWS;GLEW_STATIC;_GDI32_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EXPERIO_EDITOR;PLATFORM_WINDOWS;EXPERIO_DEBUG;GLEW_STATIC;_GDI32_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\x64;$(SolutionDir)bin\x64\Debug\Engine;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -88,6 +88,7 @@
     <ClCompile Include="Source\AssetDatabase\SQLParser.cpp" />
     <ClCompile Include="Source\AssetViewers\FontViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\ImageViewer.cpp" />
+    <ClCompile Include="Source\AssetViewers\InputMapViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\LayerEditor.cpp" />
     <ClCompile Include="Source\AssetViewers\MeshViewer.cpp" />
     <ClCompile Include="Source\AssetViewers\TagEditor.cpp" />
@@ -122,6 +123,7 @@
     <ClCompile Include="Source\Files\MeshConverter.cpp" />
     <ClCompile Include="Source\Files\SceneConverter.cpp" />
     <ClCompile Include="Source\FileView\FileView.cpp" />
+    <ClCompile Include="Source\Framework\AdminTools.cpp" />
     <ClCompile Include="Source\Framework\AssetManager.cpp" />
     <ClCompile Include="Source\Framework\Compilation\CompilationParser.cpp" />
     <ClCompile Include="Source\Framework\Compilation\CompilationSystem.cpp" />
@@ -131,6 +133,13 @@
     <ClCompile Include="Source\Framework\EditorShortcuts.cpp" />
     <ClCompile Include="Source\Framework\ImportSystem.cpp" />
     <ClCompile Include="Source\Framework\MetaSystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\CppMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\FontMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\ImageMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\MeshMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\ParticleMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\SceneMetasystem.cpp" />
+    <ClCompile Include="Source\Framework\Metasystem\ShaderMetasystem.cpp" />
     <ClCompile Include="Source\Framework\NotificationSystem.cpp" />
     <ClCompile Include="Source\Framework\PlaySystem.cpp" />
     <ClCompile Include="Source\Framework\SaveParams.cpp" />
@@ -157,6 +166,7 @@
     <ClCompile Include="Source\ProjectSettings\SettingsView.cpp" />
     <ClCompile Include="Source\SceneHierarchy\SceneHierarchy.cpp" />
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
+    <ClCompile Include="Source\Terminal\AssetCommands.cpp" />
     <ClCompile Include="Source\Terminal\CodeAnalysisCommands.cpp" />
     <ClCompile Include="Source\Terminal\SceneCommands.cpp" />
     <ClCompile Include="Source\Terminal\ScreenCommands.cpp" />
@@ -172,6 +182,7 @@
     <ClInclude Include="Source\AssetDatabase\SQLParser.h" />
     <ClInclude Include="Source\AssetViewers\FontViewer.h" />
     <ClInclude Include="Source\AssetViewers\ImageViewer.h" />
+    <ClInclude Include="Source\AssetViewers\InputMapViewer.h" />
     <ClInclude Include="Source\AssetViewers\LayerEditor.h" />
     <ClInclude Include="Source\AssetViewers\MeshViewer.h" />
     <ClInclude Include="Source\AssetViewers\TagEditor.h" />
@@ -218,6 +229,7 @@
     <ClInclude Include="Source\Files\MeshConverter.h" />
     <ClInclude Include="Source\Files\SceneConverter.h" />
     <ClInclude Include="Source\FileView\FileView.h" />
+    <ClInclude Include="Source\Framework\AdminTools.h" />
     <ClInclude Include="Source\Framework\AssetManager.h" />
     <ClInclude Include="Source\Framework\Compilation\CompilationInfo.h" />
     <ClInclude Include="Source\Framework\Compilation\CompilationParser.h" />
@@ -230,6 +242,13 @@
     <ClInclude Include="Source\Framework\EditorShortcuts.h" />
     <ClInclude Include="Source\Framework\ImportSystem.h" />
     <ClInclude Include="Source\Framework\MetaSystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\CppMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\FontMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\ImageMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\MeshMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\ParticleMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\SceneMetasystem.h" />
+    <ClInclude Include="Source\Framework\Metasystem\ShaderMetasystem.h" />
     <ClInclude Include="Source\Framework\NotificationSystem.h" />
     <ClInclude Include="Source\Framework\PlaySystem.h" />
     <ClInclude Include="Source\Framework\SaveParams.h" />

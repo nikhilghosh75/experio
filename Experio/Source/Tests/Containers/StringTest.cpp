@@ -123,3 +123,10 @@ UNIT_TEST(TestStringCamelCase, "String")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestStringNumWords, "String")
+{
+	ASSERT_EQUAL(LString::NumWords("One Two Three Four Five"), 5, "");
+
+	TEST_END();
+}

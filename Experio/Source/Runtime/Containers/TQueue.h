@@ -114,12 +114,12 @@ public:
 		}
 	}
 
-	T& Peek() const
+	const T& Peek() const
 	{
 		return head->object;
 	}
 
-	T& PeekAt(unsigned int index) const
+	const T& PeekAt(unsigned int index) const
 	{
 		TQueueNode<T>* current = head;
 		for (int i = 0; i < index; i++)

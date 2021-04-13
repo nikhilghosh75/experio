@@ -50,3 +50,13 @@ UNIT_TEST(TestFontOperationsEncoding, "FontOperations")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestFontOperationsSizeOf, "FontOperations")
+{
+	FontData data;
+	data.characters.resize(40);
+	
+	ASSERT_EQUAL(LFontOperations::SizeOf(data), 1316, "");
+
+	TEST_END();
+}

@@ -75,20 +75,20 @@ void SceneHierarchy::HandleContextMenu(GameObject * gameObject)
 	}
 }
 
-void SceneHierarchy::DisplayGameObjectTree(GameObject * gameObject, std::vector<GameObject>& selectedItems)
+void SceneHierarchy::DisplayGameObjectTree(GameObject * gameObject, std::vector<GameObject*>& selectedItems)
 {
-	bool isSelected = Experio::Algorithm::ExistsIn(selectedItems, *gameObject);
+	bool isSelected = Experio::Algorithm::ExistsIn(selectedItems, gameObject);
 	if (gameObject->children.size() == 0)
 	{
 		if (ImGui::Selectable(gameObject->name.c_str(), isSelected))
 		{
 			if (!isSelected)
 			{
-				selectedItems.push_back(*gameObject);
+				selectedItems.push_back(gameObject);
 			}
 			else
 			{
-				Experio::Algorithm::RemoveElement(selectedItems, *gameObject);
+				Experio::Algorithm::RemoveElement(selectedItems, gameObject);
 			}
 		}
 		if (ImGui::BeginPopupContextItem())
@@ -107,11 +107,11 @@ void SceneHierarchy::DisplayGameObjectTree(GameObject * gameObject, std::vector<
 			{
 				if (isSelected)
 				{
-					Experio::Algorithm::RemoveElement(selectedItems, *gameObject);
+					Experio::Algorithm::RemoveElement(selectedItems, gameObject);
 				}
 				else
 				{
-					selectedItems.push_back(*gameObject);
+					selectedItems.push_back(gameObject);
 				}
 			}
 
@@ -145,14 +145,14 @@ SceneHierarchy::SceneHierarchy()
 
 void SceneHierarchy::Display()
 {
-	std::vector<GameObject>& selectedItems = this->currentlySelectedItems;
+	std::vector<GameObject*>& selectedItems = this->currentlySelectedItems;
 
 	Scene::ForAllActiveScenes([&selectedItems](Scene& scene) {
 		SceneHierarchy::DisplayGameObjectTree(&scene.sceneRoot, selectedItems);
 	});
 }
 
-std::vector<GameObject>& SceneHierarchy::GetSelectedItems()
+std::vector<GameObject*>& SceneHierarchy::GetSelectedItems()
 {
 	return this->currentlySelectedItems;
 }
