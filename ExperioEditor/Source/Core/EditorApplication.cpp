@@ -158,7 +158,7 @@ std::string EditorApplication::GetShortenedFilePath(const std::string & fullFile
 
 	// Compare with Assets Filepath
 	foundIndex = fullFilePath.find(assetsFilePath);
-	if (foundIndex != std::string::npos) return fullFilePath.substr(assetsFilePath.size());
+	if (foundIndex != std::string::npos) return "?Assets?" + fullFilePath.substr(assetsFilePath.size());
 
 	foundIndex = fullFilePath.find(configFilePath);
 	if (foundIndex != std::string::npos) return "?Config?" + fullFilePath.substr(configFilePath.size());
