@@ -37,6 +37,16 @@ MeshRef::MeshRef(const MeshRef & other)
 	MeshManager::slots[meshID].refCount++;
 }
 
+MeshRef& MeshRef::operator=(const MeshRef& other)
+{
+	this->meshData = other.meshData;
+	this->meshID = other.meshID;
+
+	MeshManager::slots[meshID].refCount++;
+
+	return *this;
+}
+
 MeshRef::~MeshRef()
 {
 	MeshManager::OnMeshDeleted(this->meshID);
