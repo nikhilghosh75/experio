@@ -2,28 +2,6 @@
 #include "../Math/FRect.h"
 #include "../Math/FVector2.h"
 
-/*
-enum class EAnchorType : uint8_t
-{
-	Upper,
-	UpperLeft,
-	UpperCenter,
-	UpperRight,
-	Middle,
-	MiddleLeft,
-	MiddleCenter,
-	MiddleRight,
-	Bottom,
-	BottomLeft,
-	BottomCenter,
-	BottomRight,
-	Left,
-	Center,
-	Right,
-	Full
-};
-*/
-
 enum class EPositionConstraintType : uint8_t
 {
 	Center,
@@ -58,6 +36,9 @@ float MergeDimensionConstraint(float dimension, DimensionConstraint constraint);
 const char* ConstraintTextFromType(EPositionConstraintType type);
 const char* ConstraintTextFromType(EDimensionConstraintType type);
 
+EPositionConstraintType PositionConstraintTypeFromText(const char* type);
+EDimensionConstraintType DimensionConstraintTypeFromText(const char* type);
+
 class RectTransform
 {
 public:
@@ -70,4 +51,15 @@ public:
 
 	RectTransform();
 
+	void SetXConstraint(EPositionConstraintType type, float value);
+	void SetXConstraint(const char* type, float value);
+
+	void SetYConstraint(EPositionConstraintType type, float value);
+	void SetYConstraint(const char* type, float value);
+
+	void SetWidthConstraint(EDimensionConstraintType type, float value);
+	void SetWidthConstraint(const char* type, float value);
+
+	void SetHeightConstraint(EDimensionConstraintType type, float value);
+	void SetHeightConstraint(const char* type, float value);
 };
