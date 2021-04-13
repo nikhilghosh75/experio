@@ -42,6 +42,16 @@ FontRef::~FontRef()
 	FontManager::OnFontDeleted(this->fontID);
 }
 
+FontRef& FontRef::operator=(const FontRef& other)
+{
+	this->fontData = other.fontData;
+	this->fontID = other.fontID;
+
+	FontManager::slots[fontID].refCount++;
+
+	return *this;
+}
+
 bool FontRef::IsNull()
 {
 	return this->fontData == nullptr || this->fontID >= MAX_FONTS;
