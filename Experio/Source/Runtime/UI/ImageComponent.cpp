@@ -34,5 +34,7 @@ void ImageComponent::Update()
 	rect.max.x /= canvasWidth;
 	rect.max.y /= canvasHeight;
 
+	Renderer::Get()->SetBlend(true, EBlendFunc::OneMinusSourceColor);
+
 	Renderer::Get()->DrawQuad(*texture, nullptr, imageUVRect, rect);
 }
