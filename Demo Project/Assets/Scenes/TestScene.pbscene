@@ -71,8 +71,9 @@ Project: Demo Project
 			margins: 4
 			fontSize: 144
 			font: ?Assets?/Fonts/EuropeUnderground_black.ttf
-			shader: 
 			text: WolverineSoft
+			color: 1 1 1 1
+			shader:  
 	}]
 	Children: []
 }]
