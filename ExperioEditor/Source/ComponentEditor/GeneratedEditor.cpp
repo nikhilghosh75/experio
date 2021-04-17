@@ -85,7 +85,7 @@ void GeneratedEditor::DisplayParamType(FSerializationInfo & serializedField, Com
 	case EParamType::BYTE:
 		ImGui::DragInt(name, (int*)((char*)component + serializedField.offset), 1, -128, 128); break;
 	case EParamType::COLOR:
-		ImGui::ColorEdit4(name, (float*)((char*)component + serializedField.offset, ImGuiColorEditFlags_Float));
+		ImGui::ColorEdit4(name, (float*)((char*)component + serializedField.offset), ImGuiColorEditFlags_Float);
 		break;
 	case EParamType::CURVE:
 		Debug::LogError("Curve Display is not complete"); break;
