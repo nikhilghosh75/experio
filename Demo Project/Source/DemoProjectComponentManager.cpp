@@ -31,6 +31,7 @@ void DemoProjectComponentManager::RenderScene()
 	PB_UPDATE(particleSystemInstances);
 	PB_UPDATE(billboardInstances);
 	PB_UPDATE(imageComponentInstances);
+	PB_UPDATE(textComponentInstances);
 }
 
 Component* DemoProjectComponentManager::AddComponent(GameObject* gameObject, unsigned int classId)

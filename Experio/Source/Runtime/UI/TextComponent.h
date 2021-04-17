@@ -2,9 +2,10 @@
 #include "RectTransform.h"
 #include <string>
 #include "../Files/Font/FontReader.h"
+#include "../Framework/Framework.h"
+#include "../Math/FColor.h"
 #include "../Rendering/Shaders/Shader.h"
 #include "../Rendering/Managers/FontManager.h"
-#include "../Framework/Framework.h"
 
 enum class ETextRenderMode
 {
@@ -26,8 +27,9 @@ public:
 
 	int fontSize;
 	FontRef font;
-	Shader* shader;
 	std::string text;
+	FColor color;
+	Shader* shader;
 
 	void SetDefaultShader();
 

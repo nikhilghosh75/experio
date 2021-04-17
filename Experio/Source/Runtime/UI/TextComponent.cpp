@@ -90,12 +90,21 @@ void TextComponent::RenderText()
 		FVector2 uvMin = charInfo.uvCoordinates.min;
 		FVector2 uvMax = charInfo.uvCoordinates.max;
 
+		/*
 		uvs[i * 6] = glm::vec2(uvMin.x + 0.03f, 1.f - uvMin.y);
 		uvs[i * 6 + 1] = glm::vec2(uvMin.x + 0.03f, 1.f - uvMax.y);
 		uvs[i * 6 + 2] = glm::vec2(uvMax.x + 0.03f, 1.f - uvMin.y);
 		uvs[i * 6 + 3] = glm::vec2(uvMax.x + 0.03f, 1.f - uvMax.y);
 		uvs[i * 6 + 4] = glm::vec2(uvMax.x + 0.03f, 1.f - uvMin.y);
 		uvs[i * 6 + 5] = glm::vec2(uvMin.x + 0.03f, 1.f - uvMax.y);
+		*/
+
+		uvs[i * 6] = glm::vec2(uvMin.x, 1.f - uvMin.y);
+		uvs[i * 6 + 1] = glm::vec2(uvMin.x, 1.f - uvMax.y);
+		uvs[i * 6 + 2] = glm::vec2(uvMax.x, 1.f - uvMin.y);
+		uvs[i * 6 + 3] = glm::vec2(uvMax.x, 1.f - uvMax.y);
+		uvs[i * 6 + 4] = glm::vec2(uvMax.x, 1.f - uvMin.y);
+		uvs[i * 6 + 5] = glm::vec2(uvMin.x, 1.f - uvMax.y);
 		
 		//FVector2 cursorMoveVec = FVector2(LWindowOperations::PixelToNormalizedSize(data, charInfo.xAdvance * fontSize, EWindowAxisType::X), 0);
 		FVector2 cursorMoveVec = FVector2(0.02f, 0);
@@ -117,6 +126,7 @@ void TextComponent::RenderText()
 
 	shader->Bind();
 	shader->SetUniformInt("textureSampler", 10);
+	shader->SetUniformVec4("textColor", glm::vec4(color.r, color.g, color.b, color.a));
 	font->fontTexture->Bind(10);
 
 	glEnable(GL_BLEND);

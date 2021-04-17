@@ -6,7 +6,7 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 {
 	switch(classId)
 	{
-		case 104: return std::vector<std::string>({ "margins", "fontSize", "font", "shader", "text"});
+		case 104: return std::vector<std::string>({ "margins", "fontSize", "font", "text", "color", "shader"});
 		case 1024: return std::vector<std::string>({ "isActive = false", "isAccelerating = false", "acceleration", "topSpeed"});
 		case 105: return std::vector<std::string>({ "texture", "shader"});
 		case 100: return std::vector<std::string>({ "priority", "fieldOfView", "nearClipPlane", "farClipPlane"});
@@ -24,8 +24,9 @@ template<> void SetComponentParams(std::vector<std::string> params, TextComponen
 	component->margins = ParseFloat(params[0]);
 	component->fontSize = ParseInt(params[1]);
 	component->font = ParseFont(params[2]);
-	component->shader = ParseShader(params[3]);
-	component->text = ParseString(params[4]);
+	component->text = ParseString(params[3]);
+	component->color = ParseColor(params[4]);
+	component->shader = ParseShader(params[5]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, Spaceship* component)
@@ -74,8 +75,9 @@ template<> void SetComponentBinaryParams(void* data, TextComponent* component)
 	component->margins = BinaryParseFloat((void*)((char*)data + 0));
 	component->fontSize = BinaryParseInt((void*)((char*)data + 4));
 	component->font = BinaryParseFont((void*)((char*)data + 8));
-	component->shader = BinaryParseShader((void*)((char*)data + 12));
-	component->text = BinaryParseString((void*)((char*)data + 16));
+	component->text = BinaryParseString((void*)((char*)data + 12));
+	component->color = BinaryParseColor((void*)((char*)data + 12));
+	component->shader = BinaryParseShader((void*)((char*)data + 28));
 }
 
 template<> void SetComponentBinaryParams(void* data, Spaceship* component)
