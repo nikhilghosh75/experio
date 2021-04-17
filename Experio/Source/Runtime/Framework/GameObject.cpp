@@ -285,6 +285,8 @@ FRect GameObject::GetCanvasSpaceRect() const
 			if (yPosition < 0)
 				yPosition = canvasHeight - yPosition;
 		}
+
+		current = current->parent;
 	}
 
 	size_t objectDepth = siblingIndexes.size();
