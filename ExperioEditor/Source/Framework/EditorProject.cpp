@@ -182,8 +182,9 @@ void EditorProject::TempSetupClasses()
 	textComponent.params.emplace_back("float", "margins", ECodeAccessType::Public);
 	textComponent.params.emplace_back("int", "fontSize", ECodeAccessType::Public);
 	textComponent.params.emplace_back("FontRef", "font", ECodeAccessType::Public);
-	textComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 	textComponent.params.emplace_back("std::string", "text", ECodeAccessType::Public);
+	textComponent.params.emplace_back("FColor", "color", ECodeAccessType::Public);
+	textComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 
 	CodeClass imageComponent("ImageComponent");
 	imageComponent.inheritance.emplace_back("Component");
