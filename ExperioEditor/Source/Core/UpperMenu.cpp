@@ -12,10 +12,9 @@
 #include "../Framework/ImportSystem.h"
 #include "../Framework/MetaSystem.h"
 #include "../Framework/PlaySystem.h"
-#include "../Framework/UndoSystem.h"
+#include "../Framework/SaveSystem.h"
 #include "../Framework/SceneSaver.h"
-#include "../Framework/ValueSaver.h"
-#include "../Materials/MaterialEditor.h"
+#include "../Framework/UndoSystem.h"
 #include "../Profilers/MemoryProfiler.h"
 #include "../Profilers/TimeProfiler.h"
 #include "../ProjectSettings/ProjectSettings.h"
@@ -51,7 +50,7 @@ void UpperMenu::CreateFileMenu()
 	{
 		if (ImGui::MenuItem("New Scene"))
 		{
-			SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
+			SaveSystem::SaveScene();
 			Scene::UnloadAllScenes();
 			Scene::LoadBlankScene(0);
 		}
@@ -67,7 +66,7 @@ void UpperMenu::CreateFileMenu()
 		ImGui::Separator();
 		if (ImGui::MenuItem("Save Scene"))
 		{
-			SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
+			SaveSystem::SaveScene();
 		}
 		if (ImGui::MenuItem("Save Scene As"))
 		{
@@ -77,9 +76,13 @@ void UpperMenu::CreateFileMenu()
 				SceneSaver::SaveScene(0, dialogInfo.filename + ".pbscene");
 			}
 		}
+		if (ImGui::MenuItem("Save Selected"))
+		{
+			SaveSystem::OpenSaveSelectedScreen();
+		}
 		if (ImGui::MenuItem("Save All"))
 		{
-			SaveAll();
+			SaveSystem::SaveAll();
 		}
 		ImGui::Separator();
 		if (ImGui::MenuItem("Close"))
@@ -230,13 +233,4 @@ void UpperMenu::CreateWindowMenu()
 		}
 		ImGui::EndMenu();
 	}
-}
-
-void UpperMenu::SaveAll()
-{
-	SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
-	ValueSaver::SaveValues();
-	ProjectSettings::SaveAll();
-
-	if (MaterialEditor::materialEditor != nullptr) MaterialEditor::materialEditor->SaveMaterial();
 }
