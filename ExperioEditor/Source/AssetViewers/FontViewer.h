@@ -8,6 +8,8 @@ class FontViewer : public EditorModule
 	void DisplayStats();
 
 	std::string filepath;
+
+	ImVec2 uvPosition;
 public:
 	FontRef loadedRef;
 
