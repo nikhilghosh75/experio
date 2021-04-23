@@ -41,4 +41,6 @@ private:
 	static std::string& GetVertexShader(FShaderDataInternal& shaderData);
 
 	static std::string& GetFragmentShader(FShaderDataInternal& shaderData);
+
+	static bool IsShaderEmpty(const FShaderDataInternal& shaderData);
 };
