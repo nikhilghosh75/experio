@@ -25,6 +25,7 @@ FileView* FileView::fileView = nullptr;
 
 bool openCppMenu = false;
 bool openMaterialMenu = false;
+bool openFolderMenu = false;
 
 FileView::FileView()
 {
@@ -58,8 +59,7 @@ void FileView::DisplayCreateMenu()
 {
 	if (ImGui::MenuItem("Folder"))
 	{
-		fs::create_directory(this->selectedFilepath + "/New Folder");
-		// TO-DO: Add Create Folder to Create System
+		openFolderMenu = true;
 	}
 	ImGui::Separator();
 	if (ImGui::MenuItem("C++ Class"))
@@ -231,6 +231,11 @@ void FileView::OpenCreateMenus()
 	{
 		ImGui::OpenPopup("Create Material");
 		openMaterialMenu = false;
+	}
+	if (openFolderMenu)
+	{
+		ImGui::OpenPopup("Create Folder");
+		openFolderMenu = false;
 	}
 
 	CreateMenu::DisplayCreateMenu();

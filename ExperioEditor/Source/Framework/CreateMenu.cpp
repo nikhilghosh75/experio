@@ -11,16 +11,20 @@ ECodeClassBase CreateMenu::currentClassType;
 
 static std::string className = "NewClass";
 static std::string materialName = "New Material";
+static std::string folderName = "New Folder";
 
 void CreateMenu::Initialize()
 {
 	className.reserve(64);
+	materialName.reserve(64);
+	folderName.reserve(64);
 }
 
 void CreateMenu::DisplayCreateMenu()
 {
 	DisplayCPPCreateMenu();
 	DisplayMaterialCreateMenu();
+	DisplayFolderCreateMenu();
 }
 
 void CreateMenu::DisplayCPPCreateMenu()
@@ -81,6 +85,28 @@ void CreateMenu::DisplayMaterialCreateMenu()
 		if (ImGui::Button("Create"))
 		{
 			CreateSystem::CreateBasicMaterial(filepath);
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Close"))
+		{
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
+}
+
+void CreateMenu::DisplayFolderCreateMenu()
+{
+	if (ImGui::BeginPopupModal("Create Folder"))
+	{
+		std::string filepath = FileView::fileView->GetSelectedFilepath() + "/" + materialName;
+		ImGui::InputText("FolderName: ", folderName.data(), folderName.capacity());
+
+		if (ImGui::Button("Create"))
+		{
+			CreateSystem::CreateFolder(filepath);
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();

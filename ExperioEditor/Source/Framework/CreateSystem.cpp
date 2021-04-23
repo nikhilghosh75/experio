@@ -3,6 +3,7 @@
 #include "Runtime/Files/LFileOperations.h"
 #include "../CodeParser/Cpp/CppCodeStream.h"
 #include <fstream>
+#include <filesystem>
 
 void CreateSystem::CreateCppClass(const std::string & filepath, ECodeClassBase classType, const std::string & className)
 {
@@ -65,6 +66,11 @@ void CreateSystem::CreateBasicMaterial(const std::string & filepath)
 	outFile << "albedo: ?Standard?/Textures/uvmap.bmp" << std::endl;
 	outFile << "normal: ?Standard?/Textures/normal.bmp" << std::endl;
 	outFile << "specular: ?Standard?/Textures/specular.bmp" << std::endl;
+}
+
+void CreateSystem::CreateFolder(const std::string& filepath)
+{
+	std::filesystem::create_directory(filepath);
 }
 
 void CreateSystem::CreateEmptyClass(const std::string & filepath, const std::string & className, ECodingLanguage langauge)
