@@ -143,6 +143,7 @@
     <ClCompile Include="Source\Framework\NotificationSystem.cpp" />
     <ClCompile Include="Source\Framework\PlaySystem.cpp" />
     <ClCompile Include="Source\Framework\SaveParams.cpp" />
+    <ClCompile Include="Source\Framework\SaveSystem.cpp" />
     <ClCompile Include="Source\Framework\SceneSaver.cpp" />
     <ClCompile Include="Source\Framework\UndoSystem.cpp" />
     <ClCompile Include="Source\Framework\ValueLoader.cpp" />
@@ -252,6 +253,7 @@
     <ClInclude Include="Source\Framework\NotificationSystem.h" />
     <ClInclude Include="Source\Framework\PlaySystem.h" />
     <ClInclude Include="Source\Framework\SaveParams.h" />
+    <ClInclude Include="Source\Framework\SaveSystem.h" />
     <ClInclude Include="Source\Framework\SceneSaver.h" />
     <ClInclude Include="Source\Framework\ShaderInfo.h" />
     <ClInclude Include="Source\Framework\UndoCommand.h" />
