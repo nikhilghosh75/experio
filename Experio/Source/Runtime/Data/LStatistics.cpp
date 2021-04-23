@@ -215,6 +215,24 @@ float LStatistics::Sum(const std::vector<float> data)
 	return Sum(data.data(), data.size());
 }
 
+float LStatistics::Variance(const float* data, size_t count)
+{
+	float average = Average(data, count);
+
+	float variance = 0;
+	for (size_t i = 0; i < count; i++)
+	{
+		variance += (data[i] - average) * (data[i] - average);
+	}
+
+	return variance;
+}
+
+float LStatistics::Variance(const std::vector<float>& data)
+{
+	return Variance(data.data(), data.size());
+}
+
 float LStatistics::WeightedAverage(const float * data, const float * weights, size_t count)
 {
 	float sum = 0.0f;
