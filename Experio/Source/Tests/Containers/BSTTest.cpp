@@ -46,3 +46,14 @@ UNIT_TEST(TestBSTRemove, "BST")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestBSTForEach, "BST")
+{
+	TBinarySearchTree<int> tree = { 2, 1, 3, 6, 4, 5 };
+	int sum = 0;
+	tree.ForEachInOrder([&sum](int& node) { sum += node; });
+
+	ASSERT_EQUAL(sum, 21, "");
+
+	TEST_END();
+}
