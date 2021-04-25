@@ -61,6 +61,9 @@ void TextComponent::RenderText()
 	rect.max.y /= canvasHeight;
 
 	FWindowData data = Window::GetWindowData();
+	data.height = canvasHeight;
+	data.width = canvasWidth;
+
 	float clippedSize = LWindowOperations::PixelToNormalizedSize(data, fontSize * 1.333f, EWindowAxisType::Y);
 	float clippedMargin = LWindowOperations::PixelToNormalizedSize(data, margins, EWindowAxisType::X);
 	FVector2 topLeftOfText = rect.GetTopLeft();
@@ -106,8 +109,8 @@ void TextComponent::RenderText()
 		uvs[i * 6 + 4] = glm::vec2(uvMax.x, 1.f - uvMin.y);
 		uvs[i * 6 + 5] = glm::vec2(uvMin.x, 1.f - uvMax.y);
 		
-		//FVector2 cursorMoveVec = FVector2(LWindowOperations::PixelToNormalizedSize(data, charInfo.xAdvance * fontSize, EWindowAxisType::X), 0);
-		FVector2 cursorMoveVec = FVector2(0.02f, 0);
+		int xAdvance = charInfo.xAdvance * fontSize / font->defaultFontSize;
+		FVector2 cursorMoveVec = FVector2(LWindowOperations::PixelToNormalizedSize(data, xAdvance, EWindowAxisType::X), 0);
 		currentCursorLocation = currentCursorLocation + cursorMoveVec;
 	}
 
