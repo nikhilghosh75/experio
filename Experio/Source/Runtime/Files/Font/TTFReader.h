@@ -22,5 +22,5 @@ private:
 
 	std::vector<int> GetIndexMap(stbtt_fontinfo* info);
 
-	float GetFontScale(const char* filename);
+	float GetDefaultFontSize(const char* filename);
 };

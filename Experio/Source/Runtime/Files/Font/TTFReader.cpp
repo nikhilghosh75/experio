@@ -28,10 +28,14 @@ FontData* TTFReader::ReadFile(const char* filename)
 	}
 
 	FontData* fontData = new FontData();
+	
+	float defaultFontSize = GetDefaultFontSize(filename);
+	fontData->defaultFontSize = (int)defaultFontSize;
+
 	fontData->characters.reserve(fontInfo.numGlyphs);
 
 	int bitmapResolution = GetBitmapResoluton(filename, fontInfo.numGlyphs);
-	float scale = stbtt_ScaleForPixelHeight(&fontInfo, GetFontScale(filename));
+	float scale = stbtt_ScaleForPixelHeight(&fontInfo, defaultFontSize);
 	unsigned char* bitmap = (unsigned char*)malloc(bitmapResolution * bitmapResolution * sizeof(unsigned char));
 	stbtt_bakedchar* bakedChars = new stbtt_bakedchar[fontInfo.numGlyphs];
 	stbtt_BakeFontBitmap(buffer, 0,30, bitmap, bitmapResolution, bitmapResolution, 32, fontInfo.numGlyphs, bakedChars);
@@ -46,8 +50,8 @@ FontData* TTFReader::ReadFile(const char* filename)
 	imageData->data = bitmap;
 	imageData->width = bitmapResolution;
 	imageData->height = bitmapResolution;
-	imageData->internalFormat = EImageInternalFormat::R;
-	imageData->encoding = EImageEncoding::Grayscale;
+	imageData->internalFormat = EImageInternalFormat::A;
+	imageData->encoding = EImageEncoding::Alpha;
 
 	TextureSlot& textureSlot = TextureManager::GetNextAvailibleSlot();
 	TextureManager::ReserveSlot(textureSlot.slotID, "TTF Font Texture");
@@ -70,6 +74,7 @@ FontData* TTFReader::ReadFile(const char* filename)
 
 		int leftSideBearing;
 		stbtt_GetCodepointHMetrics(&fontInfo, i, &charInfo.xAdvance, &leftSideBearing);
+		charInfo.xAdvance *= scale;
 
 		charInfo.uvCoordinates.min = FVector2((float)bakedChar.x0 / bitmapResolution, (float)bakedChar.y0 / bitmapResolution);
 		charInfo.uvCoordinates.max = FVector2((float)bakedChar.x1 / bitmapResolution, (float)bakedChar.y1 / bitmapResolution);
@@ -210,7 +215,7 @@ std::vector<int> TTFReader::GetIndexMap(stbtt_fontinfo* info)
 	return map;
 }
 
-float TTFReader::GetFontScale(const char* filename)
+float TTFReader::GetDefaultFontSize(const char* filename)
 {
 	// TO-DO: Add parsing of metadata
 	return 36.f;
