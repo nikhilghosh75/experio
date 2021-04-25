@@ -62,7 +62,7 @@ Project: Demo Project
 	}]
 	Children: [{
 	Name: New GameObject
-	Transform: 0 0 0 0 0 0 1 1 1 1
+	RectTransform: Center 0 Center 0 Fill 0 Fill 1
 	Tag: 0
 	Layer: 0
 	Components: [{
@@ -71,9 +71,9 @@ Project: Demo Project
 			margins: 4
 			fontSize: 144
 			font: ?Assets?/Fonts/EuropeUnderground_black.ttf
-			text: WolverineSoft
-			color: 1 1 1 1
-			shader:  
+			text:  WolverineSoft
+			color: 0 1 11 11
+			shader: 
 	}]
 	Children: []
 }]
