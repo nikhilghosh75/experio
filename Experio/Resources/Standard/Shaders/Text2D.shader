@@ -28,5 +28,5 @@ void main()
 {
 	vec4 sampled = vec4(1.0, 1.0, 1.0, texture(textureSampler, UV).r);
 	color = textColor * sampled;
-	// color = vec4(1, 0, 0, 1);
+	// color = sampled;
 }
