@@ -24,6 +24,7 @@
     <ClInclude Include="Source\Runtime\Containers\TSet.h" />
     <ClInclude Include="Source\Runtime\Core\SystemMetrics.h" />
     <ClInclude Include="Source\Runtime\Data\CategoryMap.h" />
+    <ClInclude Include="Source\Runtime\Data\CSVWriter.h" />
     <ClInclude Include="Source\Runtime\Data\DataManager.h" />
     <ClInclude Include="Source\Runtime\Data\Regression.h" />
     <ClInclude Include="Source\Runtime\DefaultComponents.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="Source\Runtime\Core\SystemMetrics.cpp" />
     <ClCompile Include="Source\Runtime\Core\Window.cpp" />
     <ClCompile Include="Source\Runtime\Core\LWindowOperations.cpp" />
+    <ClCompile Include="Source\Runtime\Data\CSVWriter.cpp" />
     <ClCompile Include="Source\Runtime\Data\DataManager.cpp" />
     <ClCompile Include="Source\Runtime\Data\Datatable.cpp" />
     <ClCompile Include="Source\Runtime\Data\LStatistics.cpp" />

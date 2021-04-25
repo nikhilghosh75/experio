@@ -579,6 +579,9 @@
     <ClInclude Include="Source\Runtime\Files\TextRef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Runtime\Data\CSVWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp">
@@ -909,6 +912,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Runtime\Files\TextRef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Runtime\Data\CSVWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
