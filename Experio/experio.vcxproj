@@ -263,6 +263,7 @@
     <ClCompile Include="Source\Runtime\Rendering\Managers\MeshManager.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Managers\TextureManager.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleComponent.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleModifier.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleReader.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleSystem.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Components\Billboard.cpp" />
