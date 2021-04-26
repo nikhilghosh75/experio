@@ -9,6 +9,7 @@ ParticleSystem ParticleReader::ReadParticleSystem(const std::string & filepath)
 
 	reader.AddCallback("Name", [&system](const XMLNode& node) { system.name = node.content; });
 	reader.AddCallback("MaxCount", [&system](const XMLNode& node) { system.maxCount = LString::StringToUInt(node.content); });
+	reader.AddCallback("DefaultLifetime", [&system](const XMLNode& node) {system.defaultLifetime = LString::StringToFloat(node.content); });
 
 	XMLTree particleTree = reader.ReadFile(filepath);
 	XMLTreeNode* modifiersNode = particleTree.GetRoot()->children[1];
