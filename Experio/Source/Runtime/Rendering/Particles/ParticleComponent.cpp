@@ -15,7 +15,6 @@ int particlesPerSecond = 10000;
 ParticleComponent::ParticleComponent(GameObject * object)
 {
 	this->gameObject = object;
-	Start();
 }
 
 ParticleComponent::~ParticleComponent()
@@ -28,14 +27,21 @@ void ParticleComponent::Start()
 {
 	maxParticles = GetMaxParticles();
 	particles = new FParticleData[maxParticles];
+
 	particleShader = ShaderReader::ReadShader(
 		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Particle.shader"
 	);
+
+	particleTime = 0;
+
+	particleSystem.Start(*this);
 }
 
 void ParticleComponent::Update()
 {
 	PROFILE_SCOPE("Particle Update");
+
+	particleTime += GameTime::deltaTime;
 
 	int newParticles = (int)(particlesPerSecond * GameTime::deltaTime);
 	FVector3 mainDirection = FVector3(0, 10.0f, 0.0f);
@@ -205,6 +211,16 @@ void ParticleComponent::Update()
 	error = glGetError();
 
 	glDeleteVertexArrays(1, &vertexArray);
+}
+
+void ParticleComponent::SpawnParticles(unsigned int numParticles)
+{
+	for (unsigned int i = 0; i < numParticles; i++)
+	{
+		int particleIndex = FindUnusedParticle();
+		particles[particleIndex].life = particleSystem.defaultLifetime;
+		particles[particleIndex].position = gameObject->GetPosition();
+	}
 }
 
 int ParticleComponent::FindUnusedParticle()
