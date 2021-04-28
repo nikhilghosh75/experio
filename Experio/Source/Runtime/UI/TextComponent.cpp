@@ -102,12 +102,12 @@ void TextComponent::RenderText()
 		uvs[i * 6 + 5] = glm::vec2(uvMin.x + 0.03f, 1.f - uvMax.y);
 		*/
 
-		uvs[i * 6] = glm::vec2(uvMin.x, 1.f - uvMin.y);
-		uvs[i * 6 + 1] = glm::vec2(uvMin.x, 1.f - uvMax.y);
-		uvs[i * 6 + 2] = glm::vec2(uvMax.x, 1.f - uvMin.y);
-		uvs[i * 6 + 3] = glm::vec2(uvMax.x, 1.f - uvMax.y);
-		uvs[i * 6 + 4] = glm::vec2(uvMax.x, 1.f - uvMin.y);
-		uvs[i * 6 + 5] = glm::vec2(uvMin.x, 1.f - uvMax.y);
+		uvs[i * 6] = glm::vec2(uvMin.x, uvMin.y);
+		uvs[i * 6 + 1] = glm::vec2(uvMin.x, uvMax.y);
+		uvs[i * 6 + 2] = glm::vec2(uvMax.x, uvMin.y);
+		uvs[i * 6 + 3] = glm::vec2(uvMax.x, uvMax.y);
+		uvs[i * 6 + 4] = glm::vec2(uvMax.x, uvMin.y);
+		uvs[i * 6 + 5] = glm::vec2(uvMin.x, uvMax.y);
 		
 		int xAdvance = charInfo.xAdvance * fontSize / font->defaultFontSize;
 		FVector2 cursorMoveVec = FVector2(LWindowOperations::PixelToNormalizedSize(data, xAdvance, EWindowAxisType::X), 0);
