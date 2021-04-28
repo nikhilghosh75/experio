@@ -128,6 +128,7 @@
     <ClCompile Include="Containers\TypedTreeTest.cpp" />
     <ClCompile Include="Core\DebugTest.cpp" />
     <ClCompile Include="Core\WindowOperationsTest.cpp" />
+    <ClCompile Include="Data\CategoryMapTest.cpp" />
     <ClCompile Include="Data\StatisticsTest.cpp" />
     <ClCompile Include="ExperioTests.cpp" />
     <ClCompile Include="Files\FileOperationsTest.cpp" />
