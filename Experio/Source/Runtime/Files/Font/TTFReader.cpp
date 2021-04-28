@@ -50,8 +50,8 @@ FontData* TTFReader::ReadFile(const char* filename)
 	imageData->data = bitmap;
 	imageData->width = bitmapResolution;
 	imageData->height = bitmapResolution;
-	imageData->internalFormat = EImageInternalFormat::A;
-	imageData->encoding = EImageEncoding::Alpha;
+	imageData->internalFormat = EImageInternalFormat::R;
+	imageData->encoding = EImageEncoding::Truecolor;
 
 	TextureSlot& textureSlot = TextureManager::GetNextAvailibleSlot();
 	TextureManager::ReserveSlot(textureSlot.slotID, "TTF Font Texture");
