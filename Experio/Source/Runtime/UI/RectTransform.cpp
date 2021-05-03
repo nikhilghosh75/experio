@@ -97,12 +97,12 @@ EPositionConstraintType PositionConstraintTypeFromText(const char* type)
 {
 	if (strcmp(type, "Center") == 0) return EPositionConstraintType::Center;
 	if (strcmp(type, "Pixel") == 0) return EPositionConstraintType::Pixel;
-	return EPositionConstraintType();
+	return EPositionConstraintType::Pixel;
 }
 
 EDimensionConstraintType DimensionConstraintTypeFromText(const char* type)
 {
 	if (strcmp(type, "Constant") == 0) return EDimensionConstraintType::Constant;
 	if (strcmp(type, "Fill") == 0) return EDimensionConstraintType::Fill;
-	return EDimensionConstraintType();
+	return EDimensionConstraintType::Fill;
 }
