@@ -61,8 +61,8 @@ Project: Demo Project
 			farClipPlane: 1000
 	}]
 	Children: [{
-	Name: New GameObject
-	RectTransform: Center 0 Center 0 Fill 0 Fill 1
+	Name: WolveyText
+	RectTransform: Center 0 Center 0 Fill 1 Fill 1
 	Tag: 0
 	Layer: 0
 	Components: [{
@@ -71,8 +71,11 @@ Project: Demo Project
 			margins: 4
 			fontSize: 144
 			font: ?Assets?/Fonts/EuropeUnderground_black.ttf
-			text:  WolverineSoft
-			color: 0 1 11 11
+			text: WolverineSoft
+			color: 0 0 111 1111
+			horizontalWrapMode: 0
+			verticalWrapMode: 0
+			spacing: 1
 			shader: 
 	}]
 	Children: []

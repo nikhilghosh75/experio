@@ -184,12 +184,14 @@ void EditorProject::TempSetupClasses()
 	textComponent.params.emplace_back("FontRef", "font", ECodeAccessType::Public);
 	textComponent.params.emplace_back("std::string", "text", ECodeAccessType::Public);
 	textComponent.params.emplace_back("FColor", "color", ECodeAccessType::Public);
+	textComponent.params.emplace_back("EHorizontalWrapMode", "horizontalWrapMode", ECodeAccessType::Public);
+	textComponent.params.emplace_back("EVerticalWrapMode", "verticalWrapMode", ECodeAccessType::Public);
+	textComponent.params.emplace_back("float", "spacing", ECodeAccessType::Public);
 	textComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 
 	CodeClass imageComponent("ImageComponent");
 	imageComponent.inheritance.emplace_back("Component");
 	imageComponent.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
-	imageComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 
 	// Delete Later
 	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
@@ -210,6 +212,8 @@ void EditorProject::TempSetupClasses()
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
+	gameProject.EmplaceEnum("EHorizontalWrapMode", EEnumDataType::UBYTE);
+	gameProject.EmplaceEnum("EVerticalWrapMode", EEnumDataType::UBYTE);
 }
 
 void EditorProject::TempSetupMaterials()

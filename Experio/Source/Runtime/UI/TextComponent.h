@@ -7,6 +7,8 @@
 #include "../Rendering/Shaders/Shader.h"
 #include "../Rendering/Managers/FontManager.h"
 
+class FWindowData;
+
 enum class ETextRenderMode
 {
 	Default,
@@ -14,11 +16,25 @@ enum class ETextRenderMode
 	Rich
 };
 
+enum class EHorizontalWrapMode : uint8_t
+{
+	Wrap,
+	Overflow
+};
+
+enum class EVerticalWrapMode : uint8_t
+{
+	Truncate,
+	Overflow
+};
+
 class TextComponent : public Component
 {
 public:
 	TextComponent();
 	TextComponent(GameObject* object);
+
+	~TextComponent();
 
 	virtual void Start() override;
 	virtual void Update() override;
@@ -29,9 +45,30 @@ public:
 	FontRef font;
 	std::string text;
 	FColor color;
+	EHorizontalWrapMode horizontalWrapMode;
+	EVerticalWrapMode verticalWrapMode;
+	float spacing;
 	Shader* shader;
 
 	void SetDefaultShader();
 
+private:
+	glm::vec2* verticies = nullptr;
+	glm::vec2* uvs = nullptr;
+
+	uint32_t capacity = 0;
+
+	void SetCapacity(uint32_t newCapacity);
+
 	void RenderText();
+
+	bool IsSpecialChar(char c) const;
+
+	void SetVertices(unsigned int i, glm::vec2 upLeft, glm::vec2 upRight, glm::vec2 downLeft, glm::vec2 downRight);
+
+	void SetUVs(unsigned int i, FVector2 uvMin, FVector2 uvMax);
+
+	FVector2 GetNextCursorPosition(FVector2 cursorPosition, FRect rect, float clippedSize, float clippedSpacing, const FCharacterInfo& charInfo, const FWindowData& data) const;
+
+	bool ShouldStopRendering(FVector2 cursorPosition, FRect rect) const;
 };
