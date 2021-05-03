@@ -110,6 +110,7 @@
     <ClCompile Include="Source\ComponentEditor\Renderable\BillboardComponentEditor.cpp" />
     <ClCompile Include="Source\ComponentEditor\Renderable\MeshComponentEditor.cpp" />
     <ClCompile Include="Source\ComponentEditor\Renderable\VirtualCameraEditor.cpp" />
+    <ClCompile Include="Source\ComponentEditor\UI\TextComponentEditor.cpp" />
     <ClCompile Include="Source\Console\Console.cpp" />
     <ClCompile Include="Source\Core\DialogBox.cpp" />
     <ClCompile Include="Source\Core\EditorApplication.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="Source\ComponentEditor\Renderable\BillboardComponentEditor.h" />
     <ClInclude Include="Source\ComponentEditor\Renderable\MeshComponentEditor.h" />
     <ClInclude Include="Source\ComponentEditor\Renderable\VirtualCameraEditor.h" />
+    <ClInclude Include="Source\ComponentEditor\UI\TextComponentEditor.h" />
     <ClInclude Include="Source\Console\Console.h" />
     <ClInclude Include="Source\Core\DialogBox.h" />
     <ClInclude Include="Source\Core\EditorApplication.h" />
