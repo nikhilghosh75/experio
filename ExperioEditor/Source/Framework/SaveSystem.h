@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "imgui.h"
 
 enum class ESaveableAssetType
 {
@@ -23,6 +24,13 @@ struct FSaveableAsset
 class SaveSystem
 {
 	static std::vector<FSaveableAsset> currentlyOpenAssets;
+	static std::vector<bool> shouldSaveAssets;
+
+	static ImVec4 AssetTypeToColor(ESaveableAssetType assetType);
+
+	static char* AssetTypeToString(ESaveableAssetType assetType);
+
+	static void SaveAssetOfType(ESaveableAssetType assetType);
 
 public:
 	static void SaveAll();
