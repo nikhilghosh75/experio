@@ -31,6 +31,7 @@ Shader* basicShader = nullptr;
 Shader* Renderer::billboardShader;
 Shader* Renderer::defaultQuadShader;
 Shader* Renderer::textShader;
+Shader* Renderer::progressBarShader;
 
 RendererStats Renderer::lastFrameStats;
 RendererStats Renderer::currentFrameStats;
@@ -85,6 +86,7 @@ void Renderer::SetupShaders()
 	billboardShader = ShaderReader::ReadShader(standardShadersPath + "/Billboard.shader");
 	defaultQuadShader = ShaderReader::ReadShader(standardShadersPath + "/Quad.shader");
 	textShader = ShaderReader::ReadShader(standardShadersPath + "/Text2D.shader");
+	progressBarShader = ShaderReader::ReadShader(standardShadersPath + "/ProgressBar.shader");
 }
 
 void Renderer::LogRenderingError()
