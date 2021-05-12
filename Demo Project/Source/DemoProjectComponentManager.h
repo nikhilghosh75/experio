@@ -12,6 +12,8 @@ class DemoProjectComponentManager : public ComponentManager
 
 	std::vector<ImageComponent> imageComponentInstances;
 
+	std::vector<ProgressBar> progressBarInstances;
+
 	std::vector<MeshComponent> meshComponentInstances;
 
 	std::vector<ParticleSystem> particleSystemInstances;

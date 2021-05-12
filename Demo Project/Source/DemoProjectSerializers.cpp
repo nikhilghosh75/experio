@@ -9,6 +9,7 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 		case 104: return std::vector<std::string>({ "margins", "fontSize", "font", "text", "color", "horizontalWrapMode", "verticalWrapMode", "spacing", "shader"});
 		case 1024: return std::vector<std::string>({ "isActive = false", "isAccelerating = false", "acceleration", "topSpeed"});
 		case 105: return std::vector<std::string>({ "texture"});
+		case 106: return std::vector<std::string>({ "minValue", "maxValue", "value", "backgroundColor", "barColor", "shader", "mode"});
 		case 100: return std::vector<std::string>({ "priority", "fieldOfView", "nearClipPlane", "farClipPlane"});
 		case 101: return std::vector<std::string>({ "material", "meshData", "isVisible"});
 		case 102: return std::vector<std::string>({ });
@@ -41,6 +42,17 @@ template<> void SetComponentParams(std::vector<std::string> params, Spaceship* c
 template<> void SetComponentParams(std::vector<std::string> params, ImageComponent* component)
 {
 	component->texture = ParseTexture(params[0]);
+}
+
+template<> void SetComponentParams(std::vector<std::string> params, ProgressBar* component)
+{
+	component->minValue = ParseFloat(params[0]);
+	component->maxValue = ParseFloat(params[1]);
+	component->value = ParseFloat(params[2]);
+	component->backgroundColor = ParseColor(params[3]);
+	component->barColor = ParseColor(params[4]);
+	component->shader = ParseShader(params[5]);
+	component->mode = (EProgressBarMode)ParseUByte(params[6]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, VirtualCamera* component)
@@ -96,6 +108,17 @@ template<> void SetComponentBinaryParams(void* data, ImageComponent* component)
 	component->texture = BinaryParseTexture((void*)((char*)data + 0));
 }
 
+template<> void SetComponentBinaryParams(void* data, ProgressBar* component)
+{
+	component->minValue = BinaryParseFloat((void*)((char*)data + 0));
+	component->maxValue = BinaryParseFloat((void*)((char*)data + 4));
+	component->value = BinaryParseFloat((void*)((char*)data + 8));
+	component->backgroundColor = BinaryParseColor((void*)((char*)data + 12));
+	component->barColor = BinaryParseColor((void*)((char*)data + 28));
+	component->shader = BinaryParseShader((void*)((char*)data + 44));
+	component->mode = (EProgressBarMode)BinaryParseUByte((void*)((char*)data + 48));
+}
+
 template<> void SetComponentBinaryParams(void* data, VirtualCamera* component)
 {
 	component->priority = BinaryParseFloat((void*)((char*)data + 0));
@@ -130,6 +153,7 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 		case 104: { PB_EMPLACE_COMPONENT(TextComponent, classId); PB_START_COMPONENT(); } break;
 		case 1024: { PB_EMPLACE_COMPONENT(Spaceship, classId); PB_START_COMPONENT(); } break;
 		case 105: { PB_EMPLACE_COMPONENT(ImageComponent, classId); PB_START_COMPONENT(); } break;
+		case 106: { PB_EMPLACE_COMPONENT(ProgressBar, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_COMPONENT(ParticleSystem, classId); PB_START_COMPONENT(); } break;
@@ -144,6 +168,7 @@ void AddComponentToScene(unsigned int classId, void* params, size_t paramSize, G
 		case 104: { PB_EMPLACE_BINARY_COMPONENT(TextComponent, classId); PB_START_COMPONENT(); } break;
 		case 1024: { PB_EMPLACE_BINARY_COMPONENT(Spaceship, classId); PB_START_COMPONENT(); } break;
 		case 105: { PB_EMPLACE_BINARY_COMPONENT(ImageComponent, classId); PB_START_COMPONENT(); } break;
+		case 106: { PB_EMPLACE_BINARY_COMPONENT(ProgressBar, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_BINARY_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_BINARY_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_BINARY_COMPONENT(ParticleSystem, classId); PB_START_COMPONENT(); } break;
@@ -158,6 +183,7 @@ size_t SizeOfComponent(unsigned int classId)
 		case 104: return sizeof(TextComponent);
 		case 1024: return sizeof(Spaceship);
 		case 105: return sizeof(ImageComponent);
+		case 106: return sizeof(ProgressBar);
 		case 100: return sizeof(VirtualCamera);
 		case 101: return sizeof(MeshComponent);
 		case 102: return sizeof(ParticleSystem);
@@ -173,6 +199,7 @@ size_t SerializedSizeOfComponent(unsigned int classId)
 		case 104: return 22;
 		case 1024: return 8;
 		case 105: return 4;
+		case 106: return 13;
 		case 100: return 16;
 		case 101: return 9;
 		case 102: return 0;

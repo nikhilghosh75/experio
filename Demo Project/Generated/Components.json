@@ -53,6 +53,15 @@
       "stage": 7,
       "default": true,
       "standalone": true
+    },
+    {
+      "name": "ProgressBar",
+      "id": 106,
+      "category": "UI",
+      "filepath": "Runtime/UI/ProgressBar.h",
+      "stage": 7,
+      "default": true,
+      "standalone": true
     }
   ]
 }
