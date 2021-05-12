@@ -582,6 +582,9 @@
     <ClInclude Include="Source\Runtime\Data\CSVWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Runtime\UI\ProgressBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Math\FVector3.cpp">
@@ -917,6 +920,9 @@
     <ClCompile Include="Source\Runtime\Data\CSVWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Runtime\UI\ProgressBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Standard\Materials\Test.material" />
@@ -931,5 +937,8 @@
     <None Include="Resources\Test\TestAssetMap.pbasmap" />
     <None Include="Resources\Test\TestProject.pbcodeproj" />
     <None Include="Resources\Standard\Shaders\Quad.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\Standard\Shaders\ProgressBar.shader" />
   </ItemGroup>
 </Project>

@@ -160,6 +160,7 @@
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
     <ClInclude Include="Source\Runtime\UI\Canvas.h" />
     <ClInclude Include="Source\Runtime\UI\ImageComponent.h" />
+    <ClInclude Include="Source\Runtime\UI\ProgressBar.h" />
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
     <ClInclude Include="Source\Runtime\UI\UIColorPalettes.h" />
@@ -307,6 +308,7 @@
     <ClCompile Include="Source\Runtime\Time\GameTime.cpp" />
     <ClCompile Include="Source\Runtime\UI\Canvas.cpp" />
     <ClCompile Include="Source\Runtime\UI\ImageComponent.cpp" />
+    <ClCompile Include="Source\Runtime\UI\ProgressBar.cpp" />
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\UIColorPalettes.cpp" />
@@ -329,6 +331,9 @@
     <None Include="Resources\Standard\Shaders\Text2D.shader" />
     <None Include="Resources\Test\TestAssetMap.pbasmap" />
     <None Include="Resources\Test\TestProject.pbcodeproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\Standard\Shaders\ProgressBar.shader" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
