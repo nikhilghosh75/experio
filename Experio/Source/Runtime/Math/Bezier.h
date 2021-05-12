@@ -49,24 +49,35 @@ public:
 
 	float MinX() const;
 	float MaxX() const;
+	float Range() const;
 
 private:
+	float Get(float x, uint32_t currentIndex) const;
+
 	uint32_t GetIndex(float x) const;
 
 	void Shift(int position = 0, int shift = 1);
 
 	void Remove(uint32_t index);
+
+	friend class BezierIterator;
 };
 
 class BezierIterator
 {
-	Bezier* curve;
+	const Bezier* curve;
 	uint32_t currentIndex;
 
 	float x;
 	float y;
 public:
+	BezierIterator(const Bezier* curve);
+	BezierIterator(const Bezier* curve, float xStart);
 
+	float Y() const;
+	float operator*() const;
+
+	void Step(float xStep);
 };
 
 float RiemannSum(const Bezier& curve, float delta = 0.01f);

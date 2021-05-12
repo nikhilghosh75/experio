@@ -14,7 +14,7 @@ template<> unsigned int DefaultClassTypeToInt<ImageComponent>() { return 105; }
 template<> unsigned int DefaultClassTypeToInt<ProgressBar>() { return 106; }
 template<> unsigned int DefaultClassTypeToInt<VirtualCamera>() { return 100; }
 template<> unsigned int DefaultClassTypeToInt<MeshComponent>() { return 101; }
-template<> unsigned int DefaultClassTypeToInt<ParticleSystem>() { return 102; }
+template<> unsigned int DefaultClassTypeToInt<ParticleComponent>() { return 102; }
 template<> unsigned int DefaultClassTypeToInt<Billboard>() { return 103; }
 
 template <class T> std::string DefaultClassTypeToString() { return NAMEOF_TYPE(T); }

@@ -188,6 +188,12 @@ void EditorProject::TempSetupClasses()
 	textComponent.params.emplace_back("EVerticalWrapMode", "verticalWrapMode", ECodeAccessType::Public);
 	textComponent.params.emplace_back("float", "spacing", ECodeAccessType::Public);
 	textComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
+	textComponent.params.emplace_back("std::string", "text", ECodeAccessType::Public);
+
+	CodeClass imageComponent("ImageComponent");
+	imageComponent.inheritance.emplace_back("Component");
+	imageComponent.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
+	imageComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 
 	CodeClass imageComponent("ImageComponent");
 	imageComponent.inheritance.emplace_back("Component");

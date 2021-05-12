@@ -129,6 +129,7 @@ void Bezier::Insert(float startX, float startY, float endX, float endY)
 			points[1] = BezierPoint(endX, endY, points[1].startX, points[1].startY);
 			numPoints++;
 		}
+		return;
 	}
 
 	// Case 3: Point inserted is greater than the maximum
@@ -147,6 +148,7 @@ void Bezier::Insert(float startX, float startY, float endX, float endY)
 			points[numPoints + 1] = BezierPoint(startX, startY, endX, endY);
 			numPoints += 2;
 		}
+		return;
 	}
 
 	// Default Case: Must be inserted between two points
@@ -249,6 +251,32 @@ float Bezier::MaxX() const
 	return points[numPoints - 1].endX;
 }
 
+float Bezier::Range() const
+{
+	if (numPoints == 0)
+		return 0;
+	return points[numPoints - 1].endX - points[0].startX;
+}
+
+float Bezier::Get(float x, uint32_t currentIndex) const
+{
+	const BezierPoint& point = points[currentIndex];
+
+	float minX = point.startX;
+	float maxX = point.endX;
+
+	float t = (x - minX) / (maxX - minX);
+	float t2 = t * t;
+	float t3 = t2 * t;
+
+	float q = 1 - t;
+	float q2 = q * q;
+	float q3 = q2 * q;
+
+	return q3 * point.startY + 3 * q2 * t * point.startControlY
+		+ 3 * q * t2 * point.endControlY + t3 * point.endY;
+}
+
 uint32_t Bezier::GetIndex(float x) const
 {
 	uint32_t min = 0, max = numPoints;
@@ -293,4 +321,58 @@ void Bezier::Remove(uint32_t index)
 		points[i] = points[i + 1];
 	}
 	numPoints--;
+}
+
+BezierIterator::BezierIterator(const Bezier* curve)
+{
+	this->curve = curve;
+	currentIndex = 0;
+	x = curve->points[0].startX;
+	y = curve->points[0].startY;
+}
+
+BezierIterator::BezierIterator(const Bezier* curve, float xStart)
+{
+	this->curve = curve;
+	currentIndex = curve->GetIndex(xStart);
+	this->x = xStart;
+	this->y = curve->Get(xStart, currentIndex);
+}
+
+float BezierIterator::Y() const
+{
+	return y;
+}
+
+float BezierIterator::operator*() const
+{
+	return y;
+}
+
+void BezierIterator::Step(float xStep)
+{
+	if (xStep <= 0)
+		return;
+
+	this->x += xStep;
+	if (curve->points[currentIndex].endX < x)
+	{
+		currentIndex++;
+	}
+	this->y = curve->Get(x, currentIndex);
+}
+
+float RiemannSum(const Bezier& curve, float delta)
+{
+	unsigned int numIterations = (unsigned int) (curve.Range() / delta);
+	BezierIterator it(&curve);
+
+	float sum = 0;
+	for (unsigned int i = 0; i < numIterations; i++)
+	{
+		sum += it.Y() * delta;
+		it.Step(delta);
+	}
+
+	return sum;
 }
