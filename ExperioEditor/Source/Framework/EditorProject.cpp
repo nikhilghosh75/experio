@@ -193,6 +193,16 @@ void EditorProject::TempSetupClasses()
 	imageComponent.inheritance.emplace_back("Component");
 	imageComponent.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
 
+	CodeClass progressBar("ProgressBar");
+	progressBar.inheritance.emplace_back("Component");
+	progressBar.params.emplace_back("float", "minValue", ECodeAccessType::Public);
+	progressBar.params.emplace_back("float", "maxValue", ECodeAccessType::Public);
+	progressBar.params.emplace_back("float", "value", ECodeAccessType::Public);
+	progressBar.params.emplace_back("FColor", "backgroundColor", ECodeAccessType::Public);
+	progressBar.params.emplace_back("FColor", "barColor", ECodeAccessType::Public);
+	progressBar.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
+	progressBar.params.emplace_back("EProgressBarMode", "mode", ECodeAccessType::Public);
+
 	// Delete Later
 	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
 
@@ -209,11 +219,13 @@ void EditorProject::TempSetupClasses()
 	gameProject.PushClass(billboard);
 	gameProject.PushClass(textComponent);
 	gameProject.PushClass(imageComponent);
+	gameProject.PushClass(progressBar);
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EHorizontalWrapMode", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EVerticalWrapMode", EEnumDataType::UBYTE);
+	gameProject.EmplaceEnum("EProgressBarMode", EEnumDataType::UBYTE);
 }
 
 void EditorProject::TempSetupMaterials()

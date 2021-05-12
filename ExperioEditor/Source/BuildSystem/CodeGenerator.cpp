@@ -253,6 +253,7 @@ void CodeGenerator::GenerateComponentManagerRenderSceneImpl(CppCodeOStream & cpp
 	cppFile << "PB_UPDATE(billboardInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(imageComponentInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(textComponentInstances);" << Debug::endl;
+	cppFile << "PB_UPDATE(progressBarInstances);" << Debug::endl;
 	cppFile << "}" << Debug::endl << Debug::endl;
 }
 
