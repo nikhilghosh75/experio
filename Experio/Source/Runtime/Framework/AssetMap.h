@@ -2,6 +2,10 @@
 #include "../Containers/THashtable.h"
 #include <string>
 
+/// <summary>
+/// A static class representing an AssetMap, a map between asset IDs and filepaths
+/// </summary>
+
 class AssetMap
 {
 public:

@@ -14,7 +14,4 @@ private:
 	static void CreateProjectMenu();
 
 	static void CreateWindowMenu();
-
-public:
-	static void SaveAll();
 };

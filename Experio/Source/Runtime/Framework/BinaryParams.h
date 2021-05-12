@@ -1,5 +1,10 @@
 #pragma once
 
+/// <summary>
+/// A set of functions for parsing binary data into Experio types
+/// To streamline the API, primitive types have binary parse functions
+/// </summary>
+
 #include "Params.h"
 
 bool BinaryParseBool(void* data);
@@ -13,6 +18,8 @@ unsigned int BinaryParseUInt(void* data);
 double BinaryParseDouble(void* data);
 long long BinaryParseLongLong(void* data);
 unsigned long long BinaryParseULongLong(void* data);
+
+std::string BinaryParseString(void* data);
 
 FVector2 BinaryParseVector2(void* data);
 FVector3 BinaryParseVector3(void* data);
@@ -31,6 +38,7 @@ FontRef BinaryParseFont(void* data);
 Material* BinaryParseMaterial(void* data);
 MeshRef BinaryParseMesh(void* data);
 Shader* BinaryParseShader(void* data);
+TextRef BinaryParseTextRef(void* data);
 TextureRef BinaryParseTexture(void* data);
 
 size_t SizeOfBinaryParam(EParamType type);

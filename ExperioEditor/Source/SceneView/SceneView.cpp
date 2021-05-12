@@ -71,7 +71,7 @@ void SceneView::ComputeContext()
 {
 	this->viewMatrix = VirtualCamera::CalculateViewMatrix(this->cameraPosition, this->cameraRotation);
 	this->projectionMatrix = VirtualCamera::CalculateProjectionMatrix(this->fieldOfView, 0.00001f, 1000.f);
-	this->modelMatrix = MeshComponent::CalculateModelMatrix(SceneHierarchy::hierarchy->GetSelectedItems()[0]);
+	this->modelMatrix = MeshComponent::CalculateModelMatrix(*SceneHierarchy::hierarchy->GetSelectedItems()[0]);
 }
 
 FVector2 SceneView::WorldToPos(glm::vec3 position, glm::mat4 matrix)
@@ -94,6 +94,8 @@ void SceneView::HandleGizmos()
 {
 	if (SceneHierarchy::hierarchy->GetSelectedItems().size() == 0) return;
 
+	if (SceneHierarchy::hierarchy->GetSelectedItems()[0]->isUI) return;
+
 	ImGuizmo::SetOrthographic(false);
 	ImGuizmo::SetDrawlist();
 	ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
@@ -102,7 +104,7 @@ void SceneView::HandleGizmos()
 	ImGuizmo::Manipulate(glm::value_ptr(viewMatrix), glm::value_ptr(projectionMatrix), SceneEditModeToOperation(currentMode),
 		ImGuizmo::MODE::LOCAL, glm::value_ptr(modelMatrix));
 
-	GameObject* object = Scene::FindGameObjectFromId(SceneHierarchy::hierarchy->GetSelectedItems()[0].id);
+	GameObject* object = Scene::FindGameObjectFromId(SceneHierarchy::hierarchy->GetSelectedItems()[0]->id);
 	object->SetTransform(modelMatrix);
 }
 

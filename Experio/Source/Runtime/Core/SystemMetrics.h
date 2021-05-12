@@ -4,6 +4,8 @@
 /// A set of function to be used for data about the operating system/screen
 /// </summary>
 
+#include "../Math/FVector2Int.h"
+
 struct FResolution
 {
 	int width;
@@ -26,4 +28,6 @@ class SystemMetrics
 {
 public:
 	static FResolution Resolution();
+
+	static FVector2Int CursorDimensions();
 };

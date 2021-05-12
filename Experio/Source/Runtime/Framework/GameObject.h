@@ -3,7 +3,12 @@
 #include <vector>
 #include "Component.h"
 #include "../Math/FTransform.h"
+#include "../UI/RectTransform.h"
 #include "../Containers/TTypedTree.h"
+
+/// <summary>
+/// An object existing in the scene. Generally contain components
+/// </summary>
 
 class GameObject
 {
@@ -15,11 +20,25 @@ public:
 	std::string name;
 	GameObject* parent = nullptr;
 	std::vector<GameObject*> children;
-	FVector3 localPosition;
-	FQuaternion localRotation;
-	FVector3 localScale;
+	
+	// Meant so that the RectTransform and regular transform can exist at the same time
+	union
+	{
+		struct
+		{
+			FVector3 localPosition;
+			FQuaternion localRotation;
+			FVector3 localScale;
+		};
+		struct
+		{
+			RectTransform rectTransform;
+		};
+	};
+
 	uint64_t id;
 	bool isActive = true;
+	bool isUI;
 
 	GameObject();
 	GameObject(std::string name);
@@ -43,7 +62,8 @@ public:
 
 	GameObject* AddChild(std::string name);
 
-	// WORLD POSITION
+	// Meant for non-UI gameObject
+	// WORLD POSITION/ROTATION/SCALE
 	FVector3 GetPosition() const;
 	FQuaternion GetRotation() const;
 	FVector3 GetScale() const;
@@ -56,6 +76,9 @@ public:
 	void SetTransform(FVector3 position, FQuaternion rotation, FVector3 scale);
 	void SetTransform(glm::mat4 localMatrix);
 
+	// Meant for UI game objects
+	FRect GetCanvasSpaceRect() const;
+
 	void SetTag(unsigned short newTag);
 	void SetTag(const std::string& newTag);
 
@@ -64,6 +87,8 @@ public:
 	void ReserveChildren(uint8_t numChildren);
 
 	Scene* GetScene() const;
+
+	size_t GetSiblingIndex() const;
 
 	bool operator==(const GameObject& object) const;
 	bool operator!=(const GameObject& object) const;
@@ -74,6 +99,8 @@ public:
 	static std::vector<GameObject*> FindGameObjectsWithTag(unsigned short tag, uint8_t sceneIndex = 0);
 
 	static unsigned int NumGameObjectsWithTag(unsigned short tag);
+
+	static void Reparent(GameObject* newParent, GameObject* newChild);
 
 	static GameObject* FindGameObjectOfID(uint64_t id);
 	static GameObject* FindGameObjectOfID(uint64_t id, uint8_t sceneIndex);

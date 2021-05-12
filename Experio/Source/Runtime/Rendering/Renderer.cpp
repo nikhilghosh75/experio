@@ -28,6 +28,13 @@
 Renderer* Renderer::current;
 
 Shader* basicShader = nullptr;
+Shader* Renderer::billboardShader;
+Shader* Renderer::defaultQuadShader;
+Shader* Renderer::textShader;
+Shader* Renderer::progressBarShader;
+
+RendererStats Renderer::lastFrameStats;
+RendererStats Renderer::currentFrameStats;
 
 Renderer::Renderer()
 {
@@ -77,6 +84,9 @@ void Renderer::SetupShaders()
 	}
 
 	billboardShader = ShaderReader::ReadShader(standardShadersPath + "/Billboard.shader");
+	defaultQuadShader = ShaderReader::ReadShader(standardShadersPath + "/Quad.shader");
+	textShader = ShaderReader::ReadShader(standardShadersPath + "/Text2D.shader");
+	progressBarShader = ShaderReader::ReadShader(standardShadersPath + "/ProgressBar.shader");
 }
 
 void Renderer::LogRenderingError()
@@ -112,6 +122,19 @@ void Renderer::OnNewFrame()
 void Renderer::OnEndFrame()
 {
 
+}
+
+void Renderer::OnDrawCall(EDrawCallType type, unsigned int vertices)
+{
+	currentFrameStats.drawCalls++;
+	currentFrameStats.vertices += vertices;
+	
+	switch (type)
+	{
+	case EDrawCallType::Billboard: currentFrameStats.billboardsRendered++; break;
+	case EDrawCallType::Mesh: currentFrameStats.meshesRendered++; break;
+	case EDrawCallType::Quad: currentFrameStats.quadsRendered++; break;
+	}
 }
 
 void Renderer::DrawBillboard(const Billboard & billboard)
@@ -158,6 +181,7 @@ void Renderer::DrawBillboard(const Billboard & billboard)
 	billboardVA.AddBuffer(&billboardBuffer, billboardLayout);
 
 	glDrawArrays(GL_TRIANGLES, 0, 12);
+	OnDrawCall(EDrawCallType::Billboard, 12);
 
 	glDisable(GL_BLEND);
 }
@@ -206,16 +230,25 @@ void Renderer::DrawMesh(const MeshComponent & mesh)
 	{
 		mesh.meshData->indexBuffer->Bind();
 		glDrawElements(GL_TRIANGLES, mesh.meshData->indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+		currentFrameStats.drawCalls++;
+		currentFrameStats.meshesRendered++;
+		currentFrameStats.vertices += mesh.meshData->GetTriangleCount();
 		return;
 	}
 
 	glDrawArrays(GL_TRIANGLES, 0, mesh.meshData->GetTriangleCount());
+	OnDrawCall(EDrawCallType::Mesh, mesh.meshData->GetTriangleCount());
 }
 
-void Renderer::DrawQuad(unsigned int textureID, const Shader & shader, const FRect & uvRect, const FRect & vertexRect)
+void Renderer::DrawQuad(unsigned int textureID, const Shader* shader, const FRect & uvRect, const FRect & vertexRect)
 {
+	if (shader == nullptr)
+	{
+		shader = defaultQuadShader;
+	}
+
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	shader.Bind();
+	shader->Bind();
 
 	glm::vec2 verticies[6] = {
 		vertexRect.GetTopLeft(), vertexRect.GetBottomLeft(), vertexRect.GetTopRight(),
@@ -240,11 +273,17 @@ void Renderer::DrawQuad(unsigned int textureID, const Shader & shader, const FRe
 	va.AddBuffer(&uvBuffer, uvLayout);
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+	OnDrawCall(EDrawCallType::Quad, 6);
 }
 
-void Renderer::DrawQuad(const Texture & texture, const Shader & shader, const FRect & uvRect, const FRect & vertexRect)
+void Renderer::DrawQuad(const Texture & texture, const Shader* shader, const FRect & uvRect, const FRect & vertexRect)
 {
-	shader.Bind();
+	if (shader == nullptr)
+	{
+		shader = defaultQuadShader;
+	}
+
+	shader->Bind();
 	texture.Bind();
 
 	glm::vec2 verticies[6] = {
@@ -270,6 +309,19 @@ void Renderer::DrawQuad(const Texture & texture, const Shader & shader, const FR
 	va.AddBuffer(&uvBuffer, uvLayout);
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+	OnDrawCall(EDrawCallType::Quad, 6);
+}
+
+void Renderer::SetBlend(bool blend, EBlendFunc blendFunc)
+{
+	if (blend)
+	{
+		glEnable(GL_BLEND);
+		GLenum func = LOpenGL::GetBlendFunc(blendFunc);
+		glBlendFunc(GL_SRC_ALPHA, func);
+	}
+	else
+		glDisable(GL_BLEND);
 }
 
 void Renderer::SetCull(bool culling)
@@ -427,202 +479,4 @@ Renderer* Renderer::Get()
 		Debug::LogError("Current Renderer is null");
 	}
 	return Renderer::current;
-}
-
-void Renderer::TempModelRenderer()
-{
-	GLuint buffer;
-
-	GLuint vertexArrayID;
-	glGenVertexArrays(1, &vertexArrayID);
-	glBindVertexArray(vertexArrayID);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	float positions[] = {
-	-1.0f,-1.0f,-1.0f, // 0
-	-1.0f,-1.0f, 1.0f, // 1
-	-1.0f, 1.0f, 1.0f, // 2
-	1.0f, 1.0f,-1.0f, // 3
-	-1.0f, 1.0f,-1.0f, // 4
-	1.0f,-1.0f, 1.0f, // 5
-	1.0f,-1.0f,-1.0f, // 6
-	1.0f, 1.0f, 1.0f, // 7
-	};
-
-	unsigned int indices[] =
-	{
-		0, 1, 2,
-		3, 0, 4,
-		5, 0, 6,
-		3, 6, 0,
-		0, 2, 4,
-		5, 1, 0,
-		2, 1, 5,
-		7, 6, 3,
-		6, 7, 5,
-		7, 3, 4,
-		7, 4, 1,
-		7, 2, 5
-	};
-
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-
-	glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), 4.f / 3.f, 0.1f, 100.0f); // Projection Matrix
-	glm::mat4 viewMatrix = glm::lookAt(glm::vec3(4, 3, -3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-	glm::mat4 modelMatrix = glm::mat4(1.0f);
-	glm::mat4 mvp = projectionMatrix * viewMatrix * modelMatrix;
-
-	glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 0.3875f, glm::vec3(0, 0, 1)); // GLM is down columns
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
-
-	unsigned int indexBuffer;
-	glGenBuffers(1, &indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	std::string vertexShader =
-		"#version 330 core\n"
-		"\n"
-		"layout(location = 0) in vec4 position; \n"
-		"layout(location = 1) in vec3 vertexColor; \n"
-		"uniform mat4 MVP; \n"
-		"out vec3 fragmentColor; \n"
-		"\n"
-		"void main()\n"
-		"{ \n"
-		"    gl_Position = MVP * position; \n"
-		"	 fragmentColor = vertexColor; \n"
-		"}\n";
-	std::string fragmentShader =
-		"#version 330 core\n"
-		"\n"
-		"out vec3 color; \n"
-		"in vec3 fragmentColor; \n"
-		"\n"
-		"void main()\n"
-		"{ \n"
-		"    color = fragmentColor; \n"
-		"}\n";
-	unsigned int shader = 0; 
-	glUseProgram(shader);
-
-	GLuint matrixID = glGetUniformLocation(shader, "MVP");
-	glUniformMatrix4fv(matrixID, 1, GL_FALSE, &mvp[0][0]);
-
-	GLfloat g_color_buffer_data[] = {
-	0.583f,  0.771f,  0.014f,
-	0.609f,  0.115f,  0.436f,
-	0.327f,  0.483f,  0.844f,
-	0.822f,  0.569f,  0.201f,
-	0.435f,  0.602f,  0.223f,
-	0.310f,  0.747f,  0.185f,
-	0.597f,  0.770f,  0.761f,
-	0.559f,  0.436f,  0.730f,
-	0.359f,  0.583f,  0.152f,
-	0.483f,  0.596f,  0.789f,
-	0.559f,  0.861f,  0.639f,
-	0.195f,  0.548f,  0.859f,
-	0.014f,  0.184f,  0.576f,
-	0.771f,  0.328f,  0.970f,
-	0.406f,  0.615f,  0.116f,
-	0.676f,  0.977f,  0.133f,
-	0.971f,  0.572f,  0.833f,
-	0.140f,  0.616f,  0.489f,
-	0.997f,  0.513f,  0.064f,
-	0.945f,  0.719f,  0.592f,
-	0.543f,  0.021f,  0.978f,
-	0.279f,  0.317f,  0.505f,
-	0.167f,  0.620f,  0.077f,
-	0.347f,  0.857f,  0.137f,
-	0.055f,  0.953f,  0.042f,
-	0.714f,  0.505f,  0.345f,
-	0.783f,  0.290f,  0.734f,
-	0.722f,  0.645f,  0.174f,
-	0.302f,  0.455f,  0.848f,
-	0.225f,  0.587f,  0.040f,
-	0.517f,  0.713f,  0.338f,
-	0.053f,  0.959f,  0.120f,
-	0.393f,  0.621f,  0.362f,
-	0.673f,  0.211f,  0.457f,
-	0.820f,  0.883f,  0.371f,
-	0.982f,  0.099f,  0.879f
-	};
-
-	GLuint colorBuffer;
-	glGenBuffers(1, &colorBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDeleteVertexArrays(1, &vertexArrayID);
-
-}
-
-void Renderer::TempPostProcessingRenderer(Framebuffer & framebuffer)
-{
-	FWindowData window = Window::GetWindowData();
-
-	framebuffer.Unbind();
-	glViewport(0, 0, window.width, window.height);
-
-	// Clear the screen
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	// Use our shader
-	Shader* framebufferShader = ShaderReader::ReadShader(
-		"C:/Users/debgh/source/repos/project-bloo/Experio/Resources/Standard/Shaders/InvertedScreen.shader"
-	);
-	framebufferShader->Bind();
-
-	// Bind our texture in Texture Unit 0
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, framebuffer.GetColorAttachment());
-
-	framebufferShader->SetUniformInt("textureSampler", 0);
-
-	static const GLfloat g_quad_vertex_buffer_data[] = {
-		-1.0f, -1.0f,
-		 1.0f, -1.0f,
-		-1.0f,  1.0f,
-		-1.0f,  1.0f,
-		 1.0f, -1.0f,
-		 1.0f,  1.0f,
-	};
-
-	unsigned int quadVertexBuffer;
-	glGenBuffers(1, &quadVertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, quadVertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_quad_vertex_buffer_data), g_quad_vertex_buffer_data, GL_STATIC_DRAW);
-
-	// 1rst attribute buffer : vertices
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, quadVertexBuffer);
-	glVertexAttribPointer(
-		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-		2,                  // size
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		0,                  // stride
-		(void*)0            // array buffer offset
-	);
-
-	// Draw the triangles !
-	glDrawArrays(GL_TRIANGLES, 0, 6); // 2*3 indices starting at 0 -> 2 triangles
-
-	glDisableVertexAttribArray(0);
 }

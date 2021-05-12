@@ -39,3 +39,13 @@ uint64_t LImageOperations::SizeOfImage(const TextureRef & ref)
 {
 	return SizeOfImage(ref->GetWidth(), ref->GetHeight(), ref->GetImageEncoding());
 }
+
+std::string LImageOperations::CompressionTypeToString(EImageCompressionType compressionType)
+{
+	switch (compressionType)
+	{
+	case EImageCompressionType::None: return "None";
+	case EImageCompressionType::Deflate: return "Deflate";
+	}
+	return "";
+}

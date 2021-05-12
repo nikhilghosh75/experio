@@ -20,13 +20,19 @@
     <ClInclude Include="Source\Runtime\Containers\Algorithm.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
+    <ClInclude Include="Source\Runtime\Containers\TMap.h" />
+    <ClInclude Include="Source\Runtime\Containers\TSet.h" />
     <ClInclude Include="Source\Runtime\Core\SystemMetrics.h" />
+    <ClInclude Include="Source\Runtime\Data\CategoryMap.h" />
+    <ClInclude Include="Source\Runtime\Data\CSVWriter.h" />
     <ClInclude Include="Source\Runtime\Data\DataManager.h" />
     <ClInclude Include="Source\Runtime\Data\Regression.h" />
     <ClInclude Include="Source\Runtime\DefaultComponents.h" />
     <ClInclude Include="Source\Runtime\Files\FileRef.h" />
+    <ClInclude Include="Source\Runtime\Files\Font\TTFReader.h" />
     <ClInclude Include="Source\Runtime\Files\Images\PNGReader.h" />
     <ClInclude Include="Source\Runtime\Files\Other\XMLReader.h" />
+    <ClInclude Include="Source\Runtime\Files\TextRef.h" />
     <ClInclude Include="Source\Runtime\Framework\System.h" />
     <ClInclude Include="Source\Runtime\Input\InputCodes.h" />
     <ClInclude Include="Source\Runtime\Input\InputMap.h" />
@@ -106,6 +112,7 @@
     <ClInclude Include="Source\Runtime\Math\TMatrix.h" />
     <ClInclude Include="Source\Runtime\Memory\TScopePtr.h" />
     <ClInclude Include="Source\Runtime\Memory\VoidPtr.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Blend.h" />
     <ClInclude Include="Source\Runtime\Rendering\Managers\FontManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Managers\MeshManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Managers\TextureManager.h" />
@@ -152,6 +159,9 @@
     <ClInclude Include="Source\Runtime\Debug\Profiler.h" />
     <ClInclude Include="Source\Runtime\Time\FDuration.h" />
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
+    <ClInclude Include="Source\Runtime\UI\Canvas.h" />
+    <ClInclude Include="Source\Runtime\UI\ImageComponent.h" />
+    <ClInclude Include="Source\Runtime\UI\ProgressBar.h" />
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
     <ClInclude Include="Source\Runtime\UI\UIColorPalettes.h" />
@@ -165,6 +175,7 @@
     <ClInclude Include="Source\ThirdParty\Periodic Function\periodic_function.hpp" />
     <ClInclude Include="Source\ThirdParty\RCCPP.h" />
     <ClInclude Include="Source\ThirdParty\Simdjson\simdjson.h" />
+    <ClInclude Include="Source\ThirdParty\STB\stb_truetype.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_array.h" />
     <ClInclude Include="Source\ThirdParty\toml++\toml_array.hpp" />
@@ -205,6 +216,7 @@
     <ClCompile Include="Source\Runtime\Core\SystemMetrics.cpp" />
     <ClCompile Include="Source\Runtime\Core\Window.cpp" />
     <ClCompile Include="Source\Runtime\Core\LWindowOperations.cpp" />
+    <ClCompile Include="Source\Runtime\Data\CSVWriter.cpp" />
     <ClCompile Include="Source\Runtime\Data\DataManager.cpp" />
     <ClCompile Include="Source\Runtime\Data\Datatable.cpp" />
     <ClCompile Include="Source\Runtime\Data\LStatistics.cpp" />
@@ -217,12 +229,14 @@
     <ClCompile Include="Source\Runtime\Files\Font\BinFontReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\FontReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Font\LFontOperations.cpp" />
+    <ClCompile Include="Source\Runtime\Files\Font\TTFReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Images\ImageReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Images\PNGReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\LFileOperations.cpp" />
     <ClCompile Include="Source\Runtime\Files\Mesh\BinMeshReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Mesh\MeshReader.cpp" />
     <ClCompile Include="Source\Runtime\Files\Other\XMLReader.cpp" />
+    <ClCompile Include="Source\Runtime\Files\TextRef.cpp" />
     <ClCompile Include="Source\Runtime\Framework\AssetMap.cpp" />
     <ClCompile Include="Source\Runtime\Framework\BinaryParams.cpp" />
     <ClCompile Include="Source\Runtime\Framework\Params.cpp" />
@@ -295,6 +309,9 @@
     <ClCompile Include="Source\Runtime\Debug\Profiler.cpp" />
     <ClCompile Include="Source\Runtime\Time\FDuration.cpp" />
     <ClCompile Include="Source\Runtime\Time\GameTime.cpp" />
+    <ClCompile Include="Source\Runtime\UI\Canvas.cpp" />
+    <ClCompile Include="Source\Runtime\UI\ImageComponent.cpp" />
+    <ClCompile Include="Source\Runtime\UI\ProgressBar.cpp" />
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\UIColorPalettes.cpp" />
@@ -302,6 +319,7 @@
     <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_common.c" />
     <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_win.cpp" />
     <ClCompile Include="Source\ThirdParty\Simdjson\simdjson.cpp" />
+    <ClCompile Include="Source\ThirdParty\STB\stb_truetype.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Standard\Materials\Test.material" />
@@ -310,11 +328,15 @@
     <None Include="Resources\Standard\Shaders\FullScreen.shader" />
     <None Include="Resources\Standard\Shaders\InvertedScreen.shader" />
     <None Include="Resources\Standard\Shaders\Particle.shader" />
+    <None Include="Resources\Standard\Shaders\Quad.shader" />
     <None Include="Resources\Standard\Shaders\Red.shader" />
     <None Include="Resources\Standard\Shaders\SingleColor.shader" />
     <None Include="Resources\Standard\Shaders\Text2D.shader" />
     <None Include="Resources\Test\TestAssetMap.pbasmap" />
     <None Include="Resources\Test\TestProject.pbcodeproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\Standard\Shaders\ProgressBar.shader" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

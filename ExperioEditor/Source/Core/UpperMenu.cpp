@@ -6,15 +6,15 @@
 #include "../AssetViewers/TagEditor.h"
 #include "../BuildSystem/BuildSystem.h"
 #include "../FileView/FileView.h"
+#include "../Framework/AdminTools.h"
 #include "../Framework/CreateMenu.h"
 #include "../Framework/EditorProject.h"
 #include "../Framework/ImportSystem.h"
 #include "../Framework/MetaSystem.h"
 #include "../Framework/PlaySystem.h"
-#include "../Framework/UndoSystem.h"
+#include "../Framework/SaveSystem.h"
 #include "../Framework/SceneSaver.h"
-#include "../Framework/ValueSaver.h"
-#include "../Materials/MaterialEditor.h"
+#include "../Framework/UndoSystem.h"
 #include "../Profilers/MemoryProfiler.h"
 #include "../Profilers/TimeProfiler.h"
 #include "../ProjectSettings/ProjectSettings.h"
@@ -50,7 +50,7 @@ void UpperMenu::CreateFileMenu()
 	{
 		if (ImGui::MenuItem("New Scene"))
 		{
-			SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
+			SaveSystem::SaveScene();
 			Scene::UnloadAllScenes();
 			Scene::LoadBlankScene(0);
 		}
@@ -66,7 +66,7 @@ void UpperMenu::CreateFileMenu()
 		ImGui::Separator();
 		if (ImGui::MenuItem("Save Scene"))
 		{
-			SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
+			SaveSystem::SaveScene();
 		}
 		if (ImGui::MenuItem("Save Scene As"))
 		{
@@ -76,9 +76,13 @@ void UpperMenu::CreateFileMenu()
 				SceneSaver::SaveScene(0, dialogInfo.filename + ".pbscene");
 			}
 		}
+		if (ImGui::MenuItem("Save Selected"))
+		{
+			SaveSystem::OpenSaveSelectedScreen();
+		}
 		if (ImGui::MenuItem("Save All"))
 		{
-			SaveAll();
+			SaveSystem::SaveAll();
 		}
 		ImGui::Separator();
 		if (ImGui::MenuItem("Close"))
@@ -140,10 +144,11 @@ void UpperMenu::CreateAssetMenu()
 	{
 		if (ImGui::MenuItem("Import"))
 		{
-			FFileDialogInfo dialogInfo = FileDialog::OpenFile(nullptr);
-			if (dialogInfo)
+			std::vector<FFileDialogInfo> dialogs = FileDialog::OpenMultipleFiles(nullptr);
+
+			for (size_t i = 0; i < dialogs.size(); i++)
 			{
-				ImportSystem::Import(dialogInfo.filename, FileView::fileView->GetSelectedFilepath());
+				ImportSystem::Import(dialogs[i].filename, FileView::fileView->GetSelectedFilepath());
 			}
 		}
 		ImGui::Separator();
@@ -222,15 +227,10 @@ void UpperMenu::CreateWindowMenu()
 		{
 			EditorApplication::AddModule(new Terminal());
 		}
+		if (ImGui::MenuItem("Admin"))
+		{
+			EditorApplication::AddModule(new AdminTools());
+		}
 		ImGui::EndMenu();
 	}
-}
-
-void UpperMenu::SaveAll()
-{
-	SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
-	ValueSaver::SaveValues();
-	ProjectSettings::SaveAll();
-
-	if (MaterialEditor::materialEditor != nullptr) MaterialEditor::materialEditor->SaveMaterial();
 }

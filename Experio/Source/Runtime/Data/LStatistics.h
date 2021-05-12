@@ -27,6 +27,7 @@ public:
 
 	static std::vector<float> MovingAverage(const std::vector<float>& data, size_t averageSize);
 
+	// Returns from 0 to 100
 	static float Percentile(const float* data, size_t count, size_t index);
 	static float Percentile(const std::vector<float>& data, size_t index);
 	static float Percentile(const float* data, size_t count, float elem);
@@ -39,6 +40,9 @@ public:
 
 	static float Sum(const float* data, size_t count);
 	static float Sum(const std::vector<float> data);
+
+	static float Variance(const float* data, size_t count);
+	static float Variance(const std::vector<float>& data);
 
 	static float WeightedAverage(const float* data, const float* weights, size_t count);
 	static float WeightedAverage(const std::vector<float>& data, const std::vector<float>& weights);

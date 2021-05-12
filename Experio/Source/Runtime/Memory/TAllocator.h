@@ -15,6 +15,7 @@ struct InvalidSizeException : public std::exception {
 	}
 };
 
+/*
 template <class T> 
 class TAllocator
 {
@@ -48,3 +49,4 @@ protected:
     size_t allocationsMade;
     size_t totalSize;
 };
+*/

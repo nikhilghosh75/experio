@@ -29,6 +29,7 @@ void Terminal::Initialize()
 	Terminal::commandManager->functions.Insert("load-scene", LoadScene);
 	Terminal::commandManager->functions.Insert("resolution", Resolution);
 	Terminal::commandManager->functions.Insert("code-stats", CodeStats);
+	Terminal::commandManager->functions.Insert("num-assets", NumAssets);
 }
 
 void Terminal::Print(const std::string & str)

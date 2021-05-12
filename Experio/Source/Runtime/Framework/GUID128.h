@@ -6,6 +6,11 @@
 #include "../Containers/LString.h"
 #include "../Math/Random.h"
 
+/// <summary>
+/// A wrapper over a 128-bit integer that represents a globally unique identifier
+/// Implemented as two 64-bit integers because C++ does not support a 128-bit integer
+/// </summary>
+
 struct GUID128
 {
 	uint64_t lowWord;

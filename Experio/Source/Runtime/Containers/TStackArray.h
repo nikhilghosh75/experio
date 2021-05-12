@@ -49,10 +49,10 @@ public:
 	template<typename ... Args>
 	T& EmplaceAppend(Args&& ... args)
 	{
-		if (this->count >= N) return;
+		if (this->count >= N) return this->data[this->count - 1];
 		this->data[this->count] = T(std::forward<Args>(args) ...);
 		this->count++;
-		return this->data[this->count - 2];
+		return this->data[this->count - 1];
 	}
 
 	void Empty()
@@ -62,6 +62,16 @@ public:
 			data[i].~T();
 		}
 		this->count = 0;
+	}
+
+	void RemoveAt(uint32_t index)
+	{
+		this->data[index].~T();
+		for (uint32_t i = index + 1; i < this->count; i++)
+		{
+			data[i - 1] = data[i];
+		}
+		this->count--;
 	}
 
 	void RemoveBack()

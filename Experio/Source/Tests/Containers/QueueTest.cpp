@@ -43,3 +43,17 @@ UNIT_TEST(TestQueueInitializer, "Queue")
 
 	TEST_END();
 }
+
+UNIT_TEST(TestQueueEmpty, "Empty")
+{
+	TQueue<int> queue;
+	ASSERT_TRUE(queue.IsEmpty(), "");
+
+	queue.Push(2);
+	ASSERT_FALSE(queue.IsEmpty(), "");
+
+	queue.Empty();
+	ASSERT_TRUE(queue.IsEmpty(), "");
+
+	TEST_END();
+}

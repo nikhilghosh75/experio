@@ -2,6 +2,7 @@
 #include "LCodeParser.h"
 #include <sstream>
 #include "Runtime/Containers/LString.h"
+#include "Runtime/Debug/Debug.h"
 
 #define PB_CODE_PROJECT_NUM_ATTRIBUTES 2
 
@@ -43,14 +44,18 @@ void CodeProjectReader::ParseGlobalAttribute(CodeProject& project, std::ifstream
 	std::string str;
 	inFile >> str;
 
-	if (str == "Language")
+	if (str == "Language:")
 	{
 		inFile >> str;
 		project.codingLanguage = LCodeParser::StringToCodingLanguage(str);
 	}
-	else if (str == "Filepath")
+	else if (str == "Filepath:")
 	{
 		inFile >> project.filepath;
+	}
+	else
+	{
+		Debug::LogError("Code Project Global Attribute is not supported");
 	}
 }
 
@@ -60,8 +65,13 @@ void CodeProjectReader::ParseClasses(CodeProject & project, std::ifstream & inFi
 	
 	inFile >> str;
 
-	while (str != "}]")
+	while (inFile >> str)
 	{
+		if (str == "}]")
+		{
+			break;
+		}
+
 		CodeClass codeClass;
 
 		// Name

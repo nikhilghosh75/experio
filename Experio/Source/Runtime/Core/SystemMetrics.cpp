@@ -10,4 +10,11 @@ FResolution SystemMetrics::Resolution()
     return FResolution(width, height);
 }
 
+FVector2Int SystemMetrics::CursorDimensions()
+{
+    int cursorWidth = GetSystemMetrics(SM_CXCURSOR);
+    int cursorHeight = GetSystemMetrics(SM_CYCURSOR);
+    return FVector2Int(cursorWidth, cursorHeight);
+}
+
 #endif

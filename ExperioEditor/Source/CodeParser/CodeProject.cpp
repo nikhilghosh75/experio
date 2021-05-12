@@ -62,6 +62,11 @@ void CodeProject::Empty()
 	this->functions.clear();
 }
 
+bool CodeProject::IsEmpty() const
+{
+	return classes.empty() && enums.empty() && functions.empty();
+}
+
 CodeClass & CodeProject::EmplaceClass()
 {
 	return this->classes.emplace_back();

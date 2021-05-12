@@ -15,7 +15,7 @@ Project: Demo Project
 	Components: [{
 		ClassID: 103
 		Params: 
-			billboardTexture: ?Standard?/Textures/HealthBar.bmp
+			billboardTexture: C:/Users/debgh/source/repos/experio/Experio/Resources/Standard/Textures/HealthBar.bmp
 			sizeType: 10
 			orientation: 49
 			billboardSize: 1 0.125
@@ -40,13 +40,13 @@ Project: Demo Project
 	Layer: 0
 	Components: [{
 		ClassID: 101
-		Params:
+		Params: 
 			material: ?Standard?/Materials/Test.material
 			meshData: ?Assets?/Meshes/suzanne.obj
 			isVisible: true
 	}]
 	Children: []
-	}]
+}]
 },{
 	Name: Camera
 	Transform: 4 3 -3 0.11938 -0.86197 -0.23875 0.42099 1 1 1
@@ -60,6 +60,25 @@ Project: Demo Project
 			nearClipPlane: 0.01
 			farClipPlane: 1000
 	}]
+	Children: [{
+	Name: WolveyText
+	RectTransform: Center 0 Center 0 Fill 1 Fill 1
+	Tag: 0
+	Layer: 0
+	Components: [{
+		ClassID: 104
+		Params: 
+			margins: 4
+			fontSize: 144
+			font: ?Assets?/Fonts/EuropeUnderground_black.ttf
+			text: WolverineSoft
+			color: 0 0 111 1111
+			horizontalWrapMode: 0
+			verticalWrapMode: 0
+			spacing: 1
+			shader: 
+	}]
 	Children: []
+}]
 }]
 }

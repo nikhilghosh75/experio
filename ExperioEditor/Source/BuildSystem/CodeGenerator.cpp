@@ -115,6 +115,7 @@ CodeClass CodeGenerator::GenerateComponentManagerClass()
 {
 	CodeClass codeClass("DemoProjectComponentManager");
 	codeClass.inheritance.push_back("ComponentManager");
+	codeClass.functions.reserve(12);
 
 	CodeFunction start("void", "Start");
 	start.accessType = ECodeAccessType::Public;
@@ -218,6 +219,19 @@ void CodeGenerator::GenerateComponentManagerUpdateImpl(CppCodeOStream & cppFile,
 	cppFile << "void " << codeClass.name << "::Update()" << Debug::endl << "{" << Debug::endl;
 	cppFile << "cameraSystem.Update();" << Debug::endl;
 
+	std::vector<FComponentInfo> infos = EditorProject::componentClasses.GetValues();
+	std::sort(infos.begin(), infos.end());
+
+	for (size_t i = 0; i < infos.size(); i++)
+	{
+		if (!infos[i].isStandaloneComponent)
+			continue;
+
+		std::string paramName = LString::ToCamelCase(infos[i].name) + "Instances";
+		cppFile << "PB_UPDATE(" << paramName << ");" << Debug::endl;
+	}
+
+	/*
 	for (int i = 0; i < codeClass.params.size(); i++)
 	{
 		if (codeClass.params[i].type.find("std::vector") == 0)
@@ -225,6 +239,7 @@ void CodeGenerator::GenerateComponentManagerUpdateImpl(CppCodeOStream & cppFile,
 			cppFile << "PB_UPDATE(" << codeClass.params[i].name << ");" << Debug::endl;
 		}
 	}
+	*/
 
 	cppFile << "}" << Debug::endl << Debug::endl;
 }
@@ -236,6 +251,9 @@ void CodeGenerator::GenerateComponentManagerRenderSceneImpl(CppCodeOStream & cpp
 	cppFile << "PB_UPDATE(meshComponentInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(particleSystemInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(billboardInstances);" << Debug::endl;
+	cppFile << "PB_UPDATE(imageComponentInstances);" << Debug::endl;
+	cppFile << "PB_UPDATE(textComponentInstances);" << Debug::endl;
+	cppFile << "PB_UPDATE(progressBarInstances);" << Debug::endl;
 	cppFile << "}" << Debug::endl << Debug::endl;
 }
 

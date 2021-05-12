@@ -64,6 +64,8 @@ public:
 
 	static std::string LanguageToString(ECodingLanguage language);
 
+	static void MergeCodeProjects(CodeProject& project1, const CodeProject& project2);
+
 	static size_t NumInheritsFrom(const CodeProject& project, const std::string& className);
 
 	static CodeArg ParseCodeArg(const std::string& str, ECodingLanguage language);

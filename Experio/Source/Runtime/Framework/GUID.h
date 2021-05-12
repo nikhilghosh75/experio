@@ -4,6 +4,10 @@
 #include "../Containers/LString.h"
 #include "../Math/Random.h"
 
+/// <summary>
+/// A wrapper over a 64-bit integer that represents a globally unique identifier
+/// </summary>
+
 namespace Experio
 {
 struct GUID

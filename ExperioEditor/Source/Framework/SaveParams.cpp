@@ -153,6 +153,12 @@ void SaveMesh(MeshRef& param, std::ostream & stream)
 	stream << shortenedFilePath;
 }
 
+void SaveTextRef(TextRef& param, std::ostream& stream)
+{
+	std::string shortenedFilePath = EditorApplication::GetShortenedFilePath(param.filepath);
+	stream << shortenedFilePath;
+}
+
 void SaveTexture(TextureRef& param, std::ostream & stream)
 {
 	std::string fullFilePath = TextureManager::GetNameOfTexture(param);

@@ -10,4 +10,8 @@ UNIT_TEST(TestBezierGeneral, "Bezier")
 	bezier.Insert(5, 6, 7, 3);
 	bezier.Insert(4, 3, 5, 6);
 	bezier.Insert(9, 4, 10, 5);
+
+	ASSERT_ALMOST_EQUAL(bezier.Get(2.5), 3);
+
+	TEST_END();
 }

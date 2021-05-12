@@ -1,6 +1,11 @@
 #pragma once
 #include "Component.h"
 
+/// <summary>
+/// A class that manages components. It is implemented in the project.
+/// You generally access it through Project->componentManager
+/// </summary>
+
 class ComponentManager
 {
 public:
@@ -32,7 +37,9 @@ public:
 	virtual void GetAllComponents(std::vector<Component*>& components, std::vector<unsigned int>& componentIds, uint8_t sceneIndex) = 0;
 };
 
-#define PB_ADD_COMPONENT(_vectorName_) _vectorName_.emplace_back(gameObject); return (Component*)(&_vectorName_[_vectorName_.size() - 1]);
+#define PB_ADD_COMPONENT(_vectorName_) _vectorName_.emplace_back(gameObject);\
+	_vectorName_.back().Start();\
+	return (Component*)(&_vectorName_[_vectorName_.size() - 1]);
 
 #define PB_GET_COMPONENT(_vectorName_) for(int i = 0; i < _vectorName_.size(); i++)\
 	{\

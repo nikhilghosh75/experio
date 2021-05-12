@@ -1,6 +1,7 @@
 #include "Inspector.h"
 #include "InspectorUndo.h"
 #include "Runtime/Containers/Algorithm.h"
+#include "Runtime/Debug/Profiler.h"
 #include "Runtime/Framework/Framework.h"
 #include "Runtime/Rendering/ImGui/LImGui.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
@@ -11,6 +12,8 @@
 #include "../ComponentEditor/Renderable/MeshComponentEditor.h"
 #include "../ComponentEditor/Renderable/BillboardComponentEditor.h"
 #include "../ComponentEditor/Renderable/VirtualCameraEditor.h"
+#include "../ComponentEditor/UI/ProgressBarEditor.h"
+#include "../ComponentEditor/UI/TextComponentEditor.h"
 
 using namespace Experio::Algorithm;
 
@@ -21,7 +24,11 @@ void Inspector::DisplayGameObject(GameObject* object)
 	if (object == nullptr) return;
 	
 	DisplayGameObjectInfo(object);
-	DisplayTransform(object);
+
+	if (object->isUI)
+		DisplayRectTransform(object);
+	else
+		DisplayTransform(object);
 
 	std::vector<unsigned int> componentIDs = Project::componentManager->GetComponentsIDsInGameObject(object);
 	std::vector<Component*> components = Project::componentManager->GetComponentsInGameObject(object);
@@ -49,7 +56,7 @@ void Inspector::DisplayGameObject(GameObject* object)
 	}
 }
 
-void Inspector::DisplayMultipleGameObject(std::vector<GameObject>& gameObjects)
+void Inspector::DisplayMultipleGameObjects(std::vector<GameObject*>& gameObjects)
 {
 	ImGui::Text("Name: "); ImGui::SameLine(); ImGui::Text("Multiple");
 
@@ -57,12 +64,12 @@ void Inspector::DisplayMultipleGameObject(std::vector<GameObject>& gameObjects)
 	DisplayMultipleLayers(gameObjects);
 }
 
-void Inspector::DisplayMultipleTags(std::vector<GameObject>& gameObjects)
+void Inspector::DisplayMultipleTags(std::vector<GameObject*>& gameObjects)
 {
-	uint16_t tag = gameObjects[0].tag;
+	uint16_t tag = gameObjects[0]->tag;
 	for (size_t i = 1; i < gameObjects.size(); i++)
 	{
-		if (gameObjects[i].tag != tag)
+		if (gameObjects[i]->tag != tag)
 		{
 			tag = ExperioEditor::NumValues(EValueType::Tag);
 			break;
@@ -75,17 +82,17 @@ void Inspector::DisplayMultipleTags(std::vector<GameObject>& gameObjects)
 	{
 		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
-			gameObjects[i].tag = tag;
+			gameObjects[i]->tag = tag;
 		}
 	}
 }
 
-void Inspector::DisplayMultipleLayers(std::vector<GameObject>& gameObjects)
+void Inspector::DisplayMultipleLayers(std::vector<GameObject*>& gameObjects)
 {
-	uint8_t layer = gameObjects[0].layer;
+	uint8_t layer = gameObjects[0]->layer;
 	for (size_t i = 1; i < gameObjects.size(); i++)
 	{
-		if (gameObjects[i].layer != layer)
+		if (gameObjects[i]->layer != layer)
 		{
 			layer = ExperioEditor::NumValues(EValueType::Layer);
 			break;
@@ -98,7 +105,7 @@ void Inspector::DisplayMultipleLayers(std::vector<GameObject>& gameObjects)
 	{
 		for (size_t i = 0; i < gameObjects.size(); i++)
 		{
-			gameObjects[i].layer = layer;
+			gameObjects[i]->layer = layer;
 		}
 	}
 }
@@ -125,6 +132,8 @@ void Inspector::DisplayGameObjectInfo(GameObject * object)
 	{
 		UndoSystem::AddCommand(new SetLayerCommand(object, lastLayer, object->layer));
 	}
+
+	ImGui::Checkbox("UI: ", &object->isUI);
 }
 
 void Inspector::DisplayTransform(GameObject * object)
@@ -154,6 +163,30 @@ void Inspector::DisplayTransform(GameObject * object)
 			UndoSystem::AddCommand(new ScaleCommand(object, scale / object->localScale));
 			object->localScale = scale;
 		}
+
+		ImGui::TreePop();
+	}
+}
+
+void Inspector::DisplayRectTransform(GameObject* object)
+{
+	if (ImGui::TreeNode("RectTransform"))
+	{
+		LImGui::DisplayEnum<EPositionConstraintType>(object->rectTransform.xConstraint.type, "X:");
+		ImGui::SameLine();
+		ImGui::InputFloat("Offset:", &object->rectTransform.xConstraint.value);
+
+		LImGui::DisplayEnum<EPositionConstraintType>(object->rectTransform.yConstraint.type, "Y:");
+		ImGui::SameLine();
+		ImGui::InputFloat("Offset:", &object->rectTransform.yConstraint.value);
+
+		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.widthConstraint.type, "Width:");
+		ImGui::SameLine();
+		ImGui::InputFloat("Width:", &object->rectTransform.widthConstraint.value);
+
+		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.heightConstraint.type, "Height:");
+		ImGui::SameLine();
+		ImGui::InputFloat("Height:", &object->rectTransform.heightConstraint.value);
 
 		ImGui::TreePop();
 	}
@@ -211,7 +244,14 @@ void Inspector::UpdateComponents(std::vector<unsigned int> componentIDs, std::ve
 				InsertAt(componentEditors, (ComponentEditorBase*)(new MeshEditor()), i);
 				break;
 			case 103:
-				InsertAt(componentEditors, (ComponentEditorBase*)(new BillboardEditor()), i); break;
+				InsertAt(componentEditors, (ComponentEditorBase*)(new BillboardEditor()), i); 
+				break;
+			case 104:
+				InsertAt(componentEditors, (ComponentEditorBase*)(new TextComponentEditor()), i);
+				break;
+			case 106:
+				InsertAt(componentEditors, (ComponentEditorBase*)(new ProgressBarEditor()), i);
+				break;
 			default:
 				InsertAt(componentEditors, (ComponentEditorBase*)(new GeneratedEditor(componentIDs[i], components[i])), i);
 				break;
@@ -235,45 +275,32 @@ void Inspector::DisplayAddComponentMenu()
 
 	if (ImGui::BeginPopup("##AddComponent"))
 	{
-		if (ImGui::BeginMenu("Rendering"))
-		{
-			if (ImGui::MenuItem("Virtual Camera"))
-				AddComponentToGameObjects(100);
-			if (ImGui::MenuItem("Mesh"))
-				AddComponentToGameObjects(101);
-			if (ImGui::MenuItem("Particle System"))
-				AddComponentToGameObjects(102);
-			if (ImGui::MenuItem("Billboard"))
-				AddComponentToGameObjects(103);
-			
+		EditorProject::componentCategories.ForEach([this](unsigned int& id) {
+			if (ImGui::MenuItem(EditorProject::componentClasses.Get(id).name.c_str()))
+				AddComponentToGameObjects(id);
+		}, [](const std::string& str) {
+			if (str.empty())
+				return true;
+			return (bool)ImGui::BeginMenu(str.c_str());
+		}, [](const std::string& str){
+			if (str.empty())
+				return;
 			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("UI"))
-		{
-			if (ImGui::MenuItem("Text Component"))
-				AddComponentToGameObjects(104);
-
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("Custom"))
-		{
-			if (ImGui::MenuItem("Spaceship"))
-				AddComponentToGameObjects(1024);
-
-			ImGui::EndMenu();
-		}
+		});
 		ImGui::EndPopup();
 	}
 }
 
 void Inspector::AddComponentToGameObjects(unsigned int componentId)
 {
-	std::vector<GameObject> objects = SceneHierarchy::hierarchy->GetSelectedItems();
+	std::vector<GameObject*>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
 	if (objects.size() == 0) return;
 
-	GameObject* object = Scene::FindGameObjectFromId(objects[0].id);
-	object->AddComponentByComponentID(componentId);
-	UndoSystem::AddCommand(new AddComponentCommand(object, componentId));
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		objects[i]->AddComponentByComponentID(componentId);
+		UndoSystem::AddCommand(new AddComponentCommand(objects[i], componentId));
+	}
 }
 
 Inspector::Inspector()
@@ -292,7 +319,9 @@ Inspector::~Inspector()
 
 void Inspector::Display()
 {
-	std::vector<GameObject>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
+	PROFILE_SCOPE("Inspector::Display");
+
+	std::vector<GameObject*>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
 
 	if (objects.size() == 0)
 	{
@@ -300,12 +329,12 @@ void Inspector::Display()
 	}
 	else if (objects.size() == 1)
 	{
-		DisplayGameObject(&objects[0]);
+		DisplayGameObject(objects[0]);
 		DisplayAddComponentMenu();
 	}
 	else
 	{
-		DisplayMultipleGameObject(objects);
+		DisplayMultipleGameObjects(objects);
 		DisplayAddComponentMenu();
 	}
 }

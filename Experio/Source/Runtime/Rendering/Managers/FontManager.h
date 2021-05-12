@@ -21,6 +21,8 @@ public:
 
 	~FontRef();
 
+	FontRef& operator=(const FontRef& other);
+
 	FontData* fontData;
 
 	FontData* operator->() { return this->fontData; };

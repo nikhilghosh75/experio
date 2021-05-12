@@ -10,6 +10,11 @@ enum class ESceneProjectCompareType
 	Return
 };
 
+/// <summary>
+/// A class abstracting the loading of a scene
+/// Includes binary and text loading
+/// </summary>
+
 class SceneLoader
 {
 public:

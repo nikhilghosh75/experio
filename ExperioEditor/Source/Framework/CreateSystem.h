@@ -17,6 +17,8 @@ public:
 
 	static void CreateBasicMaterial(const std::string& filepath);
 
+	static void CreateFolder(const std::string& filepath);
+
 private:
 	static void CreateEmptyClass(const std::string& filepath, const std::string& className, ECodingLanguage langauge);
 

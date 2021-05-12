@@ -7,6 +7,7 @@
 #include "../Containers/THashtable.h"
 #include "../Containers/TTypedTree.h"
 #include "../Containers/LString.h"
+#include "../Debug/Profiler.h"
 
 extern std::vector<std::string> GetParamsList(unsigned int classId);
 
@@ -41,6 +42,8 @@ bool SceneLoader::LoadSceneFromFile(std::string filePath, int sceneSlot, ESceneP
 
 bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESceneProjectCompareType compareType)
 {
+	PROFILE_SCOPE_CATEGORY("SceneLoader Text", EProfilerCategory::Files);
+
 	std::ifstream sceneFile(filePath);
 	if (sceneFile.fail())
 	{
@@ -98,6 +101,8 @@ bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESc
 		}
 		else if (strcmp(word, "Transform:") == 0)
 		{
+			currentNode->isUI = false;
+
 			float w, x, y, z;
 
 			// Position
@@ -118,6 +123,23 @@ bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESc
 			sceneFile >> y;
 			sceneFile >> z;
 			currentNode->localScale = FVector3(x, y, z);
+		}
+		else if (strcmp(word, "RectTransform:") == 0)
+		{
+			currentNode->isUI = true;
+			float value;
+
+			sceneFile >> word >> value;
+			currentNode->rectTransform.SetXConstraint(word, value);
+
+			sceneFile >> word >> value;
+			currentNode->rectTransform.SetYConstraint(word, value);
+
+			sceneFile >> word >> value;
+			currentNode->rectTransform.SetWidthConstraint(word, value);
+
+			sceneFile >> word >> value;
+			currentNode->rectTransform.SetHeightConstraint(word, value);
 		}
 		else if (strcmp(word, "Tag:") == 0)
 		{
@@ -161,6 +183,8 @@ bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESc
 
 bool SceneLoader::LoadSceneFromBinaryFile(std::string filePath, int sceneSlot)
 {
+	PROFILE_SCOPE_CATEGORY("SceneLoader Binary", EProfilerCategory::Files);
+
 	std::ifstream sceneFile(filePath, std::ios::binary);
 	if (sceneFile.fail())
 	{
@@ -218,6 +242,7 @@ bool SceneLoader::LoadSceneFromBinaryFile(std::string filePath, int sceneSlot)
 		uint32_t parentID = *(uint32_t*)&(gameObjectHeader[4]);
 		uint8_t numChildren = *(uint8_t*)&(gameObjectHeader[8]);
 		bool isActive = *(bool*)&(gameObjectHeader[9]);
+		bool isUI = *(bool*)&(gameObjectHeader[10]);
 		FVector3 position = *(FVector3*)&(gameObjectHeader[12]);
 		FQuaternion rotation = *(FQuaternion*)&(gameObjectHeader[24]);
 		FVector3 scale = *(FVector3*)&(gameObjectHeader[40]);
@@ -244,6 +269,7 @@ bool SceneLoader::LoadSceneFromBinaryFile(std::string filePath, int sceneSlot)
 		currentGameObject->tag = tag;
 		currentGameObject->ReserveChildren(numChildren);
 		currentGameObject->isActive = isActive;
+		currentGameObject->isUI = isUI;
 		currentGameObject->localPosition = position;
 		currentGameObject->localRotation = rotation;
 		currentGameObject->localScale = scale;
@@ -315,6 +341,9 @@ void SceneLoader::AddComponentsToObjects(std::ifstream& stream, int sceneSlot, G
 	}
 	while (strcmp(word, "}]") != 0)
 	{
+		if (strlen(word) == 0)
+			break;
+
 		unsigned int classID, numParams;
 
 		// Get ClassID

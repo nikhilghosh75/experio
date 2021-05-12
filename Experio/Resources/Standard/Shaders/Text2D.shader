@@ -22,8 +22,11 @@ in vec2 UV;
 out vec4 color;
 
 uniform sampler2D textureSampler;
+uniform vec4 textColor;
 
 void main()
 {
-	color = texture(textureSampler, UV);
+	vec4 sampled = vec4(1.0, 1.0, 1.0, texture(textureSampler, UV).r);
+	color = textColor * sampled;
+	// color = sampled;
 }

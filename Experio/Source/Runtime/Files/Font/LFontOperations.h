@@ -35,6 +35,8 @@ public:
 
 	static uint32_t GetCharCodeOfUV(const FontData& data, const FVector2& uv);
 
+	static uint32_t GetIndexOfUV(const FontData& data, const FVector2& uv);
+
 	static uint32_t GetMaxCharacterCode(const FontData& data);
 
 	static bool HasAllCharsInRange(const FontData& data, uint32_t rangeStart, uint32_t rangeEnd);

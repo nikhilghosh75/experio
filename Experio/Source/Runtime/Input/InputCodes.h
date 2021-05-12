@@ -174,7 +174,6 @@ enum class EGamepadButton
 	RightStick
 };
 
-// Add Input Code union
 struct InputCode
 {
 	union

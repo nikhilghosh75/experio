@@ -88,6 +88,9 @@ namespace Experio::Algorithm
 	void RemoveAt(TUnrolledList<T>& list, uint32_t index);
 
 	template<typename T>
+	void RemoveIf(std::vector<T>& v, std::function<bool(const T&)> compFunc);
+
+	template<typename T>
 	bool AllOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc);
 
 	template<typename T>
@@ -342,6 +345,33 @@ namespace Experio::Algorithm
 	}
 
 	template<typename T>
+	TArray<T> GetUnique(const TQueue<T>& queue)
+	{
+		TArray<T> unique;
+		unique.Resize(queue.Count());
+		unique.Append(queue.Peek());
+
+		for (uint32_t i = 1; i < queue.Count(); i++)
+		{
+			T elem = queue.PeekAt(i);
+			bool found = false;
+			for (uint32_t j = 0; j < unique.Count(); j++)
+			{
+				if (unique[j] == elem)
+				{
+					found = true; break;
+				}
+			}
+			if (!found)
+			{
+				unique.Append(elem);
+			}
+		}
+
+		return unique;
+	}
+
+	template<typename T>
 	std::vector<std::pair<T, uint32_t>> UniqueCount(const std::vector<T>& v)
 	{
 		std::vector<std::pair<T, uint32_t>> unique;
@@ -446,6 +476,19 @@ namespace Experio::Algorithm
 	}
 
 	template<typename T>
+	void RemoveIf(std::vector<T>& v, std::function<bool(const T&)> compFunc)
+	{
+		for (size_t i = 0; i < v.size(); i++)
+		{
+			if (compFunc(v[i]))
+			{
+				RemoveAt(v, i);
+				break;
+			}
+		}
+	}
+
+	template<typename T>
 	bool AllOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc)
 	{
 		for (size_t i = 0; i < vector.size(); i++)
@@ -487,6 +530,17 @@ namespace Experio::Algorithm
 				return true;
 		}
 		return false;
+	}
+
+	template<typename T>
+	bool NoneOf(const std::vector<T>& vector, std::function<bool(const T&)> compFunc)
+	{
+		for (size_t i = 0; i < array.Count(); i++)
+		{
+			if (compFunc(array[i]))
+				return false;
+		}
+		return true;
 	}
 
 	template<typename T>
@@ -535,6 +589,29 @@ namespace Experio::Algorithm
 		}
 
 		vector[position] = elem;
+	}
+
+	template<typename T>
+	void ForEach(std::vector<T>& vector, std::function<void(T&)> func)
+	{
+		for (size_t i = 0; i < vector.size(); i++)
+		{
+			func(vector[i]);
+		}
+	}
+
+	template<typename T>
+	const uint32_t Mismatch(std::vector<T>& vector1, std::vector<T>& vector2)
+	{
+		size_t minSize = vector1.size() < vector2.size() ? vector1.size() : vector2.size();
+
+		for (uint32_t i = 0; i < minSize; i++)
+		{
+			if (vector1[i] != vector2[i])
+				return i;
+		}
+
+		return minSize;
 	}
 }
 

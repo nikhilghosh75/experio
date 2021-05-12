@@ -44,6 +44,20 @@ size_t LOpenGL::GetSizeOfType(EDataType type)
 	return GetSizeOfType((unsigned int)type);
 }
 
+size_t LOpenGL::GetBlendFunc(EBlendFunc func)
+{
+	switch (func)
+	{
+	case EBlendFunc::None: return GL_ZERO;
+	case EBlendFunc::Complete: return GL_ONE;
+	case EBlendFunc::SourceColor: return GL_SRC_COLOR;
+	case EBlendFunc::DestinationColor: return GL_DST_COLOR;
+	case EBlendFunc::OneMinusSourceColor: return GL_ONE_MINUS_SRC_COLOR;
+	case EBlendFunc::OneMinusDestinationColor: return GL_ONE_MINUS_DST_COLOR;
+	}
+	return GL_ZERO;
+}
+
 size_t LOpenGL::GetImageFormat(EImageInternalFormat format)
 {
 	switch (format)
@@ -54,6 +68,7 @@ size_t LOpenGL::GetImageFormat(EImageInternalFormat format)
 	case EImageInternalFormat::RGBA: return GL_RGBA;
 	case EImageInternalFormat::BGR: return GL_BGR;
 	case EImageInternalFormat::BGRA: return GL_BGRA;
+	case EImageInternalFormat::A: return GL_ALPHA;
 	}
 
 	return GL_RGB;
@@ -63,6 +78,7 @@ size_t LOpenGL::GetInternalFormat(EImageEncoding encoding)
 {
 	switch (encoding)
 	{
+	case EImageEncoding::Alpha: return GL_ALPHA;
 	case EImageEncoding::Grayscale: return GL_RED;
 	case EImageEncoding::GrayscaleAlpha: return GL_RG8;
 	case EImageEncoding::Truecolor: return GL_RGB8;

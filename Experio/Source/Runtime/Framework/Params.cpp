@@ -57,6 +57,11 @@ unsigned long long ParseULongLong(std::string str)
 	return std::stoull(str);
 }
 
+std::string ParseString(std::string str)
+{
+	return str;
+}
+
 FVector2 ParseVector2(std::string str)
 {
 	float coordinates[2];
@@ -287,6 +292,12 @@ Shader* ParseShader(std::string str)
 {
 	std::string filePath = LFileOperations::GetFullFilePath(str);
 	return ShaderReader::ReadShader(filePath);
+}
+
+TextRef ParseTextRef(std::string str)
+{
+	std::string filePath = LFileOperations::GetFullFilePath(str);
+	return TextRef(filePath);
 }
 
 TextureRef ParseTexture(std::string str)
