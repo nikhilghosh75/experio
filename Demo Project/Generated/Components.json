@@ -19,9 +19,9 @@
       "standalone": true
     },
     {
-      "name": "ParticleSystem",
+      "name": "ParticleComponent",
       "id": 102,
-      "filepath": "Runtime/Rendering/Particles/ParticleSystem.h",
+      "filepath": "Runtime/Rendering/Particles/ParticleComponent.h",
       "stage": 4,
       "category": "Rendering",
       "default": true,

@@ -6,9 +6,9 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 {
 	switch(classId)
 	{
-		case 104: return std::vector<std::string>({ "margins", "fontSize", "font", "text", "color", "horizontalWrapMode", "verticalWrapMode", "spacing", "shader"});
+		case 104: return std::vector<std::string>({ "margins", "fontSize", "font", "text", "color", "horizontalWrapMode", "verticalWrapMode", "spacing", "shader", "text"});
 		case 1024: return std::vector<std::string>({ "isActive = false", "isAccelerating = false", "acceleration", "topSpeed"});
-		case 105: return std::vector<std::string>({ "texture"});
+		case 105: return std::vector<std::string>({ "texture", "shader"});
 		case 106: return std::vector<std::string>({ "minValue", "maxValue", "value", "backgroundColor", "barColor", "shader", "mode"});
 		case 100: return std::vector<std::string>({ "priority", "fieldOfView", "nearClipPlane", "farClipPlane"});
 		case 101: return std::vector<std::string>({ "material", "meshData", "isVisible"});
@@ -31,6 +31,7 @@ template<> void SetComponentParams(std::vector<std::string> params, TextComponen
 	component->verticalWrapMode = (EVerticalWrapMode)ParseUByte(params[6]);
 	component->spacing = ParseFloat(params[7]);
 	component->shader = ParseShader(params[8]);
+	component->text = ParseString(params[9]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, Spaceship* component)
@@ -42,6 +43,7 @@ template<> void SetComponentParams(std::vector<std::string> params, Spaceship* c
 template<> void SetComponentParams(std::vector<std::string> params, ImageComponent* component)
 {
 	component->texture = ParseTexture(params[0]);
+	component->shader = ParseShader(params[1]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, ProgressBar* component)
@@ -95,6 +97,7 @@ template<> void SetComponentBinaryParams(void* data, TextComponent* component)
 	component->verticalWrapMode = (EVerticalWrapMode)BinaryParseUByte((void*)((char*)data + 29));
 	component->spacing = BinaryParseFloat((void*)((char*)data + 30));
 	component->shader = BinaryParseShader((void*)((char*)data + 34));
+	component->text = BinaryParseString((void*)((char*)data + 38));
 }
 
 template<> void SetComponentBinaryParams(void* data, Spaceship* component)
@@ -106,6 +109,7 @@ template<> void SetComponentBinaryParams(void* data, Spaceship* component)
 template<> void SetComponentBinaryParams(void* data, ImageComponent* component)
 {
 	component->texture = BinaryParseTexture((void*)((char*)data + 0));
+	component->shader = BinaryParseShader((void*)((char*)data + 4));
 }
 
 template<> void SetComponentBinaryParams(void* data, ProgressBar* component)
@@ -196,7 +200,7 @@ size_t SerializedSizeOfComponent(unsigned int classId)
 {
 	switch(classId)
 	{
-		case 104: return 22;
+		case 104: return 30;
 		case 1024: return 8;
 		case 105: return 4;
 		case 106: return 13;

@@ -194,5 +194,5 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 
 unsigned int DemoProjectComponentManager::ComponentCount() const
 {
-	return cameraSystem.Size() + textComponentInstances.size() + spaceshipInstances.size() + imageComponentInstances.size() + progressBarInstances.size() + meshComponentInstances.size() + particleSystemInstances.size() + billboardInstances.size();
+	return cameraSystem.Size() + textComponentInstances.size() + spaceshipInstances.size() + imageComponentInstances.size() + progressBarInstances.size() + meshComponentInstances.size() + particleComponentInstances.size() + billboardInstances.size();
 }
