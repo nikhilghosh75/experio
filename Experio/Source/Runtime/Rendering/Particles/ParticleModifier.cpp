@@ -39,6 +39,8 @@ void SpawnAtStart::OnStart(ParticleComponent& component)
 	component.SpawnParticles(numToSpawn);
 }
 
+// Spawn Modifier
+
 SpawnModifier::SpawnModifier()
 {
 
@@ -47,4 +49,22 @@ SpawnModifier::SpawnModifier()
 SpawnModifier::~SpawnModifier()
 {
 
+}
+
+void SpawnModifier::Update(ParticleComponent& component)
+{
+	switch (mode)
+	{
+	case ESpawnMode::Burst: UpdateBurst(component); break;
+	case ESpawnMode::OverLife: UpdateOverLife(component); break;
+	}
+}
+
+void SpawnModifier::UpdateOverLife(ParticleComponent& component)
+{
+	unsigned int numToSpawn = spawnCurve.Get(component.) * GameTime::deltaTime;
+}
+
+void SpawnModifier::UpdateBurst(ParticleComponent& component)
+{
 }

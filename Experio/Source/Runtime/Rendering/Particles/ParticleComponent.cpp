@@ -1,4 +1,5 @@
 #include "ParticleComponent.h"
+#include "ParticleReader.h"
 #include "../Shaders/ShaderReader.h"
 #include "../VertexBuffer.h"
 #include "../VertexBufferLayout.h"
@@ -15,6 +16,18 @@ int particlesPerSecond = 10000;
 ParticleComponent::ParticleComponent(GameObject * object)
 {
 	this->gameObject = object;
+
+	this->particleSystem = ParticleReader::ReadParticleSystem(
+		"C:/Users/debgh/source/repos/experio/Demo Project/Assets/Art/Particles/Particle.pbprtcle"
+	);
+}
+
+ParticleComponent& ParticleComponent::operator=(const ParticleComponent& component)
+{
+	this->gameObject = component.gameObject;
+	this->particleSystem = component.particleSystem;
+
+	return *this;
 }
 
 ParticleComponent::~ParticleComponent()
@@ -246,4 +259,9 @@ unsigned int ParticleComponent::GetMaxParticles() const
 {
 	// ADD CALCULATIONS HERE
 	return 100000;
+}
+
+float ParticleComponent::GetParticleTime() const
+{
+	return 0.0f;
 }

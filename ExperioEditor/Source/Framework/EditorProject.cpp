@@ -167,7 +167,7 @@ void EditorProject::TempSetupClasses()
 	meshComponent.params.emplace_back("MeshRef", "meshData", ECodeAccessType::Public);
 	meshComponent.params.emplace_back("bool", "isVisible", ECodeAccessType::Public);
 
-	CodeClass particleSystem("ParticleSystem");
+	CodeClass particleSystem("ParticleComponent");
 	particleSystem.inheritance.push_back("Component");
 
 	CodeClass billboard("Billboard");
@@ -194,10 +194,6 @@ void EditorProject::TempSetupClasses()
 	imageComponent.inheritance.emplace_back("Component");
 	imageComponent.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
 	imageComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
-
-	CodeClass imageComponent("ImageComponent");
-	imageComponent.inheritance.emplace_back("Component");
-	imageComponent.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
 
 	CodeClass progressBar("ProgressBar");
 	progressBar.inheritance.emplace_back("Component");

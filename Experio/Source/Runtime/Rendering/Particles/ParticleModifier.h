@@ -116,4 +116,8 @@ public:
 	~SpawnModifier();
 
 	void Update(ParticleComponent& component);
+
+	void UpdateOverLife(ParticleComponent& component);
+
+	void UpdateBurst(ParticleComponent& component);
 };

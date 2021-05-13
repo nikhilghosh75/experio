@@ -21,6 +21,8 @@ public:
 	ParticleComponent() {};
 	ParticleComponent(GameObject* object);
 
+	ParticleComponent& operator=(const ParticleComponent& component);
+
 	~ParticleComponent();
 
 	virtual void Start() override;
@@ -34,4 +36,6 @@ private:
 
 public:
 	unsigned int GetMaxParticles() const;
+
+	float GetParticleTime() const;
 };

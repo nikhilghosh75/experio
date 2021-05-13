@@ -13,6 +13,8 @@ public:
 	ParticleSystem();
 	ParticleSystem(const ParticleSystem& particleSystem);
 
+	ParticleSystem& operator=(const ParticleSystem& particleSystem);
+
 	size_t SizeOf() const;
 
 	SpawnModifier spawnModifier;
