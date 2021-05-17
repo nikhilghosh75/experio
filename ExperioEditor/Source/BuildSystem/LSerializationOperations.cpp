@@ -494,6 +494,7 @@ size_t LSerializationOperations::SizeOfExperioType(const std::string& name)
 	if (name == "FVector3") return sizeof(FVector3);
 	if (name == "FVector4") return sizeof(FVector4);
 	if (name == "FCurve") return sizeof(FCurve);
+	if (name == "FColor") return sizeof(FColor);
 	if (name == "MeshRef") return sizeof(MeshRef);
 	if (name == "FQuaternion") return sizeof(FQuaternion);
 	if (name == "FRect") return sizeof(FRect);
@@ -630,6 +631,7 @@ size_t LSerializationOperations::SerializedSizeOfExperioType(const std::string &
 	if (name == "FVector3") return 12;
 	if (name == "FVector4") return 16;
 	if (name == "FCurve") return 0;
+	if (name == "FColor") return 16;
 	if (name == "MeshRef") return 4;
 	if (name == "FQuaternion") return 16;
 	if (name == "FRect") return 16;
