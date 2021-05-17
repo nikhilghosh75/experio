@@ -9,6 +9,7 @@ void DemoProjectComponentManager::Start()
 	PB_START(spaceshipInstances);
 	PB_START(imageComponentInstances);
 	PB_START(progressBarInstances);
+	PB_START(panelInstances);
 	PB_START(meshComponentInstances);
 	PB_START(particleComponentInstances);
 	PB_START(billboardInstances);
@@ -24,6 +25,7 @@ void DemoProjectComponentManager::Update()
 	PB_UPDATE(textComponentInstances);
 	PB_UPDATE(imageComponentInstances);
 	PB_UPDATE(progressBarInstances);
+	PB_UPDATE(panelInstances);
 }
 
 void DemoProjectComponentManager::RenderScene()
@@ -35,6 +37,7 @@ void DemoProjectComponentManager::RenderScene()
 	PB_UPDATE(imageComponentInstances);
 	PB_UPDATE(textComponentInstances);
 	PB_UPDATE(progressBarInstances);
+	PB_UPDATE(panelInstances);
 }
 
 Component* DemoProjectComponentManager::AddComponent(GameObject* gameObject, unsigned int classId)
@@ -46,6 +49,7 @@ Component* DemoProjectComponentManager::AddComponent(GameObject* gameObject, uns
 		case 1024: PB_ADD_COMPONENT(spaceshipInstances);
 		case 105: PB_ADD_COMPONENT(imageComponentInstances);
 		case 106: PB_ADD_COMPONENT(progressBarInstances);
+		case 107: PB_ADD_COMPONENT(panelInstances);
 		case 101: PB_ADD_COMPONENT(meshComponentInstances);
 		case 102: PB_ADD_COMPONENT(particleComponentInstances);
 		case 103: PB_ADD_COMPONENT(billboardInstances);
@@ -61,6 +65,7 @@ Component* DemoProjectComponentManager::GetComponent(GameObject* gameObject, uns
 		case 1024: PB_GET_COMPONENT(spaceshipInstances);
 		case 105: PB_GET_COMPONENT(imageComponentInstances);
 		case 106: PB_GET_COMPONENT(progressBarInstances);
+		case 107: PB_GET_COMPONENT(panelInstances);
 		case 101: PB_GET_COMPONENT(meshComponentInstances);
 		case 102: PB_GET_COMPONENT(particleComponentInstances);
 		case 103: PB_GET_COMPONENT(billboardInstances);
@@ -78,6 +83,7 @@ void DemoProjectComponentManager::DeleteComponent(GameObject* gameObject, unsign
 		case 1024: PB_DELETE_COMPONENT(spaceshipInstances);
 		case 105: PB_DELETE_COMPONENT(imageComponentInstances);
 		case 106: PB_DELETE_COMPONENT(progressBarInstances);
+		case 107: PB_DELETE_COMPONENT(panelInstances);
 		case 101: PB_DELETE_COMPONENT(meshComponentInstances);
 		case 102: PB_DELETE_COMPONENT(particleComponentInstances);
 		case 103: PB_DELETE_COMPONENT(billboardInstances);
@@ -93,6 +99,7 @@ Component* DemoProjectComponentManager::GetComponentAtIndex(unsigned int classId
 		case 1024: PB_GET_COMPONENT_INDEX(spaceshipInstances);
 		case 105: PB_GET_COMPONENT_INDEX(imageComponentInstances);
 		case 106: PB_GET_COMPONENT_INDEX(progressBarInstances);
+		case 107: PB_GET_COMPONENT_INDEX(panelInstances);
 		case 101: PB_GET_COMPONENT_INDEX(meshComponentInstances);
 		case 102: PB_GET_COMPONENT_INDEX(particleComponentInstances);
 		case 103: PB_GET_COMPONENT_INDEX(billboardInstances);
@@ -108,6 +115,7 @@ void DemoProjectComponentManager::OnGameObjectDeleted(GameObject* gameObject)
 	PB_DELETE_COMPONENT(spaceshipInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(imageComponentInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(progressBarInstances); foundComponent = false;
+	PB_DELETE_COMPONENT(panelInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(meshComponentInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(particleComponentInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(billboardInstances); foundComponent = false;
@@ -123,6 +131,7 @@ std::vector<Component*> DemoProjectComponentManager::GetComponentsInGameObject(G
 	PB_GET_COMPONENT_GAMEOBJECT(1024);
 	PB_GET_COMPONENT_GAMEOBJECT(105);
 	PB_GET_COMPONENT_GAMEOBJECT(106);
+	PB_GET_COMPONENT_GAMEOBJECT(107);
 	PB_GET_COMPONENT_GAMEOBJECT(100);
 	PB_GET_COMPONENT_GAMEOBJECT(101);
 	PB_GET_COMPONENT_GAMEOBJECT(102);
@@ -138,6 +147,7 @@ std::vector<unsigned int> DemoProjectComponentManager::GetComponentsIDsInGameObj
 	PB_GET_COMPONENT_IDS(1024);
 	PB_GET_COMPONENT_IDS(105);
 	PB_GET_COMPONENT_IDS(106);
+	PB_GET_COMPONENT_IDS(107);
 	PB_GET_COMPONENT_IDS(100);
 	PB_GET_COMPONENT_IDS(101);
 	PB_GET_COMPONENT_IDS(102);
@@ -154,6 +164,7 @@ std::vector<Component*> DemoProjectComponentManager::GetAllComponents()
 	PB_GET_ALL(spaceshipInstances);
 	PB_GET_ALL(imageComponentInstances);
 	PB_GET_ALL(progressBarInstances);
+	PB_GET_ALL(panelInstances);
 	PB_GET_ALL(meshComponentInstances);
 	PB_GET_ALL(particleComponentInstances);
 	PB_GET_ALL(billboardInstances);
@@ -171,6 +182,7 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 	PB_GET_ALL_IDS(spaceshipInstances, 1024);
 	PB_GET_ALL_IDS(imageComponentInstances, 105);
 	PB_GET_ALL_IDS(progressBarInstances, 106);
+	PB_GET_ALL_IDS(panelInstances, 107);
 	PB_GET_ALL_IDS(meshComponentInstances, 101);
 	PB_GET_ALL_IDS(particleComponentInstances, 102);
 	PB_GET_ALL_IDS(billboardInstances, 103);
@@ -187,6 +199,7 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 	PB_GET_ALL_SCENE_IDS(spaceshipInstances, 1024);
 	PB_GET_ALL_SCENE_IDS(imageComponentInstances, 105);
 	PB_GET_ALL_SCENE_IDS(progressBarInstances, 106);
+	PB_GET_ALL_SCENE_IDS(panelInstances, 107);
 	PB_GET_ALL_SCENE_IDS(meshComponentInstances, 101);
 	PB_GET_ALL_SCENE_IDS(particleComponentInstances, 102);
 	PB_GET_ALL_SCENE_IDS(billboardInstances, 103);
@@ -194,5 +207,5 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 
 unsigned int DemoProjectComponentManager::ComponentCount() const
 {
-	return cameraSystem.Size() + textComponentInstances.size() + spaceshipInstances.size() + imageComponentInstances.size() + progressBarInstances.size() + meshComponentInstances.size() + particleComponentInstances.size() + billboardInstances.size();
+	return cameraSystem.Size() + textComponentInstances.size() + spaceshipInstances.size() + imageComponentInstances.size() + progressBarInstances.size() + panelInstances.size() + meshComponentInstances.size() + particleComponentInstances.size() + billboardInstances.size();
 }

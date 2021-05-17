@@ -62,6 +62,15 @@
       "stage": 7,
       "default": true,
       "standalone": true
+    },
+    {
+      "name": "Panel",
+      "id": 107,
+      "category": "UI",
+      "filepath": "Runtime/UI/Panel.h",
+      "stage": 7,
+      "default": true,
+      "standalone": true
     }
   ]
 }
