@@ -193,7 +193,6 @@ void EditorProject::TempSetupClasses()
 	CodeClass imageComponent("ImageComponent");
 	imageComponent.inheritance.emplace_back("Component");
 	imageComponent.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
-	imageComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 
 	CodeClass progressBar("ProgressBar");
 	progressBar.inheritance.emplace_back("Component");
@@ -204,6 +203,12 @@ void EditorProject::TempSetupClasses()
 	progressBar.params.emplace_back("FColor", "barColor", ECodeAccessType::Public);
 	progressBar.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 	progressBar.params.emplace_back("EProgressBarMode", "mode", ECodeAccessType::Public);
+
+	CodeClass panel("Panel");
+	panel.inheritance.emplace_back("Component");
+	panel.params.emplace_back("float", "roundedPixels", ECodeAccessType::Public);
+	panel.params.emplace_back("FColor", "color", ECodeAccessType::Public);
+	panel.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
 
 	// Delete Later
 	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
@@ -222,6 +227,7 @@ void EditorProject::TempSetupClasses()
 	gameProject.PushClass(textComponent);
 	gameProject.PushClass(imageComponent);
 	gameProject.PushClass(progressBar);
+	gameProject.PushClass(panel);
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
