@@ -20,6 +20,7 @@
     <ClInclude Include="Source\Runtime\Containers\Algorithm.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
+    <ClInclude Include="Source\Runtime\Containers\THeap.h" />
     <ClInclude Include="Source\Runtime\Containers\TMap.h" />
     <ClInclude Include="Source\Runtime\Containers\TSet.h" />
     <ClInclude Include="Source\Runtime\Core\SystemMetrics.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
     <ClInclude Include="Source\Runtime\UI\Canvas.h" />
     <ClInclude Include="Source\Runtime\UI\ImageComponent.h" />
+    <ClInclude Include="Source\Runtime\UI\Panel.h" />
     <ClInclude Include="Source\Runtime\UI\ProgressBar.h" />
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
@@ -311,6 +313,7 @@
     <ClCompile Include="Source\Runtime\Time\GameTime.cpp" />
     <ClCompile Include="Source\Runtime\UI\Canvas.cpp" />
     <ClCompile Include="Source\Runtime\UI\ImageComponent.cpp" />
+    <ClCompile Include="Source\Runtime\UI\Panel.cpp" />
     <ClCompile Include="Source\Runtime\UI\ProgressBar.cpp" />
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
@@ -337,6 +340,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\Standard\Shaders\ProgressBar.shader" />
+    <Text Include="Resources\Standard\Shaders\ColorPanel.shader" />
+    <Text Include="Resources\Standard\Shaders\TexturedPanel.shader" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
