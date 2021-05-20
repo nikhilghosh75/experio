@@ -26,4 +26,14 @@ public:
 	static float RandomInRange(float start, float end, ERandomGeneratorType generator = ERandomGeneratorType::CRandom);
 	static int RandomIntInRange(int start, int end, ERandomGeneratorType generator = ERandomGeneratorType::CRandom);
 	static unsigned int RandomUIntInRange(unsigned int start, unsigned int end, ERandomGeneratorType generator = ERandomGeneratorType::CRandom);
+
+	template<typename T>
+	static void RandomPermutation(std::vector<T>& v, ERandomGeneratorType generator = ERandomGeneratorType::CRandom)
+	{
+		for (size_t i = 0; i <= v.size() - 2; i++)
+		{
+			unsigned int j = RandomUIntInRange(i, v.size() - 1, generator);
+			std::swap(v[i], v[j]);
+		}
+	}
 };
