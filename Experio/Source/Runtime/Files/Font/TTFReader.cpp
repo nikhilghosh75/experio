@@ -28,19 +28,30 @@ FontData* TTFReader::ReadFile(const char* filename)
 	}
 
 	FontData* fontData = new FontData();
+	
+	float defaultFontSize = GetDefaultFontSize(filename);
+	fontData->defaultFontSize = (int)defaultFontSize;
+
 	fontData->characters.reserve(fontInfo.numGlyphs);
 
 	int bitmapResolution = GetBitmapResoluton(filename, fontInfo.numGlyphs);
+	float scale = stbtt_ScaleForPixelHeight(&fontInfo, defaultFontSize);
 	unsigned char* bitmap = (unsigned char*)malloc(bitmapResolution * bitmapResolution * sizeof(unsigned char));
 	stbtt_bakedchar* bakedChars = new stbtt_bakedchar[fontInfo.numGlyphs];
 	stbtt_BakeFontBitmap(buffer, 0,30, bitmap, bitmapResolution, bitmapResolution, 32, fontInfo.numGlyphs, bakedChars);
+
+	for (int i = 0; i < fontInfo.numGlyphs; i++)
+	{
+		stbtt_bakedchar& bakedChar = bakedChars[i];
+		std::cout << bakedChar.xoff << std::endl;
+	}
 
 	ImageData* imageData = new ImageData();
 	imageData->data = bitmap;
 	imageData->width = bitmapResolution;
 	imageData->height = bitmapResolution;
 	imageData->internalFormat = EImageInternalFormat::R;
-	imageData->encoding = EImageEncoding::Grayscale;
+	imageData->encoding = EImageEncoding::Truecolor;
 
 	TextureSlot& textureSlot = TextureManager::GetNextAvailibleSlot();
 	TextureManager::ReserveSlot(textureSlot.slotID, "TTF Font Texture");
@@ -48,22 +59,70 @@ FontData* TTFReader::ReadFile(const char* filename)
 
 	fontData->fontTexture = TextureRef(textureSlot.slotID);
 
-	for (int i = 0; i < fontInfo.numGlyphs; i++)
+	int currentChar = 1;
+
+	for (int i = 0; i < 65536; i++)
 	{
-		stbtt_bakedchar& bakedChar = bakedChars[i];
+		int glyphIndex = stbtt_FindGlyphIndex(&fontInfo, i);
+		if (glyphIndex == 0)
+			continue;
+
+		stbtt_bakedchar& bakedChar = bakedChars[currentChar];
 
 		FCharacterInfo charInfo;
-		charInfo.xAdvance = bakedChar.xadvance;
-		charInfo.charCode = i + 32;
+		charInfo.charCode = i;
+
+		int leftSideBearing;
+		stbtt_GetCodepointHMetrics(&fontInfo, i, &charInfo.xAdvance, &leftSideBearing);
+		charInfo.xAdvance *= scale;
+
 		charInfo.uvCoordinates.min = FVector2((float)bakedChar.x0 / bitmapResolution, (float)bakedChar.y0 / bitmapResolution);
 		charInfo.uvCoordinates.max = FVector2((float)bakedChar.x1 / bitmapResolution, (float)bakedChar.y1 / bitmapResolution);
 		charInfo.offset = FVector2((float)bakedChar.xoff / bitmapResolution, (float)bakedChar.yoff / bitmapResolution);
 
 		fontData->characters.push_back(charInfo);
+
+		currentChar++;
 	}
+
+	/*
+	std::vector<int> indexMap = GetIndexMap(&fontInfo);
+
+	for (int i = 0; i < fontInfo.numGlyphs; i++)
+	{
+		if (indexMap[i] < 0)
+		{
+			continue;
+		}
+
+		stbtt_bakedchar& bakedChar = bakedChars[i];
+
+		FCharacterInfo charInfo;
+		
+		int leftSideBearing;
+		stbtt_GetGlyphHMetrics(&fontInfo, i, &charInfo.xAdvance, &leftSideBearing);
+
+		charInfo.charCode = indexMap[i];
+
+		// int x0, x1, y0, y1;
+		// stbtt_GetGlyphBitmapBox(&fontInfo, i, scale, scale, &x0, &y0, &x1, &y1);
+		
+		charInfo.uvCoordinates.min = FVector2((float)bakedChar.x0 / bitmapResolution, (float)bakedChar.y0 / bitmapResolution);
+		charInfo.uvCoordinates.max = FVector2((float)bakedChar.x1 / bitmapResolution, (float)bakedChar.y1 / bitmapResolution);
+		charInfo.offset = FVector2((float)bakedChar.xoff / bitmapResolution, (float)bakedChar.yoff / bitmapResolution);
+
+		// charInfo.uvCoordinates.min = FVector2((float)x0 / bitmapResolution, (float)y0 / bitmapResolution);
+		// charInfo.uvCoordinates.max = FVector2((float)x1 / bitmapResolution, (float)y1 / bitmapResolution);
+
+		fontData->characters.push_back(charInfo);
+	}
+	*/
+
+	// LFontOperations::SortCharacters(*fontData);
 
 	delete[] bakedChars;
 	free(buffer);
+
 
 	return fontData;
 }
@@ -132,4 +191,32 @@ int TTFReader::GetBitmapResoluton(const char* filename, int numCharacters)
 	}
 
 	return resolutionToCheck;
+}
+
+std::vector<int> TTFReader::GetIndexMap(stbtt_fontinfo* info)
+{
+	std::vector<int> map;
+	map.resize(info->numGlyphs + 3);
+
+	for (size_t i = 0; i < map.size(); i++)
+	{
+		map[i] = -1;
+	}
+
+	for (int i = 0; i < 65535; i++)
+	{
+		int glyphIndex = stbtt_FindGlyphIndex(info, i);
+		if (glyphIndex != 0)
+		{
+			map[glyphIndex] = i;
+		}
+	}
+
+	return map;
+}
+
+float TTFReader::GetDefaultFontSize(const char* filename)
+{
+	// TO-DO: Add parsing of metadata
+	return 36.f;
 }

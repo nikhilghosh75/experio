@@ -167,7 +167,7 @@ void EditorProject::TempSetupClasses()
 	meshComponent.params.emplace_back("MeshRef", "meshData", ECodeAccessType::Public);
 	meshComponent.params.emplace_back("bool", "isVisible", ECodeAccessType::Public);
 
-	CodeClass particleSystem("ParticleSystem");
+	CodeClass particleSystem("ParticleComponent");
 	particleSystem.inheritance.push_back("Component");
 
 	CodeClass billboard("Billboard");
@@ -182,13 +182,33 @@ void EditorProject::TempSetupClasses()
 	textComponent.params.emplace_back("float", "margins", ECodeAccessType::Public);
 	textComponent.params.emplace_back("int", "fontSize", ECodeAccessType::Public);
 	textComponent.params.emplace_back("FontRef", "font", ECodeAccessType::Public);
+	textComponent.params.emplace_back("std::string", "text", ECodeAccessType::Public);
+	textComponent.params.emplace_back("FColor", "color", ECodeAccessType::Public);
+	textComponent.params.emplace_back("EHorizontalWrapMode", "horizontalWrapMode", ECodeAccessType::Public);
+	textComponent.params.emplace_back("EVerticalWrapMode", "verticalWrapMode", ECodeAccessType::Public);
+	textComponent.params.emplace_back("float", "spacing", ECodeAccessType::Public);
 	textComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 	textComponent.params.emplace_back("std::string", "text", ECodeAccessType::Public);
 
 	CodeClass imageComponent("ImageComponent");
 	imageComponent.inheritance.emplace_back("Component");
 	imageComponent.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
-	imageComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
+
+	CodeClass progressBar("ProgressBar");
+	progressBar.inheritance.emplace_back("Component");
+	progressBar.params.emplace_back("float", "minValue", ECodeAccessType::Public);
+	progressBar.params.emplace_back("float", "maxValue", ECodeAccessType::Public);
+	progressBar.params.emplace_back("float", "value", ECodeAccessType::Public);
+	progressBar.params.emplace_back("FColor", "backgroundColor", ECodeAccessType::Public);
+	progressBar.params.emplace_back("FColor", "barColor", ECodeAccessType::Public);
+	progressBar.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
+	progressBar.params.emplace_back("EProgressBarMode", "mode", ECodeAccessType::Public);
+
+	CodeClass panel("Panel");
+	panel.inheritance.emplace_back("Component");
+	panel.params.emplace_back("float", "roundedPixels", ECodeAccessType::Public);
+	panel.params.emplace_back("FColor", "color", ECodeAccessType::Public);
+	panel.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
 
 	// Delete Later
 	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
@@ -206,9 +226,14 @@ void EditorProject::TempSetupClasses()
 	gameProject.PushClass(billboard);
 	gameProject.PushClass(textComponent);
 	gameProject.PushClass(imageComponent);
+	gameProject.PushClass(progressBar);
+	gameProject.PushClass(panel);
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
+	gameProject.EmplaceEnum("EHorizontalWrapMode", EEnumDataType::UBYTE);
+	gameProject.EmplaceEnum("EVerticalWrapMode", EEnumDataType::UBYTE);
+	gameProject.EmplaceEnum("EProgressBarMode", EEnumDataType::UBYTE);
 }
 
 void EditorProject::TempSetupMaterials()

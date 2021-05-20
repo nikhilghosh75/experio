@@ -25,6 +25,7 @@ FileView* FileView::fileView = nullptr;
 
 bool openCppMenu = false;
 bool openMaterialMenu = false;
+bool openFolderMenu = false;
 
 FileView::FileView()
 {
@@ -58,8 +59,7 @@ void FileView::DisplayCreateMenu()
 {
 	if (ImGui::MenuItem("Folder"))
 	{
-		fs::create_directory(this->selectedFilepath + "/New Folder");
-		// TO-DO: Add Create Folder to Create System
+		openFolderMenu = true;
 	}
 	ImGui::Separator();
 	if (ImGui::MenuItem("C++ Class"))
@@ -105,9 +105,9 @@ void FileView::DisplayImportMenu()
 void FileView::DisplayMenuBar()
 {
 	static const std::vector<std::string> fileTypes = { "Audio", "Animation", "Code",
-		"Data", "Font", "Image", "Input Map", "H", "Markup", "Material", "Mesh", "Meta",
-		"NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Soundbank", "Style",
-		"Text","Video"
+		"Data", "Flowchart", "Font", "Image", "Input Map", "H", "Markup", "Material", "Mesh", 
+		"Meta", "NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Soundbank", 
+		"Style", "Text","Video"
 	};
 	if (ImGui::BeginMenuBar())
 	{
@@ -231,6 +231,11 @@ void FileView::OpenCreateMenus()
 	{
 		ImGui::OpenPopup("Create Material");
 		openMaterialMenu = false;
+	}
+	if (openFolderMenu)
+	{
+		ImGui::OpenPopup("Create Folder");
+		openFolderMenu = false;
 	}
 
 	CreateMenu::DisplayCreateMenu();

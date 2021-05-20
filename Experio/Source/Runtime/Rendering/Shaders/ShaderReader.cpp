@@ -8,6 +8,12 @@
 Shader* ShaderReader::ReadShader(const std::string & filepath)
 {
 	FShaderDataInternal shaderData = ParseShader(filepath);
+
+	if (IsShaderEmpty(shaderData))
+	{
+		return nullptr;
+	}
+
 	std::string& fragmentShader = GetFragmentShader(shaderData);
 	std::string& vertexShader = GetVertexShader(shaderData);
 	return new Shader(CreateShader(vertexShader, fragmentShader));
@@ -59,6 +65,11 @@ unsigned int ShaderReader::CreateShader(const std::string & vertexShader, const 
 FShaderDataInternal ShaderReader::ParseShader(const std::string& filepath)
 {
 	FShaderDataInternal shaderData;
+
+	if (filepath.size() == 0)
+	{
+		return shaderData;
+	}
 
 	std::ifstream inFile(filepath);
 	char word[256];
@@ -186,4 +197,9 @@ std::string& ShaderReader::GetFragmentShader(FShaderDataInternal & shaderData)
 	}
 
 	return shaderData.shaders[0];
+}
+
+bool ShaderReader::IsShaderEmpty(const FShaderDataInternal& shaderData)
+{
+	return shaderData.shaders.empty();
 }

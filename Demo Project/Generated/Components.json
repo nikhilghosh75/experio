@@ -19,9 +19,9 @@
       "standalone": true
     },
     {
-      "name": "ParticleSystem",
+      "name": "ParticleComponent",
       "id": 102,
-      "filepath": "Runtime/Rendering/Particles/ParticleSystem.h",
+      "filepath": "Runtime/Rendering/Particles/ParticleComponent.h",
       "stage": 4,
       "category": "Rendering",
       "default": true,
@@ -50,6 +50,24 @@
       "id": 105,
       "category": "UI",
       "filepath": "Runtime/UI/ImageComponent.h",
+      "stage": 7,
+      "default": true,
+      "standalone": true
+    },
+    {
+      "name": "ProgressBar",
+      "id": 106,
+      "category": "UI",
+      "filepath": "Runtime/UI/ProgressBar.h",
+      "stage": 7,
+      "default": true,
+      "standalone": true
+    },
+    {
+      "name": "Panel",
+      "id": 107,
+      "category": "UI",
+      "filepath": "Runtime/UI/Panel.h",
       "stage": 7,
       "default": true,
       "standalone": true

@@ -102,6 +102,16 @@ public:
 		return characters[BinarySearchForChar(code, 0, characters.size())].charCode == code;
 	}
 
+	unsigned int GetBitmapWidth() const
+	{
+		return fontTexture->GetWidth();
+	}
+
+	unsigned int GetBitmapHeight() const
+	{
+		return fontTexture->GetHeight();
+	}
+
 private:
 	uint32_t BinarySearchForChar(unsigned int charCode, uint32_t lower, uint32_t range) const
 	{

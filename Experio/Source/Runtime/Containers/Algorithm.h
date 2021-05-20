@@ -599,5 +599,19 @@ namespace Experio::Algorithm
 			func(vector[i]);
 		}
 	}
+
+	template<typename T>
+	const uint32_t Mismatch(std::vector<T>& vector1, std::vector<T>& vector2)
+	{
+		size_t minSize = vector1.size() < vector2.size() ? vector1.size() : vector2.size();
+
+		for (uint32_t i = 0; i < minSize; i++)
+		{
+			if (vector1[i] != vector2[i])
+				return i;
+		}
+
+		return minSize;
+	}
 }
 

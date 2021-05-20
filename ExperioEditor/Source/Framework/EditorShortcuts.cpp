@@ -1,7 +1,7 @@
 #include "EditorShortcuts.h"
 #include "PlaySystem.h"
+#include "SaveSystem.h"
 #include "UndoSystem.h"
-#include "../Core/UpperMenu.h"
 #include "Runtime/Debug/Debug.h"
 #include "Runtime/Input/Input.h"
 
@@ -25,6 +25,6 @@ void EditorShortcuts::Initialize()
 	Input::shortcuts.push_back(play);
 
 	Shortcut saveAll(EKeyCode::LeftControl, EKeyCode::S);
-	saveAll.shortcutFunction = std::function<void()>([]() {	UpperMenu::SaveAll(); });
+	saveAll.shortcutFunction = std::function<void()>([]() {	SaveSystem::SaveAll(); });
 	Input::shortcuts.push_back(saveAll);
 }

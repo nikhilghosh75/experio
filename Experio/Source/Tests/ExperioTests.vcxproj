@@ -123,10 +123,12 @@
     <ClCompile Include="Containers\BSTTest.cpp" />
     <ClCompile Include="Containers\HashtableTest.cpp" />
     <ClCompile Include="Containers\QueueTest.cpp" />
+    <ClCompile Include="Containers\SetTest.cpp" />
     <ClCompile Include="Containers\StringTest.cpp" />
     <ClCompile Include="Containers\TypedTreeTest.cpp" />
     <ClCompile Include="Core\DebugTest.cpp" />
     <ClCompile Include="Core\WindowOperationsTest.cpp" />
+    <ClCompile Include="Data\CategoryMapTest.cpp" />
     <ClCompile Include="Data\StatisticsTest.cpp" />
     <ClCompile Include="ExperioTests.cpp" />
     <ClCompile Include="Files\FileOperationsTest.cpp" />

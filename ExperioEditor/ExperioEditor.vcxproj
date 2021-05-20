@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -110,6 +110,8 @@
     <ClCompile Include="Source\ComponentEditor\Renderable\BillboardComponentEditor.cpp" />
     <ClCompile Include="Source\ComponentEditor\Renderable\MeshComponentEditor.cpp" />
     <ClCompile Include="Source\ComponentEditor\Renderable\VirtualCameraEditor.cpp" />
+    <ClCompile Include="Source\ComponentEditor\UI\ProgressBarEditor.cpp" />
+    <ClCompile Include="Source\ComponentEditor\UI\TextComponentEditor.cpp" />
     <ClCompile Include="Source\Console\Console.cpp" />
     <ClCompile Include="Source\Core\DialogBox.cpp" />
     <ClCompile Include="Source\Core\EditorApplication.cpp" />
@@ -123,6 +125,9 @@
     <ClCompile Include="Source\Files\MeshConverter.cpp" />
     <ClCompile Include="Source\Files\SceneConverter.cpp" />
     <ClCompile Include="Source\FileView\FileView.cpp" />
+    <ClCompile Include="Source\Flowcharts\FlowchartReader.cpp" />
+    <ClCompile Include="Source\Flowcharts\FlowchartSaver.cpp" />
+    <ClCompile Include="Source\Flowcharts\FlowchartViewer.cpp" />
     <ClCompile Include="Source\Framework\AdminTools.cpp" />
     <ClCompile Include="Source\Framework\AssetManager.cpp" />
     <ClCompile Include="Source\Framework\Compilation\CompilationParser.cpp" />
@@ -143,6 +148,7 @@
     <ClCompile Include="Source\Framework\NotificationSystem.cpp" />
     <ClCompile Include="Source\Framework\PlaySystem.cpp" />
     <ClCompile Include="Source\Framework\SaveParams.cpp" />
+    <ClCompile Include="Source\Framework\SaveSystem.cpp" />
     <ClCompile Include="Source\Framework\SceneSaver.cpp" />
     <ClCompile Include="Source\Framework\UndoSystem.cpp" />
     <ClCompile Include="Source\Framework\ValueLoader.cpp" />
@@ -215,6 +221,8 @@
     <ClInclude Include="Source\ComponentEditor\Renderable\BillboardComponentEditor.h" />
     <ClInclude Include="Source\ComponentEditor\Renderable\MeshComponentEditor.h" />
     <ClInclude Include="Source\ComponentEditor\Renderable\VirtualCameraEditor.h" />
+    <ClInclude Include="Source\ComponentEditor\UI\ProgressBarEditor.h" />
+    <ClInclude Include="Source\ComponentEditor\UI\TextComponentEditor.h" />
     <ClInclude Include="Source\Console\Console.h" />
     <ClInclude Include="Source\Core\DialogBox.h" />
     <ClInclude Include="Source\Core\EditorApplication.h" />
@@ -229,6 +237,10 @@
     <ClInclude Include="Source\Files\MeshConverter.h" />
     <ClInclude Include="Source\Files\SceneConverter.h" />
     <ClInclude Include="Source\FileView\FileView.h" />
+    <ClInclude Include="Source\Flowcharts\Flowchart.h" />
+    <ClInclude Include="Source\Flowcharts\FlowchartSaver.h" />
+    <ClInclude Include="Source\Flowcharts\FlowchartViewer.h" />
+    <ClInclude Include="Source\Flowcharts\FlowchartReader.h" />
     <ClInclude Include="Source\Framework\AdminTools.h" />
     <ClInclude Include="Source\Framework\AssetManager.h" />
     <ClInclude Include="Source\Framework\Compilation\CompilationInfo.h" />
@@ -252,6 +264,7 @@
     <ClInclude Include="Source\Framework\NotificationSystem.h" />
     <ClInclude Include="Source\Framework\PlaySystem.h" />
     <ClInclude Include="Source\Framework\SaveParams.h" />
+    <ClInclude Include="Source\Framework\SaveSystem.h" />
     <ClInclude Include="Source\Framework\SceneSaver.h" />
     <ClInclude Include="Source\Framework\ShaderInfo.h" />
     <ClInclude Include="Source\Framework\UndoCommand.h" />

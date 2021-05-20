@@ -16,6 +16,7 @@ enum class EDataColumnType
 };
 
 class DatatableRow;
+class DatatableColumn;
 class DatatableEntry;
 
 class Datatable
@@ -42,6 +43,9 @@ public:
 	uint32_t Count() const;
 
 	DatatableRow operator[](uint32_t rowIndex);
+	
+	DatatableRow GetRow(uint32_t rowIndex);
+	DatatableColumn GetColumn(uint32_t columnIndex);
 
 	DatatableEntry Get(uint32_t row, uint32_t column);
 
@@ -77,12 +81,17 @@ public:
 class DatatableColumn
 {
 	Datatable* table;
+	uint32_t internalColumnIndex;
 	uint32_t columnIndex;
 	EDataColumnType columnType;
 
 public:
 	DatatableColumn();
 	DatatableColumn(Datatable* table, uint32_t columnIndex);
+
+	EDataColumnType ColumnType() const { return columnType; }
+
+	const std::string& ColumnName() const;
 
 	DatatableEntry operator[](uint32_t rowIndex) const;
 };

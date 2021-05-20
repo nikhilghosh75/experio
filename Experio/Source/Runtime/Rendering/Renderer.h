@@ -40,7 +40,7 @@ struct RendererStats
 
 class Renderer
 {
-private:
+public:
 	VertexBufferLayout defaultVertexLayout;
 
 	static Renderer* current;
@@ -48,6 +48,9 @@ private:
 	static Shader* billboardShader;
 	static Shader* defaultQuadShader;
 	static Shader* textShader;
+	static Shader* progressBarShader;
+
+private:
 
 	glm::mat4 GetViewMatrix();
 
@@ -60,7 +63,6 @@ private:
 	static RendererStats lastFrameStats;
 	static RendererStats currentFrameStats;
 
-	friend class TextComponent;
 public:
 	ERenderMode currentMode = ERenderMode::ToCameraSystem;
 

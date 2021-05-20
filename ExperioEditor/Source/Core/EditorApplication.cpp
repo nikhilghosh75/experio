@@ -23,6 +23,7 @@
 #include "../Framework/ImportSystem.h"
 #include "../Framework/NotificationSystem.h"
 #include "../Framework/SceneSaver.h"
+#include "../Framework/SaveSystem.h"
 #include "../Framework/UndoSystem.h"
 #include "../Framework/ValueLoader.h"
 #include "../GameView/GameView.h"
@@ -234,6 +235,10 @@ void EditorApplication::BeginFrame()
 void EditorApplication::Update()
 {
 	RenderModules();
+
+	// To-Do: Make more modular later
+	SaveSystem::DisplaySaveSelectedScreen();
+
 	NotificationSystem::RenderNotifications();
 }
 

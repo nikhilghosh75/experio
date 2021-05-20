@@ -11,9 +11,11 @@ template <class T> unsigned int DefaultClassTypeToInt() { return 0; }
 template<> unsigned int DefaultClassTypeToInt<TextComponent>() { return 104; }
 template<> unsigned int DefaultClassTypeToInt<Spaceship>() { return 1024; }
 template<> unsigned int DefaultClassTypeToInt<ImageComponent>() { return 105; }
+template<> unsigned int DefaultClassTypeToInt<ProgressBar>() { return 106; }
+template<> unsigned int DefaultClassTypeToInt<Panel>() { return 107; }
 template<> unsigned int DefaultClassTypeToInt<VirtualCamera>() { return 100; }
 template<> unsigned int DefaultClassTypeToInt<MeshComponent>() { return 101; }
-template<> unsigned int DefaultClassTypeToInt<ParticleSystem>() { return 102; }
+template<> unsigned int DefaultClassTypeToInt<ParticleComponent>() { return 102; }
 template<> unsigned int DefaultClassTypeToInt<Billboard>() { return 103; }
 
 template <class T> std::string DefaultClassTypeToString() { return NAMEOF_TYPE(T); }

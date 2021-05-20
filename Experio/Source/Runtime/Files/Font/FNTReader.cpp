@@ -61,6 +61,11 @@ FontData * FNTReader::ReadFile(const char * fileName)
 			int count = atoi(countString.c_str());
 			returnData->characters.resize((size_t)count + returnData->characters.size() + 1);
 		}
+		else if (word.find("lineHeight=") != std::string::npos)
+		{
+			std::string lineHeightString = StripAfterEqualSign(word);
+			returnData->defaultFontSize = LString::StringToInt(lineHeightString);
+		}
 		else if (word == "char")
 		{
 			FCharacterInfo characterInfo = ReadCharacterData(fntStream, textureWidth, textureHeight);

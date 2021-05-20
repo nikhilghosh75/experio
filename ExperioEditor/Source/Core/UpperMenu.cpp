@@ -6,16 +6,16 @@
 #include "../AssetViewers/TagEditor.h"
 #include "../BuildSystem/BuildSystem.h"
 #include "../FileView/FileView.h"
+#include "../Flowcharts/FlowchartViewer.h"
 #include "../Framework/AdminTools.h"
 #include "../Framework/CreateMenu.h"
 #include "../Framework/EditorProject.h"
 #include "../Framework/ImportSystem.h"
 #include "../Framework/MetaSystem.h"
 #include "../Framework/PlaySystem.h"
-#include "../Framework/UndoSystem.h"
+#include "../Framework/SaveSystem.h"
 #include "../Framework/SceneSaver.h"
-#include "../Framework/ValueSaver.h"
-#include "../Materials/MaterialEditor.h"
+#include "../Framework/UndoSystem.h"
 #include "../Profilers/MemoryProfiler.h"
 #include "../Profilers/TimeProfiler.h"
 #include "../ProjectSettings/ProjectSettings.h"
@@ -51,7 +51,7 @@ void UpperMenu::CreateFileMenu()
 	{
 		if (ImGui::MenuItem("New Scene"))
 		{
-			SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
+			SaveSystem::SaveScene();
 			Scene::UnloadAllScenes();
 			Scene::LoadBlankScene(0);
 		}
@@ -67,7 +67,7 @@ void UpperMenu::CreateFileMenu()
 		ImGui::Separator();
 		if (ImGui::MenuItem("Save Scene"))
 		{
-			SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
+			SaveSystem::SaveScene();
 		}
 		if (ImGui::MenuItem("Save Scene As"))
 		{
@@ -77,9 +77,13 @@ void UpperMenu::CreateFileMenu()
 				SceneSaver::SaveScene(0, dialogInfo.filename + ".pbscene");
 			}
 		}
+		if (ImGui::MenuItem("Save Selected"))
+		{
+			SaveSystem::OpenSaveSelectedScreen();
+		}
 		if (ImGui::MenuItem("Save All"))
 		{
-			SaveAll();
+			SaveSystem::SaveAll();
 		}
 		ImGui::Separator();
 		if (ImGui::MenuItem("Close"))
@@ -228,15 +232,10 @@ void UpperMenu::CreateWindowMenu()
 		{
 			EditorApplication::AddModule(new AdminTools());
 		}
+		if (ImGui::MenuItem("Flowchart"))
+		{
+			EditorApplication::AddModule(new FlowchartViewer());
+		}
 		ImGui::EndMenu();
 	}
-}
-
-void UpperMenu::SaveAll()
-{
-	SceneSaver::SaveScene(0, EditorApplication::currentScenePath);
-	ValueSaver::SaveValues();
-	ProjectSettings::SaveAll();
-
-	if (MaterialEditor::materialEditor != nullptr) MaterialEditor::materialEditor->SaveMaterial();
 }

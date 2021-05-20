@@ -24,6 +24,8 @@ public:
 	void SetMaterial(const std::string& filepath);
 	void SetMaterial(Material* material, uint32_t materialType);
 
+	std::string& GetCurrentFilepath() { return filepath; }
+
 private:
 	void DisplayUniform(ShaderParamInfo paramInfo);
 };

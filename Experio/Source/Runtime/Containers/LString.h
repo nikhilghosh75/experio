@@ -73,6 +73,8 @@ public:
 
 	static bool StringToBool(const std::string& str);
 
+	static float SubstrToFloat(const std::string& str, size_t start, size_t end);
+
 	static float StringToFloat(const std::string& str);
 
 	static std::vector<float> StringToFloatVector(const std::string& str, char seperator = ' ');

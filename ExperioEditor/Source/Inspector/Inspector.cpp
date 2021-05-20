@@ -12,6 +12,8 @@
 #include "../ComponentEditor/Renderable/MeshComponentEditor.h"
 #include "../ComponentEditor/Renderable/BillboardComponentEditor.h"
 #include "../ComponentEditor/Renderable/VirtualCameraEditor.h"
+#include "../ComponentEditor/UI/ProgressBarEditor.h"
+#include "../ComponentEditor/UI/TextComponentEditor.h"
 
 using namespace Experio::Algorithm;
 
@@ -242,7 +244,14 @@ void Inspector::UpdateComponents(std::vector<unsigned int> componentIDs, std::ve
 				InsertAt(componentEditors, (ComponentEditorBase*)(new MeshEditor()), i);
 				break;
 			case 103:
-				InsertAt(componentEditors, (ComponentEditorBase*)(new BillboardEditor()), i); break;
+				InsertAt(componentEditors, (ComponentEditorBase*)(new BillboardEditor()), i); 
+				break;
+			case 104:
+				InsertAt(componentEditors, (ComponentEditorBase*)(new TextComponentEditor()), i);
+				break;
+			case 106:
+				InsertAt(componentEditors, (ComponentEditorBase*)(new ProgressBarEditor()), i);
+				break;
 			default:
 				InsertAt(componentEditors, (ComponentEditorBase*)(new GeneratedEditor(componentIDs[i], components[i])), i);
 				break;

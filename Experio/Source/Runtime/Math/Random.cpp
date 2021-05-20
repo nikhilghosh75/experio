@@ -1,4 +1,6 @@
 #include "Random.h"
+#include "../Core/Window.h"
+#include "../Input/Input.h"
 #include <cstdlib>
 
 #define LCG_M 2147483647 
@@ -26,6 +28,9 @@ float Random::Rand(ERandomGeneratorType generator)
 		return ((float)LCG_Seed) / LCG_M;
 	case ERandomGeneratorType::MersenneTwister:
 		return (float)mersenneTwister() / mersenneTwister.max();
+	case ERandomGeneratorType::TrueRandom:
+		return fmodf(Rand(ERandomGeneratorType::LinearCongruential)
+			+ Window::GetWindowData().height * 0.001f + Input::GetMousePosition().y * 0.01f, 1);
 	}
 	return 0;
 }
@@ -38,11 +43,11 @@ float Random::RandomInRange(float start, float end, ERandomGeneratorType generat
 		return start + ((float)rand() / RAND_MAX) * (float)(end - start);
 	case ERandomGeneratorType::LinearCongruential:
 		LCG_Seed = (LCG_Seed * LCG_A + LCG_C) % LCG_M;
-		return start + ((float)LCG_Seed) / (end - start);
+		return start + (((float)LCG_Seed) / (float)LCG_M) * (end - start);
 	case ERandomGeneratorType::MersenneTwister:
 		return start + (float)mersenneTwister() / (end - start);
 	}
-	return 0;
+	return start + Rand(generator) * (end - start);
 }
 
 int Random::RandomIntInRange(int start, int end, ERandomGeneratorType generator)

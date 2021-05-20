@@ -44,6 +44,18 @@ uint32_t LFontOperations::GetCharCodeOfUV(const FontData & data, const FVector2 
 	{
 		if (data.characters[i].uvCoordinates.IsInside(uv))
 		{
+			return data.characters[i].charCode;
+		}
+	}
+	return 0;
+}
+
+uint32_t LFontOperations::GetIndexOfUV(const FontData& data, const FVector2& uv)
+{
+	for (uint32_t i = 0; i < data.characters.size(); i++)
+	{
+		if (data.characters[i].uvCoordinates.IsInside(uv))
+		{
 			return i;
 		}
 	}

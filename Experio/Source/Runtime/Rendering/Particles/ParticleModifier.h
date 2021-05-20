@@ -1,6 +1,11 @@
 #pragma once
 #include "Particle.h"
-#include "../../Math/FCurve.h"
+#include "../../Math/Bezier.h"
+#include <vector>
+
+class ParticleComponent;
+
+// Default Particle Modifiers:
 
 class ParticleModifier
 {
@@ -16,46 +21,103 @@ enum class EParticleModifierType
 	SizeOverLife = 10,
 	ColorOverLife = 11,
 	VelocityOverLife = 12,
-	Gravity = 13
+	GravityOverLife = 13
 };
 
 class SizeOverLife : public ParticleModifier
 {
 public:
-	FCurve sizeXCurve;
-	FCurve sizeYCurve;
-	FCurve sizeZCurve;
+	Bezier sizeXCurve;
+	Bezier sizeYCurve;
+	Bezier sizeZCurve;
 
-	virtual void Update(FParticleData& particle) override
-	{
-		particle.scale = FVector3(sizeXCurve.GetY(particle.life), sizeYCurve.GetY(particle.life),
-			sizeZCurve.GetY(particle.life));
-	}
+	virtual void Update(FParticleData& particle) override;
 };
 
 class ColorOverLife: public ParticleModifier
 {
 public:
-	FCurve redCurve;
-	FCurve greenCurve;
-	FCurve blueCurve;
+	Bezier redCurve;
+	Bezier greenCurve;
+	Bezier blueCurve;
 
-	virtual void Update(FParticleData& particle) override
-	{
-		particle.color = FColor(redCurve.GetY(particle.life), greenCurve.GetY(particle.life), 
-			blueCurve.GetY(particle.life));
-	}
+	virtual void Update(FParticleData& particle) override;
 };
 
 class VelocityOverLife : public ParticleModifier
 {
-	FCurve speedXCurve;
-	FCurve speedYCurve;
-	FCurve speedZCurve;
+public:
+	Bezier speedXCurve;
+	Bezier speedYCurve;
+	Bezier speedZCurve;
 
-	virtual void Update(FParticleData& particle) override
+	virtual void Update(FParticleData& particle) override;
+};
+
+class GravityOverLife : public ParticleModifier
+{
+public:
+	Bezier gravityCurve;
+
+	virtual void Update(FParticleData& particle) override;
+};
+
+// Particle Modifier that only affects the start
+class StartParticleModifier
+{
+public:
+	bool isActive = true;
+
+	virtual void OnStart(ParticleComponent& component) = 0;
+};
+
+class SpawnAtStart : public StartParticleModifier
+{
+public:
+	bool isActive = true;
+
+	unsigned int numToSpawn;
+
+	virtual void OnStart(ParticleComponent& component) override;
+};
+
+enum class ESpawnMode
+{
+	None,
+	OverLife,
+	Burst
+};
+
+struct FBurstPoint
+{
+	float time;
+	unsigned int num;
+};
+
+struct FBurstSpawnInfo
+{
+	std::vector<FBurstPoint> times;
+	int currentTime;
+};
+
+class SpawnModifier
+{
+public:
+	ESpawnMode mode;
+
+	union
 	{
-		particle.speed = FVector3(speedXCurve.GetY(particle.life), speedYCurve.GetY(particle.life),
-			speedZCurve.GetY(particle.life));
-	}
+		Bezier spawnCurve; // Used in SpawnOverLife
+		FBurstSpawnInfo burstSpawnInfo; // Used in Burst
+	};
+
+	SpawnModifier();
+
+	~SpawnModifier();
+
+	void Update(ParticleComponent& component);
+
+	void UpdateOverLife(ParticleComponent& component);
+
+	void UpdateBurst(ParticleComponent& component);
 };

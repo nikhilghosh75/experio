@@ -285,15 +285,18 @@ FRect GameObject::GetCanvasSpaceRect() const
 			if (yPosition < 0)
 				yPosition = canvasHeight - yPosition;
 		}
+
+		current = current->parent;
 	}
 
 	size_t objectDepth = siblingIndexes.size();
 	for (size_t i = 0; i < objectDepth; i++)
 	{
+		current = current->children[siblingIndexes.back()];
+
 		width = MergeDimensionConstraint(width, current->rectTransform.widthConstraint);
 		height = MergeDimensionConstraint(height, current->rectTransform.heightConstraint);
 
-		current = current->children[siblingIndexes.back()];
 		siblingIndexes.pop_back();
 	}
 

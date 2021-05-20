@@ -94,6 +94,8 @@ void SceneView::HandleGizmos()
 {
 	if (SceneHierarchy::hierarchy->GetSelectedItems().size() == 0) return;
 
+	if (SceneHierarchy::hierarchy->GetSelectedItems()[0]->isUI) return;
+
 	ImGuizmo::SetOrthographic(false);
 	ImGuizmo::SetDrawlist();
 	ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowWidth(), ImGui::GetWindowHeight());

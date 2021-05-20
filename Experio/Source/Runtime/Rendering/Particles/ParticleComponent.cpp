@@ -1,4 +1,5 @@
-#include "ParticleSystem.h"
+#include "ParticleComponent.h"
+#include "ParticleReader.h"
 #include "../Shaders/ShaderReader.h"
 #include "../VertexBuffer.h"
 #include "../VertexBufferLayout.h"
@@ -12,30 +13,48 @@
 
 int particlesPerSecond = 10000;
 
-ParticleSystem::ParticleSystem(GameObject * object)
+ParticleComponent::ParticleComponent(GameObject * object)
 {
 	this->gameObject = object;
-	Start();
+
+	this->particleSystem = ParticleReader::ReadParticleSystem(
+		"C:/Users/debgh/source/repos/experio/Demo Project/Assets/Art/Particles/Particle.pbprtcle"
+	);
 }
 
-ParticleSystem::~ParticleSystem()
+ParticleComponent& ParticleComponent::operator=(const ParticleComponent& component)
+{
+	this->gameObject = component.gameObject;
+	this->particleSystem = component.particleSystem;
+
+	return *this;
+}
+
+ParticleComponent::~ParticleComponent()
 {
 	delete[] particles;
 	delete particleShader;
 }
 
-void ParticleSystem::Start()
+void ParticleComponent::Start()
 {
 	maxParticles = GetMaxParticles();
 	particles = new FParticleData[maxParticles];
+
 	particleShader = ShaderReader::ReadShader(
 		"C:/Users/debgh/source/repos/project-bloo/project-georgey/Resources/Standard/Shaders/Particle.shader"
 	);
+
+	particleTime = 0;
+
+	particleSystem.Start(*this);
 }
 
-void ParticleSystem::Update()
+void ParticleComponent::Update()
 {
 	PROFILE_SCOPE("Particle Update");
+
+	particleTime += GameTime::deltaTime;
 
 	int newParticles = (int)(particlesPerSecond * GameTime::deltaTime);
 	FVector3 mainDirection = FVector3(0, 10.0f, 0.0f);
@@ -207,7 +226,17 @@ void ParticleSystem::Update()
 	glDeleteVertexArrays(1, &vertexArray);
 }
 
-int ParticleSystem::FindUnusedParticle()
+void ParticleComponent::SpawnParticles(unsigned int numParticles)
+{
+	for (unsigned int i = 0; i < numParticles; i++)
+	{
+		int particleIndex = FindUnusedParticle();
+		particles[particleIndex].life = particleSystem.defaultLifetime;
+		particles[particleIndex].position = gameObject->GetPosition();
+	}
+}
+
+int ParticleComponent::FindUnusedParticle()
 {
 	for (int i = lastUsedParticle; i < maxParticles; i++) {
 		if (particles[i].life < 0) {
@@ -226,8 +255,13 @@ int ParticleSystem::FindUnusedParticle()
 	return 0;
 }
 
-unsigned int ParticleSystem::GetMaxParticles() const
+unsigned int ParticleComponent::GetMaxParticles() const
 {
 	// ADD CALCULATIONS HERE
 	return 100000;
+}
+
+float ParticleComponent::GetParticleTime() const
+{
+	return 0.0f;
 }

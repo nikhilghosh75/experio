@@ -45,6 +45,16 @@ DatatableRow Datatable::operator[](uint32_t rowIndex)
 	return DatatableRow(this, rowIndex);
 }
 
+DatatableRow Datatable::GetRow(uint32_t rowIndex)
+{
+	return DatatableRow(this, rowIndex);
+}
+
+DatatableColumn Datatable::GetColumn(uint32_t columnIndex)
+{
+	return DatatableColumn(this, columnIndex);
+}
+
 DatatableEntry Datatable::Get(uint32_t row, uint32_t column)
 {
 	EDataColumnType columnType = this->columnTypes[column];
@@ -167,6 +177,7 @@ DatatableEntry DatatableRow::operator[](uint32_t columnIndex) const
 DatatableColumn::DatatableColumn()
 {
 	this->table = nullptr;
+	this->internalColumnIndex = 0;
 	this->columnIndex = 0;
 	this->columnType = EDataColumnType::NONE;
 }
@@ -175,17 +186,29 @@ DatatableColumn::DatatableColumn(Datatable * table, uint32_t columnIndex)
 {
 	this->table = table;
 	this->columnType = table->columnTypes[columnIndex];
-	this->columnIndex = 0;
+	this->columnIndex = columnIndex;
+	this->internalColumnIndex = 0;
 
-	for (uint32_t i = 0; i < table->columnTypes.size(); i++)
+	for (uint32_t i = 0; i < columnIndex; i++)
 	{
-		if (table->columnTypes[i] == columnType) this->columnIndex++;
+		if (table->columnTypes[i] == columnType) this->internalColumnIndex++;
 	}
+}
+
+const std::string& DatatableColumn::ColumnName() const
+{
+	if (table == nullptr)
+		return "";
+
+	if (table->columnTitles.size() >= columnIndex)
+		return "";
+
+	return table->columnTitles[columnIndex];
 }
 
 DatatableEntry DatatableColumn::operator[](uint32_t rowIndex) const
 {
-	return DatatableEntry(this->table, rowIndex, this->columnIndex, this->columnType);
+	return DatatableEntry(this->table, rowIndex, this->internalColumnIndex, this->columnType);
 }
 
 DatatableEntry::DatatableEntry()

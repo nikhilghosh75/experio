@@ -68,6 +68,7 @@ size_t LOpenGL::GetImageFormat(EImageInternalFormat format)
 	case EImageInternalFormat::RGBA: return GL_RGBA;
 	case EImageInternalFormat::BGR: return GL_BGR;
 	case EImageInternalFormat::BGRA: return GL_BGRA;
+	case EImageInternalFormat::A: return GL_ALPHA;
 	}
 
 	return GL_RGB;
@@ -77,6 +78,7 @@ size_t LOpenGL::GetInternalFormat(EImageEncoding encoding)
 {
 	switch (encoding)
 	{
+	case EImageEncoding::Alpha: return GL_ALPHA;
 	case EImageEncoding::Grayscale: return GL_RED;
 	case EImageEncoding::GrayscaleAlpha: return GL_RG8;
 	case EImageEncoding::Truecolor: return GL_RGB8;

@@ -20,10 +20,12 @@
     <ClInclude Include="Source\Runtime\Containers\Algorithm.h" />
     <ClInclude Include="Source\Runtime\Containers\Iterator.h" />
     <ClInclude Include="Source\Runtime\Containers\LString.h" />
+    <ClInclude Include="Source\Runtime\Containers\THeap.h" />
     <ClInclude Include="Source\Runtime\Containers\TMap.h" />
     <ClInclude Include="Source\Runtime\Containers\TSet.h" />
     <ClInclude Include="Source\Runtime\Core\SystemMetrics.h" />
     <ClInclude Include="Source\Runtime\Data\CategoryMap.h" />
+    <ClInclude Include="Source\Runtime\Data\CSVWriter.h" />
     <ClInclude Include="Source\Runtime\Data\DataManager.h" />
     <ClInclude Include="Source\Runtime\Data\Regression.h" />
     <ClInclude Include="Source\Runtime\DefaultComponents.h" />
@@ -116,6 +118,7 @@
     <ClInclude Include="Source\Runtime\Rendering\Managers\MeshManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Managers\TextureManager.h" />
     <ClInclude Include="Source\Runtime\Rendering\Particles\Particle.h" />
+    <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleComponent.h" />
     <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleModifier.h" />
     <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleReader.h" />
     <ClInclude Include="Source\Runtime\Rendering\Particles\ParticleSystem.h" />
@@ -159,6 +162,8 @@
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
     <ClInclude Include="Source\Runtime\UI\Canvas.h" />
     <ClInclude Include="Source\Runtime\UI\ImageComponent.h" />
+    <ClInclude Include="Source\Runtime\UI\Panel.h" />
+    <ClInclude Include="Source\Runtime\UI\ProgressBar.h" />
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
     <ClInclude Include="Source\Runtime\UI\UIColorPalettes.h" />
@@ -213,6 +218,7 @@
     <ClCompile Include="Source\Runtime\Core\SystemMetrics.cpp" />
     <ClCompile Include="Source\Runtime\Core\Window.cpp" />
     <ClCompile Include="Source\Runtime\Core\LWindowOperations.cpp" />
+    <ClCompile Include="Source\Runtime\Data\CSVWriter.cpp" />
     <ClCompile Include="Source\Runtime\Data\DataManager.cpp" />
     <ClCompile Include="Source\Runtime\Data\Datatable.cpp" />
     <ClCompile Include="Source\Runtime\Data\LStatistics.cpp" />
@@ -272,6 +278,8 @@
     <ClCompile Include="Source\Runtime\Rendering\Managers\FontManager.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Managers\MeshManager.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Managers\TextureManager.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleComponent.cpp" />
+    <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleModifier.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleReader.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Particles\ParticleSystem.cpp" />
     <ClCompile Include="Source\Runtime\Rendering\Components\Billboard.cpp" />
@@ -305,6 +313,8 @@
     <ClCompile Include="Source\Runtime\Time\GameTime.cpp" />
     <ClCompile Include="Source\Runtime\UI\Canvas.cpp" />
     <ClCompile Include="Source\Runtime\UI\ImageComponent.cpp" />
+    <ClCompile Include="Source\Runtime\UI\Panel.cpp" />
+    <ClCompile Include="Source\Runtime\UI\ProgressBar.cpp" />
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\UIColorPalettes.cpp" />
@@ -327,6 +337,11 @@
     <None Include="Resources\Standard\Shaders\Text2D.shader" />
     <None Include="Resources\Test\TestAssetMap.pbasmap" />
     <None Include="Resources\Test\TestProject.pbcodeproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\Standard\Shaders\ProgressBar.shader" />
+    <Text Include="Resources\Standard\Shaders\ColorPanel.shader" />
+    <Text Include="Resources\Standard\Shaders\TexturedPanel.shader" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
