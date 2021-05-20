@@ -50,4 +50,13 @@ public:
 	{
 		tree.Remove(item);
 	}
+
+	std::vector<T> Extract()
+	{
+		std::vector<T> elems;
+
+		tree.ForEachInOrder([&elems](const T& item) {elems.push_back(item); });
+
+		return elems;
+	}
 };
