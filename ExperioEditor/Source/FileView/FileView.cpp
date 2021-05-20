@@ -105,9 +105,9 @@ void FileView::DisplayImportMenu()
 void FileView::DisplayMenuBar()
 {
 	static const std::vector<std::string> fileTypes = { "Audio", "Animation", "Code",
-		"Data", "Font", "Image", "Input Map", "H", "Markup", "Material", "Mesh", "Meta",
-		"NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Soundbank", "Style",
-		"Text","Video"
+		"Data", "Flowchart", "Font", "Image", "Input Map", "H", "Markup", "Material", "Mesh", 
+		"Meta", "NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Soundbank", 
+		"Style", "Text","Video"
 	};
 	if (ImGui::BeginMenuBar())
 	{

@@ -7,6 +7,7 @@ enum class EAssetType : uint8_t
 	Animation,
 	CPP,
 	Data,
+	Flowchart,
 	Font,
 	Image,
 	InputMap,

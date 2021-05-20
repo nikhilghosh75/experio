@@ -16,6 +16,7 @@ std::string LFileOperations::AssetTypeToString(EAssetType type)
 	case EAssetType::CPP: return "C++";
 	case EAssetType::Data: return "Data";
 	case EAssetType::Directory: return "Directory";
+	case EAssetType::Flowchart: return "Flowchart";
 	case EAssetType::Font: return "Font";
 	case EAssetType::H: return "H";
 	case EAssetType::Image: return "Image";
@@ -336,10 +337,13 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	// CPP
 	PB_COMPARE_EXT("cpp", EAssetType::CPP);
 
-	//Data
+	// Data
 	PB_COMPARE_EXT("pbnumdata", EAssetType::Data);
 	PB_COMPARE_EXT("csv", EAssetType::Data);
 	PB_COMPARE_EXT("xlsx", EAssetType::Data);
+
+	// Flowchart
+	PB_COMPARE_EXT("pbflow", EAssetType::Flowchart);
 
 	// Font
 	PB_COMPARE_EXT("fnt", EAssetType::Font);
@@ -587,6 +591,7 @@ EAssetType LFileOperations::StringToAssetType(const std::string & str)
 	if (str == "C++") return EAssetType::CPP;
 	if (str == "Data") return EAssetType::Data;
 	if (str == "Directory") return EAssetType::Directory;
+	if (str == "Flowchart") return EAssetType::Flowchart;
 	if (str == "Font") return EAssetType::Font;
 	if (str == "H") return EAssetType::H;
 	if (str == "Image") return EAssetType::Image;
