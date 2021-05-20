@@ -6,6 +6,7 @@
 #include "../AssetViewers/TagEditor.h"
 #include "../BuildSystem/BuildSystem.h"
 #include "../FileView/FileView.h"
+#include "../Flowcharts/FlowchartViewer.h"
 #include "../Framework/AdminTools.h"
 #include "../Framework/CreateMenu.h"
 #include "../Framework/EditorProject.h"
@@ -230,6 +231,10 @@ void UpperMenu::CreateWindowMenu()
 		if (ImGui::MenuItem("Admin"))
 		{
 			EditorApplication::AddModule(new AdminTools());
+		}
+		if (ImGui::MenuItem("Flowchart"))
+		{
+			EditorApplication::AddModule(new FlowchartViewer());
 		}
 		ImGui::EndMenu();
 	}

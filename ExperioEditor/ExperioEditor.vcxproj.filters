@@ -297,6 +297,15 @@
     <ClCompile Include="Source\ComponentEditor\UI\ProgressBarEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Flowcharts\FlowchartReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flowcharts\FlowchartViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flowcharts\FlowchartSaver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\EditorWindow.h">
@@ -630,6 +639,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\ComponentEditor\UI\ProgressBarEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flowcharts\Flowchart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flowcharts\FlowchartReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flowcharts\FlowchartViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flowcharts\FlowchartSaver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
