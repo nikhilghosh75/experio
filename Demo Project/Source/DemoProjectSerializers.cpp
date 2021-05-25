@@ -8,7 +8,7 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 	{
 		case 104: return std::vector<std::string>({ "margins", "fontSize", "font", "text", "color", "horizontalWrapMode", "verticalWrapMode", "spacing", "shader", "text"});
 		case 1024: return std::vector<std::string>({ "isActive = false", "isAccelerating = false", "acceleration", "topSpeed"});
-		case 105: return std::vector<std::string>({ "texture"});
+		case 105: return std::vector<std::string>({ "texture", "tint"});
 		case 106: return std::vector<std::string>({ "minValue", "maxValue", "value", "backgroundColor", "barColor", "shader", "mode"});
 		case 107: return std::vector<std::string>({ "roundedPixels", "color", "texture"});
 		case 100: return std::vector<std::string>({ "priority", "fieldOfView", "nearClipPlane", "farClipPlane"});
@@ -44,6 +44,7 @@ template<> void SetComponentParams(std::vector<std::string> params, Spaceship* c
 template<> void SetComponentParams(std::vector<std::string> params, ImageComponent* component)
 {
 	component->texture = ParseTexture(params[0]);
+	component->tint = ParseColor(params[1]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, ProgressBar* component)
@@ -116,6 +117,7 @@ template<> void SetComponentBinaryParams(void* data, Spaceship* component)
 template<> void SetComponentBinaryParams(void* data, ImageComponent* component)
 {
 	component->texture = BinaryParseTexture((void*)((char*)data + 0));
+	component->tint = BinaryParseColor((void*)((char*)data + 4));
 }
 
 template<> void SetComponentBinaryParams(void* data, ProgressBar* component)
@@ -218,7 +220,7 @@ size_t SerializedSizeOfComponent(unsigned int classId)
 	{
 		case 104: return 46;
 		case 1024: return 8;
-		case 105: return 4;
+		case 105: return 20;
 		case 106: return 45;
 		case 107: return 24;
 		case 100: return 16;

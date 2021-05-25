@@ -193,6 +193,7 @@ void EditorProject::TempSetupClasses()
 	CodeClass imageComponent("ImageComponent");
 	imageComponent.inheritance.emplace_back("Component");
 	imageComponent.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
+	imageComponent.params.emplace_back("FColor", "tint", ECodeAccessType::Public);
 
 	CodeClass progressBar("ProgressBar");
 	progressBar.inheritance.emplace_back("Component");

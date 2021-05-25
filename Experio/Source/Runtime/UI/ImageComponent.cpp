@@ -2,6 +2,7 @@
 #include "Canvas.h"
 #include "../Rendering/Renderer.h"
 #include "../Core/Window.h"
+#include "../Rendering/Shaders/ShaderReader.h"
 
 const FRect ImageComponent::imageUVRect = FRect(0, 0, 1, 1);
 
@@ -17,7 +18,7 @@ ImageComponent::ImageComponent(GameObject* gameObject)
 
 void ImageComponent::Start()
 {
-
+	shader = Renderer::imageShader;
 }
 
 void ImageComponent::Update()
@@ -36,5 +37,8 @@ void ImageComponent::Update()
 
 	Renderer::Get()->SetBlend(true, EBlendFunc::OneMinusSourceColor);
 
-	Renderer::Get()->DrawQuad(*texture, nullptr, imageUVRect, rect);
+	shader->Bind();
+	shader->SetUniformVec4("imageTint", glm::vec4(tint.r, tint.g, tint.b, tint.a));
+
+	Renderer::Get()->DrawQuad(*texture, shader, imageUVRect, rect);
 }
