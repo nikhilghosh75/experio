@@ -56,8 +56,12 @@ void TextComponent::SetCapacity(uint32_t newCapacity)
 	if (uvs != nullptr)
 		delete[] uvs;
 
+	if (offsets != nullptr)
+		delete[] offsets;
+
 	verticies = new glm::vec2[6 * newCapacity];
 	uvs = new glm::vec2[6 * newCapacity];
+	offsets = new glm::vec2[6 * newCapacity];
 
 	capacity = newCapacity;
 }
@@ -75,10 +79,7 @@ void TextComponent::RenderText()
 		return;
 	}
 
-	unsigned int length = this->text.size();
-
-	if (length > capacity)
-		SetCapacity(length + 1);
+	SetupRendering();
 
 	float canvasWidth = Canvas::GetCanvasWidth();
 	float canvasHeight = Canvas::GetCanvasHeight();
@@ -89,9 +90,7 @@ void TextComponent::RenderText()
 	rect.max.x /= canvasWidth;
 	rect.max.y /= canvasHeight;
 
-	FWindowData data;
-	data.height = canvasHeight;
-	data.width = canvasWidth;
+	FWindowData data(canvasWidth, canvasHeight);
 
 	float clippedSize = LWindowOperations::PixelToNormalizedSize(data, fontSize * 1.333f, EWindowAxisType::Y);
 	float clippedSpacing = LWindowOperations::PixelToNormalizedSize(data, spacing * 2, EWindowAxisType::Y);
@@ -103,7 +102,7 @@ void TextComponent::RenderText()
 
 	unsigned int actualLength = 0;
 
-	for (unsigned int i = 0; i < length; i++)
+	for (unsigned int i = 0; i < text.size(); i++)
 	{
 		if (ShouldStopRendering(currentCursorLocation, rect))
 			break;
@@ -114,6 +113,7 @@ void TextComponent::RenderText()
 		FVector2 charOffset = LWindowOperations::PixelToNormalizedPos(data, charInfo.offset);
 		float charPixelWidth = charInfo.uvCoordinates.GetWidth() * bitmapWidth * fontSize / font->defaultFontSize;
 		float charWidth = LWindowOperations::PixelToNormalizedSize(data, charPixelWidth, EWindowAxisType::X);
+		lineWidths.back() += charWidth;
 		
 		glm::vec2 vertexUpLeft = glm::vec2(currentCursorLocation.x + charOffset.x, currentCursorLocation.y - charOffset.y);
 		glm::vec2 vertexUpRight = glm::vec2(currentCursorLocation.x + charOffset.x + charWidth, currentCursorLocation.y - charOffset.y);
@@ -131,17 +131,22 @@ void TextComponent::RenderText()
 		actualLength++;
 	}
 
-	VertexBuffer vertexBuffer(verticies, sizeof(glm::vec2) * actualLength * 6);
-	VertexBuffer uvBuffer(uvs, sizeof(glm::vec2) * actualLength * 6);
+	SetOffsets();
 
-	VertexBufferLayout vertexLayout, uvLayout;
+	VertexBuffer vertexBuffer(verticies, sizeof(glm::vec2) * actualLength * 6, false);
+	VertexBuffer uvBuffer(uvs, sizeof(glm::vec2) * actualLength * 6, false);
+	VertexBuffer offsetBuffer(offsets, sizeof(glm::vec2) * actualLength * 6, false);
+
+	VertexBufferLayout vertexLayout, uvLayout, offsetLayout;
 	vertexLayout.PushFloat(2);
 	uvLayout.PushFloat(2);
+	offsetLayout.PushFloat(2);
 
 	VertexArray va;
 	va.Bind();
 	va.AddBuffer(&vertexBuffer, vertexLayout);
 	va.AddBuffer(&uvBuffer, uvLayout);
+	va.AddBuffer(&offsetBuffer, offsetLayout);
 
 	shader->Bind();
 	shader->SetUniformInt("textureSampler", 10);
@@ -151,7 +156,7 @@ void TextComponent::RenderText()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glDrawArrays(GL_TRIANGLES, 0, 6 * length);
+	glDrawArrays(GL_TRIANGLES, 0, 6 * actualLength);
 
 	glDisable(GL_BLEND);
 }
@@ -159,6 +164,18 @@ void TextComponent::RenderText()
 bool TextComponent::IsSpecialChar(char c) const
 {
 	return c == 32;
+}
+
+void TextComponent::SetupRendering()
+{
+	unsigned int length = this->text.size();
+
+	if (length > capacity)
+		SetCapacity(length + 1);
+
+	lineWidths.clear();
+	lineWidths.push_back(0);
+	numLines = 1;
 }
 
 void TextComponent::SetVertices(unsigned int i, glm::vec2 upLeft, glm::vec2 upRight, glm::vec2 downLeft, glm::vec2 downRight)
@@ -181,7 +198,12 @@ void TextComponent::SetUVs(unsigned int i, FVector2 uvMin, FVector2 uvMax)
 	uvs[i * 6 + 5] = glm::vec2(uvMin.x, uvMax.y);
 }
 
-FVector2 TextComponent::GetNextCursorPosition(FVector2 cursorPosition, FRect rect, float clippedSize, float clippedSpacing, const FCharacterInfo& charInfo, const FWindowData& data) const
+void TextComponent::SetOffsets()
+{
+	
+}
+
+FVector2 TextComponent::GetNextCursorPosition(FVector2 cursorPosition, FRect rect, float clippedSize, float clippedSpacing, const FCharacterInfo& charInfo, const FWindowData& data)
 {
 	int xAdvance = charInfo.xAdvance * fontSize / font->defaultFontSize;
 	float clippedXAdvance = LWindowOperations::PixelToNormalizedSize(data, xAdvance, EWindowAxisType::X);
@@ -191,11 +213,14 @@ FVector2 TextComponent::GetNextCursorPosition(FVector2 cursorPosition, FRect rec
 		if (cursorPosition.x + clippedXAdvance > rect.max.x)
 		{
 			float clippedMargin = LWindowOperations::PixelToNormalizedSize(data, margins, EWindowAxisType::X);
+			numLines++;
+			lineWidths.push_back(0);
 			return FVector2(rect.min.x + clippedMargin, cursorPosition.y - clippedSize - clippedSpacing);
 		}
 	}
 
 	FVector2 cursorMoveVec = FVector2(clippedXAdvance, 0);
+	lineWidths.back() += clippedXAdvance;
 	return cursorPosition + cursorMoveVec;
 }
 
