@@ -5,9 +5,8 @@
 #include "GL/wglext.h"
 #include <tchar.h>
 #include "imgui.h"
-#include "imgui_demo.h"
-#include "examples/imgui_impl_win32.h"
-#include "examples/imgui_impl_opengl3.h"
+#include "backends/imgui_impl_win32.h"
+#include "backends/imgui_impl_opengl3.h"
 #include "imgui_internal.h"
 
 #include "EditorWindow.h"
