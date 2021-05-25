@@ -112,12 +112,17 @@ public:
 	};
 
 	SpawnModifier();
+	SpawnModifier(ESpawnMode newMode);
 
 	~SpawnModifier();
 
+	void SetMode(ESpawnMode newMode);
+
 	void Update(ParticleComponent& component);
 
-	void UpdateOverLife(ParticleComponent& component);
+private:
+
+	void UpdateSpawnOverLife(ParticleComponent& component);
 
 	void UpdateBurst(ParticleComponent& component);
 };

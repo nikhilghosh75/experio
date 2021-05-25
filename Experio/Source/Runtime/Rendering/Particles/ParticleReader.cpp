@@ -14,16 +14,28 @@ ParticleSystem ParticleReader::ReadParticleSystem(const std::string & filepath)
 	XMLTree particleTree = reader.ReadFile(filepath);
 	XMLTreeNode* modifiersNode = particleTree.GetRoot()->children[1];
 
-	for (size_t i = 0; i < modifiersNode->children.size(); i++)
+	ParseSpawn(modifiersNode->children[0], system);
+	for (size_t i = 1; i < modifiersNode->children.size(); i++)
 	{
 		XMLTreeNode* currentNode = modifiersNode->children[i];
-		if (currentNode->object.nodeType == "SizeOverLife")
-			ParseSizeOverLife(currentNode, system);
-		else if (currentNode->object.nodeType == "ColorOverLife")
-			ParseColorOverLife(currentNode, system);
+		ParseNode(currentNode, system);
 	}
 
 	return system;
+}
+
+void ParticleReader::ParseNode(XMLTreeNode* node, ParticleSystem& system)
+{
+	if (node->object.nodeType == "SizeOverLife")
+		ParseSizeOverLife(node, system);
+	else if (node->object.nodeType == "ColorOverLife")
+		ParseColorOverLife(node, system);
+	else if (node->object.nodeType == "VelocityOverLife")
+		ParseVelocityOverLife(node, system);
+	else if (node->object.nodeType == "GravityOverLife")
+		ParseGravityOverLife(node, system);
+	else if (node->object.nodeType == "SpawnAtStart")
+		ParseSpawnAtStart(node, system);
 }
 
 void ParticleReader::ParseSizeOverLife(XMLTreeNode* node, ParticleSystem & system)
@@ -66,6 +78,107 @@ void ParticleReader::ParseColorOverLife(XMLTreeNode * node, ParticleSystem & sys
 	ParseCurve(blueCurveNode, colorOverLife->blueCurve);
 }
 
+void ParticleReader::ParseVelocityOverLife(XMLTreeNode* node, ParticleSystem& system)
+{
+	if (node->children.size() < 3)
+	{
+		Debug::LogError("Particle System node \"VelocityOverLife\" does not the proper number of nodes");
+		return;
+	}
+
+	system.modifiers.push_back(new VelocityOverLife());
+	VelocityOverLife* velocityOverLife = (VelocityOverLife*)system.modifiers.back();
+
+	XMLTreeNode* xCurveNode = node->children[0];
+	XMLTreeNode* yCurveNode = node->children[1];
+	XMLTreeNode* zCurveNode = node->children[2];
+
+	ParseCurve(xCurveNode, velocityOverLife->speedXCurve);
+	ParseCurve(yCurveNode, velocityOverLife->speedYCurve);
+	ParseCurve(zCurveNode, velocityOverLife->speedZCurve);
+}
+
+void ParticleReader::ParseGravityOverLife(XMLTreeNode* node, ParticleSystem& system)
+{
+	if (node->children.size() < 1)
+	{
+		Debug::LogError("Particle System node \"GravityOverLife\" does not the proper number of nodes");
+		return;
+	}
+
+	system.modifiers.push_back(new GravityOverLife());
+	GravityOverLife* gravityOverLife = (GravityOverLife*)system.modifiers.back();
+
+	XMLTreeNode* gravityCurveNode = node->children[0];
+
+	ParseCurve(gravityCurveNode, gravityOverLife->gravityCurve);
+}
+
+void ParticleReader::ParseSpawnAtStart(XMLTreeNode* node, ParticleSystem& system)
+{
+	if (node->children.size() < 1)
+	{
+		Debug::LogError("Particle System node \"SpawnAtStart\" does not the proper number of modifiers");
+		return;
+	}
+
+	system.startModifiers.push_back(new SpawnAtStart());
+	SpawnAtStart* spawnAtStart = (SpawnAtStart*)system.startModifiers.back();
+
+	spawnAtStart->numToSpawn = LString::StringToUInt(node->object.modifiers[0].content);
+}
+
+void ParticleReader::ParseSpawn(XMLTreeNode* node, ParticleSystem& system)
+{
+	if (node->children.size() < 1)
+	{
+		Debug::LogError("Particle System node \"Spawn\" does not the proper number of modifiers");
+		return;
+	}
+
+	system.spawnModifier.mode = StringToMode(node->children[0]->object.content);
+	
+	switch (system.spawnModifier.mode)
+	{
+	case ESpawnMode::OverLife:
+		ParseCurve(node->children[1], system.spawnModifier.spawnCurve); break;
+	case ESpawnMode::Burst:
+		ParseBurstSpawnInfo(node->children[1], system.spawnModifier.burstSpawnInfo); break;
+	}
+}
+
+void ParticleReader::ParseBurstSpawnInfo(XMLTreeNode* node, FBurstSpawnInfo& burstSpawn)
+{
+	if (node->object.nodeType != "Points")
+	{
+		Debug::LogError("Burst Spawn Info is not correct");
+		return;
+	}
+
+	if (node->children.size() == 0)
+	{
+		Debug::LogError("Burst Spawn Info is empty");
+		return;
+	}
+
+	for (size_t i = 0; i < node->children.size(); i++)
+	{
+		FBurstPoint point = ParseBurstPoint(node->children[i]->object.content);
+		burstSpawn.times.push_back(point);
+	}
+}
+
+FBurstPoint ParticleReader::ParseBurstPoint(const std::string& str)
+{
+	FBurstPoint point;
+
+	size_t commaPosition = LString::FindFirstOfChar(str, ',');
+	point.num = LString::SubstrToUInt(str, 1, commaPosition - 1);
+	point.time = LString::SubstrToUInt(str, commaPosition, str.size());
+
+	return point;
+}
+
 void ParticleReader::ParseCurve(XMLTreeNode* node, Bezier& bezier)
 {
 	if (node->object.nodeType != "Curve")
@@ -98,5 +211,13 @@ void ParticleReader::ParseCurvePoint(XMLNode& node1, XMLNode& node2, Bezier& bez
 	float endX = LString::SubstrToFloat(endStr, 0, endStr.find(','));
 	float endY = LString::SubstrToFloat(endStr, endStr.find(','), endStr.size());
 	bezier.Insert(startX, startY, endX, endY);
+}
+
+ESpawnMode ParticleReader::StringToMode(const std::string& str)
+{
+	if (str == "OverLife") return ESpawnMode::OverLife;
+	if (str == "Burst") return ESpawnMode::Burst;
+
+	return ESpawnMode::None;
 }
 

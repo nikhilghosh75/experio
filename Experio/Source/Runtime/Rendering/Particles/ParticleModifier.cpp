@@ -43,28 +43,58 @@ void SpawnAtStart::OnStart(ParticleComponent& component)
 
 SpawnModifier::SpawnModifier()
 {
+	mode = ESpawnMode::None;
+}
 
+SpawnModifier::SpawnModifier(ESpawnMode newMode)
+{
+	this->mode = newMode;
 }
 
 SpawnModifier::~SpawnModifier()
 {
+}
 
+void SpawnModifier::SetMode(ESpawnMode newMode)
+{
+	mode = newMode;
+	switch (mode)
+	{
+	case ESpawnMode::Burst:
+		burstSpawnInfo.currentTime = 0;
+		break;
+	}
 }
 
 void SpawnModifier::Update(ParticleComponent& component)
 {
 	switch (mode)
 	{
+	case ESpawnMode::OverLife: UpdateSpawnOverLife(component); break;
 	case ESpawnMode::Burst: UpdateBurst(component); break;
-	case ESpawnMode::OverLife: UpdateOverLife(component); break;
 	}
 }
 
-void SpawnModifier::UpdateOverLife(ParticleComponent& component)
+void SpawnModifier::UpdateSpawnOverLife(ParticleComponent& component)
 {
-	unsigned int numToSpawn = spawnCurve.Get(component.) * GameTime::deltaTime;
+	unsigned int particlesToSpawn = spawnCurve.Get(component.GetParticleTime()) * GameTime::deltaTime;
+	component.SpawnParticles(particlesToSpawn);
 }
 
 void SpawnModifier::UpdateBurst(ParticleComponent& component)
 {
+	if (burstSpawnInfo.currentTime == burstSpawnInfo.times.size())
+	{
+		burstSpawnInfo.currentTime = 0;
+	}
+
+	float nextBurstTime = burstSpawnInfo.times[burstSpawnInfo.currentTime].time;
+	if (component.GetParticleTime() < nextBurstTime)
+	{
+		unsigned int particlesToSpawn = burstSpawnInfo.times[burstSpawnInfo.currentTime].num;
+		component.SpawnParticles(particlesToSpawn);
+
+		burstSpawnInfo.currentTime++;
+	}
 }
+

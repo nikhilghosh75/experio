@@ -23,4 +23,6 @@ public:
 	std::vector<ParticleModifier*> modifiers;
 
 	void Start(ParticleComponent& component);
+
+	void Update(ParticleComponent& component);
 };

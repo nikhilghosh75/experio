@@ -3,6 +3,7 @@
 #include "ParticleSystem.h"
 #include "../Shaders/Shader.h"
 #include "../../Framework/Framework.h"
+#include "../Managers/MeshManager.h"
 
 class ParticleComponent : public Component
 {
@@ -17,11 +18,12 @@ class ParticleComponent : public Component
 public:
 	Shader* particleShader;
 	ParticleSystem particleSystem;
+	MeshRef particleMesh;
 
 	ParticleComponent() {};
 	ParticleComponent(GameObject* object);
 
-	ParticleComponent& operator=(const ParticleComponent& component);
+	ParticleComponent& operator=(const ParticleComponent& component) = default;
 
 	~ParticleComponent();
 
@@ -32,7 +34,22 @@ public:
 	void SpawnParticles(unsigned int numParticles);
 
 private:
+	FColor* particleColors;
+	FVector3* particlePositions;
+
 	int FindUnusedParticle();
+
+	void CheckForNull();
+
+	unsigned int PopulateVectors();
+
+	void SetUniforms();
+
+	void AddVertexBuffer(VertexArray& va);
+	void AddPositionBuffer(VertexArray& va, unsigned int particleCount);
+	void AddColorBuffer(VertexArray& va, unsigned int particleCount);
+
+	void DrawParticles(unsigned int particleCount);
 
 public:
 	unsigned int GetMaxParticles() const;
