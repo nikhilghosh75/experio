@@ -5,6 +5,12 @@
 #include "Runtime/Files/Filemask.h"
 #include <string>
 
+enum class EFileViewMode
+{
+	Button,
+	Table
+};
+
 class FileView : public EditorModule
 {
 	std::string assetFilePath;
@@ -14,6 +20,8 @@ class FileView : public EditorModule
 	TTypedTree<std::string>* directories;
 
 	Filemask fileMask;
+
+	EFileViewMode viewMode;
 
 	// Change Later
 	bool filesSelected[21];
@@ -25,6 +33,10 @@ class FileView : public EditorModule
 	void DisplayContextMenu();
 	void DisplayTree();
 	void DisplayContents();
+
+	void DisplayContentsButtonView();
+
+	void DisplayContentsTableView();
 
 	void OpenCreateMenus();
 
