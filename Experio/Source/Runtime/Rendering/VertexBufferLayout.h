@@ -35,6 +35,10 @@ public:
 	void PushUnsignedInt(int count);
 	void PushUnsignedChar(int count);
 
+	void PushFloat(int count, bool isNormalized);
+	void PushUnsignedInt(int count, bool isNormalized);
+	void PushUnsignedChar(int count, bool isNormalized);
+
 	unsigned int GetStride() const;
 	std::vector<FVertexBufferElement> GetElements() const;
 };

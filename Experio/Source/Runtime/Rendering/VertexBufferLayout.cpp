@@ -23,6 +23,25 @@ void VertexBufferLayout::PushUnsignedChar(int count)
 	stride += LOpenGL::GetSizeOfType(GL_UNSIGNED_BYTE) * count;
 }
 
+void VertexBufferLayout::PushFloat(int count, bool isNormalized)
+{
+	elements.emplace_back(count, GL_FLOAT, isNormalized);
+	stride += LOpenGL::GetSizeOfType(GL_FLOAT) * count;
+}
+
+void VertexBufferLayout::PushUnsignedInt(int count, bool isNormalized)
+{
+	elements.emplace_back(count, GL_UNSIGNED_INT, isNormalized);
+	stride += LOpenGL::GetSizeOfType(GL_UNSIGNED_INT) * count;
+}
+
+void VertexBufferLayout::PushUnsignedChar(int count, bool isNormalized)
+{
+	elements.emplace_back(count, GL_UNSIGNED_BYTE, isNormalized);
+	stride += LOpenGL::GetSizeOfType(GL_UNSIGNED_BYTE) * count;
+}
+
+
 unsigned int VertexBufferLayout::GetStride() const
 {
 	return stride;

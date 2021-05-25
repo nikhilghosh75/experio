@@ -27,6 +27,7 @@ private:
 	void* data;
 	unsigned int size; // in bytes
 	EDataType dataType;
+	bool deleteOnDestroy;
 
 public:
 	VertexBuffer();
@@ -35,6 +36,7 @@ public:
 	VertexBuffer(const void* data, unsigned int size);
 	VertexBuffer(const void* data, unsigned int size, unsigned int dataType);
 	VertexBuffer(const void* data, unsigned int size, EDataType dataType);
+	VertexBuffer(void* data, unsigned int size, bool deleteOnDestroy);
 	~VertexBuffer();
 
 	void Bind() const;
