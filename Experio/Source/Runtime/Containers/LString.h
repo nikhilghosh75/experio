@@ -83,6 +83,8 @@ public:
 
 	static uint8_t StringToUByte(const std::string& str);
 
+	static unsigned int SubstrToUInt(const std::string& str, size_t start, size_t end);
+
 	static unsigned int StringToUInt(const std::string& str);
 
 	static std::string ToCamelCase(const std::string& str);

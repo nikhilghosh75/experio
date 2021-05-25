@@ -231,6 +231,19 @@ uint8_t LString::StringToUByte(const std::string& str)
 	return unsignedByte;
 }
 
+unsigned int LString::SubstrToUInt(const std::string& str, size_t start, size_t end)
+{
+	unsigned int unsignedInteger = 0;
+	for (size_t i = start; i < end; i++)
+	{
+		if (IsNumeric(str[i]))
+		{
+			unsignedInteger = (unsignedInteger * 10) + CharToInt(str[i]);
+		}
+	}
+	return unsignedInteger;
+}
+
 unsigned int LString::StringToUInt(const std::string & str)
 {
 	unsigned int unsignedInteger = 0;
