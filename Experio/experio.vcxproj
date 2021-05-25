@@ -341,6 +341,7 @@
   <ItemGroup>
     <Text Include="Resources\Standard\Shaders\ProgressBar.shader" />
     <Text Include="Resources\Standard\Shaders\ColorPanel.shader" />
+    <Text Include="Resources\Standard\Shaders\Image.shader" />
     <Text Include="Resources\Standard\Shaders\TexturedPanel.shader" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -960,5 +960,6 @@
     <Text Include="Resources\Standard\Shaders\ProgressBar.shader" />
     <Text Include="Resources\Standard\Shaders\ColorPanel.shader" />
     <Text Include="Resources\Standard\Shaders\TexturedPanel.shader" />
+    <Text Include="Resources\Standard\Shaders\Image.shader" />
   </ItemGroup>
 </Project>
