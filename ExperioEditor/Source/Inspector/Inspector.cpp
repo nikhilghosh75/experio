@@ -173,20 +173,22 @@ void Inspector::DisplayRectTransform(GameObject* object)
 	if (ImGui::TreeNode("RectTransform"))
 	{
 		LImGui::DisplayEnum<EPositionConstraintType>(object->rectTransform.xConstraint.type, "X:");
-		ImGui::SameLine();
-		ImGui::InputFloat("Offset:", &object->rectTransform.xConstraint.value);
+		// ImGui::SameLine();
+		ImGui::DragFloat("Offset X:", &object->rectTransform.xConstraint.value);
 
 		LImGui::DisplayEnum<EPositionConstraintType>(object->rectTransform.yConstraint.type, "Y:");
-		ImGui::SameLine();
-		ImGui::InputFloat("Offset:", &object->rectTransform.yConstraint.value);
+		// ImGui::SameLine();
+		ImGui::DragFloat("Offset Y:", &object->rectTransform.yConstraint.value);
 
 		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.widthConstraint.type, "Width:");
-		ImGui::SameLine();
-		ImGui::InputFloat("Width:", &object->rectTransform.widthConstraint.value);
+		// ImGui::SameLine();
+		ImGui::DragFloat("Width:", &object->rectTransform.widthConstraint.value);
 
 		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.heightConstraint.type, "Height:");
-		ImGui::SameLine();
-		ImGui::InputFloat("Height:", &object->rectTransform.heightConstraint.value);
+		// ImGui::SameLine();
+		ImGui::DragFloat("Height:", &object->rectTransform.heightConstraint.value);
+
+
 
 		ImGui::TreePop();
 	}
