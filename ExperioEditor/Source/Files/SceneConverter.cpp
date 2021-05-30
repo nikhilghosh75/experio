@@ -1,5 +1,6 @@
 #include "SceneConverter.h"
 #include "../BuildSystem/AssetMapSaver.h"
+#include "../BuildSystem/BinarySaveParams.h"
 #include "../BuildSystem/LSerializationOperations.h"
 #include "../CodeParser/CodeProject.h"
 #include "../Framework/EditorProject.h"
@@ -15,6 +16,8 @@
 const uint32_t sizeOfGameObject = 88;
 
 #define PB_HEADER_LENGTH 68
+
+#define PB_SETTINGS_LENGTH 256
 
 extern size_t SerializedSizeOfComponent(unsigned int classId);
 
@@ -47,16 +50,17 @@ void SceneConverter::LegacyConvertSceneToBinary(const std::string & fromFilepath
 		sizeOfGameObjects += sizeOfGameObject + object->name.size();
 	});
 
-	uint32_t gameObjectOffset = 68;
+	uint32_t gameObjectOffset = PB_HEADER_LENGTH + PB_SETTINGS_LENGTH;
 	uint32_t componentsOffset = gameObjectOffset + sizeOfGameObjects;
 	uint32_t sceneDataAssetID = AssetMapSaver::NextAssetMapIndex();
+	uint32_t sceneSettingsLength = PB_SETTINGS_LENGTH;
 	uint32_t numComponents = currentScene.GetNumComponents();
 	uint32_t numGameObjects = currentScene.GetNumGameObjects();
 
 	outFile.write((char*)&gameObjectOffset, 4);
 	outFile.write((char*)&componentsOffset, 4);
 	outFile.write((char*)&sceneDataAssetID, 4);
-	outFile.write("0000", 4);
+	outFile.write((char*)&sceneSettingsLength, 4);
 	outFile.write((char*)&numComponents, 4);
 	outFile.write((char*)&numGameObjects, 4);
 	
@@ -225,6 +229,40 @@ std::string SceneConverter::GetName(const FileBuffer & buffer)
 	size_t indexOfName = buffer.Find("Name: ");
 	size_t indexOfNewLine = buffer.Find('\n', indexOfName);
 	return buffer.Substr(indexOfName, indexOfNewLine);
+}
+
+void SceneConverter::GenerateSceneSettings(const FileBuffer& buffer, std::ofstream& outFile)
+{
+	SceneSettings sceneSettings = ParseSceneSettings(buffer);
+	SaveSceneSettings(outFile, sceneSettings);
+}
+
+SceneSettings SceneConverter::ParseSceneSettings(const FileBuffer& buffer)
+{
+	SceneSettings settings;
+
+	size_t settingsStart = buffer.Find("Settings: [");
+	size_t settingsEnd = buffer.Find("]\n", settingsStart);
+
+	std::stringstream ss;
+	ss << buffer.Substr(settingsStart, settingsEnd + 2);
+
+	SceneLoader::ParseSettingsText(ss, settings);
+
+	return settings;
+}
+
+void SceneConverter::SaveSceneSettings(std::ofstream& outFile, const SceneSettings& settings)
+{
+	BinarySaveColor(settings.clearColor, outFile);
+	BinarySaveUByte((uint8_t)settings.uiSortMode, outFile);
+	BinarySaveBool(settings.audioPlayback, outFile);
+	BinarySaveUShort(settings.inputMask, outFile);
+
+	for (int i = 0; i < 236; i += 4)
+	{
+		outFile.write("AAAA", 4);
+	}
 }
 
 void SceneConverter::GenerateGameObject(const FileBuffer & buffer, std::ofstream & outFile)
