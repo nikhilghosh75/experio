@@ -186,6 +186,8 @@ void EditorProject::TempSetupClasses()
 	textComponent.params.emplace_back("FColor", "color", ECodeAccessType::Public);
 	textComponent.params.emplace_back("EHorizontalWrapMode", "horizontalWrapMode", ECodeAccessType::Public);
 	textComponent.params.emplace_back("EVerticalWrapMode", "verticalWrapMode", ECodeAccessType::Public);
+	textComponent.params.emplace_back("EHorizontalAlignment", "horizontalAlignment", ECodeAccessType::Public);
+	textComponent.params.emplace_back("EVerticalAlignment", "verticalAlignment", ECodeAccessType::Public);
 	textComponent.params.emplace_back("float", "spacing", ECodeAccessType::Public);
 	textComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 	textComponent.params.emplace_back("std::string", "text", ECodeAccessType::Public);
@@ -234,6 +236,8 @@ void EditorProject::TempSetupClasses()
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EHorizontalWrapMode", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EVerticalWrapMode", EEnumDataType::UBYTE);
+	gameProject.EmplaceEnum("EHorizontalAlignment", EEnumDataType::UBYTE);
+	gameProject.EmplaceEnum("EVerticalAlignment", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EProgressBarMode", EEnumDataType::UBYTE);
 }
 
