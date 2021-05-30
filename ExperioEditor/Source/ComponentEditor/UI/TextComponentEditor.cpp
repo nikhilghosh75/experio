@@ -12,5 +12,7 @@ void TextComponentEditor::Display(Component* component)
 	ImGui::ColorEdit4("Color", (float*)&textComponent->color, ImGuiColorEditFlags_Float);
 	LImGui::DisplayEnum<EHorizontalWrapMode>(textComponent->horizontalWrapMode, "Horizontal Wrap");
 	LImGui::DisplayEnum<EVerticalWrapMode>(textComponent->verticalWrapMode, "Vertical Wrap");
+	LImGui::DisplayEnum<EHorizontalAlignment>(textComponent->horizontalAlignment, "Horizontal Alignment");
+	LImGui::DisplayEnum<EVerticalAlignment>(textComponent->verticalAlignment, "Vertical Alignment");
 	ImGui::DragFloat("Spacing", &textComponent->spacing, 1, 0, 40);
 }
