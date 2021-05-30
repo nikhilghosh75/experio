@@ -1,6 +1,12 @@
 PROJECT BLOO SCENE
 Name: TestScene
 Project: Demo Project
+Settings: [
+	ClearColor: 0 0 1.0 1.0
+	UISortMode: 1
+	AudioPlayback: true
+	InputMask: 63
+]
 {
 	Name: Scene Root
 	Transform: 0 0 0 0 0 0 1 1 1 1
@@ -75,6 +81,8 @@ Project: Demo Project
 			color: 0 0 111 1111
 			horizontalWrapMode: 0
 			verticalWrapMode: 0
+			horizontalAlignment: 0
+			verticalAlignment: 0
 			spacing: 1
 			shader: 
 	}]
