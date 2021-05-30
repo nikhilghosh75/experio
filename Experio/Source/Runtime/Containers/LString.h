@@ -33,6 +33,8 @@ public:
 
 	static std::string FloatToString(float f, int sigFigs = 5);
 
+	static size_t HammingDistance(const std::string& str1, const std::string& str2);
+
 	static bool HasAlpha(const std::string& str);
 	static bool HasAlphaNumeric(const std::string& str);
 	static bool HasChar(const std::string& str, char c);
@@ -53,6 +55,8 @@ public:
 	static bool IsWhitespace(char c);
 
 	static bool IsOnlyWhitespace(const std::string& str);
+
+	static size_t LevenshteinDistance(const std::string& str1, const std::string& str2);
 
 	static std::string LongLongToHexString(uint64_t n);
 

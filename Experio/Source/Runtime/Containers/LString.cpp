@@ -366,6 +366,40 @@ bool LString::IsOnlyWhitespace(const std::string & str)
 	return true;
 }
 
+size_t LString::LevenshteinDistance(const std::string& str1, const std::string& str2)
+{
+	if (str1.empty())
+		return str2.size();
+	if (str2.empty())
+		return str1.size();
+
+	std::vector<size_t> costs(str2.size() + 1);
+
+	for (size_t i = 0; i < str2.size() + 1; i++)
+		costs[i] = i;
+
+	for (size_t i = 0; i < str1.size(); i++)
+	{
+		costs[0] = i + 1;
+		size_t corner = i;
+		for (size_t j = 0; j < str2.size(); j++)
+		{
+			size_t upper = costs[j + 1];
+			if (costs[i] == costs[j])
+				costs[j + 1] = corner;
+			else
+			{
+				size_t t = upper < corner ? upper : corner;
+				costs[j + 1] = (costs[j] < t ? costs[j] : t) + 1;
+			}
+
+			corner = upper;
+		}
+	}
+
+	return costs.back();
+}
+
 std::string LString::LongLongToHexString(uint64_t n)
 {
 	std::stringstream ss;
@@ -481,6 +515,20 @@ std::string LString::FloatToString(float f, int sigFigs)
 		ss << trunc;
 	}
 	return ss.str();
+}
+
+size_t LString::HammingDistance(const std::string& str1, const std::string& str2)
+{
+	size_t distance = 0;
+	size_t minLength = str1.size() < str2.size() ? str1.size() : str2.size();
+	size_t maxLength = str1.size() > str2.size() ? str1.size() : str2.size();
+
+	for (size_t i = 0; i < minLength; i++)
+	{
+		if (str1[i] != str2[i])
+			distance++;
+	}
+	return distance + (maxLength - minLength);
 }
 
 bool LString::HasAlpha(const std::string & str)
