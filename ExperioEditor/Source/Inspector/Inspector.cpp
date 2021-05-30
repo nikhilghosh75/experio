@@ -22,6 +22,12 @@ GeneratedEditor generatedEditor;
 void Inspector::DisplayGameObject(GameObject* object)
 {
 	if (object == nullptr) return;
+
+	if (object->IsSceneRoot())
+	{
+		DisplaySceneSettings(object);
+		return;
+	}
 	
 	DisplayGameObjectInfo(object);
 
@@ -54,6 +60,23 @@ void Inspector::DisplayGameObject(GameObject* object)
 			ImGui::TreePop();
 		}
 	}
+}
+
+void Inspector::DisplaySceneSettings(GameObject* object)
+{
+	ImGui::Text("Scene Settings:");
+
+	SceneSettings& settings = Scene::scenes[object->sceneIndex].sceneSettings;
+	
+	ImGui::ColorEdit3("Clear Color:", (float*)&settings.clearColor, ImGuiColorEditFlags_Float);
+	LImGui::DisplayEnum<EUISortMode>(settings.uiSortMode, "UI Sort Mode");
+	ImGui::Checkbox("Audio Playback", &settings.audioPlayback);
+
+	const std::vector<std::string> inputMaskFields = { "Keyboard", "Mouse", "Gamepad", "Joystick", "Pen", "Touchscreen" };
+	bool inputMask[6];
+	settings.inputMask.FillBoolArray(inputMask);
+	LImGui::DisplayBitmask("Input Mask", inputMaskFields, inputMask);
+	settings.inputMask = inputMask;
 }
 
 void Inspector::DisplayMultipleGameObjects(std::vector<GameObject*>& gameObjects)
