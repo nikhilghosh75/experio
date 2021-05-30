@@ -217,6 +217,21 @@ std::vector<int> TTFReader::GetIndexMap(stbtt_fontinfo* info)
 
 float TTFReader::GetDefaultFontSize(const char* filename)
 {
-	// TO-DO: Add parsing of metadata
+	std::string metaFilename = (std::string)filename + ".meta";
+	std::ifstream inFile(metaFilename);
+
+	if (!inFile.fail())
+	{
+		// If the meta file exists, then parse it and get the resolution
+		std::string str;
+		int fontSize;
+		for (int i = 0; i < 7; i++)
+		{
+			std::getline(inFile, str);
+		}
+		inFile >> str >> fontSize;
+		return fontSize;
+	}
+
 	return 36.f;
 }
