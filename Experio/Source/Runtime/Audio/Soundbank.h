@@ -23,5 +23,5 @@ public:
 
 	void Load();
 
-	static Soundbank ReadFromFile(const std::string& filepath);
+	void Unload();
 };
