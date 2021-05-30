@@ -14,6 +14,7 @@
     <ClInclude Include="Source\Runtime\Audio\FAudioClip.h" />
     <ClInclude Include="Source\Runtime\Audio\AudioSystem.h" />
     <ClInclude Include="Source\Runtime\Audio\Soundbank.h" />
+    <ClInclude Include="Source\Runtime\Audio\SoundbankReader.h" />
     <ClInclude Include="Source\Runtime\Camera\AdditionalCameras.h" />
     <ClInclude Include="Source\Runtime\Camera\CameraSystem.h" />
     <ClInclude Include="Source\Runtime\Camera\VirtualCamera.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
     <ClInclude Include="Source\Runtime\UI\Canvas.h" />
     <ClInclude Include="Source\Runtime\UI\ImageComponent.h" />
+    <ClInclude Include="Source\Runtime\UI\InputText.h" />
     <ClInclude Include="Source\Runtime\UI\Panel.h" />
     <ClInclude Include="Source\Runtime\UI\ProgressBar.h" />
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
@@ -210,6 +212,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Audio\AudioSystem.cpp" />
     <ClCompile Include="Source\Runtime\Audio\Soundbank.cpp" />
+    <ClCompile Include="Source\Runtime\Audio\SoundbankReader.cpp" />
     <ClCompile Include="Source\Runtime\Camera\AdditionalCameras.cpp" />
     <ClCompile Include="Source\Runtime\Camera\CameraSystem.cpp" />
     <ClCompile Include="Source\Runtime\Camera\VirtualCamera.cpp" />
