@@ -28,6 +28,7 @@
     <None Include="Generated\Components.json" />
     <None Include="Generated\Engine.pbcodeproj" />
     <None Include="Config\build.pbconfig" />
+    <None Include="Assets\Art\Particles\Particle.pbprtcle" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\DemoProject.h">
