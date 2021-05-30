@@ -28,6 +28,20 @@ enum class EVerticalWrapMode : uint8_t
 	Overflow
 };
 
+enum class EHorizontalAlignment : uint8_t
+{
+	Left,
+	Middle,
+	Right
+};
+
+enum class EVerticalAlignment : uint8_t
+{
+	Upper,
+	Middle,
+	Bottom
+};
+
 class TextComponent : public Component
 {
 public:
@@ -47,18 +61,28 @@ public:
 	FColor color;
 	EHorizontalWrapMode horizontalWrapMode;
 	EVerticalWrapMode verticalWrapMode;
+	EHorizontalAlignment horizontalAlignment;
+	EVerticalAlignment verticalAlignment;
 	float spacing;
 	Shader* shader;
 
 	void SetDefaultShader();
 
 private:
+	struct LineInfo
+	{
+		float width;
+		unsigned int numCharacters;
+
+		LineInfo() : width(0), numCharacters(0) {};
+		LineInfo(float newWidth, unsigned int newNumCharacters) : width(newWidth), numCharacters(newNumCharacters) {};
+	};
+
 	glm::vec2* verticies = nullptr;
 	glm::vec2* uvs = nullptr;
 	glm::vec2* offsets = nullptr;
 
-	std::vector<float> lineWidths;
-	int numLines;
+	std::vector<LineInfo> lineInfos;
 
 	uint32_t capacity = 0;
 
@@ -74,7 +98,13 @@ private:
 
 	void SetUVs(unsigned int i, FVector2 uvMin, FVector2 uvMax);
 
-	void SetOffsets();
+	void SetOffsets(float clippedMargins, FRect rect, float clippedSize, float clippedSpacing);
+
+	void SetOffsetsHorizontalMiddle(float clippedMargins, FRect rect);
+	void SetOffsetsHorizontalRight(float clippedMargins, FRect rect);
+	
+	void SetOffsetsVerticalMiddle(float clippedMargins, FRect rect, float clippedSize, float clippedSpacing);
+	void SetOffsetsVerticalBottom(float clippedMargins, FRect rect, float clippedSize, float clippedSpacing);
 
 	FVector2 GetNextCursorPosition(FVector2 cursorPosition, FRect rect, float clippedSize, float clippedSpacing, const FCharacterInfo& charInfo, const FWindowData& data);
 

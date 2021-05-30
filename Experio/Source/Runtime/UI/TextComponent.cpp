@@ -19,6 +19,8 @@ TextComponent::TextComponent(GameObject * object)
 	this->fontSize = 36;
 	this->horizontalWrapMode = EHorizontalWrapMode::Wrap;
 	this->verticalWrapMode = EVerticalWrapMode::Truncate;
+	this->horizontalAlignment = EHorizontalAlignment::Left;
+	this->verticalAlignment = EVerticalAlignment::Upper;
 	this->spacing = 1;
 }
 
@@ -79,6 +81,11 @@ void TextComponent::RenderText()
 		return;
 	}
 
+	if (text.empty())
+	{
+		return;
+	}
+
 	SetupRendering();
 
 	float canvasWidth = Canvas::GetCanvasWidth();
@@ -113,7 +120,8 @@ void TextComponent::RenderText()
 		FVector2 charOffset = LWindowOperations::PixelToNormalizedPos(data, charInfo.offset);
 		float charPixelWidth = charInfo.uvCoordinates.GetWidth() * bitmapWidth * fontSize / font->defaultFontSize;
 		float charWidth = LWindowOperations::PixelToNormalizedSize(data, charPixelWidth, EWindowAxisType::X);
-		lineWidths.back() += charWidth;
+		lineInfos.back().width += charWidth;
+		lineInfos.back().numCharacters++;
 		
 		glm::vec2 vertexUpLeft = glm::vec2(currentCursorLocation.x + charOffset.x, currentCursorLocation.y - charOffset.y);
 		glm::vec2 vertexUpRight = glm::vec2(currentCursorLocation.x + charOffset.x + charWidth, currentCursorLocation.y - charOffset.y);
@@ -131,7 +139,7 @@ void TextComponent::RenderText()
 		actualLength++;
 	}
 
-	SetOffsets();
+	SetOffsets(clippedMargin, rect, clippedSize, clippedSpacing);
 
 	VertexBuffer vertexBuffer(verticies, sizeof(glm::vec2) * actualLength * 6, false);
 	VertexBuffer uvBuffer(uvs, sizeof(glm::vec2) * actualLength * 6, false);
@@ -173,9 +181,8 @@ void TextComponent::SetupRendering()
 	if (length > capacity)
 		SetCapacity(length + 1);
 
-	lineWidths.clear();
-	lineWidths.push_back(0);
-	numLines = 1;
+	lineInfos.clear();
+	lineInfos.emplace_back();
 }
 
 void TextComponent::SetVertices(unsigned int i, glm::vec2 upLeft, glm::vec2 upRight, glm::vec2 downLeft, glm::vec2 downRight)
@@ -198,9 +205,91 @@ void TextComponent::SetUVs(unsigned int i, FVector2 uvMin, FVector2 uvMax)
 	uvs[i * 6 + 5] = glm::vec2(uvMin.x, uvMax.y);
 }
 
-void TextComponent::SetOffsets()
+void TextComponent::SetOffsets(float clippedMargins, FRect rect, float clippedSize, float clippedSpacing)
 {
-	
+	if (lineInfos.back().numCharacters == 0)
+		lineInfos.pop_back();
+
+	for (unsigned int i = 0; i < capacity * 6; i++)
+	{
+		offsets[i] = glm::vec2(0, 0);
+	}
+
+	if (horizontalAlignment == EHorizontalAlignment::Middle)
+		SetOffsetsHorizontalMiddle(clippedMargins, rect);
+	else if (horizontalAlignment == EHorizontalAlignment::Right)
+		SetOffsetsHorizontalRight(clippedMargins, rect);
+
+	if (verticalAlignment == EVerticalAlignment::Middle)
+		SetOffsetsVerticalMiddle(clippedMargins, rect, clippedSize, clippedSpacing);
+	else if (verticalAlignment == EVerticalAlignment::Bottom)
+		SetOffsetsVerticalBottom(clippedMargins, rect, clippedSize, clippedSpacing);
+}
+
+void TextComponent::SetOffsetsHorizontalMiddle(float clippedMargins, FRect rect)
+{
+	unsigned int currentCharacter = 0;
+	float rectWidth = rect.GetWidth();
+
+	for (size_t i = 0; i < lineInfos.size(); i++)
+	{
+		float offsetBy = (rectWidth - lineInfos[i].width) / 2 + clippedMargins;
+		for (size_t j = 0; j < lineInfos[i].numCharacters; j++)
+		{
+			offsets[(currentCharacter + j) * 6].x = offsetBy;
+			offsets[(currentCharacter + j) * 6 + 1].x = offsetBy;
+			offsets[(currentCharacter + j) * 6 + 2].x = offsetBy;
+			offsets[(currentCharacter + j) * 6 + 3].x = offsetBy;
+			offsets[(currentCharacter + j) * 6 + 4].x = offsetBy;
+			offsets[(currentCharacter + j) * 6 + 5].x = offsetBy;
+		}
+		currentCharacter += lineInfos[i].numCharacters;
+	}
+}
+
+void TextComponent::SetOffsetsHorizontalRight(float clippedMargins, FRect rect)
+{
+	unsigned int currentCharacter = 0;
+	float rectWidth = rect.GetWidth();
+
+	for (size_t i = 0; i < lineInfos.size(); i++)
+	{
+		float offsetBy = rectWidth - lineInfos[i].width - clippedMargins;
+		for (size_t j = 0; j < lineInfos[i].numCharacters; j++)
+		{
+			offsets[(currentCharacter + j) * 6].x = offsetBy;
+			offsets[(currentCharacter + j) * 6 + 1].x = offsetBy;
+			offsets[(currentCharacter + j) * 6 + 2].x = offsetBy;
+			offsets[(currentCharacter + j) * 6 + 3].x = offsetBy;
+			offsets[(currentCharacter + j) * 6 + 4].x = offsetBy;
+			offsets[(currentCharacter + j) * 6 + 5].x = offsetBy;
+		}
+		currentCharacter += lineInfos[i].numCharacters;
+	}
+}
+
+void TextComponent::SetOffsetsVerticalMiddle(float clippedMargins, FRect rect, float clippedSize, float clippedSpacing)
+{
+	float rectHeight = rect.GetHeight();
+	float lineHeight = clippedSize + clippedSpacing;
+	float offsetBy = (rectHeight - lineHeight * lineInfos.size()) / 2 + clippedMargins;
+
+	for (unsigned int i = 0; i < capacity * 6; i++)
+	{
+		offsets[i].y = -offsetBy;
+	}
+}
+
+void TextComponent::SetOffsetsVerticalBottom(float clippedMargins, FRect rect, float clippedSize, float clippedSpacing)
+{
+	float rectHeight = rect.GetHeight();
+	float lineHeight = clippedSize + clippedSpacing;
+	float offsetBy = rectHeight - lineHeight - clippedMargins;
+
+	for (unsigned int i = 0; i < capacity * 6; i++)
+	{
+		offsets[i].y = -offsetBy;
+	}
 }
 
 FVector2 TextComponent::GetNextCursorPosition(FVector2 cursorPosition, FRect rect, float clippedSize, float clippedSpacing, const FCharacterInfo& charInfo, const FWindowData& data)
@@ -213,14 +302,13 @@ FVector2 TextComponent::GetNextCursorPosition(FVector2 cursorPosition, FRect rec
 		if (cursorPosition.x + clippedXAdvance > rect.max.x)
 		{
 			float clippedMargin = LWindowOperations::PixelToNormalizedSize(data, margins, EWindowAxisType::X);
-			numLines++;
-			lineWidths.push_back(0);
+			lineInfos.emplace_back();
 			return FVector2(rect.min.x + clippedMargin, cursorPosition.y - clippedSize - clippedSpacing);
 		}
 	}
 
 	FVector2 cursorMoveVec = FVector2(clippedXAdvance, 0);
-	lineWidths.back() += clippedXAdvance;
+	lineInfos.back().width += clippedXAdvance;
 	return cursorPosition + cursorMoveVec;
 }
 
