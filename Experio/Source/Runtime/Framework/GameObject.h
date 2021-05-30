@@ -60,6 +60,8 @@ public:
 
 	void DeleteComponentByComponentID(unsigned int id);
 
+	bool IsSceneRoot() const;
+
 	GameObject* AddChild(std::string name);
 
 	// Meant for non-UI gameObject

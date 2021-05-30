@@ -160,6 +160,11 @@ void GameObject::DeleteComponentByComponentID(unsigned int id)
 	Project::componentManager->DeleteComponent(this, id);
 }
 
+bool GameObject::IsSceneRoot() const
+{
+	return this == &Scene::scenes[sceneIndex].sceneRoot || this->parent == nullptr;
+}
+
 GameObject * GameObject::AddChild(std::string name)
 {
 	this->children.push_back(new GameObject(name));
