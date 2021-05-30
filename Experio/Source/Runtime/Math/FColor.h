@@ -25,6 +25,7 @@ struct FColor
 
 	std::string Hex() const;
 	std::string RGBAString() const;
+	std::string RGBAStringInt() const;
 	std::string CMYKString() const;
 
 	float C() const;
