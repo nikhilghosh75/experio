@@ -6,7 +6,7 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 {
 	switch(classId)
 	{
-		case 104: return std::vector<std::string>({ "margins", "fontSize", "font", "text", "color", "horizontalWrapMode", "verticalWrapMode", "spacing", "shader", "text"});
+		case 104: return std::vector<std::string>({ "margins", "fontSize", "font", "text", "color", "horizontalWrapMode", "verticalWrapMode", "horizontalAlignment", "verticalAlignment", "spacing", "shader", "text"});
 		case 1024: return std::vector<std::string>({ "isActive = false", "isAccelerating = false", "acceleration", "topSpeed"});
 		case 105: return std::vector<std::string>({ "texture", "tint"});
 		case 106: return std::vector<std::string>({ "minValue", "maxValue", "value", "backgroundColor", "barColor", "shader", "mode"});
@@ -30,9 +30,11 @@ template<> void SetComponentParams(std::vector<std::string> params, TextComponen
 	component->color = ParseColor(params[4]);
 	component->horizontalWrapMode = (EHorizontalWrapMode)ParseUByte(params[5]);
 	component->verticalWrapMode = (EVerticalWrapMode)ParseUByte(params[6]);
-	component->spacing = ParseFloat(params[7]);
-	component->shader = ParseShader(params[8]);
-	component->text = ParseString(params[9]);
+	component->horizontalAlignment = (EHorizontalAlignment)ParseUByte(params[7]);
+	component->verticalAlignment = (EVerticalAlignment)ParseUByte(params[8]);
+	component->spacing = ParseFloat(params[9]);
+	component->shader = ParseShader(params[10]);
+	component->text = ParseString(params[11]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, Spaceship* component)
@@ -103,9 +105,11 @@ template<> void SetComponentBinaryParams(void* data, TextComponent* component)
 	component->color = BinaryParseColor((void*)((char*)data + 12));
 	component->horizontalWrapMode = (EHorizontalWrapMode)BinaryParseUByte((void*)((char*)data + 28));
 	component->verticalWrapMode = (EVerticalWrapMode)BinaryParseUByte((void*)((char*)data + 29));
-	component->spacing = BinaryParseFloat((void*)((char*)data + 30));
-	component->shader = BinaryParseShader((void*)((char*)data + 34));
-	component->text = BinaryParseString((void*)((char*)data + 38));
+	component->horizontalAlignment = (EHorizontalAlignment)BinaryParseUByte((void*)((char*)data + 30));
+	component->verticalAlignment = (EVerticalAlignment)BinaryParseUByte((void*)((char*)data + 31));
+	component->spacing = BinaryParseFloat((void*)((char*)data + 32));
+	component->shader = BinaryParseShader((void*)((char*)data + 36));
+	component->text = BinaryParseString((void*)((char*)data + 40));
 }
 
 template<> void SetComponentBinaryParams(void* data, Spaceship* component)
@@ -218,7 +222,7 @@ size_t SerializedSizeOfComponent(unsigned int classId)
 {
 	switch(classId)
 	{
-		case 104: return 46;
+		case 104: return 48;
 		case 1024: return 8;
 		case 105: return 20;
 		case 106: return 45;
