@@ -517,6 +517,43 @@ std::string LString::FloatToString(float f, int sigFigs)
 	return ss.str();
 }
 
+bool LString::FuzzyMatch(const std::string& input, const std::string& hint)
+{
+	int numMatching = 0;
+	
+	for (size_t i = 0; i < hint.size(); i++)
+	{
+		if (input[numMatching] == hint[i])
+		{
+			numMatching++;
+			if (numMatching == input.size())
+				return true;
+		}
+	}
+
+	return numMatching > input.size() - 2;
+}
+
+bool LString::FuzzyMatch(const char* input, const char* hint)
+{
+	int numMatching = 0;
+	int inputSize = strlen(input);
+
+	while (*hint != '\0')
+	{
+		if (*input == *hint)
+		{
+			numMatching++;
+			++input;
+			if (*input == '\0')
+				return true;
+		}
+		++hint;
+	}
+
+	return numMatching > inputSize - 2;
+}
+
 size_t LString::HammingDistance(const std::string& str1, const std::string& str2)
 {
 	size_t distance = 0;

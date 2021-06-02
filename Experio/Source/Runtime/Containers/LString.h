@@ -33,6 +33,9 @@ public:
 
 	static std::string FloatToString(float f, int sigFigs = 5);
 
+	static bool FuzzyMatch(const std::string& input, const std::string& hint);
+	static bool FuzzyMatch(const char* input, const char* hint);
+
 	static size_t HammingDistance(const std::string& str1, const std::string& str2);
 
 	static bool HasAlpha(const std::string& str);
