@@ -2,7 +2,7 @@
 #include <functional>
 #include <initializer_list>
 
-template<typename T, typename Comp>
+template<typename T, typename Comp = std::less<T>>
 class THeap
 {
 	Comp comp;
@@ -26,14 +26,37 @@ public:
 
 	void Insert(const T& item)
 	{
-		if (count == capacity - 1)
+		if (count == capacity - 2)
 		{
 			Grow();
 		}
 
-		data[count] = item;
+		data[count + 1] = item;
 
-		uint32_t index = count;
+		uint32_t index = count + 1;
+		while (index > 1)
+		{
+			if (this->comp(data[index / 2], data[index]))
+				Swap(index, index / 2);
+			else
+				break;
+
+			index /= 2;
+		}
+
+		count++;
+	}
+
+	template<typename ... Args>
+	void Emplace(Args&& ... args)
+	{
+		if (count == capacity - 2)
+		{
+			Grow();
+		}
+		data[count + 1] = T(std::forward<Args>(args)...);
+
+		uint32_t index = count + 1;
 		while (index > 1)
 		{
 			if (this->comp(data[index / 2], data[index]))
@@ -88,6 +111,7 @@ public:
 
 			index *= 2;
 		}
+		return elem;
 	}
 
 	uint32_t Count() { return count; }
