@@ -2,5 +2,5 @@
 
 void SceneMetasystem::GenerateMetadata(const std::string& filepath, std::ofstream& outFile)
 {
-	outFile << "Version: " << "1" << std::endl;
+	outFile << "Version: " << "3" << std::endl;
 }
