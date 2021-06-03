@@ -203,15 +203,15 @@ void Inspector::DisplayRectTransform(GameObject* object)
 		// ImGui::SameLine();
 		ImGui::DragFloat("Offset Y:", &object->rectTransform.yConstraint.value);
 
-		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.widthConstraint.type, "Width:");
+		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.widthConstraint.type, "Width Constraint:");
 		// ImGui::SameLine();
 		ImGui::DragFloat("Width:", &object->rectTransform.widthConstraint.value);
 
-		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.heightConstraint.type, "Height:");
+		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.heightConstraint.type, "Height Constraint:");
 		// ImGui::SameLine();
 		ImGui::DragFloat("Height:", &object->rectTransform.heightConstraint.value);
 
-
+		ImGui::DragFloat("Z:", &object->rectTransform.z);
 
 		ImGui::TreePop();
 	}
