@@ -1,8 +1,9 @@
 #include "Panel.h"
+#include "Canvas.h"
+#include "UIQueue.h"
 #include "../Core/LWindowOperations.h"
 #include "../Math/ColorPalette.h"
 #include "../Rendering/Renderer.h"
-#include "Canvas.h"
 
 Panel::Panel()
 {
@@ -25,16 +26,21 @@ void Panel::Start()
 
 void Panel::Update()
 {
+	UIQueue::AddToQueue(this, gameObject->rectTransform.z, EUIComponentType::Panel);
+}
+
+void Panel::RenderPanel()
+{
 	if (texture.IsNull())
 	{
-		if(wasTexturedLastFrame)
+		if (wasTexturedLastFrame)
 			this->shader = ShaderReader::ReadShader(Project::experioResourcesPath + "/Standard/Shaders/ColorPanel.shader");
 		wasTexturedLastFrame = false;
 		RenderColored();
 	}
 	else
 	{
-		if(!wasTexturedLastFrame)
+		if (!wasTexturedLastFrame)
 			this->shader = ShaderReader::ReadShader(Project::experioResourcesPath + "/Standard/Shaders/TexturedPanel.shader");
 		wasTexturedLastFrame = true;
 		RenderTextured();

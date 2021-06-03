@@ -5,6 +5,7 @@
 
 enum class EProgressBarMode : uint8_t
 {
+	None,
 	Horizontal,
 	Vertical
 };
@@ -22,6 +23,8 @@ public:
 	virtual void Start() override;
 
 	virtual void Update() override;
+
+	void RenderProgressBar();
 
 	FColor backgroundColor;
 	FColor barColor;
@@ -43,6 +46,4 @@ private:
 	void FillVerticalProgressBar(FRect rect);
 
 	void FillColors();
-
-	void RenderProgressBar();
 };

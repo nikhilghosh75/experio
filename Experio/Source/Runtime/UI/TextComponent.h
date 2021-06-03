@@ -53,6 +53,8 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 
+	void RenderText();
+
 	float margins = 4;
 
 	int fontSize;
@@ -87,8 +89,6 @@ private:
 	uint32_t capacity = 0;
 
 	void SetCapacity(uint32_t newCapacity);
-
-	void RenderText();
 
 	bool IsSpecialChar(char c) const;
 

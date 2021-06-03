@@ -18,6 +18,8 @@ public:
 
 	virtual void Update() override;
 
+	void RenderImage();
+
 private:
 	Shader* shader;
 };

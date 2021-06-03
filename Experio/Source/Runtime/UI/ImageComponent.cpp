@@ -1,5 +1,6 @@
 #include "ImageComponent.h"
 #include "Canvas.h"
+#include "UIQueue.h"
 #include "../Rendering/Renderer.h"
 #include "../Core/Window.h"
 #include "../Rendering/Shaders/ShaderReader.h"
@@ -22,6 +23,14 @@ void ImageComponent::Start()
 }
 
 void ImageComponent::Update()
+{
+	if (texture.IsNull())
+		return;
+
+	UIQueue::AddToQueue(this, gameObject->rectTransform.z, EUIComponentType::ImageComponent);
+}
+
+void ImageComponent::RenderImage()
 {
 	if (texture.IsNull())
 		return;

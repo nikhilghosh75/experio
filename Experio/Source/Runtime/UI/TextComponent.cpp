@@ -1,5 +1,6 @@
 #include "TextComponent.h"
 #include "Canvas.h"
+#include "UIQueue.h"
 #include "../Debug/Debug.h"
 #include "../Rendering/Renderer.h"
 #include "../Rendering/VertexBuffer.h"
@@ -42,7 +43,7 @@ void TextComponent::Start()
 
 void TextComponent::Update()
 {
-	RenderText();
+	UIQueue::AddToQueue(this, gameObject->rectTransform.z, EUIComponentType::TextComponent);
 }
 
 void TextComponent::SetDefaultShader()
