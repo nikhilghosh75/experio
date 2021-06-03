@@ -4,6 +4,7 @@
 		<MaxCount>100</MaxCount>
 		<Shader>?</Shader>
     <DefaultLifetime>5.0</DefaultLifetime>
+    <PlaybackTime>15.0</PlaybackTime>
 	</Properties>
 	<Modifiers>
     <Spawn>

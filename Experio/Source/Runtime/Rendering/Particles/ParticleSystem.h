@@ -8,7 +8,8 @@ class ParticleSystem
 public:
 	std::string name;
 	uint32_t maxCount;
-	float defaultLifetime;
+	float defaultLifetime; // For individual particles
+	float playbackTime; // Time of entire system
 
 	ParticleSystem();
 	ParticleSystem(const ParticleSystem& particleSystem);
