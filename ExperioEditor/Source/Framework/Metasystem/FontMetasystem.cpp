@@ -14,5 +14,6 @@ void FontMetasystem::GenerateMetadata(const std::string& filepath, std::ofstream
 	outFile << "ImageStored: " << LString::BoolToString(imageStored) << std::endl;
 	outFile << "TextureWidth: " << 512 << std::endl;
 	outFile << "TextureHeight: " << 512 << std::endl;
+	outFile << "DefaultFontSize: " << 36 << std::endl;
 	outFile << "NumFonts: " << 1 << std::endl;
 }
