@@ -1,5 +1,6 @@
 #include "ParticleModifier.h"
 #include "ParticleComponent.h"
+#include "../../Math/LMath.h"
 
 // Size Over Life
 
@@ -68,33 +69,42 @@ void SpawnModifier::SetMode(ESpawnMode newMode)
 
 void SpawnModifier::Update(ParticleComponent& component)
 {
+	unsigned int numParticlesToSpawn = ParticlesToSpawn(component.GetParticleTime(), GameTime::deltaTime);
+	component.SpawnParticles(numParticlesToSpawn);
+}
+
+unsigned int SpawnModifier::ParticlesToSpawn(float time, float deltaTime) const
+{
 	switch (mode)
 	{
-	case ESpawnMode::OverLife: UpdateSpawnOverLife(component); break;
-	case ESpawnMode::Burst: UpdateBurst(component); break;
+	case ESpawnMode::Burst: ParticlesToSpawnBurst(time, deltaTime);
+	case ESpawnMode::OverLife: ParticlesToSpawnOverLife(time, deltaTime);
 	}
+	return 0;
 }
 
-void SpawnModifier::UpdateSpawnOverLife(ParticleComponent& component)
+unsigned int SpawnModifier::ParticlesToSpawnBurst(float time, float deltaTime) const
 {
-	unsigned int particlesToSpawn = spawnCurve.Get(component.GetParticleTime()) * GameTime::deltaTime;
-	component.SpawnParticles(particlesToSpawn);
+	size_t currentTime = 0;
+	for (size_t i = 0; i < burstSpawnInfo.times.size(); i++)
+	{
+		if (time < burstSpawnInfo.times[i].time)
+		{
+			currentTime = i;
+			break;
+		}
+	}
+
+	float nextBurstTime = burstSpawnInfo.times[currentTime].time;
+	if (LMath::Abs(nextBurstTime - time) < deltaTime)
+	{
+		return burstSpawnInfo.times[currentTime].num;
+	}
+	return 0;
 }
 
-void SpawnModifier::UpdateBurst(ParticleComponent& component)
+unsigned int SpawnModifier::ParticlesToSpawnOverLife(float time, float deltaTime) const
 {
-	if (burstSpawnInfo.currentTime == burstSpawnInfo.times.size())
-	{
-		burstSpawnInfo.currentTime = 0;
-	}
-
-	float nextBurstTime = burstSpawnInfo.times[burstSpawnInfo.currentTime].time;
-	if (component.GetParticleTime() < nextBurstTime)
-	{
-		unsigned int particlesToSpawn = burstSpawnInfo.times[burstSpawnInfo.currentTime].num;
-		component.SpawnParticles(particlesToSpawn);
-
-		burstSpawnInfo.currentTime++;
-	}
+	return spawnCurve.Get(time) * GameTime::deltaTime;
 }
 

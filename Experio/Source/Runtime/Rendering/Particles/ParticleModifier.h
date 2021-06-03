@@ -120,9 +120,10 @@ public:
 
 	void Update(ParticleComponent& component);
 
+	unsigned int ParticlesToSpawn(float time, float deltaTime) const;
+
 private:
+	unsigned int ParticlesToSpawnBurst(float time, float deltaTime) const;
 
-	void UpdateSpawnOverLife(ParticleComponent& component);
-
-	void UpdateBurst(ParticleComponent& component);
+	unsigned int ParticlesToSpawnOverLife(float time, float deltaTime) const;
 };
