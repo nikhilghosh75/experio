@@ -26,6 +26,7 @@ void DemoProjectComponentManager::Update()
 	PB_UPDATE(imageComponentInstances);
 	PB_UPDATE(progressBarInstances);
 	PB_UPDATE(panelInstances);
+	UIQueue::RenderUI();
 }
 
 void DemoProjectComponentManager::RenderScene()
@@ -38,6 +39,7 @@ void DemoProjectComponentManager::RenderScene()
 	PB_UPDATE(textComponentInstances);
 	PB_UPDATE(progressBarInstances);
 	PB_UPDATE(panelInstances);
+	UIQueue::RenderUI();
 }
 
 Component* DemoProjectComponentManager::AddComponent(GameObject* gameObject, unsigned int classId)
