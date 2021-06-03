@@ -68,7 +68,7 @@ Settings: [
 	}]
 	Children: [{
 	Name: WolveyText
-	RectTransform: Center 0 Center 0 Fill 1 Fill 1
+	RectTransform: Center 0 Center 0 Fill 1 Fill 1 1
 	Tag: 0
 	Layer: 0
 	Components: [{

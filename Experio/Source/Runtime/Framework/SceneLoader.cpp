@@ -144,6 +144,8 @@ bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESc
 
 			sceneFile >> word >> value;
 			currentNode->rectTransform.SetHeightConstraint(word, value);
+			
+			sceneFile >> currentNode->rectTransform.z;
 		}
 		else if (strcmp(word, "Tag:") == 0)
 		{

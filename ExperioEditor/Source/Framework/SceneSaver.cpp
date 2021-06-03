@@ -16,6 +16,7 @@ void SceneSaver::SaveGameObject(GameObject * gameObject, std::ofstream& stream)
 		stream << ConstraintTextFromType(gameObject->rectTransform.yConstraint.type) << " " << gameObject->rectTransform.yConstraint.value << " ";
 		stream << ConstraintTextFromType(gameObject->rectTransform.widthConstraint.type) << " " << gameObject->rectTransform.widthConstraint.value << " ";
 		stream << ConstraintTextFromType(gameObject->rectTransform.heightConstraint.type) << " " << gameObject->rectTransform.heightConstraint.value;
+		stream << " " << gameObject->rectTransform.z;
 		stream << std::endl;
 	}
 	else
