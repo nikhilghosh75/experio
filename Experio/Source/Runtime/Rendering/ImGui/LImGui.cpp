@@ -536,6 +536,11 @@ void LImGui::DisplayTree(TTypedTree<std::string>* tree, std::string name, std::s
 		return;
 	}
 
+	if (ImGui::IsItemClicked())
+	{
+		selectedItem = tree->GetRoot()->object;
+	}
+
 	TTypedTreeNode<std::string>* root = tree->GetRoot();
 
 	for (int i = 0; i < root->children.size(); i++)
