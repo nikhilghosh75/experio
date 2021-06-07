@@ -6,6 +6,8 @@
 #include "Runtime/Rendering/ImGui/LImGui.h"
 #include "../Core/FileDialog.h"
 
+FlowchartViewer* FlowchartViewer::flowchartViewer;
+
 static const float SELECTED_THICKNESS = 5.0f;
 #define PB_ZOOM_MIN 0.125f
 #define PB_ZOOM_MAX 30
@@ -15,6 +17,8 @@ FlowchartViewer::FlowchartViewer()
 	this->name = "Flowchart Viewer";
 	this->category = EEditorModuleCategory::Viewer;
 	this->flags = ImGuiWindowFlags_MenuBar;
+
+	flowchartViewer = this;
 }
 
 void FlowchartViewer::Display()
@@ -38,6 +42,10 @@ void FlowchartViewer::HandleInput()
 	{
 		zoomFactor -= 0.125f;
 	}
+}
+
+void FlowchartViewer::SaveCurrentFlowchart()
+{
 }
 
 void FlowchartViewer::DisplayMenu()

@@ -6,11 +6,15 @@
 class FlowchartViewer : public EditorModule
 {
 public:
+	static FlowchartViewer* flowchartViewer;
+
 	FlowchartViewer();
 
 	virtual void Display() override;
 
 	virtual void HandleInput() override;
+
+	void SaveCurrentFlowchart();
 
 private:
 	ImVec2 canvasStart;
