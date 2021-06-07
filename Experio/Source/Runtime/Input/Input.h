@@ -49,6 +49,14 @@ public:
 
 	static void SetGameRect(FRect rect);
 
+	static bool AnyKey();
+	static bool AnyKeyDown();
+	static bool AnyKeyUp();
+
+	static bool AnyMouseButton();
+	static bool AnyMouseButtonDown();
+	static bool AnyMouseButtonUp();
+
 	static bool GetKey(EKeyCode keycode);
 	static bool GetKeyDown(EKeyCode keycode);
 	static bool GetKeyUp(EKeyCode keycode);

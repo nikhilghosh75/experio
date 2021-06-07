@@ -228,6 +228,57 @@ void Input::SetGameRect(FRect rect)
 	lastMousePosition = lastMousePosition - rect.min;
 }
 
+bool Input::AnyKey()
+{
+	for (size_t i = 0; i < PB_NUM_KEY_CODES; i++)
+	{
+		if (GetKey((EKeyCode)(uint8_t)i))
+			return true;
+	}
+	return false;
+}
+
+bool Input::AnyKeyDown()
+{
+	for (size_t i = 0; i < PB_NUM_KEY_CODES; i++)
+	{
+		if (GetKeyDown((EKeyCode)(uint8_t)i))
+			return true;
+	}
+	return false;
+}
+
+bool Input::AnyKeyUp()
+{
+	for (size_t i = 0; i < PB_NUM_KEY_CODES; i++)
+	{
+		if (GetKeyUp((EKeyCode)(uint8_t)i))
+			return true;
+	}
+	return false;
+}
+
+bool Input::AnyMouseButton()
+{
+	return leftMouseStatus == EMouseStatus::Down || leftMouseStatus == EMouseStatus::DownThisFrame
+		|| middleMouseStatus == EMouseStatus::Down || middleMouseStatus == EMouseStatus::DownThisFrame
+		|| rightMouseStatus == EMouseStatus::Down || rightMouseStatus == EMouseStatus::DownThisFrame;
+}
+
+bool Input::AnyMouseButtonDown()
+{
+	return leftMouseStatus == EMouseStatus::DownThisFrame
+		|| middleMouseStatus == EMouseStatus::DownThisFrame
+		|| rightMouseStatus == EMouseStatus::DownThisFrame;
+}
+
+bool Input::AnyMouseButtonUp()
+{
+	return leftMouseStatus == EMouseStatus::UpThisFrame
+		|| middleMouseStatus == EMouseStatus::UpThisFrame
+		|| rightMouseStatus == EMouseStatus::UpThisFrame;
+}
+
 bool Input::GetKey(EKeyCode keycode)
 {
 	return (keyStatuses[(unsigned int)keycode] == EKeyStatus::Pressed || keyStatuses[(unsigned int)keycode] == EKeyStatus::PressedThisFrame);
