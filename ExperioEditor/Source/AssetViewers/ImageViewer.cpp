@@ -1,11 +1,14 @@
 #include "ImageViewer.h"
 #include "Runtime/Containers/LString.h"
+#include "Runtime/Debug/Profiler.h"
 #include "Runtime/Files/Images/LImageOperations.h"
 #include "Runtime/Rendering/Renderer.h"
 #include <sstream>
 
 void ImageViewer::DisplayStats()
 {
+	PROFILE_SCOPE("ImageViewer::DisplayStats");
+
 	if (filepath.size() < 2)
 	{
 		filepath = TextureManager::GetNameOfTexture(loadedRef).substr(3);
@@ -35,6 +38,7 @@ ImageViewer::ImageViewer()
 
 void ImageViewer::Display()
 {
+	PROFILE_SCOPE("ImageViewer::Display");
 	if (loadedRef.IsNull())
 	{
 		return;

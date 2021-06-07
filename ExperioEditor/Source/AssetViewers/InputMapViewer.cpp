@@ -1,6 +1,7 @@
 #include "InputMapViewer.h"
 #include "../Core/FileDialog.h"
 #include "Runtime/Containers/Algorithm.h"
+#include "Runtime/Debug/Profiler.h"
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Input/InputMapReader.h"
 #include "Runtime/Rendering/ImGui/LImGui.h"
@@ -21,6 +22,8 @@ InputMapViewer::InputMapViewer()
 
 void InputMapViewer::Display()
 {
+	PROFILE_SCOPE("InputMapViewer::Display");
+
 	if (!loaded)
 		DisplayEmpty();
 	else
@@ -37,6 +40,7 @@ void InputMapViewer::Load(const std::string& filepath)
 
 void InputMapViewer::DisplayEmpty()
 {
+	PROFILE_SCOPE("InputMapViewer::DisplayEmpty");
 	if (ImGui::Button("Load Input Map"))
 	{
 		FFileDialogInfo info = FileDialog::OpenFile("Experio Input Map (*.pbipmap)\0*.pbipmap\0");
@@ -47,6 +51,7 @@ void InputMapViewer::DisplayEmpty()
 
 void InputMapViewer::DisplayInputMap()
 {
+	PROFILE_SCOPE("InputMapViewer::DisplayInputMap");
 	ImGui::Text(this->mapName.c_str());
 	if (ImGui::Button("Save")) SaveInputMap();
 

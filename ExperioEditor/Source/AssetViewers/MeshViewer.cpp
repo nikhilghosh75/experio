@@ -1,6 +1,7 @@
 #include "MeshViewer.h"
 #include "Runtime/Camera/AdditionalCameras.h"
 #include "Runtime/Containers/LString.h"
+#include "Runtime/Debug/Profiler.h"
 #include "Runtime/Files/Mesh/LMeshOperations.h"
 #include "Runtime/Framework/Project.h"
 #include "Runtime/Input/Input.h"
@@ -60,6 +61,8 @@ MeshViewer::MeshViewer()
 
 void MeshViewer::Display()
 {
+	PROFILE_SCOPE("MeshViewer::Display");
+
 	this->meshComponent.meshData = this->loadedRef;
 	this->meshComponent.material = (MeshMaterial*)Project::materialManager->LoadMaterialFromFile("C:/Users/debgh/source/repos/project-bloo/Demo Project/Assets/Materials/SuzanneMat.material");
 

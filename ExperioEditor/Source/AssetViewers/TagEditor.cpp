@@ -2,6 +2,7 @@
 #include "TagEditor.h"
 #include "../Framework/Values.h"
 #include "Runtime/Containers/Algorithm.h"
+#include "Runtime/Debug/Profiler.h"
 
 TagEditor* TagEditor::tagEditor;
 
@@ -22,6 +23,8 @@ TagEditor::TagEditor()
 
 void TagEditor::Display()
 {
+	PROFILE_SCOPE("TagEditor::Display");
+
 	ImGui::Text("Tags");
 
 	std::stringstream ss;
