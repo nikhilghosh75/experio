@@ -10,11 +10,20 @@ MaterialEditor::MaterialEditor()
 {
 	this->name = "Material Editor";
 	this->category = EEditorModuleCategory::Viewer;
+
+	this->locked = false;
+
 	materialEditor = this;
 }
 
 void MaterialEditor::Display()
 {
+	if (locked)
+	{
+		ImGui::Text("Material Editing is Locked");
+		return;
+	}
+
 	ImGui::Text(materialName.c_str());
 	for (size_t i = 0; i < shaderInfo.uniforms.size(); i++)
 	{
@@ -51,6 +60,16 @@ void MaterialEditor::SetMaterial(Material * material, uint32_t materialType)
 	this->shaderInfo = EditorProject::shaders[this->materialType - 1];
 	this->materialName = "Name Unknown";
 	this->filepath = " ";
+}
+
+void MaterialEditor::Lock()
+{
+	locked = true;
+}
+
+void MaterialEditor::Unlock()
+{
+	locked = false;
 }
 
 void MaterialEditor::DisplayUniform(ShaderParamInfo paramInfo)
