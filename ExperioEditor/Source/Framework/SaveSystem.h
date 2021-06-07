@@ -8,7 +8,8 @@ enum class ESaveableAssetType
 	None,
 	Scene,
 	Material,
-	Value
+	Value,
+	Flowchart
 };
 
 struct FSaveableAsset
@@ -33,11 +34,28 @@ class SaveSystem
 	static void SaveAssetOfType(ESaveableAssetType assetType);
 
 public:
+	// ---- Saving -----
 	static void SaveAll();
 
 	static void SaveScene();
 	static void SaveMaterial();
 	static void SaveValues();
+	static void SaveFlowcharts();
+
+	// ---- Locking -----
+	static void LockAll();
+
+	static void LockScene();
+	static void LockMaterial();
+	static void LockValues();
+	static void LockFlowcharts();
+
+	static void UnlockAll();
+
+	static void UnlockScene();
+	static void UnlockMaterial();
+	static void UnlockValues();
+	static void UnlockFlowcharts();
 
 	static std::vector<FSaveableAsset> GetCurrentlyOpenAssets();
 
