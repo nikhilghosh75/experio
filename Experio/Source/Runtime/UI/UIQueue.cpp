@@ -1,7 +1,9 @@
 #include "UIQueue.h"
 #include "../DefaultComponents.h"
+#include "../Input/Input.h"
 
-THeap<FUIQueueSlot, std::greater<FUIQueueSlot>> UIQueue::queue;
+THeap<FUIQueueSlot, std::greater<FUIQueueSlot>> UIQueue::renderQueue;
+THeap<FUIQueueSlot, std::less<FUIQueueSlot>> UIQueue::inputQueue;
 
 FUIQueueSlot::FUIQueueSlot()
 {
@@ -23,17 +25,48 @@ FUIQueueSlot::~FUIQueueSlot()
 
 void UIQueue::AddToQueue(Component* component, float z, EUIComponentType componentType)
 {
-	queue.Emplace(component, z, componentType);
+	renderQueue.Emplace(component, z, componentType);
+	inputQueue.Emplace(component, z, componentType);
 }
 
 void UIQueue::RenderUI()
 {
-	uint32_t numElements = queue.Count();
+	HandleInput();
+
+	uint32_t numElements = renderQueue.Count();
 	for (uint32_t i = 0; i < numElements; i++)
 	{
-		RenderUISlot(queue.First());
-		queue.Pop();
+		RenderUISlot(renderQueue.First());
+		renderQueue.Pop();
 	}
+
+	renderQueue.Empty();
+	inputQueue.Empty();
+}
+
+void UIQueue::HandleInput()
+{
+	uint32_t numElements = inputQueue.Count();
+	for (uint32_t i = 0; i < numElements; i++)
+	{
+		FUIQueueSlot slot = inputQueue.First();
+		FRect rect = slot.component->GetGameObject()->GetCanvasSpaceRect();
+		FVector2 mousePosition = Input::GetMousePosition();
+		bool isOverElement = rect.IsInside(mousePosition);
+
+		if (isOverElement)
+		{
+			HandleElementInput(slot);
+			return;
+		}
+
+		inputQueue.Pop();
+	}
+}
+
+void UIQueue::HandleElementInput(const FUIQueueSlot& slot)
+{
+	Debug::Log("WolverineSoft");
 }
 
 void UIQueue::RenderUISlot(const FUIQueueSlot& slot)

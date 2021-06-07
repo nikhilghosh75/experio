@@ -37,7 +37,8 @@ struct FUIQueueSlot
 
 class UIQueue
 {
-	static THeap<FUIQueueSlot, std::greater<FUIQueueSlot>> queue;
+	static THeap<FUIQueueSlot, std::greater<FUIQueueSlot>> renderQueue;
+	static THeap<FUIQueueSlot, std::less<FUIQueueSlot>> inputQueue;
 
 public:
 	static void AddToQueue(Component* component, float z, EUIComponentType componentType);
@@ -46,4 +47,8 @@ public:
 
 private:
 	static void RenderUISlot(const FUIQueueSlot& slot);
+
+	static void HandleInput();
+
+	static void HandleElementInput(const FUIQueueSlot& slot);
 };
