@@ -114,6 +114,15 @@ public:
 		return elem;
 	}
 
+	void Empty()
+	{
+		for (uint32_t i = 0; i < this->count; i++)
+		{
+			data[i + 1].~T();
+		}
+		this->count = 0;
+	}
+
 	uint32_t Count() { return count; }
 	uint32_t Capacity() { return capacity; }
 
