@@ -35,6 +35,7 @@ SceneView::SceneView()
 
 	this->gizmosEnabled = true;
 	this->currentMode = ESceneEditMode::Scale;
+	this->locked = false;
 
 	FWindowData data = EditorWindow::GetWindowData();
 	this->framebuffer = Framebuffer(data.width, data.height);
@@ -195,4 +196,14 @@ void SceneView::HandleInput()
 void SceneView::SetEditMode(ESceneEditMode sceneEditMode)
 {
 	currentMode = sceneEditMode;
+}
+
+void SceneView::Lock()
+{
+	locked = true;
+}
+
+void SceneView::Unlock()
+{
+	locked = false;
 }

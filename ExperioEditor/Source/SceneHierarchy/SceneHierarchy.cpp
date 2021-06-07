@@ -1,8 +1,9 @@
 #include "SceneHierarchy.h"
-#include "Runtime/Framework/GameObject.h"
-#include "Runtime/Rendering/ImGui/LImGui.h"
-#include "Runtime/Framework/Scene.h"
 #include "Runtime/Containers/Algorithm.h"
+#include "Runtime/Debug/Profiler.h"
+#include "Runtime/Framework/GameObject.h"
+#include "Runtime/Framework/Scene.h"
+#include "Runtime/Rendering/ImGui/LImGui.h"
 
 SceneHierarchy* SceneHierarchy::hierarchy;
 
@@ -136,6 +137,7 @@ SceneHierarchy::SceneHierarchy()
 {
 	this->category = EEditorModuleCategory::Core;
 	this->name = "Scene Hierarchy";
+	this->locked = false;
 
 	if (hierarchy == nullptr)
 	{
@@ -145,6 +147,14 @@ SceneHierarchy::SceneHierarchy()
 
 void SceneHierarchy::Display()
 {
+	PROFILE_SCOPE("SceneHierarchy::Display");
+
+	if (locked)
+	{
+		ImGui::Text("Scene Editing is currently locked");
+		return;
+	}
+
 	std::vector<GameObject*>& selectedItems = this->currentlySelectedItems;
 
 	Scene::ForAllActiveScenes([&selectedItems](Scene& scene) {
@@ -155,4 +165,14 @@ void SceneHierarchy::Display()
 std::vector<GameObject*>& SceneHierarchy::GetSelectedItems()
 {
 	return this->currentlySelectedItems;
+}
+
+void SceneHierarchy::Lock()
+{
+	locked = true;
+}
+
+void SceneHierarchy::Unlock()
+{
+	locked = false;
 }

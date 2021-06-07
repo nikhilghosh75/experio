@@ -19,6 +19,8 @@ using namespace Experio::Algorithm;
 
 GeneratedEditor generatedEditor;
 
+Inspector* Inspector::inspector = nullptr;
+
 void Inspector::DisplayGameObject(GameObject* object)
 {
 	if (object == nullptr) return;
@@ -332,6 +334,10 @@ Inspector::Inspector()
 {
 	this->category = EEditorModuleCategory::Core;
 	this->name = "Inspector";
+
+	this->locked = false;
+
+	inspector = this;
 }
 
 Inspector::~Inspector()
@@ -345,6 +351,12 @@ Inspector::~Inspector()
 void Inspector::Display()
 {
 	PROFILE_SCOPE("Inspector::Display");
+
+	if (locked)
+	{
+		ImGui::Text("Scene Editing is currently locked");
+		return;
+	}
 
 	std::vector<GameObject*>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
 
@@ -362,4 +374,14 @@ void Inspector::Display()
 		DisplayMultipleGameObjects(objects);
 		DisplayAddComponentMenu();
 	}
+}
+
+void Inspector::Lock()
+{
+	locked = true;
+}
+
+void Inspector::Unlock()
+{
+	locked = false;
 }

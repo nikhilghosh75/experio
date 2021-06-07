@@ -40,6 +40,8 @@ class SceneView : public EditorModule
 
 	ImVec2 lastSize;
 
+	bool locked;
+
 	void CreateMenu();
 
 	void ComputeContext();
@@ -58,4 +60,8 @@ public:
 	virtual void HandleInput() override;
 
 	void SetEditMode(ESceneEditMode sceneEditMode);
+
+	void Lock();
+
+	void Unlock();
 };
