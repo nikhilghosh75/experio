@@ -32,8 +32,8 @@ public:
 	{
 		for (size_t i = 0; i < modifiers.size(); i++)
 		{
-			if (dynamic_cast<T>(modifiers[i]) != nullptr)
-				return dynamic_cast<T>(modifiers[i]);
+			if (dynamic_cast<T*>(modifiers[i]) != nullptr)
+				return dynamic_cast<T*>(modifiers[i]);
 		}
 		return nullptr;
 	}
@@ -43,8 +43,8 @@ public:
 	{
 		for (size_t i = 0; i < startModifiers.size(); i++)
 		{
-			if (dynamic_cast<T>(startModifiers[i]) != nullptr)
-				return dynamic_cast<T>(startModifiers[i]);
+			if (dynamic_cast<T*>(startModifiers[i]) != nullptr)
+				return dynamic_cast<T*>(startModifiers[i]);
 		}
 		return nullptr;
 	}
