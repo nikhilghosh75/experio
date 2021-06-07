@@ -161,6 +161,8 @@
     <ClCompile Include="Source\Inspector\Inspector.cpp" />
     <ClCompile Include="Source\Materials\MaterialEditor.cpp" />
     <ClCompile Include="Source\Materials\MaterialSaver.cpp" />
+    <ClCompile Include="Source\Particles\ParticleSaver.cpp" />
+    <ClCompile Include="Source\Profilers\InputDebugger.cpp" />
     <ClCompile Include="Source\Profilers\MemoryProfiler.cpp" />
     <ClCompile Include="Source\Profilers\TimeProfiler.cpp" />
     <ClCompile Include="Source\ProjectSettings\AudioSettings.cpp" />
@@ -280,6 +282,8 @@
     <ClInclude Include="Source\Materials\MaterialEditor.h" />
     <ClInclude Include="Source\Materials\MaterialSaver.h" />
     <ClInclude Include="Source\Materials\ShaderParser.h" />
+    <ClInclude Include="Source\Particles\ParticleSaver.h" />
+    <ClInclude Include="Source\Profilers\InputDebugger.h" />
     <ClInclude Include="Source\Profilers\MemoryProfiler.h" />
     <ClInclude Include="Source\Profilers\TimeProfiler.h" />
     <ClInclude Include="Source\ProjectSettings\AudioSettings.h" />
