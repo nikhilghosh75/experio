@@ -69,7 +69,10 @@ void GameView::Display()
 
 	CreateMenu();
 
+	ImVec2 currentPosition = ImGui::GetCursorScreenPos();
 	ImVec2 currentSize = ImGui::GetContentRegionAvail();
+	FRect rect = FRect(currentPosition, (FVector2)currentPosition + (FVector2)currentSize);
+	Input::SetGameRect(rect);
 
 	if (!LMath::ApproxEquals(currentSize.x, lastSize.x, 2) || !LMath::ApproxEquals(currentSize.y, lastSize.y, 2))
 	{
