@@ -213,6 +213,12 @@ void EditorProject::TempSetupClasses()
 	panel.params.emplace_back("FColor", "color", ECodeAccessType::Public);
 	panel.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
 
+	CodeClass button("Button");
+	button.inheritance.emplace_back("Component");
+	button.params.emplace_back("FColor", "defaultColor", ECodeAccessType::Public);
+	button.params.emplace_back("FColor", "hoveredColor", ECodeAccessType::Public);
+	button.params.emplace_back("FColor", "activeColor", ECodeAccessType::Public);
+
 	// Delete Later
 	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
 
@@ -231,6 +237,7 @@ void EditorProject::TempSetupClasses()
 	gameProject.PushClass(imageComponent);
 	gameProject.PushClass(progressBar);
 	gameProject.PushClass(panel);
+	gameProject.PushClass(button);
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
