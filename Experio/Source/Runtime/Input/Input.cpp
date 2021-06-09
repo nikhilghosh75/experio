@@ -225,7 +225,7 @@ void Input::CheckShortcuts()
 void Input::SetGameRect(FRect rect)
 {
 	mousePosition = mousePosition - rect.min;
-	lastMousePosition = lastMousePosition - rect.min;
+	// lastMousePosition = lastMousePosition - rect.min;
 }
 
 bool Input::AnyKey()
