@@ -99,10 +99,12 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	AddDefaultModules();
 
 	ProjectSettings::Initialize();
+
 	CreateMenu::Initialize();
 	CompilationParser::Initialize();
 	EditorShortcuts::Initialize();
 	ImportSystem::Initialize();
+	NotificationSystem::Initialize();
 	Terminal::Initialize();
 }
 
