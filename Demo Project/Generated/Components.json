@@ -71,6 +71,15 @@
       "stage": 7,
       "default": true,
       "standalone": true
+    },
+    {
+      "name": "Button",
+      "id": 108,
+      "category": "UI",
+      "filepath": "Runtime/UI/Button.h",
+      "stage": 7,
+      "default": true,
+      "standalone": true
     }
   ]
 }

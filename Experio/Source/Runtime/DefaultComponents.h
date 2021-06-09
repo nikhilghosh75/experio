@@ -8,6 +8,7 @@
 #include "Rendering/Particles/ParticleComponent.h"
 
 // UI
+#include "UI/Button.h"
 #include "UI/ImageComponent.h"
 #include "UI/Panel.h"
 #include "UI/ProgressBar.h"

@@ -66,13 +66,19 @@ void UIQueue::HandleInput()
 
 void UIQueue::HandleElementInput(const FUIQueueSlot& slot)
 {
-	Debug::Log("WolverineSoft");
+	switch (slot.componentType)
+	{
+	case EUIComponentType::Button:
+		((Button*)slot.component)->HandleInput(); break;
+	}
 }
 
 void UIQueue::RenderUISlot(const FUIQueueSlot& slot)
 {
 	switch (slot.componentType)
 	{
+	case EUIComponentType::Button:
+		((Button*)slot.component)->RenderButton(); break;
 	case EUIComponentType::ImageComponent:
 		((ImageComponent*)slot.component)->RenderImage(); break;
 	case EUIComponentType::Panel:

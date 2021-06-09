@@ -12,6 +12,7 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 		case 106: return std::vector<std::string>({ "minValue", "maxValue", "value", "backgroundColor", "barColor", "shader", "mode"});
 		case 107: return std::vector<std::string>({ "roundedPixels", "color", "texture"});
 		case 100: return std::vector<std::string>({ "priority", "fieldOfView", "nearClipPlane", "farClipPlane"});
+		case 108: return std::vector<std::string>({ "defaultColor", "hoveredColor", "activeColor"});
 		case 101: return std::vector<std::string>({ "material", "meshData", "isVisible"});
 		case 102: return std::vector<std::string>({ });
 		case 103: return std::vector<std::string>({ "billboardTexture", "sizeType", "orientation", "billboardSize"});
@@ -73,6 +74,13 @@ template<> void SetComponentParams(std::vector<std::string> params, VirtualCamer
 	component->fieldOfView = ParseFloat(params[1]);
 	component->nearClipPlane = ParseFloat(params[2]);
 	component->farClipPlane = ParseFloat(params[3]);
+}
+
+template<> void SetComponentParams(std::vector<std::string> params, Button* component)
+{
+	component->defaultColor = ParseColor(params[0]);
+	component->hoveredColor = ParseColor(params[1]);
+	component->activeColor = ParseColor(params[2]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, MeshComponent* component)
@@ -150,6 +158,13 @@ template<> void SetComponentBinaryParams(void* data, VirtualCamera* component)
 	component->farClipPlane = BinaryParseFloat((void*)((char*)data + 12));
 }
 
+template<> void SetComponentBinaryParams(void* data, Button* component)
+{
+	component->defaultColor = BinaryParseColor((void*)((char*)data + 0));
+	component->hoveredColor = BinaryParseColor((void*)((char*)data + 16));
+	component->activeColor = BinaryParseColor((void*)((char*)data + 32));
+}
+
 template<> void SetComponentBinaryParams(void* data, MeshComponent* component)
 {
 	component->material = (MeshMaterial*)BinaryParseMaterial((void*)((char*)data + 0));
@@ -179,6 +194,7 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 		case 106: { PB_EMPLACE_COMPONENT(ProgressBar, classId); PB_START_COMPONENT(); } break;
 		case 107: { PB_EMPLACE_COMPONENT(Panel, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
+		case 108: { PB_EMPLACE_COMPONENT(Button, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_COMPONENT(ParticleComponent, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
@@ -195,6 +211,7 @@ void AddComponentToScene(unsigned int classId, void* params, size_t paramSize, G
 		case 106: { PB_EMPLACE_BINARY_COMPONENT(ProgressBar, classId); PB_START_COMPONENT(); } break;
 		case 107: { PB_EMPLACE_BINARY_COMPONENT(Panel, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_BINARY_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
+		case 108: { PB_EMPLACE_BINARY_COMPONENT(Button, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_BINARY_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_BINARY_COMPONENT(ParticleComponent, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_BINARY_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
@@ -211,6 +228,7 @@ size_t SizeOfComponent(unsigned int classId)
 		case 106: return sizeof(ProgressBar);
 		case 107: return sizeof(Panel);
 		case 100: return sizeof(VirtualCamera);
+		case 108: return sizeof(Button);
 		case 101: return sizeof(MeshComponent);
 		case 102: return sizeof(ParticleComponent);
 		case 103: return sizeof(Billboard);
@@ -228,6 +246,7 @@ size_t SerializedSizeOfComponent(unsigned int classId)
 		case 106: return 45;
 		case 107: return 24;
 		case 100: return 16;
+		case 108: return 48;
 		case 101: return 9;
 		case 102: return 0;
 		case 103: return 14;

@@ -161,6 +161,7 @@
     <ClInclude Include="Source\Runtime\Debug\Profiler.h" />
     <ClInclude Include="Source\Runtime\Time\FDuration.h" />
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
+    <ClInclude Include="Source\Runtime\UI\Button.h" />
     <ClInclude Include="Source\Runtime\UI\Canvas.h" />
     <ClInclude Include="Source\Runtime\UI\ImageComponent.h" />
     <ClInclude Include="Source\Runtime\UI\InputText.h" />
@@ -315,6 +316,7 @@
     <ClCompile Include="Source\Runtime\Debug\Profiler.cpp" />
     <ClCompile Include="Source\Runtime\Time\FDuration.cpp" />
     <ClCompile Include="Source\Runtime\Time\GameTime.cpp" />
+    <ClCompile Include="Source\Runtime\UI\Button.cpp" />
     <ClCompile Include="Source\Runtime\UI\Canvas.cpp" />
     <ClCompile Include="Source\Runtime\UI\ImageComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\Panel.cpp" />
