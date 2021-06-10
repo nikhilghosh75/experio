@@ -5,6 +5,8 @@
 #include "../../Rendering/Texture.h"
 #include "../../Rendering/Managers/TextureManager.h"
 
+class FontData;
+
 enum class ECharacterSet : uint8_t
 {
 	ANSI = 0x00,
@@ -41,7 +43,23 @@ enum class EFontFileType : uint8_t
 {
 	FNT,
 	TTF,
-	OTF
+	OTF,
+	Binary
+};
+
+enum class EFontType : uint8_t
+{
+	Normal = 0,
+	Bold = 1,
+	Italics = 2,
+	BoldItalics = 3
+};
+
+struct FFontVariant
+{
+	FontData* data;
+	EFontType type;
+	bool loaded = true;
 };
 
 struct FCharacterInfo
