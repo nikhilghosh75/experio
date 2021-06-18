@@ -163,11 +163,13 @@
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
     <ClInclude Include="Source\Runtime\UI\Button.h" />
     <ClInclude Include="Source\Runtime\UI\Canvas.h" />
+    <ClInclude Include="Source\Runtime\UI\CheckBox.h" />
     <ClInclude Include="Source\Runtime\UI\ImageComponent.h" />
     <ClInclude Include="Source\Runtime\UI\InputText.h" />
     <ClInclude Include="Source\Runtime\UI\Panel.h" />
     <ClInclude Include="Source\Runtime\UI\ProgressBar.h" />
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
+    <ClInclude Include="Source\Runtime\UI\Slider.h" />
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
     <ClInclude Include="Source\Runtime\UI\UIColorPalettes.h" />
     <ClInclude Include="Source\Runtime\UI\UIQueue.h" />
@@ -318,10 +320,12 @@
     <ClCompile Include="Source\Runtime\Time\GameTime.cpp" />
     <ClCompile Include="Source\Runtime\UI\Button.cpp" />
     <ClCompile Include="Source\Runtime\UI\Canvas.cpp" />
+    <ClCompile Include="Source\Runtime\UI\CheckBox.cpp" />
     <ClCompile Include="Source\Runtime\UI\ImageComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\Panel.cpp" />
     <ClCompile Include="Source\Runtime\UI\ProgressBar.cpp" />
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
+    <ClCompile Include="Source\Runtime\UI\Slider.cpp" />
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\UIColorPalettes.cpp" />
     <ClCompile Include="Source\Runtime\UI\UIQueue.cpp" />
