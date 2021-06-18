@@ -65,10 +65,13 @@ public:
 	EVerticalWrapMode verticalWrapMode;
 	EHorizontalAlignment horizontalAlignment;
 	EVerticalAlignment verticalAlignment;
+	EFontType textType;
 	float spacing;
 	Shader* shader;
 
 	void SetDefaultShader();
+
+	void SetTextType(EFontType textType);
 
 private:
 	struct LineInfo

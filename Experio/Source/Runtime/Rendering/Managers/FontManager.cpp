@@ -83,6 +83,9 @@ void FontManager::OnFontDeleted(uint16_t slotIndex)
 	slot.refCount--;
 	if (slot.refCount == 0)
 	{
+		if (slot.persistInMemory)
+			return;
+
 		slot.DeleteFont();
 		slotNames[slotIndex] = "";
 		if (nextAvailibleSlot > slotIndex)
@@ -96,7 +99,8 @@ void FontManager::FindNextAvailibleSlot()
 {
 	for (int i = 0; i < MAX_FONTS; i++)
 	{
-		if (slots[i].data == nullptr && slots[i].refCount <= 0)
+		if (slots[i].data == nullptr && slots[i].refCount <= 0
+			&& slotNames[i].size() == 0)
 		{
 			nextAvailibleSlot = i;
 			return;
@@ -129,7 +133,12 @@ FontRef FontManager::GetFont(const std::string & str)
 	return FontRef(nullptr, MAX_FONTS);
 }
 
-FontRef FontManager::LoadFont(const std::string & str)
+FontRef FontManager::GetFont(uint16_t slotIndex)
+{
+	return FontRef(slotIndex);
+}
+
+FontRef FontManager::LoadFont(const std::string & str, bool persistInMemory)
 {
 	for (uint16_t i = 0; i < MAX_FONTS; i++)
 	{
@@ -139,17 +148,20 @@ FontRef FontManager::LoadFont(const std::string & str)
 		}
 	}
 
-	if (slots[nextAvailibleSlot].data != nullptr)
+	if (slots[nextAvailibleSlot].data != nullptr 
+		|| slotNames[nextAvailibleSlot].size() > 0)
 	{
 		FindNextAvailibleSlot();
 	}
 
-	slotNames[nextAvailibleSlot] = str;
-	slots[nextAvailibleSlot].data = FontReader::ReadFile(str.c_str());
-	slots[nextAvailibleSlot].refCount++;
-	uint16_t lastAvailibleSlot = nextAvailibleSlot;
+	uint16_t slotId = nextAvailibleSlot;
+
+	slotNames[slotId] = str;
+	slots[slotId].persistInMemory = persistInMemory;
+	slots[slotId].data = FontReader::ReadFile(str.c_str());
+	slots[slotId].refCount++;
 	FindNextAvailibleSlot();
-	return FontRef(lastAvailibleSlot);
+	return FontRef(slotId);
 }
 
 bool FontManager::IsFontLoaded(const std::string & str)

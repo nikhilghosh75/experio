@@ -62,6 +62,20 @@ uint32_t LFontOperations::GetIndexOfUV(const FontData& data, const FVector2& uv)
 	return 0;
 }
 
+size_t LFontOperations::GetIndexOfVariant(const FontData& data, EFontType variantType)
+{
+	if (data.variants.empty())
+		return PB_VARIANT_NOT_FOUND;
+
+	for (size_t i = 0; i < data.variants.size(); i++)
+	{
+		if (data.variants[i].type == variantType)
+			return i;
+	}
+
+	return PB_VARIANT_NOT_FOUND;
+}
+
 uint32_t LFontOperations::GetMaxCharacterCode(const FontData& data)
 {
 	uint32_t max = 0;
@@ -89,6 +103,20 @@ bool LFontOperations::HasAllCharsInRange(const FontData & data, uint32_t rangeSt
 			return false;
 	}
 	return true;
+}
+
+bool LFontOperations::HasVariantOfType(const FontData& data, EFontType variantType)
+{
+	if (data.variants.empty())
+		return false;
+	
+	for (size_t i = 0; i < data.variants.size(); i++)
+	{
+		if (data.variants[i].type == variantType)
+			return true;
+	}
+
+	return false;
 }
 
 bool LFontOperations::IsAlphabetSupported(const FontData & data, EAlphabet alphabet)
@@ -145,4 +173,15 @@ uint32_t LFontOperations::SizeOf(const FontData & data)
 void LFontOperations::SortCharacters(FontData& data)
 {
 	std::sort(data.characters.begin(), data.characters.end());
+}
+
+EFontType LFontOperations::StringToFontType(const std::string& str)
+{
+	if (str == "Bold")
+		return EFontType::Bold;
+	else if (str == "BoldItalic")
+		return EFontType::BoldItalics;
+	else if (str == "Italic")
+		return EFontType::Italics;
+	return EFontType::Normal;
 }

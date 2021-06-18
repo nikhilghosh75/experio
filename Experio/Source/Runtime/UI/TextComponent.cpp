@@ -9,6 +9,7 @@
 #include "../Rendering/VertexArray.h"
 #include "../Rendering/VertexBufferLayout.h"
 #include "../Rendering/Shaders/ShaderReader.h"
+#include "../Files/Font/LFontOperations.h"
 
 TextComponent::TextComponent()
 {
@@ -49,6 +50,19 @@ void TextComponent::Update()
 void TextComponent::SetDefaultShader()
 {
 	shader = Renderer::textShader;
+}
+
+void TextComponent::SetTextType(EFontType textType)
+{
+	if (LFontOperations::HasVariantOfType(*font.fontData, textType))
+	{
+		size_t variantIndex = LFontOperations::GetIndexOfVariant(*font.fontData, textType);
+		font = FontManager::GetFont(font->variants[variantIndex].dataIndex);
+	}
+	else
+	{
+		Debug::LogWarning("Could not find font variant");
+	}
 }
 
 void TextComponent::SetCapacity(uint32_t newCapacity)

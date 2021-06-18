@@ -2,6 +2,8 @@
 #include "FontReader.h"
 #include "../../Math/FVector2.h"
 
+#define PB_VARIANT_NOT_FOUND 15928
+
 enum class EAlphabet
 {
 	Arabic,
@@ -37,9 +39,13 @@ public:
 
 	static uint32_t GetIndexOfUV(const FontData& data, const FVector2& uv);
 
+	static size_t GetIndexOfVariant(const FontData& data, EFontType variantType);
+
 	static uint32_t GetMaxCharacterCode(const FontData& data);
 
 	static bool HasAllCharsInRange(const FontData& data, uint32_t rangeStart, uint32_t rangeEnd);
+
+	static bool HasVariantOfType(const FontData& data, EFontType variantType);
 
 	static bool IsAlphabetSupported(const FontData& data, EAlphabet alphabet);
 
@@ -49,4 +55,6 @@ public:
 	static uint32_t SizeOf(const FontData& data);
 
 	static void SortCharacters(FontData& data);
+
+	static EFontType StringToFontType(const std::string& str);
 };
