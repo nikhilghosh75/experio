@@ -201,7 +201,7 @@ void AssetManager::PopulateFromDirectory(const std::string & str)
 
 	for (auto& p : it)
 	{
-		if (p.path().extension().string() == "meta")
+		if (p.path().extension().string() == ".meta")
 		{
 			std::string pathString = p.path().string();
 			std::ifstream inFile(pathString);
