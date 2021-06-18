@@ -2,7 +2,6 @@
 
 #include "../Framework/Framework.h"
 #include "../Math/FColor.h"
-#include "UIColorPalettes.h"
 
 class Button : public Component
 {
