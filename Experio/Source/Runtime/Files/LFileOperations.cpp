@@ -416,6 +416,13 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	return EAssetType::Unknown;
 }
 
+std::string LFileOperations::GetMetaFilename(const std::string& filepath)
+{
+	if (filepath.find(".meta") == std::string::npos)
+		return filepath + ".meta";
+	return filepath;
+}
+
 bool LFileOperations::IsDirectory(const std::string& filepath)
 {
 	for (size_t i = filepath.size() - 2; i >= 2; i--)

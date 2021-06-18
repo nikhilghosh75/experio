@@ -68,6 +68,8 @@ public:
 
 	static EAssetType GetFileTypeOfExt(std::string ext);
 
+	static std::string GetMetaFilename(const std::string& filepath);
+
 	static bool IsDirectory(const std::string& filepath);
 
 	constexpr static uint64_t MultipleToBytes(float bytes, EDataUnit unit);
