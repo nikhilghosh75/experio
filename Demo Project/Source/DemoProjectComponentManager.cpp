@@ -12,7 +12,9 @@ void DemoProjectComponentManager::Start()
 	PB_START(panelInstances);
 	PB_START(buttonInstances);
 	PB_START(meshComponentInstances);
+	PB_START(checkBoxInstances);
 	PB_START(particleComponentInstances);
+	PB_START(sliderInstances);
 	PB_START(billboardInstances);
 }
 
@@ -28,6 +30,8 @@ void DemoProjectComponentManager::Update()
 	PB_UPDATE(progressBarInstances);
 	PB_UPDATE(panelInstances);
 	PB_UPDATE(buttonInstances);
+	PB_UPDATE(checkBoxInstances);
+	PB_UPDATE(sliderInstances);
 	UIQueue::RenderUI();
 }
 
@@ -38,6 +42,7 @@ void DemoProjectComponentManager::RenderScene()
 	PB_UPDATE(particleComponentInstances);
 	PB_UPDATE(billboardInstances);
 	PB_UPDATE(buttonInstances);
+	PB_UPDATE(checkBoxInstances);
 	PB_UPDATE(imageComponentInstances);
 	PB_UPDATE(textComponentInstances);
 	PB_UPDATE(progressBarInstances);
@@ -57,7 +62,9 @@ Component* DemoProjectComponentManager::AddComponent(GameObject* gameObject, uns
 		case 107: PB_ADD_COMPONENT(panelInstances);
 		case 108: PB_ADD_COMPONENT(buttonInstances);
 		case 101: PB_ADD_COMPONENT(meshComponentInstances);
+		case 109: PB_ADD_COMPONENT(checkBoxInstances);
 		case 102: PB_ADD_COMPONENT(particleComponentInstances);
+		case 110: PB_ADD_COMPONENT(sliderInstances);
 		case 103: PB_ADD_COMPONENT(billboardInstances);
 	}
 }
@@ -74,7 +81,9 @@ Component* DemoProjectComponentManager::GetComponent(GameObject* gameObject, uns
 		case 107: PB_GET_COMPONENT(panelInstances);
 		case 108: PB_GET_COMPONENT(buttonInstances);
 		case 101: PB_GET_COMPONENT(meshComponentInstances);
+		case 109: PB_GET_COMPONENT(checkBoxInstances);
 		case 102: PB_GET_COMPONENT(particleComponentInstances);
+		case 110: PB_GET_COMPONENT(sliderInstances);
 		case 103: PB_GET_COMPONENT(billboardInstances);
 	}
 }
@@ -93,7 +102,9 @@ void DemoProjectComponentManager::DeleteComponent(GameObject* gameObject, unsign
 		case 107: PB_DELETE_COMPONENT(panelInstances);
 		case 108: PB_DELETE_COMPONENT(buttonInstances);
 		case 101: PB_DELETE_COMPONENT(meshComponentInstances);
+		case 109: PB_DELETE_COMPONENT(checkBoxInstances);
 		case 102: PB_DELETE_COMPONENT(particleComponentInstances);
+		case 110: PB_DELETE_COMPONENT(sliderInstances);
 		case 103: PB_DELETE_COMPONENT(billboardInstances);
 	}
 }
@@ -110,7 +121,9 @@ Component* DemoProjectComponentManager::GetComponentAtIndex(unsigned int classId
 		case 107: PB_GET_COMPONENT_INDEX(panelInstances);
 		case 108: PB_GET_COMPONENT_INDEX(buttonInstances);
 		case 101: PB_GET_COMPONENT_INDEX(meshComponentInstances);
+		case 109: PB_GET_COMPONENT_INDEX(checkBoxInstances);
 		case 102: PB_GET_COMPONENT_INDEX(particleComponentInstances);
+		case 110: PB_GET_COMPONENT_INDEX(sliderInstances);
 		case 103: PB_GET_COMPONENT_INDEX(billboardInstances);
 	}
 }
@@ -127,7 +140,9 @@ void DemoProjectComponentManager::OnGameObjectDeleted(GameObject* gameObject)
 	PB_DELETE_COMPONENT(panelInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(buttonInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(meshComponentInstances); foundComponent = false;
+	PB_DELETE_COMPONENT(checkBoxInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(particleComponentInstances); foundComponent = false;
+	PB_DELETE_COMPONENT(sliderInstances); foundComponent = false;
 	PB_DELETE_COMPONENT(billboardInstances); foundComponent = false;
 }
 
@@ -145,7 +160,9 @@ std::vector<Component*> DemoProjectComponentManager::GetComponentsInGameObject(G
 	PB_GET_COMPONENT_GAMEOBJECT(100);
 	PB_GET_COMPONENT_GAMEOBJECT(108);
 	PB_GET_COMPONENT_GAMEOBJECT(101);
+	PB_GET_COMPONENT_GAMEOBJECT(109);
 	PB_GET_COMPONENT_GAMEOBJECT(102);
+	PB_GET_COMPONENT_GAMEOBJECT(110);
 	PB_GET_COMPONENT_GAMEOBJECT(103);
 	return returnVector;
 }
@@ -162,7 +179,9 @@ std::vector<unsigned int> DemoProjectComponentManager::GetComponentsIDsInGameObj
 	PB_GET_COMPONENT_IDS(100);
 	PB_GET_COMPONENT_IDS(108);
 	PB_GET_COMPONENT_IDS(101);
+	PB_GET_COMPONENT_IDS(109);
 	PB_GET_COMPONENT_IDS(102);
+	PB_GET_COMPONENT_IDS(110);
 	PB_GET_COMPONENT_IDS(103);
 	return returnVector;
 }
@@ -179,7 +198,9 @@ std::vector<Component*> DemoProjectComponentManager::GetAllComponents()
 	PB_GET_ALL(panelInstances);
 	PB_GET_ALL(buttonInstances);
 	PB_GET_ALL(meshComponentInstances);
+	PB_GET_ALL(checkBoxInstances);
 	PB_GET_ALL(particleComponentInstances);
+	PB_GET_ALL(sliderInstances);
 	PB_GET_ALL(billboardInstances);
 	return vector;
 }
@@ -198,7 +219,9 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 	PB_GET_ALL_IDS(panelInstances, 107);
 	PB_GET_ALL_IDS(buttonInstances, 108);
 	PB_GET_ALL_IDS(meshComponentInstances, 101);
+	PB_GET_ALL_IDS(checkBoxInstances, 109);
 	PB_GET_ALL_IDS(particleComponentInstances, 102);
+	PB_GET_ALL_IDS(sliderInstances, 110);
 	PB_GET_ALL_IDS(billboardInstances, 103);
 }
 
@@ -216,11 +239,13 @@ void DemoProjectComponentManager::GetAllComponents(std::vector<Component*>& comp
 	PB_GET_ALL_SCENE_IDS(panelInstances, 107);
 	PB_GET_ALL_SCENE_IDS(buttonInstances, 108);
 	PB_GET_ALL_SCENE_IDS(meshComponentInstances, 101);
+	PB_GET_ALL_SCENE_IDS(checkBoxInstances, 109);
 	PB_GET_ALL_SCENE_IDS(particleComponentInstances, 102);
+	PB_GET_ALL_SCENE_IDS(sliderInstances, 110);
 	PB_GET_ALL_SCENE_IDS(billboardInstances, 103);
 }
 
 unsigned int DemoProjectComponentManager::ComponentCount() const
 {
-	return cameraSystem.Size() + textComponentInstances.size() + spaceshipInstances.size() + imageComponentInstances.size() + progressBarInstances.size() + panelInstances.size() + buttonInstances.size() + meshComponentInstances.size() + particleComponentInstances.size() + billboardInstances.size();
+	return cameraSystem.Size() + textComponentInstances.size() + spaceshipInstances.size() + imageComponentInstances.size() + progressBarInstances.size() + panelInstances.size() + buttonInstances.size() + meshComponentInstances.size() + checkBoxInstances.size() + particleComponentInstances.size() + sliderInstances.size() + billboardInstances.size();
 }

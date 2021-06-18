@@ -14,7 +14,9 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 		case 100: return std::vector<std::string>({ "priority", "fieldOfView", "nearClipPlane", "farClipPlane"});
 		case 108: return std::vector<std::string>({ "defaultColor", "hoveredColor", "activeColor"});
 		case 101: return std::vector<std::string>({ "material", "meshData", "isVisible"});
+		case 109: return std::vector<std::string>({ "offColor", "onColor", "isOn"});
 		case 102: return std::vector<std::string>({ });
+		case 110: return std::vector<std::string>({ "value"});
 		case 103: return std::vector<std::string>({ "billboardTexture", "sizeType", "orientation", "billboardSize"});
 	}
 	return std::vector<std::string>();
@@ -90,8 +92,20 @@ template<> void SetComponentParams(std::vector<std::string> params, MeshComponen
 	component->isVisible = ParseBool(params[2]);
 }
 
+template<> void SetComponentParams(std::vector<std::string> params, CheckBox* component)
+{
+	component->offColor = ParseColor(params[0]);
+	component->onColor = ParseColor(params[1]);
+	component->isOn = ParseBool(params[2]);
+}
+
 template<> void SetComponentParams(std::vector<std::string> params, ParticleComponent* component)
 {
+}
+
+template<> void SetComponentParams(std::vector<std::string> params, Slider* component)
+{
+	component->value = ParseFloat(params[0]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, Billboard* component)
@@ -172,8 +186,20 @@ template<> void SetComponentBinaryParams(void* data, MeshComponent* component)
 	component->isVisible = BinaryParseBool((void*)((char*)data + 8));
 }
 
+template<> void SetComponentBinaryParams(void* data, CheckBox* component)
+{
+	component->offColor = BinaryParseColor((void*)((char*)data + 0));
+	component->onColor = BinaryParseColor((void*)((char*)data + 16));
+	component->isOn = BinaryParseBool((void*)((char*)data + 32));
+}
+
 template<> void SetComponentBinaryParams(void* data, ParticleComponent* component)
 {
+}
+
+template<> void SetComponentBinaryParams(void* data, Slider* component)
+{
+	component->value = BinaryParseFloat((void*)((char*)data + 0));
 }
 
 template<> void SetComponentBinaryParams(void* data, Billboard* component)
@@ -196,7 +222,9 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 		case 100: { PB_EMPLACE_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 108: { PB_EMPLACE_COMPONENT(Button, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
+		case 109: { PB_EMPLACE_COMPONENT(CheckBox, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_COMPONENT(ParticleComponent, classId); PB_START_COMPONENT(); } break;
+		case 110: { PB_EMPLACE_COMPONENT(Slider, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
 	}
 }
@@ -213,7 +241,9 @@ void AddComponentToScene(unsigned int classId, void* params, size_t paramSize, G
 		case 100: { PB_EMPLACE_BINARY_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 108: { PB_EMPLACE_BINARY_COMPONENT(Button, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_BINARY_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
+		case 109: { PB_EMPLACE_BINARY_COMPONENT(CheckBox, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_BINARY_COMPONENT(ParticleComponent, classId); PB_START_COMPONENT(); } break;
+		case 110: { PB_EMPLACE_BINARY_COMPONENT(Slider, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_BINARY_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
 	}
 }
@@ -230,7 +260,9 @@ size_t SizeOfComponent(unsigned int classId)
 		case 100: return sizeof(VirtualCamera);
 		case 108: return sizeof(Button);
 		case 101: return sizeof(MeshComponent);
+		case 109: return sizeof(CheckBox);
 		case 102: return sizeof(ParticleComponent);
+		case 110: return sizeof(Slider);
 		case 103: return sizeof(Billboard);
 	}
 	return 0;
@@ -248,7 +280,9 @@ size_t SerializedSizeOfComponent(unsigned int classId)
 		case 100: return 16;
 		case 108: return 48;
 		case 101: return 9;
+		case 109: return 33;
 		case 102: return 0;
+		case 110: return 4;
 		case 103: return 14;
 	}
 	return 0;

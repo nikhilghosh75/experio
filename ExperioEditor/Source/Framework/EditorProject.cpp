@@ -219,6 +219,16 @@ void EditorProject::TempSetupClasses()
 	button.params.emplace_back("FColor", "hoveredColor", ECodeAccessType::Public);
 	button.params.emplace_back("FColor", "activeColor", ECodeAccessType::Public);
 
+	CodeClass checkBox("CheckBox");
+	checkBox.inheritance.emplace_back("Component");
+	checkBox.params.emplace_back("FColor", "offColor", ECodeAccessType::Public);
+	checkBox.params.emplace_back("FColor", "onColor", ECodeAccessType::Public);
+	checkBox.params.emplace_back("bool", "isOn", ECodeAccessType::Public);
+
+	CodeClass slider("Slider");
+	slider.inheritance.emplace_back("Component");
+	slider.params.emplace_back("float", "value", ECodeAccessType::Public);
+
 	// Delete Later
 	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
 
@@ -238,6 +248,8 @@ void EditorProject::TempSetupClasses()
 	gameProject.PushClass(progressBar);
 	gameProject.PushClass(panel);
 	gameProject.PushClass(button);
+	gameProject.PushClass(checkBox);
+	gameProject.PushClass(slider);
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);

@@ -20,7 +20,11 @@ class DemoProjectComponentManager : public ComponentManager
 
 	std::vector<MeshComponent> meshComponentInstances;
 
+	std::vector<CheckBox> checkBoxInstances;
+
 	std::vector<ParticleComponent> particleComponentInstances;
+
+	std::vector<Slider> sliderInstances;
 
 	std::vector<Billboard> billboardInstances;
 
