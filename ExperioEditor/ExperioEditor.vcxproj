@@ -176,6 +176,7 @@
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
     <ClCompile Include="Source\Terminal\AssetCommands.cpp" />
     <ClCompile Include="Source\Terminal\CodeAnalysisCommands.cpp" />
+    <ClCompile Include="Source\Terminal\MathCommands.cpp" />
     <ClCompile Include="Source\Terminal\SceneCommands.cpp" />
     <ClCompile Include="Source\Terminal\ScreenCommands.cpp" />
     <ClCompile Include="Source\Terminal\SizeCommands.cpp" />
