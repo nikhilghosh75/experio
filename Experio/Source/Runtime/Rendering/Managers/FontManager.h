@@ -55,6 +55,8 @@ class FontManager
 
 	static void FindNextAvailibleSlot();
 public:
+	static bool CanStoreFont();
+
 	static void Init();
 
 	static FontRef GetFont(const std::string& str);
@@ -64,6 +66,8 @@ public:
 	static bool IsFontLoaded(const std::string& str);
 
 	static std::string GetNameOfFont(const FontRef& ref);
+
+	static size_t NumLoadedFonts();
 
 	static size_t SizeOfLoadedFonts();
 };

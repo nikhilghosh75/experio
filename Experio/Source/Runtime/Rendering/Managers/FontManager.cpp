@@ -104,6 +104,11 @@ void FontManager::FindNextAvailibleSlot()
 	}
 }
 
+bool FontManager::CanStoreFont()
+{
+	return NumLoadedFonts() < MAX_FONTS - 1;
+}
+
 void FontManager::Init()
 {
 	for (int i = 0; i < MAX_FONTS; i++)
@@ -162,6 +167,17 @@ bool FontManager::IsFontLoaded(const std::string & str)
 std::string FontManager::GetNameOfFont(const FontRef & ref)
 {
 	return slotNames[ref.fontID];
+}
+
+size_t FontManager::NumLoadedFonts()
+{
+	size_t numLoadedFonts = 0;
+	for (uint16_t i = 0; i < MAX_FONTS; i++)
+	{
+		if (slots[i].data != nullptr)
+			numLoadedFonts++;
+	}
+	return numLoadedFonts;
 }
 
 size_t FontManager::SizeOfLoadedFonts()
