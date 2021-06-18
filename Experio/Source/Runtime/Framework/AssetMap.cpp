@@ -4,6 +4,7 @@
 #include "../Files/LFileOperations.h"
 
 THashtable<unsigned int, std::string> AssetMap::assetMap;
+THashtable<Experio::GUID, std::string, Experio::GUIDHashFunction> AssetMap::guidMap;
 std::string AssetMap::defaultScenePath;
 
 void AssetMap::ReadAssetMap(std::string filepath)
@@ -33,9 +34,11 @@ void AssetMap::ReadAssetMap(std::string filepath)
 	{
 		unsigned int assetIndex;
 		std::string assetFilepath;
+		std::string guidStr;
 
-		inFile >> assetIndex >> assetFilepath;
+		inFile >> assetIndex >> assetFilepath >> guidStr;
 		assetMap.Insert(assetIndex, assetFilepath);
+		guidMap.Insert(Experio::GUID(guidStr), assetFilepath);
 	}
 }
 

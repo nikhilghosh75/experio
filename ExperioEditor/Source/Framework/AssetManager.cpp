@@ -208,6 +208,7 @@ void AssetManager::PopulateFromDirectory(const std::string & str)
 			Experio::GUID guid(str);
 			std::string realFilename = pathString.substr(0, pathString.size() - 5);
 			foundGuids.Insert(guid, realFilename);
+			AssetMap::guidMap.Insert(guid, realFilename);
 		}
 	}
 }
