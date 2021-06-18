@@ -1,7 +1,9 @@
 #include "ImageComponent.h"
 #include "Canvas.h"
+#include "UIQueue.h"
 #include "../Rendering/Renderer.h"
 #include "../Core/Window.h"
+#include "../Rendering/Shaders/ShaderReader.h"
 
 const FRect ImageComponent::imageUVRect = FRect(0, 0, 1, 1);
 
@@ -17,10 +19,18 @@ ImageComponent::ImageComponent(GameObject* gameObject)
 
 void ImageComponent::Start()
 {
-
+	shader = Renderer::imageShader;
 }
 
 void ImageComponent::Update()
+{
+	if (texture.IsNull())
+		return;
+
+	UIQueue::AddToQueue(this, gameObject->rectTransform.z, EUIComponentType::ImageComponent);
+}
+
+void ImageComponent::RenderImage()
 {
 	if (texture.IsNull())
 		return;
@@ -36,5 +46,8 @@ void ImageComponent::Update()
 
 	Renderer::Get()->SetBlend(true, EBlendFunc::OneMinusSourceColor);
 
-	Renderer::Get()->DrawQuad(*texture, nullptr, imageUVRect, rect);
+	shader->Bind();
+	shader->SetUniformVec4("imageTint", glm::vec4(tint.r, tint.g, tint.b, tint.a));
+
+	Renderer::Get()->DrawQuad(*texture, shader, imageUVRect, rect);
 }

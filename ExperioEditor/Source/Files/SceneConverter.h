@@ -6,6 +6,7 @@
 #include "Runtime/Math/FVector3.h"
 
 class FileBuffer;
+class SceneSettings;
 
 class SceneConverter
 {
@@ -40,6 +41,14 @@ private:
 	static uint32_t GetNumComponents(const FileBuffer& buffer);
 
 	static std::string GetName(const FileBuffer& buffer);
+
+	// ---- Scene Settings ----
+	
+	static void GenerateSceneSettings(const FileBuffer& buffer, std::ofstream& outFile);
+
+	static SceneSettings ParseSceneSettings(const FileBuffer& buffer);
+
+	static void SaveSceneSettings(std::ofstream& outFile, const SceneSettings& settings);
 
 	//  ---- Game Objects ----
 	static void GenerateGameObject(const FileBuffer& buffer, std::ofstream& outFile);

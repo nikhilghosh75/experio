@@ -112,12 +112,18 @@ public:
 	};
 
 	SpawnModifier();
+	SpawnModifier(ESpawnMode newMode);
 
 	~SpawnModifier();
 
+	void SetMode(ESpawnMode newMode);
+
 	void Update(ParticleComponent& component);
 
-	void UpdateOverLife(ParticleComponent& component);
+	unsigned int ParticlesToSpawn(float time, float deltaTime) const;
 
-	void UpdateBurst(ParticleComponent& component);
+private:
+	unsigned int ParticlesToSpawnBurst(float time, float deltaTime) const;
+
+	unsigned int ParticlesToSpawnOverLife(float time, float deltaTime) const;
 };

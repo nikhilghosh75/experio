@@ -35,6 +35,12 @@ void VertexArray::AddBuffer(const VertexBuffer* buffer, const VertexBufferLayout
 	bufferCount++;
 }
 
+void VertexArray::AddBuffer(const VertexBuffer* buffer, const VertexBufferLayout& layout, int attribDivisor)
+{
+	AddBuffer(buffer, layout);
+	glVertexAttribDivisor(bufferCount - 1, attribDivisor);
+}
+
 void VertexArray::Bind() const
 {
 	glBindVertexArray(rendererID);

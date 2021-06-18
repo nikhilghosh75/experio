@@ -19,9 +19,17 @@ using namespace Experio::Algorithm;
 
 GeneratedEditor generatedEditor;
 
+Inspector* Inspector::inspector = nullptr;
+
 void Inspector::DisplayGameObject(GameObject* object)
 {
 	if (object == nullptr) return;
+
+	if (object->IsSceneRoot())
+	{
+		DisplaySceneSettings(object);
+		return;
+	}
 	
 	DisplayGameObjectInfo(object);
 
@@ -54,6 +62,23 @@ void Inspector::DisplayGameObject(GameObject* object)
 			ImGui::TreePop();
 		}
 	}
+}
+
+void Inspector::DisplaySceneSettings(GameObject* object)
+{
+	ImGui::Text("Scene Settings:");
+
+	SceneSettings& settings = Scene::scenes[object->sceneIndex].sceneSettings;
+	
+	ImGui::ColorEdit3("Clear Color:", (float*)&settings.clearColor, ImGuiColorEditFlags_Float);
+	LImGui::DisplayEnum<EUISortMode>(settings.uiSortMode, "UI Sort Mode");
+	ImGui::Checkbox("Audio Playback", &settings.audioPlayback);
+
+	const std::vector<std::string> inputMaskFields = { "Keyboard", "Mouse", "Gamepad", "Joystick", "Pen", "Touchscreen" };
+	bool inputMask[6];
+	settings.inputMask.FillBoolArray(inputMask);
+	LImGui::DisplayBitmask("Input Mask", inputMaskFields, inputMask);
+	settings.inputMask = inputMask;
 }
 
 void Inspector::DisplayMultipleGameObjects(std::vector<GameObject*>& gameObjects)
@@ -173,20 +198,22 @@ void Inspector::DisplayRectTransform(GameObject* object)
 	if (ImGui::TreeNode("RectTransform"))
 	{
 		LImGui::DisplayEnum<EPositionConstraintType>(object->rectTransform.xConstraint.type, "X:");
-		ImGui::SameLine();
-		ImGui::InputFloat("Offset:", &object->rectTransform.xConstraint.value);
+		// ImGui::SameLine();
+		ImGui::DragFloat("Offset X:", &object->rectTransform.xConstraint.value);
 
 		LImGui::DisplayEnum<EPositionConstraintType>(object->rectTransform.yConstraint.type, "Y:");
-		ImGui::SameLine();
-		ImGui::InputFloat("Offset:", &object->rectTransform.yConstraint.value);
+		// ImGui::SameLine();
+		ImGui::DragFloat("Offset Y:", &object->rectTransform.yConstraint.value);
 
-		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.widthConstraint.type, "Width:");
-		ImGui::SameLine();
-		ImGui::InputFloat("Width:", &object->rectTransform.widthConstraint.value);
+		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.widthConstraint.type, "Width Constraint:");
+		// ImGui::SameLine();
+		ImGui::DragFloat("Width:", &object->rectTransform.widthConstraint.value);
 
-		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.heightConstraint.type, "Height:");
-		ImGui::SameLine();
-		ImGui::InputFloat("Height:", &object->rectTransform.heightConstraint.value);
+		LImGui::DisplayEnum<EDimensionConstraintType>(object->rectTransform.heightConstraint.type, "Height Constraint:");
+		// ImGui::SameLine();
+		ImGui::DragFloat("Height:", &object->rectTransform.heightConstraint.value);
+
+		ImGui::DragFloat("Z:", &object->rectTransform.z);
 
 		ImGui::TreePop();
 	}
@@ -307,6 +334,10 @@ Inspector::Inspector()
 {
 	this->category = EEditorModuleCategory::Core;
 	this->name = "Inspector";
+
+	this->locked = false;
+
+	inspector = this;
 }
 
 Inspector::~Inspector()
@@ -320,6 +351,12 @@ Inspector::~Inspector()
 void Inspector::Display()
 {
 	PROFILE_SCOPE("Inspector::Display");
+
+	if (locked)
+	{
+		ImGui::Text("Scene Editing is currently locked");
+		return;
+	}
 
 	std::vector<GameObject*>& objects = SceneHierarchy::hierarchy->GetSelectedItems();
 
@@ -337,4 +374,14 @@ void Inspector::Display()
 		DisplayMultipleGameObjects(objects);
 		DisplayAddComponentMenu();
 	}
+}
+
+void Inspector::Lock()
+{
+	locked = true;
+}
+
+void Inspector::Unlock()
+{
+	locked = false;
 }

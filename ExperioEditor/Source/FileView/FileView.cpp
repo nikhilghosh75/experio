@@ -45,6 +45,8 @@ FileView::FileView()
 		this->filesSelected[i] = true;
 	}
 
+	this->viewMode = EFileViewMode::Button;
+
 	fileView = this;
 }
 
@@ -105,12 +107,21 @@ void FileView::DisplayImportMenu()
 void FileView::DisplayMenuBar()
 {
 	static const std::vector<std::string> fileTypes = { "Audio", "Animation", "Code",
-		"Data", "Flowchart", "Font", "Image", "Input Map", "H", "Markup", "Material", "Mesh", 
+		"Data", "Flowchart", "Font", "H", "Image", "Input Map", "Markup", "Material", "Mesh", 
 		"Meta", "NonEngineCode", "Particle", "Prefab", "Shader", "Scene", "Soundbank", 
 		"Style", "Text","Video"
 	};
 	if (ImGui::BeginMenuBar())
 	{
+		if (ImGui::BeginMenu("View"))
+		{
+			if (ImGui::Selectable("Button View", viewMode == EFileViewMode::Button))
+				viewMode = EFileViewMode::Button;
+			if (ImGui::Selectable("Table View", viewMode == EFileViewMode::Table))
+				viewMode = EFileViewMode::Table;
+
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("Filters"))
 		{
 			fileMask = LImGui::DisplayBitmask("Filters", fileTypes, filesSelected);
@@ -180,6 +191,20 @@ void FileView::DisplayContents()
 
 	ImGui::Text("Contents");
 
+	if (viewMode == EFileViewMode::Button)
+	{
+		DisplayContentsButtonView();
+	}
+	else
+	{
+		DisplayContentsTableView();
+	}
+
+	ImGui::EndChild();
+}
+
+void FileView::DisplayContentsButtonView()
+{
 	for (auto& p : fs::directory_iterator(this->selectedFilepath))
 	{
 		std::string pathString = p.path().filename().string();
@@ -216,8 +241,45 @@ void FileView::DisplayContents()
 			ImGui::EndDragDropSource();
 		}
 	}
+}
 
-	ImGui::EndChild();
+void FileView::DisplayContentsTableView()
+{
+	if (ImGui::BeginTable("##Contents", 3))
+	{
+		ImGui::TableSetupColumn("Filename");
+		ImGui::TableSetupColumn("Type");
+		ImGui::TableSetupColumn("Size");
+		ImGui::TableHeadersRow();
+
+		for (auto& p : fs::directory_iterator(this->selectedFilepath))
+		{
+			std::string pathString = p.path().filename().string();
+			EAssetType type = LFileOperations::GetFileType(pathString);
+			size_t size = fs::file_size(p);
+
+			if (type == EAssetType::Meta)
+			{
+				continue;
+			}
+
+			if (!fileMask.CompareFile(FFileCategory(type, false)))
+			{
+				continue;
+			}
+
+			ImGui::TableNextColumn();
+			ImGui::Text(pathString.c_str());
+
+			ImGui::TableNextColumn();
+			ImGui::Text(LFileOperations::AssetTypeToString(type).c_str());
+
+			ImGui::TableNextColumn();
+			ImGui::Text(LFileOperations::BytesToString(size, 2).c_str());
+		}
+
+		ImGui::EndTable();
+	}
 }
 
 void FileView::OpenCreateMenus()
@@ -379,3 +441,10 @@ bool FileView::IsAssetLoaded(const std::string& filepath, EAssetType type)
 	}
 	return false;
 }
+
+/*
+	Potential Columns for Tables:
+	- Filename
+	- Type
+	- Size
+*/

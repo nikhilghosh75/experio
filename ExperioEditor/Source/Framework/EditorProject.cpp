@@ -186,6 +186,8 @@ void EditorProject::TempSetupClasses()
 	textComponent.params.emplace_back("FColor", "color", ECodeAccessType::Public);
 	textComponent.params.emplace_back("EHorizontalWrapMode", "horizontalWrapMode", ECodeAccessType::Public);
 	textComponent.params.emplace_back("EVerticalWrapMode", "verticalWrapMode", ECodeAccessType::Public);
+	textComponent.params.emplace_back("EHorizontalAlignment", "horizontalAlignment", ECodeAccessType::Public);
+	textComponent.params.emplace_back("EVerticalAlignment", "verticalAlignment", ECodeAccessType::Public);
 	textComponent.params.emplace_back("float", "spacing", ECodeAccessType::Public);
 	textComponent.params.emplace_back("Shader*", "shader", ECodeAccessType::Public);
 	textComponent.params.emplace_back("std::string", "text", ECodeAccessType::Public);
@@ -193,6 +195,7 @@ void EditorProject::TempSetupClasses()
 	CodeClass imageComponent("ImageComponent");
 	imageComponent.inheritance.emplace_back("Component");
 	imageComponent.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
+	imageComponent.params.emplace_back("FColor", "tint", ECodeAccessType::Public);
 
 	CodeClass progressBar("ProgressBar");
 	progressBar.inheritance.emplace_back("Component");
@@ -209,6 +212,22 @@ void EditorProject::TempSetupClasses()
 	panel.params.emplace_back("float", "roundedPixels", ECodeAccessType::Public);
 	panel.params.emplace_back("FColor", "color", ECodeAccessType::Public);
 	panel.params.emplace_back("TextureRef", "texture", ECodeAccessType::Public);
+
+	CodeClass button("Button");
+	button.inheritance.emplace_back("Component");
+	button.params.emplace_back("FColor", "defaultColor", ECodeAccessType::Public);
+	button.params.emplace_back("FColor", "hoveredColor", ECodeAccessType::Public);
+	button.params.emplace_back("FColor", "activeColor", ECodeAccessType::Public);
+
+	CodeClass checkBox("CheckBox");
+	checkBox.inheritance.emplace_back("Component");
+	checkBox.params.emplace_back("FColor", "offColor", ECodeAccessType::Public);
+	checkBox.params.emplace_back("FColor", "onColor", ECodeAccessType::Public);
+	checkBox.params.emplace_back("bool", "isOn", ECodeAccessType::Public);
+
+	CodeClass slider("Slider");
+	slider.inheritance.emplace_back("Component");
+	slider.params.emplace_back("float", "value", ECodeAccessType::Public);
 
 	// Delete Later
 	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
@@ -228,11 +247,16 @@ void EditorProject::TempSetupClasses()
 	gameProject.PushClass(imageComponent);
 	gameProject.PushClass(progressBar);
 	gameProject.PushClass(panel);
+	gameProject.PushClass(button);
+	gameProject.PushClass(checkBox);
+	gameProject.PushClass(slider);
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EHorizontalWrapMode", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EVerticalWrapMode", EEnumDataType::UBYTE);
+	gameProject.EmplaceEnum("EHorizontalAlignment", EEnumDataType::UBYTE);
+	gameProject.EmplaceEnum("EVerticalAlignment", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EProgressBarMode", EEnumDataType::UBYTE);
 }
 

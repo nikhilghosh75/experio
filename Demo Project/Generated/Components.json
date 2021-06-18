@@ -71,6 +71,33 @@
       "stage": 7,
       "default": true,
       "standalone": true
+    },
+    {
+      "name": "Button",
+      "id": 108,
+      "category": "UI",
+      "filepath": "Runtime/UI/Button.h",
+      "stage": 7,
+      "default": true,
+      "standalone": true
+    },
+    {
+      "name": "CheckBox",
+      "id": 109,
+      "category": "UI",
+      "filepath": "Runtime/UI/CheckBox.h",
+      "stage": 7,
+      "default": true,
+      "standalone": true
+    },
+    {
+      "name": "Slider",
+      "id": 110,
+      "category": "UI",
+      "filepath": "Runtime/UI/Slider.h",
+      "stage": 7,
+      "default": true,
+      "standalone": true
     }
   ]
 }

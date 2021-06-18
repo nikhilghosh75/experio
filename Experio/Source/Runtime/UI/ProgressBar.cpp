@@ -1,5 +1,6 @@
 #include "ProgressBar.h"
 #include "Canvas.h"
+#include "UIQueue.h"
 #include "../Rendering/IndexBuffer.h"
 #include "../Rendering/Renderer.h"
 #include "../Rendering/VertexBuffer.h"
@@ -36,23 +37,7 @@ void ProgressBar::Start()
 
 void ProgressBar::Update()
 {
-	float canvasWidth = Canvas::GetCanvasWidth();
-	float canvasHeight = Canvas::GetCanvasHeight();
-
-	FRect rect = gameObject->GetCanvasSpaceRect();
-	rect.min.x /= canvasWidth;
-	rect.min.y /= canvasHeight;
-	rect.max.x /= canvasWidth;
-	rect.max.y /= canvasHeight;
-
-	switch (mode)
-	{
-	case EProgressBarMode::Horizontal: FillHorizontalProgressBar(rect); break;
-	case EProgressBarMode::Vertical: FillVerticalProgressBar(rect); break;
-	}
-
-	FillColors();
-	RenderProgressBar();
+	UIQueue::AddToQueue(this, gameObject->rectTransform.z, EUIComponentType::ProgressBar);
 }
 
 float ProgressBar::GetProgressFill()
@@ -106,6 +91,24 @@ void ProgressBar::FillColors()
 
 void ProgressBar::RenderProgressBar()
 {
+	float canvasWidth = Canvas::GetCanvasWidth();
+	float canvasHeight = Canvas::GetCanvasHeight();
+
+	FRect rect = gameObject->GetCanvasSpaceRect();
+	rect.min.x /= canvasWidth;
+	rect.min.y /= canvasHeight;
+	rect.max.x /= canvasWidth;
+	rect.max.y /= canvasHeight;
+
+	switch (mode)
+	{
+	case EProgressBarMode::Horizontal: FillHorizontalProgressBar(rect); break;
+	case EProgressBarMode::Vertical: FillVerticalProgressBar(rect); break;
+	}
+
+	FillColors();
+	RenderProgressBar();
+
 	VertexBuffer vertexBuffer(vertices, sizeof(glm::vec2) * 8);
 	VertexBuffer colorBuffer(colors, sizeof(FColor) * 8);
 

@@ -5,6 +5,7 @@
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Files/Font/FontReader.h"
 #include "Runtime/Files/Mesh/MeshReader.h"
+#include "Runtime/Framework/AssetMap.h"
 #include <filesystem>
 namespace fs = std::filesystem;
 
@@ -193,11 +194,14 @@ bool AssetManager::WillFileBeConverted(const std::string & filename)
 
 void AssetManager::PopulateFromDirectory(const std::string & str)
 {
+	if (str.empty())
+		return;
+
 	fs::recursive_directory_iterator it(str);
 
 	for (auto& p : it)
 	{
-		if (p.path().extension().string() == "meta")
+		if (p.path().extension().string() == ".meta")
 		{
 			std::string pathString = p.path().string();
 			std::ifstream inFile(pathString);
@@ -208,6 +212,7 @@ void AssetManager::PopulateFromDirectory(const std::string & str)
 			Experio::GUID guid(str);
 			std::string realFilename = pathString.substr(0, pathString.size() - 5);
 			foundGuids.Insert(guid, realFilename);
+			AssetMap::guidMap.Insert(guid, realFilename);
 		}
 	}
 }

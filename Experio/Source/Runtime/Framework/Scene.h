@@ -2,6 +2,9 @@
 
 #include "../Containers/TArray.h"
 #include "../Containers/TTypedTree.h"
+#include "../Input/InputCodes.h"
+#include "../Math/FColor.h"
+#include "../UI/UIQueue.h"
 #include "GameObject.h"
 #include "Component.h"
 #include <functional>
@@ -18,12 +21,23 @@
 ///		29 (MAX_SCENES - 3) - Scene Conversions(in - editor only)
 /// </summary>
 
+class SceneSettings
+{
+public:
+	FColor clearColor;
+	EUISortMode uiSortMode;
+	bool audioPlayback;
+	Inputmask inputMask;
+};
+
 class Scene
 {
 public:
 	GameObject sceneRoot;
 	bool isActive = false;
 	bool isLoaded = false;
+
+	SceneSettings sceneSettings;
 
 private:
 	std::string name;

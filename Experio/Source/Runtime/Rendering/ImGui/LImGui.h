@@ -20,6 +20,14 @@ class FontRef;
 class MeshRef;
 class TextureRef;
 
+typedef int ImGuiFilterComboFlags; // -> enum ImGuiFilterComboFlags_   // Flags: for FilterCombo
+
+struct ImGuiFilterComboState
+{
+	int  activeIdx = 0;
+	bool selectionChanged = false;
+};
+
 class LImGui
 {
 public:
@@ -84,6 +92,8 @@ public:
 	static void DisplayVector4(FVector4& V, const std::string& name, const FVector4& resetValue = FVector4(0, 0, 0, 0),
 		const FButtonColorPalette& xColorPalette = FButtonColorPalette::redPalette, const FButtonColorPalette& yColorPalette = FButtonColorPalette::greenPalette, 
 		const FButtonColorPalette& zColorPalette = FButtonColorPalette::bluePalette, const FButtonColorPalette& wColorPalette = FButtonColorPalette::yellowPalette);
+
+	static bool FilterCombo(const char* label, char* buffer, int bufferlen, const char** hints, int num_hints, ImGuiFilterComboState& s, ImGuiFilterComboFlags flags = 0);
 };
 
 template<typename T>
@@ -107,3 +117,10 @@ void LImGui::DisplayEnum(T& currentEnum, std::string name)
 		ImGui::EndCombo();
 	}
 }
+
+enum ImGuiFilterComboFlags_
+{
+	ImGuiFilterComboFlags_None = 0,
+	ImGuiFilterComboFlags_HeightSmall = 1 << 1, // Only 4 items
+	ImGuiFilterComboFlags_HeightRegular = 1 << 2 // Only 8 items
+};

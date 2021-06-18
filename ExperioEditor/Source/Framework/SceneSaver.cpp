@@ -1,5 +1,6 @@
 #include "SceneSaver.h"
 #include "EditorProject.h"
+#include "SaveParams.h"
 #include "../BuildSystem/LSerializationOperations.h"
 #include "Runtime/Framework/Framework.h"
 #include "Runtime/Framework/Project.h"
@@ -15,6 +16,7 @@ void SceneSaver::SaveGameObject(GameObject * gameObject, std::ofstream& stream)
 		stream << ConstraintTextFromType(gameObject->rectTransform.yConstraint.type) << " " << gameObject->rectTransform.yConstraint.value << " ";
 		stream << ConstraintTextFromType(gameObject->rectTransform.widthConstraint.type) << " " << gameObject->rectTransform.widthConstraint.value << " ";
 		stream << ConstraintTextFromType(gameObject->rectTransform.heightConstraint.type) << " " << gameObject->rectTransform.heightConstraint.value;
+		stream << " " << gameObject->rectTransform.z;
 		stream << std::endl;
 	}
 	else
@@ -70,6 +72,16 @@ void SceneSaver::SaveGameObject(GameObject * gameObject, std::ofstream& stream)
 	}
 }
 
+void SceneSaver::SaveSceneSettings(SceneSettings& settings, std::ofstream& stream)
+{
+	stream << "Settings: [" << std::endl;
+	stream << "\tClearColor: "; SaveColor(settings.clearColor, stream); stream << std::endl;
+	stream << "\tUISortMode: "; SaveUByte((uint8_t)settings.uiSortMode, stream); stream << std::endl;
+	stream << "\tAudioPlayback: "; SaveBool(settings.audioPlayback, stream); stream << std::endl;
+	stream << "\tInputMask: "; SaveUShort(settings.inputMask, stream); stream << std::endl;
+	stream << "]" << std::endl;
+}
+
 bool SceneSaver::SaveScene(uint8_t sceneIndex, const std::string& filename)
 {
 	if (sceneIndex >= MAX_SCENES)
@@ -100,6 +112,8 @@ bool SceneSaver::SaveScene(uint8_t sceneIndex, const std::string& filename)
 	sceneFile << "PROJECT BLOO SCENE" << std::endl;
 	sceneFile << "Name: " << LFileOperations::StripFilenameAndExt(filename) << std::endl;
 	sceneFile << "Project: " << Project::projectName << std::endl;
+
+	SaveSceneSettings(Scene::scenes[sceneIndex].sceneSettings, sceneFile);
 
 	sceneFile << "{" << std::endl;
 	SaveGameObject(&Scene::scenes[sceneIndex].sceneRoot, sceneFile);

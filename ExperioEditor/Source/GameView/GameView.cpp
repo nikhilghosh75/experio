@@ -8,6 +8,8 @@
 #include "../Core/EditorWindow.h"
 #include "../Framework/PlaySystem.h"
 
+GameView* GameView::gameView;
+
 void GameView::CreateMenu()
 {
 	if (ImGui::ImageButton((void*)playButtonImage->GetRendererID(), ImVec2(32, 32)))
@@ -41,24 +43,36 @@ GameView::GameView()
 	this->playButtonImage = TextureManager::LoadTexture(EditorApplication::experioEditorFilePath + "/Resources/Textures/Play-Button.bmp");
 	this->pauseButtonImage = TextureManager::LoadTexture(EditorApplication::experioEditorFilePath + "/Resources/Textures/Pause-Button.bmp");
 	this->stopButtonImage = TextureManager::LoadTexture(EditorApplication::experioEditorFilePath + "/Resources/Textures/Stop-Button.bmp");
+	this->locked = false;
 
 	renderer.currentMode = ERenderMode::ToCameraSystem;
 
 	FWindowData data = EditorWindow::GetWindowData();
 	this->framebuffer = Framebuffer(data.width, data.height);
 	this->lastSize = ImVec2(0, 0);
+
+	gameView = this;
 }
 
 void GameView::Display()
 {
 	PROFILE_SCOPE("GameView::Display");
 
+	if (locked)
+	{
+		ImGui::Text("Scene Editing is currently locked");
+		return;
+	}
+
 	renderer.MakeCurrent();
 	renderer.SetCull(true);
 
 	CreateMenu();
 
+	ImVec2 currentPosition = ImGui::GetCursorScreenPos();
 	ImVec2 currentSize = ImGui::GetContentRegionAvail();
+	FRect rect = FRect(currentPosition, (FVector2)currentPosition + (FVector2)currentSize);
+	Input::SetGameRect(rect);
 
 	if (!LMath::ApproxEquals(currentSize.x, lastSize.x, 2) || !LMath::ApproxEquals(currentSize.y, lastSize.y, 2))
 	{
@@ -83,4 +97,14 @@ void GameView::Display()
 	ImGui::Image((void*)framebuffer.GetColorAttachment(), currentSize, ImVec2(0, 1), ImVec2(1, 0));
 
 	lastSize = currentSize;
+}
+
+void GameView::Lock()
+{
+	locked = true;
+}
+
+void GameView::Unlock()
+{
+	locked = false;
 }

@@ -1,5 +1,6 @@
 #include "ParticleModifier.h"
 #include "ParticleComponent.h"
+#include "../../Math/LMath.h"
 
 // Size Over Life
 
@@ -43,28 +44,67 @@ void SpawnAtStart::OnStart(ParticleComponent& component)
 
 SpawnModifier::SpawnModifier()
 {
+	mode = ESpawnMode::None;
+}
 
+SpawnModifier::SpawnModifier(ESpawnMode newMode)
+{
+	this->mode = newMode;
 }
 
 SpawnModifier::~SpawnModifier()
 {
+}
 
+void SpawnModifier::SetMode(ESpawnMode newMode)
+{
+	mode = newMode;
+	switch (mode)
+	{
+	case ESpawnMode::Burst:
+		burstSpawnInfo.currentTime = 0;
+		break;
+	}
 }
 
 void SpawnModifier::Update(ParticleComponent& component)
 {
+	unsigned int numParticlesToSpawn = ParticlesToSpawn(component.GetParticleTime(), GameTime::deltaTime);
+	component.SpawnParticles(numParticlesToSpawn);
+}
+
+unsigned int SpawnModifier::ParticlesToSpawn(float time, float deltaTime) const
+{
 	switch (mode)
 	{
-	case ESpawnMode::Burst: UpdateBurst(component); break;
-	case ESpawnMode::OverLife: UpdateOverLife(component); break;
+	case ESpawnMode::Burst: ParticlesToSpawnBurst(time, deltaTime);
+	case ESpawnMode::OverLife: ParticlesToSpawnOverLife(time, deltaTime);
 	}
+	return 0;
 }
 
-void SpawnModifier::UpdateOverLife(ParticleComponent& component)
+unsigned int SpawnModifier::ParticlesToSpawnBurst(float time, float deltaTime) const
 {
-	unsigned int numToSpawn = spawnCurve.Get(component.) * GameTime::deltaTime;
+	size_t currentTime = 0;
+	for (size_t i = 0; i < burstSpawnInfo.times.size(); i++)
+	{
+		if (time < burstSpawnInfo.times[i].time)
+		{
+			currentTime = i;
+			break;
+		}
+	}
+
+	float nextBurstTime = burstSpawnInfo.times[currentTime].time;
+	if (LMath::Abs(nextBurstTime - time) < deltaTime)
+	{
+		return burstSpawnInfo.times[currentTime].num;
+	}
+	return 0;
 }
 
-void SpawnModifier::UpdateBurst(ParticleComponent& component)
+unsigned int SpawnModifier::ParticlesToSpawnOverLife(float time, float deltaTime) const
 {
+	return spawnCurve.Get(time) * GameTime::deltaTime;
 }
+

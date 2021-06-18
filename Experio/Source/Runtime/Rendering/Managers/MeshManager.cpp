@@ -104,6 +104,11 @@ void MeshManager::FindNextAvailibleSlot()
 	}
 }
 
+bool MeshManager::CanStoreMesh()
+{
+	return NumLoadedMeshes() < MAX_MESHES - 1;
+}
+
 void MeshManager::Init()
 {
 	for (int i = 0; i < MAX_MESHES; i++)
@@ -162,6 +167,17 @@ bool MeshManager::IsMeshLoaded(const std::string& str)
 std::string MeshManager::GetNameOfMesh(const MeshRef& ref)
 {
 	return slotNames[ref.meshID];
+}
+
+size_t MeshManager::NumLoadedMeshes()
+{
+	size_t numLoadedMeshes = 0;
+	for (uint16_t i = 0; i < MAX_MESHES; i++)
+	{
+		if (slots[i].data != nullptr)
+			numLoadedMeshes++;
+	}
+	return numLoadedMeshes;
 }
 
 size_t MeshManager::SizeOfLoadedMeshes()

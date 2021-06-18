@@ -12,6 +12,7 @@ public:
 	~VertexArray();
 
 	void AddBuffer(const VertexBuffer* buffer, const VertexBufferLayout& layout);
+	void AddBuffer(const VertexBuffer* buffer, const VertexBufferLayout& layout, int attribDivisor);
 
 	void Bind() const;
 	void Unbind() const;

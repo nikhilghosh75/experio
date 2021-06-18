@@ -2,6 +2,8 @@
 #include "../Files/LFileOperations.h"
 #include "../Debug/Debug.h"
 #include "AssetMap.h"
+#include "BinaryParams.h"
+#include "Params.h"
 #include "Scene.h"
 #include "Project.h"
 #include "../Containers/THashtable.h"
@@ -72,6 +74,8 @@ bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESc
 	sceneFile.getline(word, 256);
 	if (ShouldQuitOnProjectName((std::string)word, compareType)) return false;
 
+	ParseSettingsText(sceneFile, Scene::scenes[sceneSlot].sceneSettings);
+
 	GameObject* currentNode = nullptr;
 	bool isRoot = true;
 	bool inComponent = false;
@@ -140,6 +144,8 @@ bool SceneLoader::LoadSceneFromTextFile(std::string filePath, int sceneSlot, ESc
 
 			sceneFile >> word >> value;
 			currentNode->rectTransform.SetHeightConstraint(word, value);
+			
+			sceneFile >> currentNode->rectTransform.z;
 		}
 		else if (strcmp(word, "Tag:") == 0)
 		{
@@ -214,6 +220,7 @@ bool SceneLoader::LoadSceneFromBinaryFile(std::string filePath, int sceneSlot)
 	uint32_t gameObjectOffset = *(uint32_t*)&(header[4]);
 	uint32_t componentOffset = *(uint32_t*)&(header[8]);
 	uint32_t datafileID = *(uint32_t*)&(header[12]);
+	uint32_t sceneSettingsLength = *(uint32_t*)&(header[16]);
 	uint32_t numComponents = *(uint32_t*)&(header[20]);
 	uint32_t numGameObjects = *(uint32_t*)&(header[24]);
 
@@ -224,6 +231,9 @@ bool SceneLoader::LoadSceneFromBinaryFile(std::string filePath, int sceneSlot)
 	sceneFile.read(name, 32);
 	currentPosition += 32;
 	currentScene.SetName(std::string(name));
+
+	// Parse Settings
+	ParseSettingsBinary(sceneFile, currentScene.sceneSettings, sceneSettingsLength);
 
 	THashtable<uint32_t, GameObject*> gameObjects;
 	gameObjects.Resize(numGameObjects / 3);
@@ -330,6 +340,33 @@ bool SceneLoader::ShouldQuitOnProjectName(std::string sceneProjectName, EScenePr
 	return false;
 }
 
+void SceneLoader::ParseSettingsText(std::istream& stream, SceneSettings& settings)
+{
+	char word[256];
+	char param[256];
+	stream >> word >> word;
+
+	if (strcmp(word, "[]") == 0)
+		return;
+
+	stream >> word;
+	while (strcmp(word, "]") != 0)
+	{
+		stream.getline(param, 256);
+
+		if (strcmp(word, "ClearColor") == 0)
+			settings.clearColor = ParseColor(param);
+		else if (strcmp(word, "UISortMode") == 0)
+			settings.uiSortMode = (EUISortMode)ParseUByte(param);
+		else if (strcmp(word, "AudioPlayback") == 0)
+			settings.audioPlayback = ParseBool(param);
+		else if (strcmp(word, "InputMask") == 0)
+			settings.inputMask = ParseUShort(param);
+
+		stream >> word;
+	}
+}
+
 void SceneLoader::AddComponentsToObjects(std::ifstream& stream, int sceneSlot, GameObject * gameObject)
 {
 	char word[256];
@@ -398,4 +435,20 @@ void SceneLoader::LoadSceneData(uint32_t dataIndex)
 	uint32_t sizeOf = *(uint32_t*)&(header[0]);
 	Scene::sceneData = malloc(sizeOf); // Change Later
 	dataFile.read((char*)Scene::sceneData, sizeOf);
+}
+
+void SceneLoader::ParseSettingsBinary(std::ifstream& stream, SceneSettings& settings, unsigned int size)
+{
+	if (size == 0)
+		return;
+
+	char* buffer = new char[size];
+	stream.read(buffer, size);
+
+	settings.clearColor = BinaryParseColor(buffer);
+	settings.uiSortMode = (EUISortMode)BinaryParseUByte(buffer + 16);
+	settings.audioPlayback = BinaryParseBool(buffer + 17);
+	settings.inputMask = BinaryParseUShort(buffer + 18);
+
+	delete[] buffer;
 }

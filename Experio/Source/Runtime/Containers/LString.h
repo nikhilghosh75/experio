@@ -33,6 +33,11 @@ public:
 
 	static std::string FloatToString(float f, int sigFigs = 5);
 
+	static bool FuzzyMatch(const std::string& input, const std::string& hint);
+	static bool FuzzyMatch(const char* input, const char* hint);
+
+	static size_t HammingDistance(const std::string& str1, const std::string& str2);
+
 	static bool HasAlpha(const std::string& str);
 	static bool HasAlphaNumeric(const std::string& str);
 	static bool HasChar(const std::string& str, char c);
@@ -53,6 +58,8 @@ public:
 	static bool IsWhitespace(char c);
 
 	static bool IsOnlyWhitespace(const std::string& str);
+
+	static size_t LevenshteinDistance(const std::string& str1, const std::string& str2);
 
 	static std::string LongLongToHexString(uint64_t n);
 
@@ -82,6 +89,8 @@ public:
 	static int StringToInt(const std::string& str);
 
 	static uint8_t StringToUByte(const std::string& str);
+
+	static unsigned int SubstrToUInt(const std::string& str, size_t start, size_t end);
 
 	static unsigned int StringToUInt(const std::string& str);
 

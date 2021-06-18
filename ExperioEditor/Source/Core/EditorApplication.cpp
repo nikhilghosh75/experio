@@ -5,9 +5,8 @@
 #include "GL/wglext.h"
 #include <tchar.h>
 #include "imgui.h"
-#include "imgui_demo.h"
-#include "examples/imgui_impl_win32.h"
-#include "examples/imgui_impl_opengl3.h"
+#include "backends/imgui_impl_win32.h"
+#include "backends/imgui_impl_opengl3.h"
 #include "imgui_internal.h"
 
 #include "EditorWindow.h"
@@ -16,6 +15,7 @@
 #include "../ComponentEditor/GeneratedEditor.h"
 #include "../Console/Console.h"
 #include "../FileView/FileView.h"
+#include "../Framework/AssetManager.h"
 #include "../Framework/Compilation/CompilationParser.h"
 #include "../Framework/CreateMenu.h"
 #include "../Framework/EditorProject.h"
@@ -99,11 +99,16 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 
 	AddDefaultModules();
 
+	AssetManager::Populate();
+
 	ProjectSettings::Initialize();
+
 	CreateMenu::Initialize();
 	CompilationParser::Initialize();
 	EditorShortcuts::Initialize();
 	ImportSystem::Initialize();
+	NotificationSystem::Initialize();
+	SaveSystem::Initialize();
 	Terminal::Initialize();
 }
 
@@ -237,8 +242,7 @@ void EditorApplication::Update()
 	RenderModules();
 
 	// To-Do: Make more modular later
-	SaveSystem::DisplaySaveSelectedScreen();
-
+	SaveSystem::Update();
 	NotificationSystem::RenderNotifications();
 }
 

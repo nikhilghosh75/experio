@@ -11,7 +11,11 @@ class Inspector : public EditorModule
 	// Vector of Component Editor
 	std::vector<ComponentEditorBase*> componentEditors;
 
+	bool locked;
+
 	void DisplayGameObject(GameObject* object);
+
+	void DisplaySceneSettings(GameObject* object);
 
 	void DisplayMultipleGameObjects(std::vector<GameObject*>&);
 
@@ -30,9 +34,15 @@ class Inspector : public EditorModule
 
 	void AddComponentToGameObjects(unsigned int componentId);
 public:
+	static Inspector* inspector;
+
 	Inspector();
 
 	~Inspector();
 
 	virtual void Display() override;
+
+	void Lock();
+
+	void Unlock();
 };

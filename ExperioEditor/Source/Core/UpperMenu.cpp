@@ -16,6 +16,7 @@
 #include "../Framework/SaveSystem.h"
 #include "../Framework/SceneSaver.h"
 #include "../Framework/UndoSystem.h"
+#include "../Profilers/InputDebugger.h"
 #include "../Profilers/MemoryProfiler.h"
 #include "../Profilers/TimeProfiler.h"
 #include "../ProjectSettings/ProjectSettings.h"
@@ -217,6 +218,11 @@ void UpperMenu::CreateWindowMenu()
 			if (ImGui::MenuItem("Time Profiler"))
 			{
 				EditorApplication::AddModule(new TimeProfiler());
+			}
+			ImGui::Separator();
+			if (ImGui::MenuItem("Input Debugger"))
+			{
+				EditorApplication::AddModule(new InputDebugger());
 			}
 			ImGui::EndMenu();
 		}

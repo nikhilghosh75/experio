@@ -12,6 +12,8 @@ class SceneHierarchy : public EditorModule
 
 	static void HandleContextMenu(GameObject* gameObject);
 
+	bool locked;
+
 public:
 	static SceneHierarchy* hierarchy;
 
@@ -23,4 +25,8 @@ public:
 
 	// Dont make this const
 	std::vector<GameObject*>& GetSelectedItems();
+
+	void Lock();
+
+	void Unlock();
 };

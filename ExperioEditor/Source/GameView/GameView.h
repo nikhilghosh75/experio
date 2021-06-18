@@ -16,9 +16,17 @@ class GameView : public EditorModule
 
 	ImVec2 lastSize;
 
+	bool locked;
+
 	void CreateMenu();
 public:
+	static GameView* gameView;
+
 	GameView();
 
 	virtual void Display() override;
+
+	void Lock();
+
+	void Unlock();
 };

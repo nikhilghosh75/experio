@@ -230,16 +230,7 @@ void CodeGenerator::GenerateComponentManagerUpdateImpl(CppCodeOStream & cppFile,
 		std::string paramName = LString::ToCamelCase(infos[i].name) + "Instances";
 		cppFile << "PB_UPDATE(" << paramName << ");" << Debug::endl;
 	}
-
-	/*
-	for (int i = 0; i < codeClass.params.size(); i++)
-	{
-		if (codeClass.params[i].type.find("std::vector") == 0)
-		{
-			cppFile << "PB_UPDATE(" << codeClass.params[i].name << ");" << Debug::endl;
-		}
-	}
-	*/
+	cppFile << "UIQueue::RenderUI();" << Debug::endl;
 
 	cppFile << "}" << Debug::endl << Debug::endl;
 }
@@ -251,10 +242,13 @@ void CodeGenerator::GenerateComponentManagerRenderSceneImpl(CppCodeOStream & cpp
 	cppFile << "PB_UPDATE(meshComponentInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(particleComponentInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(billboardInstances);" << Debug::endl;
+	cppFile << "PB_UPDATE(buttonInstances);" << Debug::endl;
+	cppFile << "PB_UPDATE(checkBoxInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(imageComponentInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(textComponentInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(progressBarInstances);" << Debug::endl;
 	cppFile << "PB_UPDATE(panelInstances);" << Debug::endl;
+	cppFile << "UIQueue::RenderUI();" << Debug::endl;
 	cppFile << "}" << Debug::endl << Debug::endl;
 }
 

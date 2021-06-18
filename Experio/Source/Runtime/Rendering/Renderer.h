@@ -49,13 +49,13 @@ public:
 	static Shader* defaultQuadShader;
 	static Shader* textShader;
 	static Shader* progressBarShader;
-
-private:
+	static Shader* imageShader;
 
 	glm::mat4 GetViewMatrix();
 
 	glm::mat4 GetProjectionMatrix();
 
+private:
 	void SetupShaders();
 
 	void OnDrawCall(EDrawCallType type, unsigned int vertices);

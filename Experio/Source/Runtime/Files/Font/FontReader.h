@@ -5,6 +5,9 @@
 #include "../../Rendering/Texture.h"
 #include "../../Rendering/Managers/TextureManager.h"
 
+class FontData;
+class FontRef;
+
 enum class ECharacterSet : uint8_t
 {
 	ANSI = 0x00,
@@ -41,7 +44,23 @@ enum class EFontFileType : uint8_t
 {
 	FNT,
 	TTF,
-	OTF
+	OTF,
+	Binary
+};
+
+enum class EFontType : uint8_t
+{
+	Normal = 0,
+	Bold = 1,
+	Italics = 2,
+	BoldItalics = 3
+};
+
+struct FFontVariant
+{
+	uint16_t dataIndex;
+	EFontType type;
+	bool loaded = true;
 };
 
 struct FCharacterInfo
@@ -76,6 +95,8 @@ public:
 	ETextEncoding encoding;
 
 	std::vector<FCharacterInfo> characters;
+
+	std::vector<FFontVariant> variants;
 
 	FCharacterInfo& GetCharacterFromCode(unsigned int code)
 	{
@@ -140,4 +161,6 @@ public:
 	static size_t SerializedSizeOf(const char* filename);
 
 	static size_t SerializedSizeOf(unsigned int assetIndex);
+
+	static std::vector<FFontVariant> ReadVariantsFromMeta(const char* filename);
 };

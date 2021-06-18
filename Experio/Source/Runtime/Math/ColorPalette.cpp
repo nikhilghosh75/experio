@@ -32,4 +32,8 @@ const FColor const ColorPalette::LightSlateGray(109, 123, 141);
 const FColor const ColorPalette::SlateGray(101, 115, 131);
 const FColor const ColorPalette::JetGray(97, 109, 126);
 const FColor const ColorPalette::MistBlue(100, 109, 126);
+const FColor const ColorPalette::MarbleBlue(86, 109, 126);
+const FColor const ColorPalette::SlateBlue(115, 124, 161);
+const FColor const ColorPalette::SteelBlue(72, 99, 160);
+const FColor const ColorPalette::BlueJay(43, 84, 126);
 const FColor const ColorPalette::Red(1.f, 0.f, 0.f);

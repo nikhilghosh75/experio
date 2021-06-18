@@ -1,6 +1,7 @@
 #include "LImGui.h"
 #include "../../Debug/Debug.h"
 #include "../../Containers/Algorithm.h"
+#include "../../Containers/LString.h"
 #include "../../Files/LFileOperations.h"
 #include "../Managers/FontManager.h"
 #include "../Managers/MeshManager.h"
@@ -535,6 +536,11 @@ void LImGui::DisplayTree(TTypedTree<std::string>* tree, std::string name, std::s
 		return;
 	}
 
+	if (ImGui::IsItemClicked())
+	{
+		selectedItem = tree->GetRoot()->object;
+	}
+
 	TTypedTreeNode<std::string>* root = tree->GetRoot();
 
 	for (int i = 0; i < root->children.size(); i++)
@@ -826,4 +832,45 @@ void LImGui::DisplayVector4(FVector4 & V, const std::string & name, const FVecto
 	ImGui::PopStyleVar();
 	ImGui::Columns(1);
 	ImGui::PopID();
+}
+
+bool LImGui::FilterCombo(const char* label, char* buffer, int bufferlen, const char** hints, int num_hints, ImGuiFilterComboState& s, ImGuiFilterComboFlags flags)
+{
+	s.selectionChanged = false;
+
+	ImGuiComboFlags comboFlags = 0;
+	if (flags & ImGuiFilterComboFlags_HeightSmall)
+		comboFlags = ImGuiComboFlags_HeightSmall;
+	else if (flags & ImGuiFilterComboFlags_HeightRegular)
+		comboFlags = ImGuiComboFlags_HeightRegular;
+
+	if (ImGui::BeginCombo(label, buffer, comboFlags))
+	{
+		bool showAll = strlen(buffer) == 0;
+
+		bool textChanged = ImGui::InputText("##Selection", buffer, bufferlen);
+		
+		for (int i = 0; i < num_hints; i++)
+		{
+			bool currentlySelected = i == s.activeIdx;
+			bool showThisHint = showAll || LString::FuzzyMatch(buffer, hints[i]);
+			if (showThisHint)
+			{
+				if (ImGui::Selectable(hints[i], &currentlySelected))
+				{
+					s.activeIdx = i;
+					s.selectionChanged = true;
+					strcpy(buffer, hints[i]);
+				}
+			}
+		}
+		
+		ImGui::EndCombo();
+	}
+	else
+	{
+		return false;
+	}
+
+	return s.selectionChanged;
 }

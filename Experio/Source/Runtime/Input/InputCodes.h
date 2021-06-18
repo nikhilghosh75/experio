@@ -1,12 +1,88 @@
 #pragma once
+#include <stdint.h>
 
 #define PB_NUM_KEY_CODES 116
 
-enum class EInputType
+enum class EInputType : uint8_t
 {
 	Keyboard,
 	Mouse,
-	Gamepad
+	Gamepad,
+	Joystick,
+	Pen,
+	Touchscreen
+};
+
+struct Inputmask
+{
+	uint16_t mask;
+
+	operator uint16_t() const { return mask; }
+
+	Inputmask()
+	{
+		this->mask = 63;
+	}
+
+	Inputmask(uint16_t mask)
+	{
+		this->mask = mask;
+	}
+
+	Inputmask(bool* arr)
+	{
+		for (uint8_t i = 0; i < 6; i++)
+		{
+			if (arr[i])
+				SetBitTrue(i);
+			else
+				SetBitFalse(i);
+		}
+	}
+
+	bool CompareInputType(EInputType inputType) const
+	{
+		return (mask & (1 << (uint8_t)inputType)) != 0;
+	}
+
+	void SetBitTrue(uint8_t bit)
+	{
+		this->mask = this->mask | (1 << bit);
+	}
+
+	void SetBitFalse(uint8_t bit)
+	{
+		this->mask = this->mask & (~(1 << bit));
+	}
+
+	void SetBitsTrue(uint8_t start = 0, uint8_t end = 64)
+	{
+		for (uint8_t i = start; i < end; i++)
+		{
+			this->mask = this->mask | (1 << i);
+		}
+	}
+
+	void SetBitsFalse(uint8_t start = 0, uint8_t end = 64)
+	{
+		for (uint8_t i = start; i < end; i++)
+		{
+			this->mask = this->mask & (~(1 << i));
+		}
+	}
+
+	static Inputmask AND(Inputmask i1, Inputmask i2)
+	{
+		return Inputmask(i1.mask & i2.mask);
+	}
+
+	void FillBoolArray(bool* arr) const
+	{
+		for (uint8_t i = 0; i < 6; i++)
+		{
+			arr[i] = CompareInputType((EInputType)i);
+		}
+	}
 };
 
 enum class EKeyCode

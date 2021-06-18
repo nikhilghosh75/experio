@@ -78,27 +78,27 @@ std::string LFileOperations::BytesToString(uint64_t bytes, int sigFigs, bool tru
 	std::stringstream ss;
 	if (bytes > 1000000000000000)
 	{
-		ss << LString::FloatToString(BytesToMultiple(bytes, EDataUnit::Petabyte)) << " PB";
+		ss << LString::FloatToString(BytesToMultiple(bytes, EDataUnit::Petabyte), sigFigs) << " PB";
 		return ss.str();
 	}
 	if (bytes > 1000000000000)
 	{
-		ss << LString::FloatToString(BytesToMultiple(bytes, EDataUnit::Terabyte)) << " TB";
+		ss << LString::FloatToString(BytesToMultiple(bytes, EDataUnit::Terabyte), sigFigs) << " TB";
 		return ss.str();
 	}
 	if (bytes > 1000000000)
 	{
-		ss << LString::FloatToString(BytesToMultiple(bytes, EDataUnit::Gigabyte)) << " GB";
+		ss << LString::FloatToString(BytesToMultiple(bytes, EDataUnit::Gigabyte), sigFigs) << " GB";
 		return ss.str();
 	}
 	if (bytes > 1000000)
 	{
-		ss << LString::FloatToString(BytesToMultiple(bytes, EDataUnit::Megabyte)) << " MB";
+		ss << LString::FloatToString(BytesToMultiple(bytes, EDataUnit::Megabyte), sigFigs) << " MB";
 		return ss.str();
 	}
 	if (bytes > 1000)
 	{
-		ss << LString::FloatToString(BytesToMultiple(bytes, EDataUnit::Kilobyte)) << " kB";
+		ss << LString::FloatToString(BytesToMultiple(bytes, EDataUnit::Kilobyte), sigFigs) << " kB";
 		return ss.str();
 	}
 	return std::to_string(bytes) + " B";
@@ -414,6 +414,13 @@ EAssetType LFileOperations::GetFileTypeOfExt(std::string ext)
 	PB_COMPARE_EXT("webm", EAssetType::Video);
 
 	return EAssetType::Unknown;
+}
+
+std::string LFileOperations::GetMetaFilename(const std::string& filepath)
+{
+	if (filepath.find(".meta") == std::string::npos)
+		return filepath + ".meta";
+	return filepath;
 }
 
 bool LFileOperations::IsDirectory(const std::string& filepath)

@@ -1,41 +1,57 @@
 #include "NotificationSystem.h"
-#include "imgui.h"
 #include "../ProjectSettings/LanguageSettings.h"
 
-uint8_t NotificationSystem::numNotifications = 0;
+std::vector<Notification*> NotificationSystem::notifications;
+
+TextNotification* NotificationSystem::compileNotification;
 
 extern FCompilationInfo GetCompilationInfo();
 
-void NotificationSystem::RenderNotifications()
+void TextNotification::Display()
 {
-	numNotifications = 0;
-
-	RenderCompileNotification();
+	ImGui::Text(text.c_str());
 }
 
-void NotificationSystem::RenderCompileNotification()
+void NotificationSystem::CalculateNotifications()
 {
 	FCompilationInfo compilationInfo = GetCompilationInfo();
+	compileNotification->text = compilationInfo.isCompiling ? "Compiling" : "Compilation Done";
+	compileNotification->visible = ShouldRenderCompileNotification(compilationInfo);
+}
 
-	if (ShouldRenderCompileNotification(compilationInfo))
+void NotificationSystem::RenderNotifications()
+{
+	CalculateNotifications();
+
+	for (size_t i = 0; i < notifications.size(); i++)
 	{
-		numNotifications++;
-		
-		ImVec4 windowBgCol = ImVec4(0.1f, 0.4f, 0.1f, 1.0f);
-		ImGui::PushStyleColor(ImGuiCol_WindowBg, windowBgCol);
-		SetNextWindowSize();
-		ImGui::Begin("Compiling", NULL, ImGuiWindowFlags_NoTitleBar);
-		if (compilationInfo.isCompiling)
+		if (notifications[i]->visible)
 		{
-			ImGui::Text("Compiling");
+			ImVec4 windowBgCol = notifications[i]->color;
+			ImGui::PushStyleColor(ImGuiCol_WindowBg, windowBgCol);
+			SetNextWindowSize();
+
+			ImGui::Begin(notifications[i]->name.c_str(), NULL, notifications[i]->flags);
+			notifications[i]->Display();
+			ImGui::End();
+
+			ImGui::PopStyleColor();
 		}
-		else
-		{
-			ImGui::Text("Compile Done");
-		}
-		ImGui::End();
-		ImGui::PopStyleColor();
 	}
+}
+
+void NotificationSystem::Initialize()
+{
+	compileNotification = new TextNotification();
+	compileNotification->color = FColor(0.1f, 0.4f, 0.1f, 1.0f);
+	compileNotification->flags = ImGuiWindowFlags_NoTitleBar;
+	compileNotification->name = "Compilation";
+	AddNotification(compileNotification);
+}
+
+void NotificationSystem::AddNotification(Notification* notification)
+{
+	notifications.push_back(notification);
 }
 
 bool NotificationSystem::ShouldRenderCompileNotification(const FCompilationInfo info)

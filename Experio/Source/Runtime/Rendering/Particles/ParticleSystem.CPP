@@ -1,4 +1,5 @@
 #include "ParticleSystem.h"
+#include "ParticleComponent.h"
 
 ParticleSystem::ParticleSystem()
 {
@@ -16,7 +17,7 @@ ParticleSystem::ParticleSystem(const ParticleSystem& particleSystem)
     switch (spawnModifier.mode)
     {
     case ESpawnMode::Burst:
-        this->spawnModifier.burstSpawnInfo = particleSystem.spawnModifier.burstSpawnInfo; break;
+        this->spawnModifier.burstSpawnInfo.times = particleSystem.spawnModifier.burstSpawnInfo.times; break;
     case ESpawnMode::OverLife:
         this->spawnModifier.spawnCurve = particleSystem.spawnModifier.spawnCurve; break;
     }
@@ -52,5 +53,21 @@ void ParticleSystem::Start(ParticleComponent& component)
     for (size_t i = 0; i < startModifiers.size(); i++)
     {
         startModifiers[i]->OnStart(component);
+    }
+}
+
+void ParticleSystem::Update(ParticleComponent& component)
+{
+    spawnModifier.Update(component);
+
+    for (size_t i = 0; i < component.maxParticles; i++)
+    {
+        if (component.particles[i].life > 0.0f)
+        {
+            for (size_t j = 0; j < modifiers.size(); j++)
+            {
+                modifiers[i]->Update(component.particles[i]);
+            }
+        }
     }
 }

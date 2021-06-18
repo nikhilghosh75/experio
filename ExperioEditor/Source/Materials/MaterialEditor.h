@@ -12,6 +12,8 @@ class MaterialEditor : public EditorModule
 	std::string materialName;
 	std::string filepath;
 
+	bool locked;
+
 public:
 	static MaterialEditor* materialEditor;
 
@@ -25,6 +27,10 @@ public:
 	void SetMaterial(Material* material, uint32_t materialType);
 
 	std::string& GetCurrentFilepath() { return filepath; }
+
+	void Lock();
+
+	void Unlock();
 
 private:
 	void DisplayUniform(ShaderParamInfo paramInfo);

@@ -1,0 +1,48 @@
+<ParticleSystem>
+	<Properties>
+		<Name>Test Particles</Name>
+		<MaxCount>100</MaxCount>
+		<Shader>?</Shader>
+    <DefaultLifetime>5.0</DefaultLifetime>
+    <PlaybackTime>15.0</PlaybackTime>
+	</Properties>
+	<Modifiers>
+    <Spawn>
+      <Mode>Burst</Mode>
+      <Points>
+        <Point>(1, 50)</Point>
+        <Point>(2, 20)</Point>
+        <Point>(3, 10)</Point>
+        <Point>(4, 20)</Point>
+      </Points>
+    </Spawn>
+		<SizeOverLife>
+			<Curve name="x">
+        <CurvePoint>(0, 5)</CurvePoint>
+        <CurvePoint>(4, 10)</CurvePoint>
+			</Curve>
+			<Curve name="y">
+        <CurvePoint>(0, 5)</CurvePoint>
+        <CurvePoint>(4, 10)</CurvePoint>
+			</Curve>
+			<Curve name="z">
+        <CurvePoint>(0, 5)</CurvePoint>
+        <CurvePoint>(4, 10)</CurvePoint>
+			</Curve>
+		</SizeOverLife>
+		<ColorOverLife>
+			<Curve name="x">
+        <CurvePoint>(0, 0.5)</CurvePoint>
+        <CurvePoint>(4, 1)</CurvePoint>
+			</Curve>
+			<Curve name="y">
+        <CurvePoint>(0, 0.5)</CurvePoint>
+        <CurvePoint>(4, 1)</CurvePoint>
+			</Curve>
+			<Curve name="z">
+        <CurvePoint>(0, 0.5)</CurvePoint>
+        <CurvePoint>(4, 1)</CurvePoint>
+			</Curve>
+		</ColorOverLife>
+	</Modifiers>
+</ParticleSystem>

@@ -85,44 +85,10 @@ FontData* TTFReader::ReadFile(const char* filename)
 		currentChar++;
 	}
 
-	/*
-	std::vector<int> indexMap = GetIndexMap(&fontInfo);
-
-	for (int i = 0; i < fontInfo.numGlyphs; i++)
-	{
-		if (indexMap[i] < 0)
-		{
-			continue;
-		}
-
-		stbtt_bakedchar& bakedChar = bakedChars[i];
-
-		FCharacterInfo charInfo;
-		
-		int leftSideBearing;
-		stbtt_GetGlyphHMetrics(&fontInfo, i, &charInfo.xAdvance, &leftSideBearing);
-
-		charInfo.charCode = indexMap[i];
-
-		// int x0, x1, y0, y1;
-		// stbtt_GetGlyphBitmapBox(&fontInfo, i, scale, scale, &x0, &y0, &x1, &y1);
-		
-		charInfo.uvCoordinates.min = FVector2((float)bakedChar.x0 / bitmapResolution, (float)bakedChar.y0 / bitmapResolution);
-		charInfo.uvCoordinates.max = FVector2((float)bakedChar.x1 / bitmapResolution, (float)bakedChar.y1 / bitmapResolution);
-		charInfo.offset = FVector2((float)bakedChar.xoff / bitmapResolution, (float)bakedChar.yoff / bitmapResolution);
-
-		// charInfo.uvCoordinates.min = FVector2((float)x0 / bitmapResolution, (float)y0 / bitmapResolution);
-		// charInfo.uvCoordinates.max = FVector2((float)x1 / bitmapResolution, (float)y1 / bitmapResolution);
-
-		fontData->characters.push_back(charInfo);
-	}
-	*/
-
-	// LFontOperations::SortCharacters(*fontData);
-
 	delete[] bakedChars;
 	free(buffer);
 
+	fontData->variants = FontReader::ReadVariantsFromMeta(filename);
 
 	return fontData;
 }
@@ -217,6 +183,21 @@ std::vector<int> TTFReader::GetIndexMap(stbtt_fontinfo* info)
 
 float TTFReader::GetDefaultFontSize(const char* filename)
 {
-	// TO-DO: Add parsing of metadata
+	std::string metaFilename = (std::string)filename + ".meta";
+	std::ifstream inFile(metaFilename);
+
+	if (!inFile.fail())
+	{
+		// If the meta file exists, then parse it and get the resolution
+		std::string str;
+		int fontSize;
+		for (int i = 0; i < 7; i++)
+		{
+			std::getline(inFile, str);
+		}
+		inFile >> str >> fontSize;
+		return fontSize;
+	}
+
 	return 36.f;
 }

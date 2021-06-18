@@ -1,6 +1,8 @@
 #include "AssetMapSaver.h"
 #include "../Core/EditorApplication.h"
+#include "../Framework/AssetManager.h"
 #include "Runtime/Files/LFileOperations.h"
+#include "Runtime/Framework/GUID.h"
 #include <fstream>
 
 std::vector<TPair<uint32_t, std::string>> AssetMapSaver::currentMap;
@@ -59,6 +61,8 @@ void AssetMapSaver::SaveToAssetMap(const std::string & filepath)
 
 	for (uint32_t i = 0; i < currentMap.size(); i++)
 	{
-		outFile << currentMap[i].first << " " << currentMap[i].second << std::endl;
+		Experio::GUID assetGuid = AssetManager::FilenameToGUID(currentMap[i].second);
+		outFile << currentMap[i].first << " " << currentMap[i].second << " "
+			<< assetGuid.ToString() << std::endl;
 	}
 }

@@ -1,5 +1,6 @@
 #include "FontViewer.h"
 #include "Runtime/Containers/LString.h"
+#include "Runtime/Debug/Profiler.h"
 #include "Runtime/Files/Font/LFontOperations.h"
 #include <sstream>
 
@@ -32,6 +33,8 @@ FontViewer::FontViewer()
 
 void FontViewer::Display()
 {
+	PROFILE_SCOPE("FontViewer::Display");
+
 	if (loadedRef.IsNull())
 	{
 		return;

@@ -2,6 +2,7 @@
 #include <sstream>
 #include "../Framework/Values.h"
 #include "Runtime/Containers/Algorithm.h"
+#include "Runtime/Debug/Profiler.h"
 
 LayerEditor* LayerEditor::layerEditor;
 
@@ -22,6 +23,8 @@ LayerEditor::LayerEditor()
 
 void LayerEditor::Display()
 {
+	PROFILE_SCOPE("LayerEditor::Display");
+
 	ImGui::Text("Layers");
 
 	std::stringstream ss;

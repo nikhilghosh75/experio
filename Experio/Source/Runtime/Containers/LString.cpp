@@ -231,6 +231,19 @@ uint8_t LString::StringToUByte(const std::string& str)
 	return unsignedByte;
 }
 
+unsigned int LString::SubstrToUInt(const std::string& str, size_t start, size_t end)
+{
+	unsigned int unsignedInteger = 0;
+	for (size_t i = start; i < end; i++)
+	{
+		if (IsNumeric(str[i]))
+		{
+			unsignedInteger = (unsignedInteger * 10) + CharToInt(str[i]);
+		}
+	}
+	return unsignedInteger;
+}
+
 unsigned int LString::StringToUInt(const std::string & str)
 {
 	unsigned int unsignedInteger = 0;
@@ -353,6 +366,40 @@ bool LString::IsOnlyWhitespace(const std::string & str)
 	return true;
 }
 
+size_t LString::LevenshteinDistance(const std::string& str1, const std::string& str2)
+{
+	if (str1.empty())
+		return str2.size();
+	if (str2.empty())
+		return str1.size();
+
+	std::vector<size_t> costs(str2.size() + 1);
+
+	for (size_t i = 0; i < str2.size() + 1; i++)
+		costs[i] = i;
+
+	for (size_t i = 0; i < str1.size(); i++)
+	{
+		costs[0] = i + 1;
+		size_t corner = i;
+		for (size_t j = 0; j < str2.size(); j++)
+		{
+			size_t upper = costs[j + 1];
+			if (costs[i] == costs[j])
+				costs[j + 1] = corner;
+			else
+			{
+				size_t t = upper < corner ? upper : corner;
+				costs[j + 1] = (costs[j] < t ? costs[j] : t) + 1;
+			}
+
+			corner = upper;
+		}
+	}
+
+	return costs.back();
+}
+
 std::string LString::LongLongToHexString(uint64_t n)
 {
 	std::stringstream ss;
@@ -468,6 +515,57 @@ std::string LString::FloatToString(float f, int sigFigs)
 		ss << trunc;
 	}
 	return ss.str();
+}
+
+bool LString::FuzzyMatch(const std::string& input, const std::string& hint)
+{
+	int numMatching = 0;
+	
+	for (size_t i = 0; i < hint.size(); i++)
+	{
+		if (input[numMatching] == hint[i])
+		{
+			numMatching++;
+			if (numMatching == input.size())
+				return true;
+		}
+	}
+
+	return numMatching > input.size() - 2;
+}
+
+bool LString::FuzzyMatch(const char* input, const char* hint)
+{
+	int numMatching = 0;
+	int inputSize = strlen(input);
+
+	while (*hint != '\0')
+	{
+		if (*input == *hint)
+		{
+			numMatching++;
+			++input;
+			if (*input == '\0')
+				return true;
+		}
+		++hint;
+	}
+
+	return numMatching > inputSize - 2;
+}
+
+size_t LString::HammingDistance(const std::string& str1, const std::string& str2)
+{
+	size_t distance = 0;
+	size_t minLength = str1.size() < str2.size() ? str1.size() : str2.size();
+	size_t maxLength = str1.size() > str2.size() ? str1.size() : str2.size();
+
+	for (size_t i = 0; i < minLength; i++)
+	{
+		if (str1[i] != str2[i])
+			distance++;
+	}
+	return distance + (maxLength - minLength);
 }
 
 bool LString::HasAlpha(const std::string & str)

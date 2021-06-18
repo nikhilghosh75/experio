@@ -6,8 +6,8 @@
 #include <tchar.h>
 #include "imgui.h"
 #include "ImGuizmo.h"
-#include "examples/imgui_impl_win32.h"
-#include "examples/imgui_impl_opengl3.h"
+#include "backends/imgui_impl_win32.h"
+#include "backends/imgui_impl_opengl3.h"
 #include "imgui_internal.h"
 #include "EditorApplication.h"
 #include "UpperMenu.h"
@@ -205,8 +205,8 @@ void EditorWindow::Dockspace()
 	// because it would be confusing to have two docking targets within each others.
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
-	ImGui::SetNextWindowPos(viewport->GetWorkPos());
-	ImGui::SetNextWindowSize(viewport->GetWorkSize());
+	ImGui::SetNextWindowPos(viewport->WorkPos);
+	ImGui::SetNextWindowSize(viewport->WorkSize);
 	ImGui::SetNextWindowViewport(viewport->ID);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);

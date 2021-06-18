@@ -11,8 +11,8 @@
 #include <thread>
 
 #include "imgui.h"
-#include "examples/imgui_impl_win32.h"
-#include "examples/imgui_impl_opengl3.h"
+#include "backends/imgui_impl_win32.h"
+#include "backends/imgui_impl_opengl3.h"
 #include "imgui_internal.h"
 #include <tchar.h>
 

@@ -49,6 +49,8 @@ public:
 	DimensionConstraint widthConstraint;
 	DimensionConstraint heightConstraint;
 
+	float z;
+
 	RectTransform();
 
 	void SetXConstraint(EPositionConstraintType type, float value);

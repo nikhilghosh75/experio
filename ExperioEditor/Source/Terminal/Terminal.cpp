@@ -30,6 +30,7 @@ void Terminal::Initialize()
 	Terminal::commandManager->functions.Insert("resolution", Resolution);
 	Terminal::commandManager->functions.Insert("code-stats", CodeStats);
 	Terminal::commandManager->functions.Insert("num-assets", NumAssets);
+	Terminal::commandManager->functions.Insert("math", Math);
 }
 
 void Terminal::Print(const std::string & str)

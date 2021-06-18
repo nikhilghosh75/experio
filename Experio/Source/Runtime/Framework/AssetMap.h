@@ -1,4 +1,5 @@
 #pragma once
+#include "GUID.h"
 #include "../Containers/THashtable.h"
 #include <string>
 
@@ -10,6 +11,7 @@ class AssetMap
 {
 public:
 	static THashtable<unsigned int, std::string> assetMap;
+	static THashtable<Experio::GUID, std::string, Experio::GUIDHashFunction> guidMap;
 	static std::string defaultScenePath;
 
 	static void ReadAssetMap(std::string filepath);

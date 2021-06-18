@@ -58,7 +58,7 @@
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Experio\Source;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\imgui</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>EXPERIO_EDITOR;PLATFORM_WINDOWS;EXPERIO_DEBUG;GLEW_STATIC;_GDI32_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EXPERIO_EDITOR;PLATFORM_WINDOWS;EXPERIO_DEBUG;GLEW_STATIC;_GDI32_;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\Release\x64;$(SolutionDir)bin\x64\Debug\Engine;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -161,6 +161,8 @@
     <ClCompile Include="Source\Inspector\Inspector.cpp" />
     <ClCompile Include="Source\Materials\MaterialEditor.cpp" />
     <ClCompile Include="Source\Materials\MaterialSaver.cpp" />
+    <ClCompile Include="Source\Particles\ParticleSaver.cpp" />
+    <ClCompile Include="Source\Profilers\InputDebugger.cpp" />
     <ClCompile Include="Source\Profilers\MemoryProfiler.cpp" />
     <ClCompile Include="Source\Profilers\TimeProfiler.cpp" />
     <ClCompile Include="Source\ProjectSettings\AudioSettings.cpp" />
@@ -174,6 +176,7 @@
     <ClCompile Include="Source\SceneView\SceneView.cpp" />
     <ClCompile Include="Source\Terminal\AssetCommands.cpp" />
     <ClCompile Include="Source\Terminal\CodeAnalysisCommands.cpp" />
+    <ClCompile Include="Source\Terminal\MathCommands.cpp" />
     <ClCompile Include="Source\Terminal\SceneCommands.cpp" />
     <ClCompile Include="Source\Terminal\ScreenCommands.cpp" />
     <ClCompile Include="Source\Terminal\SizeCommands.cpp" />
@@ -280,6 +283,8 @@
     <ClInclude Include="Source\Materials\MaterialEditor.h" />
     <ClInclude Include="Source\Materials\MaterialSaver.h" />
     <ClInclude Include="Source\Materials\ShaderParser.h" />
+    <ClInclude Include="Source\Particles\ParticleSaver.h" />
+    <ClInclude Include="Source\Profilers\InputDebugger.h" />
     <ClInclude Include="Source\Profilers\MemoryProfiler.h" />
     <ClInclude Include="Source\Profilers\TimeProfiler.h" />
     <ClInclude Include="Source\ProjectSettings\AudioSettings.h" />

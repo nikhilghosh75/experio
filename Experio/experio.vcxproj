@@ -14,6 +14,7 @@
     <ClInclude Include="Source\Runtime\Audio\FAudioClip.h" />
     <ClInclude Include="Source\Runtime\Audio\AudioSystem.h" />
     <ClInclude Include="Source\Runtime\Audio\Soundbank.h" />
+    <ClInclude Include="Source\Runtime\Audio\SoundbankReader.h" />
     <ClInclude Include="Source\Runtime\Camera\AdditionalCameras.h" />
     <ClInclude Include="Source\Runtime\Camera\CameraSystem.h" />
     <ClInclude Include="Source\Runtime\Camera\VirtualCamera.h" />
@@ -160,13 +161,18 @@
     <ClInclude Include="Source\Runtime\Debug\Profiler.h" />
     <ClInclude Include="Source\Runtime\Time\FDuration.h" />
     <ClInclude Include="Source\Runtime\Time\GameTime.h" />
+    <ClInclude Include="Source\Runtime\UI\Button.h" />
     <ClInclude Include="Source\Runtime\UI\Canvas.h" />
+    <ClInclude Include="Source\Runtime\UI\CheckBox.h" />
     <ClInclude Include="Source\Runtime\UI\ImageComponent.h" />
+    <ClInclude Include="Source\Runtime\UI\InputText.h" />
     <ClInclude Include="Source\Runtime\UI\Panel.h" />
     <ClInclude Include="Source\Runtime\UI\ProgressBar.h" />
     <ClInclude Include="Source\Runtime\UI\RectTransform.h" />
+    <ClInclude Include="Source\Runtime\UI\Slider.h" />
     <ClInclude Include="Source\Runtime\UI\TextComponent.h" />
     <ClInclude Include="Source\Runtime\UI\UIColorPalettes.h" />
+    <ClInclude Include="Source\Runtime\UI\UIQueue.h" />
     <ClInclude Include="Source\ThirdParty\Event System\Event.h" />
     <ClInclude Include="Source\ThirdParty\Lodepng\Lodepng.h" />
     <ClInclude Include="Source\ThirdParty\Magic Enum\magic_enum.hpp" />
@@ -210,6 +216,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Runtime\Audio\AudioSystem.cpp" />
     <ClCompile Include="Source\Runtime\Audio\Soundbank.cpp" />
+    <ClCompile Include="Source\Runtime\Audio\SoundbankReader.cpp" />
     <ClCompile Include="Source\Runtime\Camera\AdditionalCameras.cpp" />
     <ClCompile Include="Source\Runtime\Camera\CameraSystem.cpp" />
     <ClCompile Include="Source\Runtime\Camera\VirtualCamera.cpp" />
@@ -311,13 +318,17 @@
     <ClCompile Include="Source\Runtime\Debug\Profiler.cpp" />
     <ClCompile Include="Source\Runtime\Time\FDuration.cpp" />
     <ClCompile Include="Source\Runtime\Time\GameTime.cpp" />
+    <ClCompile Include="Source\Runtime\UI\Button.cpp" />
     <ClCompile Include="Source\Runtime\UI\Canvas.cpp" />
+    <ClCompile Include="Source\Runtime\UI\CheckBox.cpp" />
     <ClCompile Include="Source\Runtime\UI\ImageComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\Panel.cpp" />
     <ClCompile Include="Source\Runtime\UI\ProgressBar.cpp" />
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
+    <ClCompile Include="Source\Runtime\UI\Slider.cpp" />
     <ClCompile Include="Source\Runtime\UI\TextComponent.cpp" />
     <ClCompile Include="Source\Runtime\UI\UIColorPalettes.cpp" />
+    <ClCompile Include="Source\Runtime\UI\UIQueue.cpp" />
     <ClCompile Include="Source\ThirdParty\Lodepng\Lodepng.cpp" />
     <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_common.c" />
     <ClCompile Include="Source\ThirdParty\Native File Dialog\nfd_win.cpp" />
@@ -341,6 +352,7 @@
   <ItemGroup>
     <Text Include="Resources\Standard\Shaders\ProgressBar.shader" />
     <Text Include="Resources\Standard\Shaders\ColorPanel.shader" />
+    <Text Include="Resources\Standard\Shaders\Image.shader" />
     <Text Include="Resources\Standard\Shaders\TexturedPanel.shader" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -54,6 +54,8 @@ class MeshManager
 
 	static void FindNextAvailibleSlot();
 public:
+	static bool CanStoreMesh();
+
 	static void Init();
 
 	static MeshRef GetMesh(const std::string& str);
@@ -63,6 +65,8 @@ public:
 	static bool IsMeshLoaded(const std::string& str);
 
 	static std::string GetNameOfMesh(const MeshRef& ref);
+
+	static size_t NumLoadedMeshes();
 
 	static size_t SizeOfLoadedMeshes();
 };

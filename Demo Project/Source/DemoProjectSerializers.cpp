@@ -6,14 +6,17 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 {
 	switch(classId)
 	{
-		case 104: return std::vector<std::string>({ "margins", "fontSize", "font", "text", "color", "horizontalWrapMode", "verticalWrapMode", "spacing", "shader", "text"});
+		case 104: return std::vector<std::string>({ "margins", "fontSize", "font", "text", "color", "horizontalWrapMode", "verticalWrapMode", "horizontalAlignment", "verticalAlignment", "spacing", "shader", "text"});
 		case 1024: return std::vector<std::string>({ "isActive = false", "isAccelerating = false", "acceleration", "topSpeed"});
-		case 105: return std::vector<std::string>({ "texture"});
+		case 105: return std::vector<std::string>({ "texture", "tint"});
 		case 106: return std::vector<std::string>({ "minValue", "maxValue", "value", "backgroundColor", "barColor", "shader", "mode"});
 		case 107: return std::vector<std::string>({ "roundedPixels", "color", "texture"});
 		case 100: return std::vector<std::string>({ "priority", "fieldOfView", "nearClipPlane", "farClipPlane"});
+		case 108: return std::vector<std::string>({ "defaultColor", "hoveredColor", "activeColor"});
 		case 101: return std::vector<std::string>({ "material", "meshData", "isVisible"});
+		case 109: return std::vector<std::string>({ "offColor", "onColor", "isOn"});
 		case 102: return std::vector<std::string>({ });
+		case 110: return std::vector<std::string>({ "value"});
 		case 103: return std::vector<std::string>({ "billboardTexture", "sizeType", "orientation", "billboardSize"});
 	}
 	return std::vector<std::string>();
@@ -30,9 +33,11 @@ template<> void SetComponentParams(std::vector<std::string> params, TextComponen
 	component->color = ParseColor(params[4]);
 	component->horizontalWrapMode = (EHorizontalWrapMode)ParseUByte(params[5]);
 	component->verticalWrapMode = (EVerticalWrapMode)ParseUByte(params[6]);
-	component->spacing = ParseFloat(params[7]);
-	component->shader = ParseShader(params[8]);
-	component->text = ParseString(params[9]);
+	component->horizontalAlignment = (EHorizontalAlignment)ParseUByte(params[7]);
+	component->verticalAlignment = (EVerticalAlignment)ParseUByte(params[8]);
+	component->spacing = ParseFloat(params[9]);
+	component->shader = ParseShader(params[10]);
+	component->text = ParseString(params[11]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, Spaceship* component)
@@ -44,6 +49,7 @@ template<> void SetComponentParams(std::vector<std::string> params, Spaceship* c
 template<> void SetComponentParams(std::vector<std::string> params, ImageComponent* component)
 {
 	component->texture = ParseTexture(params[0]);
+	component->tint = ParseColor(params[1]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, ProgressBar* component)
@@ -72,6 +78,13 @@ template<> void SetComponentParams(std::vector<std::string> params, VirtualCamer
 	component->farClipPlane = ParseFloat(params[3]);
 }
 
+template<> void SetComponentParams(std::vector<std::string> params, Button* component)
+{
+	component->defaultColor = ParseColor(params[0]);
+	component->hoveredColor = ParseColor(params[1]);
+	component->activeColor = ParseColor(params[2]);
+}
+
 template<> void SetComponentParams(std::vector<std::string> params, MeshComponent* component)
 {
 	component->material = (MeshMaterial*)ParseMaterial(params[0]);
@@ -79,8 +92,20 @@ template<> void SetComponentParams(std::vector<std::string> params, MeshComponen
 	component->isVisible = ParseBool(params[2]);
 }
 
+template<> void SetComponentParams(std::vector<std::string> params, CheckBox* component)
+{
+	component->offColor = ParseColor(params[0]);
+	component->onColor = ParseColor(params[1]);
+	component->isOn = ParseBool(params[2]);
+}
+
 template<> void SetComponentParams(std::vector<std::string> params, ParticleComponent* component)
 {
+}
+
+template<> void SetComponentParams(std::vector<std::string> params, Slider* component)
+{
+	component->value = ParseFloat(params[0]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, Billboard* component)
@@ -102,9 +127,11 @@ template<> void SetComponentBinaryParams(void* data, TextComponent* component)
 	component->color = BinaryParseColor((void*)((char*)data + 12));
 	component->horizontalWrapMode = (EHorizontalWrapMode)BinaryParseUByte((void*)((char*)data + 28));
 	component->verticalWrapMode = (EVerticalWrapMode)BinaryParseUByte((void*)((char*)data + 29));
-	component->spacing = BinaryParseFloat((void*)((char*)data + 30));
-	component->shader = BinaryParseShader((void*)((char*)data + 34));
-	component->text = BinaryParseString((void*)((char*)data + 38));
+	component->horizontalAlignment = (EHorizontalAlignment)BinaryParseUByte((void*)((char*)data + 30));
+	component->verticalAlignment = (EVerticalAlignment)BinaryParseUByte((void*)((char*)data + 31));
+	component->spacing = BinaryParseFloat((void*)((char*)data + 32));
+	component->shader = BinaryParseShader((void*)((char*)data + 36));
+	component->text = BinaryParseString((void*)((char*)data + 40));
 }
 
 template<> void SetComponentBinaryParams(void* data, Spaceship* component)
@@ -116,6 +143,7 @@ template<> void SetComponentBinaryParams(void* data, Spaceship* component)
 template<> void SetComponentBinaryParams(void* data, ImageComponent* component)
 {
 	component->texture = BinaryParseTexture((void*)((char*)data + 0));
+	component->tint = BinaryParseColor((void*)((char*)data + 4));
 }
 
 template<> void SetComponentBinaryParams(void* data, ProgressBar* component)
@@ -144,6 +172,13 @@ template<> void SetComponentBinaryParams(void* data, VirtualCamera* component)
 	component->farClipPlane = BinaryParseFloat((void*)((char*)data + 12));
 }
 
+template<> void SetComponentBinaryParams(void* data, Button* component)
+{
+	component->defaultColor = BinaryParseColor((void*)((char*)data + 0));
+	component->hoveredColor = BinaryParseColor((void*)((char*)data + 16));
+	component->activeColor = BinaryParseColor((void*)((char*)data + 32));
+}
+
 template<> void SetComponentBinaryParams(void* data, MeshComponent* component)
 {
 	component->material = (MeshMaterial*)BinaryParseMaterial((void*)((char*)data + 0));
@@ -151,8 +186,20 @@ template<> void SetComponentBinaryParams(void* data, MeshComponent* component)
 	component->isVisible = BinaryParseBool((void*)((char*)data + 8));
 }
 
+template<> void SetComponentBinaryParams(void* data, CheckBox* component)
+{
+	component->offColor = BinaryParseColor((void*)((char*)data + 0));
+	component->onColor = BinaryParseColor((void*)((char*)data + 16));
+	component->isOn = BinaryParseBool((void*)((char*)data + 32));
+}
+
 template<> void SetComponentBinaryParams(void* data, ParticleComponent* component)
 {
+}
+
+template<> void SetComponentBinaryParams(void* data, Slider* component)
+{
+	component->value = BinaryParseFloat((void*)((char*)data + 0));
 }
 
 template<> void SetComponentBinaryParams(void* data, Billboard* component)
@@ -173,8 +220,11 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 		case 106: { PB_EMPLACE_COMPONENT(ProgressBar, classId); PB_START_COMPONENT(); } break;
 		case 107: { PB_EMPLACE_COMPONENT(Panel, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
+		case 108: { PB_EMPLACE_COMPONENT(Button, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
+		case 109: { PB_EMPLACE_COMPONENT(CheckBox, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_COMPONENT(ParticleComponent, classId); PB_START_COMPONENT(); } break;
+		case 110: { PB_EMPLACE_COMPONENT(Slider, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
 	}
 }
@@ -189,8 +239,11 @@ void AddComponentToScene(unsigned int classId, void* params, size_t paramSize, G
 		case 106: { PB_EMPLACE_BINARY_COMPONENT(ProgressBar, classId); PB_START_COMPONENT(); } break;
 		case 107: { PB_EMPLACE_BINARY_COMPONENT(Panel, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_BINARY_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
+		case 108: { PB_EMPLACE_BINARY_COMPONENT(Button, classId); PB_START_COMPONENT(); } break;
 		case 101: { PB_EMPLACE_BINARY_COMPONENT(MeshComponent, classId); PB_START_COMPONENT(); } break;
+		case 109: { PB_EMPLACE_BINARY_COMPONENT(CheckBox, classId); PB_START_COMPONENT(); } break;
 		case 102: { PB_EMPLACE_BINARY_COMPONENT(ParticleComponent, classId); PB_START_COMPONENT(); } break;
+		case 110: { PB_EMPLACE_BINARY_COMPONENT(Slider, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_BINARY_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
 	}
 }
@@ -205,8 +258,11 @@ size_t SizeOfComponent(unsigned int classId)
 		case 106: return sizeof(ProgressBar);
 		case 107: return sizeof(Panel);
 		case 100: return sizeof(VirtualCamera);
+		case 108: return sizeof(Button);
 		case 101: return sizeof(MeshComponent);
+		case 109: return sizeof(CheckBox);
 		case 102: return sizeof(ParticleComponent);
+		case 110: return sizeof(Slider);
 		case 103: return sizeof(Billboard);
 	}
 	return 0;
@@ -216,14 +272,17 @@ size_t SerializedSizeOfComponent(unsigned int classId)
 {
 	switch(classId)
 	{
-		case 104: return 46;
+		case 104: return 48;
 		case 1024: return 8;
-		case 105: return 4;
+		case 105: return 20;
 		case 106: return 45;
 		case 107: return 24;
 		case 100: return 16;
+		case 108: return 48;
 		case 101: return 9;
+		case 109: return 33;
 		case 102: return 0;
+		case 110: return 4;
 		case 103: return 14;
 	}
 	return 0;

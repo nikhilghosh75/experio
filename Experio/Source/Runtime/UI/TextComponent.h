@@ -28,6 +28,20 @@ enum class EVerticalWrapMode : uint8_t
 	Overflow
 };
 
+enum class EHorizontalAlignment : uint8_t
+{
+	Left,
+	Middle,
+	Right
+};
+
+enum class EVerticalAlignment : uint8_t
+{
+	Upper,
+	Middle,
+	Bottom
+};
+
 class TextComponent : public Component
 {
 public:
@@ -39,6 +53,8 @@ public:
 	virtual void Start() override;
 	virtual void Update() override;
 
+	void RenderText();
+
 	float margins = 4;
 
 	int fontSize;
@@ -47,28 +63,53 @@ public:
 	FColor color;
 	EHorizontalWrapMode horizontalWrapMode;
 	EVerticalWrapMode verticalWrapMode;
+	EHorizontalAlignment horizontalAlignment;
+	EVerticalAlignment verticalAlignment;
+	EFontType textType;
 	float spacing;
 	Shader* shader;
 
 	void SetDefaultShader();
 
+	void SetTextType(EFontType textType);
+
 private:
+	struct LineInfo
+	{
+		float width;
+		unsigned int numCharacters;
+
+		LineInfo() : width(0), numCharacters(0) {};
+		LineInfo(float newWidth, unsigned int newNumCharacters) : width(newWidth), numCharacters(newNumCharacters) {};
+	};
+
 	glm::vec2* verticies = nullptr;
 	glm::vec2* uvs = nullptr;
+	glm::vec2* offsets = nullptr;
+
+	std::vector<LineInfo> lineInfos;
 
 	uint32_t capacity = 0;
 
 	void SetCapacity(uint32_t newCapacity);
 
-	void RenderText();
-
 	bool IsSpecialChar(char c) const;
+
+	void SetupRendering();
 
 	void SetVertices(unsigned int i, glm::vec2 upLeft, glm::vec2 upRight, glm::vec2 downLeft, glm::vec2 downRight);
 
 	void SetUVs(unsigned int i, FVector2 uvMin, FVector2 uvMax);
 
-	FVector2 GetNextCursorPosition(FVector2 cursorPosition, FRect rect, float clippedSize, float clippedSpacing, const FCharacterInfo& charInfo, const FWindowData& data) const;
+	void SetOffsets(float clippedMargins, FRect rect, float clippedSize, float clippedSpacing);
+
+	void SetOffsetsHorizontalMiddle(float clippedMargins, FRect rect);
+	void SetOffsetsHorizontalRight(float clippedMargins, FRect rect);
+	
+	void SetOffsetsVerticalMiddle(float clippedMargins, FRect rect, float clippedSize, float clippedSpacing);
+	void SetOffsetsVerticalBottom(float clippedMargins, FRect rect, float clippedSize, float clippedSpacing);
+
+	FVector2 GetNextCursorPosition(FVector2 cursorPosition, FRect rect, float clippedSize, float clippedSpacing, const FCharacterInfo& charInfo, const FWindowData& data);
 
 	bool ShouldStopRendering(FVector2 cursorPosition, FRect rect) const;
 };

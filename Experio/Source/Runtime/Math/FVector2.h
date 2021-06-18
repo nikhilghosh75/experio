@@ -55,6 +55,8 @@ struct FVector2
 
 	operator glm::vec2() const { return glm::vec2(this->x, this->y); }
 	operator ImVec2() const { return ImVec2(this->x, this->y); }
+	
+	operator std::string() const { return ToString(*this, 5); }
 
 	bool operator==(const FVector2 Other) const;
 

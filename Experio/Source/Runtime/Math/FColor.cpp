@@ -128,6 +128,58 @@ std::string FColor::Hex() const
 	return ss.str();
 }
 
+std::string FColor::RGBAString() const
+{
+	std::stringstream ss;
+	ss << "rgb(" << this->r << ", " << this->g << ", " << this->b << ", " << this->a << ")";
+	return ss.str();
+}
+
+std::string FColor::RGBAStringInt() const
+{
+	std::stringstream ss;
+	ss << "rgb(" << (int)(this->r * 255) << ", " << (int)(this->g * 255)
+		<< ", " << (int)(this->b * 255) << ", " << (int)(this->a * 255) << ")";
+	return ss.str();
+}
+
+std::string FColor::CMYKString() const
+{
+	float c = C();
+	float m = M();
+	float y = Y();
+	float k = K();
+
+	std::stringstream ss;
+	ss << "cmyk(" << c << ", " << m << ", " << y << ", " << k << ")";
+	return ss.str();
+}
+
+float FColor::C() const
+{
+	float k = K();
+	return (1 - this->r - k) / (1 - k);
+}
+
+float FColor::M() const
+{
+	float k = K();
+	return (1 - this->g - k) / (1 - k);
+}
+
+float FColor::Y() const
+{
+	float k = K();
+	return (1 - this->b - k) / (1 - k);
+}
+
+float FColor::K() const
+{
+	float max = this->r > this->g ? this->r : this->g;
+	max = this->b > max ? this->b : max;
+	return 1 - max;
+}
+
 FColor FColor::Lerp(FColor start, FColor end, float t)
 {
 	return FColor(
