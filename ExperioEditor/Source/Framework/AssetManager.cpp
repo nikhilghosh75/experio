@@ -5,6 +5,7 @@
 #include "Runtime/Files/LFileOperations.h"
 #include "Runtime/Files/Font/FontReader.h"
 #include "Runtime/Files/Mesh/MeshReader.h"
+#include "Runtime/Framework/AssetMap.h"
 #include <filesystem>
 namespace fs = std::filesystem;
 
@@ -193,6 +194,9 @@ bool AssetManager::WillFileBeConverted(const std::string & filename)
 
 void AssetManager::PopulateFromDirectory(const std::string & str)
 {
+	if (str.empty())
+		return;
+
 	fs::recursive_directory_iterator it(str);
 
 	for (auto& p : it)
