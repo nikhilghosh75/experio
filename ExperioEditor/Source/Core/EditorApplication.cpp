@@ -108,6 +108,7 @@ void EditorApplication::Setup(const std::string& projectFilepath)
 	EditorShortcuts::Initialize();
 	ImportSystem::Initialize();
 	NotificationSystem::Initialize();
+	SaveSystem::Initialize();
 	Terminal::Initialize();
 }
 
@@ -241,8 +242,7 @@ void EditorApplication::Update()
 	RenderModules();
 
 	// To-Do: Make more modular later
-	SaveSystem::DisplaySaveSelectedScreen();
-
+	SaveSystem::Update();
 	NotificationSystem::RenderNotifications();
 }
 

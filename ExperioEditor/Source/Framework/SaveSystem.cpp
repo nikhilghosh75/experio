@@ -8,12 +8,15 @@
 #include "../Flowcharts/FlowchartViewer.h"
 #include "../GameView/GameView.h"
 #include "../Inspector/Inspector.h"
+#include "../Materials/MaterialEditor.h"
+#include "../ProjectSettings/EditorSettings.h"
 #include "../SceneHierarchy/SceneHierarchy.h"
 #include "../SceneView/SceneView.h"
-#include "../Materials/MaterialEditor.h"
 
 std::vector<FSaveableAsset> SaveSystem::currentlyOpenAssets;
 std::vector<bool> SaveSystem::shouldSaveAssets;
+float SaveSystem::timeSinceAutosave = 0;
+TextNotification* SaveSystem::autosaveNotification;
 
 bool shouldOpenThisFrame = false;
 
@@ -49,6 +52,48 @@ void SaveSystem::SaveAssetOfType(ESaveableAssetType assetType)
 	case ESaveableAssetType::Material: SaveMaterial(); break;
 	case ESaveableAssetType::Value: SaveValues(); break;
 	case ESaveableAssetType::Flowchart: SaveFlowcharts(); break;
+	}
+}
+
+void SaveSystem::Autosave()
+{
+	if (EditorSettings::settings->autosaveFlowcharts)
+		SaveFlowcharts();
+	if (EditorSettings::settings->autosaveMaterials)
+		SaveMaterial();
+	if (EditorSettings::settings->autosaveScenes)
+		SaveScene();
+	if (EditorSettings::settings->autosaveValues)
+		SaveValues();
+}
+
+void SaveSystem::Initialize()
+{
+	autosaveNotification = new TextNotification();
+	autosaveNotification->name = "Autosave";
+	autosaveNotification->visible = false;
+	NotificationSystem::AddNotification(autosaveNotification);
+}
+
+void SaveSystem::Update()
+{
+	DisplaySaveSelectedScreen();
+
+	if (EditorSettings::settings->editorAutosaveEnabled)
+	{
+		timeSinceAutosave += GameTime::deltaTime;
+		if (timeSinceAutosave > EditorSettings::settings->editorAutosaveTime)
+		{
+			Autosave();
+			timeSinceAutosave = 0;
+			autosaveNotification->visible = false;
+		}
+		else if (timeSinceAutosave + 10 > EditorSettings::settings->editorAutosaveTime)
+		{
+			float timeToAutosave = EditorSettings::settings->editorAutosaveTime - timeSinceAutosave;
+			autosaveNotification->visible = true;
+			autosaveNotification->text = "Autosaving in " + std::to_string(timeToAutosave) + " seconds";
+		}
 	}
 }
 

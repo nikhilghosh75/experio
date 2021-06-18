@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "imgui.h"
+#include "NotificationSystem.h"
 
 enum class ESaveableAssetType
 {
@@ -27,13 +28,22 @@ class SaveSystem
 	static std::vector<FSaveableAsset> currentlyOpenAssets;
 	static std::vector<bool> shouldSaveAssets;
 
+	static float timeSinceAutosave;
+	static TextNotification* autosaveNotification;
+
 	static ImVec4 AssetTypeToColor(ESaveableAssetType assetType);
 
 	static char* AssetTypeToString(ESaveableAssetType assetType);
 
 	static void SaveAssetOfType(ESaveableAssetType assetType);
 
+	static void Autosave();
+
 public:
+	static void Initialize();
+
+	static void Update();
+
 	// ---- Saving -----
 	static void SaveAll();
 

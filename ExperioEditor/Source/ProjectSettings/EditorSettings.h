@@ -7,6 +7,15 @@ class EditorSettings : public ProjectSettingModule
 public:
 	static EditorSettings* settings;
 
+	// ---- Autosave ----
+	bool editorAutosaveEnabled;
+	float editorAutosaveTime;
+
+	bool autosaveScenes;
+	bool autosaveMaterials;
+	bool autosaveValues;
+	bool autosaveFlowcharts;
+
 	EditorSettings();
 
 	virtual void ReadFromTable(toml::table table) override;
