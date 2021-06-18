@@ -21,6 +21,8 @@ void NotificationSystem::CalculateNotifications()
 
 void NotificationSystem::RenderNotifications()
 {
+	CalculateNotifications();
+
 	for (size_t i = 0; i < notifications.size(); i++)
 	{
 		if (notifications[i]->visible)
@@ -51,32 +53,6 @@ void NotificationSystem::AddNotification(Notification* notification)
 {
 	notifications.push_back(notification);
 }
-
-/*
-
-void NotificationSystem::RenderCompileNotification()
-{
-	FCompilationInfo compilationInfo = GetCompilationInfo();
-
-	if (ShouldRenderCompileNotification(compilationInfo))
-	{	
-		ImVec4 windowBgCol = ImVec4(0.1f, 0.4f, 0.1f, 1.0f);
-		ImGui::PushStyleColor(ImGuiCol_WindowBg, windowBgCol);
-		SetNextWindowSize();
-		ImGui::Begin("Compiling", NULL, ImGuiWindowFlags_NoTitleBar);
-		if (compilationInfo.isCompiling)
-		{
-			ImGui::Text("Compiling");
-		}
-		else
-		{
-			ImGui::Text("Compile Done");
-		}
-		ImGui::End();
-		ImGui::PopStyleColor();
-	}
-}
-*/
 
 bool NotificationSystem::ShouldRenderCompileNotification(const FCompilationInfo info)
 {
