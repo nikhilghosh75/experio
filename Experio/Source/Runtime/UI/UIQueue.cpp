@@ -70,6 +70,8 @@ void UIQueue::HandleElementInput(const FUIQueueSlot& slot)
 	{
 	case EUIComponentType::Button:
 		((Button*)slot.component)->HandleInput(); break;
+	case EUIComponentType::Checkbox:
+		((CheckBox*)slot.component)->HandleInput(); break;
 	}
 }
 
@@ -79,6 +81,8 @@ void UIQueue::RenderUISlot(const FUIQueueSlot& slot)
 	{
 	case EUIComponentType::Button:
 		((Button*)slot.component)->RenderButton(); break;
+	case EUIComponentType::Checkbox:
+		((CheckBox*)slot.component)->RenderCheckBox(); break;
 	case EUIComponentType::ImageComponent:
 		((ImageComponent*)slot.component)->RenderImage(); break;
 	case EUIComponentType::Panel:
