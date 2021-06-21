@@ -33,6 +33,8 @@ class LFontOperations
 public:
 	static std::string CharsetToString(ECharacterSet charSet);
 
+	static std::string FontTypeToString(EFontType fontType);
+
 	static ETextEncoding GetEncoding(const FontData& data);
 
 	static uint32_t GetCharCodeOfUV(const FontData& data, const FVector2& uv);
@@ -57,4 +59,6 @@ public:
 	static void SortCharacters(FontData& data);
 
 	static EFontType StringToFontType(const std::string& str);
+
+	static std::string UnicodeToString(unsigned int unicode);
 };

@@ -29,6 +29,18 @@ std::string LFontOperations::CharsetToString(ECharacterSet charSet)
 	return "";
 }
 
+std::string LFontOperations::FontTypeToString(EFontType fontType)
+{
+	switch (fontType)
+	{
+	case EFontType::Bold: return "Bold";
+	case EFontType::BoldItalics: return "Bold Italic";
+	case EFontType::Italics: return "Italic";
+	case EFontType::Normal: return "Normal";
+	}
+	return std::string();
+}
+
 ETextEncoding LFontOperations::GetEncoding(const FontData & data)
 {
 	uint32_t maxCharacterCode = GetMaxCharacterCode(data);
@@ -184,4 +196,20 @@ EFontType LFontOperations::StringToFontType(const std::string& str)
 	else if (str == "Italic")
 		return EFontType::Italics;
 	return EFontType::Normal;
+}
+
+std::string LFontOperations::UnicodeToString(unsigned int unicode)
+{
+	const std::string unicodeTable[] = {
+		"Null", "Start of heading", "Start of text", "End of text", // 3
+		"End of transmission", "Enquity", "Acknowledge", "Bell", // 7
+		"Backspace", "Horizontal Tab", "New Line", "Vertical Tab", // 11
+		"New Page", "Return", "Shift Out", "Shift In", // 15
+		"Data Link", "Device Control 1", "Device Control 2", "Device Control 3" // 19
+	};
+
+	if (unicode >= 20)
+		return std::to_string(unicode);
+
+	return unicodeTable[unicode];
 }
