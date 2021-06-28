@@ -260,13 +260,19 @@ unsigned int LString::StringToUInt(const std::string & str)
 std::string LString::ToCamelCase(const std::string& str)
 {
 	std::string camelCaseStr = str;
-	camelCaseStr[0] = UpperToLower(camelCaseStr[0]);
+	camelCaseStr[0] = ToLower(camelCaseStr[0]);
 	return camelCaseStr;
 }
 
-char LString::UpperToLower(char c)
+char LString::ToLower(char c)
 {
 	if (c >= 'A' && c <= 'Z') return c + 32;
+	return c;
+}
+
+char LString::ToUpper(char c)
+{
+	if (c >= 'a' && c <= 'z') return c - 32;
 	return c;
 }
 
