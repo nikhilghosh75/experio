@@ -57,6 +57,25 @@ float Input::mouseScrollHDelta = 0.f;
 
 std::vector<Shortcut> Input::shortcuts;
 
+bool Input::IsAlpha(EKeyCode keyCode)
+{
+	return keyCode >= EKeyCode::A && keyCode <= EKeyCode::Z;
+}
+
+bool Input::IsNumeric(EKeyCode keyCode)
+{
+	return keyCode >= EKeyCode::AlphaZero && keyCode <= EKeyCode::AlphaNine;
+}
+
+char Input::KeyCodeToChar(EKeyCode keyCode)
+{
+	if (IsAlpha(keyCode))
+		return (int)keyCode - (int)EKeyCode::A + 'A';
+	else if (IsNumeric(keyCode))
+		return (int)keyCode - (int)EKeyCode::AlphaZero + '0';
+	return 0;
+}
+
 void Input::Init()
 {
 	for (int i = 0; i < PB_NUM_KEY_CODES; i++)

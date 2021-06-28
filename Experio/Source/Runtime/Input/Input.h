@@ -49,6 +49,12 @@ public:
 
 	static void SetGameRect(FRect rect);
 
+	// Helper functions
+	static bool IsAlpha(EKeyCode keyCode);
+	static bool IsNumeric(EKeyCode keyCode);
+	
+	static char KeyCodeToChar(EKeyCode keyCode);
+
 	static bool AnyKey();
 	static bool AnyKeyDown();
 	static bool AnyKeyUp();
