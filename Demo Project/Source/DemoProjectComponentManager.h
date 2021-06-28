@@ -28,6 +28,8 @@ class DemoProjectComponentManager : public ComponentManager
 
 	std::vector<Billboard> billboardInstances;
 
+	std::vector<InputText> inputTextInstances;
+
 	CameraSystem cameraSystem;
 
 	virtual void Start() override;

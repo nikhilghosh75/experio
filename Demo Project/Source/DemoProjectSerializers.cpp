@@ -18,6 +18,7 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 		case 102: return std::vector<std::string>({ });
 		case 110: return std::vector<std::string>({ "value"});
 		case 103: return std::vector<std::string>({ "billboardTexture", "sizeType", "orientation", "billboardSize"});
+		case 111: return std::vector<std::string>({ "enableAlpha", "enableNumeric", "enableUppercase", "enableLowercase"});
 	}
 	return std::vector<std::string>();
 }
@@ -116,6 +117,14 @@ template<> void SetComponentParams(std::vector<std::string> params, Billboard* c
 	component->billboardSize = ParseVector2(params[3]);
 }
 
+template<> void SetComponentParams(std::vector<std::string> params, InputText* component)
+{
+	component->enableAlpha = ParseBool(params[0]);
+	component->enableNumeric = ParseBool(params[1]);
+	component->enableUppercase = ParseBool(params[2]);
+	component->enableLowercase = ParseBool(params[3]);
+}
+
 template<class T> void SetComponentBinaryParams(void* data, T* component) { }
 
 template<> void SetComponentBinaryParams(void* data, TextComponent* component)
@@ -210,6 +219,14 @@ template<> void SetComponentBinaryParams(void* data, Billboard* component)
 	component->billboardSize = BinaryParseVector2((void*)((char*)data + 6));
 }
 
+template<> void SetComponentBinaryParams(void* data, InputText* component)
+{
+	component->enableAlpha = BinaryParseBool((void*)((char*)data + 0));
+	component->enableNumeric = BinaryParseBool((void*)((char*)data + 1));
+	component->enableUppercase = BinaryParseBool((void*)((char*)data + 2));
+	component->enableLowercase = BinaryParseBool((void*)((char*)data + 3));
+}
+
 void AddComponentToScene(unsigned int classId, std::vector<std::string> params, GameObject* gameObject, uint8_t sceneId)
 {
 	switch(classId)
@@ -226,6 +243,7 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 		case 102: { PB_EMPLACE_COMPONENT(ParticleComponent, classId); PB_START_COMPONENT(); } break;
 		case 110: { PB_EMPLACE_COMPONENT(Slider, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
+		case 111: { PB_EMPLACE_COMPONENT(InputText, classId); PB_START_COMPONENT(); } break;
 	}
 }
 
@@ -245,6 +263,7 @@ void AddComponentToScene(unsigned int classId, void* params, size_t paramSize, G
 		case 102: { PB_EMPLACE_BINARY_COMPONENT(ParticleComponent, classId); PB_START_COMPONENT(); } break;
 		case 110: { PB_EMPLACE_BINARY_COMPONENT(Slider, classId); PB_START_COMPONENT(); } break;
 		case 103: { PB_EMPLACE_BINARY_COMPONENT(Billboard, classId); PB_START_COMPONENT(); } break;
+		case 111: { PB_EMPLACE_BINARY_COMPONENT(InputText, classId); PB_START_COMPONENT(); } break;
 	}
 }
 
@@ -264,6 +283,7 @@ size_t SizeOfComponent(unsigned int classId)
 		case 102: return sizeof(ParticleComponent);
 		case 110: return sizeof(Slider);
 		case 103: return sizeof(Billboard);
+		case 111: return sizeof(InputText);
 	}
 	return 0;
 }
@@ -284,6 +304,7 @@ size_t SerializedSizeOfComponent(unsigned int classId)
 		case 102: return 0;
 		case 110: return 4;
 		case 103: return 14;
+		case 111: return 4;
 	}
 	return 0;
 }

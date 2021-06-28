@@ -98,6 +98,15 @@
       "stage": 7,
       "default": true,
       "standalone": true
+    },
+    {
+      "name": "InputText",
+      "id": 111,
+      "category": "UI",
+      "filepath": "Runtime/UI/InputText.h",
+      "stage": 6,
+      "default": true,
+      "standalone": true
     }
   ]
 }

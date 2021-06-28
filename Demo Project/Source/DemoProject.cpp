@@ -20,6 +20,7 @@ template<> unsigned int DefaultClassTypeToInt<CheckBox>() { return 109; }
 template<> unsigned int DefaultClassTypeToInt<ParticleComponent>() { return 102; }
 template<> unsigned int DefaultClassTypeToInt<Slider>() { return 110; }
 template<> unsigned int DefaultClassTypeToInt<Billboard>() { return 103; }
+template<> unsigned int DefaultClassTypeToInt<InputText>() { return 111; }
 
 template <class T> std::string DefaultClassTypeToString() { return NAMEOF_TYPE(T); }
 
