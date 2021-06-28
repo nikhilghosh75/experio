@@ -322,6 +322,7 @@
     <ClCompile Include="Source\Runtime\UI\Canvas.cpp" />
     <ClCompile Include="Source\Runtime\UI\CheckBox.cpp" />
     <ClCompile Include="Source\Runtime\UI\ImageComponent.cpp" />
+    <ClCompile Include="Source\Runtime\UI\InputText.cpp" />
     <ClCompile Include="Source\Runtime\UI\Panel.cpp" />
     <ClCompile Include="Source\Runtime\UI\ProgressBar.cpp" />
     <ClCompile Include="Source\Runtime\UI\RectTransform.cpp" />
