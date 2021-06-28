@@ -11,6 +11,7 @@
 #include "UI/Button.h"
 #include "UI/CheckBox.h"
 #include "UI/ImageComponent.h"
+#include "UI/InputText.h"
 #include "UI/Panel.h"
 #include "UI/ProgressBar.h"
 #include "UI/Slider.h"
