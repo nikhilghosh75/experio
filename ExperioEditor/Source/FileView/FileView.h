@@ -17,6 +17,8 @@ class FileView : public EditorModule
 	std::string selectedItem = "Assets";
 	std::string selectedFilepath = "";
 
+	char searchBuffer[64];
+
 	TTypedTree<std::string>* directories;
 
 	Filemask fileMask;
@@ -37,6 +39,8 @@ class FileView : public EditorModule
 	void DisplayContentsButtonView();
 
 	void DisplayContentsTableView();
+
+	void DisplaySearch();
 
 	void OpenCreateMenus();
 
