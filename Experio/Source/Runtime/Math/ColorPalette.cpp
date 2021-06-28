@@ -36,4 +36,8 @@ const FColor const ColorPalette::MarbleBlue(86, 109, 126);
 const FColor const ColorPalette::SlateBlue(115, 124, 161);
 const FColor const ColorPalette::SteelBlue(72, 99, 160);
 const FColor const ColorPalette::BlueJay(43, 84, 126);
+const FColor const ColorPalette::DarkSlateBlue(43, 56, 86);
+const FColor const ColorPalette::MidnightBlue(21, 27, 84);
+const FColor const ColorPalette::NavyBlue(0, 0, 128);
+const FColor const ColorPalette::BlueWhale(52, 45, 126);
 const FColor const ColorPalette::Red(1.f, 0.f, 0.f);
