@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Component.h"
+#include "Project.h"
 #include "../Math/FTransform.h"
 #include "../UI/RectTransform.h"
 #include "../Containers/TTypedTree.h"
@@ -48,15 +49,24 @@ public:
 	~GameObject();
 
 	template<class T>
-	void AddComponent();
+	void AddComponent()
+	{
+		Project::componentManager->AddComponent(this, Project::ClassTypeToInt<T>());
+	}
 
 	void AddComponentByComponentID(unsigned int id);
 
 	template<class T>
-	T* GetComponent();
+	T* GetComponent()
+	{
+		return (T*)Project::componentManager->GetComponent(this, Project::ClassTypeToInt<T>());
+	}
 
 	template<class T>
-	void DeleteComponent();
+	void DeleteComponent()
+	{
+		Project::componentManager->DeleteComponent(this, Project::ClassTypeToInt<T>());
+	}
 
 	void DeleteComponentByComponentID(unsigned int id);
 
@@ -108,7 +118,10 @@ public:
 	static GameObject* FindGameObjectOfID(uint64_t id, uint8_t sceneIndex);
 
 	template<typename T>
-	static T* FindObjectOfType();
+	static T* FindObjectOfType()
+	{
+		return (T*)Project::componentManager->GetComponentAtIndex(Project::ClassTypeToInt<T>(), 0);
+	}
 
 	template<typename T>
 	static GameObject* FindGameObjectOfType();

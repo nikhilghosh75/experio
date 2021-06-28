@@ -1,5 +1,4 @@
 #include "GameObject.h"
-#include "Project.h"
 #include "Scene.h"
 #include "GameObjectIterator.h"
 #include "glm/gtx/matrix_decompose.hpp"
@@ -79,30 +78,6 @@ GameObject::~GameObject()
 void GameObject::AddComponentByComponentID(unsigned int id)
 {
 	Project::componentManager->AddComponent(this, id);
-}
-
-template<class T>
-void GameObject::AddComponent()
-{
-	Project::componentManager->AddComponent(this, Project::ClassTypeToInt<T>());
-}
-
-template<class T>
-T * GameObject::GetComponent()
-{
-	return Project::componentManager->GetComponent(this, Project::ClassTypeToInt<T>());
-}
-
-template<class T>
-void GameObject::DeleteComponent()
-{
-	Project::componentManager->DeleteComponent(this, Project::ClassTypeToInt<T>());
-}
-
-template<typename T>
-T * GameObject::FindObjectOfType()
-{
-	return (T*)Project::componentManager->GetComponentAtIndex(Project::ClassTypeToInt<T>(), 0);
 }
 
 template<typename T>
