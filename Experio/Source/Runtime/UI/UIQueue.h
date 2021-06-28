@@ -19,7 +19,8 @@ enum class EUIComponentType : uint16_t
 	Panel = 107,
 	Button = 108,
 	Checkbox = 109,
-	Slider = 110
+	Slider = 110,
+	InputText = 111
 };
 
 struct FUIQueueSlot
