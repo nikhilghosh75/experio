@@ -61,16 +61,6 @@ std::string Project::TagNumToString(unsigned short num)
 }
 
 template<class T>
-unsigned int Project::ClassTypeToInt()
-{
-#ifdef EXPERIO_EDITOR
-	return DefaultClassStringToInt(NAMEOF_TYPE(T));
-#else
-	return DefaultClassTypeToInt<T>();
-#endif // EXPERIO_EDITOR
-}
-
-template<class T>
 std::string Project::ClassTypeToString()
 {
 	return DefaultClassTypeToString<T>();

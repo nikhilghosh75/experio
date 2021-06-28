@@ -7,6 +7,9 @@
 /// A class representing a Project, including the component and material manager
 /// </summary>
 
+template <class T>
+extern unsigned int DefaultClassTypeToInt();
+
 class Project
 {
 public:
@@ -35,7 +38,14 @@ public:
 	static std::string TagNumToString(unsigned short num);
 
 	template<class T>
-	static unsigned int ClassTypeToInt();
+	static unsigned int ClassTypeToInt()
+	{
+#ifdef EXPERIO_EDITOR
+		return DefaultClassStringToInt(NAMEOF_TYPE(T));
+#else
+		return DefaultClassTypeToInt<T>();
+#endif // EXPERIO_EDITOR
+	}
 
 	template<class T>
 	static std::string ClassTypeToString();
