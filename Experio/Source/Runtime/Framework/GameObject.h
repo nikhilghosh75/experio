@@ -91,6 +91,8 @@ public:
 	// Meant for UI game objects
 	FRect GetCanvasSpaceRect() const;
 
+	void SetCanvasSpaceRect(FRect canvasSpaceRect);
+
 	void SetTag(unsigned short newTag);
 	void SetTag(const std::string& newTag);
 
