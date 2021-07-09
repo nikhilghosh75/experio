@@ -7,9 +7,12 @@ std::vector<std::string> GetParamsList(unsigned int classId)
 	switch(classId)
 	{
 		case 104: return std::vector<std::string>({ "margins", "fontSize", "font", "text", "color", "horizontalWrapMode", "verticalWrapMode", "horizontalAlignment", "verticalAlignment", "spacing", "shader", "text"});
+		case 112: return std::vector<std::string>({ "margins"});
 		case 1024: return std::vector<std::string>({ "isActive = false", "isAccelerating = false", "acceleration", "topSpeed"});
 		case 105: return std::vector<std::string>({ "texture", "tint"});
+		case 113: return std::vector<std::string>({ "margins"});
 		case 106: return std::vector<std::string>({ "minValue", "maxValue", "value", "backgroundColor", "barColor", "shader", "mode"});
+		case 114: return std::vector<std::string>({ "margins"});
 		case 107: return std::vector<std::string>({ "roundedPixels", "color", "texture"});
 		case 100: return std::vector<std::string>({ "priority", "fieldOfView", "nearClipPlane", "farClipPlane"});
 		case 108: return std::vector<std::string>({ "defaultColor", "hoveredColor", "activeColor"});
@@ -41,6 +44,11 @@ template<> void SetComponentParams(std::vector<std::string> params, TextComponen
 	component->text = ParseString(params[11]);
 }
 
+template<> void SetComponentParams(std::vector<std::string> params, HorizontalLayout* component)
+{
+	component->margins = ParseFloat(params[0]);
+}
+
 template<> void SetComponentParams(std::vector<std::string> params, Spaceship* component)
 {
 	component->acceleration = ParseFloat(params[0]);
@@ -53,6 +61,11 @@ template<> void SetComponentParams(std::vector<std::string> params, ImageCompone
 	component->tint = ParseColor(params[1]);
 }
 
+template<> void SetComponentParams(std::vector<std::string> params, VerticalLayout* component)
+{
+	component->margins = ParseFloat(params[0]);
+}
+
 template<> void SetComponentParams(std::vector<std::string> params, ProgressBar* component)
 {
 	component->minValue = ParseFloat(params[0]);
@@ -62,6 +75,11 @@ template<> void SetComponentParams(std::vector<std::string> params, ProgressBar*
 	component->barColor = ParseColor(params[4]);
 	component->shader = ParseShader(params[5]);
 	component->mode = (EProgressBarMode)ParseUByte(params[6]);
+}
+
+template<> void SetComponentParams(std::vector<std::string> params, GridLayout* component)
+{
+	component->margins = ParseFloat(params[0]);
 }
 
 template<> void SetComponentParams(std::vector<std::string> params, Panel* component)
@@ -143,6 +161,11 @@ template<> void SetComponentBinaryParams(void* data, TextComponent* component)
 	component->text = BinaryParseString((void*)((char*)data + 40));
 }
 
+template<> void SetComponentBinaryParams(void* data, HorizontalLayout* component)
+{
+	component->margins = BinaryParseFloat((void*)((char*)data + 0));
+}
+
 template<> void SetComponentBinaryParams(void* data, Spaceship* component)
 {
 	component->acceleration = BinaryParseFloat((void*)((char*)data + 0));
@@ -155,6 +178,11 @@ template<> void SetComponentBinaryParams(void* data, ImageComponent* component)
 	component->tint = BinaryParseColor((void*)((char*)data + 4));
 }
 
+template<> void SetComponentBinaryParams(void* data, VerticalLayout* component)
+{
+	component->margins = BinaryParseFloat((void*)((char*)data + 0));
+}
+
 template<> void SetComponentBinaryParams(void* data, ProgressBar* component)
 {
 	component->minValue = BinaryParseFloat((void*)((char*)data + 0));
@@ -164,6 +192,11 @@ template<> void SetComponentBinaryParams(void* data, ProgressBar* component)
 	component->barColor = BinaryParseColor((void*)((char*)data + 28));
 	component->shader = BinaryParseShader((void*)((char*)data + 44));
 	component->mode = (EProgressBarMode)BinaryParseUByte((void*)((char*)data + 48));
+}
+
+template<> void SetComponentBinaryParams(void* data, GridLayout* component)
+{
+	component->margins = BinaryParseFloat((void*)((char*)data + 0));
 }
 
 template<> void SetComponentBinaryParams(void* data, Panel* component)
@@ -232,9 +265,12 @@ void AddComponentToScene(unsigned int classId, std::vector<std::string> params, 
 	switch(classId)
 	{
 		case 104: { PB_EMPLACE_COMPONENT(TextComponent, classId); PB_START_COMPONENT(); } break;
+		case 112: { PB_EMPLACE_COMPONENT(HorizontalLayout, classId); PB_START_COMPONENT(); } break;
 		case 1024: { PB_EMPLACE_COMPONENT(Spaceship, classId); PB_START_COMPONENT(); } break;
 		case 105: { PB_EMPLACE_COMPONENT(ImageComponent, classId); PB_START_COMPONENT(); } break;
+		case 113: { PB_EMPLACE_COMPONENT(VerticalLayout, classId); PB_START_COMPONENT(); } break;
 		case 106: { PB_EMPLACE_COMPONENT(ProgressBar, classId); PB_START_COMPONENT(); } break;
+		case 114: { PB_EMPLACE_COMPONENT(GridLayout, classId); PB_START_COMPONENT(); } break;
 		case 107: { PB_EMPLACE_COMPONENT(Panel, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 108: { PB_EMPLACE_COMPONENT(Button, classId); PB_START_COMPONENT(); } break;
@@ -252,9 +288,12 @@ void AddComponentToScene(unsigned int classId, void* params, size_t paramSize, G
 	switch(classId)
 	{
 		case 104: { PB_EMPLACE_BINARY_COMPONENT(TextComponent, classId); PB_START_COMPONENT(); } break;
+		case 112: { PB_EMPLACE_BINARY_COMPONENT(HorizontalLayout, classId); PB_START_COMPONENT(); } break;
 		case 1024: { PB_EMPLACE_BINARY_COMPONENT(Spaceship, classId); PB_START_COMPONENT(); } break;
 		case 105: { PB_EMPLACE_BINARY_COMPONENT(ImageComponent, classId); PB_START_COMPONENT(); } break;
+		case 113: { PB_EMPLACE_BINARY_COMPONENT(VerticalLayout, classId); PB_START_COMPONENT(); } break;
 		case 106: { PB_EMPLACE_BINARY_COMPONENT(ProgressBar, classId); PB_START_COMPONENT(); } break;
+		case 114: { PB_EMPLACE_BINARY_COMPONENT(GridLayout, classId); PB_START_COMPONENT(); } break;
 		case 107: { PB_EMPLACE_BINARY_COMPONENT(Panel, classId); PB_START_COMPONENT(); } break;
 		case 100: { PB_EMPLACE_BINARY_COMPONENT(VirtualCamera, classId); PB_START_COMPONENT(); } break;
 		case 108: { PB_EMPLACE_BINARY_COMPONENT(Button, classId); PB_START_COMPONENT(); } break;
@@ -272,9 +311,12 @@ size_t SizeOfComponent(unsigned int classId)
 	switch(classId)
 	{
 		case 104: return sizeof(TextComponent);
+		case 112: return sizeof(HorizontalLayout);
 		case 1024: return sizeof(Spaceship);
 		case 105: return sizeof(ImageComponent);
+		case 113: return sizeof(VerticalLayout);
 		case 106: return sizeof(ProgressBar);
+		case 114: return sizeof(GridLayout);
 		case 107: return sizeof(Panel);
 		case 100: return sizeof(VirtualCamera);
 		case 108: return sizeof(Button);
@@ -293,9 +335,12 @@ size_t SerializedSizeOfComponent(unsigned int classId)
 	switch(classId)
 	{
 		case 104: return 48;
+		case 112: return 4;
 		case 1024: return 8;
 		case 105: return 20;
+		case 113: return 4;
 		case 106: return 45;
+		case 114: return 4;
 		case 107: return 24;
 		case 100: return 16;
 		case 108: return 48;

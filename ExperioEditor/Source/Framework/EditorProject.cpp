@@ -237,6 +237,18 @@ void EditorProject::TempSetupClasses()
 	inputText.params.emplace_back("bool", "enableUppercase", ECodeAccessType::Public);
 	inputText.params.emplace_back("bool", "enableLowercase", ECodeAccessType::Public);
 
+	CodeClass horizontalLayout("HorizontalLayout");
+	horizontalLayout.inheritance.emplace_back("Component");
+	horizontalLayout.params.emplace_back("float", "margins", ECodeAccessType::Public);
+
+	CodeClass verticalLayout("VerticalLayout");
+	verticalLayout.inheritance.emplace_back("Component");
+	verticalLayout.params.emplace_back("float", "margins", ECodeAccessType::Public);
+
+	CodeClass gridLayout("GridLayout");
+	gridLayout.inheritance.emplace_back("Component");
+	gridLayout.params.emplace_back("float", "margins", ECodeAccessType::Public);
+
 	// Delete Later
 	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
 
@@ -259,6 +271,9 @@ void EditorProject::TempSetupClasses()
 	gameProject.PushClass(checkBox);
 	gameProject.PushClass(slider);
 	gameProject.PushClass(inputText);
+	gameProject.PushClass(horizontalLayout);
+	gameProject.PushClass(verticalLayout);
+	gameProject.PushClass(gridLayout);
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);
