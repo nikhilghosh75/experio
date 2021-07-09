@@ -86,6 +86,8 @@ public:
 
 	static std::vector<float> StringToFloatVector(const std::string& str, char seperator = ' ');
 
+	static int SubstrToInt(const std::string& str, size_t start, size_t end);
+
 	static int StringToInt(const std::string& str);
 
 	static uint8_t StringToUByte(const std::string& str);

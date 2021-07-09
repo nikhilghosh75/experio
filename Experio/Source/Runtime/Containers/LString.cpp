@@ -200,6 +200,24 @@ std::vector<float> LString::StringToFloatVector(const std::string & str, char se
 	return v;
 }
 
+int LString::SubstrToInt(const std::string& str, size_t start, size_t end)
+{
+	int integer = 0;
+	bool isPositive = true;
+	for (size_t i = start; i < end; i++)
+	{
+		if (str[i] == '-')
+		{
+			isPositive = false;
+		}
+		else if (IsNumeric(str[i]))
+		{
+			integer = (integer * 10) + CharToInt(str[i]);
+		}
+	}
+	return isPositive ? integer : integer * -1;
+}
+
 int LString::StringToInt(const std::string& str)
 {
 	int integer = 0;
