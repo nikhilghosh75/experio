@@ -133,7 +133,7 @@ private:
 		{
 			if (subcategories[i]->categoryName == categories[currentIndex])
 			{
-				RecursiveInsert(categories, currentIndex + 1, elem);
+				subcategories[i]->RecursiveInsert(categories, currentIndex + 1, elem);
 				return;
 			}
 		}
