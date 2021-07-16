@@ -123,17 +123,47 @@ void SceneView::HandleUIGizmos()
 	
 	FRect canvasSpaceRect = gameObject->GetCanvasSpaceRect();
 	FRect editorSpaceRect = CanvasSpaceToEditorSpace(canvasSpaceRect);
-	drawList->AddRectFilled(editorSpaceRect.min, editorSpaceRect.max, IM_COL32(255, 0, 0, 255));
 
 	ImVec2 mousePosition = ImGui::GetMousePos();
 	ImVec2 mouseDelta = ImGui::GetMouseDragDelta();
 
-	// Bottom Edge
-	if (LMath::Abs(mousePosition.y - editorSpaceRect.min.y) < 2 
+	// Draw Gizmos
+	drawList->AddRect(editorSpaceRect.min, editorSpaceRect.max, IM_COL32(255, 0, 0, 255), 0, 0, 4);
+
+	// Top Edge
+	if (LMath::Abs(mousePosition.y - editorSpaceRect.min.y) < 13 
 		&& LMath::Between(editorSpaceRect.min.x, editorSpaceRect.max.x, mousePosition.x))
 	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
 		if (!LMath::ApproxEquals(mouseDelta.y, 0))
 			editorSpaceRect.min.y += mouseDelta.y;
+	}
+
+	// Bottom Edge
+	if (LMath::Abs(mousePosition.y - editorSpaceRect.max.y) < 13
+		&& LMath::Between(editorSpaceRect.min.x, editorSpaceRect.max.x, mousePosition.x))
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
+		if (!LMath::ApproxEquals(mouseDelta.y, 0))
+			editorSpaceRect.max.y += mouseDelta.y;
+	}
+
+	// Left Edge
+	if (LMath::Abs(mousePosition.x - editorSpaceRect.min.x) < 13
+		&& LMath::Between(editorSpaceRect.min.y, editorSpaceRect.max.y, mousePosition.y))
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+		if (!LMath::ApproxEquals(mouseDelta.x, 0))
+			editorSpaceRect.min.x += mouseDelta.x;
+	}
+
+	// Right Edge
+	if (LMath::Abs(mousePosition.x - editorSpaceRect.max.x) < 13
+		&& LMath::Between(editorSpaceRect.min.y, editorSpaceRect.max.y, mousePosition.y))
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+		if (!LMath::ApproxEquals(mouseDelta.x, 0))
+			editorSpaceRect.max.x += mouseDelta.x;
 	}
 
 	canvasSpaceRect = EditorSpaceToCanvasSpace(editorSpaceRect);
