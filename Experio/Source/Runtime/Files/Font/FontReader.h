@@ -61,6 +61,12 @@ struct FFontVariant
 	uint16_t dataIndex;
 	EFontType type;
 	bool loaded = true;
+
+	FFontVariant() = default;
+	FFontVariant(EFontType fontType)
+	{
+		type = fontType;
+	}
 };
 
 struct FCharacterInfo

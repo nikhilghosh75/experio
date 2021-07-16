@@ -40,6 +40,8 @@ class SceneView : public EditorModule
 
 	ImVec2 lastSize;
 
+	float menuWidth;
+
 	bool locked;
 
 	void CreateMenu();
@@ -49,6 +51,11 @@ class SceneView : public EditorModule
 	FVector2 WorldToPos(glm::vec3 position, glm::mat4 matrix);
 
 	void HandleGizmos();
+
+	void HandleUIGizmos();
+
+	FRect CanvasSpaceToEditorSpace(FRect canvasSpaceRect);
+	FRect EditorSpaceToCanvasSpace(FRect editorSpaceRect);
 
 	static constexpr ImGuizmo::OPERATION SceneEditModeToOperation(ESceneEditMode mode);
 public:

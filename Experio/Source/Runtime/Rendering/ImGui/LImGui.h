@@ -6,6 +6,7 @@
 #include <string>
 #include "../../Files/FileRef.h"
 #include "../../Files/TextRef.h"
+#include "../../Math/Bezier.h"
 #include "../../Math/FBox.h"
 #include "../../Math/FRect.h"
 #include "../../Math/FVector2.h"
@@ -28,6 +29,14 @@ struct ImGuiFilterComboState
 	bool selectionChanged = false;
 };
 
+struct ImGuiBezierCurveState
+{
+	float startX;
+	float startY;
+	float endX;
+	float endY;
+};
+
 class LImGui
 {
 public:
@@ -38,6 +47,8 @@ public:
 	static void DisplayBox(FBox& box, std::string name);
 
 	static void DisplayColorSmall(ImU32 color32, std::string name);
+
+	static void DisplayCurve(const char* label, Bezier& bezier, ImGuiBezierCurveState& bezierState);
 
 	template<typename T>
 	static void DisplayEnum(T& currentEnum, std::string name);

@@ -2,19 +2,35 @@
 
 #include <string>
 #include "../Framework/Component.h"
-
-enum class EInputTextCharFlags : uint64_t
-{
-	None = 0,
-	DecimalOnly = 1 << 0,
-	HexadecimalOnly = 1 << 1,
-	NoWhitespace = 1 << 2,
-	UppercaseOnly = 1 << 3,
-	LowercaseOnly = 1 << 4,
-	PasswordDisplay = 1 << 5
-};
+#include "TextComponent.h"
 
 class InputText : public Component
 {
+public:
+	InputText();
+	InputText(GameObject* gameObject);
 
+	virtual void Start() override;
+
+	virtual void Update() override;
+
+	void HandleInput();
+
+	std::string GetCurrentText() const { return currentText; }
+
+	bool enableAlpha;
+	bool enableNumeric;
+	bool enableUppercase;
+	bool enableLowercase;
+	
+	Shader* shader;
+
+private:
+	std::string currentText;
+	TextComponent* textComponent;
+	bool isSelected = false;
+
+	void HandleKeyInput();
+
+	bool ConvertToUpper(EKeyCode keyCode);
 };

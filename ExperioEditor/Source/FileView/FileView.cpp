@@ -45,6 +45,8 @@ FileView::FileView()
 		this->filesSelected[i] = true;
 	}
 
+	memset(searchBuffer, 0, 64);
+
 	this->viewMode = EFileViewMode::Button;
 
 	fileView = this;
@@ -191,7 +193,15 @@ void FileView::DisplayContents()
 
 	ImGui::Text("Contents");
 
-	if (viewMode == EFileViewMode::Button)
+	ImGui::Text(selectedFilepath.c_str());
+	ImGui::SameLine();
+	bool searchChanged = ImGui::InputText("##Search", searchBuffer, 64);
+
+	if (searchChanged || strlen(searchBuffer) > 0)
+	{
+		DisplaySearch();
+	}
+	else if (viewMode == EFileViewMode::Button)
 	{
 		DisplayContentsButtonView();
 	}
@@ -276,6 +286,52 @@ void FileView::DisplayContentsTableView()
 
 			ImGui::TableNextColumn();
 			ImGui::Text(LFileOperations::BytesToString(size, 2).c_str());
+		}
+
+		ImGui::EndTable();
+	}
+}
+
+void FileView::DisplaySearch()
+{
+	if (ImGui::BeginTable("##Contents", 4))
+	{
+		ImGui::TableSetupColumn("Filename");
+		ImGui::TableSetupColumn("Type");
+		ImGui::TableSetupColumn("Size");
+		ImGui::TableSetupColumn("##Buttons");
+		ImGui::TableHeadersRow();
+
+		for (auto& p : fs::recursive_directory_iterator(this->selectedFilepath))
+		{
+			std::string pathString = p.path().filename().string();
+			if (!LString::FuzzyMatch(searchBuffer, pathString.c_str()))
+				continue;
+
+			EAssetType type = LFileOperations::GetFileType(pathString);
+			size_t size = fs::file_size(p);
+			if (type == EAssetType::Meta || type == EAssetType::Directory)
+				continue;
+
+			if (!fileMask.CompareFile(FFileCategory(type, false)))
+				continue;
+
+			ImGui::TableNextColumn();
+			ImGui::Text(pathString.c_str());
+
+			ImGui::TableNextColumn();
+			ImGui::Text(LFileOperations::AssetTypeToString(type).c_str());
+
+			ImGui::TableNextColumn();
+			ImGui::Text(LFileOperations::BytesToString(size, 2).c_str());
+
+			ImGui::TableNextColumn();
+			if (ImGui::Button("Go-To"))
+			{
+				memset(searchBuffer, 0, 64);
+				this->selectedFilepath = p.path().parent_path().string();
+				LFileOperations::CorrectFilepath(this->selectedFilepath);
+			}
 		}
 
 		ImGui::EndTable();
@@ -441,10 +497,3 @@ bool FileView::IsAssetLoaded(const std::string& filepath, EAssetType type)
 	}
 	return false;
 }
-
-/*
-	Potential Columns for Tables:
-	- Filename
-	- Type
-	- Size
-*/

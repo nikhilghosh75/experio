@@ -49,6 +49,10 @@ public:
 
 	float MinX() const;
 	float MaxX() const;
+	float Domain() const;
+
+	float MinY() const;
+	float MaxY() const;
 	float Range() const;
 
 private:

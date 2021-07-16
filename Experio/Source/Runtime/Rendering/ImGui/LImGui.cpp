@@ -99,6 +99,13 @@ void LImGui::DisplayColorSmall(ImU32 color32, std::string name)
 	ImGui::Text(name.c_str());
 }
 
+void LImGui::DisplayCurve(const char* label, Bezier& bezier, ImGuiBezierCurveState& bezierState)
+{
+	ImGui::BeginChildFrame(ImGui::GetID(label), ImVec2(0, 50), ImGuiWindowFlags_NoMove);
+
+	ImGui::EndChildFrame();
+}
+
 void LImGui::DisplayFileAsset(FileRef & ref, std::string name)
 {
 	ImGui::PushID(name.c_str());

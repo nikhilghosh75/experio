@@ -251,11 +251,44 @@ float Bezier::MaxX() const
 	return points[numPoints - 1].endX;
 }
 
-float Bezier::Range() const
+float Bezier::Domain() const
 {
 	if (numPoints == 0)
 		return 0;
 	return points[numPoints - 1].endX - points[0].startX;
+}
+
+float Bezier::MinY() const
+{
+	if (numPoints == 0)
+		return 0;
+
+	float minY = points[0].startY;
+
+	for (uint32_t i = 0; i < numPoints; i++)
+	{
+		minY = LMath::Min(LMath::Min(points[i].startY, points[i].endY), minY);
+	}
+	return minY;
+}
+
+float Bezier::MaxY() const
+{
+	if (numPoints == 0)
+		return 0;
+
+	float maxY = points[0].startY;
+
+	for (uint32_t i = 0; i < numPoints; i++)
+	{
+		maxY = LMath::Max(LMath::Max(points[i].startY, points[i].endY), maxY);
+	}
+	return maxY;
+}
+
+float Bezier::Range() const
+{
+	return MaxY() - MinY();
 }
 
 float Bezier::Get(float x, uint32_t currentIndex) const

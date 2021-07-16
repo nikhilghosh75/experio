@@ -200,6 +200,24 @@ std::vector<float> LString::StringToFloatVector(const std::string & str, char se
 	return v;
 }
 
+int LString::SubstrToInt(const std::string& str, size_t start, size_t end)
+{
+	int integer = 0;
+	bool isPositive = true;
+	for (size_t i = start; i < end; i++)
+	{
+		if (str[i] == '-')
+		{
+			isPositive = false;
+		}
+		else if (IsNumeric(str[i]))
+		{
+			integer = (integer * 10) + CharToInt(str[i]);
+		}
+	}
+	return isPositive ? integer : integer * -1;
+}
+
 int LString::StringToInt(const std::string& str)
 {
 	int integer = 0;
@@ -260,13 +278,19 @@ unsigned int LString::StringToUInt(const std::string & str)
 std::string LString::ToCamelCase(const std::string& str)
 {
 	std::string camelCaseStr = str;
-	camelCaseStr[0] = UpperToLower(camelCaseStr[0]);
+	camelCaseStr[0] = ToLower(camelCaseStr[0]);
 	return camelCaseStr;
 }
 
-char LString::UpperToLower(char c)
+char LString::ToLower(char c)
 {
 	if (c >= 'A' && c <= 'Z') return c + 32;
+	return c;
+}
+
+char LString::ToUpper(char c)
+{
+	if (c >= 'a' && c <= 'z') return c - 32;
 	return c;
 }
 

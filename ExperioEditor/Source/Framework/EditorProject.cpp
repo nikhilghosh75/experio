@@ -143,13 +143,14 @@ void EditorProject::SetupRuntimeCompilation()
 
 void EditorProject::TempSetupClasses()
 {
-	/**/
+	/*
 	EditorProject::componentClasses.Insert(100, FComponentInfo("VirtualCamera", false));
 	EditorProject::componentClasses.Insert(101, FComponentInfo("MeshComponent", true));
 	EditorProject::componentClasses.Insert(102, FComponentInfo("ParticleSystem", true));
 	EditorProject::componentClasses.Insert(103, FComponentInfo("Billboard", true));
 	EditorProject::componentClasses.Insert(104, FComponentInfo("TextComponent", true));
 	EditorProject::componentClasses.Insert(105, FComponentInfo("ImageComponent", true));
+	*/
 
 	gameProject.filepath = EditorApplication::sourceFilePath;
 	gameProject.Generate();
@@ -229,6 +230,25 @@ void EditorProject::TempSetupClasses()
 	slider.inheritance.emplace_back("Component");
 	slider.params.emplace_back("float", "value", ECodeAccessType::Public);
 
+	CodeClass inputText("InputText");
+	inputText.inheritance.emplace_back("Component");
+	inputText.params.emplace_back("bool", "enableAlpha", ECodeAccessType::Public);
+	inputText.params.emplace_back("bool", "enableNumeric", ECodeAccessType::Public);
+	inputText.params.emplace_back("bool", "enableUppercase", ECodeAccessType::Public);
+	inputText.params.emplace_back("bool", "enableLowercase", ECodeAccessType::Public);
+
+	CodeClass horizontalLayout("HorizontalLayout");
+	horizontalLayout.inheritance.emplace_back("Component");
+	horizontalLayout.params.emplace_back("float", "margins", ECodeAccessType::Public);
+
+	CodeClass verticalLayout("VerticalLayout");
+	verticalLayout.inheritance.emplace_back("Component");
+	verticalLayout.params.emplace_back("float", "margins", ECodeAccessType::Public);
+
+	CodeClass gridLayout("GridLayout");
+	gridLayout.inheritance.emplace_back("Component");
+	gridLayout.params.emplace_back("float", "margins", ECodeAccessType::Public);
+
 	// Delete Later
 	EditorProject::componentClasses.Insert(1024, FComponentInfo("Spaceship", "Components/Spaceship.h", true, false));
 
@@ -250,6 +270,10 @@ void EditorProject::TempSetupClasses()
 	gameProject.PushClass(button);
 	gameProject.PushClass(checkBox);
 	gameProject.PushClass(slider);
+	gameProject.PushClass(inputText);
+	gameProject.PushClass(horizontalLayout);
+	gameProject.PushClass(verticalLayout);
+	gameProject.PushClass(gridLayout);
 
 	gameProject.EmplaceEnum("EBillboardSizeType", EEnumDataType::UBYTE);
 	gameProject.EmplaceEnum("EBilboardOrientation", EEnumDataType::UBYTE);

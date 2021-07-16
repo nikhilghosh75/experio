@@ -98,6 +98,42 @@
       "stage": 7,
       "default": true,
       "standalone": true
+    },
+    {
+      "name": "InputText",
+      "id": 111,
+      "category": "UI",
+      "filepath": "Runtime/UI/InputText.h",
+      "stage": 6,
+      "default": true,
+      "standalone": true
+    },
+    {
+      "name": "HorizontalLayout",
+      "id": 112,
+      "category": "UI/Layout",
+      "filepath": "Runtime/UI/HorizontalLayout.h",
+      "stage": 6,
+      "default": true,
+      "standalone": true
+    },
+    {
+      "name": "VerticalLayout",
+      "id": 113,
+      "category": "UI/Layout",
+      "filepath": "Runtime/UI/VerticalLayout.h",
+      "stage": 6,
+      "default": true,
+      "standalone": true
+    },
+    {
+      "name": "GridLayout",
+      "id": 114,
+      "category": "UI/Layout",
+      "filepath": "Runtime/UI/GridLayout.h",
+      "stage": 6,
+      "default": true,
+      "standalone": true
     }
   ]
 }

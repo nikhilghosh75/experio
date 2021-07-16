@@ -66,6 +66,8 @@ void SceneView::CreateMenu()
 	this->cameraScrollSpeed = displayCameraScrollSpeed / PB_CAMERA_SCROLL_SCALE_FACTOR;
 
 	ImGui::Checkbox("Gizmos Enabled", &this->gizmosEnabled);
+
+	menuWidth = ImGui::GetCursorPos().y - ImGui::GetWindowPos().y + ImGui::GetTextLineHeightWithSpacing();
 }
 
 void SceneView::ComputeContext()
@@ -95,7 +97,11 @@ void SceneView::HandleGizmos()
 {
 	if (SceneHierarchy::hierarchy->GetSelectedItems().size() == 0) return;
 
-	if (SceneHierarchy::hierarchy->GetSelectedItems()[0]->isUI) return;
+	if (SceneHierarchy::hierarchy->GetSelectedItems()[0]->isUI)
+	{
+		HandleUIGizmos();
+		return;
+	}
 
 	ImGuizmo::SetOrthographic(false);
 	ImGuizmo::SetDrawlist();
@@ -107,6 +113,75 @@ void SceneView::HandleGizmos()
 
 	GameObject* object = Scene::FindGameObjectFromId(SceneHierarchy::hierarchy->GetSelectedItems()[0]->id);
 	object->SetTransform(modelMatrix);
+}
+
+void SceneView::HandleUIGizmos()
+{
+	ImDrawList* drawList = ImGui::GetWindowDrawList();
+	GameObject* gameObject = SceneHierarchy::hierarchy->GetSelectedItems()[0];
+	RectTransform& rectTransform = gameObject->rectTransform;
+	
+	FRect canvasSpaceRect = gameObject->GetCanvasSpaceRect();
+	FRect editorSpaceRect = CanvasSpaceToEditorSpace(canvasSpaceRect);
+
+	ImVec2 mousePosition = ImGui::GetMousePos();
+	ImVec2 mouseDelta = ImGui::GetMouseDragDelta();
+
+	// Draw Gizmos
+	drawList->AddRect(editorSpaceRect.min, editorSpaceRect.max, IM_COL32(255, 0, 0, 255), 0, 0, 4);
+
+	// Top Edge
+	if (LMath::Abs(mousePosition.y - editorSpaceRect.min.y) < 13 
+		&& LMath::Between(editorSpaceRect.min.x, editorSpaceRect.max.x, mousePosition.x))
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
+		if (!LMath::ApproxEquals(mouseDelta.y, 0))
+			editorSpaceRect.min.y += mouseDelta.y;
+	}
+
+	// Bottom Edge
+	if (LMath::Abs(mousePosition.y - editorSpaceRect.max.y) < 13
+		&& LMath::Between(editorSpaceRect.min.x, editorSpaceRect.max.x, mousePosition.x))
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
+		if (!LMath::ApproxEquals(mouseDelta.y, 0))
+			editorSpaceRect.max.y += mouseDelta.y;
+	}
+
+	// Left Edge
+	if (LMath::Abs(mousePosition.x - editorSpaceRect.min.x) < 13
+		&& LMath::Between(editorSpaceRect.min.y, editorSpaceRect.max.y, mousePosition.y))
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+		if (!LMath::ApproxEquals(mouseDelta.x, 0))
+			editorSpaceRect.min.x += mouseDelta.x;
+	}
+
+	// Right Edge
+	if (LMath::Abs(mousePosition.x - editorSpaceRect.max.x) < 13
+		&& LMath::Between(editorSpaceRect.min.y, editorSpaceRect.max.y, mousePosition.y))
+	{
+		ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
+		if (!LMath::ApproxEquals(mouseDelta.x, 0))
+			editorSpaceRect.max.x += mouseDelta.x;
+	}
+
+	canvasSpaceRect = EditorSpaceToCanvasSpace(editorSpaceRect);
+	gameObject->SetCanvasSpaceRect(canvasSpaceRect);
+}
+
+FRect SceneView::CanvasSpaceToEditorSpace(FRect canvasSpaceRect)
+{
+	ImVec2 windowPos = ImGui::GetWindowPos();
+	windowPos.y += menuWidth;
+	return FRect(canvasSpaceRect.min + windowPos, canvasSpaceRect.max + windowPos);
+}
+
+FRect SceneView::EditorSpaceToCanvasSpace(FRect editorSpaceRect)
+{
+	ImVec2 windowPos = ImGui::GetWindowPos();
+	windowPos.y += menuWidth;
+	return FRect(editorSpaceRect.min - windowPos, editorSpaceRect.max - windowPos);
 }
 
 constexpr ImGuizmo::OPERATION SceneView::SceneEditModeToOperation(ESceneEditMode mode)

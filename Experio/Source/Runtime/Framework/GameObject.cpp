@@ -1,5 +1,4 @@
 #include "GameObject.h"
-#include "Project.h"
 #include "Scene.h"
 #include "GameObjectIterator.h"
 #include "glm/gtx/matrix_decompose.hpp"
@@ -79,30 +78,6 @@ GameObject::~GameObject()
 void GameObject::AddComponentByComponentID(unsigned int id)
 {
 	Project::componentManager->AddComponent(this, id);
-}
-
-template<class T>
-void GameObject::AddComponent()
-{
-	Project::componentManager->AddComponent(this, Project::ClassTypeToInt<T>());
-}
-
-template<class T>
-T * GameObject::GetComponent()
-{
-	return Project::componentManager->GetComponent(this, Project::ClassTypeToInt<T>());
-}
-
-template<class T>
-void GameObject::DeleteComponent()
-{
-	Project::componentManager->DeleteComponent(this, Project::ClassTypeToInt<T>());
-}
-
-template<typename T>
-T * GameObject::FindObjectOfType()
-{
-	return (T*)Project::componentManager->GetComponentAtIndex(Project::ClassTypeToInt<T>(), 0);
 }
 
 template<typename T>
@@ -257,7 +232,7 @@ FRect GameObject::GetCanvasSpaceRect() const
 {
 	if (!isUI)
 	{
-		// return FRect();
+		return FRect();
 	}
 
 	float canvasWidth = Canvas::GetCanvasWidth();
@@ -306,6 +281,52 @@ FRect GameObject::GetCanvasSpaceRect() const
 	}
 
 	return FRect(xPosition, yPosition, xPosition + width, xPosition + height);
+}
+
+void GameObject::SetCanvasSpaceRect(FRect canvasSpaceRect)
+{
+	FRect currentRect = GetCanvasSpaceRect();
+
+	float xDifference = canvasSpaceRect.min.x - currentRect.min.x;
+	float yDifference = canvasSpaceRect.min.y - currentRect.min.y;
+	float widthDifference = canvasSpaceRect.GetWidth() - currentRect.GetWidth();
+	float heightDifference = canvasSpaceRect.GetHeight() - currentRect.GetHeight();
+
+	if (!LMath::ApproxEquals(xDifference, 0))
+	{
+		rectTransform.xConstraint.value += xDifference;
+	}
+
+	if (!LMath::ApproxEquals(yDifference, 0))
+	{
+		rectTransform.yConstraint.value += yDifference;
+	}
+
+	if (!LMath::ApproxEquals(widthDifference, 0))
+	{
+		if (rectTransform.widthConstraint.type == EDimensionConstraintType::Constant)
+		{
+			rectTransform.widthConstraint.value += widthDifference;
+		}
+		else if (rectTransform.widthConstraint.type == EDimensionConstraintType::Fill)
+		{
+			float parentWidth = parent->GetCanvasSpaceRect().GetWidth();
+			rectTransform.widthConstraint.value += widthDifference / parentWidth;
+		}
+	}
+
+	if (!LMath::ApproxEquals(heightDifference, 0))
+	{
+		if (rectTransform.heightConstraint.type == EDimensionConstraintType::Constant)
+		{
+			rectTransform.heightConstraint.value += heightDifference;
+		}
+		else if (rectTransform.heightConstraint.type == EDimensionConstraintType::Fill)
+		{
+			float parentHeight = parent->GetCanvasSpaceRect().GetHeight();
+			rectTransform.heightConstraint.value += widthDifference / parentHeight;
+		}
+	}
 }
 
 void GameObject::SetTag(unsigned short newTag)

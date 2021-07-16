@@ -42,5 +42,9 @@ public:
 	static const FColor const SlateBlue;
 	static const FColor const SteelBlue;
 	static const FColor const BlueJay;
+	static const FColor const DarkSlateBlue;
+	static const FColor const MidnightBlue;
+	static const FColor const NavyBlue;
+	static const FColor const BlueWhale;
 	static const FColor const Red;
 };

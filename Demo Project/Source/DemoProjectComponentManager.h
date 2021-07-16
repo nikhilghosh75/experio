@@ -8,11 +8,17 @@ class DemoProjectComponentManager : public ComponentManager
 	public:
 	std::vector<TextComponent> textComponentInstances;
 
+	std::vector<HorizontalLayout> horizontalLayoutInstances;
+
 	std::vector<Spaceship> spaceshipInstances;
 
 	std::vector<ImageComponent> imageComponentInstances;
 
+	std::vector<VerticalLayout> verticalLayoutInstances;
+
 	std::vector<ProgressBar> progressBarInstances;
+
+	std::vector<GridLayout> gridLayoutInstances;
 
 	std::vector<Panel> panelInstances;
 
@@ -27,6 +33,8 @@ class DemoProjectComponentManager : public ComponentManager
 	std::vector<Slider> sliderInstances;
 
 	std::vector<Billboard> billboardInstances;
+
+	std::vector<InputText> inputTextInstances;
 
 	CameraSystem cameraSystem;
 

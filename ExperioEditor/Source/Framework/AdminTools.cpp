@@ -1,6 +1,7 @@
 #include "AdminTools.h"
 #include "../CodeParser/CodeProjectWriter.h"
 #include "../Core/EditorApplication.h"
+#include "Runtime/Rendering/ImGui/LImGui.h"
 
 AdminTools::AdminTools()
 {
@@ -20,4 +21,8 @@ void AdminTools::Display()
 
 		CodeProjectWriter::WriteToFile(project, EditorApplication::generatedFilePath + "/Engine.pbcodeproj");
 	}
+
+	static Bezier bezier;
+	static ImGuiBezierCurveState bezierCurve;
+	LImGui::DisplayCurve("Hello", bezier, bezierCurve);
 }

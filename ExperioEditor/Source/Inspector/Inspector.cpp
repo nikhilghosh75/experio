@@ -189,6 +189,11 @@ void Inspector::DisplayTransform(GameObject * object)
 			object->localScale = scale;
 		}
 
+		if (ImGui::Button("Reset"))
+		{
+			object->SetTransform(FVector3(0, 0, 0), FQuaternion(0, 0, 0, 1), FVector3(1, 1, 1));
+		}
+
 		ImGui::TreePop();
 	}
 }

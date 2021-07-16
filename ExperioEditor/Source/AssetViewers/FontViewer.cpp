@@ -1,7 +1,10 @@
 #include "FontViewer.h"
+#include "Runtime/Containers/Algorithm.h"
 #include "Runtime/Containers/LString.h"
 #include "Runtime/Debug/Profiler.h"
 #include "Runtime/Files/Font/LFontOperations.h"
+#include "Runtime/Rendering/ImGui/LImGui.h"
+#include "Runtime/Rendering/Managers/FontManager.h"
 #include <sstream>
 
 void FontViewer::DisplayStats()
@@ -24,6 +27,44 @@ void FontViewer::DisplayStats()
 	ImGui::Text(ss.str().c_str());
 }
 
+void FontViewer::DisplayVariants()
+{
+	for (size_t i = 0; i < loadedRef->variants.size(); i++)
+	{
+		uint16_t variantId = loadedRef->variants[i].dataIndex;
+		FontRef variantRef = FontManager::GetFont(variantId);
+		EFontType variantType = loadedRef->variants[i].type;
+		std::string variantTypeStr = LFontOperations::FontTypeToString(variantType);
+
+		LImGui::DisplayFontAsset(variantRef, variantTypeStr);
+		loadedRef->variants[i].dataIndex = variantRef.fontID;
+		ImGui::SameLine();
+		ImGui::PushID(i + 6);
+		if (ImGui::Button("-", ImVec2(20, 0)))
+			Experio::Algorithm::RemoveAt(loadedRef->variants, i);
+		ImGui::PopID();
+	}
+
+	if (ImGui::Button("+"))
+	{
+		ImGui::OpenPopup("##AddVariant");
+	}
+
+	if (ImGui::BeginPopup("##AddVariant"))
+	{
+		if (ImGui::MenuItem("Normal"))
+			loadedRef->variants.emplace_back(EFontType::Normal);
+		if (ImGui::MenuItem("Bold"))
+			loadedRef->variants.emplace_back(EFontType::Normal);
+		if (ImGui::MenuItem("Italic"))
+			loadedRef->variants.emplace_back(EFontType::Italics);
+		if (ImGui::MenuItem("Bold Italic"))
+			loadedRef->variants.emplace_back(EFontType::BoldItalics);
+		
+		ImGui::EndPopup();
+	}
+}
+
 FontViewer::FontViewer()
 {
 	this->name = "Font Viewer";
@@ -40,11 +81,20 @@ void FontViewer::Display()
 		return;
 	}
 
-	DisplayStats();
-
-	ImGui::Text(std::to_string(uvPosition.x).c_str());
-	ImGui::SameLine();
-	ImGui::Text(std::to_string(uvPosition.y).c_str());
+	if (ImGui::BeginTabBar("##Menu"))
+	{
+		if (ImGui::BeginTabItem("Stats"))
+		{
+			DisplayStats();
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("Variants"))
+		{
+			DisplayVariants();
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
+	}
 
 	ImVec2 currentSize = ImGui::GetContentRegionAvail();
 	ImVec2 imagePos = ImGui::GetCursorScreenPos();

@@ -7,6 +7,8 @@ class FontViewer : public EditorModule
 {
 	void DisplayStats();
 
+	void DisplayVariants();
+
 	std::string filepath;
 
 	ImVec2 uvPosition;
